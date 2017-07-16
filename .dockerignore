@@ -1,0 +1,11 @@
+.dockerignore
+Dockerfile
+
+.git
+log/
+_build/
+node_modules/
+docker.thor
+
+*.log
+*.pid
