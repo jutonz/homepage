@@ -1,0 +1,8 @@
+source 'https://rubygems.org'
+
+# These gems are required to run the CLI and are installed outside the
+# container. Keep as minimal as possible.
+group :cli do
+  gem 'thor'
+  gem 'rainbow'
+end
