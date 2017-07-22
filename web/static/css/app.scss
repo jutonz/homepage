@@ -1,0 +1,31 @@
+/* This file is for your main application css. */
+
+$background-color: black !default;
+$brand-primary: #AC17C6;
+$border-color: #ccc;
+
+$font-color: #ccc !default;
+$font-color--active: #AC17C6 !default;
+$font-color--hover: #B63FCB !default;
+
+html, body, main {
+  background: $background-color;
+  color: $font-color;
+  height: 100%;
+  width: 100%;
+}
+
+a {
+  color: $font-color;
+  text-decoration: none;
+
+  &:hover {
+    color: $font-color--hover;
+  }
+
+  &:active {
+    color: $font-color--active;
+  }
+}
+
+@import 'login';

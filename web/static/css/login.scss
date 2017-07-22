@@ -1,0 +1,13 @@
+.login-form {
+  margin: auto;
+  padding: 15px;
+  width: 300px;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &__username, &__password {
+    width: 100%;
+  }
+}
