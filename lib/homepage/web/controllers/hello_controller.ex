@@ -1,4 +1,4 @@
-defmodule Homepage.HelloController do
+defmodule Homepage.Web.HelloController do
   use Homepage.Web, :controller
 
   def index(conn, _params) do

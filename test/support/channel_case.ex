@@ -1,4 +1,4 @@
-defmodule Homepage.ChannelCase do
+defmodule Homepage.Web.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -27,7 +27,7 @@ defmodule Homepage.ChannelCase do
 
 
       # The default endpoint for testing
-      @endpoint Homepage.Endpoint
+      @endpoint Homepage.Web.Endpoint
     end
   end
 

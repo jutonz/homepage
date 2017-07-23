@@ -11,7 +11,7 @@ defmodule Homepage do
       # Start the Ecto repository
       supervisor(Homepage.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(Homepage.Endpoint, []),
+      supervisor(Homepage.Web.Endpoint, []),
       # Start your own worker by calling: Homepage.Worker.start_link(arg1, arg2, arg3)
       # worker(Homepage.Worker, [arg1, arg2, arg3]),
     ]
@@ -20,12 +20,5 @@ defmodule Homepage do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Homepage.Supervisor]
     Supervisor.start_link(children, opts)
-  end
-
-  # Tell Phoenix to update the endpoint configuration
-  # whenever the application is updated.
-  def config_change(changed, _new, removed) do
-    Homepage.Endpoint.config_change(changed, removed)
-    :ok
   end
 end

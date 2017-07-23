@@ -1,7 +1,7 @@
-defmodule Homepage.Endpoint do
+defmodule Homepage.Web.Endpoint do
   use Phoenix.Endpoint, otp_app: :homepage
 
-  socket "/socket", Homepage.UserSocket
+  socket "/socket", Homepage.Web.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -38,5 +38,5 @@ defmodule Homepage.Endpoint do
     key: "_homepage_key",
     signing_salt: "mkjEwTtj"
 
-  plug Homepage.Router
+  plug Homepage.Web.Router
 end

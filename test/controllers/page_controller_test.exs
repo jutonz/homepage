@@ -1,5 +1,5 @@
 defmodule Homepage.PageControllerTest do
-  use Homepage.ConnCase
+  use Homepage.Web.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

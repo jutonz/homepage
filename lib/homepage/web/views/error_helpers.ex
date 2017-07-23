@@ -1,4 +1,4 @@
-defmodule Homepage.ErrorHelpers do
+defmodule Homepage.Web.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """

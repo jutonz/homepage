@@ -28,20 +28,20 @@ defmodule Homepage.Web do
 
   def controller do
     quote do
-      use Phoenix.Controller
+      use Phoenix.Controller, namespace: Homepage.Web
 
       alias Homepage.Repo
       import Ecto
       import Ecto.Query
 
-      import Homepage.Router.Helpers
-      import Homepage.Gettext
+      import Homepage.Web.Router.Helpers
+      import Homepage.Web.Gettext
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "web/templates"
+      use Phoenix.View, root: "lib/homepage/web/templates", namespace: Homepage.Web
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
@@ -49,9 +49,9 @@ defmodule Homepage.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import Homepage.Router.Helpers
-      import Homepage.ErrorHelpers
-      import Homepage.Gettext
+      import Homepage.Web.Router.Helpers
+      import Homepage.Web.ErrorHelpers
+      import Homepage.Web.Gettext
     end
   end
 
@@ -68,7 +68,7 @@ defmodule Homepage.Web do
       alias Homepage.Repo
       import Ecto
       import Ecto.Query
-      import Homepage.Gettext
+      import Homepage.Web.Gettext
     end
   end
 

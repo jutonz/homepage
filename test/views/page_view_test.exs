@@ -1,3 +1,3 @@
 defmodule Homepage.PageViewTest do
-  use Homepage.ConnCase, async: true
+  use Homepage.Web.ConnCase, async: true
 end

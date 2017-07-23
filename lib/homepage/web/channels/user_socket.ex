@@ -1,4 +1,4 @@
-defmodule Homepage.UserSocket do
+defmodule Homepage.Web.UserSocket do
   use Phoenix.Socket
 
   ## Channels
