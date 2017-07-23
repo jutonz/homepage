@@ -99,13 +99,23 @@ class Docker < Thor
     env = options[:env]
     compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
 
-    up_args = %w(
-      --abort-on-container-exit
-      --force-recreate
-    ).join(" ")
-    up_args = ''
+    stream_output "#{sudo}docker-compose -f #{compose_file} up", exec: true
+  end
 
-    stream_output "#{sudo}docker-compose -f #{compose_file} up #{up_args}", exec: true
+  desc "down", "Stop your dockerized app server"
+  option :env, default: "dev", type: :string
+  def down
+    if `which docker-compose`.chomp.empty?
+      error = "Could not find docker-compose executible in path. Please " \
+        "install it to continue"
+      puts Rainbow(error).fg :red
+      exit 1
+    end
+
+    env = options[:env]
+    compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
+
+    stream_output "#{sudo}docker-compose -f #{compose_file} down", exec: true
   end
 
   desc "initdb", "Setup initial postgres database"

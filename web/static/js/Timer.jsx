@@ -12,7 +12,6 @@ class Timer extends React.Component {
   constructor() {
     super(...arguments);
     this.state = { secondsElapsed: 0 };
-    //this.tick = this.tick.bind(this);
   }
 
   tick() {
@@ -22,7 +21,9 @@ class Timer extends React.Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(this.tick, 1000);
+    this.interval = setInterval(() => {
+      this.tick();
+    }, 1000);
   }
 
   componentWillUnmount() {
