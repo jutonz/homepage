@@ -6,7 +6,7 @@ services:
       - ../../tmp/psql:/var/lib/postgresql/data
   app:
     image: jutonz/homepage-dev-app:1
-    command: mix phoenix.server
+    command: mix phx.server
     volumes:
       - ../../:/root
     ports:
