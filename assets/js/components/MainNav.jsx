@@ -5,16 +5,20 @@ import { StyleSheet, css } from 'aphrodite';
 const styles = StyleSheet.create({
   mainNav: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    height: '50px',
+    width: '100hw'
   },
 
   navItem: {
     color: '#ccc',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    marginRight: '10px'
   },
 
   lastNavItem: {
-    marginLeft: '10px'
+    marginRight: '0'
   }
 });
 
@@ -29,7 +33,4 @@ class MainNav extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <MainNav/>,
-  document.getElementById('main-nav')
-);
+export default MainNav;

@@ -10,11 +10,25 @@
 // If you no longer want to use a dependency, remember to also remove its path
 // from "config.paths.watched".
 import 'phoenix_html';
+import 'react-phoenix';
 
 // Import local files
 //
 // Local files can be imported directly using relative paths "./socket" or full
 // ones "web/static/js/socket".
 // import socket from './socket';
-import './Timer';
-import './MainNav';
+import MainNav from './components/MainNav';
+import Timer from './components/Timer';
+import Hello from './components/Hello';
+import Login from './components/Login';
+import TextField from './components/TextField';
+import Button from './components/Button';
+
+window.Components = {
+  MainNav,
+  Timer,
+  Hello,
+  Login,
+  TextField,
+  Button
+};

@@ -1,7 +1,7 @@
 /* This file is for your main application css. */
 
 $background-color: black !default;
-$brand-primary: #AC17C6;
+$brand-primary: #AC17C6; // rgb(172, 23, 198)
 $border-color: #ccc;
 
 $font-color: #ccc !default;
@@ -11,10 +11,12 @@ $font-color--hover: #B63FCB !default;
 html, body, main {
   background: $background-color;
   color: $font-color;
-  font-family: sans-seirf;
+  font-family: sans-serif;
   font-weight: 300;
   height: 100%;
   width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 a {

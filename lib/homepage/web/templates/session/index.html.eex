@@ -1,11 +1,3 @@
-<div id="hello-world">
-  
-</div>
-<div class="login-form">
-  <label>
-    <input type="text" class="login-form__username"/>
-  </label>
-  <label>
-    <input type="text" class="login-form__username"/>
-  </label>
+<div class="login-container">
+  <%= ReactPhoenix.ClientSide.react_component("Components.Login") %>
 </div>
