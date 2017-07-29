@@ -4,8 +4,7 @@ $background-color: black !default;
 $brand-primary: #AC17C6; // rgb(172, 23, 198)
 $border-color: #ccc;
 
-$font-color: #ccc !default;
-$font-color--active: #AC17C6 !default;
+$font-color: #ccc !default; $font-color--active: #AC17C6 !default;
 $font-color--hover: #B63FCB !default;
 
 html, body, main {
@@ -30,6 +29,11 @@ a {
   &:active {
     color: $font-color--active;
   }
+}
+
+#gl-canvas {
+  width: 100%;
+  height: 100%;
 }
 
 @import 'login';

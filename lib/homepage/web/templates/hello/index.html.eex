@@ -1,3 +1,4 @@
-<h4>Hello</h4>
-
-<a href="<%= session_path(@conn, :index) %>">Login</a>
+<canvas id="gl-canvas">
+  Your browser doesn't appear to support the 
+  <code>&lt;canvas&gt;</code> element.
+</canvas>
