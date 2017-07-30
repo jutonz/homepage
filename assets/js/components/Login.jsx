@@ -9,13 +9,31 @@ const styles = StyleSheet.create({
     border: '1px solid #ccc',
     height: '300px',
     width: '300px',
-    marginBottom: '30%',
     padding: '10px',
-    boxShadow: '4px 8px rgba(172, 23, 198, 0.4)'
+    position: 'absolute',
+    top: 'calc(50% - 150px)',
+    right: 'calc(50% - 150px)',
+    background: 'black'
   },
 
   header: {
-    fontSize: '1rem'
+    fontSize: '1.1rem',
+    marginBottom: '40px'
+  },
+
+  inputLast: {
+    marginTop: '20px'
+  },
+
+  submit: {
+    marginTop: '40px'
+  },
+
+  signup: {
+    fontSize: '0.875rem',
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '20px'
   }
 });
 
@@ -46,9 +64,10 @@ export default class Login extends React.Component {
     return (
       <div className={css(styles.container)}>
         <div className={css(styles.header)}>Login</div>
-        <TextField value="username" onChange={this.usernameChanged} />
-        <TextField value="password" onChange={this.usernameChanged} />
-        <Button text="Login" onClick={this.submit}/>
+        <TextField label="Username" value="" onChange={this.usernameChanged} autofocus/>
+        <TextField label="Password" value="" onChange={this.usernameChanged} styles={[styles.inputLast]}/>
+        <Button text="Login" onClick={this.submit} styles={[styles.submit]}/>
+        <a href="#" className={css(styles.signup)}>Or signup</a>
       </div>
     );
   }
