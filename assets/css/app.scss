@@ -4,10 +4,11 @@ $background-color: black !default;
 $brand-primary: #AC17C6; // rgb(172, 23, 198)
 $border-color: #ccc;
 
-$font-color: #ccc !default; $font-color--active: #AC17C6 !default;
+$font-color: #ccc !default;
+$font-color--active: #AC17C6 !default;
 $font-color--hover: #B63FCB !default;
 
-html, body, main {
+html, body {
   background: $background-color;
   color: $font-color;
   font-family: sans-serif;
@@ -34,6 +35,7 @@ a {
 #gl-canvas {
   width: 100%;
   height: 100%;
+  margin-top: -20px;
 }
 
 @import 'login';

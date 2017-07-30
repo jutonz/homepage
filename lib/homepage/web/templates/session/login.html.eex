@@ -4,3 +4,10 @@
   Your browser doesn't appear to support the 
   <code>&lt;canvas&gt;</code> element.
 </canvas>
+
+<script>
+  window.addEventListener('load', function() {
+    var bgGrid = new window.Utils.BgGrid();
+    bgGrid.animateBackground();
+  });
+</script>

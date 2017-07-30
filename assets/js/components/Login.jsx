@@ -67,7 +67,7 @@ export default class Login extends React.Component {
         <TextField label="Username" value="" onChange={this.usernameChanged} autofocus/>
         <TextField label="Password" value="" onChange={this.usernameChanged} styles={[styles.inputLast]}/>
         <Button text="Login" onClick={this.submit} styles={[styles.submit]}/>
-        <a href="#" className={css(styles.signup)}>Or signup</a>
+        <a href="/signup" className={css(styles.signup)}>Or signup</a>
       </div>
     );
   }

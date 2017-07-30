@@ -18,7 +18,8 @@ defmodule Homepage.Web.Router do
 
     get "/", PageController, :index
 
-    get "/login", SessionController, :index
+    get "/login", SessionController, :login
+    get "/signup", SessionController, :signup
 
     get "/hello", HelloController, :index
     get "/hello/:messenger", HelloController, :show

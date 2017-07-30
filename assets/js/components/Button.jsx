@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import Globals from './../globals';
 
 const styles = StyleSheet.create({
   button: {
@@ -7,7 +8,16 @@ const styles = StyleSheet.create({
     border: 'none',
     borderRadius: '2px',
     padding: '5px 10px',
-    marginTop: '10px'
+    marginTop: '10px',
+    color: Globals.fontColor,
+    cursor: 'pointer'
+  },
+
+  primary: {
+    backgroundColor: Globals.brandPrimary,
+    ':hover': {
+      backgroundColor: Globals.brandPrimaryHover
+    }
   },
 
   jumbo: {
@@ -34,7 +44,7 @@ export default class Button extends React.Component {
     return (
       <div>
         <button
-          className={css(styles.button, styles.jumbo, this.state.styles)}
+          className={css(styles.button, styles.jumbo, styles.primary, this.state.styles)}
           onClick={this.handleSubmit}
         >
           {this.state.text}
