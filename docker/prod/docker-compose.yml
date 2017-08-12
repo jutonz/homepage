@@ -1,0 +1,18 @@
+version: "2"
+services:
+  nginx:
+    depends_on:
+      - app
+      - psql
+    image: jutonz/homepage-prod-nginx:1
+    links:
+      - app
+      - psql
+    ports:
+      - "4444:80"
+  psql:
+    image: jutonz/homepage-prod-psql:2
+    volumes:
+      - ../../tmp/psql-prod:/var/lib/postgresql/data
+  app:
+    image: jutonz/homepage-prod-app:1

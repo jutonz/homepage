@@ -3,7 +3,7 @@ services:
   psql:
     image: jutonz/homepage-dev-psql:1
     volumes:
-      - ../../tmp/psql:/var/lib/postgresql/data
+      - ../../tmp/psql-dev:/var/lib/postgresql/data
   app:
     image: jutonz/homepage-dev-app:1
     command: mix phx.server

@@ -13,8 +13,10 @@ COPY mix.exs /tmp/code/
 RUN cd /tmp/code && mix deps.get
 
 # Install node deps
-COPY package.json yarn.lock /tmp/code/
-RUN npm i -g brunch && cd /tmp/code && yarn
+RUN yarn global add brunch
+COPY deps /tmp/code/
+COPY assets/package.json assets/yarn.lock /tmp/code/assets/
+RUN cd /tmp/code/assets && yarn && rm -r ../deps
 
 # Install phoenix
 RUN mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez --force

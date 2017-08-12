@@ -12,12 +12,17 @@ class Docker < Thor
       "base" => 1,
       "app"  => 1,
       "psql" => 1
+    },
+    "prod" => {
+      "app"   => 1,
+      "nginx" => 1,
+      "psql"  => 2
     }
   }.freeze
 
-  #ALL_IMAGES = %w(base ruby psql nginx rails).freeze
   ALL_IMAGES = {
-    "dev" => %w(base app psql)
+    "dev"  => %w(base app psql),
+    "prod" => %w(app nginx psql)
   }.freeze
 
   PROJECT = "homepage".freeze
@@ -118,14 +123,32 @@ class Docker < Thor
     stream_output "#{sudo}docker-compose -f #{compose_file} down", exec: true
   end
 
+  desc "rm", "Remove any stuck containers."
+  option :env, default: "dev", type: :string
+  def rm
+    if `which docker-compose`.chomp.empty?
+      error = "Could not find docker-compose executible in path. Please " \
+        "install it to continue"
+      puts Rainbow(error).fg :red
+      exit 1
+    end
+
+    env = options[:env]
+    compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
+
+    stream_output "#{sudo}docker-compose -f #{compose_file} rm", exec: true
+  end
+
   desc "initdb", "Setup initial postgres database"
+  option :env, default: "dev", type: :string
   def initdb
-    local_data_dir = File.expand_path "../tmp/psql", __FILE__
+    env = options[:env]
+    local_data_dir = File.expand_path "../tmp/psql-#{env}", __FILE__
     `#{sudo}rm -r #{local_data_dir}` if File.exists? local_data_dir # todo prompt
 
     container = "psql"
-    version = VERSIONS.dig "dev", container
-    container = "jutonz/#{PROJECT}-dev-psql:#{version}"
+    version = VERSIONS.dig env, container
+    container = "jutonz/#{PROJECT}-#{env}-psql:#{version}"
     stream_output "#{sudo}docker run --rm --volume #{local_data_dir}:/var/lib/postgresql/data --volume #{`pwd`.chomp}:/tmp/code #{container} /bin/bash -c /etc/initdb.sh", exec: true
   end
 
@@ -148,7 +171,8 @@ class Docker < Thor
     env     = options[:env]
     version = VERSIONS.dig env, image
     image   = "jutonz/#{PROJECT}-#{env}-#{image}:#{version}"
-    stream_output "#{sudo}docker run -it --rm --volume #{`pwd`.chomp}:/root #{image} /bin/bash", exec: true
+    volume  = env == "prod" ? "" : "--volume #{`pwd`.chomp}:/root" # Don't mount volumes for prod containers
+    stream_output "#{sudo}docker run -it --rm #{volume} #{image} /bin/bash", exec: true
   end
 
   desc "connect CONTAINER", "Connect to a running container"
