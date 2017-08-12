@@ -1,0 +1,85 @@
+apiVersion: v1
+metadata:
+  name: kube-lego
+  namespace: kube-lego
+data:
+  # TODO: Specify your own email address here
+  lego.email: "jutonz42@gmail.com"
+  # Optionally configure this to use LetsEncrypt's staging server if you're
+  # just setting things up for the first time
+  lego.url: "https://acme-v01.api.letsencrypt.org/directory"
+kind: ConfigMap
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube-lego
+  namespace: kube-lego
+---
+
+# This is farily permissive--it would be cool to pare it down eventually
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: kube-lego
+  namespace: kube-lego
+rules:
+- apiGroups:
+  - ""
+  - "extensions"
+  resources:
+  - configmaps
+  - secrets
+  - services
+  - endpoints
+  - ingresses
+  - nodes
+  - pods
+  - configmaps
+  - events
+  verbs:
+  - list
+  - watch
+  - get
+  - create
+  - delete
+  - patch
+  - put
+  - update
+- apiGroups:
+  - "extensions"
+  resources:
+  - ingresses
+  verbs:
+  - get
+- apiGroups:
+  - ""
+  resources:
+  - events
+  - services
+  verbs:
+  - create
+  - list
+  - update
+  - get
+- apiGroups:
+  - "extensions"
+  resources:
+  - ingresses/status
+  - ingresses
+  verbs:
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: kube-lego
+  namespace: kube-lego
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kube-lego
+subjects:
+  - kind: ServiceAccount
+    name: kube-lego
+    namespace: kube-lego

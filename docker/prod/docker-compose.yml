@@ -4,7 +4,7 @@ services:
     depends_on:
       - app
       - psql
-    image: jutonz/homepage-prod-nginx:1
+    image: jutonz/homepage-prod-nginx:2
     links:
       - app
       - psql

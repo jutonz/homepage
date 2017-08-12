@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ingress
+  namespace: default
+spec:
+  ports:
+  - port: 80
+    name: http-upgrade
+  - port: 443
+    name: https
+  selector:
+    app: nginx-ingress-lb
+  externalIPs:
+    - 104.131.21.142
+    - 174.138.119.247

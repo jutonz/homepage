@@ -15,7 +15,7 @@ class Docker < Thor
     },
     "prod" => {
       "app"   => 1,
-      "nginx" => 1,
+      "nginx" => 2,
       "psql"  => 2
     }
   }.freeze
