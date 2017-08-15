@@ -10,7 +10,7 @@ spec:
   tls:
   - hosts:
     - homepage-test.notmalware.biz
-    secretName: homepage-lego-secret
+    secretName: homepage-test-lego-secret
   rules:
   - host: homepage-test.notmalware.biz
     http:
