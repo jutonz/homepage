@@ -3,16 +3,12 @@ services:
   nginx:
     depends_on:
       - app
-      - psql
     image: jutonz/homepage-prod-nginx:2
     links:
       - app
-      - psql
     ports:
       - "4444:80"
-  psql:
-    image: jutonz/homepage-prod-psql:2
-    volumes:
-      - ../../tmp/psql-prod:/var/lib/postgresql/data
   app:
     image: jutonz/homepage-prod-app:1
+    environment:
+      PGHOST: prod-db.chbuu5wubqy2.us-east-1.rds.amazonaws.com

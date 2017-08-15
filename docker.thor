@@ -102,9 +102,12 @@ class Docker < Thor
     FileUtils.rm pidfile if File.exist? pidfile
 
     env = options[:env]
+    compose_opts = %w(
+      --remove-orphans
+    )
     compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
 
-    stream_output "#{sudo}docker-compose -f #{compose_file} up", exec: true
+    stream_output "#{sudo}docker-compose -f #{compose_file} up #{compose_opts.join(" ")}", exec: true
   end
 
   desc "down", "Stop your dockerized app server"

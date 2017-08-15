@@ -18,7 +18,6 @@ import 'react-phoenix';
 // ones "web/static/js/socket".
 // import socket from './socket';
 
-
 // React stuff
 import MainNav from './components/MainNav';
 import Timer from './components/Timer';

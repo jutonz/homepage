@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - jutonz.com
+    - homepage-test.notmalware.biz
     secretName: homepage-lego-secret
   rules:
-  - host: jutonz.com
+  - host: homepage-test.notmalware.biz
     http:
       paths:
       - path: /
