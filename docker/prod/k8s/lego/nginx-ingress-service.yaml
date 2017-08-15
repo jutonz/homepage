@@ -12,5 +12,4 @@ spec:
   selector:
     app: nginx-ingress-lb
   externalIPs:
-    - 104.131.21.142
-    - 174.138.119.247
+    - 99.111.155.95
