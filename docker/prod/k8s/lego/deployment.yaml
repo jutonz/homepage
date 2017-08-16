@@ -13,7 +13,7 @@ spec:
       serviceAccountName: kube-lego
       containers:
       - name: kube-lego
-        image: jetstack/kube-lego:0.1.4
+        image: jetstack/kube-lego:0.1.5
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
