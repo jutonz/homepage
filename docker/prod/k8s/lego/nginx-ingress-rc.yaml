@@ -123,4 +123,4 @@ spec:
           hostPort: 443
         args:
         - /nginx-ingress-controller
-        - --default-backend-service=default/nginx
+        - --default-backend-service=homepage/nginx
