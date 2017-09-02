@@ -14,7 +14,7 @@ class Docker < Thor
       "psql" => 1
     },
     "prod" => {
-      "app"   => 1,
+      "app"   => 3,
       "nginx" => 2,
       "psql"  => 2
     }
@@ -185,7 +185,7 @@ class Docker < Thor
     version = VERSIONS.dig env, image
     image   = "jutonz/#{PROJECT}-#{env}-#{image}:#{version}"
 
-    cmd = "#{sudo}docker ps --filter ancestor=#{image} -aq"
+    cmd = "#{sudo}docker ps --filter ancestor=#{image} -aq | head -n1"
     puts cmd
     container = `#{cmd}`.chomp
 
