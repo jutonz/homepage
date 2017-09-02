@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - notmalware.biz
-    secretName: notmalware-tls
+    - homepage-test.notmalware.biz
+    secretName: homepage-test-notmalware-tls
   rules:
-  - host: notmalware.biz
+  - host: homepage-test.notmalware.biz
     http:
       paths:
       - path: /*
