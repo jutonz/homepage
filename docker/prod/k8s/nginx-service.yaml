@@ -9,5 +9,6 @@ spec:
     name: http-upgrade
   - port: 443
     name: https
+  type: LoadBalancer
   selector:
     app: nginx
