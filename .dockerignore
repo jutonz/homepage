@@ -3,8 +3,8 @@ Dockerfile
 
 .git
 log/
+tmp/
 _build/
-node_modules/
 docker.thor
 
 *.log

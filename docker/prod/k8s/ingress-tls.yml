@@ -5,17 +5,17 @@ metadata:
   namespace: homepage
   annotations:
     kubernetes.io/tls-acme: "true"
-    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/ingress.class: "gce"
 spec:
   tls:
   - hosts:
-    - homepage-test.notmalware.biz
-    secretName: homepage-test-lego-secret
+    - notmalware.biz
+    secretName: notmalware-tls
   rules:
-  - host: homepage-test.notmalware.biz
+  - host: notmalware.biz
     http:
       paths:
-      - path: /
+      - path: /*
         backend:
           serviceName: nginx
           servicePort: 80

@@ -8,9 +8,9 @@ spec:
   template:
     metadata:
       labels:
+        # Required for the auto-create kube-lego-nginx service to work.
         app: kube-lego
     spec:
-      serviceAccountName: kube-lego
       containers:
       - name: kube-lego
         image: jetstack/kube-lego:0.1.5
@@ -18,6 +18,8 @@ spec:
         ports:
         - containerPort: 8080
         env:
+        - name: LEGO_LOG_LEVEL
+          value: debug
         - name: LEGO_EMAIL
           valueFrom:
             configMapKeyRef:
