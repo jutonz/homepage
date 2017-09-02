@@ -7,4 +7,4 @@ data:
   lego.email: "jutonz42+gmail.com"
   # configure letsencrypt's production api
   lego.url: "https://acme-v01.api.letsencrypt.org/directory"
-  kind: ConfigMap
+kind: ConfigMap
