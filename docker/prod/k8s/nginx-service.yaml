@@ -6,9 +6,8 @@ metadata:
 spec:
   ports:
   - port: 80
-    name: http-upgrade
-  - port: 443
-    name: https
+    targetPort: 80
+    protocol: TCP
   type: NodePort
   selector:
     app: nginx
