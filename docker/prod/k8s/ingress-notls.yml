@@ -12,7 +12,7 @@ spec:
   #   - notmalware.biz
   #   secretName: notmalware-tls
   rules:
-  - host: notmalware.biz
+  - host: homepage-test.notmalware.biz
     http:
       paths:
       - path: /*
