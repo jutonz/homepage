@@ -178,8 +178,9 @@ class Docker < Thor
     stream_output "#{sudo}docker run -it --rm #{volume} #{image} /bin/bash", exec: true
   end
 
-  desc "connect CONTAINER", "Connect to a running container"
-  option :env, default: "dev", type: :string
+  desc "connect CONTAINER", "Connect to a running container."
+  option :env, type: :string, default: "dev"
+  option :attach, type: :boolean, default: false
   def connect(image = "ruby")
     env     = options[:env]
     version = VERSIONS.dig env, image
@@ -194,7 +195,14 @@ class Docker < Thor
       exit 1
     end
 
-    stream_output "#{sudo}docker exec -it #{container} /bin/bash", exec: true
+    cmd =
+      if options[:attach]
+        "#{sudo}docker attach #{container}"
+      else
+        "#{sudo}docker exec -it #{container} /bin/bash"
+      end
+
+    stream_output cmd, exec: true
   end
 
   no_commands do

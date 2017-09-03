@@ -6,7 +6,9 @@ services:
       - ../../tmp/psql-dev:/var/lib/postgresql/data
   app:
     image: jutonz/homepage-dev-app:1
-    command: mix phx.server
+    command: iex -S mix phx.server
+    stdin_open: true
+    tty: true
     volumes:
       - ../../:/root
     ports:
