@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - homepage-test.notmalware.biz
-    secretName: homepage-test-notmalware-tls
+    - jutonz.com
+    secretName: jutonz-tls
   rules:
-  - host: homepage-test.notmalware.biz
+  - host: jutonz.com
     http:
       paths:
       - path: /*
