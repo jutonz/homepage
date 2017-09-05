@@ -1,0 +1,7 @@
+function(config) {
+  var env = {};
+
+  env.env = config.MIX_ENV || 'development';
+
+  return env;
+}

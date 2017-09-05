@@ -1,1 +1,1 @@
-<%= ReactPhoenix.ClientSide.react_component("Components.Login") %>
+<%= ReactPhoenix.ClientSide.react_component("Components.Signup", %{ csrf_token: get_csrf_token() }) %>

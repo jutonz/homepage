@@ -20,3 +20,7 @@ RUN cd /tmp/code/assets && yarn && rm -r ../deps
 
 # Install phoenix
 RUN mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez --force
+
+COPY docker/dev/app/init.sh /etc/
+
+CMD ["/bin/bash", "-c", "/etc/init.sh"]

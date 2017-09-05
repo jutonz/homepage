@@ -23,6 +23,7 @@ import MainNav from './components/MainNav';
 import Timer from './components/Timer';
 import Hello from './components/Hello';
 import Login from './components/Login';
+import Signup from './components/Signup';
 import TextField from './components/TextField';
 import Button from './components/Button';
 
@@ -32,7 +33,8 @@ window.Components = {
   Hello,
   Login,
   TextField,
-  Button
+  Button,
+  Signup
 };
 
 // Utility functions
@@ -41,3 +43,12 @@ import BgGrid from './bg-grid';
 window.Utils = {
   BgGrid
 };
+
+// Global configuration (env stuff mostly)
+import Config from './config';
+window.Config = Config;
+
+// Redirect http to https
+if (Config.env !== 'development' && window.location.protocol === 'http:') {
+  window.location.protocol = 'https:';
+}

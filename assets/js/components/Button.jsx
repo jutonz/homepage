@@ -46,6 +46,7 @@ export default class Button extends React.Component {
         <button
           className={css(styles.button, styles.jumbo, styles.primary, this.state.styles)}
           onClick={this.handleSubmit}
+          type={this.type || "submit"}
         >
           {this.state.text}
         </button>

@@ -53,9 +53,11 @@ export default class Input extends React.Component {
         }
         <input
           id={this.id}
+          name={this.state.name}
           className={css(styles.input)}
           value={this.state.value}
           onChange={this.handleChange}
+          type={this.props.type || "text"}
         />
       </div>
     );

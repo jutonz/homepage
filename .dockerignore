@@ -6,6 +6,7 @@ log/
 tmp/
 _build/
 docker.thor
+node_modules/
 
 *.log
 *.pid
