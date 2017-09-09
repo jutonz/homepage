@@ -38,10 +38,14 @@ window.Components = {
 };
 
 // Utility functions
-import BgGrid from './bg-grid';
+import BgGrid from './bg_grid';
+import IsValidEmail from './utils/is_valid_email';
+import IsValidPassword from './utils/is_valid_password';
 
 window.Utils = {
-  BgGrid
+  BgGrid,
+  IsValidEmail,
+  IsValidPassword
 };
 
 // Global configuration (env stuff mostly)

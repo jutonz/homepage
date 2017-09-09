@@ -7,7 +7,7 @@ WORKDIR /root/code
 COPY docker/prod/app/init.sh /etc/
 
 RUN ln -s /tmp/code/assets/node_modules assets/node_modules
-RUN cd assets && yarn && brunch build --production
+RUN cd assets && yarn && NODE_ENV=production brunch build
 RUN MIX_ENV=prod mix local.rebar --force
 RUN MIX_ENV=prod mix compile
 RUN MIX_ENV=prod mix phx.digest

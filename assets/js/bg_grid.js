@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import Globals from './globals';
 
-export default class BgGrid {
+export default class {
   constructor() {
     this.scene = null;
     this.camera = null;

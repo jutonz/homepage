@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
+
 import TextField from './TextField';
 import Button from './Button';
 
@@ -46,19 +47,26 @@ export default class Signup extends React.Component {
     this.submit = this.submit.bind(this);
   }
 
-  usernameChanged(newValue) {
-    console.log('username is now', newValue);
-    this.setState({ username: newValue });
+  usernameChanged(username) {
+    this.setState({
+      username: username,
+      canSubmit: this.validateInputs(username, this.state.password)
+    });
   }
 
-  passwordChanged(newValue) {
-    console.log('password is now', newValue);
-    this.setState({ password: newValue });
+  passwordChanged(password) {
+    this.setState({
+      password: password,
+      canSubmit: this.validateInputs(this.state.username, password)
+    });
+  }
+
+  validateInputs(username, password) {
+    return Utils.IsValidEmail(username) && Utils.IsValidPassword(password);
   }
 
   submit(ev) {
-    let { hasValidEmail, hasValidPassword } = this.state;
-    if (!(hasValidEmail && hasValidPassword)) {
+    if (!this.state.canSubmit) {
       ev.preventDefault();
       console.log('error yo');
     } else {
@@ -82,11 +90,11 @@ export default class Signup extends React.Component {
           label="Password"
           name="password"
           value=""
-          onChange={this.usernameChanged}
+          onChange={this.passwordChanged}
           type="password"
           styles={[styles.inputLast]}
         />
-        <Button type="submit" text="Signup" styles={[styles.submit]}/>
+        <Button type="submit" text="Signup" disabled={!this.state.canSubmit} styles={[styles.submit]}/>
       </form>
     );
   }
