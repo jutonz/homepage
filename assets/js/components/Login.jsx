@@ -46,29 +46,80 @@ export default class Login extends React.Component {
     this.submit = this.submit.bind(this);
   }
 
-  usernameChanged(newValue) {
-    console.log('username is now', newValue);
-    this.setState({ username: newValue });
+  usernameChanged(username) {
+    let newState = {
+      username: username,
+      canSubmit: this.validateInputs(username, this.state.password)
+    };
+
+    if (this.state.usernameIsInvalid && Utils.IsValidEmail(username)) {
+      newState.usernameIsInvalid = false;
+    }
+
+    this.setState(newState);
   }
 
-  passwordChanged(newValue) {
-    console.log('password is now', newValue);
-    this.setState({ password: newValue });
+  passwordChanged(password) {
+    let newState = {
+      password: password,
+      canSubmit: this.validateInputs(this.state.username, password)
+    };
+
+    if (this.state.passwordIsInvalid && Utils.IsValidPassword(password)) {
+      newState.passwordIsInvalid = false;
+    }
+
+    this.setState(newState);
   }
 
-  submit(e) {
-    console.log('Submit!');
+  validateInputs(username, password) {
+    return Utils.IsValidEmail(username) && Utils.IsValidPassword(password);
+  }
+
+  submit(event) {
+    let isValid = true;
+
+    if (!Utils.IsValidEmail(this.state.username)) {
+      this.setState({ usernameIsInvalid: true });
+      isValid = false;
+    }
+
+    if (!Utils.IsValidPassword(this.state.password)) {
+      this.setState({ passwordIsInvalid: true });
+      isValid = false;
+    }
+
+    if (!isValid) {
+      event.preventDefault();
+      console.log('error yo');
+    }
   }
 
   render() {
     return (
-      <div className={css(styles.container)}>
+      <form className={css(styles.container)} action="login" method="POST" onSubmit={this.submit}>
         <div className={css(styles.header)}>Login</div>
-        <TextField label="Username" value="" onChange={this.usernameChanged} autofocus/>
-        <TextField label="Password" value="" onChange={this.usernameChanged} styles={[styles.inputLast]}/>
-        <Button text="Login" onClick={this.submit} styles={[styles.submit]}/>
+        <input type="hidden" name="_csrf_token" value={this.state.csrf_token}/>
+        <TextField
+          label="Username"
+          name="email"
+          value=""
+          onChange={this.usernameChanged}
+          isInvalid={this.state.usernameIsInvalid}
+          autofocus
+        />
+        <TextField
+          label="Password"
+          name="password"
+          type="password"
+          value=""
+          onChange={this.passwordChanged}
+          isInvalid={this.state.passwordIsInvalid}
+          styles={[styles.inputLast]}
+        />
+        <Button text="Login" type="submit" styles={[styles.submit]}/>
         <a href="/signup" className={css(styles.signup)}>Or signup</a>
-      </div>
+      </form>
     );
   }
 }

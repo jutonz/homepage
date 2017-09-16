@@ -20,13 +20,18 @@ defmodule Homepage.Web.Router do
 
     get "/healthz", HealthController, :index
 
-    get "/login", SessionController, :login
-    post "/login", SessionController, :authenticate
+    get "/login", SessionController, :show_login
+    post "/login", SessionController, :login
 
-    get "/signup", SessionController, :signup
+    get "/signup", SessionController, :show_signup
+    post "/signup", SessionController, :signup
 
     get "/hello", HelloController, :index
     get "/hello/:messenger", HelloController, :show
+  end
+
+  scope "/api", Homepage.Web do
+    pipe_through :api
   end
 
 

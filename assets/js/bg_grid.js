@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import Globals from './globals';
 
 export default class {
   constructor() {

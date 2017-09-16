@@ -68,15 +68,13 @@ export default class Signup extends React.Component {
   submit(ev) {
     if (!this.state.canSubmit) {
       ev.preventDefault();
-      console.log('error yo');
-    } else {
-      console.log('looks okay');
+      console.log("error yo");
     }
   }
 
   render() {
     return (
-      <form className={css(styles.container)} action="login" method="POST" onSubmit={this.submit}>
+      <form className={css(styles.container)} action="signup" method="POST" onSubmit={this.submit}>
         <div className={css(styles.header)}>Signup</div>
         <input type="hidden" name="_csrf_token" value={this.state.csrf_token}/>
         <TextField
@@ -94,7 +92,7 @@ export default class Signup extends React.Component {
           type="password"
           styles={[styles.inputLast]}
         />
-        <Button type="submit" text="Signup" disabled={!this.state.canSubmit} styles={[styles.submit]}/>
+        <Button type="submit" text="Signup" styles={[styles.submit]}/>
       </form>
     );
   }

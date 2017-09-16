@@ -1,11 +1,12 @@
 defmodule Homepage.Web.SessionController do
   use Homepage.Web, :controller
+  alias Homepage.User
 
-  def login(conn, _params) do
+  def show_login(conn, _params) do
     render conn, :login
   end
 
-  def authenticate(conn, params) do
+  def login(conn, _params) do
     authenticated = true
 
     if authenticated do
@@ -13,7 +14,29 @@ defmodule Homepage.Web.SessionController do
     end
   end
 
-  def signup(conn, _params) do
-    render conn, :signup
+  def show_signup(conn, _params) do
+    conn
+      |> clear_flash
+      |> render(:signup)
+  end
+
+  def signup(conn, params) do
+    changeset = User.changeset(%User{}, params)
+    case Repo.insert(changeset) do
+      { :ok, user } ->
+        redirect conn, to: "/hello/#{user.email}"
+      { _, result } ->
+        errors =
+          Keyword.keys(changeset.errors)
+            |> Enum.map(fn(key) ->
+              message = changeset.errors[key] |> elem(0)
+              to_string(key) <> " " <> message
+            end)
+            |> Enum.join(", ")
+
+        conn
+          |> put_flash(:error, "Failed to signup: " <> errors)
+          |> render(:signup)
+    end
   end
 end

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, css } from "aphrodite";
-import Globals from "./../globals";
+import Globals from "./../style-globals";
 
 const styles = StyleSheet.create({
   button: {

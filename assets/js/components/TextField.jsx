@@ -1,19 +1,33 @@
-import React from 'react';
-import { StyleSheet, css } from 'aphrodite';
+import React from "react";
+import { StyleSheet, css } from "aphrodite";
+import Globals from "./../style-globals"
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'column'
+    display: "flex",
+    flexDirection: "column"
   },
 
   label: {
-    fontSize: '0.875rem',
-    marginBottom: '5px'
+    fontSize: "0.875rem",
+    marginBottom: "5px"
+  },
+
+  labelInvalid: {
+    color: Globals.errorColor
   },
 
   input: {
-    padding: '5px 7px'
+    border: "2px solid transparent",
+    padding: "5px 7px"
+  },
+
+  inputInvalid: {
+    border: `2px solid ${Globals.errorColor}`,
+
+    ":focus": {
+      outlineColor: Globals.errorColor
+    }
   }
 });
 
@@ -47,14 +61,21 @@ export default class Input extends React.Component {
     return (
       <div className={css(styles.container)}>
         { this.props.label &&
-          <label htmlFor={this.id} className={css(styles.label, this.state.styles)}>
+          <label
+            htmlFor={this.id}
+            className={css(
+              styles.label,
+              this.props.isInvalid && styles.labelInvalid,
+              this.state.styles
+            )}
+          >
             {this.props.label}
           </label>
         }
         <input
           id={this.id}
           name={this.state.name}
-          className={css(styles.input)}
+          className={css(styles.input, this.props.isInvalid && styles.inputInvalid)}
           value={this.state.value}
           onChange={this.handleChange}
           type={this.props.type || "text"}

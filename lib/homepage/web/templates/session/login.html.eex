@@ -1,4 +1,4 @@
-<%= ReactPhoenix.ClientSide.react_component("Components.Login") %>
+<%= ReactPhoenix.ClientSide.react_component("Components.Login", %{ csrf_token: get_csrf_token() }) %>
 
 <canvas id="gl-canvas">
   Your browser doesn't appear to support the 
@@ -8,6 +8,6 @@
 <script>
   window.addEventListener('load', function() {
     var bgGrid = new window.Utils.BgGrid();
-    bgGrid.animateBackground();
+    //bgGrid.animateBackground();
   });
 </script>

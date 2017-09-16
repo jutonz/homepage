@@ -38,4 +38,11 @@ a {
   margin-top: -20px;
 }
 
+
+.alert {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
 @import 'login';
