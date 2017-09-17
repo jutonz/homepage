@@ -1,7 +1,6 @@
 # App artifacts
 /_build
 /db
-/deps
 /tmp
 /.mix
 /.npm
