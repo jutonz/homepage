@@ -27,9 +27,9 @@ defmodule Homepage.Web.SessionController do
         redirect conn, to: "/hello/#{user.email}"
       { _, result } ->
         errors =
-          Keyword.keys(changeset.errors)
+          Keyword.keys(result.errors)
             |> Enum.map(fn(key) ->
-              message = changeset.errors[key] |> elem(0)
+              message = result.errors[key] |> elem(0)
               to_string(key) <> " " <> message
             end)
             |> Enum.join(", ")

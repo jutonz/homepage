@@ -1,7 +1,7 @@
 version: '3'
 services:
   psql:
-    image: jutonz/homepage-dev-psql:1
+    image: jutonz/homepage-dev-psql:2
     volumes:
       - ../../tmp/psql-dev:/var/lib/postgresql/data
   app:
