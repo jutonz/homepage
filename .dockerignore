@@ -4,7 +4,6 @@ Dockerfile
 .git
 log/
 tmp/
-_build/
 docker.thor
 node_modules/
 

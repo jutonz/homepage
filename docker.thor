@@ -10,8 +10,8 @@ class Docker < Thor
   VERSIONS = {
     "dev" => {
       "base" => 1,
-      "app"  => 1,
-      "psql" => 2
+      "app"  => 2,
+      "psql" => 3
     },
     "prod" => {
       "app"   => 4,
