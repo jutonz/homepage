@@ -6,19 +6,21 @@ cd /root
 rm -r assets/node_modules
 
 # Link node modules which were installed during container build phase
-ln -s /tmp/code/assets/node_modules assets/node_modules
+mv /tmp/code/assets/node_modules assets/node_modules
 
 # Remove hex deps installed on host, if any
 rm -r deps
 
 # Link hex deps which were installed during container build phase
-# Turning this off for now in favor of just installing when starting container
-#ln -s /tmp/code/deps deps
+mv /tmp/code/deps deps
+
+# Remove build artifacts on host, if any
+rm -r _build
+
+# Link hex deps which were compiled during container build phase
+mv /tmp/code/_build _build
 
 mix local.hex --force
 mix local.rebar --force
-mix deps.get --force
-
-#ln -s /tmp/code/.mix .mix
 
 iex -S mix phx.server

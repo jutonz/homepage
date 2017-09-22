@@ -6,11 +6,15 @@ RUN apt-get update \
  && gem install sass --no-document
 
 # Install hex deps
-COPY mix.exs /tmp/code/
-RUN cd /tmp/code && mix local.hex --force && mix local.rebar --force && mix deps.get
+COPY mix.exs mix.lock /tmp/code/
+RUN cd /tmp/code \
+  && mix local.hex --force \
+  && mix local.rebar --force \
+  && mix deps.get \
+  && mix deps.compile
 
 # Install node deps
-RUN yarn global add brunch
+RUN yarn global add brunch@2.10.10
 COPY assets/package.json assets/yarn.lock /tmp/code/assets/
 RUN cd /tmp/code/assets && yarn
 

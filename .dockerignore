@@ -5,7 +5,10 @@ Dockerfile
 log/
 tmp/
 docker.thor
-node_modules/
+assets/node_modules
+.mix
+_build
+deps
 
 *.log
 *.pid
