@@ -20,11 +20,12 @@ defmodule Homepage.Web.Router do
 
     get "/healthz", HealthController, :index
 
-    get "/login", SessionController, :show_login
-    post "/login", SessionController, :login
-
     get "/signup", SessionController, :show_signup
     post "/signup", SessionController, :signup
+
+    get "/login", SessionController, :show_login
+    post "/login", SessionController, :login
+    post "/logout", SessionController, :logout
 
     get "/hello", HelloController, :index
     get "/hello/:messenger", HelloController, :show

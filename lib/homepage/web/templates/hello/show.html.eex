@@ -1,1 +1,5 @@
 <%= ReactPhoenix.ClientSide.react_component("Components.Hello", %{ name: @messenger }) %>
+
+<form action="logout" method="post">
+  <button type="submit">Logout</button>
+</form>

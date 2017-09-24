@@ -1,16 +1,27 @@
 defmodule Homepage.Web.SessionController do
   use Homepage.Web, :controller
   alias Homepage.User
+  import Homepage.Web.Helpers.UserSession
 
   def show_login(conn, _params) do
-    render conn, :login
+    case current_user(conn) do
+      nil ->
+        render conn, :login
+      user ->
+        redirect conn, to: "/hello"
+    end
   end
 
-  def login(conn, _params) do
-    authenticated = true
-
-    if authenticated do
-      redirect conn, to: "/hello"
+  def login(conn, %{ "email" => email, "password" => password }) do
+    case Repo.get_by(User, email: email, password: password) do
+      nil ->
+        conn |> put_flash(:error, "Username or password is invalid") |> render(:login)
+      user ->
+        conn
+        |> assign(:current_user, user)
+        |> put_session(:user_id, user.id)
+        |> configure_session(renew: true)
+        |> redirect(to: "/hello")
     end
   end
 
