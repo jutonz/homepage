@@ -1,5 +1,5 @@
-defmodule Homepage.Web.HelloController do
-  use Homepage.Web, :controller
+defmodule HomepageWeb.HelloController do
+  use HomepageWeb, :controller
 
   def index(conn, _params) do
     case get_session(conn, :user_id) do

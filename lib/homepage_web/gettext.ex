@@ -1,4 +1,4 @@
-defmodule Homepage.Web.Gettext do
+defmodule HomepageWeb.Gettext do
   @moduledoc """
   A module providing Internationalization with a gettext-based API.
 

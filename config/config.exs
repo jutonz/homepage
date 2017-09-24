@@ -10,10 +10,10 @@ config :homepage,
   ecto_repos: [Homepage.Repo]
 
 # Configures the endpoint
-config :homepage, Homepage.Web.Endpoint,
+config :homepage, HomepageWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+",
-  render_errors: [view: Homepage.Web.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: HomepageWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Homepage.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

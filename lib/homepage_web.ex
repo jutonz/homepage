@@ -1,12 +1,12 @@
-defmodule Homepage.Web do
+defmodule HomepageWeb do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use Homepage.Web, :controller
-      use Homepage.Web, :view
+      use HomepageWeb, :controller
+      use HomepageWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -28,20 +28,20 @@ defmodule Homepage.Web do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: Homepage.Web
+      use Phoenix.Controller, namespace: HomepageWeb
 
       alias Homepage.Repo
       import Ecto
       import Ecto.Query
 
-      import Homepage.Web.Router.Helpers
-      import Homepage.Web.Gettext
+      import HomepageWeb.Router.Helpers
+      import HomepageWeb.Gettext
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/homepage/web/templates", namespace: Homepage.Web
+      use Phoenix.View, root: "lib/homepage_web/templates", namespace: HomepageWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
@@ -49,9 +49,9 @@ defmodule Homepage.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import Homepage.Web.Router.Helpers
-      import Homepage.Web.ErrorHelpers
-      import Homepage.Web.Gettext
+      import HomepageWeb.Router.Helpers
+      import HomepageWeb.ErrorHelpers
+      import HomepageWeb.Gettext
     end
   end
 
@@ -68,7 +68,7 @@ defmodule Homepage.Web do
       alias Homepage.Repo
       import Ecto
       import Ecto.Query
-      import Homepage.Web.Gettext
+      import HomepageWeb.Gettext
     end
   end
 

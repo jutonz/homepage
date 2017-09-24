@@ -1,5 +1,5 @@
-defmodule Homepage.Web.Router do
-  use Homepage.Web, :router
+defmodule HomepageWeb.Router do
+  use HomepageWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,7 +13,7 @@ defmodule Homepage.Web.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", Homepage.Web do
+  scope "/", HomepageWeb do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
@@ -31,7 +31,7 @@ defmodule Homepage.Web.Router do
     get "/hello/:messenger", HelloController, :show
   end
 
-  scope "/api", Homepage.Web do
+  scope "/api", HomepageWeb do
     pipe_through :api
   end
 

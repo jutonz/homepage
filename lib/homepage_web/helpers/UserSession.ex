@@ -1,4 +1,4 @@
-defmodule Homepage.Web.Helpers.UserSession do
+defmodule HomepageWeb.Helpers.UserSession do
   import Plug.Conn
 
   def logout(conn) do

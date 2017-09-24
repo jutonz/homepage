@@ -1,3 +1,3 @@
 defmodule Homepage.LayoutViewTest do
-  use Homepage.Web.ConnCase, async: true
+  use HomepageWeb.ConnCase, async: true
 end

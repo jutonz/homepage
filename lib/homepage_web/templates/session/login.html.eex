@@ -8,6 +8,6 @@
 <script>
   window.addEventListener('load', function() {
     var bgGrid = new window.Utils.BgGrid();
-    bgGrid.animateBackground();
+    //bgGrid.animateBackground();
   });
 </script>

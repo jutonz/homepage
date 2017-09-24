@@ -1,4 +1,4 @@
-defmodule Homepage.Web.ChannelCase do
+defmodule HomepageWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -25,9 +25,8 @@ defmodule Homepage.Web.ChannelCase do
       import Ecto.Changeset
       import Ecto.Query
 
-
       # The default endpoint for testing
-      @endpoint Homepage.Web.Endpoint
+      @endpoint HomepageWeb.Endpoint
     end
   end
 

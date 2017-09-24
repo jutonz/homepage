@@ -1,10 +1,10 @@
-defmodule Homepage.Web.SessionController do
-  use Homepage.Web, :controller
+defmodule HomepageWeb.SessionController do
+  use HomepageWeb, :controller
   alias Homepage.User
-  import Homepage.Web.Helpers.UserSession
+  alias HomepageWeb.Helpers.UserSession
 
   def show_login(conn, _params) do
-    case current_user(conn) do
+    case UserSession.current_user(conn) do
       nil ->
         render conn, :login
       user ->
@@ -23,6 +23,12 @@ defmodule Homepage.Web.SessionController do
         |> configure_session(renew: true)
         |> redirect(to: "/hello")
     end
+  end
+
+  def logout(conn, _params) do
+    conn
+    |> UserSession.logout
+    |> redirect(to: "/")
   end
 
   def show_signup(conn, _params) do

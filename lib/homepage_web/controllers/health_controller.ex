@@ -1,5 +1,5 @@
-defmodule Homepage.Web.HealthController do
-  use Homepage.Web, :controller
+defmodule HomepageWeb.HealthController do
+  use HomepageWeb, :controller
 
   def index(conn, _params) do
     conn

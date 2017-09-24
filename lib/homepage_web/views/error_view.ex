@@ -1,5 +1,5 @@
-defmodule Homepage.Web.ErrorView do
-  use Homepage.Web, :view
+defmodule HomepageWeb.ErrorView do
+  use HomepageWeb, :view
 
   def render("404.html", _assigns) do
     "Page not found"

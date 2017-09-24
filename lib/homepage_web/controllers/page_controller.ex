@@ -1,5 +1,5 @@
-defmodule Homepage.Web.PageController do
-  use Homepage.Web, :controller
+defmodule HomepageWeb.PageController do
+  use HomepageWeb, :controller
 
   def index(conn, _params) do
     redirect conn, to: "/login"

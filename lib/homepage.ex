@@ -11,7 +11,7 @@ defmodule Homepage do
       # Start the Ecto repository
       supervisor(Homepage.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(Homepage.Web.Endpoint, []),
+      supervisor(HomepageWeb.Endpoint, []),
       # Start your own worker by calling: Homepage.Worker.start_link(arg1, arg2, arg3)
       # worker(Homepage.Worker, [arg1, arg2, arg3]),
     ]
