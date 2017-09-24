@@ -9,6 +9,6 @@ services:
     ports:
       - "4444:80"
   app:
-    image: jutonz/homepage-prod-app:4
+    image: jutonz/homepage-prod-app:8
     environment:
       PGHOST: prod-db.chbuu5wubqy2.us-east-1.rds.amazonaws.com
