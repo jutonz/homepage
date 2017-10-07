@@ -3,24 +3,25 @@ services:
   nginx:
     depends_on:
       - app
-    image: jutonz/homepage-prod-nginx:2
+    image: jutonz/homepage-prod-nginx:3
     links:
       - app
     ports:
       - "4444:80"
   app:
-    image: jutonz/homepage-prod-app:8
+    image: jutonz/homepage-prod-app:9
     depends_on:
       - psql
     environment:
+      DATABASE_URL: postgres://docker:docker@psql:5432/homepage_prod
       PGHOST: psql
       PGUSER: docker
       PGPASS: docker
       PORT: "4444"
   psql:
-    image: jutonz/homepage-prod-psql:3
+    image: jutonz/homepage-prod-psql:4
     volumes:
       - ../../tmp/psql-prod:/var/lib/postgresql/data
       - ../..:/tmp/code
     environment:
-      DATABASE_URL: postgres://docker:docker@psql:5432/homepage_prod
+      DATABASE_URL: postgres://docker:docker@localhost:5432/homepage_prod
