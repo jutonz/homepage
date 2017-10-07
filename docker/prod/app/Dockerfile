@@ -1,4 +1,4 @@
-FROM jutonz/homepage-dev-app:4
+FROM jutonz/homepage-dev-app:5
 
 COPY . /root/code/
 

@@ -1,4 +1,4 @@
-FROM jutonz/homepage-dev-app:2
+FROM jutonz/homepage-dev-app:5
 
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' \
  && wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add - \
@@ -7,14 +7,14 @@ RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
-RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.conf
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/10/main/pg_hba.conf
 
-# And add ``listen_addresses`` to ``/etc/postgresql/9.6/main/postgresql.conf``
-RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
-RUN echo "data_directory = '/var/lib/postgresql/data'" >> /etc/postgresql/9.6/main/postgresql.conf
+# And add ``listen_addresses`` to ``/etc/postgresql/10/main/postgresql.conf``
+RUN echo "listen_addresses='*'" >> /etc/postgresql/10/main/postgresql.conf
+RUN echo "data_directory = '/var/lib/postgresql/data'" >> /etc/postgresql/10/main/postgresql.conf
 
 RUN mkdir -p /var/lib/postgresql/data && chown -R postgres /var/lib/postgresql
-RUN mkdir -p /var/run/postgresql/9.6-main.pg_stat_tmp && chown -R postgres /var/run/postgresql/9.6-main.pg_stat_tmp
+RUN mkdir -p /var/run/postgresql/10-main.pg_stat_tmp && chown -R postgres /var/run/postgresql/10-main.pg_stat_tmp
 RUN usermod -aG sudo postgres
 
 WORKDIR /tmp

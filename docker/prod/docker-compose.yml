@@ -10,5 +10,17 @@ services:
       - "4444:80"
   app:
     image: jutonz/homepage-prod-app:8
+    depends_on:
+      - psql
     environment:
-      PGHOST: prod-db.chbuu5wubqy2.us-east-1.rds.amazonaws.com
+      PGHOST: psql
+      PGUSER: docker
+      PGPASS: docker
+      PORT: "4444"
+  psql:
+    image: jutonz/homepage-prod-psql:3
+    volumes:
+      - ../../tmp/psql-prod:/var/lib/postgresql/data
+      - ../..:/tmp/code
+    environment:
+      DATABASE_URL: postgres://docker:docker@psql:5432/homepage_prod

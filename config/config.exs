@@ -6,8 +6,7 @@
 use Mix.Config
 
 # General application configuration
-config :homepage,
-  ecto_repos: [Homepage.Repo]
+config :homepage, ecto_repos: [Homepage.Repo]
 
 # Configures the endpoint
 config :homepage, HomepageWeb.Endpoint,

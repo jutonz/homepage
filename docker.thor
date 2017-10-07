@@ -10,13 +10,13 @@ class Docker < Thor
   VERSIONS = {
     "dev" => {
       "base" => 1,
-      "app"  => 4,
-      "psql" => 3
+      "app"  => 5,
+      "psql" => 4
     },
     "prod" => {
-      "app"   => 8,
+      "app"   => 9,
       "nginx" => 2,
-      "psql"  => 2
+      "psql"  => 4
     }
   }.freeze
 
@@ -150,9 +150,18 @@ class Docker < Thor
     `#{sudo}rm -r #{local_data_dir}` if File.exists? local_data_dir # todo prompt
 
     container = "psql"
-    version = VERSIONS.dig env, container
-    container = "jutonz/#{PROJECT}-#{env}-psql:#{version}"
-    stream_output "#{sudo}docker run --rm --volume #{local_data_dir}:/var/lib/postgresql/data --volume #{`pwd`.chomp}:/tmp/code #{container} /bin/bash -c /etc/initdb.sh", exec: true
+    env = options[:env]
+    compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
+
+
+    cmd = "#{sudo}docker-compose -f #{compose_file} run --rm #{container} /bin/bash -c /etc/initdb.sh"
+
+    stream_output cmd, exec: true
+
+
+    #version = VERSIONS.dig env, container
+    #container = "jutonz/#{PROJECT}-#{env}-psql:#{version}"
+    #stream_output "#{sudo}docker run --rm --volume #{local_data_dir}:/var/lib/postgresql/data --volume #{`pwd`.chomp}:/tmp/code #{container} /bin/bash -c /etc/initdb.sh", exec: true
   end
 
   desc "cleanup", "cleans up dangling docker images"
@@ -171,11 +180,13 @@ class Docker < Thor
   desc "bash CONTAINER", "Create a new instance of the given image with a bash prompt"
   option :env, default: "dev", type: :string
   def bash(image = "ruby")
-    env     = options[:env]
-    version = VERSIONS.dig env, image
-    image   = "jutonz/#{PROJECT}-#{env}-#{image}:#{version}"
-    volume  = env == "prod" ? "" : "--volume #{`pwd`.chomp}:/root" # Don't mount volumes for prod containers
-    stream_output "#{sudo}docker run -it --rm #{volume} #{image} /bin/bash", exec: true
+    container = "app"
+    env = options[:env]
+    compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
+
+    cmd = "#{sudo}docker-compose -f #{compose_file} run --rm #{container} /bin/bash"
+
+    stream_output cmd, exec: true
   end
 
   desc "connect CONTAINER", "Connect to a running container."
