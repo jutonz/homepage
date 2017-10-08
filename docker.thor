@@ -209,9 +209,5 @@ class Docker < Thor
 
       opts
     end
-
-    def docker_cmd
-      cmd = Cocaine::CommandLine.new "docker"
-    end
   end
 end
