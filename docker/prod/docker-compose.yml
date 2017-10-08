@@ -9,7 +9,7 @@ services:
     ports:
       - "4444:80"
   app:
-    image: jutonz/homepage-prod-app:9
+    image: jutonz/homepage-prod-app:10
     depends_on:
       - psql
     environment:

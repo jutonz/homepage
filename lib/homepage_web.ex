@@ -20,6 +20,10 @@ defmodule HomepageWeb do
       import Plug.Conn
       import HomepageWeb.Router.Helpers
       import HomepageWeb.Gettext
+
+      alias Homepage.Repo
+      import Ecto
+      import Ecto.Query
     end
   end
 
