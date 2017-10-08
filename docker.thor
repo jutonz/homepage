@@ -89,13 +89,6 @@ class Docker < Thor
 
   desc "up", "Start your dockerized app server"
   def up
-    if `which docker-compose`.chomp.empty?
-      error = "Could not find docker-compose executible in path. Please " \
-        "install it to continue"
-      puts Rainbow(error).fg :red
-      exit 1
-    end
-
     pidfile = "tmp/pids/server.pid"
     FileUtils.rm pidfile if File.exist? pidfile
 
@@ -110,13 +103,6 @@ class Docker < Thor
 
   desc "down", "Stop your dockerized app server"
   def down
-    if `which docker-compose`.chomp.empty?
-      error = "Could not find docker-compose executible in path. Please " \
-        "install it to continue"
-      puts Rainbow(error).fg :red
-      exit 1
-    end
-
     env = options[:env]
     compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
 
@@ -125,13 +111,6 @@ class Docker < Thor
 
   desc "rm", "Remove any stuck containers."
   def rm
-    if `which docker-compose`.chomp.empty?
-      error = "Could not find docker-compose executible in path. Please " \
-        "install it to continue"
-      puts Rainbow(error).fg :red
-      exit 1
-    end
-
     env = options[:env]
     compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
 
@@ -152,11 +131,6 @@ class Docker < Thor
     cmd = "#{sudo}docker-compose -f #{compose_file} run --rm #{container} /bin/bash -c /etc/initdb.sh"
 
     stream_output cmd, exec: true
-
-
-    #version = VERSIONS.dig env, container
-    #container = "jutonz/#{PROJECT}-#{env}-psql:#{version}"
-    #stream_output "#{sudo}docker run --rm --volume #{local_data_dir}:/var/lib/postgresql/data --volume #{`pwd`.chomp}:/tmp/code #{container} /bin/bash -c /etc/initdb.sh", exec: true
   end
 
   desc "cleanup", "cleans up dangling docker images"
