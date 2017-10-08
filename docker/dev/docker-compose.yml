@@ -1,12 +1,12 @@
 version: '3'
 services:
   psql:
-    image: jutonz/homepage-dev-psql:3
+    image: jutonz/homepage-dev-psql:4
     volumes:
       - ../../:/tmp/code
       - ../../tmp/psql-dev:/var/lib/postgresql/data
   app:
-    image: jutonz/homepage-dev-app:2
+    image: jutonz/homepage-dev-app:5
     stdin_open: true
     tty: true
     volumes:

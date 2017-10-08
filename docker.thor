@@ -5,6 +5,8 @@ require "pty"
 require "rainbow"
 
 class Docker < Thor
+  class_option :env, default: "dev", type: :string
+
   # When pushing updated container versions, update these constants. They are
   # used when pushing, pulling, and building images.
   VERSIONS = {
@@ -28,7 +30,6 @@ class Docker < Thor
   PROJECT = "homepage".freeze
 
   desc "build", "Build images. Pass image name to build a specific one; otherwise builds all"
-  option :env, default: "dev", type: :string
   def build(*images)
     env = options[:env]
     images = ALL_IMAGES[env] if images.empty?
@@ -49,7 +50,6 @@ class Docker < Thor
   end
 
   desc "push", "Upload locally built images to the remote store"
-  option :env, default: "dev", type: :string
   def push(*images)
     env = options[:env]
     images = ALL_IMAGES[env] if images.empty?
@@ -71,7 +71,6 @@ class Docker < Thor
   end
 
   desc "pull", "Pull the latest remote images to your local machine"
-  option :env, default: "dev", type: :string
   def pull(*images)
     env    = options[:env]
     images = ALL_IMAGES[env] if images.empty?
@@ -89,7 +88,6 @@ class Docker < Thor
   end
 
   desc "up", "Start your dockerized app server"
-  option :env, default: "dev", type: :string
   def up
     if `which docker-compose`.chomp.empty?
       error = "Could not find docker-compose executible in path. Please " \
@@ -111,7 +109,6 @@ class Docker < Thor
   end
 
   desc "down", "Stop your dockerized app server"
-  option :env, default: "dev", type: :string
   def down
     if `which docker-compose`.chomp.empty?
       error = "Could not find docker-compose executible in path. Please " \
@@ -127,7 +124,6 @@ class Docker < Thor
   end
 
   desc "rm", "Remove any stuck containers."
-  option :env, default: "dev", type: :string
   def rm
     if `which docker-compose`.chomp.empty?
       error = "Could not find docker-compose executible in path. Please " \
@@ -143,7 +139,6 @@ class Docker < Thor
   end
 
   desc "initdb", "Setup initial postgres database"
-  option :env, default: "dev", type: :string
   def initdb
     env = options[:env]
     local_data_dir = File.expand_path "../tmp/psql-#{env}", __FILE__
@@ -178,7 +173,6 @@ class Docker < Thor
   end
 
   desc "bash CONTAINER", "Create a new instance of the given image with a bash prompt"
-  option :env, default: "dev", type: :string
   def bash(image = "ruby")
     container = "app"
     env = options[:env]
@@ -190,7 +184,6 @@ class Docker < Thor
   end
 
   desc "connect CONTAINER", "Connect to a running container."
-  option :env, type: :string, default: "dev"
   option :attach, type: :boolean, default: false
   def connect(image = "ruby")
     env     = options[:env]
