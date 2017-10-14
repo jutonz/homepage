@@ -1,6 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/tmp'
-let g:netrw_dirhist_2='/tmp/test'
-let g:netrw_dirhist_3='/tmp/test/_build'
-let g:netrw_dirhist_4='/tmp/test'

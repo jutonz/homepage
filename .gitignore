@@ -32,3 +32,4 @@ assets/node_modules
 
 .bash_history
 .byebug_history
+.vim

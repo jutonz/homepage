@@ -22,6 +22,7 @@ defmodule HomepageWeb do
       import HomepageWeb.Gettext
 
       alias Homepage.Repo
+
       import Ecto
       import Ecto.Query
     end
