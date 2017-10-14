@@ -38,7 +38,9 @@ defmodule Homepage.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
-     {:react_phoenix, "~> 0.4"}]
+     {:react_phoenix, "~> 0.4"},
+     {:comeonin, "~> 4.0"},
+     {:argon2_elixir, "~> 1.2"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

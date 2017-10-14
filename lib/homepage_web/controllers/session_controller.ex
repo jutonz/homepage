@@ -2,6 +2,7 @@ defmodule HomepageWeb.SessionController do
   use HomepageWeb, :controller
   alias Homepage.User
   alias HomepageWeb.Helpers.UserSession
+  import Comeonin.Argon2, only: [check_pass: 2]
 
   def show_login(conn, _params) do
     case UserSession.current_user(conn) do
@@ -13,15 +14,17 @@ defmodule HomepageWeb.SessionController do
   end
 
   def login(conn, %{ "email" => email, "password" => password }) do
-    case Repo.get_by(User, email: email, password: password) do
-      nil ->
-        conn |> put_flash(:error, "Username or password is invalid") |> render(:login)
-      user ->
+    case User |> Repo.get_by(email: email) |> check_pass(password) do
+      { :ok, user } ->
         conn
-        |> assign(:current_user, user)
-        |> put_session(:user_id, user.id)
-        |> configure_session(renew: true)
-        |> redirect(to: "/hello")
+          |> assign(:current_user, user)
+          |> put_session(:user_id, user.id)
+          |> configure_session(renew: true)
+          |> redirect(to: "/hello")
+      { :error, _ } ->
+        conn
+          |> put_flash(:error, "Username or password is invalid")
+          |> render(:login)
     end
   end
 
