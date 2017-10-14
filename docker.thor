@@ -7,39 +7,19 @@ require "rainbow"
 class Docker < Thor
   class_option :env, default: "dev", type: :string
 
-  # When pushing updated container versions, update these constants. They are
-  # used when pushing, pulling, and building images.
-  VERSIONS = {
-    "dev" => {
-      "base" => 1,
-      "app"  => 5,
-      "psql" => 4
-    },
-    "prod" => {
-      "app"   => 10,
-      "nginx" => 3,
-      "psql"  => 4
-    }
-  }.freeze
-
-  ALL_IMAGES = {
-    "dev"  => %w(base app psql),
-    "prod" => %w(app nginx psql)
-  }.freeze
-
   PROJECT = "homepage".freeze
 
   desc "build", "Build images. Pass image name to build a specific one; otherwise builds all"
   def build(*images)
-    env = options[:env]
-    images = ALL_IMAGES[env] if images.empty?
+    images = versions.keys if images.empty?
     images = Array(images)
+    env    = options[:env]
 
     puts "Generating build script for #{images.join(", ")}"
     commands = []
 
     images.each do |image|
-      version    = VERSIONS.dig env, image
+      version    = versions[image]
       tag        = "jutonz/#{PROJECT}-#{env}-#{image}:#{version}"
       dockerfile = "docker/#{env}/#{image}/Dockerfile"
 
@@ -51,14 +31,14 @@ class Docker < Thor
 
   desc "push", "Upload locally built images to the remote store"
   def push(*images)
-    env = options[:env]
-    images = ALL_IMAGES[env] if images.empty?
+    images = versions.keys if images.empty?
     images = Array(images)
+    env    = options[:env]
 
     push_cmds = []
 
     images.each do |image|
-      version = VERSIONS.dig env, image
+      version = versions[image]
       tag_cmd = "#{sudo}docker tag jutonz/#{PROJECT}-#{env}-#{image}:#{version} jutonz/#{PROJECT}-#{env}-#{image}:latest"
       puts tag_cmd
       `#{tag_cmd}`
@@ -72,14 +52,14 @@ class Docker < Thor
 
   desc "pull", "Pull the latest remote images to your local machine"
   def pull(*images)
-    env    = options[:env]
-    images = ALL_IMAGES[env] if images.empty?
+    images = versions.keys if images.empty?
     images = Array(images)
+    env    = options[:env]
 
     pull_cmds = []
 
     images.each do |image|
-      version = VERSIONS.dig env, image
+      version = versions[image]
       pull_cmds << "#{sudo}docker pull jutonz/#{PROJECT}-#{env}-#{image}:#{version}"
     end
 
@@ -92,29 +72,18 @@ class Docker < Thor
     pidfile = "tmp/pids/server.pid"
     FileUtils.rm pidfile if File.exist? pidfile
 
-    env = options[:env]
-    compose_opts = %w(
-      --remove-orphans
-    )
-    compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
-
-    stream_output "#{sudo}docker-compose -f #{compose_file} up #{compose_opts.join(" ")}", exec: true
+    compose_opts = %w(--remove-orphans)
+    stream_output "#{sudo}docker-compose -f #{compose_file_path} up #{compose_opts.join(" ")}", exec: true
   end
 
   desc "down", "Stop your dockerized app server"
   def down
-    env = options[:env]
-    compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
-
-    stream_output "#{sudo}docker-compose -f #{compose_file} down", exec: true
+    stream_output "#{sudo}docker-compose -f #{compose_file_path} down", exec: true
   end
 
   desc "rm", "Remove any stuck containers."
   def rm
-    env = options[:env]
-    compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
-
-    stream_output "#{sudo}docker-compose -f #{compose_file} rm", exec: true
+    stream_output "#{sudo}docker-compose -f #{compose_file_path} rm", exec: true
   end
 
   desc "initdb", "Setup initial postgres database"
@@ -123,12 +92,7 @@ class Docker < Thor
     local_data_dir = File.expand_path "../tmp/psql-#{env}", __FILE__
     `#{sudo}rm -r #{local_data_dir}` if File.exists? local_data_dir # todo prompt
 
-    container = "psql"
-    env = options[:env]
-    compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
-
-
-    cmd = "#{sudo}docker-compose -f #{compose_file} run --rm #{container} /bin/bash -c /etc/initdb.sh"
+    cmd = "#{sudo}docker-compose -f #{compose_file_path} run --rm psql /bin/bash -c /etc/initdb.sh"
 
     stream_output cmd, exec: true
   end
@@ -142,26 +106,26 @@ class Docker < Thor
       exit 0
     end
 
-    puts "Cleaning up dangling images: #{dangling.join(", ")}"
     stream_output "#{sudo}docker rmi -f #{dangling.join(" ")}", exec: true
   end
 
   desc "bash CONTAINER", "Create a new instance of the given image with a bash prompt"
-  def bash(image = "ruby")
-    container = "app"
-    env = options[:env]
-    compose_file = File.expand_path "docker/#{env}/docker-compose.yml"
-
-    cmd = "#{sudo}docker-compose -f #{compose_file} run --rm #{container} /bin/bash"
+  def bash(container = "app")
+    cmd = "#{sudo}docker-compose -f #{compose_file_path} run --rm #{container} /bin/bash"
 
     stream_output cmd, exec: true
   end
 
   desc "connect CONTAINER", "Connect to a running container."
-  option :attach, type: :boolean, default: false
-  def connect(image = "ruby")
+  def connect(image = "app")
+    stream_output "#{sudo}docker-compose -f #{compose_file_path} exec #{image} /bin/bash", exec: true
+  end
+
+  desc "attach CONTAINER", "Connect to a running container."
+  option :env, type: :string, default: "dev"
+  def attach(image = "app")
     env     = options[:env]
-    version = VERSIONS.dig env, image
+    version = versions[image]
     image   = "jutonz/#{PROJECT}-#{env}-#{image}:#{version}"
 
     cmd = "#{sudo}docker ps --filter ancestor=#{image} -aq | head -n1"
@@ -173,14 +137,7 @@ class Docker < Thor
       exit 1
     end
 
-    cmd =
-      if options[:attach]
-        "#{sudo}docker attach #{container}"
-      else
-        "#{sudo}docker exec -it #{container} /bin/bash"
-      end
-
-    stream_output cmd, exec: true
+    stream_output "#{sudo}docker attach #{container}", exec: true
   end
 
   no_commands do
@@ -208,6 +165,33 @@ class Docker < Thor
       end
 
       opts
+    end
+
+    def compose_file_path(env: options[:env])
+      path = File.expand_path "docker/#{env}/docker-compose.yml"
+
+      unless File.exist? path
+        err = "There is no docker compose file for env #{env} (I expected to find it at #{path})"
+        puts Rainbow(err).red
+        exit 1
+      end
+
+      path
+    end
+
+    def versions(env: options[:env])
+      @versions ||= begin
+        compose_file = compose_file_path env: env
+        parsed = YAML.load_file compose_file
+        images = parsed["services"].keys
+        version_map = {}
+
+        images.each do |image|
+          version_map[image] = parsed["services"][image]["image"].split(":").last
+        end
+
+        version_map
+      end
     end
   end
 end
