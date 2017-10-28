@@ -1,4 +1,4 @@
-defmodule HomepageWeb.HelloController do
+defmodule HomepageWeb.HomeController do
   use HomepageWeb, :controller
 
   def index(conn, _params) do
@@ -7,7 +7,7 @@ defmodule HomepageWeb.HelloController do
         render conn, :index
       user_id ->
         user = Homepage.Repo.get(Homepage.User, user_id)
-        redirect conn, to: "/hello/#{user.email}"
+        redirect conn, to: "/home/#{user.email}"
     end
   end
 

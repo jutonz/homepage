@@ -9,7 +9,7 @@ defmodule HomepageWeb.SessionController do
       nil ->
         render conn, :login
       user ->
-        redirect conn, to: "/hello"
+        redirect conn, to: "/home"
     end
   end
 
@@ -20,7 +20,7 @@ defmodule HomepageWeb.SessionController do
           |> assign(:current_user, user)
           |> put_session(:user_id, user.id)
           |> configure_session(renew: true)
-          |> redirect(to: "/hello")
+          |> redirect(to: "/home")
       { :error, _ } ->
         conn
           |> put_flash(:error, "Username or password is invalid")
@@ -30,8 +30,8 @@ defmodule HomepageWeb.SessionController do
 
   def logout(conn, _params) do
     conn
-    |> UserSession.logout
-    |> redirect(to: "/")
+      |> UserSession.logout
+      |> redirect(to: "/")
   end
 
   def show_signup(conn, _params) do
@@ -44,7 +44,7 @@ defmodule HomepageWeb.SessionController do
     changeset = User.changeset(%User{}, params)
     case Repo.insert(changeset) do
       { :ok, user } ->
-        redirect conn, to: "/hello/#{user.email}"
+        redirect conn, to: "/home/#{user.email}"
       { _, result } ->
         errors =
           Keyword.keys(result.errors)

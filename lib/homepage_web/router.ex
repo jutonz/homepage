@@ -20,24 +20,19 @@ defmodule HomepageWeb.Router do
 
     get "/healthz", HealthController, :index
 
-    get "/signup", SessionController, :show_signup
+    get  "/signup", SessionController, :show_signup
     post "/signup", SessionController, :signup
 
-    get "/login", SessionController, :show_login
-    post "/login", SessionController, :login
+    get  "/login",  SessionController, :show_login
+    post "/login",  SessionController, :login
     post "/logout", SessionController, :logout
 
-    get "/hello", HelloController, :index
-    get "/hello/:messenger", HelloController, :show
+    get "/home", HomeController, :index
+    get "/home/:messenger", HomeController, :show
+    get "/home/blah", HomeController, :wee
   end
 
   scope "/api", HomepageWeb do
     pipe_through :api
   end
-
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Homepage do
-  #   pipe_through :api
-  # end
 end
