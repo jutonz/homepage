@@ -28,6 +28,7 @@ config :homepage, Homepage.Endpoint, secret_key_base: secret_key_base
 db_host = System.get_env("PGHOST") || "psql"
 db_user = System.get_env "PGUSER"
 db_pass = System.get_env "PGPASS"
+db_port = System.get_env("PGPORT") || 5432
 
 # Configure your database
 config :homepage, Homepage.Repo,
@@ -35,5 +36,6 @@ config :homepage, Homepage.Repo,
   hostname: db_host,
   username: db_user,
   password: db_pass,
+  port: db_port,
   database: "homepage_prod",
   pool_size: 20

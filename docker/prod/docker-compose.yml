@@ -9,7 +9,7 @@ services:
     ports:
       - "4000:80"
   app:
-    image: jutonz/homepage-prod-app:13
+    image: jutonz/homepage-prod-app:15
     depends_on:
       - psql
     environment:
@@ -19,9 +19,8 @@ services:
       PGPASS: docker
       PORT: "4000"
   psql:
-    image: jutonz/homepage-prod-psql:5
-    volumes:
-      - ../../tmp/psql-prod:/var/lib/postgresql/data
-      - ../..:/tmp/code
+    image: postgres:10.0-alpine
     environment:
-      DATABASE_URL: postgres://docker:docker@localhost:5432/homepage_prod
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: homepage_prod
