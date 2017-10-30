@@ -12,6 +12,8 @@ services:
     image: jutonz/homepage-prod-app:15
     depends_on:
       - psql
+    links:
+      - psql
     environment:
       DATABASE_URL: postgres://docker:docker@psql:5432/homepage_prod
       PGHOST: psql
@@ -19,7 +21,7 @@ services:
       PGPASS: docker
       PORT: "4000"
   psql:
-    image: postgres:10.0-alpine
+    image: jutonz/homepage-prod-psql:8
     environment:
       POSTGRES_USER: docker
       POSTGRES_PASSWORD: docker

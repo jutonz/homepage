@@ -14,7 +14,7 @@ spec:
         app: psql
     spec:
       containers:
-      - image: postgres:10.0-alpine
+      - image: jutonz/homepage-prod-psql:8
         name: psql
         env:
           - name: POSTGRES_USER
@@ -29,4 +29,14 @@ spec:
                 key: PGPASS
           - name: POSTGRES_DB
             value: homepage_prod
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: aws
+                key: AWS_ACCESS_KEY_ID
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: aws
+                key: AWS_SECRET_ACCESS_KEY
       restartPolicy: Always
