@@ -15,14 +15,16 @@ services:
     links:
       - psql
     environment:
-      DATABASE_URL: postgres://docker:docker@psql:5432/homepage_prod
+      DATABASE_URL: postgres://homepage:homepage@psql:5432/homepage_prod
       PGHOST: psql
-      PGUSER: docker
-      PGPASS: docker
+      PGUSER: homepage
+      PGPASS: homepage
       PORT: "4000"
   psql:
     image: jutonz/homepage-prod-psql:8
     environment:
-      POSTGRES_USER: docker
-      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: homepage
+      POSTGRES_PASSWORD: homepage
       POSTGRES_DB: homepage_prod
+      AWS_ACCESS_KEY_ID: "${HOMEPAGE_AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${HOMEPAGE_AWS_SECRET_ACCESS_KEY}"
