@@ -1,22 +1,19 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: psql
+  name: psql-backup-oneoff
   namespace: homepage
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: psql
   template:
     metadata:
-      labels:
-        app: psql
+      name: psql-backup-oneoff
     spec:
       containers:
-      - image: jutonz/homepage-prod-psql:9
-        name: psql
-        imagePullPolicy: Always
+      - name: db-backup
+        image: jutonz/homepage-prod-psql:9
+        args:
+        - /bin/bash
+        - /etc/backup.sh
         env:
           - name: POSTGRES_USER
             valueFrom:
@@ -40,4 +37,4 @@ spec:
               secretKeyRef:
                 name: aws
                 key: AWS_SECRET_ACCESS_KEY
-      restartPolicy: Always
+      restartPolicy: Never
