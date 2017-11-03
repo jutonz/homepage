@@ -1,0 +1,42 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: db-backup
+  namespace: homepage
+spec:
+  schedule: "0 0 * * *" # run at midnight
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: db-backup
+            image: jutonz/homepage-prod-psql:9
+            args:
+            - /bin/bash
+            - /etc/backup.sh
+          restartPolicy: OnFailure
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: dbsecrets
+                  key: PGUSER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: dbsecrets
+                  key: PGPASS
+            - name: POSTGRES_DB
+              value: homepage_prod
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws
+                  key: AWS_SECRET_ACCESS_KEY
+      concurrencyPolicy: Forbid

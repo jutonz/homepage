@@ -14,7 +14,7 @@ spec:
         app: psql
     spec:
       containers:
-      - image: jutonz/homepage-prod-psql:8
+      - image: jutonz/homepage-prod-psql:9
         name: psql
         env:
           - name: POSTGRES_USER
