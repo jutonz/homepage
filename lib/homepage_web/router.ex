@@ -1,5 +1,6 @@
 defmodule HomepageWeb.Router do
   use HomepageWeb, :router
+  import HomepageWeb.Helpers.UserSession
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -7,6 +8,10 @@ defmodule HomepageWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+  end
+
+  pipeline :authenticated_route do
+    plug :load_user_or_redirect
   end
 
   pipeline :api do
@@ -26,6 +31,8 @@ defmodule HomepageWeb.Router do
     get  "/login",  SessionController, :show_login
     post "/login",  SessionController, :login
     post "/logout", SessionController, :logout
+
+    pipe_through :authenticated_route # Anything below this requires login
 
     get "/home", HomeController, :index
     get "/home/:messenger", HomeController, :show

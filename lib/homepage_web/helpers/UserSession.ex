@@ -17,4 +17,18 @@ defmodule HomepageWeb.Helpers.UserSession do
       Homepage.Repo.get Homepage.User, user_id
     end
   end
+
+  ##
+  # This is a plug.
+  #
+  # If user is authenticated, do nothing. Otherwise redirect to /login.
+  def load_user_or_redirect(conn, _options) do
+    if current_user(conn) == nil do
+      conn
+        |> Phoenix.Controller.put_flash(:error, "Please login")
+        |> Phoenix.Controller.redirect(to: "/login")
+    end
+
+    conn
+  end
 end

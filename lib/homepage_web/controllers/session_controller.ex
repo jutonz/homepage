@@ -5,6 +5,7 @@ defmodule HomepageWeb.SessionController do
   import Comeonin.Argon2, only: [check_pass: 2]
 
   def show_login(conn, _params) do
+    # If already logged in, send to /home
     case UserSession.current_user(conn) do
       nil ->
         render conn, :login

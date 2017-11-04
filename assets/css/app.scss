@@ -43,6 +43,8 @@ a {
   display: flex;
   justify-content: center;
   margin-top: 10px;
+  position: fixed;
+  width: 100%;
 }
 
 @import 'login';
