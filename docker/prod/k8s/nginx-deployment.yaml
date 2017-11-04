@@ -14,7 +14,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - image: jutonz/homepage-prod-nginx:2
+      - image: jutonz/homepage-prod-nginx:4
         name: nginx
         ports:
         - containerPort: 80
