@@ -16,6 +16,7 @@ spec:
       containers:
       - image: jutonz/homepage-prod-app:16
         name: app
+        imagePullPolicy: Always
         env:
           - name: SECRET_KEY_BASE
             valueFrom:
