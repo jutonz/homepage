@@ -40,4 +40,8 @@ spec:
               secretKeyRef:
                 name: aws
                 key: AWS_SECRET_ACCESS_KEY
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/bash", "/etc/backup.sh"]
       restartPolicy: Always
