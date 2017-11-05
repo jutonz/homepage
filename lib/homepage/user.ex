@@ -14,10 +14,10 @@ defmodule Homepage.User do
   @doc false
   def changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:email, :password, :password_hash])
-    |> validate_required([:email, :password_hash])
-    |> unique_constraint(:email)
-    |> put_pass_hash()
+      |> cast(attrs, [:email, :password, :password_hash])
+      |> put_pass_hash()
+      |> validate_required([:email, :password_hash])
+      |> unique_constraint(:email)
   end
 
   ##
