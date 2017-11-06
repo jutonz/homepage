@@ -4,7 +4,7 @@ metadata:
   name: db-backup
   namespace: homepage
 spec:
-  schedule: "0 * * * *" # run hourly
+  schedule: "0 0 * * *" # run daily
   jobTemplate:
     spec:
       template:
