@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 cd /root
 
 # Remove node modules installed on host, if any

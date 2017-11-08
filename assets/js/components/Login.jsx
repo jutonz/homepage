@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
-import TextField from './TextField';
-import Button from './Button';
+import TextField from './TextField.jsx';
+import Button from './Button.jsx';
 
 const styles = StyleSheet.create({
   container: {

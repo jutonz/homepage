@@ -1,4 +1,4 @@
-FROM jutonz/homepage-dev-app:6
+FROM jutonz/homepage-dev-app:7
 
 COPY . /root/code/
 
@@ -8,7 +8,7 @@ COPY docker/prod/app/init.sh /etc/
 
 RUN mv /tmp/code/assets/node_modules assets/node_modules
 RUN mv /tmp/code/deps deps
-RUN cd assets && yarn && NODE_ENV=production brunch build
+RUN cd assets && yarn && yarn run bundle
 RUN MIX_ENV=prod mix local.rebar --force
 RUN MIX_ENV=prod mix compile
 RUN MIX_ENV=prod mix phx.digest

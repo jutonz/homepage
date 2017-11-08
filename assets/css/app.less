@@ -1,16 +1,16 @@
 /* This file is for your main application css. */
 
-$background-color: black !default;
-$brand-primary: #AC17C6; // rgb(172, 23, 198)
-$border-color: #ccc;
+@background-color: black;
+@brand-primary: #AC17C6; // rgb(172, 23, 198)
+@border-color: #ccc;
 
-$font-color: #ccc !default;
-$font-color--active: #AC17C6 !default;
-$font-color--hover: #B63FCB !default;
+@font-color: #ccc;
+@font-color--active: #AC17C6;
+@font-color--hover: #B63FCB;
 
 html, body {
-  background: $background-color;
-  color: $font-color;
+  background: @background-color;
+  color: @font-color;
   font-family: sans-serif;
   font-weight: 300;
   height: 100%;
@@ -20,15 +20,15 @@ html, body {
 }
 
 a {
-  color: $font-color;
+  color: @font-color;
   text-decoration: none;
 
   &:hover {
-    color: $font-color--hover;
+    color: @font-color--hover;
   }
 
   &:active {
-    color: $font-color--active;
+    color: @font-color--active;
   }
 }
 
@@ -46,5 +46,3 @@ a {
   position: fixed;
   width: 100%;
 }
-
-@import 'login';

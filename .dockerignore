@@ -9,6 +9,7 @@ assets/node_modules
 .mix
 _build
 deps
+priv/static
 
 *.log
 *.pid

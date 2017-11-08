@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
+import { Button } from 'semantic-ui-react';
 
-import TextField from './TextField';
-import Button from './Button';
+import TextField from './TextField.jsx';
 
 const styles = StyleSheet.create({
   container: {
     border: '1px solid #ccc',
-    height: '230px',
+    height: '260px',
     width: '300px',
     padding: '10px',
     position: 'absolute',
@@ -92,7 +92,15 @@ export default class Signup extends React.Component {
           type="password"
           styles={[styles.inputLast]}
         />
-        <Button type="submit" text="Signup" styles={[styles.submit]}/>
+        <Button
+          primary={true}
+          active={true}
+          fluid={true}
+          type="submit"
+          className={css(styles.submit)}
+        >
+          Signup
+        </Button>
       </form>
     );
   }

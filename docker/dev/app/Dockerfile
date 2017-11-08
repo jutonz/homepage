@@ -61,9 +61,8 @@ RUN cd /tmp/code \
   && mix deps.get
 
 # Install node deps
-RUN yarn global add brunch@2.10.10
 COPY assets/package.json assets/yarn.lock /tmp/code/assets/
-RUN cd /tmp/code/assets && yarn
+RUN cd /tmp/code/assets && yarn && yarn cache clean
 
 # Compile hex deps (This is done after yarn since react_phoenix needs
 # react-stdio node module to be present to compile)
