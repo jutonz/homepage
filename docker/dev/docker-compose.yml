@@ -7,8 +7,6 @@ services:
       - ../../tmp/psql-dev:/var/lib/postgresql/data
   app:
     image: jutonz/homepage-dev-app:7
-    stdin_open: true
-    tty: true
     volumes:
       - ../../:/root
     ports:
