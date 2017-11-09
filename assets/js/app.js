@@ -3,21 +3,11 @@ import "semantic-ui-less/semantic.less";
 import "./../css/app.less";
 
 // React stuff
-import MainNav from './components/MainNav.jsx';
-import Timer from './components/Timer.jsx';
-import Hello from './components/Hello.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
-import TextField from './components/TextField.jsx';
-import Button from './components/Button.jsx';
 
 window.Components = {
-  MainNav,
-  Timer,
-  Hello,
   Login,
-  TextField,
-  Button,
   Signup
 };
 

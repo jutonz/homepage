@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
-import TextField from './TextField.jsx';
-import Button from './Button.jsx';
+
+import { Button, Form, Input } from 'semantic-ui-react';
 
 const styles = StyleSheet.create({
   container: {
     border: '1px solid #ccc',
-    height: '300px',
     width: '300px',
     padding: '10px',
     position: 'absolute',
@@ -46,7 +45,8 @@ export default class Login extends React.Component {
     this.submit = this.submit.bind(this);
   }
 
-  usernameChanged(username) {
+  usernameChanged(event, data) {
+    let username = data.value;
     let newState = {
       username: username,
       canSubmit: this.validateInputs(username, this.state.password)
@@ -59,7 +59,8 @@ export default class Login extends React.Component {
     this.setState(newState);
   }
 
-  passwordChanged(password) {
+  passwordChanged(event, data) {
+    let password = data.value;
     let newState = {
       password: password,
       canSubmit: this.validateInputs(this.state.username, password)
@@ -97,29 +98,32 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <form className={css(styles.container)} action="login" method="POST" onSubmit={this.submit}>
+      <Form className={css(styles.container)} action="login" method="POST" onSubmit={this.submit}>
         <div className={css(styles.header)}>Login</div>
         <input type="hidden" name="_csrf_token" value={this.state.csrf_token}/>
-        <TextField
-          label="Username"
-          name="email"
-          value=""
-          onChange={this.usernameChanged}
-          isInvalid={this.state.usernameIsInvalid}
-          autofocus
-        />
-        <TextField
-          label="Password"
-          name="password"
-          type="password"
-          value=""
-          onChange={this.passwordChanged}
-          isInvalid={this.state.passwordIsInvalid}
-          styles={[styles.inputLast]}
-        />
-        <Button text="Login" type="submit" styles={[styles.submit]}/>
+
+        <Form.Field>
+          <label>Email</label>
+          <Input name="email" autoFocus={true} onChange={this.usernameChanged} />
+        </Form.Field>
+
+        <Form.Field>
+          <label>Password</label>
+          <Input type="password" name="password" onChange={this.passwordChanged} />
+        </Form.Field>
+
+        <Button
+          primary={true}
+          active={true}
+          fluid={true}
+          type="submit"
+          className={css(styles.submit)}
+        >
+          Login
+        </Button>
+
         <a href="/signup" className={css(styles.signup)}>Or signup</a>
-      </form>
+      </Form>
     );
   }
 }

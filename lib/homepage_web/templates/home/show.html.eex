@@ -1,4 +1,4 @@
-<%= ReactPhoenix.ClientSide.react_component("Components.Hello", %{ name: @messenger }) %>
+Hey <%= @messenger %>
 
 <%= form_for @conn, session_path(@conn, :logout), [as: :logout], fn f -> %>
   <%= submit "Logout" %>
