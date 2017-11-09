@@ -1,1 +1,4 @@
 @primaryColor: #AC17C6;
+@textColor: #CCC;
+
+@fontName sans-serif;

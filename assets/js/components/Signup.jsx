@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
-import { Button } from 'semantic-ui-react';
-
-import TextField from './TextField.jsx';
+import { Button, Form, Input } from 'semantic-ui-react';
 
 const styles = StyleSheet.create({
   container: {
     border: '1px solid #ccc',
-    height: '260px',
     width: '300px',
     padding: '10px',
     position: 'absolute',
@@ -47,14 +44,16 @@ export default class Signup extends React.Component {
     this.submit = this.submit.bind(this);
   }
 
-  usernameChanged(username) {
+  usernameChanged(event, data) {
+    let username = data.value;
     this.setState({
       username: username,
       canSubmit: this.validateInputs(username, this.state.password)
     });
   }
 
-  passwordChanged(password) {
+  passwordChanged(event, data) {
+    let password = data.value;
     this.setState({
       password: password,
       canSubmit: this.validateInputs(this.state.username, password)
@@ -74,24 +73,20 @@ export default class Signup extends React.Component {
 
   render() {
     return (
-      <form className={css(styles.container)} action="signup" method="POST" onSubmit={this.submit}>
+      <Form className={css(styles.container)} action="signup" method="POST" onSubmit={this.submit}>
         <div className={css(styles.header)}>Signup</div>
         <input type="hidden" name="_csrf_token" value={this.state.csrf_token}/>
-        <TextField
-          label="Email"
-          name="email"
-          value=""
-          onChange={this.usernameChanged}
-          autofocus
-        />
-        <TextField
-          label="Password"
-          name="password"
-          value=""
-          onChange={this.passwordChanged}
-          type="password"
-          styles={[styles.inputLast]}
-        />
+
+        <Form.Field>
+          <label>Email</label>
+          <Input name="email" autoFocus={true} onChange={this.usernameChanged} />
+        </Form.Field>
+
+        <Form.Field>
+          <label>Password</label>
+          <Input type="password" name="password" onChange={this.passwordChanged} />
+        </Form.Field>
+
         <Button
           primary={true}
           active={true}
@@ -101,7 +96,7 @@ export default class Signup extends React.Component {
         >
           Signup
         </Button>
-      </form>
+      </Form>
     );
   }
 }
