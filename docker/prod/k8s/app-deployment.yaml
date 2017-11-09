@@ -4,7 +4,7 @@ metadata:
   name: app
   namespace: homepage
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: app
@@ -14,7 +14,7 @@ spec:
         app: app
     spec:
       containers:
-      - image: jutonz/homepage-prod-app:16
+      - image: jutonz/homepage-prod-app:19
         name: app
         imagePullPolicy: Always
         env:
