@@ -1,7 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
-import { Button, Form, Input } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  FormProps,
+  Input,
+  InputOnChangeData
+} from 'semantic-ui-react';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,8 +41,22 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class Signup extends React.Component {
-  constructor(props) {
+interface Props {
+  password: string;
+  username: string;
+  canSubmit: boolean;
+  csrf_token: string;
+}
+
+interface State {
+  password: string;
+  username: string;
+  canSubmit: boolean;
+  csrf_token: string;
+}
+
+export default class Signup extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = props;
     this.passwordChanged = this.passwordChanged.bind(this);
@@ -44,7 +64,7 @@ export default class Signup extends React.Component {
     this.submit = this.submit.bind(this);
   }
 
-  usernameChanged(event, data) {
+  usernameChanged(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
     let username = data.value;
     this.setState({
       username: username,
@@ -52,7 +72,7 @@ export default class Signup extends React.Component {
     });
   }
 
-  passwordChanged(event, data) {
+  passwordChanged(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
     let password = data.value;
     this.setState({
       password: password,
@@ -60,13 +80,13 @@ export default class Signup extends React.Component {
     });
   }
 
-  validateInputs(username, password) {
-    return Utils.IsValidEmail(username) && Utils.IsValidPassword(password);
+  validateInputs(username: string, password: string): boolean {
+    return window.Utils.isValidEmail(username) && window.Utils.isValidPassword(password);
   }
 
-  submit(ev) {
+  submit(event: React.FormEvent<HTMLElement>, data: FormProps) {
     if (!this.state.canSubmit) {
-      ev.preventDefault();
+      event.preventDefault();
       console.log("error yo");
     }
   }

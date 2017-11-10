@@ -1,8 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
-
-import { Button, Form, Input } from 'semantic-ui-react';
+import { Button, Form, FormProps, Input, InputOnChangeData } from 'semantic-ui-react';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,8 +35,26 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class Login extends React.Component {
-  constructor(props) {
+interface Props {
+  password: string;
+  username: string;
+  usernameIsInvalid: boolean;
+  passwordIsInvalid: boolean;
+  canSubmit: boolean;
+  csrf_token: string;
+}
+
+interface State {
+  password?: string;
+  username?: string;
+  usernameIsInvalid?: boolean;
+  passwordIsInvalid?: boolean;
+  canSubmit?: boolean;
+  csrf_token?: string;
+}
+
+export default class Login extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = props;
     this.passwordChanged = this.passwordChanged.bind(this);
@@ -45,47 +62,47 @@ export default class Login extends React.Component {
     this.submit = this.submit.bind(this);
   }
 
-  usernameChanged(event, data) {
+  usernameChanged(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
     let username = data.value;
-    let newState = {
+    let newState : State = {
       username: username,
       canSubmit: this.validateInputs(username, this.state.password)
     };
 
-    if (this.state.usernameIsInvalid && Utils.IsValidEmail(username)) {
+    if (this.state.usernameIsInvalid && window.Utils.isValidEmail(username)) {
       newState.usernameIsInvalid = false;
     }
 
     this.setState(newState);
   }
 
-  passwordChanged(event, data) {
+  passwordChanged(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
     let password = data.value;
-    let newState = {
+    let newState: State = {
       password: password,
       canSubmit: this.validateInputs(this.state.username, password)
     };
 
-    if (this.state.passwordIsInvalid && Utils.IsValidPassword(password)) {
+    if (this.state.passwordIsInvalid && window.Utils.isValidPassword(password)) {
       newState.passwordIsInvalid = false;
     }
 
     this.setState(newState);
   }
 
-  validateInputs(username, password) {
-    return Utils.IsValidEmail(username) && Utils.IsValidPassword(password);
+  validateInputs(username: string, password: string) {
+    return window.Utils.isValidEmail(username) && window.Utils.isValidPassword(password);
   }
 
-  submit(event) {
+  submit(event: React.FormEvent<HTMLElement>) {
     let isValid = true;
 
-    if (!Utils.IsValidEmail(this.state.username)) {
+    if (!window.Utils.isValidEmail(this.state.username)) {
       this.setState({ usernameIsInvalid: true });
       isValid = false;
     }
 
-    if (!Utils.IsValidPassword(this.state.password)) {
+    if (!window.Utils.isValidPassword(this.state.password)) {
       this.setState({ passwordIsInvalid: true });
       isValid = false;
     }

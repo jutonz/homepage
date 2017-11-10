@@ -6,7 +6,7 @@ services:
       - ../../:/tmp/code
       - ../../tmp/psql-dev:/var/lib/postgresql/data
   app:
-    image: jutonz/homepage-dev-app:7
+    image: jutonz/homepage-dev-app:8
     volumes:
       - ../../:/root
     ports:

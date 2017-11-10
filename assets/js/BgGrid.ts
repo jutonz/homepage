@@ -1,7 +1,14 @@
 import * as THREE from "three";
 import Globals from "./style-globals";
 
-export default class {
+export default class _BgGrid {
+  scene: any;
+  camera: any;
+  renderer: any;
+  geometry: any;
+  material: any;
+  mesh: any;
+
   constructor() {
     this.scene = null;
     this.camera = null;
@@ -20,7 +27,8 @@ export default class {
   }
 
   initPlane() {
-    let { innerHeight, innerWidth } = window;
+    let innerHeight = window.innerHeight;
+    let innerWidth = window.innerWidth;
 
     this.scene = new THREE.Scene();
 
@@ -45,19 +53,19 @@ export default class {
     this.mesh.rotation.z = 0.4;
     this.scene.add(this.mesh);
 
-    let canvas = document.getElementById('gl-canvas');
+    let canvas = document.getElementById('gl-canvas') as HTMLCanvasElement;
     this.renderer = new THREE.WebGLRenderer({ canvas: canvas });
     this.recalculateRenderingDimensions();
     this.renderer.render(this.scene, this.camera);
   }
 
-  animatePlane(ts) {
+  animatePlane(ts?: any) {
     requestAnimationFrame(ts => this.animatePlane(ts));
     this.updateWave(ts);
     this.renderer.render(this.scene, this.camera);
   }
 
-  updateWave(ts) {
+  updateWave(ts: any) {
     for(let i = 0; i < this.mesh.geometry.vertices.length; i++) {
       let vertice = this.mesh.geometry.vertices[i]
       let distance = new THREE.Vector2(vertice.x, vertice.y).sub(new THREE.Vector2(0, 0))
@@ -70,7 +78,8 @@ export default class {
   }
 
   recalculateRenderingDimensions() {
-    let { innerHeight, innerWidth } = window;
+    let innerHeight = window.innerHeight;
+    let innerWidth = window.innerWidth;
     this.renderer.setSize(innerWidth, innerHeight);
 
     let aspect = innerWidth / innerHeight;
@@ -79,3 +88,5 @@ export default class {
     this.camera.updateProjectionMatrix();
   }
 }
+
+//export const BgGrid = _BgGrid;
