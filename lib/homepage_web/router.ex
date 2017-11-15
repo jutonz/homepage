@@ -32,7 +32,9 @@ defmodule HomepageWeb.Router do
     post "/login",  SessionController, :login
     post "/logout", SessionController, :logout
 
-    pipe_through :authenticated_route # Anything below this requires login
+    pipe_through :authenticated_route
+    # From this point on users will be redirected to /login if trying to access
+    # one of these routes while unauthenticated.
 
     get "/home", HomeController, :index
     get "/home/:messenger", HomeController, :show

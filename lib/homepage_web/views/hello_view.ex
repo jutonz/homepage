@@ -1,3 +1,3 @@
-defmodule HomepageWeb.HomeView do
+defmodule HomepageWeb.HelloView do
   use HomepageWeb, :view
 end

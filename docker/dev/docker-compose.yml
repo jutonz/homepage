@@ -9,7 +9,8 @@ services:
   app:
     image: jutonz/homepage-dev-app:8
     volumes:
-    - "../../:/root/code"
+    - "../../:/root"
+    - "/root/assets/node_modules"
     ports:
     - 4000:4000
     depends_on:

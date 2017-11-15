@@ -5,6 +5,7 @@ import "./../css/app.less";
 // React stuff
 import Login from './components/Login';
 import Signup from './components/Signup';
+import MainNav from './components/MainNav';
 
 declare global {
   interface Window {
@@ -15,7 +16,8 @@ declare global {
 
 window.Components = {
   Login,
-  Signup
+  Signup,
+  MainNav
 };
 
 import "phoenix_html";
