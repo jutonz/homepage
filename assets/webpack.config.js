@@ -60,7 +60,6 @@ const webpackConfig = {
   ],
 
   resolve: {
-    //extensions: ['.js'],
     alias: {
       '../../theme.config$': path.join(__dirname, 'semantic-theme/theme.config')
     },
