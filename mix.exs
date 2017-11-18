@@ -40,7 +40,10 @@ defmodule Homepage.Mixfile do
      {:cowboy, "~> 1.0"},
      {:react_phoenix, "~> 0.4"},
      {:comeonin, "~> 4.0"},
-     {:argon2_elixir, "~> 1.2"}]
+     {:argon2_elixir, "~> 1.2"},
+     {:absinthe_ecto, "~> 0.1.3"},
+     {:absinthe_plug, "~> 1.4.0"},
+     {:guardian, "~> 1.0-beta"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

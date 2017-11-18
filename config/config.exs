@@ -8,10 +8,13 @@ use Mix.Config
 # General application configuration
 config :homepage, ecto_repos: [Homepage.Repo]
 
+# A differnt (secure) key is used in non-dev environments
+secret_key_base = "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
+
 # Configures the endpoint
 config :homepage, HomepageWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+",
+  secret_key_base: secret_key_base,
   render_errors: [view: HomepageWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Homepage.PubSub,
            adapter: Phoenix.PubSub.PG2]
@@ -21,6 +24,19 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :absinthe,
+  log: false
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+
+# Configure Guardian
+config :homepage, Homepage.GuardianSerializer,
+  allowed_algos: ["HS512"], # optional
+  verify_module: Guardian.JWT,  # optional
+  issuer: "Homepage",
+  ttl: { 30, :days },
+  verify_issuer: true, # optional
+  secret_key: secret_key_base,
+  serializer: Homepage.GuardianSerializer

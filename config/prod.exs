@@ -24,6 +24,7 @@ config :logger, level: :debug
 
 secret_key_base = System.get_env "SECRET_KEY_BASE"
 config :homepage, Homepage.Endpoint, secret_key_base: secret_key_base
+config :guardian, Guardian, secret_key_base: secret_key_base
 
 db_host = System.get_env("PGHOST") || "psql"
 db_user = System.get_env "PGUSER"

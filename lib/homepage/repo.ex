@@ -1,6 +1,8 @@
 defmodule Homepage.Repo do
   use Ecto.Repo, otp_app: :homepage
 
+  use Absinthe.Ecto, repo: Homepage.Repo # is this the right place for this?
+
   @doc """
   Dynamically loads the repository url from the DATABASE_URL environment
   variable.
