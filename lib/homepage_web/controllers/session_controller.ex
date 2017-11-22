@@ -16,10 +16,7 @@ defmodule HomepageWeb.SessionController do
   def login(conn, %{ "email" => email, "password" => password }) do
     case conn |> UserSession.login(email, password) do
       {:ok, user, conn} ->
-        #conn
-          #|> put_status(200)
-          #|> json(%{ error: false })
-          conn |> redirect(to: "/home")
+        conn |> redirect(to: "/home")
       {:error, reason} ->
         conn
           |> put_status(401)
