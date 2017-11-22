@@ -15,9 +15,7 @@ const webpackConfig = {
       {
         test: /\.(ts|tsx)$/,
         use: [
-          {
-            loader: "babel-loader",
-          },
+          "babel-loader",
           "ts-loader"
         ],
         include: path.resolve(__dirname, "js")

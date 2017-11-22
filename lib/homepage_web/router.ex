@@ -17,22 +17,12 @@ defmodule HomepageWeb.Router do
   pipeline :graphql_api do
     plug :accepts, ["json"]
 
-
-    # These don't work
-    # Guardian seems nice but is really a pain in the ass to set up.
-    #plug Guardian.Plug.VerifyHeader, realm: "Bearer"
-    #plug Guardian.Plug.LoadResource
-
-
-    plug HomepageWeb.Plugs.Context
-
     plug Plug.Parsers,
       parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
       pass: ["*/*"],
       json_decoder: Poison
 
-    #plug Absinthe.Plug,
-      #schema: HomepageWeb.Schema
+    plug HomepageWeb.Plugs.Context
   end
 
   scope "/", HomepageWeb do
@@ -58,7 +48,7 @@ defmodule HomepageWeb.Router do
     get "/home/blah", HomeController, :wee
   end
 
-  scope "/api/graphql" do
+  scope "/graphql" do
     pipe_through :graphql_api
 
     forward "/", Absinthe.Plug,

@@ -11,6 +11,7 @@ declare global {
   interface Window {
     Components: any;
     Utils: any;
+    Token: string;
   }
 }
 
@@ -19,6 +20,8 @@ window.Components = {
   Signup,
   MainNav
 };
+
+window.Token = null;
 
 import "phoenix_html";
 import "react-phoenix";

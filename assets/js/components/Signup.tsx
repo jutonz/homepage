@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+//import * as ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
 import {
   Button,
@@ -64,7 +64,7 @@ export default class Signup extends React.Component<Props, State> {
     this.submit = this.submit.bind(this);
   }
 
-  usernameChanged(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
+  usernameChanged(_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
     let username = data.value;
     this.setState({
       username: username,
@@ -72,7 +72,7 @@ export default class Signup extends React.Component<Props, State> {
     });
   }
 
-  passwordChanged(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
+  passwordChanged(_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
     let password = data.value;
     this.setState({
       password: password,
@@ -84,7 +84,7 @@ export default class Signup extends React.Component<Props, State> {
     return window.Utils.isValidEmail(username) && window.Utils.isValidPassword(password);
   }
 
-  submit(event: React.FormEvent<HTMLElement>, data: FormProps) {
+  submit(event: React.FormEvent<HTMLElement>, _data: FormProps) {
     if (!this.state.canSubmit) {
       event.preventDefault();
       console.log("error yo");

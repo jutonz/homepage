@@ -1,15 +1,15 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import { Menu, MenuItemProps } from 'semantic-ui-react';
+import { ErrorResponse } from './../declarations';
 
 interface Props {
   activeItem: string;
-  user: any;
+  csrfToken: string;
 }
 
 interface State {
   activeItem: string;
-  user: any;
+  csrfToken: string;
 }
 
 class MainNav extends React.Component<Props, State> {
@@ -38,22 +38,35 @@ class MainNav extends React.Component<Props, State> {
 
         <Menu.Menu position="right">
           <Menu.Item
-            name="home"
-            active={activeItem === "home"}
-            onClick={this.clickedMenuItem}
-          />
-          <Menu.Item
-            name="ijust"
-            active={activeItem === "ijust"}
-            onClick={this.clickedMenuItem}
+            name="logout"
+            active={activeItem === "logout"}
+            onClick={this.logout}
           />
         </Menu.Menu>
       </Menu>
     );
   }
 
-  private clickedMenuItem = (event: React.MouseEvent<HTMLAnchorElement>, item: MenuItemProps) => {
+  private clickedMenuItem = (_event: React.MouseEvent<HTMLAnchorElement>, item: MenuItemProps) => {
     this.setState({ activeItem: item.name })
+  }
+
+  private logout = () => {
+    fetch("/logout", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: new Headers({ "x-csrf-token": this.props.csrfToken })
+    }).then((response: Response) => {
+      if (response.ok) {
+        window.location.pathname = "/login";
+      } else {
+        return response.json();
+      }
+    }).then((response: ErrorResponse) => {
+      if (response && response.messages) {
+        console.error(response.messages);
+      }
+    });
   }
 }
 

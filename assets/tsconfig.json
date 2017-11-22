@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "baseUrl": ".",
     "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "module": "esnext",
     "moduleResolution": "node",
     "target": "es5",
+    "sourceMap": true,
     "jsx": "react",
     "allowJs": true
   },

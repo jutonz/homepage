@@ -1,7 +1,7 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import { StyleSheet, css } from 'aphrodite';
-import { Button, Form, FormProps, Input, InputOnChangeData } from 'semantic-ui-react';
+import { Button, Form, Input, InputOnChangeData } from 'semantic-ui-react';
+import { ErrorResponse } from './../declarations';
 
 const styles = StyleSheet.create({
   container: {
@@ -62,7 +62,7 @@ export default class Login extends React.Component<Props, State> {
     this.submit = this.submit.bind(this);
   }
 
-  usernameChanged(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
+  usernameChanged(_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
     let username = data.value;
     let newState : State = {
       username: username,
@@ -76,7 +76,7 @@ export default class Login extends React.Component<Props, State> {
     this.setState(newState);
   }
 
-  passwordChanged(event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
+  passwordChanged(_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
     let password = data.value;
     let newState: State = {
       password: password,
@@ -95,6 +95,8 @@ export default class Login extends React.Component<Props, State> {
   }
 
   submit(event: React.FormEvent<HTMLElement>) {
+    event.preventDefault();
+
     let isValid = true;
 
     if (!window.Utils.isValidEmail(this.state.username)) {
@@ -108,14 +110,30 @@ export default class Login extends React.Component<Props, State> {
     }
 
     if (!isValid) {
-      event.preventDefault();
       console.log('error yo');
+      return;
     }
+
+    fetch("/login", {
+      method: "POST",
+      credentials: "same-origin",
+      body: new FormData(event.target as HTMLFormElement)
+    }).then((resp: Response) => {
+      if (resp.ok && resp.status === 200) {
+        window.location.pathname = "/home";
+      } else {
+        return resp.json();
+      }
+    }).then((json: ErrorResponse) => {
+      if (json && json.error) {
+        console.error(json.messages);
+      }
+    });
   }
 
   render() {
     return (
-      <Form className={css(styles.container)} action="login" method="POST" onSubmit={this.submit}>
+      <Form className={css(styles.container)} method="POST" action="/login" onSubmit={this.submit}>
         <div className={css(styles.header)}>Login</div>
         <input type="hidden" name="_csrf_token" value={this.state.csrf_token}/>
 

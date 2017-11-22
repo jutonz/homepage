@@ -3,6 +3,7 @@ defmodule HomepageWeb.HomeController do
   import HomepageWeb.Helpers.UserSession, only: [current_user: 1]
 
   def index(conn, _params) do
+    require IEx; IEx.pry
     case get_session(conn, :user_id) do
       nil ->
         render conn, :index
