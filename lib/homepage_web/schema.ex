@@ -61,21 +61,4 @@ defmodule HomepageWeb.Schema do
       resolve &HomepageWeb.UserResolver.update_user/3
     end
   end
-
-  #field :all_links, non_null(list_of(non_null(:link))) do
-    #resolve &HomepageWeb.NewsResolver.all_links/3
-  #end
-
-  #object :user do
-    #field :id, non_null(:id)
-    #field :email, non_null(:string)
-  #end
-
-  #query do
-    #field :all_users, non_null(list_of(non_null(:user)))
-  #end
-
-  #field :all_users, non_null(list_of(non_null(:user))) do
-    #resolve &UserResolver.all_users/3
-  #end
 end
