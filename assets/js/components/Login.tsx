@@ -42,6 +42,7 @@ interface Props {
   passwordIsInvalid: boolean;
   canSubmit: boolean;
   csrf_token: string;
+  loggingIn?: boolean;
 }
 
 interface State {
@@ -51,6 +52,7 @@ interface State {
   passwordIsInvalid?: boolean;
   canSubmit?: boolean;
   csrf_token?: string;
+  loggingIn?: boolean;
 }
 
 export default class Login extends React.Component<Props, State> {
@@ -114,11 +116,13 @@ export default class Login extends React.Component<Props, State> {
       return;
     }
 
+    this.setState({ loggingIn: true });
     fetch("/login", {
       method: "POST",
       credentials: "same-origin",
       body: new FormData(event.target as HTMLFormElement)
     }).then((resp: Response) => {
+      this.setState({ loggingIn: false });
       if (resp.ok && resp.status === 200) {
         window.location.pathname = "/home";
       } else {
@@ -152,6 +156,7 @@ export default class Login extends React.Component<Props, State> {
           active={true}
           fluid={true}
           type="submit"
+          loading={this.state.loggingIn}
           className={css(styles.submit)}
         >
           Login
