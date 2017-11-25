@@ -36,24 +36,12 @@ defmodule HomepageWeb.SessionController do
       |> render(:signup)
   end
 
-  def signup(conn, params) do
-    changeset = User.changeset(%User{}, params)
-    case Repo.insert(changeset) do
-      { :ok, user } ->
+  def signup(conn, %{ "email" => email, "password" => password }) do
+    case conn |> UserSession.signup(email, password) do
+      {:ok, user, conn} -> conn |> redirect(to: "/home")
+      {:error, reason} ->
         conn
-          |> UserSesion.init_user_session(user)
-          |> redirect(to: "/home/#{user.email}")
-      { _, result } ->
-        errors =
-          Keyword.keys(result.errors)
-            |> Enum.map(fn(key) ->
-              message = result.errors[key] |> elem(0)
-              to_string(key) <> " " <> message
-            end)
-            |> Enum.join(", ")
-
-        conn
-          |> put_flash(:error, "Failed to signup: " <> errors)
+          |> put_flash(:error, "Failed to signup: #{reason}")
           |> render(:signup)
     end
   end

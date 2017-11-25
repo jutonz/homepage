@@ -43,6 +43,29 @@ defmodule HomepageWeb.Helpers.UserSession do
   end
 
   @doc """
+  Create a user record with the given email and password, also initiating a
+  authenticated session.
+
+  Returns {:ok, user, conn} on success or {:error, reason} on failure.
+  """
+  def signup(conn, email, password) do
+    changeset = User.changeset(%User{}, %{ email: email, password: password })
+    case Repo.insert(changeset) do
+      {:ok, user} ->
+        {:ok, user, init_user_session(conn, user)}
+      {:error, result} ->
+        errors =
+          Keyword.keys(result.errors)
+            |> Enum.map(fn(key) ->
+              message = result.errors[key] |> elem(0)
+              to_string(key) <> " " <> message
+            end)
+            |> Enum.join(", ")
+        {:error, errors}
+    end
+  end
+
+  @doc """
   Generate an access token for a user given his or her username and password.
   This token can be passed in the Authorization header to make authenticated
   API calls.
