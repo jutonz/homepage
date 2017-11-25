@@ -14,6 +14,9 @@ defmodule Homepage.Application do
       supervisor(HomepageWeb.Endpoint, []),
       # Start your own worker by calling: Homepage.Worker.start_link(arg1, arg2, arg3)
       # worker(Homepage.Worker, [arg1, arg2, arg3]),
+      worker(Homepage.Servers.AuthServer, [[name: :auth_server]]),
+      worker(Homepage.Servers.SessionServer, [[name: :session_server]]),
+      worker(Homepage.Servers.UserServer, [[name: :user_server]])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

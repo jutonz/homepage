@@ -1,6 +1,6 @@
 defmodule HomepageWeb.HomeController do
   use HomepageWeb, :controller
-  import HomepageWeb.Helpers.UserSession, only: [current_user: 1]
+  alias Homepage.Servers.SessionServer
 
   def index(conn, _params) do
     case get_session(conn, :user_id) do
@@ -13,6 +13,6 @@ defmodule HomepageWeb.HomeController do
   end
 
   def show(conn, %{"messenger" => messenger}) do
-    render conn, :show, messenger: messenger, user: current_user(conn)
+    render conn, :show, messenger: messenger, user: SessionServer.current_user(conn)
   end
 end
