@@ -2,6 +2,7 @@ defmodule Homepage.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias Homepage.User
+  alias Homepage.Servers.AuthServer
 
   schema "users" do
     field :password_hash, :string

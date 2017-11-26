@@ -32,4 +32,8 @@ cp -R /tmp/code/assets/node_modules/. assets/node_modules/
 mix local.hex --force
 mix local.rebar --force
 
-iex -S mix phx.server
+#echo 'hi'
+#echo $1
+#echo 'bye'
+
+#iex -S mix phx.server

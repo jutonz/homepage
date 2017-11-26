@@ -7,7 +7,7 @@ services:
     - "../../:/tmp/code"
     - "../../tmp/psql-dev:/var/lib/postgresql/data"
   app:
-    image: jutonz/homepage-dev-app:8
+    image: jutonz/homepage-dev-app:9
     volumes:
     - "../../:/root"
     - "/root/assets/node_modules"

@@ -71,6 +71,13 @@ RUN cd /tmp/code && mix deps.compile
 # Install phoenix
 RUN mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez --force
 
-COPY docker/dev/app/init.sh /etc/
+COPY docker/dev/app/setup.sh /etc/
+COPY docker/dev/app/start.sh /etc/
+COPY docker/dev/app/runtests.sh /etc/
+COPY docker/dev/app/runscripts /usr/bin/
 
-CMD ["/bin/bash", "-c", "/etc/init.sh"]
+ENTRYPOINT ["runscripts", "/etc/setup.sh"]
+CMD ["/etc/start.sh"]
+
+#ENTRYPOINT ["/bin/bash", "-c", "/etc/init.sh"]
+#CMD ["start"]

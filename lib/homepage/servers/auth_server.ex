@@ -19,6 +19,10 @@ defmodule Homepage.Servers.AuthServer do
     GenServer.call(:auth_server, {:check_password, password, hash})
   end
 
+  def hash_password(password) do
+    GenServer.call(:auth_server, {:hash_password, password})
+  end
+
   # Server API
 
   def handle_call({:check_password, password, hash}, _from, something) do
@@ -26,5 +30,9 @@ defmodule Homepage.Servers.AuthServer do
       true -> {:reply, {:ok, password}, something}
       _ -> {:reply, {:error, "Invalid password"}, something}
     end
+  end
+
+  def handle_call({:hash_password, password}, _from, something) do
+    {:ok, Comeonin.Argon2.hashpwsalt(password)}
   end
 end
