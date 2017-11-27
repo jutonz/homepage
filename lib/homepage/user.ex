@@ -28,7 +28,8 @@ defmodule Homepage.User do
   defp put_pass_hash(changeset) do
     pass = changeset.changes.password
     if pass do
-      changeset |> change(Comeonin.Argon2.add_hash(pass))
+      {:ok, hashed} = AuthServer.hash_password(pass)
+      changeset |> change(%{ password: nil, password_hash: hashed })
     else
       changeset
     end

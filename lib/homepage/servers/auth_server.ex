@@ -6,9 +6,6 @@ defmodule Homepage.Servers.AuthServer do
   """
   use GenServer
 
-  alias Homepage.User
-  alias Homepage.Repo
-
   # Client API
 
   def start_link(opts \\ []) do
@@ -33,6 +30,6 @@ defmodule Homepage.Servers.AuthServer do
   end
 
   def handle_call({:hash_password, password}, _from, something) do
-    {:ok, Comeonin.Argon2.hashpwsalt(password)}
+    {:reply, {:ok, Comeonin.Argon2.hashpwsalt(password)}, something}
   end
 end
