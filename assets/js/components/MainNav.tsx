@@ -27,7 +27,7 @@ class MainNav extends React.Component<Props, State> {
           <Menu.Item
             name="home"
             active={activeItem === "home"}
-            onClick={this.clickedMenuItem}
+            onClick={this.transitionToHome}
           />
           <Menu.Item
             name="ijust"
@@ -37,6 +37,11 @@ class MainNav extends React.Component<Props, State> {
         </Menu.Menu>
 
         <Menu.Menu position="right">
+          <Menu.Item
+            name="settings"
+            active={activeItem === "settings"}
+            onClick={this.transitionToSettings}
+          />
           <Menu.Item
             name="logout"
             active={activeItem === "logout"}
@@ -50,6 +55,9 @@ class MainNav extends React.Component<Props, State> {
   private clickedMenuItem = (_event: React.MouseEvent<HTMLAnchorElement>, item: MenuItemProps) => {
     this.setState({ activeItem: item.name })
   }
+
+  private transitionToSettings = () => { window.location.pathname = "/settings"; }
+  private transitionToHome = () => { window.location.pathname = "/home"; }
 
   private logout = () => {
     fetch("/logout", {

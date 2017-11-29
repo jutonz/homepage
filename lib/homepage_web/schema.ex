@@ -29,5 +29,12 @@ defmodule HomepageWeb.Schema do
 
       resolve &HomepageWeb.UserResolver.update_user/3
     end
+
+    field :change_password, :user do
+      arg :current_password, non_null(:string)
+      arg :new_password, non_null(:string)
+
+      resolve &HomepageWeb.UserResolver.change_password/3
+    end
   end
 end

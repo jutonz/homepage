@@ -73,7 +73,11 @@ defmodule Homepage.Servers.SessionServer do
   def handle_call({:current_user, conn}, _from, something) do
     user = conn.assigns[:current_user] || load_current_user(conn)
 
-    {:reply, user, something}
+    if user |> is_nil do
+      {:reply, {:error, "Unauthenticated"}, something}
+    else
+      {:reply, {:ok, user}, something}
+    end
   end
 
   @doc """

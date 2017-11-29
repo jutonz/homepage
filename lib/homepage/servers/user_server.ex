@@ -6,6 +6,7 @@ defmodule Homepage.Servers.UserServer do
 
   alias Homepage.User
   alias Homepage.Repo
+  alias Homepage.Servers.AuthServer
 
   # Client API
 
@@ -17,6 +18,10 @@ defmodule Homepage.Servers.UserServer do
     GenServer.call(:user_server, {:get_by_email, email})
   end
 
+  def change_password(user, current_pw, new_pw) do
+    GenServer.call(:user_server, {:change_password, user, current_pw, new_pw})
+  end
+
   # Server API
 
   def handle_call({:get_by_email, email}, _from, something) do
@@ -24,5 +29,16 @@ defmodule Homepage.Servers.UserServer do
       user = %User{} -> {:reply, {:ok, user}, something}
       _ -> {:reply, {:error, "No user with email #{email}"}, something}
     end
+  end
+
+  def handle_call({:change_password, user, current_pw, new_pw}, _from, something) do
+    with {:ok, _pass} <- AuthServer.check_password(current_pw, user.password_hash),
+         changeset <- User.changeset(user, %{ password: new_pw }),
+         {:ok, user} <- Repo.update(changeset),
+      do: {:reply, {:ok, user}, something},
+      else: (
+        {:error, reason} -> {:reply, {:error, reason}, something}
+        _ -> {:reply, {:error, "Could not change password"}, something}
+      )
   end
 end

@@ -43,6 +43,8 @@ defmodule HomepageWeb.Router do
     # From this point on users will be redirected to /login if trying to access
     # one of these routes while unauthenticated.
 
+    get "/settings", SettingsController, :index
+
     get "/home", HomeController, :index
     get "/home/:messenger", HomeController, :show
     get "/home/blah", HomeController, :wee

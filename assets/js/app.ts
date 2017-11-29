@@ -6,6 +6,7 @@ import "./../css/app.less";
 import Login from './components/Login';
 import Signup from './components/Signup';
 import MainNav from './components/MainNav';
+import ChangePassword from './components/ChangePassword';
 
 declare global {
   interface Window {
@@ -17,7 +18,8 @@ declare global {
 window.Components = {
   Login,
   Signup,
-  MainNav
+  MainNav,
+  ChangePassword
 };
 
 import "phoenix_html";
@@ -38,4 +40,3 @@ window.Utils = {
 // TODO: fix this with wepback
 //import Config from './config';
 //window.Config = Config;
-

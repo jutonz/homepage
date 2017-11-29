@@ -1,20 +1,19 @@
 defmodule HomepageWeb.SessionController do
   use HomepageWeb, :controller
   alias Homepage.User
-  alias HomepageWeb.Helpers.UserSession
   alias Homepage.Servers.SessionServer
 
   def show_login(conn, _params) do
     # If already logged in, send to /home
     case conn |> SessionServer.current_user do
-      user = %User{} -> conn |> redirect(to: "/home")
+      %User{} -> conn |> redirect(to: "/home")
       _ -> conn |> render(:login)
     end
   end
 
   def login(conn, %{ "email" => email, "password" => password }) do
     case conn |> SessionServer.login(email, password) do
-      {:ok, user, conn} ->
+      {:ok, _user, conn} ->
         conn |> redirect(to: "/home")
       {:error, reason} ->
         conn
@@ -36,7 +35,7 @@ defmodule HomepageWeb.SessionController do
 
   def signup(conn, %{ "email" => email, "password" => password }) do
     case conn |> SessionServer.signup(email, password) do
-      {:ok, user, conn} -> conn |> redirect(to: "/home")
+      {:ok, _user, conn} -> conn |> redirect(to: "/home")
       {:error, reason} ->
         conn
           |> put_flash(:error, "Failed to signup: #{reason}")

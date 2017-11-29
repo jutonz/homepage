@@ -1,6 +1,6 @@
 defmodule HomepageWeb.Plugs.Context do
   import Plug.Conn
-  alias HomepageWeb.Helpers.UserSession
+  alias Homepage.Servers.SessionServer
 
   def init(opts), do: opts
 
@@ -17,9 +17,9 @@ defmodule HomepageWeb.Plugs.Context do
   end
 
   defp resource_from_conn(conn) do
-    case conn |> fetch_session |> UserSession.current_user do
-      user -> {:ok, user}
-      nil -> {:error, "No current user"}
+    case conn |> fetch_session |> SessionServer.current_user do
+      {:ok, user} -> {:ok, user}
+      {:error, reason} -> {:error, reason}
     end
   end
 
