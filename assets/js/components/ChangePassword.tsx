@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Button, Header, Form, Input, InputOnChangeData, Message } from 'semantic-ui-react';
+import { Button, Header, Form, InputOnChangeData, Message } from 'semantic-ui-react';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
