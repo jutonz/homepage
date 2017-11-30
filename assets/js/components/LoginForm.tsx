@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Button, Form, Input, InputOnChangeData } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import { ErrorResponse } from './../declarations';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,14 +37,8 @@ const styles = StyleSheet.create({
   }
 });
 
-interface Props {
-  password: string;
-  username: string;
-  usernameIsInvalid: boolean;
-  passwordIsInvalid: boolean;
-  canSubmit: boolean;
-  csrf_token: string;
-  loggingIn?: boolean;
+
+type Props = RouteComponentProps<{}> & {
 }
 
 interface State {
@@ -51,14 +47,20 @@ interface State {
   usernameIsInvalid?: boolean;
   passwordIsInvalid?: boolean;
   canSubmit?: boolean;
-  csrf_token?: string;
   loggingIn?: boolean;
 }
 
-export default class Login extends React.Component<Props, State> {
+class _LoginForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = props;
+    this.state = {
+      username: '',
+      password: '',
+      usernameIsInvalid: false,
+      passwordIsInvalid: false,
+      canSubmit: false,
+      loggingIn: false
+    };
     this.passwordChanged = this.passwordChanged.bind(this);
     this.usernameChanged = this.usernameChanged.bind(this);
     this.submit = this.submit.bind(this);
@@ -124,7 +126,7 @@ export default class Login extends React.Component<Props, State> {
     }).then((resp: Response) => {
       this.setState({ loggingIn: false });
       if (resp.ok && resp.status === 200) {
-        window.location.pathname = "/home";
+        this.props.history.push("/");
       } else {
         return resp.json();
       }
@@ -139,7 +141,6 @@ export default class Login extends React.Component<Props, State> {
     return (
       <Form className={css(styles.container)} method="POST" action="/login" onSubmit={this.submit}>
         <div className={css(styles.header)}>Login</div>
-        <input type="hidden" name="_csrf_token" value={this.state.csrf_token}/>
 
         <Form.Field>
           <label>Email</label>
@@ -162,8 +163,10 @@ export default class Login extends React.Component<Props, State> {
           Login
         </Button>
 
-        <a href="/signup" className={css(styles.signup)}>Or signup</a>
+        <Link to="/signup" className={css(styles.signup)}>Or signup</Link>
       </Form>
     );
   }
 }
+
+export const LoginForm = withRouter<Props>(_LoginForm);

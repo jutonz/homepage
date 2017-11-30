@@ -2,6 +2,6 @@ defmodule HomepageWeb.PageController do
   use HomepageWeb, :controller
 
   def index(conn, _params) do
-    redirect conn, to: "/login"
+    conn |> render(:index)
   end
 end

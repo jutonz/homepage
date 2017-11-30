@@ -18,6 +18,5 @@
     <div class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></div>
 
     <%= render @view_module, @view_template, assigns %>
-
   </body>
 </html>

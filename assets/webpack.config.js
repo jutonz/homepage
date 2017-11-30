@@ -2,7 +2,7 @@ const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const webpackConfig = {
-  entry: "./../assets/js/app.ts",
+  entry: "./../assets/js/app.tsx",
   output: {
     filename: "js/app.js",
     path: path.resolve(__dirname, "../priv/static")
@@ -14,7 +14,7 @@ const webpackConfig = {
       // See assets/.babelrc for additional babel-preset-env config
       {
         test: /\.(ts|tsx)$/,
-        use: [
+       use: [
           "babel-loader",
           "ts-loader"
         ],

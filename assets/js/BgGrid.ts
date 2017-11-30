@@ -8,6 +8,7 @@ export default class _BgGrid {
   geometry: any;
   material: any;
   mesh: any;
+  running: boolean;
 
   constructor() {
     this.scene = null;
@@ -16,14 +17,23 @@ export default class _BgGrid {
     this.geometry = null;
     this.material = null;
     this.mesh = null;
+    this.running = false;
   }
 
-  animateBackground() {
+  public init() {
     this.initPlane();
-    this.animatePlane();
     window.addEventListener('resize', () => {
       this.recalculateRenderingDimensions()
     });
+  }
+
+  start() {
+    this.running = true;
+    this.animatePlane();
+  }
+
+  stop() {
+    this.running = false;
   }
 
   initPlane() {
@@ -60,9 +70,12 @@ export default class _BgGrid {
   }
 
   animatePlane(ts?: any) {
-    requestAnimationFrame(ts => this.animatePlane(ts));
-    this.updateWave(ts);
-    this.renderer.render(this.scene, this.camera);
+    console.log('animating');
+    if (this.running) {
+      requestAnimationFrame(ts => this.animatePlane(ts));
+      this.updateWave(ts);
+      this.renderer.render(this.scene, this.camera);
+    }
   }
 
   updateWave(ts: any) {

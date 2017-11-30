@@ -1,21 +1,28 @@
 import * as React from 'react';
-import { Menu, MenuItemProps } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 import { ErrorResponse } from './../declarations';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 
-interface Props {
-  activeItem: string;
-  csrfToken: string;
+export enum ActiveItem {
+  Home = 'home',
+  Settings = 'settings',
+  Logout = 'logout'
+};
+
+type Props = RouteComponentProps<{}> & {
+  activeItem: ActiveItem;
 }
 
-interface State {
-  activeItem: string;
-  csrfToken: string;
+type State = {
+  activeItem: ActiveItem;
 }
 
-class MainNav extends React.Component<Props, State> {
+class _MainNav extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = props;
+    this.state = {
+      activeItem: props.activeItem
+    };
   }
 
   public render() {
@@ -24,27 +31,24 @@ class MainNav extends React.Component<Props, State> {
     return (
       <Menu>
         <Menu.Menu position="left">
-          <Menu.Item
-            name="home"
-            active={activeItem === "home"}
-            onClick={this.transitionToHome}
-          />
-          <Menu.Item
-            name="ijust"
-            active={activeItem === "ijust"}
-            onClick={this.clickedMenuItem}
-          />
+          <Link to="/">
+            <Menu.Item
+              name={ActiveItem.Home}
+              active={activeItem === ActiveItem.Home}
+            />
+          </Link>
         </Menu.Menu>
 
         <Menu.Menu position="right">
+          <Link to="/settings">
+            <Menu.Item
+              name={ActiveItem.Settings}
+              active={activeItem === ActiveItem.Settings}
+            />
+          </Link>
           <Menu.Item
-            name="settings"
-            active={activeItem === "settings"}
-            onClick={this.transitionToSettings}
-          />
-          <Menu.Item
-            name="logout"
-            active={activeItem === "logout"}
+            name={ActiveItem.Logout}
+            active={activeItem === ActiveItem.Logout}
             onClick={this.logout}
           />
         </Menu.Menu>
@@ -52,21 +56,13 @@ class MainNav extends React.Component<Props, State> {
     );
   }
 
-  private clickedMenuItem = (_event: React.MouseEvent<HTMLAnchorElement>, item: MenuItemProps) => {
-    this.setState({ activeItem: item.name })
-  }
-
-  private transitionToSettings = () => { window.location.pathname = "/settings"; }
-  private transitionToHome = () => { window.location.pathname = "/home"; }
-
   private logout = () => {
     fetch("/logout", {
       method: "POST",
       credentials: "same-origin",
-      headers: new Headers({ "x-csrf-token": this.props.csrfToken })
     }).then((response: Response) => {
       if (response.ok) {
-        window.location.pathname = "/login";
+        this.props.history.push("/login");
       } else {
         return response.json();
       }
@@ -78,4 +74,4 @@ class MainNav extends React.Component<Props, State> {
   }
 }
 
-export default MainNav;
+export const MainNav = withRouter<Props>(_MainNav);

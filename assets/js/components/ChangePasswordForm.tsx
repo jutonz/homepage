@@ -28,7 +28,6 @@ const client = new ApolloClient({
 });
 
 interface Props {
-  csrfToken: string;
 }
 
 enum FormState {
@@ -53,7 +52,7 @@ interface GraphqlError {
   name: string;
 }
 
-export default class ChangePassword extends React.Component<Props, State> {
+export default class ChangePasswordForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 

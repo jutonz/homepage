@@ -41,7 +41,10 @@ defmodule Homepage.Servers.SessionServer do
          {:ok, _pass} <- AuthServer.check_password(password, user.password_hash),
          {:ok, conn} <- init_user_session(conn, user),
       do: {:reply, {:ok, user, conn}, something},
-      else: (_ -> {:reply, {:error, "Failed to login"}, something})
+      else: (
+        {:error, reason} -> {:reply, {:error, reason}, something}
+        _ -> {:reply, {:error, "Failed to login"}, something}
+      )
   end
 
   def handle_call({:signup, conn, email, password}, _from, something) do

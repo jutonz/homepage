@@ -41,23 +41,22 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  password: string;
-  username: string;
-  canSubmit: boolean;
-  csrf_token: string;
 }
 
 interface State {
   password: string;
   username: string;
   canSubmit: boolean;
-  csrf_token: string;
 }
 
-export default class Signup extends React.Component<Props, State> {
+export class SignupForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = props;
+    this.state = {
+      password: '',
+      username: '',
+      canSubmit: false,
+    };
     this.passwordChanged = this.passwordChanged.bind(this);
     this.usernameChanged = this.usernameChanged.bind(this);
     this.submit = this.submit.bind(this);
@@ -94,7 +93,6 @@ export default class Signup extends React.Component<Props, State> {
     return (
       <Form className={css(styles.container)} action="signup" method="POST" onSubmit={this.submit}>
         <div className={css(styles.header)}>Signup</div>
-        <input type="hidden" name="_csrf_token" value={this.state.csrf_token}/>
 
         <Form.Field>
           <label>Email</label>
