@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { MainNav, ActiveItem } from './../components/MainNav';
+import { Incr } from './../components/Incr';
 
-export default class Home extends React.Component {
+export class HomeRoute extends React.Component {
   public render() {
     return (
       <div>
         <MainNav activeItem={ActiveItem.Home} />
-        hey
+        <Incr />
+        <Incr />
+        <Incr />
+        <Incr />
       </div>
     );
   }

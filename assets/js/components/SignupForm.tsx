@@ -7,6 +7,10 @@ import {
   Input,
   InputOnChangeData
 } from 'semantic-ui-react';
+import { StoreState } from './../Store';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,7 +44,8 @@ const styles = StyleSheet.create({
   }
 });
 
-interface Props {
+interface Props extends RouteComponentProps<{}>{
+  csrfToken: string;
 }
 
 interface State {
@@ -49,7 +54,7 @@ interface State {
   canSubmit: boolean;
 }
 
-export class SignupForm extends React.Component<Props, State> {
+class _SignupForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -83,10 +88,29 @@ export class SignupForm extends React.Component<Props, State> {
   }
 
   submit(event: React.FormEvent<HTMLElement>, _data: FormProps) {
+    event.preventDefault();
+
     if (!this.state.canSubmit) {
-      event.preventDefault();
       console.log("error yo");
+      return;
     }
+
+    fetch("/signup", {
+      method: "POST",
+      credentials: "same-origin",
+      body: new FormData(event.target as HTMLFormElement),
+      headers: new Headers({ 'X-CSRF-Token': this.props.csrfToken })
+    }).then((resp: Response) => {
+      if (resp.ok && resp.status === 200) {
+        this.props.history.push("/");
+      } else {
+        return resp.json();
+      }
+    }).then((json: any) => {
+      if (json && json.error) {
+        console.error(json.messages);
+      }
+    });
   }
 
   render() {
@@ -117,3 +141,12 @@ export class SignupForm extends React.Component<Props, State> {
     );
   }
 }
+
+const mapStoreToProps = (store: StoreState): Partial<Props> => ({
+  csrfToken: store.csrfToken
+});
+
+export const SignupForm = compose(
+  withRouter,
+  connect(mapStoreToProps)
+)(_SignupForm);

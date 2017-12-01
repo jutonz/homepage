@@ -1,3 +1,0 @@
-<%= ReactPhoenix.ClientSide.react_component("Components.MainNav", %{ activeItem: "settings", csrfToken: get_csrf_token() }) %>
-
-<%= ReactPhoenix.ClientSide.react_component("Components.ChangePassword", %{ csrfToken: get_csrf_token() }) %>

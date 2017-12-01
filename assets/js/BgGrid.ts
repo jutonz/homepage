@@ -70,7 +70,6 @@ export default class _BgGrid {
   }
 
   animatePlane(ts?: any) {
-    console.log('animating');
     if (this.running) {
       requestAnimationFrame(ts => this.animatePlane(ts));
       this.updateWave(ts);

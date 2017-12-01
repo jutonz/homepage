@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import { Button, Header, Form, InputOnChangeData, Message } from 'semantic-ui-react';
-import { ApolloClient } from 'apollo-client';
-import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 
 const styles = StyleSheet.create({
@@ -14,18 +11,7 @@ const styles = StyleSheet.create({
 
   submit: {
     marginTop: 30
-  }
-});
-
-const client = new ApolloClient({
-  // By default, this client will send queries to the
-  //  `/graphql` endpoint on the same host
-  link: new HttpLink({
-    uri: `${window.location.origin}/graphql`,
-    credentials: 'same-origin'
-  }),
-  cache: new InMemoryCache()
-});
+  } });
 
 interface Props {
 }
@@ -52,7 +38,7 @@ interface GraphqlError {
   name: string;
 }
 
-export default class ChangePasswordForm extends React.Component<Props, State> {
+export class _ChangePasswordForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -70,6 +56,7 @@ export default class ChangePasswordForm extends React.Component<Props, State> {
       <div className={css(styles.container)}>
         <Form className={this.state.formState} onSubmit={this.submit}>
           <Header>Change password</Header>
+
 
           {this.state.formState === FormState.Success &&
             <Message success header="Success" content="Password updated" />}
@@ -167,7 +154,10 @@ export default class ChangePasswordForm extends React.Component<Props, State> {
     }`;
 
     this.setState({ loading: true });
-    client.mutate({ mutation: mutation }).then((_response: Response) => {
+
+    window.grapqlClient.mutate({
+      mutation: mutation
+    }).then((_response: Response) => {
       this.setState({ loading: false });
       this.onPasswordChangeSuccess();
     }).catch((error: GraphqlError) => {
@@ -188,3 +178,5 @@ export default class ChangePasswordForm extends React.Component<Props, State> {
    });
   }
 }
+
+export const ChangePasswordForm = _ChangePasswordForm;

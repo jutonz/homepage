@@ -13,7 +13,6 @@ install:
   - gem install dctl_rb
 
 before_script:
-  - dctl pull
   - dctl build
   - dctl initdb
 

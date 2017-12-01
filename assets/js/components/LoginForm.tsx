@@ -4,6 +4,9 @@ import { Button, Form, Input, InputOnChangeData } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { ErrorResponse } from './../declarations';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { StoreState } from './../Store';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,7 +41,8 @@ const styles = StyleSheet.create({
 });
 
 
-type Props = RouteComponentProps<{}> & {
+interface Props extends RouteComponentProps<{}> {
+  csrfToken: string;
 }
 
 interface State {
@@ -122,7 +126,8 @@ class _LoginForm extends React.Component<Props, State> {
     fetch("/login", {
       method: "POST",
       credentials: "same-origin",
-      body: new FormData(event.target as HTMLFormElement)
+      body: new FormData(event.target as HTMLFormElement),
+      headers: new Headers({ 'X-CSRF-Token': this.props.csrfToken })
     }).then((resp: Response) => {
       this.setState({ loggingIn: false });
       if (resp.ok && resp.status === 200) {
@@ -169,4 +174,11 @@ class _LoginForm extends React.Component<Props, State> {
   }
 }
 
-export const LoginForm = withRouter<Props>(_LoginForm);
+const mapStateToProps = (state: StoreState): Partial<Props> => ({
+  csrfToken: state.csrfToken
+});
+
+export const LoginForm = compose(
+  withRouter,
+  connect(mapStateToProps)
+)(_LoginForm);

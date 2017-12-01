@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { LoginForm } from './../components/LoginForm';
+
+interface Props {
 }
 
 interface State {
   bgGrid: any;
 }
 
-export default class Login extends React.Component<any, State> {
+export class LoginRoute extends React.Component<Props, State> {
   public componentDidMount() {
     var bgGrid = new window.Utils.BgGrid();
     bgGrid.init();

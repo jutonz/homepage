@@ -2,6 +2,9 @@ import * as React from 'react';
 import { Menu } from 'semantic-ui-react';
 import { ErrorResponse } from './../declarations';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { StoreState } from './../Store';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 export enum ActiveItem {
   Home = 'home',
@@ -9,11 +12,12 @@ export enum ActiveItem {
   Logout = 'logout'
 };
 
-type Props = RouteComponentProps<{}> & {
+interface Props extends RouteComponentProps<{}> {
   activeItem: ActiveItem;
+  csrfToken?: string
 }
 
-type State = {
+interface State {
   activeItem: ActiveItem;
 }
 
@@ -60,6 +64,7 @@ class _MainNav extends React.Component<Props, State> {
     fetch("/logout", {
       method: "POST",
       credentials: "same-origin",
+      headers: new Headers({ 'X-CSRF-Token': this.props.csrfToken })
     }).then((response: Response) => {
       if (response.ok) {
         this.props.history.push("/login");
@@ -74,4 +79,12 @@ class _MainNav extends React.Component<Props, State> {
   }
 }
 
-export const MainNav = withRouter<Props>(_MainNav);
+
+const mapStateToProps = (state: StoreState): Partial<Props> => ({
+  csrfToken: state.csrfToken
+})
+
+export const MainNav = compose(
+  withRouter,
+  connect(mapStateToProps),
+)(_MainNav);

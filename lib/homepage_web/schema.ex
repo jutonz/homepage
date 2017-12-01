@@ -8,16 +8,15 @@ defmodule HomepageWeb.Schema do
     field :updated_at, non_null(:string)
   end
 
-  object :session do
-    field :token, non_null(:string)
-  end
-
   query do
-    @desc "Get a specific user by ID or email"
     field :get_user, :user do
       arg :id, :id
       arg :email, :string
       resolve &HomepageWeb.UserResolver.get_user/3
+    end
+
+    field :check_session, :boolean do
+      resolve &HomepageWeb.SessionResolver.check_session/3
     end
   end
 

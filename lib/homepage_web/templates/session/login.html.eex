@@ -1,7 +1,0 @@
-<%= ReactPhoenix.ClientSide.react_component("Components.Login", %{ csrf_token: get_csrf_token() }) %>
-
-
-<script>
-  window.addEventListener('load', function() {
-  });
-</script>
