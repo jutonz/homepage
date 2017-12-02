@@ -8,7 +8,7 @@ import {
 export interface StoreState {
   csrfToken: string;
   count: number;
-  sessionEstablished?: boolean;
+  sessionAuthenticated?: boolean;
 }
 
 const initialState: StoreState = {
@@ -37,7 +37,7 @@ export const appStore = (state: StoreState = initialState, action: Action): Stor
     }
 
     case ActionType.SetSession: {
-      newState = { sessionEstablished: (action as SetSessionAction).established};
+      newState = { sessionAuthenticated: (action as SetSessionAction).established};
       return { ...state, ...newState };
     }
 

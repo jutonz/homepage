@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Menu } from 'semantic-ui-react';
 import { ErrorResponse } from './../declarations';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import { StoreState } from './../Store';
-import { connect } from 'react-redux';
+import { Action, StoreState, setSessionAction } from './../Store';
+import { connect, Dispatch } from 'react-redux';
 import { compose } from 'redux';
 
 export enum ActiveItem {
@@ -14,7 +14,8 @@ export enum ActiveItem {
 
 interface Props extends RouteComponentProps<{}> {
   activeItem: ActiveItem;
-  csrfToken?: string
+  csrfToken?: string;
+  destroySession(): Action;
 }
 
 interface State {
@@ -67,6 +68,7 @@ class _MainNav extends React.Component<Props, State> {
       headers: new Headers({ 'X-CSRF-Token': this.props.csrfToken })
     }).then((response: Response) => {
       if (response.ok) {
+        this.props.destroySession();
         this.props.history.push("/login");
       } else {
         return response.json();
@@ -82,9 +84,13 @@ class _MainNav extends React.Component<Props, State> {
 
 const mapStateToProps = (state: StoreState): Partial<Props> => ({
   csrfToken: state.csrfToken
-})
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
+  destroySession: () => dispatch(setSessionAction(false))
+});
 
 export const MainNav = compose(
   withRouter,
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
 )(_MainNav);

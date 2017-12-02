@@ -1,33 +1,40 @@
 import * as React from 'react';
-import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Route, RouteComponentProps, Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { StoreState } from './../Store';
 
 interface Props extends RouteComponentProps<{}> {
   sessionAuthenticated?: boolean;
+  component: React.ComponentType<any>;
 }
 
 interface State {
 }
 
+// Ensures a session is active before allowing users to visit the specified
+// route, redirecting to /login if not.
+//
+// Note: Usage is mostly the same as the vanilla <Route>, except that the
+// `render` prop is not valid (you must pass `component`).
 class _AuthenticatedRoute extends React.Component<Props, State> {
-  public componentWillMount() {
-    if (!this.props.sessionAuthenticated) {
-      console.log('unauthenticated. redirecting to login');
-      this.props.history.push("/login");
-    }
-  }
-
   public render() {
+    // Cannot pass both `component` and `render` to `<Route>`, so strip
+    // `component` before currying props.
+    let { component: Component, ...rest } = this.props;
+
     return (
-      <Route {...this.props} />
+      <Route {...rest} render={() => (
+        this.props.sessionAuthenticated === true
+        ? <Component />
+        : <Redirect to={{ pathname: '/login', state: this.props.location }}/>
+      )}/>
     );
   }
 }
 
 const mapStoreToProps = (store: StoreState): Partial<Props> => ({
-  sessionAuthenticated: store.sessionEstablished
+  sessionAuthenticated: store.sessionAuthenticated
 });
 
 export const AuthenticatedRoute = compose(

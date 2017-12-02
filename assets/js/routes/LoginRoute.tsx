@@ -1,19 +1,34 @@
 import * as React from 'react';
 import { LoginForm } from './../components/LoginForm';
+import { connect } from 'react-redux';
+import { StoreState } from './../Store';
+import { compose } from 'redux';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-interface Props {
+interface Props extends RouteComponentProps<{}> {
+  sessionAuthenticated: boolean;
 }
 
 interface State {
   bgGrid: any;
 }
 
-export class LoginRoute extends React.Component<Props, State> {
+class _LoginRoute extends React.Component<Props, State> {
+  public constructor(props: Props) {
+    super(props);
+    this.state = {
+      bgGrid: new window.Utils.BgGrid()
+    };
+  }
+
   public componentDidMount() {
-    var bgGrid = new window.Utils.BgGrid();
-    bgGrid.init();
-    bgGrid.start();
-    this.setState({ bgGrid: bgGrid });
+    if (this.props.sessionAuthenticated) {
+      console.log('Already authenticatd.');
+      this.props.history.push("/");
+    } else {
+      this.state.bgGrid.init();
+      this.state.bgGrid.start();
+    }
   }
 
   public componentWillUnmount() {
@@ -33,3 +48,12 @@ export class LoginRoute extends React.Component<Props, State> {
     );
   }
 }
+
+const mapStoreToProps = (store: StoreState): Partial<Props> => ({
+  sessionAuthenticated: store.sessionAuthenticated
+});
+
+export const LoginRoute = compose(
+  withRouter,
+  connect(mapStoreToProps)
+)(_LoginRoute);

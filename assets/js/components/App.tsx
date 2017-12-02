@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { StoreState } from './../Store';
 
 // Routes
 import { AuthenticatedRoute } from './../routes/AuthenticatedRoute';
@@ -10,14 +8,7 @@ import { SignupRoute } from './../routes/SignupRoute';
 import { LoginRoute } from './../routes/LoginRoute';
 import { SettingsRoute } from './../routes/SettingsRoute';
 
-interface Props {
-  sessionEstablished: boolean;
-}
-
-interface State {
-}
-
-class _App extends React.Component<Props, State> {
+class _App extends React.Component {
   public render() {
     return (
       <Router>
@@ -33,10 +24,4 @@ class _App extends React.Component<Props, State> {
   }
 }
 
-const mapStoreToProps = (store: StoreState): Partial<Props> => ({
-  sessionEstablished: store.sessionEstablished
-});
-
-export const App = connect(
-  mapStoreToProps
-)(_App);
+export const App = _App;
