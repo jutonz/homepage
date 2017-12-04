@@ -27,13 +27,7 @@ cp -r /tmp/code/_build _build
 # Note that it's important to copy (not move or symlink) these resources as it
 # appears that some packages use relative paths or hardcode paths at build
 # time.  Alternatively move mix deps.compile outside of container build phase.
-cp -R /tmp/code/assets/node_modules/. assets/node_modules/
+cp -R /tmp/code/apps/client/assets/node_modules/. apps/client/assets/node_modules/
 
 mix local.hex --force
 mix local.rebar --force
-
-#echo 'hi'
-#echo $1
-#echo 'bye'
-
-#iex -S mix phx.server

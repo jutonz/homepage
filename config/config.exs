@@ -1,42 +1,16 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
-#
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
+# This file is responsible for configuring your application and its
+# dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
-# General application configuration
-config :homepage, ecto_repos: [Homepage.Repo]
+# By default, the umbrella project as well as each child application will
+# require this configuration file, ensuring they all use the same
+# configuration. While one could configure all applications here, we prefer to
+# delegate back to each application for organization purposes.
+import_config "../apps/*/config/config.exs"
 
-# A differnt (secure) key is used in non-dev environments
-secret_key_base = "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
-
-# Configures the endpoint
-config :homepage, HomepageWeb.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: secret_key_base,
-  render_errors: [view: HomepageWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Homepage.PubSub,
-           adapter: Phoenix.PubSub.PG2]
-
-# Configures Elixir's Logger
-config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
-
-config :absinthe,
-  log: false
-
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
-
-# Configure Guardian
-config :homepage, Homepage.GuardianSerializer,
-  allowed_algos: ["HS512"], # optional
-  verify_module: Guardian.JWT,  # optional
-  issuer: "Homepage",
-  ttl: { 30, :days },
-  verify_issuer: true, # optional
-  secret_key: secret_key_base,
-  serializer: Homepage.GuardianSerializer
+# Sample configuration (overrides the imported configuration above):
+#
+#     config :logger, :console,
+#       level: :info,
+#       format: "$date $time [$level] $metadata$message\n",
+#       metadata: [:user_id]

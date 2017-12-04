@@ -7,10 +7,10 @@ services:
     - "../../:/tmp/code"
     - "../../tmp/psql-dev:/var/lib/postgresql/data"
   app:
-    image: jutonz/homepage-dev-app:10
+    image: jutonz/homepage-dev-app:12
     volumes:
     - "../../:/root"
-    - "/root/assets/node_modules"
+    - "/root/apps/client/assets/node_modules"
     ports:
     - 4000:4000
     depends_on:

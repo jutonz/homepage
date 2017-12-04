@@ -5,9 +5,8 @@ Dockerfile
 log/
 tmp/
 docker.thor
-assets/node_modules
+apps/client/assets/node_modules
 .mix
-_build
 deps
 priv/static
 

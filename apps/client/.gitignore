@@ -1,0 +1,7 @@
+# Static artifacts
+package-lock.json
+assets/node_modules
+
+# Since we are building assets from assets/static, we ignore priv/static. You
+# may want to comment this depending on your deployment strategy.
+/priv/static/

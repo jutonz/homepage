@@ -1,3 +1,0 @@
-<div id="app-container" />
-
-<%= ReactPhoenix.ClientSide.react_component("Index", %{ csrfToken: get_csrf_token() }) %>

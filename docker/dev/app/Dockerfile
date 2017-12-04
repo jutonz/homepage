@@ -48,21 +48,17 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
  && apt-get update \
  && apt-get install -y yarn
 
-# Install ruby and sass gem
-RUN apt-get update \
- && apt-get install -y ruby ruby-dev \
- && gem install sass --no-document
-
 # Install hex deps
 COPY mix.exs mix.lock /tmp/code/
+COPY apps/client/mix.exs /tmp/code/apps/client/
 RUN cd /tmp/code \
   && mix local.hex --force \
   && mix local.rebar --force \
   && mix deps.get
 
 # Install node deps
-COPY assets/package.json assets/yarn.lock /tmp/code/assets/
-RUN cd /tmp/code/assets && yarn && yarn cache clean
+COPY apps/client/assets/package.json apps/client/assets/yarn.lock /tmp/code/apps/client/assets/
+RUN cd /tmp/code/apps/client/assets && yarn && yarn cache clean
 
 # Compile hex deps (This is done after yarn since react_phoenix needs
 # react-stdio node module to be present to compile)
@@ -78,6 +74,3 @@ COPY docker/dev/app/runscripts /usr/bin/
 
 ENTRYPOINT ["runscripts", "/etc/setup.sh"]
 CMD ["/etc/start.sh"]
-
-#ENTRYPOINT ["/bin/bash", "-c", "/etc/init.sh"]
-#CMD ["start"]

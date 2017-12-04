@@ -14,9 +14,16 @@ spec:
         app: app
     spec:
       containers:
-      - image: jutonz/homepage-prod-app:28
+      - image: jutonz/homepage-prod-app:30
         name: app
         imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /api/healthz
+            port: 4000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
         env:
           - name: SECRET_KEY_BASE
             valueFrom:
