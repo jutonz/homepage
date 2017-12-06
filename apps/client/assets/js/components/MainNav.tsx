@@ -9,7 +9,8 @@ import { compose } from 'redux';
 export enum ActiveItem {
   Home = 'home',
   Settings = 'settings',
-  Logout = 'logout'
+  Logout = 'logout',
+  Coffeemaker = 'coffeemaker'
 };
 
 interface Props extends RouteComponentProps<{}> {
@@ -40,6 +41,13 @@ class _MainNav extends React.Component<Props, State> {
             <Menu.Item
               name={ActiveItem.Home}
               active={activeItem === ActiveItem.Home}
+            />
+          </Link>
+
+          <Link to="/coffeemaker">
+            <Menu.Item
+              name={ActiveItem.Coffeemaker}
+              active={activeItem === ActiveItem.Coffeemaker}
             />
           </Link>
         </Menu.Menu>

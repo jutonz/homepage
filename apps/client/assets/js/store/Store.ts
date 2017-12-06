@@ -1,46 +1,56 @@
+import { combineReducers } from 'redux';
+
 import {
   Action,
   ActionType,
   AddCsrfTokenAction,
-  SetSessionAction
+  SetSessionAction,
 } from './Actions';
 
+import {
+  CoffeemakerStoreState,
+  coffeemaker
+} from './reducers/coffeemaker';
+
 export interface StoreState {
-  csrfToken: string;
+  csrfToken?: string;
   count: number;
   sessionAuthenticated?: boolean;
+  coffeemaker: CoffeemakerStoreState;
 }
 
-const initialState: StoreState = {
-  csrfToken: null,
-  count: 0
-};
-
-export const appStore = (state: StoreState = initialState, action: Action): StoreState => {
-  let newState: Partial<StoreState>;
-
+const count = (state: number = 0, action: Action): number => {
   switch(action.type) {
-    case ActionType.Inc: {
-      newState = { count: state.count + 1 };
-      return { ...state, ...newState };
-    }
-
-    case ActionType.Dec: {
-      const newCount = state.count - 1;
-      newState = { count: Math.max(newCount, 0) };
-      return { ...state, ...newState };
-    }
-
-    case ActionType.AddCsrfToken: {
-      newState = { csrfToken: (action as AddCsrfTokenAction).token };
-      return { ...state, ...newState };
-    }
-
-    case ActionType.SetSession: {
-      newState = { sessionAuthenticated: (action as SetSessionAction).established};
-      return { ...state, ...newState };
-    }
-
-    default: return state;
+    case ActionType.Inc:
+      return state + 1;
+    case ActionType.Dec:
+      return Math.max(state - 1, 0);
+    default:
+      return state;
   }
 };
+
+const csrfToken = (state: string = null, action: Action): string => {
+  switch(action.type) {
+    case ActionType.AddCsrfToken:
+      return (action as AddCsrfTokenAction).token;
+    default:
+      return state;
+  }
+};
+
+const sessionAuthenticated = (state: boolean = false, action: Action): boolean => {
+  switch(action.type) {
+    case ActionType.SetSession:
+      return (action as SetSessionAction).established;
+    default:
+      return state;
+  }
+}
+
+export const appStore = combineReducers({
+  coffeemaker,
+  count,
+  csrfToken,
+  sessionAuthenticated
+});

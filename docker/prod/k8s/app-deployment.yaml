@@ -14,10 +14,17 @@ spec:
         app: app
     spec:
       containers:
-      - image: jutonz/homepage-prod-app:30
+      - image: jutonz/homepage-prod-app:31
         name: app
         imagePullPolicy: Always
         livenessProbe:
+          httpGet:
+            path: /api/healthz
+            port: 4000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
           httpGet:
             path: /api/healthz
             port: 4000

@@ -1,8 +1,8 @@
 export enum ActionType {
   Inc,
   Dec,
-  AddCsrfToken,
-  SetSession
+  AddCsrfToken, SetSession,
+  SetCoffemaker,
 }
 
 export interface Action {
@@ -15,6 +15,10 @@ export interface AddCsrfTokenAction extends Action {
 
 export interface SetSessionAction extends Action {
   established: boolean;
+}
+
+export interface SetCoffeemakerAction extends Action {
+  floz: number;
 }
 
 //
@@ -37,4 +41,9 @@ export const addCsrfTokenAction = (token: string): AddCsrfTokenAction => ({
 export const setSessionAction = (established: boolean): SetSessionAction => ({
   type: ActionType.SetSession,
   established: established
+});
+
+export const setCoffeemakerAction = (floz: number): SetCoffeemakerAction => ({
+  type: ActionType.SetCoffemaker,
+  floz: floz
 });
