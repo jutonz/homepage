@@ -14,7 +14,7 @@ spec:
         app: app
     spec:
       containers:
-      - image: jutonz/homepage-prod-app:31
+      - image: jutonz/homepage-prod-app:32
         name: app
         imagePullPolicy: Always
         livenessProbe:

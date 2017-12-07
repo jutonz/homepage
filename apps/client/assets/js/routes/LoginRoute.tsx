@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { LoginForm } from './../components/LoginForm';
 import { connect } from 'react-redux';
-import { StoreState } from './../Store';
+import { StoreState, setSessionAction } from './../Store';
 import { compose } from 'redux';
+import { Dispatch } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 interface Props extends RouteComponentProps<{}> {
   sessionAuthenticated: boolean;
+  initSession(): void;
 }
 
 interface State {
@@ -23,7 +25,6 @@ class _LoginRoute extends React.Component<Props, State> {
 
   public componentDidMount() {
     if (this.props.sessionAuthenticated) {
-      console.log('Already authenticatd.');
       this.props.history.push("/");
     } else {
       this.state.bgGrid.init();
@@ -43,9 +44,19 @@ class _LoginRoute extends React.Component<Props, State> {
           <code>&lt;canvas&gt;</code> element.
         </canvas>
 
-        <LoginForm />
+        <LoginForm onLogin={this.onLogin}/>
       </div>
     );
+  }
+
+  public onLogin = () => {
+    this.props.initSession();
+
+    if (this.props.location.state) {
+      this.props.history.push(this.props.location.state);
+    } else {
+      this.props.history.push("/");
+    }
   }
 }
 
@@ -53,7 +64,11 @@ const mapStoreToProps = (store: StoreState): Partial<Props> => ({
   sessionAuthenticated: store.sessionAuthenticated
 });
 
+const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
+  initSession: () => dispatch(setSessionAction(true))
+});
+
 export const LoginRoute = compose(
   withRouter,
-  connect(mapStoreToProps)
+  connect(mapStoreToProps, mapDispatchToProps)
 )(_LoginRoute);

@@ -4,8 +4,8 @@ import { Button, Form, Input, InputOnChangeData } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { ErrorResponse } from './../declarations';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { Action, StoreState, setSessionAction } from './../Store';
-import { connect, Dispatch } from 'react-redux';
+import { StoreState } from './../Store';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 const styles = StyleSheet.create({
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 
 interface Props extends RouteComponentProps<{}> {
   csrfToken: string;
-  initSession(): Action;
+  onLogin(): void;
 }
 
 interface State {
@@ -132,8 +132,7 @@ class _LoginForm extends React.Component<Props, State> {
     }).then((resp: Response) => {
       this.setState({ loggingIn: false });
       if (resp.ok && resp.status === 200) {
-        this.props.initSession();
-        this.props.history.push("/");
+        this.props.onLogin();
       } else {
         return resp.json();
       }
@@ -180,11 +179,7 @@ const mapStateToProps = (state: StoreState): Partial<Props> => ({
   csrfToken: state.csrfToken
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
-  initSession: () => dispatch(setSessionAction(true))
-});
-
 export const LoginForm = compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps)
 )(_LoginForm);
