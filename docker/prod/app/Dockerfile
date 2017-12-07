@@ -1,16 +1,65 @@
-FROM jutonz/homepage-dev-app:12
+FROM ubuntu:16.04
 
-COPY . /root/code/
+RUN DEBIAN_FRONTEND="noninteractive" \
+&& apt-get update -y && apt-get install -y \
+  software-properties-common \
+  wget \
+  locales \
+&& rm -rf /var/lib/apt/lists/*
 
-WORKDIR /root/code
+USER root
+ENV HOME /root
+WORKDIR /root
+
+# Configure locale
+RUN locale-gen en_US.utf8 && update-locale LANG=en_US.utf8 LC_ALL=en_US.utf8
+
+# Utilility packages
+RUN export DEBIAN_FRONTEND="noninteractive" \
+&& apt-get update -y && apt-get install -y \
+  build-essential \
+  vim \
+  git \
+  curl \
+  tzdata \
+  htop \
+  sudo \
+  libpq-dev \
+&& rm -rf /var/lib/apt/lists/*
+
+# Erlang and Elixir
+RUN export DEBIAN_FRONTEND="noninteractive" \
+  && wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb \
+  && dpkg -i erlang-solutions_1.0_all.deb \
+  && apt-get update \
+  && apt-get install -y esl-erlang elixir \
+  && rm erlang-solutions_1.0_all.deb
+
+# Node
+RUN export DEBIAN_FRONTEND="noninteractive" \
+ && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+ && apt-get install -y nodejs
+
+# Yarn
+RUN export DEBIAN_FRONTEND="noninteractive" \
+ && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
+ && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
+ && apt-get update \
+ && apt-get install -y yarn
 
 COPY docker/prod/app/init.sh /etc/
 
-RUN mv /tmp/code/apps/client/assets/node_modules apps/client/assets/node_modules
-RUN mv /tmp/code/deps deps
-RUN cd apps/client/assets && yarn && yarn run bundle
+COPY . /root/code/
+WORKDIR /root/code
+
+# Compile elixir
+RUN MIX_ENV=prod mix local.hex --force
 RUN MIX_ENV=prod mix local.rebar --force
+RUN MIX_ENV=prod mix deps.get
 RUN MIX_ENV=prod mix compile
 RUN MIX_ENV=prod mix phx.digest
+
+# Compile js
+RUN cd apps/client/assets && yarn && yarn cache clean && yarn run bundle
 
 CMD ["/bin/bash", "-c", "/etc/init.sh"]
