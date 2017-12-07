@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ReactNode } from 'react';
 import { Route, RouteComponentProps, Redirect, withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -23,13 +24,20 @@ class _AuthenticatedRoute extends React.Component<Props, State> {
     // `component` before currying props.
     let { component: Component, ...rest } = this.props;
 
-    return (
-      <Route {...rest} render={() => (
-        this.props.sessionAuthenticated === true
-        ? <Component />
-        : <Redirect to={{ pathname: '/login', state: this.props.location }}/>
-      )}/>
-    );
+    return <Route {...rest} render={this.renderComponent} />;
+  }
+
+  private renderComponent = (): ReactNode => {
+    if (this.props.sessionAuthenticated) {
+      const { component: Component } = this.props;
+      return <Component />;
+    } else {
+      const location = {
+        pathname: "/login",
+        state: this.props.location
+      };
+      return <Redirect to={location} />;
+    }
   }
 }
 

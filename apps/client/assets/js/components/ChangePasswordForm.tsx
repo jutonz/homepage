@@ -1,7 +1,14 @@
 import * as React from 'react';
+import { ReactNode } from 'react';
 import { StyleSheet, css } from 'aphrodite';
-import { Button, Header, Form, InputOnChangeData, Message } from 'semantic-ui-react';
 import gql from 'graphql-tag';
+import {
+  Button,
+  Header,
+  Form,
+  InputOnChangeData,
+  Message
+} from 'semantic-ui-react';
 
 const styles = StyleSheet.create({
   container: {
@@ -11,7 +18,8 @@ const styles = StyleSheet.create({
 
   submit: {
     marginTop: 30
-  } });
+  }
+});
 
 interface Props {
 }
@@ -57,12 +65,7 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
         <Form className={this.state.formState} onSubmit={this.submit}>
           <Header>Change password</Header>
 
-
-          {this.state.formState === FormState.Success &&
-            <Message success header="Success" content="Password updated" />}
-
-          {this.state.formState === FormState.Error &&
-            <Message error header="Error" content={this.state.errorMessage} />}
+          {this.renderStatusMessage()}
 
           <Form.Field>
             <Form.Input
@@ -70,7 +73,8 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
               label="Current password"
               type="password"
               autoFocus={true}
-              onChange={this.oldPasswordChanged} />
+              onChange={this.oldPasswordChanged}
+            />
           </Form.Field>
 
           <Form.Field>
@@ -79,7 +83,8 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
               type="password"
               name="new_password"
               error={this.state.confirmBad}
-              onChange={this.newPasswordChanged} />
+              onChange={this.newPasswordChanged}
+            />
           </Form.Field>
 
           <Form.Field>
@@ -88,7 +93,8 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
               label="Confirm new password"
               name="new_password_confirm"
               error={this.state.confirmBad}
-              onChange={this.newPasswordConfirmChanged} />
+              onChange={this.newPasswordConfirmChanged}
+            />
           </Form.Field>
 
           <Button
@@ -106,19 +112,51 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
     );
   }
 
-  private oldPasswordChanged = (_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {
-    let oldPassword = data.value;
+  private renderStatusMessage = (): ReactNode | null => {
+    switch (this.state.formState) {
+      case FormState.Success:
+        return (
+          <Message
+            success={true}
+            header="Success"
+            content="Password updated"
+          />
+        );
+      case FormState.Error:
+        return (
+          <Message
+            error={true}
+            header="Error"
+            content={this.state.errorMessage}
+          />
+        );
+      default:
+        return null;
+    }
+  }
+
+  private oldPasswordChanged = (
+    _event: React.SyntheticEvent<HTMLInputElement>,
+    data: InputOnChangeData
+  ) => {
+    const oldPassword = data.value;
     this.setState({ oldPassword: oldPassword });
   }
 
-  private newPasswordChanged = (_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {
-    let newPassword = data.value;
+  private newPasswordChanged = (
+    _event: React.SyntheticEvent<HTMLInputElement>,
+    data: InputOnChangeData
+  ) => {
+    const newPassword = data.value;
     this.setState({ newPassword: newPassword });
     this.comparePasswords(newPassword, this.state.newPasswordConfirm);
   }
 
-  private newPasswordConfirmChanged = (_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {
-    let newPasswordConfirm = data.value;
+  private newPasswordConfirmChanged = (
+    _event: React.SyntheticEvent<HTMLInputElement>,
+    data: InputOnChangeData
+  ) => {
+    const newPasswordConfirm = data.value;
     this.setState({ newPasswordConfirm: newPasswordConfirm });
     this.comparePasswords(this.state.newPassword, newPasswordConfirm);
   }

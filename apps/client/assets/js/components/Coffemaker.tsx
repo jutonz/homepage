@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { Input, InputOnChangeData } from 'semantic-ui-react';
 import { CoffeemakerStoreState } from './../store/reducers/coffeemaker';
@@ -17,19 +18,35 @@ class _Coffeemaker extends React.Component<Props, State> {
     return (
       <div>
         How much coffee would you like to make?
-        <Input onChange={this.inputChanged} autoFocus error={!!this.props.errorMessage}/>
+        <Input
+          onChange={this.inputChanged}
+          autoFocus={true}
+          error={!!this.props.errorMessage}
+        />
         fl. oz.
 
-        {this.props.errorMessage &&
-          <div>{this.props.errorMessage}</div>
-        }
+        {this.renderError()}
+        {this.renderResult()}
 
-        {this.props.grounds &&
-          <div>You will need {this.props.grounds} grams of coffee</div>
-        }
       </div>
     );
   }
+
+  private renderError = (): ReactNode | null => {
+    if (this.props.errorMessage) {
+      return <div>{this.props.errorMessage}</div>;
+    } else {
+      return null;
+    };
+  };
+
+  private renderResult = (): ReactNode | null => {
+    if (this.props.grounds) {
+      return <div>You will need {this.props.grounds} grams of coffee</div>;
+    } else {
+      return null;
+    }
+  };
 
   public inputChanged = (_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {
     const floz = parseInt(data.value);
