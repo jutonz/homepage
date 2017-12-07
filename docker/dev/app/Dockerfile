@@ -3,7 +3,8 @@ FROM ubuntu:16.04
 RUN DEBIAN_FRONTEND="noninteractive" \
 && apt-get update -y && apt-get install -y \
   software-properties-common \
-  wget \ locales \
+  wget \
+  locales \
 && rm -rf /var/lib/apt/lists/*
 
 USER root
