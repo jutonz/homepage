@@ -17,6 +17,7 @@ defmodule ClientWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/login", SessionController, :exchange
   end
 
   ##############################################################################
@@ -43,7 +44,7 @@ defmodule ClientWeb.Router do
 
   Absinthe.Plug.GraphiQL
 
-  if Mix.env() == "dev" do
+  if Mix.env() == :dev do
     forward "/graphiql", Absinthe.Plug.GraphiQL,
       schema: ClientWeb.Schema,
       interface: :advanced,

@@ -6,6 +6,8 @@ services:
     volumes:
     - "../../:/tmp/code"
     - "../../tmp/psql-dev:/var/lib/postgresql/data"
+  redis:
+    image: jutonz/homepage-dev-redis:1
   app:
     image: jutonz/homepage-dev-app:12
     volumes:
@@ -15,5 +17,7 @@ services:
     - 4000:4000
     depends_on:
     - psql
+    - redis
     links:
     - psql
+    - redis

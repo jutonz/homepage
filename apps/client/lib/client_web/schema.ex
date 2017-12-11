@@ -18,6 +18,10 @@ defmodule ClientWeb.Schema do
     field :check_session, :boolean do
       resolve &ClientWeb.SessionResolver.check_session/3
     end
+
+    field :get_one_time_login_link, :string do
+      resolve &ClientWeb.SessionResolver.get_one_time_login_link/3
+    end
   end
 
   mutation do

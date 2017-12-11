@@ -20,6 +20,8 @@ services:
       PGUSER: homepage
       PGPASS: homepage
       PORT: "4000"
+  redis:
+    image: jutonz/homepage-prod-redis:1
   psql:
     image: jutonz/homepage-prod-psql:9
     environment:

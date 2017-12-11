@@ -24,7 +24,7 @@ defmodule Client.Mixfile do
   def application do
     [
       mod: {Client.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :redix]
     ]
   end
 
@@ -49,7 +49,9 @@ defmodule Client.Mixfile do
       {:react_phoenix, "~> 0.4"},
       {:argon2_elixir, "~> 1.2.8"},
       {:absinthe_ecto, "~> 0.1"},
-      {:absinthe_plug, "~> 1.4"}
+      {:absinthe_plug, "~> 1.4"},
+      {:guardian, github: "ueberauth/guardian", tag: "1322daac5c474b41b4f964f76b3dc8c5c912e445"},
+      {:redix, "~> 0.6"}
     ]
   end
 

@@ -23,17 +23,27 @@ const webpackConfig = {
       // Handle semantic-ui images
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.ttf$|\.eot$|\.svg$/,
-        use: 'file-loader?name=[name].[ext]?[hash]',
+        loader: "file-loader",
+        options: {
+          name: "[name].[ext]?[hash]",
+          outputPath: "fonts/",
+          publicPath: "../"
+        },
         include: [
           path.resolve(__dirname, "node_modules/semantic-ui-less")
         ]
       },
       // Handle semantic-ui fonts
       {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url-loader?limit=10000&mimetype=application/fontwoff',
+        test: /|\.woff$|\.woff2/,
+        loader: "file-loader",
+        options: {
+          name: "[name].[ext]?[hash]",
+          outputPath: "fonts/",
+          publicPath: "../"
+        },
         include: [
-          path.resolve(__dirname, "node_modules/semantic-ui-less")
+          path.resolve(__dirname, "node_modules/semantic-ui-less/themes/default/assets/fonts")
         ]
       },
       // Handle less (semantic-ui + ours)

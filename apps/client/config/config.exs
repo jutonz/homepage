@@ -1,8 +1,8 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
+# This file is responsible for configuring your application and its
+# dependencies with the aid of the Mix.Config module.
 #
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
+# This configuration file is loaded before any dependency and is restricted to
+# this project.
 use Mix.Config
 
 # General application configuration
@@ -13,7 +13,6 @@ config :client,
 # A different (secure) key is used in non-dev environments
 secret_key_base = "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
 
-# Configures the endpoint
 config :client, ClientWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: secret_key_base,
@@ -21,13 +20,17 @@ config :client, ClientWeb.Endpoint,
   pubsub: [name: Client.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
-# Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
 config :absinthe, log: false
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
+# Guardian exists within Auth domain, but config must be done globally here.
+config :client, Client.AuthServer.Guardian,
+  issuer: "homepage",
+  secret_key: secret_key_base
+
+# Import environment specific config. This must remain at the bottom of this
+# file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

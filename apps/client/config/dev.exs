@@ -8,7 +8,7 @@ use Mix.Config
 # sources.
 config :client, ClientWeb.Endpoint,
   http: [port: 4000],
-  url: [host: "0.0.0.0", port: 4000],
+  url: [host: "localhost", port: 4000, scheme: "http"],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
