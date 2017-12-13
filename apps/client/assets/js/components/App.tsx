@@ -8,6 +8,7 @@ import { SignupRoute } from './../routes/SignupRoute';
 import { LoginRoute } from './../routes/LoginRoute';
 import { SettingsRoute } from './../routes/SettingsRoute';
 import { CoffeemakerRoute } from './../routes/CoffeemakerRoute';
+import { ResumeRoute } from './../routes/ResumeRoute';
 
 class _App extends React.Component {
   public render() {
@@ -17,6 +18,7 @@ class _App extends React.Component {
           <Route path="/login" component={LoginRoute}/>
           <Route path="/signup" component={SignupRoute} />
           <Route path="/coffeemaker" component={CoffeemakerRoute} />
+          <Route path="/resume" component={ResumeRoute} />
 
           <AuthenticatedRoute path="/" exact={true} component={HomeRoute} />
           <AuthenticatedRoute path="/settings" component={SettingsRoute} />

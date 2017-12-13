@@ -10,7 +10,8 @@ export enum ActiveItem {
   Home = 'home',
   Settings = 'settings',
   Logout = 'logout',
-  Coffeemaker = 'coffeemaker'
+  Coffeemaker = 'coffeemaker',
+  Resume = 'resume'
 };
 
 interface Props extends RouteComponentProps<{}> {
@@ -48,6 +49,13 @@ class _MainNav extends React.Component<Props, State> {
             <Menu.Item
               name={ActiveItem.Coffeemaker}
               active={activeItem === ActiveItem.Coffeemaker}
+            />
+          </Link>
+
+          <Link to="/resume">
+            <Menu.Item
+              name={ActiveItem.Resume}
+              active={activeItem === ActiveItem.Resume}
             />
           </Link>
         </Menu.Menu>

@@ -46,6 +46,17 @@ const webpackConfig = {
           path.resolve(__dirname, "node_modules/semantic-ui-less/themes/default/assets/fonts")
         ]
       },
+      // Handle static files
+      {
+        test: /\.(pdf|docx)$/,
+        loader: "file-loader",
+        options: {
+          name: "[name].[ext]?[hash]",
+          outputPath: "files/",
+          publicPath: "../"
+        },
+        include: path.resolve(__dirname, "static/files")
+      },
       // Handle less (semantic-ui + ours)
       {
         test: /\.less$/,
@@ -71,7 +82,11 @@ const webpackConfig = {
     alias: {
       '../../theme.config$': path.join(__dirname, 'semantic-theme/theme.config')
     },
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js'],
+    modules: [
+      './',
+      './node_modules/'
+    ]
   },
 };
 
