@@ -2,8 +2,9 @@ import "semantic-ui-less/semantic.less";
 import "phoenix_html";
 import "react-phoenix";
 import * as React from 'react';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import { App } from './components/App';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
@@ -40,7 +41,10 @@ window.grapqlClient = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const store = createStore(appStore);
+const store = createStore(
+  appStore,
+  applyMiddleware(thunk)
+);
 
 interface IndexProps {
   csrfToken: string;

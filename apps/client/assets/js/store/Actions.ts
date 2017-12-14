@@ -1,8 +1,11 @@
 export enum ActionType {
   Inc,
   Dec,
-  AddCsrfToken, SetSession,
+  AddCsrfToken,
+  SetSession,
   SetCoffemaker,
+  FlashAdd,
+  FlashRemove
 }
 
 export interface Action {
@@ -21,9 +24,9 @@ export interface SetCoffeemakerAction extends Action {
   floz: number;
 }
 
-//
+////////////////////////////////////////////////////////////////////////////////
 // Action creators
-//
+////////////////////////////////////////////////////////////////////////////////
 
 export const incAction = (): Action => ({
   type: ActionType.Inc
@@ -47,3 +50,5 @@ export const setCoffeemakerAction = (floz: number): SetCoffeemakerAction => ({
   type: ActionType.SetCoffemaker,
   floz: floz
 });
+
+export { FlashMessage, FlashTone, showFlash } from './reducers/flash';

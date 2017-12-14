@@ -9,7 +9,7 @@ services:
   redis:
     image: jutonz/homepage-dev-redis:1
   app:
-    image: jutonz/homepage-dev-app:13
+    image: jutonz/homepage-dev-app:14
     volumes:
     - "../../:/root"
     - "/root/apps/client/assets/node_modules"

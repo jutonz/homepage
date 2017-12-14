@@ -12,11 +12,17 @@ import {
   coffeemaker
 } from './reducers/coffeemaker';
 
+import {
+  FlashStoreState,
+  flash
+} from './reducers/flash';
+
 export interface StoreState {
   csrfToken?: string;
   count: number;
   sessionAuthenticated?: boolean;
   coffeemaker: CoffeemakerStoreState;
+  flash: FlashStoreState;
 }
 
 const count = (state: number = 0, action: Action): number => {
@@ -52,5 +58,6 @@ export const appStore = combineReducers({
   coffeemaker,
   count,
   csrfToken,
-  sessionAuthenticated
+  sessionAuthenticated,
+  flash
 });

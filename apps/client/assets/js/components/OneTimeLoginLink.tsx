@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 import { css, StyleSheet } from 'aphrodite';
-import { Form, Header } from 'semantic-ui-react';
+import { Form, Header, Button } from 'semantic-ui-react';
 import * as Clipboard from 'clipboard';
 import gql from 'graphql-tag';
 import { ApolloQueryResult } from 'apollo-client';
+import { connect } from 'react-redux';
+import { compose, Dispatch } from 'redux';
+import { FlashTone, showFlash } from './../Store';
 
 const style = StyleSheet.create({
   container: {
@@ -14,6 +17,7 @@ const style = StyleSheet.create({
 });
 
 interface IProps {
+  showFlash(message: string, tone?: FlashTone): void;
 }
 
 interface IState {
@@ -36,6 +40,13 @@ class _OneTimeLoginLink extends React.Component<IProps, IState> {
         return ele.value;
       }
     });
+
+    clipboard.on('success', () => {
+      this.props.showFlash("Copied", FlashTone.Success);
+    })
+    clipboard.on('error', () => {
+      this.props.showFlash("Press Ctrl+C to topy", FlashTone.Info);
+    })
     this.setState({ clipboard });
   }
 
@@ -106,4 +117,11 @@ class _OneTimeLoginLink extends React.Component<IProps, IState> {
   }
 }
 
-export const OneTimeLoginLink = _OneTimeLoginLink;
+//const mapStoreToProps = () => {};
+const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<IProps> => ({
+  showFlash: (message: string, tone: FlashTone = FlashTone.Info) => dispatch(showFlash(message, tone))
+});
+
+export const OneTimeLoginLink = compose(
+  connect(null, mapDispatchToProps)
+)(_OneTimeLoginLink);
