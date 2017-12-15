@@ -4,7 +4,7 @@ defmodule Client.SessionServer do
   """
   use GenServer
   import Plug.Conn
-  alias Client.{User,Repo,AuthServer,UserServer}
+  alias Client.{User,Repo,UserServer}
 
   # Client API
 
@@ -40,7 +40,7 @@ defmodule Client.SessionServer do
 
   def handle_call({:login, conn, email, password}, _from, state) do
     with {:ok, user} <- UserServer.get_by_email(email),
-         {:ok, _pass} <- AuthServer.check_password(password, user.password_hash),
+         {:ok, _pass} <- Auth.check_password(password, user.password_hash),
          {:ok, conn} <- init_user_session(conn, user),
       do: {:reply, {:ok, user, conn}, state},
       else: (
@@ -50,9 +50,9 @@ defmodule Client.SessionServer do
   end
 
   def handle_call({:exchange, conn, token}, _from, state) do
-    with {:ok, user, claims} <- AuthServer.resource_for_single_use_jwt(token),
+    with {:ok, user, claims} <- Auth.resource_for_single_use_jwt(token),
          {:ok, conn} <- init_user_session(conn, user),
-         {:ok, _resp} <- AuthServer.revoke_single_use_token(claims["jti"]),
+         {:ok, _resp} <- Auth.revoke_single_use_token(claims["jti"]),
       do: {:reply, {:ok, user, conn}, state},
       else: (
         {:error, reason} -> {:reply, {:error, reason}, state}

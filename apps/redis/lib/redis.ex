@@ -1,4 +1,4 @@
-defmodule Client.Redis do
+defmodule Redis do
   @moduledoc """
   Wrapper for Redix dependency.
   """

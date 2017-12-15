@@ -6,7 +6,6 @@ defmodule Client.UserServer do
 
   alias Client.User
   alias Client.Repo
-  alias Client.AuthServer
 
   # Client API
 
@@ -32,7 +31,7 @@ defmodule Client.UserServer do
   end
 
   def handle_call({:change_password, user, current_pw, new_pw}, _from, something) do
-    with {:ok, _pass} <- AuthServer.check_password(current_pw, user.password_hash),
+    with {:ok, _pass} <- Auth.check_password(current_pw, user.password_hash),
          changeset <- User.changeset(user, %{ password: new_pw }),
          {:ok, user} <- Repo.update(changeset),
       do: {:reply, {:ok, user}, something},

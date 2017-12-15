@@ -27,7 +27,7 @@ defmodule Client.User do
   defp put_pass_hash(changeset) do
     pass = changeset.changes.password
     if pass do
-      {:ok, hashed} = Client.AuthServer.hash_password(pass)
+      {:ok, hashed} = Auth.hash_password(pass)
       changeset |> change(%{ password: nil, password_hash: hashed })
     else
       changeset

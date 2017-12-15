@@ -10,8 +10,7 @@ config :client,
   namespace: Client,
   ecto_repos: [Client.Repo]
 
-# A different (secure) key is used in non-dev environments
-secret_key_base = "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
+secret_key_base = System.get_env "SECRET_KEY_BASE"
 
 config :client, ClientWeb.Endpoint,
   url: [host: "localhost"],
@@ -27,9 +26,6 @@ config :logger, :console,
 config :absinthe, log: false
 
 # Guardian exists within Auth domain, but config must be done globally here.
-config :client, Client.AuthServer.Guardian,
-  issuer: "homepage",
-  secret_key: secret_key_base
 
 # Import environment specific config. This must remain at the bottom of this
 # file so it overrides the configuration defined above.

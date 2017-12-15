@@ -51,6 +51,8 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
 # Install hex deps
 COPY mix.exs mix.lock /tmp/code/
 COPY apps/client/mix.exs /tmp/code/apps/client/
+COPY apps/auth/mix.exs /tmp/code/apps/auth/
+COPY apps/redis/mix.exs /tmp/code/apps/redis/
 RUN cd /tmp/code \
   && mix local.hex --force \
   && mix local.rebar --force \

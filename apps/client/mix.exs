@@ -45,13 +45,11 @@ defmodule Client.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:comeonin, "~> 4.0"},
       {:react_phoenix, "~> 0.4"},
-      {:argon2_elixir, "~> 1.2.8"},
       {:absinthe_ecto, "~> 0.1"},
       {:absinthe_plug, "~> 1.4"},
-      {:guardian, github: "ueberauth/guardian", tag: "1322daac5c474b41b4f964f76b3dc8c5c912e445"},
-      {:redix, "~> 0.6"}
+      {:auth, in_umbrella: true},
+      {:redis, in_umbrella: true}
     ]
   end
 
