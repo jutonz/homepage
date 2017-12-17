@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { ReactNode } from 'react';
-import { StyleSheet, css } from 'aphrodite';
-import gql from 'graphql-tag';
+import * as React from "react";
+import { ReactNode } from "react";
+import { StyleSheet, css } from "aphrodite";
+import gql from "graphql-tag";
 import {
   Button,
   Header,
   Form,
   InputOnChangeData,
   Message
-} from 'semantic-ui-react';
+} from "semantic-ui-react";
 
 const styles = StyleSheet.create({
   container: {
@@ -21,14 +21,13 @@ const styles = StyleSheet.create({
   }
 });
 
-interface Props {
-}
+interface Props {}
 
 enum FormState {
-  Success = 'success',
-  Error = 'error',
-  Warning = 'warning',
-  Pending = 'pending'
+  Success = "success",
+  Error = "error",
+  Warning = "warning",
+  Pending = "pending"
 }
 
 interface State {
@@ -52,9 +51,9 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
 
     this.state = {
       loading: false,
-      oldPassword: '',
-      newPassword: '',
-      newPasswordConfirm: '',
+      oldPassword: "",
+      newPassword: "",
+      newPasswordConfirm: "",
       formState: FormState.Pending
     };
   }
@@ -116,11 +115,7 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
     switch (this.state.formState) {
       case FormState.Success:
         return (
-          <Message
-            success={true}
-            header="Success"
-            content="Password updated"
-          />
+          <Message success={true} header="Success" content="Password updated" />
         );
       case FormState.Error:
         return (
@@ -133,7 +128,7 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
       default:
         return null;
     }
-  }
+  };
 
   private oldPasswordChanged = (
     _event: React.SyntheticEvent<HTMLInputElement>,
@@ -141,7 +136,7 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
   ) => {
     const oldPassword = data.value;
     this.setState({ oldPassword: oldPassword });
-  }
+  };
 
   private newPasswordChanged = (
     _event: React.SyntheticEvent<HTMLInputElement>,
@@ -150,7 +145,7 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
     const newPassword = data.value;
     this.setState({ newPassword: newPassword });
     this.comparePasswords(newPassword, this.state.newPasswordConfirm);
-  }
+  };
 
   private newPasswordConfirmChanged = (
     _event: React.SyntheticEvent<HTMLInputElement>,
@@ -159,10 +154,10 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
     const newPasswordConfirm = data.value;
     this.setState({ newPasswordConfirm: newPasswordConfirm });
     this.comparePasswords(this.state.newPassword, newPasswordConfirm);
-  }
+  };
 
   private comparePasswords(newPassword: string, newPasswordConfirm: string) {
-    if (newPasswordConfirm === '' || newPassword === '') {
+    if (newPasswordConfirm === "" || newPassword === "") {
       return;
     } else if (newPassword !== newPasswordConfirm) {
       this.setState({
@@ -193,28 +188,31 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
 
     this.setState({ loading: true });
 
-    window.grapqlClient.mutate({
-      mutation: mutation
-    }).then((_response: Response) => {
-      this.setState({ loading: false });
-      this.onPasswordChangeSuccess();
-    }).catch((error: GraphqlError) => {
-      this.setState({
-        loading: false,
-        formState: FormState.Error,
-        errorMessage: error.message || "Failed to update password"
+    window.grapqlClient
+      .mutate({
+        mutation: mutation
+      })
+      .then((_response: Response) => {
+        this.setState({ loading: false });
+        this.onPasswordChangeSuccess();
+      })
+      .catch((error: GraphqlError) => {
+        this.setState({
+          loading: false,
+          formState: FormState.Error,
+          errorMessage: error.message || "Failed to update password"
+        });
       });
-    });
-  }
+  };
 
-  private onPasswordChangeSuccess = ()  => {
+  private onPasswordChangeSuccess = () => {
     this.setState({
-      oldPassword: '',
-      newPassword: '',
-      newPasswordConfirm: '',
+      oldPassword: "",
+      newPassword: "",
+      newPasswordConfirm: "",
       formState: FormState.Success
-   });
-  }
+    });
+  };
 }
 
 export const ChangePasswordForm = _ChangePasswordForm;

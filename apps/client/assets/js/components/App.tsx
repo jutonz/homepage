@@ -1,35 +1,35 @@
-import * as React from 'react';
-import { ReactNode } from 'react';
-import { HashRouter as Router, Route } from 'react-router-dom';
-import { compose } from 'redux';
-import { connect, Dispatch } from 'react-redux';
-import { css, StyleSheet } from 'aphrodite';
-import { FlashMessage, StoreState } from './../Store';
-import { Flash } from './Flash';
+import * as React from "react";
+import { ReactNode } from "react";
+import { HashRouter as Router, Route } from "react-router-dom";
+import { compose } from "redux";
+import { connect, Dispatch } from "react-redux";
+import { css, StyleSheet } from "aphrodite";
+import { FlashMessage, StoreState } from "./../Store";
+import { Flash } from "./Flash";
 
 // Routes
-import { AuthenticatedRoute } from './../routes/AuthenticatedRoute';
-import { HomeRoute } from './../routes/HomeRoute';
-import { SignupRoute } from './../routes/SignupRoute';
-import { LoginRoute } from './../routes/LoginRoute';
-import { SettingsRoute } from './../routes/SettingsRoute';
-import { CoffeemakerRoute } from './../routes/CoffeemakerRoute';
-import { ResumeRoute } from './../routes/ResumeRoute';
+import { AuthenticatedRoute } from "./../routes/AuthenticatedRoute";
+import { HomeRoute } from "./../routes/HomeRoute";
+import { SignupRoute } from "./../routes/SignupRoute";
+import { LoginRoute } from "./../routes/LoginRoute";
+import { SettingsRoute } from "./../routes/SettingsRoute";
+import { CoffeemakerRoute } from "./../routes/CoffeemakerRoute";
+import { ResumeRoute } from "./../routes/ResumeRoute";
 
 const style = StyleSheet.create({
   flashContainer: {
-    position: 'absolute',
-    width: '100%',
-    top: '10px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column'
+    position: "absolute",
+    width: "100%",
+    top: "10px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column"
   }
 });
 
 interface IProps {
-  flashMessages: Array<FlashMessage>
+  flashMessages: Array<FlashMessage>;
 }
 
 const _App = (props: IProps) => (
@@ -40,7 +40,7 @@ const _App = (props: IProps) => (
 
     <Router>
       <div>
-        <Route path="/login" component={LoginRoute}/>
+        <Route path="/login" component={LoginRoute} />
         <Route path="/signup" component={SignupRoute} />
         <Route path="/coffeemaker" component={CoffeemakerRoute} />
         <Route path="/resume" component={ResumeRoute} />
@@ -53,19 +53,13 @@ const _App = (props: IProps) => (
 );
 
 const renderFlash = (messages: Array<FlashMessage>): ReactNode | null => {
-  return messages.map(message => (
-    <Flash message={message} key={message.id}/>
-  ));
+  return messages.map(message => <Flash message={message} key={message.id} />);
 };
 
 const mapStateToProps = (state: StoreState): Partial<IProps> => ({
   flashMessages: state.flash.messages
 });
 
-const mapDispatchToProps = (_dispatch: Dispatch<{}>): Partial<IProps> => ({
-});
+const mapDispatchToProps = (_dispatch: Dispatch<{}>): Partial<IProps> => ({});
 
-
-export const App = compose(
-  connect(mapStateToProps, mapDispatchToProps)
-)(_App);
+export const App = compose(connect(mapStateToProps, mapDispatchToProps))(_App);

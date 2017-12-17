@@ -1,50 +1,50 @@
-import * as React from 'react';
-import { StyleSheet, css } from 'aphrodite';
+import * as React from "react";
+import { StyleSheet, css } from "aphrodite";
 import {
   Button,
   Form,
   FormProps,
   Input,
   InputOnChangeData
-} from 'semantic-ui-react';
-import { StoreState } from './../Store';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { withRouter, RouteComponentProps } from 'react-router';
+} from "semantic-ui-react";
+import { StoreState } from "./../Store";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { withRouter, RouteComponentProps } from "react-router";
 
 const styles = StyleSheet.create({
   container: {
-    border: '1px solid #ccc',
-    width: '300px',
-    padding: '10px',
-    position: 'absolute',
-    top: 'calc(50% - 150px)',
-    right: 'calc(50% - 150px)',
-    background: 'black'
+    border: "1px solid #ccc",
+    width: "300px",
+    padding: "10px",
+    position: "absolute",
+    top: "calc(50% - 150px)",
+    right: "calc(50% - 150px)",
+    background: "black"
   },
 
   header: {
-    fontSize: '1.1rem',
-    marginBottom: '20px'
+    fontSize: "1.1rem",
+    marginBottom: "20px"
   },
 
   inputLast: {
-    marginTop: '20px'
+    marginTop: "20px"
   },
 
   submit: {
-    marginTop: '30px'
+    marginTop: "30px"
   },
 
   signup: {
-    fontSize: '0.875rem',
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '20px'
+    fontSize: "0.875rem",
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "20px"
   }
 });
 
-interface Props extends RouteComponentProps<{}>{
+interface Props extends RouteComponentProps<{}> {
   csrfToken: string;
 }
 
@@ -58,16 +58,19 @@ class _SignupForm extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      password: '',
-      username: '',
-      canSubmit: false,
+      password: "",
+      username: "",
+      canSubmit: false
     };
     this.passwordChanged = this.passwordChanged.bind(this);
     this.usernameChanged = this.usernameChanged.bind(this);
     this.submit = this.submit.bind(this);
   }
 
-  usernameChanged(_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
+  usernameChanged(
+    _event: React.SyntheticEvent<HTMLInputElement>,
+    data: InputOnChangeData
+  ) {
     let username = data.value;
     this.setState({
       username: username,
@@ -75,7 +78,10 @@ class _SignupForm extends React.Component<Props, State> {
     });
   }
 
-  passwordChanged(_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) {
+  passwordChanged(
+    _event: React.SyntheticEvent<HTMLInputElement>,
+    data: InputOnChangeData
+  ) {
     let password = data.value;
     this.setState({
       password: password,
@@ -84,7 +90,10 @@ class _SignupForm extends React.Component<Props, State> {
   }
 
   validateInputs(username: string, password: string): boolean {
-    return window.Utils.isValidEmail(username) && window.Utils.isValidPassword(password);
+    return (
+      window.Utils.isValidEmail(username) &&
+      window.Utils.isValidPassword(password)
+    );
   }
 
   submit(event: React.FormEvent<HTMLElement>, _data: FormProps) {
@@ -99,33 +108,48 @@ class _SignupForm extends React.Component<Props, State> {
       method: "POST",
       credentials: "same-origin",
       body: new FormData(event.target as HTMLFormElement),
-      headers: new Headers({ 'X-CSRF-Token': this.props.csrfToken })
-    }).then((resp: Response) => {
-      if (resp.ok && resp.status === 200) {
-        this.props.history.push("/");
-      } else {
-        return resp.json();
-      }
-    }).then((json: any) => {
-      if (json && json.error) {
-        console.error(json.messages);
-      }
-    });
+      headers: new Headers({ "X-CSRF-Token": this.props.csrfToken })
+    })
+      .then((resp: Response) => {
+        if (resp.ok && resp.status === 200) {
+          this.props.history.push("/");
+        } else {
+          return resp.json();
+        }
+      })
+      .then((json: any) => {
+        if (json && json.error) {
+          console.error(json.messages);
+        }
+      });
   }
 
   render() {
     return (
-      <Form className={css(styles.container)} action="signup" method="POST" onSubmit={this.submit}>
+      <Form
+        className={css(styles.container)}
+        action="signup"
+        method="POST"
+        onSubmit={this.submit}
+      >
         <div className={css(styles.header)}>Signup</div>
 
         <Form.Field>
           <label>Email</label>
-          <Input name="email" autoFocus={true} onChange={this.usernameChanged} />
+          <Input
+            name="email"
+            autoFocus={true}
+            onChange={this.usernameChanged}
+          />
         </Form.Field>
 
         <Form.Field>
           <label>Password</label>
-          <Input type="password" name="password" onChange={this.passwordChanged} />
+          <Input
+            type="password"
+            name="password"
+            onChange={this.passwordChanged}
+          />
         </Form.Field>
 
         <Button
@@ -146,7 +170,6 @@ const mapStoreToProps = (store: StoreState): Partial<Props> => ({
   csrfToken: store.csrfToken
 });
 
-export const SignupForm = compose(
-  withRouter,
-  connect(mapStoreToProps)
-)(_SignupForm);
+export const SignupForm = compose(withRouter, connect(mapStoreToProps))(
+  _SignupForm
+);

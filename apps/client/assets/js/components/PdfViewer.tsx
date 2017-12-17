@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { PDFJSStatic, PDFDocumentProxy, PDFPageProxy } from 'pdfjs-dist';
-const PDFJS: PDFJSStatic = require('pdfjs-dist');
-const workerPath = require('pdfjs-dist/build/pdf.worker');
+import * as React from "react";
+import { PDFJSStatic, PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist";
+const PDFJS: PDFJSStatic = require("pdfjs-dist");
+const workerPath = require("pdfjs-dist/build/pdf.worker");
 
 interface IProps {
   pdfPath: string;
@@ -17,7 +17,7 @@ class _PdfViewer extends React.Component<IProps, IState> {
 
     this.state = {
       canvasId: `the-canvas-${Math.random()}-${Math.random()}`
-    }
+    };
 
     PDFJS.workerSrc = workerPath;
     PDFJS.getDocument(this.props.pdfPath).then(
@@ -28,14 +28,14 @@ class _PdfViewer extends React.Component<IProps, IState> {
 
   private onRenderSuccess = (pdf: PDFDocumentProxy) => {
     pdf.getPage(1).then((page: PDFPageProxy) => {
-      console.log('Page loaded');
+      console.log("Page loaded");
       const scale = 1.5;
       const viewport = page.getViewport(scale);
 
       // Prepare canvas using PDF page dimensions
       const canvasId = this.state.canvasId;
       const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-      const context = canvas.getContext('2d');
+      const context = canvas.getContext("2d");
       canvas.height = viewport.height;
       canvas.width = viewport.width;
 
@@ -46,20 +46,18 @@ class _PdfViewer extends React.Component<IProps, IState> {
       };
 
       const renderTask = page.render(renderContext);
-      renderTask.then(function () {
-        console.log('Page rendered');
+      renderTask.then(function() {
+        console.log("Page rendered");
       });
     });
-  }
+  };
 
   private onRenderFailure = (reason: string) => {
     console.error(reason);
   };
 
   public render() {
-    return (
-      <canvas id={this.state.canvasId} />
-    );
+    return <canvas id={this.state.canvasId} />;
   }
 }
 

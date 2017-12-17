@@ -1,10 +1,10 @@
-import * as React from 'react';
-import { LoginForm } from './../components/LoginForm';
-import { connect } from 'react-redux';
-import { StoreState, setSessionAction } from './../Store';
-import { compose } from 'redux';
-import { Dispatch } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import * as React from "react";
+import { LoginForm } from "./../components/LoginForm";
+import { connect } from "react-redux";
+import { StoreState, setSessionAction } from "./../Store";
+import { compose } from "redux";
+import { Dispatch } from "react-redux";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 interface Props extends RouteComponentProps<{}> {
   sessionAuthenticated: boolean;
@@ -44,7 +44,7 @@ class _LoginRoute extends React.Component<Props, State> {
           <code>&lt;canvas&gt;</code> element.
         </canvas>
 
-        <LoginForm onLogin={this.onLogin}/>
+        <LoginForm onLogin={this.onLogin} />
       </div>
     );
   }
@@ -57,7 +57,7 @@ class _LoginRoute extends React.Component<Props, State> {
     } else {
       this.props.history.push("/");
     }
-  }
+  };
 }
 
 const mapStoreToProps = (store: StoreState): Partial<Props> => ({

@@ -1,17 +1,16 @@
-import * as React from 'react';
-import { ReactNode } from 'react';
-import { connect } from 'react-redux';
-import { Input, InputOnChangeData } from 'semantic-ui-react';
-import { CoffeemakerStoreState } from './../store/reducers/coffeemaker';
-import { StoreState, setCoffeemakerAction } from './../Store';
-import { Dispatch } from 'react-redux';
+import * as React from "react";
+import { ReactNode } from "react";
+import { connect } from "react-redux";
+import { Input, InputOnChangeData } from "semantic-ui-react";
+import { CoffeemakerStoreState } from "./../store/reducers/coffeemaker";
+import { StoreState, setCoffeemakerAction } from "./../Store";
+import { Dispatch } from "react-redux";
 
 interface Props extends CoffeemakerStoreState {
   setFloz(floz: number): any;
 }
 
-interface State {
-}
+interface State {}
 
 class _Coffeemaker extends React.Component<Props, State> {
   public render() {
@@ -24,10 +23,8 @@ class _Coffeemaker extends React.Component<Props, State> {
           error={!!this.props.errorMessage}
         />
         fl. oz.
-
         {this.renderError()}
         {this.renderResult()}
-
       </div>
     );
   }
@@ -37,7 +34,7 @@ class _Coffeemaker extends React.Component<Props, State> {
       return <div>{this.props.errorMessage}</div>;
     } else {
       return null;
-    };
+    }
   };
 
   private renderResult = (): ReactNode | null => {
@@ -48,7 +45,10 @@ class _Coffeemaker extends React.Component<Props, State> {
     }
   };
 
-  public inputChanged = (_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {
+  public inputChanged = (
+    _event: React.SyntheticEvent<HTMLInputElement>,
+    data: InputOnChangeData
+  ) => {
     const floz = parseInt(data.value);
     this.props.setFloz(floz);
   };
@@ -63,7 +63,6 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
   setFloz: (floz: number) => dispatch(setCoffeemakerAction(floz))
 });
 
-export const Coffeemaker = connect(
-  mapStoreToProps,
-  mapDispatchToProps
-)(_Coffeemaker);
+export const Coffeemaker = connect(mapStoreToProps, mapDispatchToProps)(
+  _Coffeemaker
+);

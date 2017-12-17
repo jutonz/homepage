@@ -1,21 +1,15 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
 import {
   Action,
   ActionType,
   AddCsrfTokenAction,
-  SetSessionAction,
-} from './Actions';
+  SetSessionAction
+} from "./Actions";
 
-import {
-  CoffeemakerStoreState,
-  coffeemaker
-} from './reducers/coffeemaker';
+import { CoffeemakerStoreState, coffeemaker } from "./reducers/coffeemaker";
 
-import {
-  FlashStoreState,
-  flash
-} from './reducers/flash';
+import { FlashStoreState, flash } from "./reducers/flash";
 
 export interface StoreState {
   csrfToken?: string;
@@ -26,7 +20,7 @@ export interface StoreState {
 }
 
 const count = (state: number = 0, action: Action): number => {
-  switch(action.type) {
+  switch (action.type) {
     case ActionType.Inc:
       return state + 1;
     case ActionType.Dec:
@@ -37,7 +31,7 @@ const count = (state: number = 0, action: Action): number => {
 };
 
 const csrfToken = (state: string = null, action: Action): string => {
-  switch(action.type) {
+  switch (action.type) {
     case ActionType.AddCsrfToken:
       return (action as AddCsrfTokenAction).token;
     default:
@@ -45,14 +39,17 @@ const csrfToken = (state: string = null, action: Action): string => {
   }
 };
 
-const sessionAuthenticated = (state: boolean = false, action: Action): boolean => {
-  switch(action.type) {
+const sessionAuthenticated = (
+  state: boolean = false,
+  action: Action
+): boolean => {
+  switch (action.type) {
     case ActionType.SetSession:
       return (action as SetSessionAction).established;
     default:
       return state;
   }
-}
+};
 
 export const appStore = combineReducers({
   coffeemaker,

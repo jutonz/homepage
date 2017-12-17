@@ -1,18 +1,18 @@
-import * as React from 'react';
-import { Menu } from 'semantic-ui-react';
-import { ErrorResponse } from './../declarations';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import { Action, StoreState, setSessionAction } from './../Store';
-import { connect, Dispatch } from 'react-redux';
-import { compose } from 'redux';
+import * as React from "react";
+import { Menu } from "semantic-ui-react";
+import { ErrorResponse } from "./../declarations";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import { Action, StoreState, setSessionAction } from "./../Store";
+import { connect, Dispatch } from "react-redux";
+import { compose } from "redux";
 
 export enum ActiveItem {
-  Home = 'home',
-  Settings = 'settings',
-  Logout = 'logout',
-  Coffeemaker = 'coffeemaker',
-  Resume = 'resume'
-};
+  Home = "home",
+  Settings = "settings",
+  Logout = "logout",
+  Coffeemaker = "coffeemaker",
+  Resume = "resume"
+}
 
 interface Props extends RouteComponentProps<{}> {
   activeItem: ActiveItem;
@@ -81,22 +81,23 @@ class _MainNav extends React.Component<Props, State> {
     fetch("/api/logout", {
       method: "POST",
       credentials: "same-origin",
-      headers: new Headers({ 'X-CSRF-Token': this.props.csrfToken })
-    }).then((response: Response) => {
-      if (response.ok) {
-        this.props.destroySession();
-        this.props.history.push("/login");
-      } else {
-        return response.json();
-      }
-    }).then((response: ErrorResponse) => {
-      if (response && response.messages) {
-        console.error(response.messages);
-      }
-    });
-  }
+      headers: new Headers({ "X-CSRF-Token": this.props.csrfToken })
+    })
+      .then((response: Response) => {
+        if (response.ok) {
+          this.props.destroySession();
+          this.props.history.push("/login");
+        } else {
+          return response.json();
+        }
+      })
+      .then((response: ErrorResponse) => {
+        if (response && response.messages) {
+          console.error(response.messages);
+        }
+      });
+  };
 }
-
 
 const mapStateToProps = (state: StoreState): Partial<Props> => ({
   csrfToken: state.csrfToken
@@ -108,5 +109,5 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
 
 export const MainNav = compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps)
 )(_MainNav);

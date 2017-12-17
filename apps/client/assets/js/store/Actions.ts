@@ -51,4 +51,4 @@ export const setCoffeemakerAction = (floz: number): SetCoffeemakerAction => ({
   floz: floz
 });
 
-export { FlashMessage, FlashTone, showFlash } from './reducers/flash';
+export { FlashMessage, FlashTone, showFlash } from "./reducers/flash";
