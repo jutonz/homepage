@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ReactNode } from 'react';
 import { css, StyleSheet } from 'aphrodite';
-import { Form, Header, Button } from 'semantic-ui-react';
+import { Form, Header } from 'semantic-ui-react';
 import * as Clipboard from 'clipboard';
 import gql from 'graphql-tag';
 import { ApolloQueryResult } from 'apollo-client';

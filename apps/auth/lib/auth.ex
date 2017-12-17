@@ -1,4 +1,9 @@
 defmodule Auth do
+  @moduledoc """
+  Wrapper for Guardian and Comeonin dependencies. Anything related to passwords
+  or JWT's should live here.
+  """
+
   alias Auth.Guardian
 
   def hash_password(password) do
@@ -12,15 +17,9 @@ defmodule Auth do
     end
   end
 
-  def generate_login_link(user_id) do
-    with {:ok, token, _claims} <- single_use_jwt(user_id),
-         url <- "#{ClientWeb.Endpoint.url}/login?token=#{token}",
-      do: {:ok, url},
-      else: (_ -> {:error, "Couldn't authenticate"})
-  end
-
   @doc """
-  Generate a JWT which can be exchanged exactly once in the next 24 hours.
+  Generate a JWT which can be exchanged exactly once in the given timeframe
+  (default 24 hours).
 
   When later exchanging the token for a resource, be sure to use
   +resource_for_single_use_jwt+ to ensure the token is only exchanged once and

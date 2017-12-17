@@ -20,11 +20,6 @@ config :client, ClientWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
-# Configures guardian
-config :client, Guardian,
-  issuer: "client",
-  secret_key: secret_key_base
-
 # Configures the database
 db_host = System.get_env("PGHOST") || "psql"
 db_user = System.get_env("PGUSER")
