@@ -69,5 +69,7 @@ defmodule ClientWeb.Router do
     post "/login", SessionController, :login
     post "/logout", SessionController, :logout
     post "/signup", SessionController, :signup
+
+    get "/whatismyip", ClientInfoController, :whatismyip
   end
 end
