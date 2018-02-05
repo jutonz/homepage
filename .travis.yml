@@ -25,14 +25,15 @@ after_success:
     dctl push;
     dctl build --env=prod;
     dctl push --env=prod;
-    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)";
-    echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list;
-    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -;
-    sudo apt-get update && sudo apt-get -y install google-cloud-sdk kubectl;
-    gcloud config set project $GCLOUD_PROJECT;
-    echo $GCLOUD_SERVICE_ACCOUNT_KEY | base64 --decode > gcloud_creds.json;
-    gcloud auth activate-service-account --key-file gcloud_creds.json;
-    gcloud container clusters get-credentials $GCLOUD_CLUSTER_NAME --zone $GCLOUD_ZONE;
-    cd docker/prod/k8s;
-    kubectl apply -f app-deployment.yaml,psql-deployment.yaml,nginx-deployment.yaml;
     fi
+    #export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)";
+    #echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list;
+    #curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -;
+    #sudo apt-get update && sudo apt-get -y install google-cloud-sdk kubectl;
+    #gcloud config set project $GCLOUD_PROJECT;
+    #echo $GCLOUD_SERVICE_ACCOUNT_KEY | base64 --decode > gcloud_creds.json;
+    #gcloud auth activate-service-account --key-file gcloud_creds.json;
+    #gcloud container clusters get-credentials $GCLOUD_CLUSTER_NAME --zone $GCLOUD_ZONE;
+    #cd docker/prod/k8s;
+    #kubectl apply -f app-deployment.yaml,psql-deployment.yaml,nginx-deployment.yaml;
+    #fi
