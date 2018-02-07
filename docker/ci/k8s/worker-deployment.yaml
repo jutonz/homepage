@@ -17,7 +17,8 @@ spec:
       containers:
       - image: jutonz/homepage-ci-worker:1
         name: worker
-        command: ["worker"]
+        command: ["/usr/local/bin/concourse"]
+        args: ["worker"]
         volumeMounts:
         - name: secret-keys
           mountPath: "/concourse-keys/worker"

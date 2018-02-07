@@ -17,7 +17,8 @@ spec:
       containers:
       - image: jutonz/homepage-ci-web:1
         name: web
-        command: ["web"]
+        command: ["/usr/local/bin/concourse"]
+        args: ["web"]
         volumeMounts:
         - name: secret-keys
           mountPath: "/concourse-keys/web"
