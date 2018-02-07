@@ -1,0 +1,56 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: app
+  namespace: homepage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - image: jutonz/homepage-ci-web:1
+        name: app
+        command: ["web"]
+        volumeMounts:
+        - name: secret-keys
+          mountPath: "/concourse-keys/web"
+          readOnly: true
+        imagePullPolicy: Always
+        env:
+          - CONCOURSE_EXTERNAL_URL: ci.jutonz.com
+          - CONCOURSE_POSTGRES_HOST: psql
+          - CONCOURSE_POSTGRES_DATABASE: concourse
+          - name: CONCOURSE_POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: ci-secrets
+                key: PGUSER
+          - name: CONCOURSE_POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ci-secrets
+                key: PGPASS
+      restartPolicy: Always
+      volumes:
+      - name: secret-keys
+        secret:
+          secretName: ci-web-tls-keys
+          items:
+          - key: authorized_worker_keys
+            path: authorized_worker_keys
+          - key: session_signing_key
+            path: session_signing_key
+          - key: session_signing_key.pub
+            path: session_signing_key.pub
+          - key: tsa_host_key
+            path: tsa_host_key
+          - key: tsa_host_key.pub
+            path: tsa_host_key.pub
+

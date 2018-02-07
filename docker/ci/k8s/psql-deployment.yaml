@@ -1,0 +1,38 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: psql
+  namespace: ci
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: psql
+  template:
+    metadata:
+      labels:
+        app: psql
+    spec:
+      containers:
+      - image: jutonz/homepage-ci-psql:1
+        name: psql
+        imagePullPolicy: Always
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: ci-secrets
+                key: PGUSER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ci-secrets
+                key: PGPASS
+          - name: POSTGRES_DB
+            value: concourse
+        #lifecycle:
+          #preStop:
+            #exec:
+              #command: ["/bin/bash", "/etc/backup.sh"]
+      restartPolicy: Always

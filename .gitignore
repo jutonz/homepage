@@ -15,3 +15,5 @@ erl_crash.dump
 .bash_history
 .byebug_history
 .vim
+
+docker/ci/keys

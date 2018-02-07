@@ -1,0 +1,39 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: worker
+  namespace: homepage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+      - image: jutonz/homepage-ci-worker:1
+        name: worker
+        command: ["worker"]
+        volumeMounts:
+        - name: secret-keys
+          mountPath: "/concourse-keys/worker"
+          readOnly: true
+        imagePullPolicy: Always
+        env:
+          CONCOURSE_TSA_HOST: web
+      restartPolicy: Always
+      volumes:
+      - name: secret-keys
+        secret:
+          secretName: ci-worker-tls-keys
+          items:
+          - key: tsa_host_key.pub
+            path: tsa_host_key.pub
+          - key: worker_key
+            path: worker_key
+          - key: worker_key.pub
+            path: worker_key.pub
