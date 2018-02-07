@@ -31,11 +31,16 @@ spec:
             value: psql
           - name: CONCOURSE_POSTGRES_DATABASE
             value: concourse
-          - name: CONCOURSE_POSTGRES_USER
+          - name: CONCOURSE_BASIC_AUTH_USERNAME
             valueFrom:
               secretKeyRef:
                 name: ci-secrets
-                key: PGUSER
+                key: BASIC_AUTH_USERNAME
+          - name: CONCOURSE_BASIC_AUTH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: ci-secrets
+                key: BASIC_AUTH_PASSWORD
           - name: CONCOURSE_POSTGRES_PASSWORD
             valueFrom:
               secretKeyRef:
@@ -57,4 +62,3 @@ spec:
             path: tsa_host_key
           - key: tsa_host_key.pub
             path: tsa_host_key.pub
-
