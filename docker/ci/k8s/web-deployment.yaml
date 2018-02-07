@@ -24,9 +24,12 @@ spec:
           readOnly: true
         imagePullPolicy: Always
         env:
-          - CONCOURSE_EXTERNAL_URL: ci.jutonz.com
-          - CONCOURSE_POSTGRES_HOST: psql
-          - CONCOURSE_POSTGRES_DATABASE: concourse
+          - name: CONCOURSE_EXTERNAL_URL
+            value: ci.jutonz.com
+          - name: CONCOURSE_POSTGRES_HOST
+            value: psql
+          - name: CONCOURSE_POSTGRES_DATABASE
+            value: concourse
           - name: CONCOURSE_POSTGRES_USER
             valueFrom:
               secretKeyRef:

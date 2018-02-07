@@ -24,7 +24,8 @@ spec:
           readOnly: true
         imagePullPolicy: Always
         env:
-          CONCOURSE_TSA_HOST: web
+          - name: CONCOURSE_TSA_HOST
+            value: web
       restartPolicy: Always
       volumes:
       - name: secret-keys
