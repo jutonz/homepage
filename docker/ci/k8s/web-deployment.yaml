@@ -2,21 +2,21 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: app
-  namespace: homepage
+  name: web
+  namespace: ci
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app
+      app: web
   template:
     metadata:
       labels:
-        app: app
+        app: web
     spec:
       containers:
       - image: jutonz/homepage-ci-web:1
-        name: app
+        name: web
         command: ["web"]
         volumeMounts:
         - name: secret-keys
