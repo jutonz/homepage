@@ -7,10 +7,9 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - host: k8s-master-home.jutonz.com
+  - host: jutonz.com
     http:
       paths:
-      - path: /*
-        backend:
+      - backend:
           serviceName: nginx
           servicePort: 80
