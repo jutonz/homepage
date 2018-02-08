@@ -19,6 +19,10 @@ spec:
         name: web
         command: ["/usr/local/bin/concourse"]
         args: ["web"]
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "echo 'DUDEZ'; ls -al /concourse-keys"]
         volumeMounts:
         - name: secret-keys
           mountPath: "/concourse-keys/web"
