@@ -8,6 +8,11 @@ spec:
   selector:
     app: web
   ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
+  - name: interface
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+  - name: worker-entry
+    protocol: TCP
+    port: 2222
+    targetPort: 2222
