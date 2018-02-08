@@ -18,11 +18,18 @@ spec:
       - image: jutonz/homepage-ci-web:1
         name: web
         command: ["/usr/local/bin/concourse"]
-        args: ["web"]
+        args:
+        - web
+        - "--basic-auth-username=$(CONCOURSE_BASIC_AUTH_USERNAME)"
+        - "--basic-auth-password=#(CONCOURSE_BASIC_AUTH_PASSWORD)"
+        - "--session-signing-key=/concourse-keys/web/session_signing_key"
+        - "--tsa-host-key=/concourse-keys/web/tsa_host_key"
+        - "--tsa-authorized-keys=/concourse-keys/web/authorized_worker_keys"
+        - "--external-url=https://ci.jutonz.com"
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/sh", "-c", "echo 'DUDEZ'; ls -al /concourse-keys"]
+              command: ["/bin/sh", "-c", "echo 'DUDEZ'; ls -al /concourse-keys > /etc/message"]
         volumeMounts:
         - name: secret-keys
           mountPath: "/concourse-keys/web"
