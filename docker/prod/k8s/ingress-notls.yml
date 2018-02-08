@@ -4,13 +4,8 @@ metadata:
   name: nginx-ingress
   namespace: homepage
   annotations:
-    # kubernetes.io/tls-acme: "true"
-    # kubernetes.io/ingress.class: "gce"
+    kubernetes.io/ingress.class: "nginx"
 spec:
-  # tls:
-  # - hosts:
-  #   - notmalware.biz
-  #   secretName: notmalware-tls
   rules:
   - host: k8s-master-home.jutonz.com
     http:
