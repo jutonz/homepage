@@ -18,15 +18,17 @@ spec:
       - image: jutonz/homepage-ci-worker:1
         name: worker
         command: ["/usr/local/bin/concourse"]
-        args: ["worker"]
+        args:
+        - worker
+        - --work-dir=/opt/concourse/worker
+        - --tsa-host=web
+        - --tsa-public-key=/concourse-keys/worker/tsa_host_key.pub
+        - --tsa-worker-private-key=/concourse-keys/worker/worker_key
         volumeMounts:
         - name: secret-keys
           mountPath: "/concourse-keys/worker"
           readOnly: true
         imagePullPolicy: Always
-        env:
-          - name: CONCOURSE_TSA_HOST
-            value: web
       restartPolicy: Always
       volumes:
       - name: secret-keys
@@ -39,3 +41,4 @@ spec:
             path: worker_key
           - key: worker_key.pub
             path: worker_key.pub
+
