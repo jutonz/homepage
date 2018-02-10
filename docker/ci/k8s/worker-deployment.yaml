@@ -30,7 +30,7 @@ spec:
           readOnly: true
         imagePullPolicy: Always
         securityContext:
-          capibilities:
+          capabilities:
             add:
             - NET_ADMIN
       restartPolicy: Always
