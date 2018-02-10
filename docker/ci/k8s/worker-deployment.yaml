@@ -29,6 +29,10 @@ spec:
           mountPath: "/concourse-keys/worker"
           readOnly: true
         imagePullPolicy: Always
+        securityContext:
+          capibilities:
+            add:
+            - NET_ADMIN
       restartPolicy: Always
       volumes:
       - name: secret-keys
