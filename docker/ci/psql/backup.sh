@@ -10,6 +10,6 @@ PGPASSWORD=$POSTGRES_PASSWORD \
 
 aws s3 cp \
   /tmp/ci_prod.dump \
-  s3://jutonz-ci-prod-db-backups/ci_prod.dump
+  s3://jutonz-homepage-prod-db-backups/ci_prod.dump
 
 rm /tmp/ci_prod.dump
