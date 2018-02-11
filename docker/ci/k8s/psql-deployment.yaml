@@ -15,7 +15,7 @@ spec:
         app: psql
     spec:
       containers:
-      - image: jutonz/homepage-ci-psql:1
+      - image: jutonz/homepage-ci-psql:2
         name: psql
         imagePullPolicy: Always
         env:
@@ -31,8 +31,20 @@ spec:
                 key: PGPASS
           - name: POSTGRES_DB
             value: concourse
-        #lifecycle:
-          #preStop:
-            #exec:
-              #command: ["/bin/bash", "/etc/backup.sh"]
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: aws
+                key: AWS_ACCESS_KEY_ID
+                namespace: homepage
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: aws
+                key: AWS_SECRET_ACCESS_KEY
+                namespace: homepage
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/bash", "/etc/backup.sh"]
       restartPolicy: Always

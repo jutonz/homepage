@@ -2,7 +2,7 @@
 version: "3"
 services:
   psql:
-    image: jutonz/homepage-ci-psql:1
+    image: jutonz/homepage-ci-psql:2
     environment:
       POSTGRES_DB: concourse
       POSTGRES_USER: concourse
