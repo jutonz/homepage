@@ -72,6 +72,7 @@ RUN mix archive.install https://github.com/phoenixframework/archives/raw/master/
 COPY docker/dev/app/setup.sh /etc/
 COPY docker/dev/app/start.sh /etc/
 COPY docker/dev/app/runtests.sh /etc/
+COPY docker/dev/app/fetchdeps.sh /etc/
 COPY docker/dev/app/runscripts /usr/bin/
 
 ENTRYPOINT ["runscripts", "/etc/setup.sh"]

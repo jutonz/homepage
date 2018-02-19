@@ -19,44 +19,27 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   build-local-dev-app:
-    image: docker
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage
     group: build
     commands:
-    - apk add alpine-sdk ruby ruby-dev --no-cache
-    - gem install bigdecimal dctl_rb --no-document
-    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - ls -alh
-    - dctl pull app
     - dctl build app
-    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
-    environment:
-    - DOCKER_USERNAME=$$DOCKER_USERNAME
-    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   build-local-dev-redis:
-    image: docker
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage
     group: build
     commands:
-    - apk add alpine-sdk ruby ruby-dev --no-cache
-    - gem install bigdecimal dctl_rb --no-document
-    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - dctl pull redis
     - dctl build redis
-    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
-    environment:
-    - DOCKER_USERNAME=$$DOCKER_USERNAME
-    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   initdb:
-    image: docker
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage
     commands:
     - apk add alpine-sdk ruby ruby-dev --no-cache
     - gem install bigdecimal dctl_rb --no-document
     - apk add py-pip --no-cache
     - pip install docker-compose
-    - dctl run app "mix deps.get"
+    - dctl run app /etc/fetchdeps.sh
     - dctl initdb
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
