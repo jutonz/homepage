@@ -5,15 +5,16 @@ pipeline:
     repo: jutonz/homepage-dev-redis
     dockerfile: docker/dev/redis/Dockerfile
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    pull: true
   docker:
     image: plugins/docker
     repo: jutonz/homepage-dev-app
     dockerfile: docker/dev/app/Dockerfile
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
-    cache:
-      image: jutonz/homepage-dev-app
+    pull: true
   docker:
     image: plugins/docker
     repo: jutonz/homepage-dev-psql
     dockerfile: docker/dev/psql/Dockerfile
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    pull: true
