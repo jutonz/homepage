@@ -9,12 +9,12 @@ pipeline:
   psql:
     image: docker
     commands:
-    - docker login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - docker build -t jutonz/homepage-dev-psql .
     - docker push jutonz/homepage-dev-psql
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
-    - DOCKER_LOGIN=$$DOCKER_LOGIN
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     #- DOCKER_HOST=tcp://0.0.0.0:2375
     volumes:
