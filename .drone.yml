@@ -11,9 +11,8 @@ pipeline:
     repo: jutonz/homepage-dev-app
     dockerfile: docker/dev/app/Dockerfile
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
-    use_cache: true
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    pull: true
+    pull-image: true
   docker:
     image: plugins/docker
     repo: jutonz/homepage-dev-psql
