@@ -1,7 +1,13 @@
 ---
 pipeline:
-  build-local-dev-psql:
+  build-test-image:
     image: docker
+    commands:
+    - docker build -f docker/ci/testimage/Dockerfile -t jutonz/homepage-ci-testimage:latest. .
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  build-local-dev-psql:
+    image: jutonz/homepage-ci-testimage
     group: build
     commands:
     - apk add alpine-sdk ruby ruby-dev --no-cache
@@ -53,7 +59,7 @@ pipeline:
     - gem install bigdecimal dctl_rb --no-document
     - apk add py-pip --no-cache
     - pip install docker-compose
-    - dctl run app mix deps.get
+    - dctl run app "mix deps.get"
     - dctl initdb
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
