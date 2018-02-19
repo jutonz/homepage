@@ -9,7 +9,6 @@ pipeline:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl pull psql
     - dctl build psql
-    - dctl push psql
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
@@ -26,7 +25,6 @@ pipeline:
     - ls -alh
     - dctl pull app
     - dctl build app
-    - dctl push app
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
@@ -42,10 +40,26 @@ pipeline:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl pull redis
     - dctl build redis
-    - dctl push redis
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  initdb:
+    image: docker
+    commands:
+    - apk add alpine-sdk ruby ruby-dev --no-cache
+    - gem install bigdecimal dctl_rb --no-document
+    - dctl initdb
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  unit-tests:
+    group: test
+    image: docker
+    commands:
+    - apk add alpine-sdk ruby ruby-dev --no-cache
+    - gem install bigdecimal dctl_rb --no-document
+    - dctl run app /etc/runtests.sh
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
