@@ -2,19 +2,18 @@
 pipeline:
   docker:
     image: plugins/docker
-    group: build
     repo: jutonz/homepage-dev-redis
     dockerfile: docker/dev/redis/Dockerfile
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
   docker:
     image: plugins/docker
-    group: build
     repo: jutonz/homepage-dev-app
     dockerfile: docker/dev/app/Dockerfile
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    cache:
+      image: jutonz/homepage-dev-app
   docker:
     image: plugins/docker
-    group: build
     repo: jutonz/homepage-dev-psql
     dockerfile: docker/dev/psql/Dockerfile
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
