@@ -7,11 +7,23 @@ pipeline:
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     pull: true
   psql:
-    image: plugins/docker
-    repo: jutonz/homepage-dev-psql
-    dockerfile: docker/dev/psql/Dockerfile
-    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
-    pull: true
+    image: docker
+    commands:
+    - docker --tls=false login -u "$DOCKER_LOGIN" -p "$DOCKER_PASSWORD"
+    - docker --tls=false build -t jutonz/homepage-dev-psql .
+    - docker --tls=false push jutonz/homepage-dev-psql
+    environment:
+    - DOCKER_LOGIN=$$DOCKER_LOGIN
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    - DOCKER_HOST=tcp://0.0.0.0:2375
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  #psql:
+    #image: plugins/docker
+    #repo: jutonz/homepage-dev-psql
+    #dockerfile: docker/dev/psql/Dockerfile
+    #secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    #pull: true
   #app:
     #image: plugins/docker
     #repo: jutonz/homepage-dev-app
@@ -19,3 +31,9 @@ pipeline:
     #secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     #pull: true
     #pull-image: true
+
+services:
+  docker:
+    image: docker:dind
+    command: [ "--storage-driver=overlay2", "--tls=false" ]
+    privileged: true
