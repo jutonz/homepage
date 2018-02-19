@@ -1,22 +1,21 @@
 ---
 pipeline:
-  docker:
+  redis:
     image: plugins/docker
     repo: jutonz/homepage-dev-redis
     dockerfile: docker/dev/redis/Dockerfile
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     pull: true
-  docker:
-    image: plugins/docker
-    repo: jutonz/homepage-dev-app
-    dockerfile: docker/dev/app/Dockerfile
-    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
-    pull: true
-    tags: latest
-    pull-image: true
-  docker:
+  psql:
     image: plugins/docker
     repo: jutonz/homepage-dev-psql
     dockerfile: docker/dev/psql/Dockerfile
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     pull: true
+  #app:
+    #image: plugins/docker
+    #repo: jutonz/homepage-dev-app
+    #dockerfile: docker/dev/app/Dockerfile
+    #secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    #pull: true
+    #pull-image: true
