@@ -1,11 +1,5 @@
 ---
 pipeline:
-  redis:
-    image: plugins/docker
-    repo: jutonz/homepage-dev-redis
-    dockerfile: docker/dev/redis/Dockerfile
-    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
-    pull: true
   psql:
     image: docker
     commands:
@@ -13,8 +7,8 @@ pipeline:
     - gem install bigdecimal dctl_rb --no-document
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl pull psql
-    #- dctl build psql
-    - docker build -f docker/dev/psql/Dockerfile -t jutonz/homepage-dev-psql:4 --pull=true .
+    - dctl build psql
+    #- docker build -f docker/dev/psql/Dockerfile -t jutonz/homepage-dev-psql:4 --pull=true .
     - dctl push psql
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
@@ -36,6 +30,12 @@ pipeline:
     #secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     #pull: true
     #pull-image: true
+  redis:
+    image: plugins/docker
+    repo: jutonz/homepage-dev-redis
+    dockerfile: docker/dev/redis/Dockerfile
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    pull: true
 
 #services:
   #docker:
