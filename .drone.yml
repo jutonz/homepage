@@ -51,6 +51,8 @@ pipeline:
     commands:
     - apk add alpine-sdk ruby ruby-dev --no-cache
     - gem install bigdecimal dctl_rb --no-document
+    - apk add py-pip --no-cache
+    - pip install docker-compose
     - dctl initdb
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
@@ -60,6 +62,8 @@ pipeline:
     commands:
     - apk add alpine-sdk ruby ruby-dev --no-cache
     - gem install bigdecimal dctl_rb --no-document
+    - apk add py-pip --no-cache
+    - pip install docker-compose
     - dctl run app /etc/runtests.sh
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
