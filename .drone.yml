@@ -12,6 +12,7 @@ pipeline:
     dockerfile: docker/dev/app/Dockerfile
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     pull: true
+    tags: latest
     pull-image: true
   docker:
     image: plugins/docker
