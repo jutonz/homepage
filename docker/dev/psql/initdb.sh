@@ -11,12 +11,3 @@ chmod -R 700 /var/lib/postgresql/data
 
 service postgresql start
 sudo -u postgres psql -c "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';"
-
-cd /tmp/code
-
-mix deps.get
-
-PG_HOST=127.0.0.1 mix ecto.create --force
-PG_HOST=127.0.0.1 mix ecto.migrate
-
-service postgresql stop
