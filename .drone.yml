@@ -12,6 +12,7 @@ pipeline:
     - apk add alpine-sdk ruby ruby-dev --no-cache
     - gem install bigdecimal dctl_rb --no-document
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - dctl pull psql
     - dctl build psql
     - dctl push psql
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
