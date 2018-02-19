@@ -1,12 +1,11 @@
 #!/bin/bash
 
 set -x
+set -e
 
 cd /root
 
-ls -alh
+ls -alh deps
 
-mix deps.get
-
-PG_HOST=127.0.0.1 mix ecto.create --force
-PG_HOST=127.0.0.1 mix ecto.migrate
+mix ecto.create --force
+mix ecto.migrate
