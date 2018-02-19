@@ -36,6 +36,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     commands:
     - ls -alh
+    - rm -f tmp/psql-dev
     - dctl run psql /etc/initdb.sh
     - dctl run app /etc/seed.sh
     volumes:

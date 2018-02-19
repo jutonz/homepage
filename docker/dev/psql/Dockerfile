@@ -25,4 +25,5 @@ RUN chmod +x /etc/startdb.sh && chown postgres:postgres /etc/startdb.sh
 
 COPY docker/dev/app/runscripts /usr/bin/
 
-ENTRYPOINT ["runscripts", "/etc/startdb.sh"]
+ENTRYPOINT ["runscripts"]
+CMD ["/etc/startdb.sh"]
