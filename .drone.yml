@@ -13,7 +13,8 @@ pipeline:
     - gem install bigdecimal dctl_rb --no-document
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl pull psql
-    - dctl build psql
+    #- dctl build psql
+    - docker build -f docker/dev/psql/Dockerfile -t jutonz/homepage-dev-psql:4 .
     - dctl push psql
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
