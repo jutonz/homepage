@@ -35,6 +35,8 @@ pipeline:
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     commands:
+    - ls -alh
+    - rm -f tmp/psql-dev
     - dctl initdb
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
