@@ -1,6 +1,6 @@
 ---
 pipeline:
-  psql:
+  build-local-dev-psql:
     image: docker
     commands:
     - apk add alpine-sdk ruby ruby-dev --no-cache
@@ -8,37 +8,40 @@ pipeline:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl pull psql
     - dctl build psql
-    #- docker build -f docker/dev/psql/Dockerfile -t jutonz/homepage-dev-psql:4 --pull=true .
     - dctl push psql
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
-    #- DOCKER_HOST=tcp://0.0.0.0:2375
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-  #psql:
-    #image: plugins/docker
-    #repo: jutonz/homepage-dev-psql
-    #dockerfile: docker/dev/psql/Dockerfile
-    #secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
-    #pull: true
-  #app:
-    #image: plugins/docker
-    #repo: jutonz/homepage-dev-app
-    #dockerfile: docker/dev/app/Dockerfile
-    #secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
-    #pull: true
-    #pull-image: true
-  redis:
-    image: plugins/docker
-    repo: jutonz/homepage-dev-redis
-    dockerfile: docker/dev/redis/Dockerfile
+  build-local-dev-app:
+    image: docker
+    commands:
+    - apk add alpine-sdk ruby ruby-dev --no-cache
+    - gem install bigdecimal dctl_rb --no-document
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - dctl pull app
+    - dctl build app
+    - dctl push app
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
-    pull: true
-
-#services:
-  #docker:
-    #image: docker:dind
-    #command: [ "--storage-driver=overlay2", "--tls=false" ]
-    #privileged: true
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  build-local-dev-redis:
+    image: docker
+    commands:
+    - apk add alpine-sdk ruby ruby-dev --no-cache
+    - gem install bigdecimal dctl_rb --no-document
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - dctl pull redis
+    - dctl build redis
+    - dctl push redis
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
