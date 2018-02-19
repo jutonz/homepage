@@ -8,6 +8,7 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
   build-local-dev-psql:
     image: jutonz/homepage-ci-testimage
+    pull: false
     group: build
     commands:
     - apk add alpine-sdk ruby ruby-dev --no-cache
