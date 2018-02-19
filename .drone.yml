@@ -15,15 +15,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     group: build
     commands:
-    - apk add alpine-sdk ruby ruby-dev --no-cache
-    - gem install bigdecimal dctl_rb --no-document
-    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - dctl pull psql
     - dctl build psql
-    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
-    environment:
-    - DOCKER_USERNAME=$$DOCKER_USERNAME
-    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   build-local-dev-app:
