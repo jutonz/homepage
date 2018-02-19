@@ -7,5 +7,6 @@ cd /root
 
 ls -alh deps
 
-mix ecto.create --force
+mix ecto.setup --force
+#mix ecto.create --force
 mix ecto.migrate
