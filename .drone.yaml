@@ -1,0 +1,7 @@
+---
+pipeline:
+  docker:
+    image: plugins/docker
+    repo: jutonz/homepage-dev-redis
+    dockerfile: docker/dev/redis/Dockerfile
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
