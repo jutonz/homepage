@@ -9,9 +9,11 @@ pipeline:
   psql:
     image: docker
     commands:
+    - apk add alpine-sdk ruby ruby-dev --no-cache
+    - gem install bigdecimal dctl_rb --no-document
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - docker build -t jutonz/homepage-dev-psql .
-    - docker push jutonz/homepage-dev-psql
+    - dctl build psql
+    - dctl push psql
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
