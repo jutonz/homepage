@@ -1,6 +1,6 @@
 ---
 server:
-  host: drone.jutonz.com
+  host: https://drone.jutonz.com
 ingress:
   enabled: true
   hosts: ["drone.jutonz.com"]
@@ -9,5 +9,3 @@ ingress:
 persistence:
   enabled: true
   storageClass: generic
-dind:
-  driver: btrfs
