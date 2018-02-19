@@ -5,7 +5,6 @@ pipeline:
     commands:
     - docker login -u "$PRIVATE_DOCKER_USERNAME" -p "$PRIVATE_DOCKER_PASSWORD" https://registry.jutonz.com
     - docker build --pull=true -f docker/ci/testimage/Dockerfile -t registry.jutonz.com/jutonz/homepage-ci-testimage:latest .
-    - docker push registry.jutonz.com/jutonz/homepage-ci-testimage:latest
     secrets: [ PRIVATE_DOCKER_USERNAME, PRIVATE_DOCKER_PASSWORD ]
     environment:
     - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
