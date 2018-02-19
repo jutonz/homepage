@@ -3,7 +3,8 @@
 set -x
 set -e
 
-cd /root/apps/client
+cd /root
+ls -alh
 
 mix ecto.create --force
 mix ecto.migrate
