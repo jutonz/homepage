@@ -6,7 +6,7 @@ set -ex
 
 cd /tmp/code
 
-ls -alh /tmp
+ls -alh /tmp/code
 exit 1
 
 #cp -r /tmp/code/deps deps
