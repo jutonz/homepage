@@ -1,6 +1,4 @@
 ---
-workspace:
-  base: /root
 pipeline:
   build-test-image:
     image: docker
