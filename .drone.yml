@@ -41,7 +41,7 @@ pipeline:
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
-    - dctl up
+    #- dctl up
     - dctl run app /etc/seedci.sh
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
