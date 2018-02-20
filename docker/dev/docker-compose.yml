@@ -13,7 +13,7 @@ services:
     environment:
       SECRET_KEY_BASE: "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
     volumes:
-    - "code:/root"
+    - "code:/tmp/code"
     - "node_modules:/root/apps/client/assets/node_modules"
     ports:
     - 4000:4000
