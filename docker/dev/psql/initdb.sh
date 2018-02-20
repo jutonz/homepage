@@ -11,3 +11,4 @@ chmod -R 700 /var/lib/postgresql/data
 
 service postgresql start
 sudo -u postgres psql -c "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';"
+service postgresql stop
