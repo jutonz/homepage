@@ -6,8 +6,9 @@ set -ex
 
 cd /tmp/code
 
-cp -r /tmp/code/deps deps
-cp -r /tmp/code/_build _build
+#cp -r /tmp/code/deps deps
+#cp -r /tmp/code/_build _build
+mix deps.get
 ls -alh
 
 mix ecto.create --force
