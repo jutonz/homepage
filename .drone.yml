@@ -18,6 +18,7 @@ pipeline:
     - dctl build psql
     environment:
     - DOCKER_HOST=tcp://dind:2375
+    - DCTL_NOSUDO=yes
   build-local-dev-app:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     group: build
