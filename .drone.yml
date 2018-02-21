@@ -17,6 +17,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     group: build
     commands:
+    - dctl version
     - dctl build psql
     environment:
     - DOCKER_HOST=tcp://dind:2375
