@@ -5,7 +5,7 @@ pipeline:
     commands:
     - docker login -u "$PRIVATE_DOCKER_USERNAME" -p "$PRIVATE_DOCKER_PASSWORD" https://registry.jutonz.com
     - docker pull $TAG
-    - docker build -f docker/ci/testimage/Dockerfile -t $TAG .
+    - docker build --cache-from $TAG -f docker/ci/testimage/Dockerfile -t $TAG .
     - docker push $TAG
     secrets: [ PRIVATE_DOCKER_USERNAME, PRIVATE_DOCKER_PASSWORD ]
     environment:
