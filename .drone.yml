@@ -20,7 +20,8 @@ pipeline:
     group: build
     commands:
     - dctl version
-    - dctl build psql
+    - dctl pull psql
+    - dctl build psql --cache-from=jutonz/homepage-dev-psql
     environment:
     - DOCKER_HOST=tcp://dind:2375
   build-local-dev-app:
