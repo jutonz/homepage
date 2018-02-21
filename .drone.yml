@@ -4,15 +4,17 @@ pipeline:
     image: docker
     commands:
     - docker login -u "$PRIVATE_DOCKER_USERNAME" -p "$PRIVATE_DOCKER_PASSWORD" https://registry.jutonz.com
-    - docker pull $TAG
-    - docker build --cache-from $TAG -f docker/ci/testimage/Dockerfile -t $TAG .
-    - docker push $TAG
+    - docker pull $IMAGE:latest
+    - docker build --cache-from $IMAGE:latest -f docker/ci/testimage/Dockerfile -t $IMAGE:$TAG .
+    - docker tag $IMAGE:$TAG $IMAGE:latest
+    - docker push $IMAGE:latest
     secrets: [ PRIVATE_DOCKER_USERNAME, PRIVATE_DOCKER_PASSWORD ]
     environment:
     - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
     - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
     - DOCKER_HOST=tcp://dind:2375
-    - TAG=registry.jutonz.com/jutonz/homepage-ci-testimage:latest
+    - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
+    - TAG=1
   build-local-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     group: build
