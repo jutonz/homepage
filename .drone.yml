@@ -73,8 +73,8 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
     when:
       status: [success, failure]
-compose:
+services:
   dind:
     image: docker:dind
     privileged: true
-    command: ["--storage-driver=overlay2", "--tls=false"]
+    #command: ["--storage-driver=overlay2", "--tls=false"]
