@@ -35,14 +35,14 @@ pipeline:
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     commands:
-    - echo $DOCKER_HOST_IP
-    - dctl run psql /etc/initdb.sh
+    - echo $DOCKER_HOST
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
+    - dctl run psql /etc/initdb.sh
     - dctl run app /etc/seedci.sh
     environment:
-    - DOCKER_HOST_IP=dind
+    - DOCKER_HOST=tcp://dind:2375
   unit-tests:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
