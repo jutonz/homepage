@@ -33,25 +33,18 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   initdb:
-    image: dflemstr/drone-dind
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage
     commands:
-    - apt-get update && apt-get install ruby ruby-dev build-essential -y
-    - gem install dctl_rb
+    - ls -alh
     - dctl run psql /etc/initdb.sh
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
     - dctl run app /etc/seedci.sh
-    #image: registry.jutonz.com/jutonz/homepage-ci-testimage
-    #commands:
-    #- ls -alh
-    #- dctl run psql /etc/initdb.sh
-    #- docker run -v dev_code:/data --name helper busybox true
-    #- docker cp . helper:/data
-    #- docker rm helper
-    #- dctl run app /etc/seedci.sh
-    #volumes:
-    #- /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - DOCKER_HOST=tcp://dind
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
   unit-tests:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
@@ -80,3 +73,8 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
     when:
       status: [success, failure]
+compose:
+  dind:
+    image: docker:dind
+    privileged: true
+    command: ["--storage-driver=overlay2", "--tls=false"]
