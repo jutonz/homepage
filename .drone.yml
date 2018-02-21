@@ -28,7 +28,8 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:2
     group: build
     commands:
-    - dctl build app
+    - dctl pull app
+    - dctl build app --cache-from=jutonz/homepage-dev-app --pull=false
     environment:
     - DOCKER_HOST=tcp://dind:2375
   build-local-dev-redis:
