@@ -24,8 +24,8 @@ pipeline:
     secrets: [ PRIVATE_DOCKER_USERNAME, PRIVATE_DOCKER_PASSWORD ]
     environment:
     - DOCKER_HOST=tcp://dind:2375
-    - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
-    - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
+    - DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
   build-local-dev-app:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:1
     group: build
