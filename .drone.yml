@@ -36,12 +36,14 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     commands:
     - ls -alh
-    - export DOCKER_HOST=tcp://dind:2375
+    - echo $DOCKER_HOST
     - dctl run psql /etc/initdb.sh
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
     - dctl run app /etc/seedci.sh
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
   unit-tests:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
