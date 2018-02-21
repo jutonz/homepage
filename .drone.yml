@@ -33,18 +33,25 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   initdb:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage
+    image: dflemstr/drone-dind
     commands:
-    - ls -alh
-    #- docker run --rm -v `pwd`:/codez -v code:/data busybox cp -r /codez /data
+    - apt-get update && apt-get install ruby ruby-dev build-essential -y
+    - gem install dctl_rb
     - dctl run psql /etc/initdb.sh
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
-    #- dctl up
     - dctl run app /etc/seedci.sh
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    #image: registry.jutonz.com/jutonz/homepage-ci-testimage
+    #commands:
+    #- ls -alh
+    #- dctl run psql /etc/initdb.sh
+    #- docker run -v dev_code:/data --name helper busybox true
+    #- docker cp . helper:/data
+    #- docker rm helper
+    #- dctl run app /etc/seedci.sh
+    #volumes:
+    #- /var/run/docker.sock:/var/run/docker.sock
   unit-tests:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
