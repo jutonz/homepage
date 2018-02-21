@@ -18,16 +18,11 @@ pipeline:
   build-local-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:1
     group: build
-    username: "${PRIVATE_DOCKER_USERNAME}"
-    password: "${PRIVATE_DOCKER_PASSWORD}"
     commands:
     - dctl version
     - dctl build psql
-    secrets: [ PRIVATE_DOCKER_USERNAME, PRIVATE_DOCKER_PASSWORD ]
     environment:
     - DOCKER_HOST=tcp://dind:2375
-    - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
-    - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
   build-local-dev-app:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:1
     group: build
