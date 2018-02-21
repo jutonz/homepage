@@ -9,8 +9,7 @@ pipeline:
     environment:
     - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
     - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    - DOCKER_HOST=tcp://dind:2375
   build-local-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     group: build
@@ -18,7 +17,6 @@ pipeline:
     - dctl build psql
     environment:
     - DOCKER_HOST=tcp://dind:2375
-    - DCTL_NOSUDO=yes
   build-local-dev-app:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     group: build
