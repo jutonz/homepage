@@ -16,8 +16,8 @@ pipeline:
     group: build
     commands:
     - dctl build psql
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
   build-local-dev-app:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     group: build
@@ -35,7 +35,6 @@ pipeline:
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage
     commands:
-    - echo $DOCKER_HOST
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
