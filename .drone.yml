@@ -28,17 +28,17 @@ pipeline:
     group: build
     commands:
     - dctl build app
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
   build-local-dev-redis:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:1
     group: build
     commands:
     - dctl build redis
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
   initdb:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:1
     commands:
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
@@ -50,14 +50,14 @@ pipeline:
     - DOCKER_HOST=tcp://dind:2375
   unit-tests:
     group: test
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:1
     commands:
     - dctl run app /etc/runtests.sh
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
   push-dev-app:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:1
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push app
@@ -65,10 +65,10 @@ pipeline:
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
   cleanup:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:1
     commands:
     - dctl rm -f
     - docker volume prune -f
