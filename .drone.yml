@@ -16,15 +16,18 @@ pipeline:
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
     - TAG=1
   build-local-dev-psql:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:1
     group: build
     commands:
     - dctl version
     - dctl build psql
+    secrets: [ PRIVATE_DOCKER_USERNAME, PRIVATE_DOCKER_PASSWORD ]
     environment:
     - DOCKER_HOST=tcp://dind:2375
+    - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
+    - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
   build-local-dev-app:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:1
     group: build
     commands:
     - dctl build app
