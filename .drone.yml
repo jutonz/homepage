@@ -8,6 +8,7 @@ pipeline:
     - docker build --cache-from $IMAGE:latest -f docker/ci/testimage/Dockerfile -t $IMAGE:$TAG .
     - docker tag $IMAGE:$TAG $IMAGE:latest
     - docker push $IMAGE:$TAG
+    - docker push $IMAGE:latest
     secrets: [ PRIVATE_DOCKER_USERNAME, PRIVATE_DOCKER_PASSWORD ]
     environment:
     - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
@@ -66,6 +67,30 @@ pipeline:
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push app
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
+  push-dev-psql:
+    group: push
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - dctl push psql
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
+  push-dev-redis:
+    group: push
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - dctl push redis
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
