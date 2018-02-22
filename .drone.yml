@@ -42,6 +42,7 @@ pipeline:
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:4
     commands:
+    - set -ex
     - docker --host=$DOCKER_HOST run -v dev_code:/data --name helper busybox true
     - docker --host=$DOCKER_HOST cp . helper:/data
     - docker --host=$DOCKER_HOST rm helper
