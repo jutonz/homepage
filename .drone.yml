@@ -42,21 +42,23 @@ pipeline:
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:4
     commands:
-    - set -ex
     - docker --host=$DOCKER_HOST run -v dev_code:/data --name helper busybox true
     - docker --host=$DOCKER_HOST cp . helper:/data
     - docker --host=$DOCKER_HOST rm helper
-    #- docker-compose -f docker/dev/docker-compose.yml run app /etc/initdb.sh
-    - dctl run psql /etc/initdb.sh --host=$DOCKER_HOST
-    - dctl run app /etc/seedci.sh --host=$DOCKER_HOST
+    #- docker-compose -f docker/dev/docker-compose.yml run psql /etc/initdb.sh
+    #- docker-compose -f docker/dev/docker-compose.yml run psql /etc/initdb.sh
+    - dctl run psql /etc/initdb.sh
+    - dctl run app /etc/seedci.sh
     environment:
     - DOCKER_HOST=tcp://dind:2375
+    - DCTL_NOSUDO=yeah
   unit-tests:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:4
     commands:
     - dctl run app /etc/runtests.sh
     environment:
+    - DCTL_NOSUDO=yeah
     - DOCKER_HOST=tcp://dind:2375
   push-dev-app:
     group: push
@@ -75,8 +77,8 @@ pipeline:
     commands:
     - dctl rm -f
     - docker volume prune -f
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
     when:
       status: [success, failure]
 services:
