@@ -71,6 +71,8 @@ pipeline:
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    when:
+      branch: master
     environment:
     - DOCKER_HOST=tcp://dind:2375
   push-dev-psql:
@@ -83,6 +85,8 @@ pipeline:
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    when:
+      branch: master
     environment:
     - DOCKER_HOST=tcp://dind:2375
   push-dev-redis:
@@ -95,6 +99,8 @@ pipeline:
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    when:
+      branch: master
     environment:
     - DOCKER_HOST=tcp://dind:2375
   cleanup:
