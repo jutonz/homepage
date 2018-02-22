@@ -14,33 +14,33 @@ pipeline:
     - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
     - DOCKER_HOST=tcp://dind:2375
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
-    - TAG=4
+    - TAG=5
   build-local-dev-psql:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:4
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     group: build
     commands:
     - dctl version
     - dctl pull psql
-    - dctl build psql --cache-from=`dctl tag-for psql`
+    - dctl build psql --cache-from-self
     environment:
     - DOCKER_HOST=tcp://dind:2375
   build-local-dev-app:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:4
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     group: build
     commands:
     - dctl pull app
-    - dctl build app --cache-from=`dctl tag-for app` --pull=false
+    - dctl build app --cache-from-self
     environment:
     - DOCKER_HOST=tcp://dind:2375
   build-local-dev-redis:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:4
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     group: build
     commands:
-    - dctl build redis --cache-from=`dctl tag-for redis` --pull=true
+    - dctl build redis --cache-from-self
     environment:
     - DOCKER_HOST=tcp://dind:2375
   initdb:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:4
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
     - docker --host=$DOCKER_HOST run -v dev_code:/data --name helper busybox true
     - docker --host=$DOCKER_HOST cp . helper:/data
@@ -54,7 +54,7 @@ pipeline:
     - DCTL_NOSUDO=yeah
   unit-tests:
     group: test
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:4
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
     - dctl run app /etc/runtests.sh
     environment:
@@ -62,7 +62,7 @@ pipeline:
     - DOCKER_HOST=tcp://dind:2375
   push-dev-app:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:4
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push app
@@ -73,7 +73,7 @@ pipeline:
     environment:
     - DOCKER_HOST=tcp://dind:2375
   cleanup:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:4
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
     - dctl rm -f
     - docker volume prune -f
