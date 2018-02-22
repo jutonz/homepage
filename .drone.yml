@@ -46,8 +46,8 @@ pipeline:
     - docker --host=$DOCKER_HOST cp . helper:/data
     - docker --host=$DOCKER_HOST rm helper
     #- docker-compose -f docker/dev/docker-compose.yml run app /etc/initdb.sh
-    - dctl --host=$DOCKER_HOST run psql /etc/initdb.sh
-    - dctl --host=$DOCKER_HOST run app /etc/seedci.sh
+    - dctl run psql /etc/initdb.sh --host=$DOCKER_HOST
+    - dctl run app /etc/seedci.sh --host=$DOCKER_HOST
     environment:
     - DOCKER_HOST=tcp://dind:2375
   unit-tests:
