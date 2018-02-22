@@ -22,7 +22,7 @@ pipeline:
     commands:
     - dctl version
     - dctl pull psql
-    - dctl build psql --cache-from=jutonz/homepage-dev-psql
+    - dctl build psql --cache-from=`dctl tag-for psql`
     environment:
     - DOCKER_HOST=tcp://dind:2375
   build-local-dev-app:
@@ -30,14 +30,14 @@ pipeline:
     group: build
     commands:
     - dctl pull app
-    - dctl build app --cache-from=jutonz/homepage-dev-app --pull=false
+    - dctl build app --cache-from=`dctl tag-for app` --pull=false
     environment:
     - DOCKER_HOST=tcp://dind:2375
   build-local-dev-redis:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:3
     group: build
     commands:
-    - dctl build redis
+    - dctl build redis --cache-from=`dctl tag-for redis` --pull=true
     environment:
     - DOCKER_HOST=tcp://dind:2375
   initdb:
