@@ -42,12 +42,12 @@ pipeline:
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:4
     commands:
-    - docker run -v dev_code:/data --name helper busybox true
-    - docker cp . helper:/data
-    - docker rm helper
+    - docker --host=$DOCKER_HOST run -v dev_code:/data --name helper busybox true
+    - docker --host=$DOCKER_HOST cp . helper:/data
+    - docker --host=$DOCKER_HOST rm helper
     #- docker-compose -f docker/dev/docker-compose.yml run app /etc/initdb.sh
-    - dctl run psql /etc/initdb.sh
-    - dctl run app /etc/seedci.sh
+    - dctl --host=$DOCKER_HOST run psql /etc/initdb.sh
+    - dctl --host=$DOCKER_HOST run app /etc/seedci.sh
     environment:
     - DOCKER_HOST=tcp://dind:2375
   unit-tests:
