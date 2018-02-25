@@ -22,8 +22,6 @@ pipeline:
     - dctl version
     - dctl pull psql
     - dctl build psql --cache-from-self
-    #environment:
-    #- DOCKER_HOST=tcp://dind:2375
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   build-local-dev-app:
@@ -60,18 +58,18 @@ pipeline:
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
-    #- docker run -v dev_code:/data --name helper busybox true
-    #- docker cp . helper:/data
-    #- ls -alh
-    #- docker rm helper
+    - docker run -v dev_code:/data --name helper busybox true
+    - docker cp . helper:/data
+    - ls -alh
+    - docker rm helper
     #- docker-compose -f docker/dev/docker-compose.yml run psql /etc/initdb.sh
     #- docker-compose -f docker/dev/docker-compose.yml run psql /etc/initdb.sh
     - dctl run psql /etc/initdb.sh
     - dctl run app /etc/seedci.sh
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-    - DCTL_NOSUDO=yeah
+    #environment:
+    #- DCTL_NOSUDO=yeah
 
   unit-tests:
     group: test
