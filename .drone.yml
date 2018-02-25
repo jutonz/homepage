@@ -40,27 +40,28 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
-  compile-dev:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    group: compile
-    commands:
-    - dctl run app /etc/compile_dev.sh
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  compile-test:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    group: compile
-    commands:
-    - dctl run app /etc/compile_test.sh
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+  #compile-dev:
+    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    #group: compile
+    #commands:
+    #- dctl run app /etc/compile_dev.sh
+    #volumes:
+    #- /var/run/docker.sock:/var/run/docker.sock
+  #compile-test:
+    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    #group: compile
+    #commands:
+    #- dctl run app /etc/compile_test.sh
+    #volumes:
+    #- /var/run/docker.sock:/var/run/docker.sock
 
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
+    - docker volume ls
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
-    - ls -alh
+    - docker run -v dev_code:/data --rm --name helper2 busybox ls -alh /data
     - docker rm helper
     #- docker-compose -f docker/dev/docker-compose.yml run psql /etc/initdb.sh
     #- docker-compose -f docker/dev/docker-compose.yml run psql /etc/initdb.sh
