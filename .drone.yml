@@ -6,9 +6,6 @@ pipeline:
     - docker login -u "$PRIVATE_DOCKER_USERNAME" -p "$PRIVATE_DOCKER_PASSWORD" https://registry.jutonz.com
     - docker pull $IMAGE:latest
     - docker build --cache-from $IMAGE:latest -f docker/ci/testimage/Dockerfile -t $IMAGE:$TAG .
-    - docker tag $IMAGE:$TAG $IMAGE:latest
-    - docker push $IMAGE:$TAG
-    - docker push $IMAGE:latest
     secrets: [ PRIVATE_DOCKER_USERNAME, PRIVATE_DOCKER_PASSWORD ]
     environment:
     - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
@@ -70,6 +67,21 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
+  push-test-image:
+    image: docker
+    commands:
+    - docker login -u "$PRIVATE_DOCKER_USERNAME" -p "$PRIVATE_DOCKER_PASSWORD" https://registry.jutonz.com
+    - docker tag $IMAGE:$TAG $IMAGE:latest
+    - docker push $IMAGE:$TAG
+    - docker push $IMAGE:latest
+    secrets: [ PRIVATE_DOCKER_USERNAME, PRIVATE_DOCKER_PASSWORD ]
+    environment:
+    - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
+    - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
+    - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
+    - TAG=5
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
   push-dev-app:
     group: push
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
