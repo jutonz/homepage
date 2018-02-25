@@ -17,13 +17,6 @@ pipeline:
     - TAG=5
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-  cleanup:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    commands:
-    - dctl rm -f
-    - docker volume prune -f
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
 
   build-local-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
