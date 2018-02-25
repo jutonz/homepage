@@ -10,5 +10,5 @@ cp -r /tmp/code/deps deps
 cp -r /tmp/code/_build _build
 ls -alh
 
-PG_HOST=psql mix ecto.create --force
-PG_HOST=psql mix ecto.migrate
+MIX_ENV=test PG_HOST=psql mix ecto.create --force
+MIX_ENV=test PG_HOST=psql mix ecto.migrate
