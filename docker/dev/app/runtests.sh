@@ -1,6 +1,6 @@
 cd /tmp/code
 
-ls -alh
+ls -alh apps/
 
 cd apps/client/assets && yarn lint && cd -
 
