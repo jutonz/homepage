@@ -187,16 +187,26 @@ pipeline:
     group: push-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push redis --env=prod
     when:
       branch: feature/drone
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   push-prod-psql:
     group: push-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push psql --env=prod
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     when:
       branch: feature/drone
     volumes:
@@ -205,7 +215,12 @@ pipeline:
     group: push-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push app --env=prod
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     when:
       branch: feature/drone
     volumes:
