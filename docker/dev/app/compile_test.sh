@@ -2,5 +2,5 @@
 
 set -ex
 
-cd /tmp/code
+cd /tmp/app
 MIX_ENV=test mix deps.compile

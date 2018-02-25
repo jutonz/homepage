@@ -1,6 +1,4 @@
-cd /tmp/code
-
-tree apps/redis
+cd /tmp/app
 
 cd apps/client/assets && yarn lint && cd -
 

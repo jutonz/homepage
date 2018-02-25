@@ -1,7 +1,6 @@
 #!/bin/bash
 
-set -x
-set -e
+set -ex
 
 cd /root
 ls -alh
