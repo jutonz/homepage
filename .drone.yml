@@ -49,8 +49,6 @@ pipeline:
     - dctl run app /etc/compile_dev.sh
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - CODE_DIR=/tmp/code
   compile-test:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     group: compile
@@ -58,8 +56,6 @@ pipeline:
     - dctl run app /etc/compile_test.sh
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - CODE_DIR=/tmp/code
 
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5

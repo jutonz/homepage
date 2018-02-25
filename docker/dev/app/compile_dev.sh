@@ -2,5 +2,5 @@
 
 set -ex
 
-cd $CODE_DIR
+cd /tmp/code
 mix deps.compile
