@@ -211,6 +211,14 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
+  deploy-prod-app:
+    group: deploy-prod
+    image: jutonz/homepage-prod-app:latest
+    template: docker/prod/k8s/app-deployment.yaml
+    namespace: homepage
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
   cleanup:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
