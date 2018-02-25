@@ -16,6 +16,7 @@ pipeline:
     - DOCKER_HOST=tcp://dind:2375
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
     - TAG=5
+
   build-local-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     group: build
@@ -53,6 +54,7 @@ pipeline:
     environment:
     - DOCKER_HOST=tcp://dind:2375
     - DCTL_NOSUDO=yeah
+
   unit-tests:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
@@ -61,6 +63,7 @@ pipeline:
     environment:
     - DCTL_NOSUDO=yeah
     - DOCKER_HOST=tcp://dind:2375
+
   push-dev-app:
     group: push
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
@@ -72,7 +75,7 @@ pipeline:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     when:
-      branch: master
+      branch: feature/drone
     environment:
     - DOCKER_HOST=tcp://dind:2375
   push-dev-psql:
@@ -86,7 +89,7 @@ pipeline:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     when:
-      branch: master
+      branch: feature/drone
     environment:
     - DOCKER_HOST=tcp://dind:2375
   push-dev-redis:
@@ -100,9 +103,66 @@ pipeline:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     when:
-      branch: master
+      branch: feature/drone
     environment:
     - DOCKER_HOST=tcp://dind:2375
+
+  build-prod-redis:
+    group: push
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl build redis --env=prod --cache-from-self
+    when:
+      branch: feature/drone
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
+  build-prod-psql:
+    group: push
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl build psql --env=prod --cache-from-self
+    when:
+      branch: feature/drone
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
+  build-prod-app:
+    group: push
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl build app --env=prod --cache-from-self
+    when:
+      branch: feature/drone
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
+
+  push-prod-redis:
+    group: push-prod
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl push redis --env=prod
+    when:
+      branch: feature/drone
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
+  push-prod-psql:
+    group: push-prod
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl push psql --env=prod
+    when:
+      branch: feature/drone
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
+  push-prod-app:
+    group: push-prod
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl push app --env=prod
+    when:
+      branch: feature/drone
+    environment:
+    - DOCKER_HOST=tcp://dind:2375
+
   cleanup:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
