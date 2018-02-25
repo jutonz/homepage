@@ -15,58 +15,58 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
-  build-local-images:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    group: build
-    commands:
-    - dctl version
-    - dctl pull ${IMAGE}
-    - dctl build ${IMAGE} --cache-from-self
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    when:
-      matrix:
-        IMAGE: ["app", "psql", "redis"]
-
-  #build-local-dev-psql:
+  #build-local-images:
     #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     #group: build
     #commands:
     #- dctl version
-    #- dctl pull psql
-    #- dctl build psql --cache-from-self
+    #- dctl pull ${IMAGE}
+    #- dctl build ${IMAGE} --cache-from-self
     #volumes:
     #- /var/run/docker.sock:/var/run/docker.sock
-  #build-local-dev-app:
-    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    #group: build
-    #commands:
-    #- dctl pull app
-    #- dctl build app --cache-from-self
-    #volumes:
-    #- /var/run/docker.sock:/var/run/docker.sock
-  #build-local-dev-redis:
-    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    #group: build
-    #commands:
-    #- dctl build redis --cache-from-self
-    #volumes:
-    #- /var/run/docker.sock:/var/run/docker.sock
+    #when:
+      #matrix:
+        #IMAGE: ["app", "psql", "redis"]
 
-  #compile-dev:
-    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    #group: compile
-    #commands:
-    #- dctl run app /etc/compile_dev.sh
-    #volumes:
-    #- /var/run/docker.sock:/var/run/docker.sock
-  #compile-test:
-    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    #group: compile
-    #commands:
-    #- dctl run app /etc/compile_test.sh
-    #volumes:
-    #- /var/run/docker.sock:/var/run/docker.sock
+  build-local-dev-psql:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    group: build
+    commands:
+    - dctl version
+    - dctl pull psql
+    - dctl build psql --cache-from-self
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  build-local-dev-app:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    group: build
+    commands:
+    - dctl pull app
+    - dctl build app --cache-from-self
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  build-local-dev-redis:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    group: build
+    commands:
+    - dctl build redis --cache-from-self
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
+  compile-dev:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    group: compile
+    commands:
+    - dctl run app /etc/compile_dev.sh
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  compile-test:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    group: compile
+    commands:
+    - dctl run app /etc/compile_test.sh
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
 
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
