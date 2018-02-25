@@ -53,20 +53,20 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
-  compile-dev:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    group: compile
-    commands:
-    - dctl run app /etc/compile_dev.sh
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  compile-test:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    group: compile
-    commands:
-    - dctl run app /etc/compile_test.sh
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+  #compile-dev:
+    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    #group: compile
+    #commands:
+    #- dctl run app /etc/compile_dev.sh
+    #volumes:
+    #- /var/run/docker.sock:/var/run/docker.sock
+  #compile-test:
+    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    #group: compile
+    #commands:
+    #- dctl run app /etc/compile_test.sh
+    #volumes:
+    #- /var/run/docker.sock:/var/run/docker.sock
 
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
