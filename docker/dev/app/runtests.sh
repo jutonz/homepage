@@ -1,3 +1,5 @@
+ls -alh
+
 cd apps/client/assets && yarn lint && cd -
 
 # A bug with ecto currently breaks tests the first time they are run for an
