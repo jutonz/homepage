@@ -116,4 +116,4 @@ services:
   dind:
     image: docker:dind
     privileged: true
-    #command: ["--storage-driver=btrfs", "--tls=false"]
+    command: ["--storage-driver=btrfs", "--tls=false"]
