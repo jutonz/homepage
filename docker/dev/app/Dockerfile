@@ -73,6 +73,7 @@ COPY docker/dev/app/setup.sh /etc/
 COPY docker/dev/app/start.sh /etc/
 COPY docker/dev/app/runtests.sh /etc/
 COPY docker/dev/app/seed.sh docker/dev/app/seedci.sh /etc/
+COPY docker/dev/app/compile_dev.sh docker/dev/app/compile_test.sh /etc/
 COPY docker/dev/app/runscripts /usr/bin/
 
 ENTRYPOINT ["runscripts", "/etc/setup.sh"]

@@ -4,8 +4,6 @@ tree apps/redis
 
 cd apps/client/assets && yarn lint && cd -
 
-
-MIX_ENV=test mix compile
 mix test
 # A bug with ecto currently breaks tests the first time they are run for an
 # umbrella app (something to do with migrations being run multiple times?). It
