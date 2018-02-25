@@ -156,6 +156,7 @@ pipeline:
     group: push
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
+    - dctl pull redis --env=prod
     - dctl build redis --env=prod --cache-from-self
     when:
       branch: feature/drone
@@ -165,6 +166,7 @@ pipeline:
     group: push
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
+    - dctl pull psql --env=prod
     - dctl build psql --env=prod --cache-from-self
     when:
       branch: feature/drone
@@ -174,6 +176,7 @@ pipeline:
     group: push
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
+    - dctl pull app --env=prod
     - dctl build app --env=prod --cache-from-self
     when:
       branch: feature/drone
