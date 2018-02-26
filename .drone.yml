@@ -75,6 +75,8 @@ pipeline:
     - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
     - TAG=5
+    when:
+      branch: master
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   push-dev-app:
