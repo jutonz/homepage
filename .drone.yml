@@ -19,7 +19,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     group: build
     commands:
-    - dctl pull psql
+    - dctl pull psql || true
     - dctl build psql --cache-from-self
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
@@ -27,7 +27,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     group: build
     commands:
-    - dctl pull app
+    - dctl pull app || true
     - dctl build app --cache-from-self
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
@@ -35,6 +35,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     group: build
     commands:
+    - dctl pull redis || true
     - dctl build redis --cache-from-self
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
@@ -126,7 +127,7 @@ pipeline:
     group: push
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
-    - dctl pull redis --env=prod
+    - dctl pull redis --env=prod || true
     - dctl build redis --env=prod --cache-from-self
     when:
       branch: master
@@ -136,7 +137,7 @@ pipeline:
     group: push
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
-    - dctl pull psql --env=prod
+    - dctl pull psql --env=prod || true
     - dctl build psql --env=prod --cache-from-self
     when:
       branch: master
@@ -146,7 +147,7 @@ pipeline:
     group: push
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
-    - dctl pull app --env=prod
+    - dctl pull app --env=prod || true
     - dctl build app --env=prod --cache-from-self
     when:
       branch: master
