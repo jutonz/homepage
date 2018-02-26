@@ -1,7 +1,15 @@
-FROM jutonz/homepage-dev-app:5
+FROM ubuntu:16.04
+
+RUN DEBIAN_FRONTEND="noninteractive" \
+&& apt-get update -y && apt-get install -y \
+  software-properties-common \
+  wget \
+  locales \
+  sudo \
+&& apt-get clean
 
 RUN sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list' \
- && wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add - \
+ && wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | apt-key add - \
  && apt-get update && apt-get install postgresql postgresql-contrib --yes \
 && rm -rf /var/lib/apt/lists/*
 

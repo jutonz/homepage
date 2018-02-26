@@ -1,5 +1,4 @@
-set -x
-set -e
+set -ex
 
 chown -Rf postgres:postgres /var/lib/postgresql/data
 chmod -R 700 /var/lib/postgresql/data
