@@ -88,7 +88,7 @@ pipeline:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     when:
-      branch: feature/drone
+      branch: master
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   push-dev-psql:
@@ -102,7 +102,7 @@ pipeline:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     when:
-      branch: feature/drone
+      branch: master
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   push-dev-redis:
@@ -116,7 +116,7 @@ pipeline:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     when:
-      branch: feature/drone
+      branch: master
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
@@ -127,7 +127,7 @@ pipeline:
     - dctl pull redis --env=prod
     - dctl build redis --env=prod --cache-from-self
     when:
-      branch: feature/drone
+      branch: master
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   build-prod-psql:
@@ -137,7 +137,7 @@ pipeline:
     - dctl pull psql --env=prod
     - dctl build psql --env=prod --cache-from-self
     when:
-      branch: feature/drone
+      branch: master
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   build-prod-app:
@@ -147,7 +147,7 @@ pipeline:
     - dctl pull app --env=prod
     - dctl build app --env=prod --cache-from-self
     when:
-      branch: feature/drone
+      branch: master
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
@@ -158,7 +158,7 @@ pipeline:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push redis --env=prod
     when:
-      branch: feature/drone
+      branch: master
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
@@ -176,7 +176,7 @@ pipeline:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     when:
-      branch: feature/drone
+      branch: master
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   push-prod-app:
@@ -190,7 +190,7 @@ pipeline:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     when:
-      branch: feature/drone
+      branch: master
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
