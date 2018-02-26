@@ -2,7 +2,7 @@
 
 set -x
 
-cd /root
+cd /tmp/app
 
 # Remove hex deps installed on host, if any
 rm -r deps
