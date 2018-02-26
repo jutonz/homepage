@@ -19,7 +19,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     group: build
     commands:
-    - dctl pull psql
+    - dctl pull psql || true
     - dctl build psql --cache-from-self
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
