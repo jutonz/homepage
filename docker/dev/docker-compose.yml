@@ -5,7 +5,7 @@ services:
     image: jutonz/homepage-dev-psql:4
     volumes:
     - "../../:/tmp/code"
-    - "../../tmp/psql-dev:/var/lib/postgresql/data"
+    - "pgdata:/var/lib/postgresql/data"
   redis:
     image: jutonz/homepage-dev-redis:1
   app:
@@ -14,6 +14,7 @@ services:
       SECRET_KEY_BASE: "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
     volumes:
     - "../../:/root"
+    - "code:/tmp/app"
     - "node_modules:/root/apps/client/assets/node_modules"
     ports:
     - 4000:4000
@@ -25,3 +26,5 @@ services:
     - redis
 volumes:
   node_modules:
+  pgdata:
+  code:

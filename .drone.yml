@@ -1,0 +1,221 @@
+---
+pipeline:
+  build-test-image:
+    image: docker
+    commands:
+    - docker login -u "$PRIVATE_DOCKER_USERNAME" -p "$PRIVATE_DOCKER_PASSWORD" https://registry.jutonz.com
+    - docker pull $IMAGE:latest
+    - docker build --cache-from $IMAGE:latest -f docker/ci/testimage/Dockerfile -t $IMAGE:$TAG .
+    secrets: [ PRIVATE_DOCKER_USERNAME, PRIVATE_DOCKER_PASSWORD ]
+    environment:
+    - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
+    - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
+    - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
+    - TAG=5
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
+  build-local-dev-psql:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    group: build
+    commands:
+    - dctl pull psql
+    - dctl build psql --cache-from-self
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  build-local-dev-app:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    group: build
+    commands:
+    - dctl pull app
+    - dctl build app --cache-from-self
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  build-local-dev-redis:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    group: build
+    commands:
+    - dctl build redis --cache-from-self
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
+  initdb:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - docker volume ls
+    - docker run -v dev_code:/data --name helper busybox true
+    - docker cp . helper:/data
+    - docker rm helper
+    - dctl run psql /etc/initdb.sh
+    - dctl run app /etc/seedci.sh
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
+  unit-tests:
+    group: test
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl run app /etc/runtests.sh
+    environment:
+    - DCTL_NOSUDO=yeah
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
+  push-test-image:
+    image: docker
+    group: push
+    commands:
+    - docker login -u "$PRIVATE_DOCKER_USERNAME" -p "$PRIVATE_DOCKER_PASSWORD" https://registry.jutonz.com
+    - docker tag $IMAGE:$TAG $IMAGE:latest
+    - docker push $IMAGE:$TAG
+    - docker push $IMAGE:latest
+    secrets: [ PRIVATE_DOCKER_USERNAME, PRIVATE_DOCKER_PASSWORD ]
+    environment:
+    - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
+    - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
+    - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
+    - TAG=5
+    when:
+      branch: master
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  push-dev-app:
+    group: push
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - dctl push app
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    when:
+      branch: master
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  push-dev-psql:
+    group: push
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - dctl push psql
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    when:
+      branch: master
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  push-dev-redis:
+    group: push
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - dctl push redis
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    when:
+      branch: master
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
+  build-prod-redis:
+    group: push
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl pull redis --env=prod
+    - dctl build redis --env=prod --cache-from-self
+    when:
+      branch: master
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  build-prod-psql:
+    group: push
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl pull psql --env=prod
+    - dctl build psql --env=prod --cache-from-self
+    when:
+      branch: master
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  build-prod-app:
+    group: push
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl pull app --env=prod
+    - dctl build app --env=prod --cache-from-self
+    when:
+      branch: master
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
+  push-prod-redis:
+    group: push-prod
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - dctl push redis --env=prod
+    when:
+      branch: master
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  push-prod-psql:
+    group: push-prod
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - dctl push psql --env=prod
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    when:
+      branch: master
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  push-prod-app:
+    group: push-prod
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - dctl push app --env=prod
+    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    environment:
+    - DOCKER_USERNAME=$$DOCKER_USERNAME
+    - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    when:
+      branch: master
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+
+  #deploy-prod-app:
+    #group: deploy-prod
+    #image: jutonz/homepage-prod-app:latest
+    #template: docker/prod/k8s/app-deployment.yaml
+    #namespace: homepage
+    #volumes:
+    #- /var/run/docker.sock:/var/run/docker.sock
+
+  cleanup:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl rm -f
+    - dctl cleanup --keep-latest 3
+    - docker volume prune -f
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    when:
+      status: [success, failure]
+#services:
+  #dind:
+    #image: docker:dind
+    #privileged: true
+    #command: ["--storage-driver=overlay2", "--tls=false"]
