@@ -15,19 +15,6 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
-  #build-local-images:
-    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    #group: build
-    #commands:
-    #- dctl version
-    #- dctl pull ${IMAGE}
-    #- dctl build ${IMAGE} --cache-from-self
-    #volumes:
-    #- /var/run/docker.sock:/var/run/docker.sock
-    #when:
-      #matrix:
-        #IMAGE: ["app", "psql", "redis"]
-
   build-local-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     group: build
@@ -52,21 +39,6 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
-  #compile-dev:
-    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    #group: compile
-    #commands:
-    #- dctl run app /etc/compile_dev.sh
-    #volumes:
-    #- /var/run/docker.sock:/var/run/docker.sock
-  #compile-test:
-    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
-    #group: compile
-    #commands:
-    #- dctl run app /etc/compile_test.sh
-    #volumes:
-    #- /var/run/docker.sock:/var/run/docker.sock
-
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
@@ -74,14 +46,10 @@ pipeline:
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
-    #- docker-compose -f docker/dev/docker-compose.yml run psql /etc/initdb.sh
-    #- docker-compose -f docker/dev/docker-compose.yml run psql /etc/initdb.sh
     - dctl run psql /etc/initdb.sh
     - dctl run app /etc/seedci.sh
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    #environment:
-    #- DCTL_NOSUDO=yeah
 
   unit-tests:
     group: test
@@ -226,13 +194,13 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
-  deploy-prod-app:
-    group: deploy-prod
-    image: jutonz/homepage-prod-app:latest
-    template: docker/prod/k8s/app-deployment.yaml
-    namespace: homepage
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+  #deploy-prod-app:
+    #group: deploy-prod
+    #image: jutonz/homepage-prod-app:latest
+    #template: docker/prod/k8s/app-deployment.yaml
+    #namespace: homepage
+    #volumes:
+    #- /var/run/docker.sock:/var/run/docker.sock
 
   cleanup:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
