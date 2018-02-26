@@ -209,7 +209,8 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
     - dctl rm -f
-    - dctl cleanup --keep-latest 3
+    - dctl cleanup --keep 3
+    - dctl cleanup --keep 3 --env=prod
     - docker volume prune -f
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
