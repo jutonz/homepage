@@ -51,7 +51,7 @@ pipeline:
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
-    - docker volume ls
+    - set -e
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
@@ -217,8 +217,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
     - dctl rm -f
-    - dctl cleanup --keep 3
-    - dctl cleanup --keep 3 --env=prod
+    - dctl cleanup
     - docker volume prune -f
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
