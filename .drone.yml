@@ -14,7 +14,7 @@ pipeline:
     - TAG=5
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-  cleanup:
+  cleanup-pre:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
     - dctl rm -f
@@ -213,7 +213,7 @@ pipeline:
     #volumes:
     #- /var/run/docker.sock:/var/run/docker.sock
 
-  cleanup:
+  cleanup-post:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
     - dctl rm -f
