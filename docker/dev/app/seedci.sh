@@ -11,3 +11,6 @@ cp -r /tmp/code/_build _build
 
 MIX_ENV=test PG_HOST=psql mix ecto.create --force
 MIX_ENV=test PG_HOST=psql mix ecto.migrate
+
+rm -rf deps
+rm -rf _build

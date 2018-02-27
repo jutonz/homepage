@@ -65,6 +65,7 @@ RUN cd /tmp/code/apps/client/assets && yarn && yarn cache clean
 # Compile hex deps (This is done after yarn since react_phoenix needs
 # react-stdio node module to be present to compile)
 RUN cd /tmp/code && mix deps.compile
+RUN cd /tmp/code && MIX_ENV=test mix deps.compile
 
 # Install phoenix
 RUN mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez --force
