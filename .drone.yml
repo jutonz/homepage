@@ -1,15 +1,16 @@
 ---
 pipeline:
   kb-test:
-    image: docker
-    #image: lachlanevenson/k8s-kubectl:v1.9.3
+    #image: docker
+    image: lachlanevenson/k8s-kubectl:v1.9.3
     #pull: true
     commands:
-      #- ls -alh /etc/kubernetes
-      - docker run --rm -v /etc/kubernetes:/etc/kubernetes lachlanevenson/k8s-kubectl:v1.9.3 --kubeconfig /etc/kubernetes/kubelet.conf get pods -nhomepage
-      #- kubectl --kubeconfig=/etc/kubernetes/kubelet.conf get pods -nhomepage
+      - echo $KUBELET_CONF > kubelet.conf
+      - kubectl --kubeconfig=kubelet.conf get pods -nhomepage
+    secrets: [ kubelet_conf ]
+    environment:
+    - KUBELET_CONF=$$KUBELET_CONF
     volumes:
-    #- /etc/kubernetes:/etc/kubernetes
     - /var/run/docker.sock:/var/run/docker.sock
   build-test-image:
     image: docker
