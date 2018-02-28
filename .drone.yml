@@ -8,6 +8,7 @@ pipeline:
       - kubectl --kubeconfig=/etc/kubernetes/kubelet.conf get pods -nhomepage
     volumes:
     - /etc/kubernetes:/etc/kubernetes
+    - /var/run/docker.sock:/var/run/docker.sock
   build-test-image:
     image: docker
     commands:
