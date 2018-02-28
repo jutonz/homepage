@@ -14,6 +14,14 @@ pipeline:
     - TAG=5
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
+  cleanup-pre:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    commands:
+    - dctl rm -f
+    - dctl cleanup
+    - docker volume prune -f
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
 
   build-local-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
@@ -43,7 +51,7 @@ pipeline:
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
-    - docker volume ls
+    - set -e
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
@@ -205,11 +213,11 @@ pipeline:
     #volumes:
     #- /var/run/docker.sock:/var/run/docker.sock
 
-  cleanup:
+  cleanup-post:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
     commands:
     - dctl rm -f
-    - dctl cleanup --keep-latest 3
+    - dctl cleanup
     - docker volume prune -f
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
