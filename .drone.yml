@@ -4,9 +4,9 @@ pipeline:
     image: lachlanevenson/k8s-kubectl:v1.9.3
     pull: true
     commands:
-      - kubectl --server=$SERVER get pods -nhomepage
-    environment:
-      - SERVER=192.168.1.85:6443
+      - kubectl --kubeconfig=/etc/kubernetes/kubelet.conf get pods -nhomepage
+    volumes:
+    - /etc/kubernetes:/etc/kubernetes
   build-test-image:
     image: docker
     commands:
