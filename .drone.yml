@@ -6,6 +6,7 @@ pipeline:
     #pull: true
     commands:
       - echo -n $KUBELET_CONF > kubelet.conf
+      - cat kubelet.conf
       - kubectl --kubeconfig=kubelet.conf get pods -nhomepage
     secrets: [ kubelet_conf ]
     environment:
