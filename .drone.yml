@@ -1,18 +1,17 @@
 ---
 pipeline:
-  kb-test:
-    #image: docker
+  deploy-app:
     image: lachlanevenson/k8s-kubectl:v1.9.3
-    #pull: true
     commands:
+      - cd docker/prod/k8s
       - echo $KUBELET_CONF | base64 -d > kubelet.conf
-      - cat kubelet.conf
-      - kubectl --kubeconfig=kubelet.conf get pods -nhomepage
+      - kubectl --kubeconfig=kubelet.conf apply -f app-deployment.yaml
+      - kubectl --kubeconfig=kubelet.conf apply -f app-deployment.yaml
+      - rm -f kubelet.conf
     secrets: [ kubelet_conf ]
-    environment:
-    - KUBELET_CONF=$$KUBELET_CONF
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    environment: ["KUBELET_CONF=$$KUBELET_CONF"]
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+
   build-test-image:
     image: docker
     commands:
@@ -225,6 +224,7 @@ pipeline:
     #namespace: homepage
     #volumes:
     #- /var/run/docker.sock:/var/run/docker.sock
+
 
   cleanup-post:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
