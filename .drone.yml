@@ -1,5 +1,12 @@
 ---
 pipeline:
+  kb-test:
+    image: lachlanevenson/k8s-cubectl:1.9.3
+    pull: true
+    commands:
+      - kubectl --server=$SERVER get pods -nhomepage
+    environment:
+      - SERVER=192.168.1.85:6443
   build-test-image:
     image: docker
     commands:
