@@ -1,22 +1,25 @@
-import * as React from 'react';
-import { Input, InputOnChangeData } from 'semantic-ui-react';
-import { StyleSheet, css } from 'aphrodite';
+import * as React from "react";
+import { Input, InputOnChangeData } from "semantic-ui-react";
+import { StyleSheet, css } from "aphrodite";
 import { CoffeemakerStoreState } from "./../store/reducers/coffeemaker";
-import { StoreState, setCoffeemakerFlozAction, setCoffeemakerGramsAction } from "./../Store";
+import {
+  StoreState,
+  setCoffeemakerFlozAction,
+  setCoffeemakerGramsAction
+} from "./../Store";
 import { connect, Dispatch } from "react-redux";
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    alignItems: 'center'
+    display: "flex",
+    alignItems: "center"
   },
 
   spacer: {
-    margin: '0 10px'
+    margin: "0 10px"
   },
 
-  inputContainer: {
-  }
+  inputContainer: {}
 });
 
 interface Props extends CoffeemakerStoreState {
@@ -48,8 +51,10 @@ class _Coffeemaker extends React.Component<Props, State> {
             label="floz brewed coffee"
             labelPosition="right"
             autoFocus={true}
-            onFocus={() => this.setState({ focusedInput: "left" }) }
-            { ...(this.state.focusedInput === "left" ? { onChange: this.flozChanged } : { value: flozStr }) }
+            onFocus={() => this.setState({ focusedInput: "left" })}
+            {...(this.state.focusedInput === "left"
+              ? { onChange: this.flozChanged }
+              : { value: flozStr })}
           />
         </div>
 
@@ -59,20 +64,28 @@ class _Coffeemaker extends React.Component<Props, State> {
           <Input
             label="grams of beans"
             labelPosition="right"
-            onFocus={() => this.setState({ focusedInput: "right" }) }
-            {...(this.state.focusedInput === "right" ? { onChange: this.gramsChanged } : { value: gramsStr })}
+            onFocus={() => this.setState({ focusedInput: "right" })}
+            {...(this.state.focusedInput === "right"
+              ? { onChange: this.gramsChanged }
+              : { value: gramsStr })}
           />
         </div>
       </div>
     );
   }
 
-  public flozChanged = (_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {
+  public flozChanged = (
+    _event: React.SyntheticEvent<HTMLInputElement>,
+    data: InputOnChangeData
+  ) => {
     const floz = parseInt(data.value);
     this.props.setFloz(floz);
   };
 
-  public gramsChanged = (_event: React.SyntheticEvent<HTMLInputElement>, data: InputOnChangeData) => {
+  public gramsChanged = (
+    _event: React.SyntheticEvent<HTMLInputElement>,
+    data: InputOnChangeData
+  ) => {
     const grams = parseInt(data.value);
     this.props.setGrams(grams);
   };
