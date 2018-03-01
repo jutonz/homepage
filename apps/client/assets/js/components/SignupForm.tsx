@@ -52,6 +52,7 @@ interface State {
   password: string;
   username: string;
   canSubmit: boolean;
+  signingUp: boolean;
 }
 
 class _SignupForm extends React.Component<Props, State> {
@@ -60,7 +61,8 @@ class _SignupForm extends React.Component<Props, State> {
     this.state = {
       password: "",
       username: "",
-      canSubmit: false
+      canSubmit: false,
+      signingUp: false
     };
     this.passwordChanged = this.passwordChanged.bind(this);
     this.usernameChanged = this.usernameChanged.bind(this);
@@ -104,6 +106,8 @@ class _SignupForm extends React.Component<Props, State> {
       return;
     }
 
+    this.setState({ signingUp: true });
+
     fetch("/api/signup", {
       method: "POST",
       credentials: "same-origin",
@@ -112,7 +116,8 @@ class _SignupForm extends React.Component<Props, State> {
     })
       .then((resp: Response) => {
         if (resp.ok && resp.status === 200) {
-          this.props.history.push("/");
+          window.location.hash = "#/";
+          //this.props.history.push("/");
         } else {
           return resp.json();
         }
@@ -157,6 +162,7 @@ class _SignupForm extends React.Component<Props, State> {
           active={true}
           fluid={true}
           type="submit"
+          loading={this.state.signingUp}
           className={css(styles.submit)}
         >
           Signup

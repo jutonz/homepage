@@ -3,7 +3,8 @@ export enum ActionType {
   Dec,
   AddCsrfToken,
   SetSession,
-  SetCoffemaker,
+  SetCoffemakerFloz,
+  SetCoffeemakerGrams,
   FlashAdd,
   FlashRemove
 }
@@ -18,10 +19,6 @@ export interface AddCsrfTokenAction extends Action {
 
 export interface SetSessionAction extends Action {
   established: boolean;
-}
-
-export interface SetCoffeemakerAction extends Action {
-  floz: number;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,9 +43,11 @@ export const setSessionAction = (established: boolean): SetSessionAction => ({
   established: established
 });
 
-export const setCoffeemakerAction = (floz: number): SetCoffeemakerAction => ({
-  type: ActionType.SetCoffemaker,
-  floz: floz
-});
+export {
+  setCoffeemakerFlozAction,
+  setCoffeemakerGramsAction,
+  SetCoffeemakerFlozAction,
+  SetCoffeemakerGramsAction
+} from "./reducers/coffeemaker";
 
 export { FlashMessage, FlashTone, showFlash } from "./reducers/flash";
