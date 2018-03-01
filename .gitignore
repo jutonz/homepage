@@ -15,5 +15,6 @@ erl_crash.dump
 .bash_history
 .byebug_history
 .vim
+yarn-error.log
 
 docker/ci/keys
