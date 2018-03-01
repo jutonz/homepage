@@ -18,7 +18,7 @@ class _Coffeemaker extends React.Component<Props, State> {
       <div>
         How much coffee would you like to make?
         <Input
-          onChange={this.inputChanged}
+          onChange={this.flozChanged}
           autoFocus={true}
           error={!!this.props.errorMessage}
         />
@@ -45,7 +45,7 @@ class _Coffeemaker extends React.Component<Props, State> {
     }
   };
 
-  public inputChanged = (
+  public flozChanged = (
     _event: React.SyntheticEvent<HTMLInputElement>,
     data: InputOnChangeData
   ) => {

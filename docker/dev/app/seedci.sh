@@ -9,6 +9,7 @@ cd /tmp/app
 cp -r /tmp/code/deps deps
 cp -r /tmp/code/_build _build
 
+MIX_ENV=test PG_HOST=psql mix ecto.drop
 MIX_ENV=test PG_HOST=psql mix ecto.create --force
 MIX_ENV=test PG_HOST=psql mix ecto.migrate
 
