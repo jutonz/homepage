@@ -26,30 +26,41 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
-  build-local-dev-psql:
+  build-local-images:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
-    group: build
+    group: build-local
     commands:
-    - dctl pull psql || true
-    - dctl build psql --cache-from-self
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  build-local-dev-app:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
-    group: build
-    commands:
-    - dctl pull app --version=latest || true
-    - dctl build app --cache-from=`dctl tag-for app --version=latest`
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-  build-local-dev-redis:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
-    group: build
-    commands:
-    - dctl pull redis || true
-    - dctl build redis --cache-from-self
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    - dctl pull ${service} --version=latest
+    - dctl build ${service} --cache-from=`dctl tag-for ${service}`
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+    when:
+      matrix:
+        service: ["app", "psql", "redis"]
+
+  #build-local-dev-psql:
+    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
+    #group: build
+    #commands:
+    #- dctl pull psql || true
+    #- dctl build psql --cache-from-self
+    #volumes:
+    #- /var/run/docker.sock:/var/run/docker.sock
+  #build-local-dev-app:
+    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
+    #group: build
+    #commands:
+    #- dctl pull app --version=latest || true
+    #- dctl build app --cache-from=`dctl tag-for app --version=latest`
+    #volumes:
+    #- /var/run/docker.sock:/var/run/docker.sock
+  #build-local-dev-redis:
+    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
+    #group: build
+    #commands:
+    #- dctl pull redis || true
+    #- dctl build redis --cache-from-self
+    #volumes:
+    #- /var/run/docker.sock:/var/run/docker.sock
 
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
@@ -150,12 +161,10 @@ pipeline:
     group: push
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
     commands:
-    - dctl pull psql --env=prod || true
-    - dctl build psql --env=prod --cache-from-self
-    when:
-      branch: master
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+    - dctl pull psql --version=latest --env=prod || true
+    - dctl build psql --env=prod --cache-from=`dctl tag-for app --env=prod --version=latest`
+    when: { branch: master }
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-prod-app:
     group: push
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
