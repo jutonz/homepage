@@ -12,7 +12,8 @@ pipeline:
       - rm -f kubelet.conf
     secrets: [ kubelet_conf ]
     environment: ["KUBELET_CONF=$$KUBELET_CONF"]
-    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
 
   build-test-image:
     image: docker
@@ -32,6 +33,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - dctl ps
+    - dctl down
     - dctl rm -f
     - dctl ps
     - dctl cleanup
@@ -239,6 +241,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - dctl ps
+    - dctl down
     - dctl rm -f
     - dctl ps
     - dctl cleanup
