@@ -86,7 +86,7 @@ pipeline:
     - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
     - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
-    - TAG=5
+    - TAG=6
     when:
       branch: master
     volumes:
