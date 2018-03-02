@@ -96,7 +96,9 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - docker tag `dctl tag-for app` `dctl tag-for app --version=latest`
     - dctl push app
+    - docker push `dctl tag-for app --version=latest`
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
