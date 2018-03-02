@@ -26,41 +26,27 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
 
-  build-local-images:
+  build-local-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
-    group: build-local
+    group: build
     commands:
-    - dctl pull ${service} --version=latest
-    - dctl build ${service} --cache-from=`dctl tag-for ${service}`
+    - dctl pull psql --version=latest || true
+    - dctl build psql --cache-from=`dctl tag-for psql --version=latest`
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-    when:
-      matrix:
-        service: ["app", "psql", "redis"]
-
-  #build-local-dev-psql:
-    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
-    #group: build
-    #commands:
-    #- dctl pull psql || true
-    #- dctl build psql --cache-from-self
-    #volumes:
-    #- /var/run/docker.sock:/var/run/docker.sock
-  #build-local-dev-app:
-    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
-    #group: build
-    #commands:
-    #- dctl pull app --version=latest || true
-    #- dctl build app --cache-from=`dctl tag-for app --version=latest`
-    #volumes:
-    #- /var/run/docker.sock:/var/run/docker.sock
-  #build-local-dev-redis:
-    #image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
-    #group: build
-    #commands:
-    #- dctl pull redis || true
-    #- dctl build redis --cache-from-self
-    #volumes:
-    #- /var/run/docker.sock:/var/run/docker.sock
+  build-local-dev-app:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
+    group: build
+    commands:
+    - dctl pull app --version=latest || true
+    - dctl build app --cache-from=`dctl tag-for app --version=latest`
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  build-local-dev-redis:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
+    group: build
+    commands:
+    - dctl pull redis --version=latest || true
+    - dctl build redis --cache-from=`dctl tag-for redis --version=latest`
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
