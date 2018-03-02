@@ -11,11 +11,11 @@ pipeline:
     - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
     - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
-    - TAG=5
+    - TAG=6
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   cleanup-pre:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - dctl rm -f
     - dctl cleanup
@@ -24,7 +24,7 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
 
   build-local-dev-psql:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     group: build
     commands:
     - dctl pull psql || true
@@ -32,7 +32,7 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   build-local-dev-app:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     group: build
     commands:
     - dctl pull app || true
@@ -40,7 +40,7 @@ pipeline:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   build-local-dev-redis:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     group: build
     commands:
     - dctl pull redis || true
@@ -49,7 +49,7 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
 
   initdb:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - set -e
     - docker run -v dev_code:/data --name helper busybox true
@@ -62,7 +62,7 @@ pipeline:
 
   unit-tests:
     group: test
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - dctl run app /etc/runtests.sh
     environment:
@@ -90,7 +90,7 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
   push-dev-app:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push app
@@ -104,7 +104,7 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
   push-dev-psql:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push psql
@@ -118,7 +118,7 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
   push-dev-redis:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push redis
@@ -133,7 +133,7 @@ pipeline:
 
   build-prod-redis:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - dctl pull redis --env=prod || true
     - dctl build redis --env=prod --cache-from-self
@@ -143,7 +143,7 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
   build-prod-psql:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - dctl pull psql --env=prod || true
     - dctl build psql --env=prod --cache-from-self
@@ -153,7 +153,7 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
   build-prod-app:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - dctl pull app --env=prod || true
     - dctl build app --env=prod --cache-from-self
@@ -164,7 +164,7 @@ pipeline:
 
   push-prod-redis:
     group: push-prod
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push redis --env=prod
@@ -178,7 +178,7 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
   push-prod-psql:
     group: push-prod
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push psql --env=prod
@@ -192,7 +192,7 @@ pipeline:
     - /var/run/docker.sock:/var/run/docker.sock
   push-prod-app:
     group: push-prod
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - dctl push app --env=prod
@@ -219,7 +219,7 @@ pipeline:
     when: { branch: master }
 
   cleanup-post:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:5
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
     - dctl rm -f
     - dctl cleanup
