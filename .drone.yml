@@ -5,7 +5,7 @@ pipeline:
     commands:
       - cd docker/prod/k8s
       - echo $KUBELET_CONF | base64 -d > kubelet.conf
-      - docker run $IMAGE -v `pwd`:/data --kubeconfig /data/kubelet.conf get pods -nhomepage
+      - docker run -v `pwd`:/data $IMAGE --kubeconfig /data/kubelet.conf get pods -nhomepage
       #- kubectl --kubeconfig=kubelet.conf cluster-info
       #- kubectl --kubeconfig=kubelet.conf apply -f app-deployment.yaml
       #- kubectl --kubeconfig=kubelet.conf get pods -nhomepage
