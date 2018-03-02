@@ -17,7 +17,10 @@ pipeline:
   cleanup-pre:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
+    - dctl ps
+    - dctl down
     - dctl rm -f
+    - dctl ps
     - dctl cleanup
     - docker volume prune -f
     volumes:
@@ -207,6 +210,7 @@ pipeline:
 
   deploy-app:
     image: lachlanevenson/k8s-kubectl:v1.9.3
+    group: deploy
     commands:
       - cd docker/prod/k8s
       - echo $KUBELET_CONF | base64 -d > kubelet.conf
@@ -221,13 +225,17 @@ pipeline:
   cleanup-post:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:6
     commands:
+    - dctl ps
+    - dctl down
     - dctl rm -f
+    - dctl ps
     - dctl cleanup
     - docker volume prune -f
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     when:
       status: [success, failure]
+
 #services:
   #dind:
     #image: docker:dind
