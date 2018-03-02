@@ -39,7 +39,7 @@ pipeline:
     group: build
     commands:
     - dctl pull app || true
-    - dctl build app --cache-from-self
+    - dctl build app --cache-from=`dctl tag-for app --version=latest`
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   build-local-dev-redis:

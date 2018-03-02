@@ -9,7 +9,7 @@ services:
   redis:
     image: jutonz/homepage-dev-redis:1
   app:
-    image: jutonz/homepage-dev-app:17
+    image: jutonz/homepage-dev-app:18
     environment:
       SECRET_KEY_BASE: "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
     volumes:
