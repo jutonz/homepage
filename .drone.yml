@@ -28,22 +28,25 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
     group: build
     commands:
-    - dctl pull psql --version=latest || true
-    - dctl build psql --cache-from=`dctl tag-for psql --version=latest`
+    - dctl pull $SERVICE --version=latest || true
+    - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
+    environment: ["SERVICE=psql"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-local-dev-app:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
     group: build
     commands:
-    - dctl pull app --version=latest || true
-    - dctl build app --cache-from=`dctl tag-for app --version=latest`
+    - dctl pull $SERVICE --version=latest || true
+    - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
+    environment: ["SERVICE=app"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-local-dev-redis:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
     group: build
     commands:
-    - dctl pull redis --version=latest || true
-    - dctl build redis --cache-from=`dctl tag-for redis --version=latest`
+    - dctl pull $SERVICE --version=latest || true
+    - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
+    environment: ["SERVICE=redis"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   initdb:
@@ -86,13 +89,14 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - docker tag `dctl tag-for app` `dctl tag-for app --version=latest`
-    - dctl push app
-    - docker push `dctl tag-for app --version=latest`
+    - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
+    - dctl push $SERVICE
+    - docker push `dctl tag-for $SERVICE --version=latest`
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    - SERVICE=app
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-dev-psql:
@@ -100,11 +104,14 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - dctl push psql
+    - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
+    - dctl push $SERVICE
+    - docker push `dctl tag-for $SERVICE --version=latest`
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    - SERVICE=psql
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-dev-redis:
@@ -112,11 +119,14 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - dctl push redis
+    - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
+    - dctl push $SERVICE
+    - docker push `dctl tag-for $SERVICE --version=latest`
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
+    - SERVICE=redis
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
@@ -176,7 +186,7 @@ pipeline:
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
-    - SERVICE=redis
+    - SERVICE=psql
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-prod-app:
@@ -190,7 +200,7 @@ pipeline:
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
-    - SERVICE=redis
+    - SERVICE=app
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
