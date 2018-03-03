@@ -18,9 +18,9 @@ pipeline:
     commands:
       - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
       - kubectl get pods -nhomepage -owide
-      - kubectl get deploy app -nhomepage -ojsonpath='{$.spec.template.spec.containers[:1].image}' > .current-app-verison
-      - kubectl get deploy psql -nhomepage -ojsonpath='{$.spec.template.spec.containers[:1].image}' > .current-psql-verison
-      - kubectl get deploy redis -nhomepage -ojsonpath='{$.spec.template.spec.containers[:1].image}' > .current-redis-verison
+      - kubectl get deploy app -nhomepage -ojsonpath='{$.spec.template.spec.containers[:1].image}' > .current-app-version
+      - kubectl get deploy psql -nhomepage -ojsonpath='{$.spec.template.spec.containers[:1].image}' > .current-psql-version
+      - kubectl get deploy redis -nhomepage -ojsonpath='{$.spec.template.spec.containers[:1].image}' > .current-redis-version
       - rm -f $KUBECONFIG
       - echo "current app" && cat .current-app-version
       - echo "current psql" && cat .current-psql-version
