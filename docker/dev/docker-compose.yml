@@ -11,7 +11,8 @@ services:
   app:
     image: jutonz/homepage-dev-app:18
     environment:
-      SECRET_KEY_BASE: "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
+    - SECRET_KEY_BASE: "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
+    - CI
     volumes:
     - "../../:/root"
     - "code:/tmp/app"

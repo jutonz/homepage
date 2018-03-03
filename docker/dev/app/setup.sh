@@ -7,7 +7,11 @@
 
 set -x
 
-cd /tmp/app
+if [ -n $CI ]; then
+  cd /tmp/app
+else
+  cd /root
+fi
 
 # Remove hex deps installed on host, if any
 rm -r deps
