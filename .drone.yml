@@ -13,12 +13,18 @@ pipeline:
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
     - TAG=9
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-  k8s-connection-test:
+  k8s-get-live-versions:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
     commands:
       - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
-      - kubectl get pods -nhomepage
+      - kubectl get pods -nhomepage -owide
+      - kb get deploy app -nhomepage -ojsonpath='{$.spec.template.spec.containers[:1].image}' > .current-app-verison
+      - kb get deploy psql -nhomepage -ojsonpath='{$.spec.template.spec.containers[:1].image}' > .current-psql-verison
+      - kb get deploy redis -nhomepage -ojsonpath='{$.spec.template.spec.containers[:1].image}' > .current-redis-verison
       - rm -f $KUBECONFIG
+      - echo "current app" && cat .current-app-version
+      - echo "current psql" && cat .current-psql-version
+      - echo "current redis" && cat .current-redis-version
     secrets: [ kubelet_conf ]
     environment:
     - "KUBELET_CONF=$$KUBELET_CONF"
