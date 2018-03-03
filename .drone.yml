@@ -16,12 +16,13 @@ pipeline:
   k8s-connection-test:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
     commands:
-      - cd docker/prod/k8s
-      - echo $KUBELET_CONF | base64 -d > kubelet.conf
-      - kubectl --kubeconfig=kubelet.conf get pods -nhomepage
-      - rm -f kubelet.conf
+      - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
+      - kubectl get pods -nhomepage
+      - rm -f $KUBECONFIG
     secrets: [ kubelet_conf ]
-    environment: ["KUBELET_CONF=$$KUBELET_CONF"]
+    environment:
+    - "KUBELET_CONF=$$KUBELET_CONF"
+    - "KUBECONFIG=/root/kubelet.conf"
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   cleanup-pre:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
@@ -220,13 +221,66 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
     group: deploy
     commands:
+      - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
       - cd docker/prod/k8s
-      - echo $KUBELET_CONF | base64 -d > kubelet.conf
-      - kubectl --kubeconfig=kubelet.conf apply -f app-deployment.yaml
-      - kubectl --kubeconfig=kubelet.conf get pods -nhomepage
-      - rm -f kubelet.conf
+      - kubectl set image deployments/$SERVICE `dctl tag-for $SERVICE` -nhomepage
+      - kubectl rollout status deployments/$SERVICE -nhomepage
+      - rm -f $KUBECONFIG
     secrets: [ kubelet_conf ]
-    environment: ["KUBELET_CONF=$$KUBELET_CONF"]
+    environment:
+    - "KUBELET_CONF=$$KUBELET_CONF"
+    - "KUBECONFIG=/root/kubelet.conf"
+    - DCTL_ENV=prod
+    - SERVICE=app
+    when: { branch: master }
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  deploy-psql:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:8
+    group: deploy
+    commands:
+      - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
+      - cd docker/prod/k8s
+      - kubectl set image deployments/$SERVICE `dctl tag-for $SERVICE` -nhomepage
+      - kubectl rollout status deployments/$SERVICE -nhomepage
+      - rm -f $KUBECONFIG
+    secrets: [ kubelet_conf ]
+    environment:
+    - "KUBELET_CONF=$$KUBELET_CONF"
+    - "KUBECONFIG=/root/kubelet.conf"
+    - DCTL_ENV=prod
+    - SERVICE=psql
+    when: { branch: master }
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  deploy-redis:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:8
+    group: deploy
+    commands:
+      - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
+      - cd docker/prod/k8s
+      - kubectl set image deployments/$SERVICE `dctl tag-for $SERVICE` -nhomepage
+      - kubectl rollout status deployments/$SERVICE -nhomepage
+      - rm -f $KUBECONFIG
+    secrets: [ kubelet_conf ]
+    environment:
+    - "KUBELET_CONF=$$KUBELET_CONF"
+    - "KUBECONFIG=/root/kubelet.conf"
+    - DCTL_ENV=prod
+    - SERVICE=redis
+    when: { branch: master }
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+
+  migrate-db:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:8
+    group: migrate
+    commands:
+      - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
+      - export POD=`kubectl get pods -nhomepage | grep app | head -n1 | awk '{print $1}'`
+      - kubectl exec $POD -nhomepage -- bash -c 'MIX_ENV=prod mix ecto.migrate'
+      - rm -f $KUBECONFIG
+    secrets: [ kubelet_conf ]
+    environment:
+    - "KUBELET_CONF=$$KUBELET_CONF"
+    - "KUBECONFIG=/root/kubelet.conf"
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
