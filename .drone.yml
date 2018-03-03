@@ -16,10 +16,8 @@ pipeline:
   cleanup-pre:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
     commands:
-    - dctl ps
     - dctl down
     - dctl rm -f
-    - dctl ps
     - dctl cleanup
     - docker volume prune -f
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
@@ -221,10 +219,8 @@ pipeline:
   cleanup-post:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
     commands:
-    - dctl ps
     - dctl down
     - dctl rm -f
-    - dctl ps
     - dctl cleanup
     - docker volume prune -f
     when:
