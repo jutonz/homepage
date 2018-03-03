@@ -11,13 +11,15 @@ export enum ActiveItem {
   Settings = "settings",
   Logout = "logout",
   Coffeemaker = "coffeemaker",
-  Resume = "resume"
+  Resume = "resume",
+  Login = "login"
 }
 
 interface Props extends RouteComponentProps<{}> {
   activeItem: ActiveItem;
   csrfToken?: string;
   destroySession(): Action;
+  sessionAuthenticated: boolean;
 }
 
 interface State {
@@ -67,15 +69,33 @@ class _MainNav extends React.Component<Props, State> {
               active={activeItem === ActiveItem.Settings}
             />
           </Link>
-          <Menu.Item
-            name={ActiveItem.Logout}
-            active={activeItem === ActiveItem.Logout}
-            onClick={this.logout}
-          />
+          {this.renderLoginOrLogout()}
         </Menu.Menu>
       </Menu>
     );
   }
+
+  private renderLoginOrLogout = () => {
+    const { activeItem } = this.state;
+
+    if (this.props.sessionAuthenticated) {
+      return (
+        <Menu.Item
+          name={ActiveItem.Logout}
+          active={activeItem === ActiveItem.Logout}
+          onClick={this.logout}
+        />
+      );
+    } else {
+      return (
+        <Menu.Item
+          name={ActiveItem.Login}
+          active={false}
+          onClick={this.login}
+        />
+      );
+    }
+  };
 
   private logout = () => {
     fetch("/api/logout", {
@@ -97,10 +117,15 @@ class _MainNav extends React.Component<Props, State> {
         }
       });
   };
+
+  private login = () => {
+    this.props.history.push("/");
+  };
 }
 
 const mapStateToProps = (state: StoreState): Partial<Props> => ({
-  csrfToken: state.csrfToken
+  csrfToken: state.csrfToken,
+  sessionAuthenticated: state.sessionAuthenticated
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({

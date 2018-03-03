@@ -58,6 +58,7 @@ pipeline:
     - docker rm helper
     - dctl run psql /etc/initdb.sh
     - dctl run app /etc/seedci.sh
+    environment: ["CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   unit-tests:
@@ -65,7 +66,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:7
     commands:
     - dctl run app /etc/runtests.sh
-    environment: ["DCTL_NOSUDO=yeah"]
+    environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   push-test-image:
