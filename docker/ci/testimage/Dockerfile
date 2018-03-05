@@ -13,3 +13,5 @@ RUN apk add alpine-sdk ruby ruby-dev python3 py3-pip --no-cache
 RUN pip3 install docker-compose=="1.19.0"
 RUN gem install bigdecimal --no-document
 RUN gem install dctl_rb -v '0.11.0' --no-document
+
+COPY docker/ci/testimage/*.sh /etc/
