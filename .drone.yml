@@ -15,16 +15,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   k8s-get-live-versions:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
-    commands: |
-      echo $KUBELET_CONF | base64 -d > $KUBECONFIG
-      dctl tag-for app
-      dctl k8s live-image app -n homepage
-      if dctl k8s is-outdated app -n homepage; then
-        echo "app is outdated"
-      else
-        echo "app is not outdated"
-      fi
-      rm $KUBECONFIG
+    commands: ["/etc/get-live-images.sh"]
     secrets: [ kubelet_conf ]
     environment:
     - "KUBELET_CONF=$$KUBELET_CONF"
