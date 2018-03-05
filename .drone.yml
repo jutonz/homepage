@@ -11,21 +11,10 @@ pipeline:
     - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
     - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
-    - TAG=9
-    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-  k8s-connection-test:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
-    commands:
-      - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
-      - kubectl get pods -nhomepage
-      - rm -f $KUBECONFIG
-    secrets: [ kubelet_conf ]
-    environment:
-    - "KUBELET_CONF=$$KUBELET_CONF"
-    - "KUBECONFIG=/root/kubelet.conf"
+    - TAG=10
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   cleanup-pre:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
     commands:
     - dctl down
     - dctl rm -f
@@ -34,7 +23,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   build-local-dev-psql:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
     group: build
     commands:
     - dctl pull $SERVICE --version=latest || true
@@ -42,7 +31,7 @@ pipeline:
     environment: ["SERVICE=psql"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-local-dev-app:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
     group: build
     commands:
     - dctl pull $SERVICE --version=latest || true
@@ -50,7 +39,7 @@ pipeline:
     environment: ["SERVICE=app"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-local-dev-redis:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
     group: build
     commands:
     - dctl pull $SERVICE --version=latest || true
@@ -59,7 +48,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   initdb:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
     commands:
     - set -e
     - docker run -v dev_code:/data --name helper busybox true
@@ -72,9 +61,8 @@ pipeline:
 
   unit-tests:
     group: test
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
-    commands:
-    - dctl run app /etc/runtests.sh
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
+    commands: ["dctl run app /etc/runtests.sh"]
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
@@ -91,12 +79,12 @@ pipeline:
     - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
     - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
-    - TAG=9
+    - TAG=10
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-dev-app:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
@@ -111,7 +99,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-dev-psql:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
@@ -126,7 +114,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-dev-redis:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
@@ -142,42 +130,30 @@ pipeline:
 
   build-prod-redis:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
-    commands:
-    - dctl pull $SERVICE --version=latest || true
-    - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
-    - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
+    commands: ["/etc/build-service.sh $SERVICE"]
     environment: ["SERVICE=redis", "DCTL_ENV=prod"]
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-prod-psql:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
-    commands:
-    - dctl pull $SERVICE --version=latest || true
-    - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
-    - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
+    commands: ["/etc/build-service.sh $SERVICE"]
     environment: ["SERVICE=psql", "DCTL_ENV=prod"]
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-prod-app:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
-    commands:
-    - dctl pull $SERVICE --version=latest || true
-    - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
-    - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
+    commands: ["/etc/build-service.sh $SERVICE"]
     environment: ["SERVICE=app", "DCTL_ENV=prod"]
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   push-prod-redis:
     group: push-prod
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
-    commands:
-    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - dctl push $SERVICE
-    - docker push `dctl tag-for $SERVICE --version=latest`
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
+    commands: ["/etc/push-service.sh $SERVICE"]
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
@@ -188,11 +164,8 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-prod-psql:
     group: push-prod
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
-    commands:
-    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - dctl push $SERVICE
-    - docker push `dctl tag-for $SERVICE --version=latest`
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
+    commands: ["/etc/push-service.sh $SERVICE"]
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
@@ -203,11 +176,8 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-prod-app:
     group: push-prod
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
-    commands:
-    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-    - dctl push $SERVICE
-    - docker push `dctl tag-for $SERVICE --version=latest`
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
+    commands: ["/etc/push-service.sh $SERVICE"]
     secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
@@ -218,14 +188,9 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   deploy-app:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
     group: deploy
-    commands:
-      - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
-      - cd docker/prod/k8s
-      - kubectl set image deployments/$SERVICE `dctl tag-for $SERVICE` -nhomepage
-      - kubectl rollout status deployments/$SERVICE -nhomepage
-      - rm -f $KUBECONFIG
+    commands: ["/etc/deploy-service.sh $SERVICE"]
     secrets: [ kubelet_conf ]
     environment:
     - "KUBELET_CONF=$$KUBELET_CONF"
@@ -237,12 +202,7 @@ pipeline:
   deploy-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:8
     group: deploy
-    commands:
-      - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
-      - cd docker/prod/k8s
-      - kubectl set image deployments/$SERVICE `dctl tag-for $SERVICE` -nhomepage
-      - kubectl rollout status deployments/$SERVICE -nhomepage
-      - rm -f $KUBECONFIG
+    commands: ["/etc/deploy-service.sh $SERVICE"]
     secrets: [ kubelet_conf ]
     environment:
     - "KUBELET_CONF=$$KUBELET_CONF"
@@ -254,12 +214,7 @@ pipeline:
   deploy-redis:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:8
     group: deploy
-    commands:
-      - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
-      - cd docker/prod/k8s
-      - kubectl set image deployments/$SERVICE `dctl tag-for $SERVICE` -nhomepage
-      - kubectl rollout status deployments/$SERVICE -nhomepage
-      - rm -f $KUBECONFIG
+    commands: ["/etc/deploy-service.sh $SERVICE"]
     secrets: [ kubelet_conf ]
     environment:
     - "KUBELET_CONF=$$KUBELET_CONF"
@@ -285,7 +240,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   cleanup-post:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:9
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
     commands:
     - dctl down
     - dctl rm -f
