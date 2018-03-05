@@ -17,6 +17,8 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:10
     commands:
       - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
+      - dctl tag-for app
+      - dctl k8s live-image app -n homepage
       - if dctl k8s is-outdated app -n homepage; then
       -   echo "app is outdated"
       - else
