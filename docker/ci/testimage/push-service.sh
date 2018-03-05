@@ -11,6 +11,14 @@ fi
 
 echo "pushing $service"
 
-docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-dctl push $service
-docker push `dctl tag-for $service --version=latest`
+echo $KUBELET_CONF | base64 -d > $KUBECONFIG
+
+if dctl k8s is-outdated $service -n homepage -q; then
+  docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  dctl push $service
+  docker push `dctl tag-for $service --version=latest`
+else
+  echo "$service would not be updated by push"
+fi
+
+rm -f $KUBECONFIG
