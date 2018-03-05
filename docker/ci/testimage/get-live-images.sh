@@ -18,5 +18,4 @@ else
   echo "$service is not outdated"
 fi
 
-
 rm -f $KUBECONFIG
