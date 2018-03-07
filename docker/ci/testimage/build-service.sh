@@ -2,23 +2,21 @@
 
 set +e
 
-service=$1
-
-if [ -z "$service" ]; then
+if [ -z "$SERVICE" ]; then
   echo "usage: ./build-service.sh [SERVICE]"
   exit 1
 fi
 
-echo "building $service"
+echo "building $SERVICE"
 
 echo $KUBELET_CONF | base64 -d > $KUBECONFIG
 
-if dctl k8s is-outdated $service -n homepage -q; then
-  dctl pull $service --version=latest || true
-  dctl build $service --cache-from=`dctl tag-for $service --version=latest`
-  docker tag `dctl tag-for $service` `dctl tag-for $service --version=latest`
+if dctl k8s is-outdated $SERVICE -n homepage -q; then
+  dctl pull $SERVICE --version=latest || true
+  dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
+  docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
 else
-  echo "$service would not be updated by build"
+  echo "$SERVICE would not be updated by build"
 fi
 
 rm -f $KUBECONFIG
