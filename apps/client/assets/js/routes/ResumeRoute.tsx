@@ -9,7 +9,8 @@ const docPath = require("./../../static/files/resume.docx");
 const style = StyleSheet.create({
   resumeContainer: {
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    height: "80vh"
   },
 
   actionsContainer: {
@@ -26,7 +27,7 @@ const style = StyleSheet.create({
 
 export const ResumeRoute = () => (
   <div>
-    <MainNav activeItem={ActiveItem.Settings} />
+    <MainNav activeItem={ActiveItem.Resume} />
 
     <div className={css(style.resumeContainer)}>
       <PdfViewer pdfPath={pdfPath} />
