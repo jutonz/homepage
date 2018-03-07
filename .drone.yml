@@ -169,7 +169,7 @@ pipeline:
     group: push-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:11
     commands: [". /etc/push-service.sh"]
-    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    secrets: [kubelet_conf, docker_username, docker_password]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
@@ -183,7 +183,7 @@ pipeline:
     group: push-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:11
     commands: [". /etc/push-service.sh"]
-    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    secrets: [kubelet_conf, docker_username, docker_password]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
@@ -197,7 +197,7 @@ pipeline:
     group: push-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:11
     commands: [". /etc/push-service.sh"]
-    secrets: [ DOCKER_USERNAME, DOCKER_PASSWORD ]
+    secrets: [kubelet_conf, docker_username, docker_password]
     environment:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
