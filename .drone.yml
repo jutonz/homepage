@@ -26,7 +26,6 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:11
     commands: [". /etc/build-service.sh"]
     environment: ["SERVICE=redis", "DCTL_ENV=prod"]
-    when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   build-local-dev-psql:
