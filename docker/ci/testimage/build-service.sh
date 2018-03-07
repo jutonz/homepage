@@ -6,7 +6,7 @@ echo "building $SERVICE"
 
 echo $KUBELET_CONF | base64 -d > $KUBECONFIG
 
-if dctl k8s is-outdated $SERVICE -n homepage -q; then
+if dctl k8s is-outdated $SERVICE -n homepage; then
   dctl pull $SERVICE --version=latest || true
   dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
   docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
