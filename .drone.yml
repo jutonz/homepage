@@ -25,7 +25,12 @@ pipeline:
     group: push-test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:11
     commands: [". /etc/build-service.sh"]
-    environment: ["SERVICE=redis", "DCTL_ENV=prod"]
+    secrets: [ kubelet_conf ]
+    environment:
+    - KUBELET_CONF=$$KUBELET_CONF
+    - KUBECONFIG=/root/kubelet.conf
+    - SERVICE=redis
+    - DCTL_ENV=prod
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   build-local-dev-psql:
