@@ -221,7 +221,7 @@ pipeline:
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   deploy-psql:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:8
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:11
     group: deploy
     commands: [". /etc/deploy-service.sh"]
     secrets: [ kubelet_conf ]
@@ -233,7 +233,7 @@ pipeline:
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   deploy-redis:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:8
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:11
     group: deploy
     commands: [". /etc/deploy-service.sh"]
     secrets: [ kubelet_conf ]
@@ -246,7 +246,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   migrate-db:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:8
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:11
     group: migrate
     commands:
       - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
