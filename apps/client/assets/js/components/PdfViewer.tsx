@@ -66,11 +66,11 @@ class _PdfViewer extends React.Component<IProps, IState> {
 
     const renderTask = page.render(renderContext);
     renderTask.then(() => console.log("Page rendered"));
-  };
+  }
 
   private optimumScale(page: PDFPageProxy, canvas: HTMLCanvasElement) {
     return canvas.clientHeight / page.getViewport(1.0).height;
-  };
+  }
 
   private onRenderFailure = (reason: string) => {
     console.error(reason);
