@@ -2,11 +2,6 @@
 
 set +e
 
-if [ -z "$SERVICE" ]; then
-  echo "usage: ./build-service.sh [SERVICE]"
-  exit 1
-fi
-
 echo "building $SERVICE"
 
 echo $KUBELET_CONF | base64 -d > $KUBECONFIG
