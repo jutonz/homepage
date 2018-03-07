@@ -34,7 +34,6 @@ class _PdfViewer extends React.Component<IProps, IState> {
   };
 
   public componentDidMount() {
-    console.log("Hey I mounted");
     window.addEventListener("resize", () => {
       const page = this.state.page;
       if (page) {
