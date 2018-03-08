@@ -8,8 +8,8 @@ import {
 } from "./Actions";
 
 import { CoffeemakerStoreState, coffeemaker } from "./reducers/coffeemaker";
-
 import { FlashStoreState, flash } from "./reducers/flash";
+import { AccountStoreState, accounts } from "./reducers/accounts";
 
 export interface StoreState {
   csrfToken?: string;
@@ -17,6 +17,7 @@ export interface StoreState {
   sessionAuthenticated?: boolean;
   coffeemaker: CoffeemakerStoreState;
   flash: FlashStoreState;
+  accounts: AccountStoreState;
 }
 
 const count = (state: number = 0, action: Action): number => {
@@ -56,5 +57,6 @@ export const appStore = combineReducers({
   count,
   csrfToken,
   sessionAuthenticated,
-  flash
+  flash,
+  accounts
 });

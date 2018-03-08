@@ -1,2 +1,2 @@
-export * from './store/Store';
-export * from './store/Actions';
+export * from "./store/Store";
+export * from "./store/Actions";

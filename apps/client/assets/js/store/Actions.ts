@@ -6,7 +6,9 @@ export enum ActionType {
   SetCoffemakerFloz,
   SetCoffeemakerGrams,
   FlashAdd,
-  FlashRemove
+  FlashRemove,
+  AccountsRequest,
+  AccountsReceive
 }
 
 export interface Action {
@@ -49,5 +51,7 @@ export {
   SetCoffeemakerFlozAction,
   SetCoffeemakerGramsAction
 } from "./reducers/coffeemaker";
+
+export * from "./reducers/accounts";
 
 export { FlashMessage, FlashTone, showFlash } from "./reducers/flash";

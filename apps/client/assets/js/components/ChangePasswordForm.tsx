@@ -12,8 +12,9 @@ import {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
-    maxWidth: 300
+    maxWidth: 300,
+    minWidth: 300,
+    marginTop: 30
   },
 
   submit: {
