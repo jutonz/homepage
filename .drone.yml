@@ -244,10 +244,9 @@ pipeline:
     - SERVICE=redis
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-
   migrate-db:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
-    group: migrate
+    group: deploy
     commands:
       - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
       - export POD=`kubectl get pods -nhomepage | grep app | head -n1 | awk '{print $1}'`
