@@ -18,8 +18,8 @@ defmodule ClientWeb.UserResolver do
     with {:ok, user} <- Map.fetch(context.context, :current_user),
          changeset <- user |> User.changeset(args),
          {:ok, user} <- Repo.update(changeset),
-      do: {:ok, user},
-    else: (_ -> {:error, "Could not update user"})
+         do: {:ok, user},
+         else: (_ -> {:error, "Could not update user"})
   end
 
   def change_password(_params, args, %{context: context}) do
@@ -27,10 +27,11 @@ defmodule ClientWeb.UserResolver do
          {:ok, current_pw} <- Map.fetch(args, :current_password),
          {:ok, new_pw} <- Map.fetch(args, :new_password),
          {:ok, user} <- UserServer.change_password(user, current_pw, new_pw),
-      do: {:ok, user},
-      else: (
-        {:error, reason} -> {:error, reason}
-        _ -> {:error, "Failed to update password" }
-      )
+         do: {:ok, user},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to update password"}
+           )
   end
 end

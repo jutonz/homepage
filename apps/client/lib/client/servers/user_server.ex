@@ -32,12 +32,13 @@ defmodule Client.UserServer do
 
   def handle_call({:change_password, user, current_pw, new_pw}, _from, something) do
     with {:ok, _pass} <- Auth.check_password(current_pw, user.password_hash),
-         changeset <- User.changeset(user, %{ password: new_pw }),
+         changeset <- User.changeset(user, %{password: new_pw}),
          {:ok, user} <- Repo.update(changeset),
-      do: {:reply, {:ok, user}, something},
-      else: (
-        {:error, reason} -> {:reply, {:error, reason}, something}
-        _ -> {:reply, {:error, "Could not change password"}, something}
-      )
+         do: {:reply, {:ok, user}, something},
+         else:
+           (
+             {:error, reason} -> {:reply, {:error, reason}, something}
+             _ -> {:reply, {:error, "Could not change password"}, something}
+           )
   end
 end
