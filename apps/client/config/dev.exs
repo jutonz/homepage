@@ -12,9 +12,7 @@ config :client, ClientWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: [yarn: ["run", "watch",
-                   cd: Path.expand("../assets", __DIR__)]]
-
+  watchers: [yarn: ["run", "watch", cd: Path.expand("../assets", __DIR__)]]
 
 # Watch static and templates for browser reloading.
 config :client, ClientWeb.Endpoint,
@@ -36,6 +34,7 @@ config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
 pg_host = System.get_env("PG_HOST") || "psql"
+
 config :client, Client.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "docker",

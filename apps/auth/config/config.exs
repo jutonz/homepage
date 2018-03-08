@@ -29,7 +29,8 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 
-secret_key_base = System.get_env "SECRET_KEY_BASE"
+secret_key_base = System.get_env("SECRET_KEY_BASE")
+
 config :auth, Auth.Guardian,
   issuer: "homepage",
   secret_key: secret_key_base

@@ -3,11 +3,13 @@ defmodule Client.Repo.Migrations.HashUserPasswords do
 
   def up do
     Client.User
-      |> Client.Repo.all
-      |> Enum.each(fn(u) ->
-        password  = u.password_hash # currently unhashed
-        changeset = Client.User.changeset(u, %{password: password})
-        Client.Repo.update(changeset) # trigger hash
-      end)
+    |> Client.Repo.all()
+    |> Enum.each(fn u ->
+      # currently unhashed
+      password = u.password_hash
+      changeset = Client.User.changeset(u, %{password: password})
+      # trigger hash
+      Client.Repo.update(changeset)
+    end)
   end
 end

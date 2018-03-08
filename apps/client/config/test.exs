@@ -11,6 +11,7 @@ config :logger, level: :warn
 
 # Configure your database
 pg_host = System.get_env("PG_HOST") || "psql"
+
 config :client, Client.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "docker",

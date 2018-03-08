@@ -10,14 +10,13 @@ config :client,
   namespace: Client,
   ecto_repos: [Client.Repo]
 
-secret_key_base = System.get_env "SECRET_KEY_BASE"
+secret_key_base = System.get_env("SECRET_KEY_BASE")
 
 config :client, ClientWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: secret_key_base,
   render_errors: [view: ClientWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Client.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: Client.PubSub, adapter: Phoenix.PubSub.PG2]
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
@@ -29,4 +28,4 @@ config :absinthe, log: false
 
 # Import environment specific config. This must remain at the bottom of this
 # file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"

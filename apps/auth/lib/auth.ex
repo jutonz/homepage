@@ -27,18 +27,21 @@ defmodule Auth do
   +revoke_single_use_token+ to expire it.
   """
   def single_use_jwt(resource_id, ttl_sec \\ 86400) do
-    with {:ok, token, claims} <- Guardian.encode_and_sign(resource_id, %{},
-            token_type: "single-use",
-            token_ttl: {ttl_sec, :seconds}
-          ),
-         {:ok, _resp} <- Redis.command(
-           ["setex", "single-use-token:#{claims["jti"]}", ttl_sec, true]
-         ),
-      do: {:ok, token, claims},
-      else: (
-        {:error, reason} -> {:error, reason}
-        _ -> {:error, "Failed to generate JWT"}
-      )
+    with {:ok, token, claims} <-
+           Guardian.encode_and_sign(
+             resource_id,
+             %{},
+             token_type: "single-use",
+             token_ttl: {ttl_sec, :seconds}
+           ),
+         {:ok, _resp} <-
+           Redis.command(["setex", "single-use-token:#{claims["jti"]}", ttl_sec, true]),
+         do: {:ok, token, claims},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to generate JWT"}
+           )
   end
 
   def jwt_for_resource(resource_id) do
@@ -56,17 +59,18 @@ defmodule Auth do
   def resource_for_single_use_jwt(jwt) do
     with {:ok, resource, claims} <- resource_for_jwt(jwt),
          {:ok, true} <- ensure_token_unrevoked(claims["jti"]),
-      do: {:ok, resource, claims},
-      else: (
-        {:error, reason} -> {:error, reason}
-        _ -> {:error, "Failed to exchange single use JWT"}
-      )
+         do: {:ok, resource, claims},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to exchange single use JWT"}
+           )
   end
 
   defp ensure_token_unrevoked(jti) do
     with {:ok, "true"} <- Redis.command(["GET", "single-use-token:#{jti}"]),
-      do: {:ok, true},
-      else: (_ -> {:error, false})
+         do: {:ok, true},
+         else: (_ -> {:error, false})
   end
 
   @doc """

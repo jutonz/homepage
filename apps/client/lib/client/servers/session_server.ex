@@ -4,7 +4,7 @@ defmodule Client.SessionServer do
   """
   use GenServer
   import Plug.Conn
-  alias Client.{User,Repo,UserServer}
+  alias Client.{User, Repo, UserServer}
 
   # Client API
 
@@ -42,44 +42,50 @@ defmodule Client.SessionServer do
     with {:ok, user} <- UserServer.get_by_email(email),
          {:ok, _pass} <- Auth.check_password(password, user.password_hash),
          {:ok, conn} <- init_user_session(conn, user),
-      do: {:reply, {:ok, user, conn}, state},
-      else: (
-        {:error, reason} -> {:reply, {:error, reason}, state}
-        _ -> {:reply, {:error, "Failed to login"}, state}
-      )
+         do: {:reply, {:ok, user, conn}, state},
+         else:
+           (
+             {:error, reason} -> {:reply, {:error, reason}, state}
+             _ -> {:reply, {:error, "Failed to login"}, state}
+           )
   end
 
   def handle_call({:exchange, conn, token}, _from, state) do
     with {:ok, user, claims} <- Auth.resource_for_single_use_jwt(token),
          {:ok, conn} <- init_user_session(conn, user),
          {:ok, _resp} <- Auth.revoke_single_use_token(claims["jti"]),
-      do: {:reply, {:ok, user, conn}, state},
-      else: (
-        {:error, reason} -> {:reply, {:error, reason}, state}
-        _ -> {:reply, {:error, "Failed to login"}, state}
-      )
+         do: {:reply, {:ok, user, conn}, state},
+         else:
+           (
+             {:error, reason} -> {:reply, {:error, reason}, state}
+             _ -> {:reply, {:error, "Failed to login"}, state}
+           )
   end
 
   def handle_call({:signup, conn, email, password}, _from, state) do
-    changeset = User.changeset(%User{}, %{ email: email, password: password })
+    changeset = User.changeset(%User{}, %{email: email, password: password})
+
     case Repo.insert(changeset) do
       {:ok, user} ->
         {:ok, conn} = init_user_session(conn, user)
         {:reply, {:ok, user, conn}, state}
+
       {:error, result} ->
         errors =
           Keyword.keys(result.errors)
-            |> Enum.map(fn(key) ->
-              message = result.errors[key] |> elem(0)
-              to_string(key) <> " " <> message
-            end)
-            |> Enum.join(", ")
+          |> Enum.map(fn key ->
+            message = result.errors[key] |> elem(0)
+            to_string(key) <> " " <> message
+          end)
+          |> Enum.join(", ")
+
         {:reply, {:error, errors}, state}
     end
   end
 
   def handle_call({:logout, conn}, _from, state) do
-    conn = conn
+    conn =
+      conn
       |> put_session(:user_id, nil)
       |> assign(:current_user, nil)
 
@@ -103,7 +109,8 @@ defmodule Client.SessionServer do
   Returns conn (now with session info)
   """
   def init_user_session(conn, user) do
-    conn = conn
+    conn =
+      conn
       |> assign(:current_user, user)
       |> put_session(:user_id, user.id)
       |> configure_session(renew: true)
@@ -113,6 +120,7 @@ defmodule Client.SessionServer do
 
   defp load_current_user(conn) do
     user_id = conn |> get_session(:user_id)
+
     if user_id do
       User |> Repo.get(user_id)
     end
