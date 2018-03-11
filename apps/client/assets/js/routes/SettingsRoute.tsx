@@ -16,7 +16,13 @@ const style = StyleSheet.create({
 export const SettingsRoute = () => (
   <div>
     <MainNav activeItem={ActiveItem.Settings} />
-    <Grid columns={2} divided relaxed stackable className={css(style.routeContainer)}>
+    <Grid
+      columns={2}
+      divided
+      relaxed
+      stackable
+      className={css(style.routeContainer)}
+    >
       <Grid.Column>
         <Header>User settings</Header>
         <Grid columns={2} relaxed stackable>

@@ -26,11 +26,10 @@ interface Props {
   fetchAccounts(): void;
   loadingAccounts: boolean;
   accountsFetchError?: string;
-  accounts?: Array<Account>
+  accounts?: Array<Account>;
 }
 
-interface State {
-}
+interface State {}
 
 class _AccountMembershipForm extends React.Component<Props, State> {
   public componentWillMount() {

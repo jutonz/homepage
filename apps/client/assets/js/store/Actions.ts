@@ -8,7 +8,10 @@ export enum ActionType {
   FlashAdd,
   FlashRemove,
   AccountsRequest,
-  AccountsReceive
+  AccountsReceive,
+  SetNewAccountNameAction,
+  CreateAccountRequest,
+  CreateAccountReceive
 }
 
 export interface Action {
@@ -53,5 +56,4 @@ export {
 } from "./reducers/coffeemaker";
 
 export * from "./reducers/accounts";
-
-export { FlashMessage, FlashTone, showFlash } from "./reducers/flash";
+export * from "./reducers/flash";

@@ -8,6 +8,11 @@ defmodule ClientWeb.Schema do
     field(:updated_at, non_null(:string))
   end
 
+  object :account do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
+  end
+
   query do
     field :get_user, :user do
       arg(:id, :id)
@@ -21,6 +26,10 @@ defmodule ClientWeb.Schema do
 
     field :get_one_time_login_link, :string do
       resolve(&ClientWeb.SessionResolver.get_one_time_login_link/3)
+    end
+
+    field :get_accounts, list_of(:account) do
+      resolve(&ClientWeb.AccountResolver.get_user_accounts/3)
     end
   end
 
@@ -38,6 +47,12 @@ defmodule ClientWeb.Schema do
       arg(:new_password, non_null(:string))
 
       resolve(&ClientWeb.UserResolver.change_password/3)
+    end
+
+    field :create_account, :account do
+      arg(:name, non_null(:string))
+
+      resolve(&ClientWeb.AccountResolver.create_account/3)
     end
   end
 end
