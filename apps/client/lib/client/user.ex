@@ -7,9 +7,11 @@ defmodule Client.User do
     field(:password_hash, :string)
     field(:password, :string, virtual: true)
     field(:email, :string)
-
     timestamps()
+
+    many_to_many :accounts, Client.Account, join_through: "user_accounts"
   end
+
 
   @doc false
   def changeset(%User{} = user, attrs) do

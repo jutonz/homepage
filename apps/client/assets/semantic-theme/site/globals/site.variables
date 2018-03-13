@@ -3,3 +3,4 @@
 @inputColor: black;
 
 @fontName sans-serif;
+@borderColor: #CCC;

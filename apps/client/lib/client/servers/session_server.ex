@@ -6,6 +6,8 @@ defmodule Client.SessionServer do
   import Plug.Conn
   alias Client.{User, Repo, UserServer}
 
+  def init(args), do: {:ok, args}
+
   # Client API
 
   def start_link(opts \\ []) do
