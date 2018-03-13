@@ -70,10 +70,7 @@ RUN cd /tmp/code && MIX_ENV=test mix deps.compile
 # Install phoenix
 RUN mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez --force
 
-COPY docker/dev/app/setup.sh /etc/
-COPY docker/dev/app/start.sh /etc/
-COPY docker/dev/app/runtests.sh /etc/
-COPY docker/dev/app/seed.sh docker/dev/app/seedci.sh /etc/
+COPY docker/dev/app/*.sh /etc/
 COPY docker/dev/app/runscripts /usr/bin/
 
 ENTRYPOINT ["runscripts", "/etc/setup.sh"]
