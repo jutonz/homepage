@@ -7,7 +7,7 @@ defmodule Client.Repo.Migrations.AddAccounts do
       timestamps()
     end
 
-    create table("user_accounts") do
+    create table("user_accounts", primary_key: false) do
       add :account_id, references(:accounts)
       add :user_id, references(:users)
     end

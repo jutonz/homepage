@@ -1,7 +1,5 @@
 defmodule ClientWeb.UserResolver do
-  alias Client.Repo
-  alias Client.User
-  alias Client.UserServer
+  alias Client.{User,UserServer,Repo}
 
   def get_users(_parent, _args, _context) do
     {:ok, Repo.all(User)}

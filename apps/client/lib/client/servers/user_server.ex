@@ -3,9 +3,10 @@ defmodule Client.UserServer do
   Server responsible for accessing and modifying user records.
   """
   use GenServer
-
   alias Client.User
   alias Client.Repo
+
+  def init(args), do: {:ok, args}
 
   # Client API
 
