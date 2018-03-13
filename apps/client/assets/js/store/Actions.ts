@@ -9,7 +9,7 @@ export enum ActionType {
   FlashRemove,
   AccountsRequest,
   AccountsReceive,
-  SetNewAccountNameAction,
+  SetNewAccountName,
   CreateAccountRequest,
   CreateAccountReceive
 }

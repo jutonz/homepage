@@ -79,7 +79,7 @@ export const fetchAccounts = (): any =>  {
 }
 
 export const setNewAccountName = (newName: string): SetNewAccountNameAction => ({
-  type: ActionType.SetNewAccountNameAction,
+  type: ActionType.SetNewAccountName,
   newName
 });
 
@@ -106,7 +106,7 @@ export const createAccount = (name: string): any => {
 // Private action creators
 ////////////////////////////////////////////////////////////////////////////////
 
-export const requestAccounts = (): AccountsRequestAction => ({
+const requestAccounts = (): AccountsRequestAction => ({
   type: ActionType.AccountsRequest
 });
 
@@ -165,7 +165,7 @@ export const accounts = (
       }
       return { ...state, ...newState };
     }
-    case ActionType.SetNewAccountNameAction: {
+    case ActionType.SetNewAccountName: {
       const newName = (action as SetNewAccountNameAction).newName;
       const isValid = isNewAccountNameValid(newName);
       newState = {
