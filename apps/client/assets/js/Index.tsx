@@ -4,6 +4,8 @@ import "react-phoenix";
 import * as React from "react";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+import createHistory from 'history/createBrowserHistory'
+import { routerMiddleware } from "react-router-redux";
 import { Provider } from "react-redux";
 import { App } from "./components/App";
 import { ApolloClient } from "apollo-client";
@@ -41,7 +43,11 @@ window.grapqlClient = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const store = createStore(appStore, applyMiddleware(thunk));
+const middleware = applyMiddleware(
+  thunk,
+  routerMiddleware(createHistory())
+);
+const store = createStore(appStore, middleware);
 
 interface IndexProps {
   csrfToken: string;

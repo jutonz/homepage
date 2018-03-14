@@ -56,10 +56,10 @@ const renderFlash = (messages: Array<FlashMessage>): ReactNode | null => {
   return messages.map(message => <Flash message={message} key={message.id} />);
 };
 
-const mapStateToProps = (state: StoreState): Partial<IProps> => ({
+const mapStoreToProps = (state: StoreState): Partial<IProps> => ({
   flashMessages: state.flash.messages
 });
 
 const mapDispatchToProps = (_dispatch: Dispatch<{}>): Partial<IProps> => ({});
 
-export const App = compose(connect(mapStateToProps, mapDispatchToProps))(_App);
+export const App = compose(connect(mapStoreToProps, mapDispatchToProps))(_App);
