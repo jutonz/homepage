@@ -4,6 +4,7 @@ import { StyleSheet, css } from "aphrodite";
 import { Header, Form, Loader } from "semantic-ui-react";
 import { compose, Dispatch } from "redux";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { StoreState, fetchAccounts, Account } from "./../Store";
 
 const style = StyleSheet.create({
@@ -67,8 +68,10 @@ class _AccountMembershipForm extends React.Component<Props, State> {
         <div>
           {this.props.accounts.map((account: Account) => (
             <div key={account.id}>
-              Name: {account.name}
-              ID: {account.id}
+              <Link to={`accounts/${account.id}`}>
+                Name: {account.name}
+                ID: {account.id}
+              </Link>
             </div>
           ))}
         </div>

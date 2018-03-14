@@ -19,6 +19,7 @@ services:
     - "../../:/root"
     - "code:/tmp/app"
     - "node_modules:/root/apps/client/assets/node_modules"
+    #- "../../apps/client/assets/node_modules:/root/apps/client/assets/node_modules"
     ports:
     - 4000:4000
     depends_on:

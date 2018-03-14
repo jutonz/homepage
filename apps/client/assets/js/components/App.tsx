@@ -15,6 +15,7 @@ import { LoginRoute } from "./../routes/LoginRoute";
 import { SettingsRoute } from "./../routes/SettingsRoute";
 import { CoffeemakerRoute } from "./../routes/CoffeemakerRoute";
 import { ResumeRoute } from "./../routes/ResumeRoute";
+import { AccountRoute } from "./../routes/AccountRoute";
 
 const style = StyleSheet.create({
   flashContainer: {
@@ -47,6 +48,10 @@ const _App = (props: IProps) => (
 
         <AuthenticatedRoute path="/" exact={true} component={HomeRoute} />
         <AuthenticatedRoute path="/settings" component={SettingsRoute} />
+        <AuthenticatedRoute
+          path="/accounts/:id"
+          //component={AccountRoute}
+        />
       </div>
     </Router>
   </div>

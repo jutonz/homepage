@@ -1,4 +1,4 @@
-import { Action, ActionType } from './../Actions';
+import { Action, ActionType, FetchStatus } from './../Actions';
 import { Dispatch } from "redux";
 import gql from "graphql-tag";
 import {
@@ -30,6 +30,12 @@ export interface Account {
 // Action definitions
 ////////////////////////////////////////////////////////////////////////////////
 
+export interface AccountFetchAction extends Action {
+  status: FetchStatus
+  account?: Account;
+  errorMessage?: string;
+}
+
 export interface AccountsRequestAction extends Action {
 }
 
@@ -46,6 +52,12 @@ export interface StoreAccountAction extends Action {
 ////////////////////////////////////////////////////////////////////////////////
 // Public action creators
 ////////////////////////////////////////////////////////////////////////////////
+
+export const fetchAccount = (id: string): any => {
+  return (dispatch: Dispatch<{}>) => {
+    dispatch(accountFetchAction({ status: FetchStatus.InProgress }));
+  };
+};
 
 export const fetchAccounts = (): any => {
   return (dispatch: Dispatch<{}>) => {
@@ -78,6 +90,12 @@ export const storeAccount = (account: Account): any => ({
 ////////////////////////////////////////////////////////////////////////////////
 // Private action creators
 ////////////////////////////////////////////////////////////////////////////////
+
+const accountFetchAction = (
+  params: AccountFetchAction
+): AccountFetchAction => ({
+  ...{ type: ActionType.AccountFetch }, ...params
+});
 
 const requestAccounts = (): AccountsRequestAction => ({
   type: ActionType.AccountsRequest
