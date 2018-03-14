@@ -1,7 +1,10 @@
 import { Action, ActionType } from './../Actions';
 import { Dispatch } from "redux";
 import gql from "graphql-tag";
-import { AccountsCreateAccountStoreState, createAccountReducer } from "./accounts/create-account";
+import {
+  AccountsCreateAccountStoreState,
+  createAccountReducer
+} from "./accounts/create-account";
 
 export * from "./accounts/create-account";
 
