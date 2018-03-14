@@ -55,7 +55,8 @@ export interface StoreAccountAction extends Action {
 
 export const fetchAccount = (id: string): any => {
   return (dispatch: Dispatch<{}>) => {
-    dispatch(accountFetchAction({ status: FetchStatus.InProgress }));
+    dispatch(accountFetchAction(FetchStatus.InProgress));
+    console.log(id);
   };
 };
 
@@ -91,10 +92,11 @@ export const storeAccount = (account: Account): any => ({
 // Private action creators
 ////////////////////////////////////////////////////////////////////////////////
 
-const accountFetchAction = (
-  params: AccountFetchAction
-): AccountFetchAction => ({
-  ...{ type: ActionType.AccountFetch }, ...params
+const accountFetchAction = (status: FetchStatus, account?: Account, errorMessage?: string): AccountFetchAction => ({
+  type: ActionType.AccountFetch,
+  status,
+  account,
+  errorMessage
 });
 
 const requestAccounts = (): AccountsRequestAction => ({

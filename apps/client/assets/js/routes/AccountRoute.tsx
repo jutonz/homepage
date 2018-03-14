@@ -1,4 +1,5 @@
 import * as React from "react";
+import { compose } from "redux";
 import { connect, Dispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { MainNav, ActiveItem } from "./../components/MainNav";
@@ -19,6 +20,8 @@ class _AccountRoute extends React.Component<Props, {}> {
   };
 
   public render() {
+    //const { id } = this.props;
+    //debugger;
     return (
       <div>
         <MainNav activeItem={ActiveItem.Settings} />
@@ -27,17 +30,11 @@ class _AccountRoute extends React.Component<Props, {}> {
   }
 }
 
-const mapStoreToProps = (store: StoreState): Partial<Props> => ({
+const mapStoreToProps = (_store: StoreState): Partial<Props> => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
+  fetchAccount: (id: string) => dispatch(fetchAccount(id))
 });
 
-export const AccountRoute = connect(mapStoreToProps, mapDispatchToProps)(_AccountRoute);
-
-//export const AccountRoute = ({ account, match }: Props) => (
-  //<div>
-    //{match.params.id}
-    //<MainNav activeItem={ActiveItem.Settings} />
-  //</div>
-//);
+export const AccountRoute = compose(connect(mapStoreToProps, mapDispatchToProps))(_AccountRoute);

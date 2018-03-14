@@ -50,7 +50,9 @@ const _App = (props: IProps) => (
         <AuthenticatedRoute path="/settings" component={SettingsRoute} />
         <AuthenticatedRoute
           path="/accounts/:id"
-          //component={AccountRoute}
+          render={(props: any) => (
+            <AccountRoute {...props} />
+          )}
         />
       </div>
     </Router>
