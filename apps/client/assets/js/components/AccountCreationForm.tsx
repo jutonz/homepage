@@ -24,7 +24,6 @@ const style = StyleSheet.create({
 
 interface Props {
   fetchAccounts(): void;
-  loadingAccounts: boolean;
   newAccountName?: string;
   setNewAccountName(newName: string): void;
   newNameIsValid?: boolean;
@@ -79,11 +78,10 @@ class _AccountCreationForm extends React.Component<Props> {
 }
 
 const mapStoreToProps = (store: StoreState): Partial<Props> => ({
-  loadingAccounts: store.accounts.loadingAccounts,
-  newAccountName: store.accounts.newAccountName,
-  newNameIsValid: store.accounts.newAccountNameIsValid,
-  creatingNewAccount: store.accounts.creatingNewAccount,
-  createNewAccountError: store.accounts.createNewAccountError
+  newAccountName: store.accounts.createAccount.newAccountName,
+  newNameIsValid: store.accounts.createAccount.newAccountNameIsValid,
+  creatingNewAccount: store.accounts.createAccount.creating,
+  createNewAccountError: store.accounts.createAccount.error
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
