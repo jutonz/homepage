@@ -15,6 +15,7 @@ import { LoginRoute } from "./../routes/LoginRoute";
 import { SettingsRoute } from "./../routes/SettingsRoute";
 import { CoffeemakerRoute } from "./../routes/CoffeemakerRoute";
 import { ResumeRoute } from "./../routes/ResumeRoute";
+import { AccountRoute } from "./../routes/AccountRoute";
 
 const style = StyleSheet.create({
   flashContainer: {
@@ -47,6 +48,7 @@ const _App = (props: IProps) => (
 
         <AuthenticatedRoute path="/" exact={true} component={HomeRoute} />
         <AuthenticatedRoute path="/settings" component={SettingsRoute} />
+        <AuthenticatedRoute path="/accounts/:id" component={AccountRoute} />
       </div>
     </Router>
   </div>
@@ -56,10 +58,10 @@ const renderFlash = (messages: Array<FlashMessage>): ReactNode | null => {
   return messages.map(message => <Flash message={message} key={message.id} />);
 };
 
-const mapStateToProps = (state: StoreState): Partial<IProps> => ({
+const mapStoreToProps = (state: StoreState): Partial<IProps> => ({
   flashMessages: state.flash.messages
 });
 
 const mapDispatchToProps = (_dispatch: Dispatch<{}>): Partial<IProps> => ({});
 
-export const App = compose(connect(mapStateToProps, mapDispatchToProps))(_App);
+export const App = compose(connect(mapStoreToProps, mapDispatchToProps))(_App);

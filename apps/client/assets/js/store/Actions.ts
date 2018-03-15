@@ -7,12 +7,21 @@ export enum ActionType {
   SetCoffeemakerGrams,
   FlashAdd,
   FlashRemove,
+  AccountFetch,
   AccountsRequest,
   AccountsReceive,
   StoreAccount,
   SetNewAccountName,
   CreateAccountRequest,
-  CreateAccountReceive
+  CreateAccountReceive,
+  ViewAccount,
+  ViewAccountLoading
+}
+
+export enum FetchStatus {
+  InProgress,
+  Success,
+  Failure
 }
 
 export interface Action {

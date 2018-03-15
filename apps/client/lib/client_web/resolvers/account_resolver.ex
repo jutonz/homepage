@@ -1,5 +1,5 @@
 defmodule ClientWeb.AccountResolver do
-  alias Client.{Account,Repo}
+  alias Client.{Account,Repo,User}
 
   def get_user_accounts(_parent, _args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
@@ -9,6 +9,16 @@ defmodule ClientWeb.AccountResolver do
       {:error, reason} -> {:error, reason}
       _ -> {:error, "Could not fetch accounts"}
     end
+  end
+
+  def get_account(_parent, args, %{context: %{current_user: current_user}}) do
+    with {:ok, account_id} <- args |> Map.fetch(:id),
+         {:ok, account} <- current_user |> User.get_account(account_id),
+      do: {:ok, account},
+      else: (
+        {:eror, reason} -> {:error, reason}
+        _ -> {:error, "Could not find matching account"}
+      )
   end
 
   def create_account(_parent, args, %{context: context}) do

@@ -10,6 +10,7 @@ import {
 import { CoffeemakerStoreState, coffeemaker } from "./reducers/coffeemaker";
 import { FlashStoreState, flash } from "./reducers/flash";
 import { AccountStoreState, accounts } from "./reducers/accounts";
+export * from "./reducers/accounts";
 
 export interface StoreState {
   csrfToken?: string;

@@ -12,7 +12,8 @@ export enum ActiveItem {
   Logout = "logout",
   Coffeemaker = "coffeemaker",
   Resume = "resume",
-  Login = "login"
+  Login = "login",
+  AccountView = "accounts/:id"
 }
 
 interface Props extends RouteComponentProps<{}> {
