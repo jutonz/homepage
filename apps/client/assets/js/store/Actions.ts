@@ -13,7 +13,8 @@ export enum ActionType {
   StoreAccount,
   SetNewAccountName,
   CreateAccountRequest,
-  CreateAccountReceive
+  CreateAccountReceive,
+  ViewAccount
 }
 
 export enum FetchStatus {

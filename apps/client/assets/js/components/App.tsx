@@ -48,12 +48,7 @@ const _App = (props: IProps) => (
 
         <AuthenticatedRoute path="/" exact={true} component={HomeRoute} />
         <AuthenticatedRoute path="/settings" component={SettingsRoute} />
-        <AuthenticatedRoute
-          path="/accounts/:id"
-          render={(props: any) => (
-            <AccountRoute {...props} />
-          )}
-        />
+        <AuthenticatedRoute path="/accounts/:id" component={AccountRoute} />
       </div>
     </Router>
   </div>

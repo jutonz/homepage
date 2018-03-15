@@ -16,12 +16,15 @@ interface Props extends RouteComponentProps<RouteParams> {
 
 class _AccountRoute extends React.Component<Props, {}> {
   public componentWillMount() {
+    const { account, fetchAccount, match } = this.props;
+    if (!account) {
+      fetchAccount(match.params.id);
+    } else {
+    }
     this.props.fetchAccount(this.props.match.params.id);
   };
 
   public render() {
-    //const { id } = this.props;
-    //debugger;
     return (
       <div>
         <MainNav activeItem={ActiveItem.Settings} />

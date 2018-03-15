@@ -15,34 +15,26 @@ interface Props extends RouteComponentProps<{}> {
   component: React.ComponentType<any>;
 }
 
-interface State {}
-
 // Ensures a session is active before allowing users to visit the specified
 // route, redirecting to /login if not.
-//
-// Note: Usage is mostly the same as the vanilla <Route>, except that the
-// `render` prop is not valid (you must pass `component`).
-class _AuthenticatedRoute extends React.Component<Props, State> {
+class _AuthenticatedRoute extends React.Component<Props, {}> {
   public render() {
-    // Cannot pass both `component` and `render` to `<Route>`, so strip
-    // `component` before currying props.
-    let { component: Component, ...rest } = this.props;
+    const { sessionAuthenticated, ...rest } = this.props;
 
-    return <Route {...rest} render={this.renderComponent} />;
+    if (sessionAuthenticated) {
+      return <Route {...rest} />;
+    } else {
+      // Cannot pass both component and render props to Route, so strip
+      // component before currying props.
+      const { component, ...restWithoutComponent } = rest;
+      return <Route {...restWithoutComponent} render={this.redirectToLogin} />;
+    }
   }
 
-  private renderComponent = (): ReactNode => {
-    if (this.props.sessionAuthenticated) {
-      const { component: Component } = this.props;
-      return <Component />;
-    } else {
-      const location = {
-        pathname: "/login",
-        state: this.props.location
-      };
-      return <Redirect to={location} />;
-    }
-  };
+  private redirectToLogin = (props: Props): ReactNode => {
+    const location = { pathname: "/login", state: props.location };
+    return <Redirect to={location} />;
+  }
 }
 
 const mapStoreToProps = (store: StoreState): Partial<Props> => ({

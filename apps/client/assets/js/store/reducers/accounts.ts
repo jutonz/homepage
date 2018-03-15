@@ -5,6 +5,9 @@ import {
   AccountsCreateAccountStoreState,
   createAccountReducer
 } from "./accounts/create-account";
+import {
+  AccountsViewAccountStoreState
+} from "./accounts/view-account";
 
 export * from "./accounts/create-account";
 
@@ -13,10 +16,16 @@ export * from "./accounts/create-account";
 ////////////////////////////////////////////////////////////////////////////////
 
 export interface AccountStoreState {
+  fetchingAccount?: boolean;
+  account?: Account;
+  accountFetchErrorMessage?: string;
+
   loadingAccounts?: boolean;
   accounts?: Array<Account>;
   accountsFetchError?: string;
+
   createAccount?: AccountsCreateAccountStoreState;
+  viewAccount?: AccountsViewAccountStoreState;
 }
 
 export const initialState: AccountStoreState = {};
@@ -56,7 +65,18 @@ export interface StoreAccountAction extends Action {
 export const fetchAccount = (id: string): any => {
   return (dispatch: Dispatch<{}>) => {
     dispatch(accountFetchAction(FetchStatus.InProgress));
-    console.log(id);
+
+    const query = gql`{
+      getAccount(id: ${id}) { name id }
+    }`;
+
+    window.grapqlClient.query({ query }).then((response: any) => {
+      console.log(response);
+    }).catch((error: any) => {
+      console.error(error);
+      const message = error.message.replace("GraphQL error: ", "");
+      dispatch(accountFetchAction(FetchStatus.Failure, null, message));
+    });
   };
 };
 
@@ -126,6 +146,9 @@ export const accounts = (
   let newState: Partial<AccountStoreState>;
 
   switch(action.type) {
+    case ActionType.AccountFetch:
+      newState = handleAccountFetchAction(action as AccountFetchAction);
+      break;
     case ActionType.AccountsRequest:
       newState = { loadingAccounts: true };
       break;
@@ -155,3 +178,40 @@ export const accounts = (
 
   return { ...state, ...newState };
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// Helpers
+////////////////////////////////////////////////////////////////////////////////
+
+const handleAccountFetchAction = (action: AccountFetchAction) => {
+  let newState: Partial<AccountStoreState> = {};
+
+  switch(action.status) {
+    case FetchStatus.InProgress:
+      newState = {
+        fetchingAccount: true,
+        accountFetchErrorMessage: ""
+      };
+      break;
+    case FetchStatus.Success:
+      newState = {
+        fetchingAccount: false,
+        account: action.account
+      };
+      break;
+    case FetchStatus.Failure:
+      newState = {
+        fetchingAccount: false,
+        accountFetchErrorMessage: action.errorMessage
+      };
+      break;
+    default:
+      newState = {
+        fetchingAccount: false,
+        accountFetchErrorMessage: `Unhandled FetchStatus ${action.status}`
+      };
+      break;
+  }
+
+  return newState;
+}
