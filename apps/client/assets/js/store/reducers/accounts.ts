@@ -1,4 +1,5 @@
 import { Action, ActionType, FetchStatus } from './../Actions';
+import { StoreState } from "./../../Store";
 import { Dispatch } from "redux";
 import gql from "graphql-tag";
 import {
@@ -6,10 +7,12 @@ import {
   createAccountReducer
 } from "./accounts/create-account";
 import {
-  AccountsViewAccountStoreState
+  AccountsViewAccountStoreState,
+  viewAccountReducer
 } from "./accounts/view-account";
 
 export * from "./accounts/create-account";
+export * from "./accounts/view-account";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Store state
@@ -28,7 +31,9 @@ export interface AccountStoreState {
   viewAccount?: AccountsViewAccountStoreState;
 }
 
-export const initialState: AccountStoreState = {};
+export const initialState: AccountStoreState = {
+  accounts: []
+};
 
 export interface Account {
   name: string;
@@ -63,20 +68,32 @@ export interface StoreAccountAction extends Action {
 ////////////////////////////////////////////////////////////////////////////////
 
 export const fetchAccount = (id: string): any => {
-  return (dispatch: Dispatch<{}>) => {
-    dispatch(accountFetchAction(FetchStatus.InProgress));
+  return (dispatch: Dispatch<{}>, getState: Function): Promise<Action> => {
+    const state: StoreState = getState();
+    const existing = (state.accounts.accounts || []).filter(existing => {
+      return existing.id === id;
+    })[0];
 
-    const query = gql`{
-      getAccount(id: ${id}) { name id }
-    }`;
+    if (existing) {
+      return Promise.resolve(dispatch(accountFetchAction(FetchStatus.Success, existing, null)));
+    } else {
+      dispatch(accountFetchAction(FetchStatus.InProgress));
 
-    window.grapqlClient.query({ query }).then((response: any) => {
-      console.log(response);
-    }).catch((error: any) => {
-      console.error(error);
-      const message = error.message.replace("GraphQL error: ", "");
-      dispatch(accountFetchAction(FetchStatus.Failure, null, message));
-    });
+      const query = gql`{
+        getAccount(id: ${id}) { name id }
+      }`;
+
+      return window.grapqlClient.query({ query }).then((response: any) => {
+        const rawAccount = response.data.getAccount;
+        const { name, id } = rawAccount;
+        const account = { name, id };
+        return dispatch(accountFetchAction(FetchStatus.Success, account, null));
+      }).catch((error: any) => {
+        console.error(error);
+        const message = error.message.replace("GraphQL error: ", "");
+        return dispatch(accountFetchAction(FetchStatus.Failure, null, message));
+      });
+    }
   };
 };
 
@@ -112,7 +129,11 @@ export const storeAccount = (account: Account): any => ({
 // Private action creators
 ////////////////////////////////////////////////////////////////////////////////
 
-const accountFetchAction = (status: FetchStatus, account?: Account, errorMessage?: string): AccountFetchAction => ({
+const accountFetchAction = (
+  status: FetchStatus,
+  account?: Account,
+  errorMessage?: string
+): AccountFetchAction => ({
   type: ActionType.AccountFetch,
   status,
   account,
@@ -123,7 +144,9 @@ const requestAccounts = (): AccountsRequestAction => ({
   type: ActionType.AccountsRequest
 });
 
-const receiveAccountsSuccess = (accounts: Array<Account>): AccountsReceiveAction => ({
+const receiveAccountsSuccess = (
+  accounts: Array<Account>
+): AccountsReceiveAction => ({
   type: ActionType.AccountsReceive,
   status: "success",
   accounts
@@ -147,7 +170,7 @@ export const accounts = (
 
   switch(action.type) {
     case ActionType.AccountFetch:
-      newState = handleAccountFetchAction(action as AccountFetchAction);
+      newState = handleAccountFetchAction(state, action as AccountFetchAction);
       break;
     case ActionType.AccountsRequest:
       newState = { loadingAccounts: true };
@@ -175,6 +198,7 @@ export const accounts = (
 
   // Handle child reducers
   state.createAccount = createAccountReducer(state.createAccount, action);
+  state.viewAccount = viewAccountReducer(state.viewAccount, action);
 
   return { ...state, ...newState };
 };
@@ -183,7 +207,7 @@ export const accounts = (
 // Helpers
 ////////////////////////////////////////////////////////////////////////////////
 
-const handleAccountFetchAction = (action: AccountFetchAction) => {
+const handleAccountFetchAction = (state: AccountStoreState, action: AccountFetchAction) => {
   let newState: Partial<AccountStoreState> = {};
 
   switch(action.status) {
@@ -196,7 +220,7 @@ const handleAccountFetchAction = (action: AccountFetchAction) => {
     case FetchStatus.Success:
       newState = {
         fetchingAccount: false,
-        account: action.account
+        accounts: [ ...state.accounts, action.account ]
       };
       break;
     case FetchStatus.Failure:

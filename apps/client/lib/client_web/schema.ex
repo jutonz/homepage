@@ -31,6 +31,11 @@ defmodule ClientWeb.Schema do
     field :get_accounts, list_of(:account) do
       resolve(&ClientWeb.AccountResolver.get_user_accounts/3)
     end
+
+    field :get_account, :account do
+      arg(:id, :id)
+      resolve(&ClientWeb.AccountResolver.get_account/3)
+    end
   end
 
   mutation do

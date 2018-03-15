@@ -1,7 +1,6 @@
-import { Account, storeAccount } from "./../accounts";
+import { Account, StoreState, fetchAccount } from "./../../../Store";
 import { Action, ActionType } from "./../../Actions";
 import { Dispatch } from "redux";
-import gql from "graphql-tag";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Store state
@@ -23,6 +22,8 @@ export interface ViewAccountAction extends Action {
   account: Account;
 }
 
+interface ViewAccountLoadingAction extends Action {}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Public action creators
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,52 +33,26 @@ export const viewAccount = (account: Account): ViewAccountAction => ({
   account
 });
 
-//export const setNewAccountName = (
-  //newName: string
-//): SetNewAccountNameAction => ({
-  //type: ActionType.SetNewAccountName,
-  //newName
-//});
-
-//export const createAccount = (name: string): any => {
-  //return (dispatch: Dispatch<{}>) => {
-    //dispatch(createAccountRequest()); 
-    //const mutation = gql`mutation {
-      //createAccount(name: "${name}") { name id }
-    //}`;
-
-    //window.grapqlClient.mutate({ mutation }).then((response: any) => {
-      //const { name, id } = response.data.createAccount;
-      //const account = { name, id };
-      //dispatch(createAccountSuccess(account));
-      //dispatch(storeAccount(account));
-    //}).catch((error: any) => {
-      //console.log(error);
-      //const message = error.message.replace("GraphQL error: ", "");
-      //dispatch(createAccountFailure(message));
-    //});
-  //};
-//};
+export const fetchAndViewAccount = (accountId: string): any => {
+  return (dispatch: Dispatch<{}>, getState: Function) => {
+    dispatch(fetchAccount(accountId)).then(() => {
+      dispatch(viewAccountLoading());
+      const state: StoreState = getState();
+      const loadedAccount = (state.accounts.accounts || []).filter(loaded => {
+        return loaded.id === accountId;
+      })[0];
+      dispatch(viewAccount(loadedAccount));
+    });
+  }
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Private action creators
 ////////////////////////////////////////////////////////////////////////////////
 
-//const createAccountRequest = (): CreateAccountRequest => ({
-  //type: ActionType.CreateAccountRequest
-//});
-
-//const createAccountSuccess = (account: Account): CreateAccountReceive => ({
-  //type: ActionType.CreateAccountReceive,
-  //status: "success",
-  //account
-//});
-
-//const createAccountFailure = (error: string): CreateAccountReceive => ({
-  //type: ActionType.CreateAccountReceive,
-  //status: "failure",
-  //error
-//});
+const viewAccountLoading = (): ViewAccountLoadingAction => ({
+  type: ActionType.ViewAccountLoading
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 // Action reducer
@@ -90,9 +65,13 @@ export const viewAccountReducer = (
   let newState: Partial<AccountsViewAccountStoreState>;
 
   switch (action.type) {
+    case ActionType.ViewAccountLoading:
+      newState = { loading: true }
+      break;
     case ActionType.ViewAccount:
       newState = {
-        account: (action as ViewAccountAction).account
+        account: (action as ViewAccountAction).account,
+        loading: true
       }
       break;
     default:
@@ -102,46 +81,3 @@ export const viewAccountReducer = (
 
   return { ...state, ...newState };
 };
-
-//export const createAccountReducer = (
-  //state: AccountsCreateAccountStoreState = initialState,
-  //action: Action
-//): AccountsCreateAccountStoreState  => {
-  //let newState: Partial<AccountsCreateAccountStoreState>;
-
-  //switch(action.type) {
-    //case ActionType.SetNewAccountName: {
-      //const newName = (action as SetNewAccountNameAction).newName;
-      //const isValid = isNewAccountNameValid(newName);
-      //newState = { newAccountName: newName, newAccountNameIsValid: isValid };
-      //break;
-    //}
-    //case ActionType.CreateAccountRequest: {
-      //newState = { creating: true, error: null }
-      //break;
-    //}
-    //case ActionType.CreateAccountReceive: {
-      //const receiveAction = (action as CreateAccountReceive);
-      //if (receiveAction.status === "success") {
-        //newState = { creating: false, newAccountName: "" };
-      //} else {
-        //const { error } = receiveAction;
-        //newState = { creating: false, error: error };
-      //}
-      //break;
-    //}
-    //default:
-      //newState = {};
-      //break;
-  //}
-
-  //return { ...state, ...newState };
-//}
-
-////////////////////////////////////////////////////////////////////////////////
-// Helpers
-////////////////////////////////////////////////////////////////////////////////
-
-const isNewAccountNameValid = (newName: string): boolean => (
-  newName && newName !== ""
-);

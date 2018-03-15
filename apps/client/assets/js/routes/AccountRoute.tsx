@@ -3,41 +3,47 @@ import { compose } from "redux";
 import { connect, Dispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { MainNav, ActiveItem } from "./../components/MainNav";
-import { Account, fetchAccount, StoreState } from "./../Store";
+import { Account, fetchAndViewAccount, StoreState } from "./../Store";
+import { Loader } from "semantic-ui-react";
 
 interface RouteParams {
+  // included in URL or query params
   id: string;
 }
 
 interface Props extends RouteComponentProps<RouteParams> {
-  account?: Account
-  fetchAccount(id: string): void;
-};
+  account?: Account;
+  loadingAccount?: boolean;
+  fetchAndViewAccount(id: string): void;
+}
 
 class _AccountRoute extends React.Component<Props, {}> {
   public componentWillMount() {
-    const { account, fetchAccount, match } = this.props;
-    if (!account) {
-      fetchAccount(match.params.id);
-    } else {
-    }
-    this.props.fetchAccount(this.props.match.params.id);
-  };
+    const { fetchAndViewAccount, match } = this.props;
+    fetchAndViewAccount(match.params.id);
+  }
 
   public render() {
+    const { account, loadingAccount } = this.props;
     return (
       <div>
         <MainNav activeItem={ActiveItem.Settings} />
+        <Loader active={!loadingAccount} />
+        {account && account.name}
       </div>
     );
   }
 }
 
-const mapStoreToProps = (_store: StoreState): Partial<Props> => ({
+const mapStoreToProps = (store: StoreState): Partial<Props> => ({
+  account: store.accounts.viewAccount.account,
+  loadingAccount: store.accounts.viewAccount.loading
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
-  fetchAccount: (id: string) => dispatch(fetchAccount(id))
+  fetchAndViewAccount: (id: string) => dispatch(fetchAndViewAccount(id))
 });
 
-export const AccountRoute = compose(connect(mapStoreToProps, mapDispatchToProps))(_AccountRoute);
+export const AccountRoute = compose(
+  connect(mapStoreToProps, mapDispatchToProps)
+)(_AccountRoute);
