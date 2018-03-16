@@ -1,18 +1,14 @@
 import { Action, ActionType, FetchStatus } from './../Actions';
 import { StoreState } from "./../../Store";
+import { Dictionary } from "./../../Types";
 import { Dispatch } from "redux";
 import gql from "graphql-tag";
 import {
   AccountsCreateAccountStoreState,
   createAccountReducer
 } from "./accounts/create-account";
-import {
-  AccountsViewAccountStoreState,
-  viewAccountReducer
-} from "./accounts/view-account";
 
 export * from "./accounts/create-account";
-export * from "./accounts/view-account";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Store state
@@ -24,15 +20,14 @@ export interface AccountStoreState {
   accountFetchErrorMessage?: string;
 
   loadingAccounts?: boolean;
-  accounts?: Array<Account>;
+  accounts?: Dictionary<Account>;
   accountsFetchError?: string;
 
   createAccount?: AccountsCreateAccountStoreState;
-  viewAccount?: AccountsViewAccountStoreState;
 }
 
 export const initialState: AccountStoreState = {
-  accounts: []
+  accounts: {}
 };
 
 export interface Account {
@@ -55,7 +50,7 @@ export interface AccountsRequestAction extends Action {
 
 export interface AccountsReceiveAction extends Action {
   status: string;
-  accounts?: Array<Account>
+  accounts?: Dictionary<Account>
   error?: string;
 }
 
@@ -70,9 +65,7 @@ export interface StoreAccountAction extends Action {
 export const fetchAccount = (id: string): any => {
   return (dispatch: Dispatch<{}>, getState: Function): Promise<Action> => {
     const state: StoreState = getState();
-    const existing = (state.accounts.accounts || []).filter(existing => {
-      return existing.id === id;
-    })[0];
+    const existing = state.accounts.accounts[id];
 
     if (existing) {
       return Promise.resolve(dispatch(accountFetchAction(FetchStatus.Success, existing, null)));
@@ -107,9 +100,11 @@ export const fetchAccounts = (): any => {
 
     window.grapqlClient.query({ query }).then((response: any) => {
       const rawAccounts = response.data.getAccounts;
-      const accounts: Array<Account> = rawAccounts.map((account: any) => {
-        const { id, name } = account;
-        return { id, name };
+      const accounts: Dictionary<Account> = {};
+      rawAccounts.forEach((raw: any) => {
+        const { id, name } = raw;
+        const account: Account = { id, name };
+        accounts[id] = account;
       });
       dispatch(receiveAccountsSuccess(accounts));
     }).catch((error: any) => {
@@ -145,7 +140,7 @@ const requestAccounts = (): AccountsRequestAction => ({
 });
 
 const receiveAccountsSuccess = (
-  accounts: Array<Account>
+  accounts: Dictionary<Account>
 ): AccountsReceiveAction => ({
   type: ActionType.AccountsReceive,
   status: "success",
@@ -188,7 +183,7 @@ export const accounts = (
     }
     case ActionType.StoreAccount: {
       const account = (action as StoreAccountAction).account;
-      newState = { accounts: [ ...state.accounts, account ] };
+      newState = { accounts: { ...state.accounts, account } };
       break;
     }
     default:
@@ -198,7 +193,6 @@ export const accounts = (
 
   // Handle child reducers
   state.createAccount = createAccountReducer(state.createAccount, action);
-  state.viewAccount = viewAccountReducer(state.viewAccount, action);
 
   return { ...state, ...newState };
 };
@@ -217,12 +211,15 @@ const handleAccountFetchAction = (state: AccountStoreState, action: AccountFetch
         accountFetchErrorMessage: ""
       };
       break;
-    case FetchStatus.Success:
+    case FetchStatus.Success: {
+      const newAccount = normalizeAccount(action.account);
+      const accounts = { ...state.accounts, ...newAccount };
       newState = {
         fetchingAccount: false,
-        accounts: [ ...state.accounts, action.account ]
+        accounts
       };
       break;
+    }
     case FetchStatus.Failure:
       newState = {
         fetchingAccount: false,
@@ -239,3 +236,9 @@ const handleAccountFetchAction = (state: AccountStoreState, action: AccountFetch
 
   return newState;
 }
+
+const normalizeAccount = (account: Account): Dictionary<Account> => {
+  let normalized: Dictionary<Account> = {};
+  normalized[account.id] = account;
+  return normalized;
+};

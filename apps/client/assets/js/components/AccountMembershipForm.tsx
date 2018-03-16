@@ -6,6 +6,7 @@ import { compose, Dispatch } from "redux";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { StoreState, fetchAccounts, Account } from "./../Store";
+import { Dictionary } from "./../Types";
 
 const style = StyleSheet.create({
   container: {
@@ -27,7 +28,7 @@ interface Props {
   fetchAccounts(): void;
   loadingAccounts: boolean;
   accountsFetchError?: string;
-  accounts?: Array<Account>;
+  accounts?: Dictionary<Account>;
 }
 
 interface State {}
@@ -66,12 +67,9 @@ class _AccountMembershipForm extends React.Component<Props, State> {
     } else if (this.props.accounts) {
       return (
         <div>
-          {this.props.accounts.map((account: Account) => (
-            <div key={account.id}>
-              <Link to={`accounts/${account.id}`}>
-                Name: {account.name}
-                ID: {account.id}
-              </Link>
+          {Object.keys(this.props.accounts).map((id: string) => (
+            <div key={id}>
+              <Link to={`accounts/${id}`}>{this.props.accounts[id].name}</Link>
             </div>
           ))}
         </div>
