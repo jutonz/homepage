@@ -3,7 +3,7 @@ import { compose } from "redux";
 import { connect, Dispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { MainNav, ActiveItem } from "./../components/MainNav";
-import { Account, fetchAndViewAccount, StoreState } from "./../Store";
+import { Account, fetchAccount, StoreState, Action } from "./../Store";
 import { Loader } from "semantic-ui-react";
 
 interface RouteParams {
@@ -13,35 +13,41 @@ interface RouteParams {
 
 interface Props extends RouteComponentProps<RouteParams> {
   account?: Account;
-  loadingAccount?: boolean;
-  fetchAndViewAccount(id: string): void;
+  fetchAccount(id: string): Promise<Action>;
 }
 
 class _AccountRoute extends React.Component<Props, {}> {
   public componentWillMount() {
-    const { fetchAndViewAccount, match } = this.props;
-    fetchAndViewAccount(match.params.id);
+    if (!this.props.account) {
+      const { fetchAccount, match } = this.props;
+      fetchAccount(match.params.id);
+    }
   }
 
   public render() {
-    const { account, loadingAccount } = this.props;
+    const { account } = this.props;
     return (
       <div>
         <MainNav activeItem={ActiveItem.Settings} />
-        <Loader active={!loadingAccount} />
+        <Loader active={!!!account} />
         {account && account.name}
       </div>
     );
   }
 }
 
-const mapStoreToProps = (store: StoreState): Partial<Props> => ({
-  account: store.accounts.viewAccount.account,
-  loadingAccount: store.accounts.viewAccount.loading
+const getAccount = (state: StoreState, props: Props) => {
+  const accounts = state.accounts.accounts;
+  const targetId = props.match.params.id;
+  return accounts[targetId];
+};
+
+const mapStoreToProps = (store: StoreState, props: Props): Partial<Props> => ({
+  account: getAccount(store, props)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
-  fetchAndViewAccount: (id: string) => dispatch(fetchAndViewAccount(id))
+  fetchAccount: (id: string) => dispatch(fetchAccount(id))
 });
 
 export const AccountRoute = compose(
