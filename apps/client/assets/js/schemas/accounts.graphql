@@ -1,3 +1,0 @@
-query GetAccount($id: String!) {
-  name id
-}
