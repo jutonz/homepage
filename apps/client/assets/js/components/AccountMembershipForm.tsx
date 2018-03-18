@@ -26,7 +26,7 @@ const style = StyleSheet.create({
 
 interface Props {
   fetchAccounts(): void;
-  loadingAccounts: boolean;
+  isLoading: boolean;
   accountsFetchError?: string;
   accounts?: Dictionary<Account>;
 }
@@ -52,7 +52,7 @@ class _AccountMembershipForm extends React.Component<Props, State> {
   }
 
   public renderAccounts = (): ReactNode => {
-    if (this.props.loadingAccounts) {
+    if (this.props.isLoading) {
       return (
         <div className={css(style.loaderContainer)}>
           <Loader active inline />
@@ -81,7 +81,7 @@ class _AccountMembershipForm extends React.Component<Props, State> {
 }
 
 const mapStoreToProps = (store: StoreState): Partial<Props> => ({
-  loadingAccounts: store.accounts.loadingAccounts,
+  isLoading: store.accounts.loadingAllAccounts,
   accounts: store.accounts.accounts,
   accountsFetchError: store.accounts.accountsFetchError
 });

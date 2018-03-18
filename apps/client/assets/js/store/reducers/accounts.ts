@@ -3,10 +3,13 @@ import { StoreState } from "./../../Store";
 import { Dictionary } from "./../../Types";
 import { Dispatch } from "redux";
 import gql from "graphql-tag";
+import { GetAccountQuery, GetAccountQueryVariables } from "./../../Schema";
 import {
   AccountsCreateAccountStoreState,
   createAccountReducer
 } from "./accounts/create-account";
+import { ApolloQueryResult } from "apollo-client"
+import { GraphQLError } from "graphql";
 
 export * from "./accounts/create-account";
 
@@ -15,12 +18,9 @@ export * from "./accounts/create-account";
 ////////////////////////////////////////////////////////////////////////////////
 
 export interface AccountStoreState {
-  fetchingAccount?: boolean;
-  account?: Account;
-  accountFetchErrorMessage?: string;
-
-  loadingAccounts?: boolean;
   accounts?: Dictionary<Account>;
+
+  loadingAllAccounts?: boolean;
   accountsFetchError?: string;
 
   createAccount?: AccountsCreateAccountStoreState;
@@ -31,8 +31,10 @@ export const initialState: AccountStoreState = {
 };
 
 export interface Account {
-  name: string;
   id: string;
+  name?: string;
+  errors?: Array<string>;
+  fetchStatus: FetchStatus;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +44,6 @@ export interface Account {
 export interface AccountFetchAction extends Action {
   status: FetchStatus
   account?: Account;
-  errorMessage?: string;
 }
 
 export interface AccountsRequestAction extends Action {
@@ -50,7 +51,7 @@ export interface AccountsRequestAction extends Action {
 
 export interface AccountsReceiveAction extends Action {
   status: string;
-  accounts?: Dictionary<Account>
+  accounts?: Dictionary<Account>;
   error?: string;
 }
 
@@ -68,23 +69,39 @@ export const fetchAccount = (id: string): any => {
     const existing = state.accounts.accounts[id];
 
     if (existing) {
-      return Promise.resolve(dispatch(accountFetchAction(FetchStatus.Success, existing, null)));
+      const fetchAction = accountFetchAction(FetchStatus.Success, existing);
+      return Promise.resolve(dispatch(fetchAction));
     } else {
-      dispatch(accountFetchAction(FetchStatus.InProgress));
+      const account = {
+        id,
+        fetchStatus: FetchStatus.InProgress
+      };
+      dispatch(accountFetchAction(FetchStatus.InProgress, account));
 
-      const query = gql`{
-        getAccount(id: ${id}) { name id }
+      const query = gql`query GetAccount($id: ID!) {
+        getAccount(id: $id) { name id }
       }`;
+      const variables: GetAccountQueryVariables = { id };
 
-      return window.grapqlClient.query({ query }).then((response: any) => {
-        const rawAccount = response.data.getAccount;
-        const { name, id } = rawAccount;
-        const account = { name, id };
-        return dispatch(accountFetchAction(FetchStatus.Success, account, null));
+      return window.grapqlClient.query({
+        query,
+        variables
+      }).then((response: ApolloQueryResult<GetAccountQuery>) => {
+        const account = {
+          ...response.data.getAccount,
+          ...{ fetchStatus: FetchStatus.Success }
+        };
+        return dispatch(accountFetchAction(FetchStatus.Success, account));
       }).catch((error: any) => {
         console.error(error);
-        const message = error.message.replace("GraphQL error: ", "");
-        return dispatch(accountFetchAction(FetchStatus.Failure, null, message));
+        const graphQLErrors: Array<GraphQLError> = error.graphQLErrors;
+        const errors = graphQLErrors.map(error => error.message);
+        const account: Account = {
+          id,
+          errors,
+          fetchStatus: FetchStatus.Failure
+        };
+        return dispatch(accountFetchAction(FetchStatus.Failure, account));
       });
     }
   };
@@ -94,7 +111,7 @@ export const fetchAccounts = (): any => {
   return (dispatch: Dispatch<{}>) => {
     dispatch(requestAccounts());
 
-    const query = gql`{
+    const query = gql`query GetAccounts {
       getAccounts { name id }
     }`;
 
@@ -103,11 +120,12 @@ export const fetchAccounts = (): any => {
       const accounts: Dictionary<Account> = {};
       rawAccounts.forEach((raw: any) => {
         const { id, name } = raw;
-        const account: Account = { id, name };
+        const account: Account = { id, name, fetchStatus: FetchStatus.Success };
         accounts[id] = account;
       });
       dispatch(receiveAccountsSuccess(accounts));
     }).catch((error: any) => {
+      //const errors: Array<GraphQLError> = error.graphQLErrors;
       console.error(error);
       const message = error.message.replace("GraphQL error: ", "");
       dispatch(receiveAccountsError(message));
@@ -126,13 +144,11 @@ export const storeAccount = (account: Account): any => ({
 
 const accountFetchAction = (
   status: FetchStatus,
-  account?: Account,
-  errorMessage?: string
+  account: Account
 ): AccountFetchAction => ({
   type: ActionType.AccountFetch,
   status,
-  account,
-  errorMessage
+  account
 });
 
 const requestAccounts = (): AccountsRequestAction => ({
@@ -168,16 +184,16 @@ export const accounts = (
       newState = handleAccountFetchAction(state, action as AccountFetchAction);
       break;
     case ActionType.AccountsRequest:
-      newState = { loadingAccounts: true };
+      newState = { loadingAllAccounts: true };
       break;
     case ActionType.AccountsReceive: {
       const receiveAction = (action as AccountsReceiveAction);
       if (receiveAction.status === "success") {
         const { accounts } = receiveAction;
-        newState = { loadingAccounts: false, accounts };
+        newState = { loadingAllAccounts: false, accounts };
       } else {
         const { error } = receiveAction;
-        newState = { loadingAccounts: false, accountsFetchError: error };
+        newState = { loadingAllAccounts: false, accountsFetchError: error };
       }
       break;
     }
@@ -205,31 +221,37 @@ const handleAccountFetchAction = (state: AccountStoreState, action: AccountFetch
   let newState: Partial<AccountStoreState> = {};
 
   switch(action.status) {
-    case FetchStatus.InProgress:
+    case FetchStatus.InProgress: {
+      const fetchStatus = FetchStatus.InProgress;
+      const account = { ...action.account, ...{ errors: null, fetchStatus } };
+      const normaliedAccount = normalizeAccount(account);
       newState = {
-        fetchingAccount: true,
-        accountFetchErrorMessage: ""
+        accounts: { ...state.accounts, ...normaliedAccount }
       };
       break;
+    }
     case FetchStatus.Success: {
+      const fetchStatus = FetchStatus.Success;
+      const newAccount = normalizeAccount({ ...action.account, ...{ fetchStatus } });
+      const accounts = { ...state.accounts, ...newAccount };
+      newState = {
+        accounts,
+      };
+      break;
+    }
+    case FetchStatus.Failure: {
       const newAccount = normalizeAccount(action.account);
       const accounts = { ...state.accounts, ...newAccount };
       newState = {
-        fetchingAccount: false,
         accounts
       };
       break;
     }
-    case FetchStatus.Failure:
-      newState = {
-        fetchingAccount: false,
-        accountFetchErrorMessage: action.errorMessage
-      };
-      break;
     default:
+      const errors = { errors: [`Unhandled FetchStatus ${action.status}`] };
+      const account = normalizeAccount({ ...action.account, ...errors });
       newState = {
-        fetchingAccount: false,
-        accountFetchErrorMessage: `Unhandled FetchStatus ${action.status}`
+        accounts: { ...state.accounts, ...account }
       };
       break;
   }

@@ -19,6 +19,7 @@ export enum ActionType {
 }
 
 export enum FetchStatus {
+  Pending,
   InProgress,
   Success,
   Failure
