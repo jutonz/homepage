@@ -10,6 +10,7 @@ import {
 } from "./accounts/create-account";
 import { ApolloQueryResult } from "apollo-client"
 import { GraphQLError } from "graphql";
+import { Promise } from "bluebird";
 
 export * from "./accounts/create-account";
 
