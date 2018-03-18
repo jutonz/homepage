@@ -1,5 +1,6 @@
 import { Account, storeAccount } from "./../accounts";
 import { Action, ActionType } from "./../../Actions";
+import { FetchStatus } from "./../../../Store";
 import { Dispatch } from "redux";
 import gql from "graphql-tag";
 
@@ -57,7 +58,7 @@ export const createAccount = (name: string): any => {
 
     window.grapqlClient.mutate({ mutation }).then((response: any) => {
       const { name, id } = response.data.createAccount;
-      const account = { name, id };
+      const account = { name, id, fetchStatus: FetchStatus.Success };
       dispatch(createAccountSuccess(account));
       dispatch(storeAccount(account));
     }).catch((error: any) => {

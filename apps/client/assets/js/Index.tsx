@@ -12,6 +12,7 @@ import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
 import gql from "graphql-tag";
+import { createLogger } from "redux-logger";
 
 import { appStore, addCsrfTokenAction, setSessionAction } from "./Store";
 import "./../css/app.less";
@@ -43,9 +44,11 @@ window.grapqlClient = new ApolloClient({
   cache: new InMemoryCache()
 });
 
+const reduxLogger = createLogger({}); // use default opts
 const middleware = applyMiddleware(
   thunk,
-  routerMiddleware(createHistory())
+  routerMiddleware(createHistory()),
+  reduxLogger
 );
 const store = createStore(appStore, middleware);
 

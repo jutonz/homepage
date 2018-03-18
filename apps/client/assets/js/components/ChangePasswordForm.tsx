@@ -193,7 +193,7 @@ export class _ChangePasswordForm extends React.Component<Props, State> {
       .mutate({
         mutation: mutation
       })
-      .then((_response: Response) => {
+      .then((_response: any) => {
         this.setState({ loading: false });
         this.onPasswordChangeSuccess();
       })
