@@ -1,28 +1,28 @@
 export enum ActionType {
-  Inc,
-  Dec,
-  AddCsrfToken,
-  SetSession,
-  SetCoffemakerFloz,
-  SetCoffeemakerGrams,
-  FlashAdd,
-  FlashRemove,
-  AccountFetch,
-  AccountsRequest,
-  AccountsReceive,
-  StoreAccount,
-  SetNewAccountName,
-  CreateAccountRequest,
-  CreateAccountReceive,
-  ViewAccount,
-  ViewAccountLoading
+  Inc = "Inc",
+  Dec = "Dec",
+  AddCsrfToken = "AddCsrfToken",
+  SetSession = "SetSession",
+  SetCoffemakerFloz = "SetCoffemakerFloz",
+  SetCoffeemakerGrams = "SetCoffeemakerGrams",
+  FlashAdd = "FlashAdd",
+  FlashRemove = "FlashRemove",
+  AccountFetch = "AccountFetch",
+  AccountsRequest = "AccountsRequest",
+  AccountsReceive = "AccountsReceive",
+  StoreAccount = "StoreAccount",
+  SetNewAccountName = "SetNewAccountName",
+  CreateAccountRequest = "CreateAccountRequest",
+  CreateAccountReceive = "CreateAccountReceive",
+  ViewAccount = "ViewAccount",
+  ViewAccountLoading = "ViewAccountLoading"
 }
 
 export enum FetchStatus {
-  Pending,
-  InProgress,
-  Success,
-  Failure
+  Pending = "Pending",
+  InProgress = "InProgress",
+  Success = "Success",
+  Failure = "Failure"
 }
 
 export interface Action {

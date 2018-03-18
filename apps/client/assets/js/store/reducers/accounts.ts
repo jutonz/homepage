@@ -198,8 +198,8 @@ export const accounts = (
       break;
     }
     case ActionType.StoreAccount: {
-      const account = (action as StoreAccountAction).account;
-      newState = { accounts: { ...state.accounts, account } };
+      const account = normalizeAccount((action as StoreAccountAction).account);
+      newState = { accounts: { ...state.accounts, ...account } };
       break;
     }
     default:

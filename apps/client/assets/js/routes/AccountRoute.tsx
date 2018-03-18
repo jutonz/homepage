@@ -4,6 +4,7 @@ import { compose } from "redux";
 import { connect, Dispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { MainNav, ActiveItem } from "./../components/MainNav";
+import { AccountName } from "./../components/AccountName.tsx";
 import {
   Account,
   fetchAccount,
@@ -56,7 +57,11 @@ class _AccountRoute extends React.Component<Props, {}> {
           </div>
         );
       case FetchStatus.Success:
-        return <div>{account.name}</div>;
+        return (
+          <div>
+            <AccountName account={account} />
+          </div>
+        );
       default:
         return <div />;
     }
