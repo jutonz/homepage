@@ -283,8 +283,6 @@ export const accounts = (
     }
   }
 
-  //switch (action.type.toString()) {
-  //}
   // Handle child reducers
   state.createAccount = createAccountReducer(state.createAccount, action);
 
@@ -323,47 +321,6 @@ const handleAccountFetchAction = (state: AccountStoreState, action: AccountFetch
       newState = {
         accounts
       };
-      break;
-    }
-    default:
-      const errors = { errors: [`Unhandled FetchStatus ${action.status}`] };
-      const account = normalizeAccount({ ...action.account, ...errors });
-      newState = {
-        accounts: { ...state.accounts, ...account }
-      };
-      break;
-  }
-
-  return newState;
-}
-
-const handleAccountDeleteAction = (
-  state: AccountStoreState,
-  action: AccountDeleteAction
-): Partial<AccountStoreState> => {
-  let newState: Partial<AccountStoreState> = {};
-
-  switch(action.status) {
-    case FetchStatus.InProgress: {
-      const fetchStatus = FetchStatus.InProgress;
-      const account = { ...action.account, ...{ errors: null, fetchStatus } };
-      const normaliedAccount = normalizeAccount(account);
-      newState = {
-        accounts: { ...state.accounts, ...normaliedAccount }
-      };
-      break;
-    }
-    case FetchStatus.Success: {
-      const accounts = { ...state.accounts };
-      delete accounts[action.account.id];
-      newState = { ...accounts };
-      break;
-    }
-    case FetchStatus.Failure: {
-      const fetchStatus = FetchStatus.Failure;
-      const newAccount = normalizeAccount({ ...action.account, ...{ fetchStatus } });
-      const accounts = { ...state.accounts, ...newAccount };
-      newState = { accounts };
       break;
     }
     default:
