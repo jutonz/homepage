@@ -3,7 +3,7 @@ import { StoreState } from "./../../Store";
 import { Dictionary } from "./../../Types";
 import { Dispatch } from "redux";
 import gql from "graphql-tag";
-import { GetAccountQuery, GetAccountQueryVariables } from "./../../Schema";
+import { GetAccountQuery, GetAccountQueryVariables, DeleteAccountMutation, DeleteAccountMutationVariables } from "./../../Schema";
 import {
   AccountsCreateAccountStoreState,
   createAccountReducer
@@ -36,6 +36,8 @@ export interface Account {
   name?: string;
   errors?: Array<string>;
   fetchStatus: FetchStatus;
+  deleting?: boolean;
+  deleteErrors?: Array<string>;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,6 +46,11 @@ export interface Account {
 
 export interface AccountFetchAction extends Action {
   status: FetchStatus
+  account?: Account;
+}
+
+export interface AccountDeleteAction extends Action {
+  status: FetchStatus;
   account?: Account;
 }
 
@@ -108,6 +115,27 @@ export const fetchAccount = (id: string): any => {
   };
 };
 
+export const deleteAccount = (account: Account): any => {
+  return (dispatch: Dispatch<{}>): Promise<Action> => {
+    dispatch(accountDeleteAction(FetchStatus.InProgress, account));
+    const mutation = gql`mutation DeleteAccount($id: ID!) {
+      deleteAccount(id: $id) { id }
+    }`;
+    const variables: DeleteAccountMutationVariables = { id: account.id };
+
+    return window.grapqlClient.mutate({
+      mutation, variables
+    }).then((_response: ApolloQueryResult<DeleteAccountMutation>) => {
+      return dispatch(accountDeleteAction(FetchStatus.Success, account));
+    }).catch((error: any) => {
+      const graphQLErrors: Array<GraphQLError> = error.graphQLErrors;
+      const errors = graphQLErrors.map(error => error.message);
+      const accountWithErrors = { ...account, ...{ errors } };
+      return dispatch(accountDeleteAction(FetchStatus.Failure, accountWithErrors));
+    });
+  };
+};
+
 export const fetchAccounts = (): any => {
   return (dispatch: Dispatch<{}>) => {
     dispatch(requestAccounts());
@@ -152,6 +180,15 @@ const accountFetchAction = (
   account
 });
 
+const accountDeleteAction = (
+  status: FetchStatus,
+  account: Account
+): AccountDeleteAction => ({
+  type: ActionType.AccountDelete,
+  status,
+  account
+});
+
 const requestAccounts = (): AccountsRequestAction => ({
   type: ActionType.AccountsRequest
 });
@@ -178,11 +215,14 @@ export const accounts = (
   state: AccountStoreState = initialState,
   action: Action
 ): AccountStoreState => {
-  let newState: Partial<AccountStoreState>;
+  let newState: Partial<AccountStoreState> = {};
 
-  switch(action.type) {
+  switch(action.type.toString()) {
     case ActionType.AccountFetch:
       newState = handleAccountFetchAction(state, action as AccountFetchAction);
+      break;
+    case ActionType.AccountDelete:
+      newState = handleAccountDeleteAction(state, action as AccountDeleteAction);
       break;
     case ActionType.AccountsRequest:
       newState = { loadingAllAccounts: true };
@@ -203,9 +243,44 @@ export const accounts = (
       newState = { accounts: { ...state.accounts, ...account } };
       break;
     }
-    default:
-      newState = {};
+    case "UNSTORE_ACCOUNT": {
+      const { [action.id]: _removed, ...accounts } = state.accounts;
+      newState = { accounts };
       break;
+    }
+    case "DELETE_ACCOUNT_REQUEST": {
+      const { id } = action;
+      const original = state.accounts[parseInt(id)];
+      const account = normalizeAccount({
+        ...original,
+        deleting: true,
+        deleteErrors: undefined
+      });
+      newState = { accounts: { ...state.accounts, ...account } };
+      break;
+    }
+    case "DELETE_ACCOUNT_SUCCESS": {
+      const { id } = action;
+      const original = state.accounts[parseInt(id)];
+      const account = normalizeAccount({
+        ...original,
+        deleting: false
+      });
+      newState = { accounts: { ...state.accounts, ...account } };
+      debugger;
+      break;
+    }
+    case "DELETE_ACCOUNT_FAILURE": {
+      const { errors, id } = action;
+      const account = state.accounts[parseInt(id)]
+      const withError = normalizeAccount({
+        ...account,
+        deleteErrors: errors,
+        deleting: false
+      });
+      newState = { accounts: { ...state.accounts, ...withError } };
+      break;
+    }
   }
 
   // Handle child reducers

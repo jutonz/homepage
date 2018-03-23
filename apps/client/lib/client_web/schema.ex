@@ -11,6 +11,8 @@ defmodule ClientWeb.Schema do
   object :account do
     field(:id, non_null(:id))
     field(:name, non_null(:string))
+    field(:inserted_at, non_null(:string))
+    field(:updated_at, non_null(:string))
   end
 
   query do
@@ -43,21 +45,23 @@ defmodule ClientWeb.Schema do
       arg(:id, non_null(:id))
       arg(:email, :string)
       arg(:password, :string)
-
       resolve(&ClientWeb.UserResolver.update_user/3)
     end
 
     field :change_password, :user do
       arg(:current_password, non_null(:string))
       arg(:new_password, non_null(:string))
-
       resolve(&ClientWeb.UserResolver.change_password/3)
     end
 
     field :create_account, :account do
       arg(:name, non_null(:string))
-
       resolve(&ClientWeb.AccountResolver.create_account/3)
+    end
+
+    field :delete_account, :account do
+      arg(:id, non_null(:id))
+      resolve(&ClientWeb.AccountResolver.delete_account/3)
     end
   end
 end

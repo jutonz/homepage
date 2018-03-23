@@ -7,10 +7,10 @@ defmodule Client.Account do
     field(:name, :string)
     timestamps()
 
-    many_to_many :users, Client.User, join_through: "user_accounts"
+    many_to_many :users, Client.User, join_through: "user_accounts", on_delete: :delete_all
   end
 
-  def changeset(%Account{} = account, attrs) do
+  def changeset(%Account{} = account, attrs \\ %{}) do
     account
     |> cast(attrs, ~w(name)a)
     |> validate_required(~w(name)a)

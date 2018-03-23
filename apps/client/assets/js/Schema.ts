@@ -12,6 +12,16 @@ export interface GetAccountQuery {
   } | null,
 };
 
+export interface DeleteAccountMutationVariables {
+  id: string,
+};
+
+export interface DeleteAccountMutation {
+  deleteAccount:  {
+    id: string,
+  } | null,
+};
+
 export interface GetAccountsQuery {
   getAccounts:  Array< {
     name: string,
