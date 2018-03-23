@@ -13,8 +13,10 @@ import { HttpLink } from "apollo-link-http";
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
 import gql from "graphql-tag";
 import { createLogger } from "redux-logger";
+import createSagaMiddleware from 'redux-saga'
 
 import { appStore, addCsrfTokenAction, setSessionAction } from "./Store";
+import { rootSaga } from "./store/sagas/root";
 import "./../css/app.less";
 
 // Utility functions
@@ -45,12 +47,16 @@ window.grapqlClient = new ApolloClient({
 });
 
 const reduxLogger = createLogger({}); // use default opts
+const sagaMiddleware = createSagaMiddleware();
 const middleware = applyMiddleware(
   thunk,
   routerMiddleware(createHistory()),
+  sagaMiddleware,
   reduxLogger
 );
 const store = createStore(appStore, middleware);
+
+sagaMiddleware.run(rootSaga);
 
 interface IndexProps {
   csrfToken: string;

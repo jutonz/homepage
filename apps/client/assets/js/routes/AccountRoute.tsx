@@ -4,15 +4,18 @@ import { compose } from "redux";
 import { connect, Dispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { MainNav, ActiveItem } from "./../components/MainNav";
-import { AccountName } from "./../components/AccountName.tsx";
+import { AccountName } from "./../components/AccountName";
+import { AccountDeleteButton } from "./../components/AccountDeleteButton";
+import { Loader } from "semantic-ui-react";
 import {
   Account,
   fetchAccount,
   StoreState,
   Action,
-  FetchStatus
+  FetchStatus,
+  FlashTone,
+  showFlash
 } from "./../Store";
-import { Loader } from "semantic-ui-react";
 
 interface RouteParams {
   // included in URL or query params
@@ -23,6 +26,8 @@ interface Props extends RouteComponentProps<RouteParams> {
   account?: Account;
   fetchAccount(id: string): Promise<Action>;
   isLoading?: boolean;
+  deleteAccount(account: Account): Promise<Action>;
+  showFlash(message: string, tone: FlashTone): any;
 }
 
 class _AccountRoute extends React.Component<Props, {}> {
@@ -39,12 +44,13 @@ class _AccountRoute extends React.Component<Props, {}> {
       <div>
         <MainNav activeItem={ActiveItem.Settings} />
         <Loader active={isLoading} />
-        {account && this.renderAccount(account)}
+        {account && this.renderAccount()}
       </div>
     );
   }
 
-  private renderAccount = (account: Account): ReactNode => {
+  private renderAccount = (): ReactNode => {
+    const { account } = this.props;
     switch (account.fetchStatus) {
       case FetchStatus.Failure:
         return (
@@ -60,11 +66,17 @@ class _AccountRoute extends React.Component<Props, {}> {
         return (
           <div>
             <AccountName account={account} />
+            <AccountDeleteButton account={account} onDelete={this.onDelete} />
           </div>
         );
       default:
         return <div />;
     }
+  };
+
+  private onDelete = () => {
+    this.props.showFlash("Account deleted", FlashTone.Success);
+    this.props.history.push("/settings");
   };
 }
 
@@ -90,7 +102,9 @@ const mapStoreToProps = (store: StoreState, props: Props): Partial<Props> => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
-  fetchAccount: (id: string) => dispatch(fetchAccount(id))
+  fetchAccount: (id: string) => dispatch(fetchAccount(id)),
+  showFlash: (message: string, tone: FlashTone) =>
+    dispatch(showFlash(message, tone))
 });
 
 export const AccountRoute = compose(

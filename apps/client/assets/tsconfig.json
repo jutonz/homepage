@@ -10,7 +10,17 @@
     "target": "es5",
     "sourceMap": true,
     "jsx": "react",
-    "allowJs": true
+    "allowJs": true,
+    "lib": [
+      "dom",
+      "es2015.collection",
+      "es2015.core",
+      "es2015.promise",
+      "es2015.iterable",
+      "es2015.symbol",
+      "es2016.array.include",
+      "es5"
+    ]
   },
   "exclude": [
     "node_modules"

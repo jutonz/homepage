@@ -11,7 +11,6 @@ const webpackConfig = {
   module: {
     rules: [
       // Handle ts and tsx
-      // See assets/.babelrc for additional babel-preset-env config
       {
         test: /\.(ts|tsx)$/,
         use: [

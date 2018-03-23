@@ -15,7 +15,8 @@ export enum ActionType {
   CreateAccountRequest = "CreateAccountRequest",
   CreateAccountReceive = "CreateAccountReceive",
   ViewAccount = "ViewAccount",
-  ViewAccountLoading = "ViewAccountLoading"
+  ViewAccountLoading = "ViewAccountLoading",
+  AccountDelete = "AccountDelete"
 }
 
 export enum FetchStatus {
@@ -27,6 +28,7 @@ export enum FetchStatus {
 
 export interface Action {
   type: ActionType;
+  [key: string]: any;
 }
 
 export interface AddCsrfTokenAction extends Action {

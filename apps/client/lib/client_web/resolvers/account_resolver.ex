@@ -35,6 +35,21 @@ defmodule ClientWeb.AccountResolver do
     end
   end
 
+  def delete_account(_parent, args, %{context: context}) do
+    with {:ok, user} <- context |> Map.fetch(:current_user),
+         {:ok, account_id} <- args |> Map.fetch(:id),
+         {:ok, account} <- user |> User.get_account(account_id),
+         changeset <- account |> Account.changeset,
+         {:ok, account} <- changeset |> Repo.delete,
+      do: {:ok, account},
+      else: (
+        {:error, %Ecto.Changeset{} = changeset} ->
+          {:error, changeset |> extract_errors}
+        {:eror, reason} -> {:error, reason}
+        _ -> {:error, "Could not delete account"}
+      )
+  end
+
   def extract_errors(%Ecto.Changeset{} = changeset) do
     changeset.errors
     |> Enum.map(fn(error) ->
