@@ -135,5 +135,5 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
 
 export const MainNav = compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect<{}, {}, Props>(mapStateToProps, mapDispatchToProps)
 )(_MainNav);
