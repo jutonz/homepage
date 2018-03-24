@@ -15,8 +15,7 @@ export enum ActionType {
   CreateAccountRequest = "CreateAccountRequest",
   CreateAccountReceive = "CreateAccountReceive",
   ViewAccount = "ViewAccount",
-  ViewAccountLoading = "ViewAccountLoading",
-  AccountDelete = "AccountDelete"
+  ViewAccountLoading = "ViewAccountLoading"
 }
 
 export enum FetchStatus {

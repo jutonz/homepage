@@ -3,7 +3,7 @@ import { StoreState } from "./../../Store";
 import { Dictionary } from "./../../Types";
 import { Dispatch } from "redux";
 import gql from "graphql-tag";
-import { GetAccountQuery, GetAccountQueryVariables, DeleteAccountMutation, DeleteAccountMutationVariables } from "./../../Schema";
+import { GetAccountQuery, GetAccountQueryVariables } from "./../../Schema";
 import {
   AccountsCreateAccountStoreState,
   createAccountReducer
@@ -115,27 +115,6 @@ export const fetchAccount = (id: string): any => {
   };
 };
 
-export const deleteAccount = (account: Account): any => {
-  return (dispatch: Dispatch<{}>): Promise<Action> => {
-    dispatch(accountDeleteAction(FetchStatus.InProgress, account));
-    const mutation = gql`mutation DeleteAccount($id: ID!) {
-      deleteAccount(id: $id) { id }
-    }`;
-    const variables: DeleteAccountMutationVariables = { id: account.id };
-
-    return window.grapqlClient.mutate({
-      mutation, variables
-    }).then((_response: ApolloQueryResult<DeleteAccountMutation>) => {
-      return dispatch(accountDeleteAction(FetchStatus.Success, account));
-    }).catch((error: any) => {
-      const graphQLErrors: Array<GraphQLError> = error.graphQLErrors;
-      const errors = graphQLErrors.map(error => error.message);
-      const accountWithErrors = { ...account, ...{ errors } };
-      return dispatch(accountDeleteAction(FetchStatus.Failure, accountWithErrors));
-    });
-  };
-};
-
 export const fetchAccounts = (): any => {
   return (dispatch: Dispatch<{}>) => {
     dispatch(requestAccounts());
@@ -180,15 +159,6 @@ const accountFetchAction = (
   account
 });
 
-const accountDeleteAction = (
-  status: FetchStatus,
-  account: Account
-): AccountDeleteAction => ({
-  type: ActionType.AccountDelete,
-  status,
-  account
-});
-
 const requestAccounts = (): AccountsRequestAction => ({
   type: ActionType.AccountsRequest
 });
@@ -220,9 +190,6 @@ export const accounts = (
   switch(action.type.toString()) {
     case ActionType.AccountFetch:
       newState = handleAccountFetchAction(state, action as AccountFetchAction);
-      break;
-    case ActionType.AccountDelete:
-      newState = handleAccountDeleteAction(state, action as AccountDeleteAction);
       break;
     case ActionType.AccountsRequest:
       newState = { loadingAllAccounts: true };
