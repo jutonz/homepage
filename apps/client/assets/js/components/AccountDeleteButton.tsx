@@ -71,6 +71,7 @@ const mapDispatchToProps = (dispatch: Dispatch<{}>): Partial<Props> => ({
   }
 });
 
-export const AccountDeleteButton = connect<{}, {}, Props>(undefined, mapDispatchToProps)(
-  _AccountDeleteButton
-);
+export const AccountDeleteButton = connect<{}, {}, Props>(
+  undefined,
+  mapDispatchToProps
+)(_AccountDeleteButton);
