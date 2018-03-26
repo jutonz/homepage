@@ -45,9 +45,9 @@ defmodule Client.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:react_phoenix, "~> 0.5"},
       {:absinthe_ecto, "~> 0.1"},
       {:absinthe_plug, "~> 1.4"},
+      {:cors_plug, "~> 1.5"},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true}
     ]

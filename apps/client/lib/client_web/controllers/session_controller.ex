@@ -42,9 +42,7 @@ defmodule ClientWeb.SessionController do
         conn |> put_status(200) |> json(%{error: false})
 
       {:error, reason} ->
-        conn
-        |> put_flash(:error, "Failed to signup: #{reason}")
-        |> render(:signup)
+        conn |> put_status(400) |> json(%{error: reason})
     end
   end
 end

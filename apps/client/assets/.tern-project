@@ -1,0 +1,14 @@
+{
+  "libs": [
+    "browser",
+    "react"
+  ],
+  "plugins": {
+    "webpack": {
+      "configPath": "./webpack.config.development.js"
+    },
+    "modules": {},
+    "es_modules": {},
+    "node": {}
+  }
+}
