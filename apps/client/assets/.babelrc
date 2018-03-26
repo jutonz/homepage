@@ -1,0 +1,12 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "browsers": ["last 2 Chrome versions"]
+      }
+    }],
+    "react",
+    "stage-1"
+  ],
+  "plugins": ["react-hot-loader/babel"]
+}

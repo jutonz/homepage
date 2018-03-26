@@ -11,8 +11,7 @@ config :client, ClientWeb.Endpoint,
   url: [host: "localhost", port: 4000, scheme: "http"],
   debug_errors: true,
   code_reloader: true,
-  check_origin: false,
-  watchers: [yarn: ["run", "watch", cd: Path.expand("../assets", __DIR__)]]
+  check_origin: false
 
 # Watch static and templates for browser reloading.
 config :client, ClientWeb.Endpoint,

@@ -33,6 +33,7 @@ defmodule ClientWeb.Endpoint do
     json_decoder: Poison
   )
 
+  plug CORSPlug, origin: ["http://localhost:4001"]
   plug(Plug.MethodOverride)
   plug(Plug.Head)
 
