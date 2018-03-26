@@ -2,10 +2,10 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "bundle": "node ./node_modules/.bin/webpack -p",
+    "bundle": "NODE_ENV=production node ./node_modules/.bin/webpack -p --config webpack.config.production.js",
     "build": "node ./node_modules/.bin/webpack --color",
     "watch": "node ./node_modules/.bin/webpack --watch-stdin --color",
-    "start": "node ./node_modules/.bin/webpack-dev-server",
+    "start": "node ./node_modules/.bin/webpack-dev-server --config webpack.config.develoment.js",
     "s": "yarn start",
     "lint": "node ./node_modules/.bin/eslint 'js/**/*.{js,jsx}'",
     "lintfix": "tslint js/**/*.ts js/**/*.tsx --fix"
