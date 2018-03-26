@@ -75,7 +75,7 @@ const mapStoreToProps = (store, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchAccount: (id) => dispatch(fetchAccount(id)),
+  fetchAccount: id => dispatch(fetchAccount(id)),
   showFlash: (message, tone) => dispatch(showFlash(message, tone))
 });
 

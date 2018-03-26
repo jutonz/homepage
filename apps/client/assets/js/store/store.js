@@ -18,7 +18,7 @@ const count = (state = { count: 0 }, action) => {
 
   switch (action.type) {
     case "INC":
-      newState = { count: state.count + 1 }
+      newState = { count: state.count + 1 };
       break;
     case "DEC":
       newState = { count: Math.max(state.count - 1, 0) };

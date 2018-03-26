@@ -18,31 +18,39 @@ export const fetchAccount = id => {
       const account = { id, fetchStatus: "in_progress" };
       dispatch(accountFetchAction("in_progress", account));
 
-      const query = gql`query GetAccount($id: ID!) {
-        getAccount(id: $id) { name id }
-      }`;
+      const query = gql`
+        query GetAccount($id: ID!) {
+          getAccount(id: $id) {
+            name
+            id
+          }
+        }
+      `;
       const variables = { id };
 
-      return window.grapqlClient.query({
-        query,
-        variables
-      }).then(response => {
-        const account = {
-          ...response.data.getAccount,
-          ...{ fetchStatus: "success" }
-        };
-        return dispatch(accountFetchAction("success", account));
-      }).catch(error => {
-        console.error(error);
-        const graphQLErrors = error.graphQLErrors;
-        const errors = graphQLErrors.map(error => error.message);
-        const account: Account = {
-          id,
-          errors,
-          fetchStatus: "failure"
-        };
-        return dispatch(accountFetchAction("failure", account));
-      });
+      return window.grapqlClient
+        .query({
+          query,
+          variables
+        })
+        .then(response => {
+          const account = {
+            ...response.data.getAccount,
+            ...{ fetchStatus: "success" }
+          };
+          return dispatch(accountFetchAction("success", account));
+        })
+        .catch(error => {
+          console.error(error);
+          const graphQLErrors = error.graphQLErrors;
+          const errors = graphQLErrors.map(error => error.message);
+          const account: Account = {
+            id,
+            errors,
+            fetchStatus: "failure"
+          };
+          return dispatch(accountFetchAction("failure", account));
+        });
     }
   };
 };
@@ -51,24 +59,32 @@ export const fetchAccounts = () => {
   return dispatch => {
     dispatch(requestAccounts());
 
-    const query = gql`query GetAccounts {
-      getAccounts { name id }
-    }`;
+    const query = gql`
+      query GetAccounts {
+        getAccounts {
+          name
+          id
+        }
+      }
+    `;
 
-    window.grapqlClient.query({ query }).then(response => {
-      const rawAccounts = response.data.getAccounts;
-      const accounts = {};
-      rawAccounts.forEach(raw => {
-        const { id, name } = raw;
-        const account = { id, name, fetchStatus: "success" };
-        accounts[id] = account;
+    window.grapqlClient
+      .query({ query })
+      .then(response => {
+        const rawAccounts = response.data.getAccounts;
+        const accounts = {};
+        rawAccounts.forEach(raw => {
+          const { id, name } = raw;
+          const account = { id, name, fetchStatus: "success" };
+          accounts[id] = account;
+        });
+        dispatch(receiveAccountsSuccess(accounts));
+      })
+      .catch(error => {
+        console.error(error);
+        const message = error.message.replace("GraphQL error: ", "");
+        dispatch(receiveAccountsError(message));
       });
-      dispatch(receiveAccountsSuccess(accounts));
-    }).catch(error => {
-      console.error(error);
-      const message = error.message.replace("GraphQL error: ", "");
-      dispatch(receiveAccountsError(message));
-    });
   };
 };
 
@@ -91,7 +107,7 @@ const requestAccounts = () => ({
   type: "ACCOUNTS_REQUEST"
 });
 
-const receiveAccountsSuccess = (accounts) => ({
+const receiveAccountsSuccess = accounts => ({
   type: "ACCOUNTS_RECEIVE",
   status: "success",
   accounts
@@ -111,7 +127,7 @@ const initialState = { accounts: {} };
 export const accounts = (state = initialState, action) => {
   let newState;
 
-  switch(action.type) {
+  switch (action.type) {
     case "ACCOUNT_FETCH":
       newState = handleAccountFetchAction(state, action);
       break;
@@ -161,7 +177,7 @@ export const accounts = (state = initialState, action) => {
     }
     case "DELETE_ACCOUNT_FAILURE": {
       const { errors, id } = action;
-      const account = state.accounts[parseInt(id)]
+      const account = state.accounts[parseInt(id)];
       const withError = normalizeAccount({
         ...account,
         deleteErrors: errors,
@@ -185,7 +201,7 @@ export const accounts = (state = initialState, action) => {
 const handleAccountFetchAction = (state, action) => {
   let newState = {};
 
-  switch(action.status) {
+  switch (action.status) {
     case "in_progress": {
       const fetchStatus = "in_progress";
       const account = { ...action.account, ...{ errors: null, fetchStatus } };
@@ -197,7 +213,10 @@ const handleAccountFetchAction = (state, action) => {
     }
     case "success": {
       const fetchStatus = "success";
-      const newAccount = normalizeAccount({ ...action.account, ...{ fetchStatus } });
+      const newAccount = normalizeAccount({
+        ...action.account,
+        ...{ fetchStatus }
+      });
       const accounts = { ...state.accounts, ...newAccount };
       newState = { accounts };
       break;
@@ -216,7 +235,7 @@ const handleAccountFetchAction = (state, action) => {
   }
 
   return newState;
-}
+};
 
 const normalizeAccount = account => {
   let normalized = {};

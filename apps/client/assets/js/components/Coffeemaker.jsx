@@ -1,10 +1,7 @@
 import React from "react";
 import { Input } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
-import {
-  setCoffeemakerFlozAction,
-  setCoffeemakerGramsAction
-} from "@store";
+import { setCoffeemakerFlozAction, setCoffeemakerGramsAction } from "@store";
 import { connect } from "react-redux";
 
 const styles = StyleSheet.create({

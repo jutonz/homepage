@@ -3,8 +3,8 @@ import { StyleSheet, css } from "aphrodite";
 import { Button } from "semantic-ui-react";
 import { MainNav } from "@components/MainNav";
 import { PdfViewer } from "@components/PdfViewer";
-import pdfPath from "@static/files/resume.pdf"
-import docPath from "@static/files/resume.docx"
+import pdfPath from "@static/files/resume.pdf";
+import docPath from "@static/files/resume.docx";
 
 const style = StyleSheet.create({
   resumeContainer: {

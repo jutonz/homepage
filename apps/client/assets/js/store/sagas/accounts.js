@@ -12,7 +12,7 @@ function* deleteAccount({ id, resolve, reject }) {
     if (resolve) {
       resolve(response);
     }
-  } catch(error) {
+  } catch (error) {
     console.error(error);
     const errors = collectGraphqlErrors(error);
     yield put({ type: "DELETE_ACCOUNT_FAILURE", id, errors });

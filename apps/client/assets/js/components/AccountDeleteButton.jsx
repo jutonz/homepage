@@ -36,7 +36,7 @@ class _AccountDeleteButton extends React.Component {
     );
   }
 
-  deleteAccount = (id) => {
+  deleteAccount = id => {
     this.setState({ isDeleting: true, errors: null });
     this.props
       .deleteAccount(id)
@@ -51,7 +51,7 @@ class _AccountDeleteButton extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  deleteAccount: (id) => {
+  deleteAccount: id => {
     // antipattern but worth it?
     return new Promise((resolve, reject) => {
       dispatch({ type: "DELETE_ACCOUNT", id, resolve, reject });
@@ -59,7 +59,6 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export const AccountDeleteButton = connect(
-  undefined,
-  mapDispatchToProps
-)(_AccountDeleteButton);
+export const AccountDeleteButton = connect(undefined, mapDispatchToProps)(
+  _AccountDeleteButton
+);

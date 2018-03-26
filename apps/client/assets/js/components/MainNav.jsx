@@ -18,10 +18,7 @@ class _MainNav extends React.Component {
       <Menu>
         <Menu.Menu position="left">
           <Link to="/">
-            <Menu.Item
-              name={"home"}
-              active={activeItem === "home"}
-            />
+            <Menu.Item name={"home"} active={activeItem === "home"} />
           </Link>
 
           <Link to="/coffeemaker">
@@ -32,19 +29,13 @@ class _MainNav extends React.Component {
           </Link>
 
           <Link to="/resume">
-            <Menu.Item
-              name={"resume"}
-              active={activeItem === "resume"}
-            />
+            <Menu.Item name={"resume"} active={activeItem === "resume"} />
           </Link>
         </Menu.Menu>
 
         <Menu.Menu position="right">
           <Link to="/settings">
-            <Menu.Item
-              name={"settings"}
-              active={activeItem === "settings"}
-            />
+            <Menu.Item name={"settings"} active={activeItem === "settings"} />
           </Link>
           {this.renderLoginOrLogout()}
         </Menu.Menu>
@@ -64,13 +55,7 @@ class _MainNav extends React.Component {
         />
       );
     } else {
-      return (
-        <Menu.Item
-          name={"login"}
-          active={false}
-          onClick={this.login}
-        />
-      );
+      return <Menu.Item name={"login"} active={false} onClick={this.login} />;
     }
   };
 

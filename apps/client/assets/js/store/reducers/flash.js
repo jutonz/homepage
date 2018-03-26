@@ -26,18 +26,18 @@ export const showFlash = (message, tone: "info", duration = 3000) => {
 // Action reducer
 ////////////////////////////////////////////////////////////////////////////////
 
-  const initialState = { messages: [] };
+const initialState = { messages: [] };
 
 export const flash = (state = initialState, action) => {
   let newState;
 
-  switch(action.type) {
+  switch (action.type) {
     case "FLASH_ADD": {
       const { message, tone, id } = action;
       const newMessage = { message, tone, id };
       newState = {
-        messages: [ ...state.messages, newMessage ]
-      }
+        messages: [...state.messages, newMessage]
+      };
       break;
     }
 
@@ -45,7 +45,7 @@ export const flash = (state = initialState, action) => {
       const { id } = action;
       newState = {
         messages: state.messages.filter(msg => msg.id !== id)
-      }
+      };
       break;
     }
 
@@ -55,4 +55,4 @@ export const flash = (state = initialState, action) => {
   }
 
   return { ...state, ...newState };
-}
+};

@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class _SignupForm extends React.Component  {
+class _SignupForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -54,7 +54,7 @@ class _SignupForm extends React.Component  {
       username: username,
       canSubmit: this.validateInputs(username, this.state.password)
     });
-  }
+  };
 
   passwordChanged = (_event, data) => {
     let password = data.value;
@@ -62,14 +62,14 @@ class _SignupForm extends React.Component  {
       password: password,
       canSubmit: this.validateInputs(this.state.username, password)
     });
-  }
+  };
 
   validateInputs = (username, password) => {
     return (
       window.Utils.isValidEmail(username) &&
       window.Utils.isValidPassword(password)
     );
-  }
+  };
 
   submit = (event, _data) => {
     event.preventDefault();
@@ -84,7 +84,7 @@ class _SignupForm extends React.Component  {
     fetch("/api/signup", {
       method: "POST",
       credentials: "same-origin",
-      body: new FormData(event.target),
+      body: new FormData(event.target)
     })
       .then(resp => {
         if (resp.ok && resp.status === 200) {
@@ -104,7 +104,7 @@ class _SignupForm extends React.Component  {
         console.error(error);
         this.setState({ signingUp: false });
       });
-  }
+  };
 
   render() {
     return (

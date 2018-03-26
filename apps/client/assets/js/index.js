@@ -3,13 +3,13 @@ import "phoenix_html";
 import React from "react";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import createHistory from 'history/createBrowserHistory'
+import createHistory from "history/createBrowserHistory";
 import { routerMiddleware } from "react-router-redux";
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
 import { createLogger } from "redux-logger";
-import createSagaMiddleware from 'redux-saga'
+import createSagaMiddleware from "redux-saga";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 
@@ -51,4 +51,9 @@ const store = createStore(appStore, middleware);
 
 sagaMiddleware.run(rootSaga);
 
-ReactDOM.render(<Provider store={store}><Index /></Provider>, document.getElementById("wee"));
+ReactDOM.render(
+  <Provider store={store}>
+    <Index />
+  </Provider>,
+  document.getElementById("wee")
+);

@@ -111,8 +111,7 @@ class _OneTimeLoginLink extends React.Component {
 
 //const mapStoreToProps = () => {};
 const mapDispatchToProps = dispatch => ({
-  showFlash: (message, tone = "info") =>
-    dispatch(showFlash(message, tone))
+  showFlash: (message, tone = "info") => dispatch(showFlash(message, tone))
 });
 
 export const OneTimeLoginLink = compose(connect(null, mapDispatchToProps))(

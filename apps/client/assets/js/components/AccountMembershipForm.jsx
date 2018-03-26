@@ -53,7 +53,10 @@ class _AccountMembershipForm extends React.Component {
           {this.props.accountsFetchError}
         </div>
       );
-    } else if (this.props.accounts && Object.getOwnPropertyNames(this.props.accounts).length !== 0) {
+    } else if (
+      this.props.accounts &&
+      Object.getOwnPropertyNames(this.props.accounts).length !== 0
+    ) {
       return (
         <div>
           {Object.keys(this.props.accounts).map(id => (
@@ -71,11 +74,11 @@ class _AccountMembershipForm extends React.Component {
 
 const mapStateToProps = state => {
   console.log("mapStateToProps");
-  return ({
-  isLoading: state.accounts.loadingAllAccounts,
-  accounts: state.accounts.accounts,
-  accountsFetchError: state.accounts.accountsFetchError
-  })
+  return {
+    isLoading: state.accounts.loadingAllAccounts,
+    accounts: state.accounts.accounts,
+    accountsFetchError: state.accounts.accountsFetchError
+  };
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -17,7 +17,6 @@ const style = StyleSheet.create({
   }
 });
 
-
 class _AccountCreationForm extends React.Component {
   render() {
     const {
@@ -69,8 +68,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchAccounts: () => dispatch(fetchAccounts()),
-  setNewAccountName: (newName) => dispatch(setNewAccountName(newName)),
-  createAccount: (name) => dispatch(createAccount(name))
+  setNewAccountName: newName => dispatch(setNewAccountName(newName)),
+  createAccount: name => dispatch(createAccount(name))
 });
 
 export const AccountCreationForm = compose(

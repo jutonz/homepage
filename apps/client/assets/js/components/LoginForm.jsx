@@ -63,7 +63,7 @@ class _LoginForm extends React.Component {
     }
 
     this.setState(newState);
-  }
+  };
 
   passwordChanged = (_event, data) => {
     let password = data.value;
@@ -80,14 +80,14 @@ class _LoginForm extends React.Component {
     }
 
     this.setState(newState);
-  }
+  };
 
   validateInputs = (username, password) => {
     return (
       window.Utils.isValidEmail(username) &&
       window.Utils.isValidPassword(password)
     );
-  }
+  };
 
   submit = event => {
     event.preventDefault();
@@ -128,7 +128,7 @@ class _LoginForm extends React.Component {
           console.error(json.messages);
         }
       });
-  }
+  };
 
   render() {
     return (

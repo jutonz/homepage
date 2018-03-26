@@ -1,12 +1,7 @@
 import React from "react";
 import { StyleSheet, css } from "aphrodite";
 import gql from "graphql-tag";
-import {
-  Button,
-  Header,
-  Form,
-  Message
-} from "semantic-ui-react";
+import { Button, Header, Form, Message } from "semantic-ui-react";
 
 const styles = StyleSheet.create({
   container: {
@@ -136,7 +131,7 @@ export class _ChangePasswordForm extends React.Component {
     }
   }
 
-  submit = (event) => {
+  submit = event => {
     event.preventDefault();
     this.setState({
       errorMessage: null,

@@ -14,8 +14,8 @@ export default class _BgGrid {
 
   init() {
     this.initPlane();
-    window.addEventListener('resize', () => {
-      this.recalculateRenderingDimensions()
+    window.addEventListener("resize", () => {
+      this.recalculateRenderingDimensions();
     });
   }
 
@@ -43,7 +43,12 @@ export default class _BgGrid {
     let geoHeight = innerHeight * 5;
     let widthSegments = geoWidth / segmentSize;
     let heightSegments = geoHeight / segmentSize;
-    this.geometry = new THREE.PlaneGeometry(geoWidth, geoHeight, widthSegments, heightSegments);
+    this.geometry = new THREE.PlaneGeometry(
+      geoWidth,
+      geoHeight,
+      widthSegments,
+      heightSegments
+    );
     this.material = new THREE.MeshBasicMaterial({
       wireframe: true,
       color: Globals.brandPrimary
@@ -55,7 +60,7 @@ export default class _BgGrid {
     this.mesh.rotation.z = 0.4;
     this.scene.add(this.mesh);
 
-    let canvas = document.getElementById('gl-canvas');
+    let canvas = document.getElementById("gl-canvas");
     this.renderer = new THREE.WebGLRenderer({ canvas: canvas });
     this.recalculateRenderingDimensions();
     this.renderer.render(this.scene, this.camera);
@@ -70,15 +75,17 @@ export default class _BgGrid {
   }
 
   updateWave(ts: any) {
-    for(let i = 0; i < this.mesh.geometry.vertices.length; i++) {
-      let vertice = this.mesh.geometry.vertices[i]
-      let distance = new THREE.Vector2(vertice.x, vertice.y).sub(new THREE.Vector2(0, 0))
+    for (let i = 0; i < this.mesh.geometry.vertices.length; i++) {
+      let vertice = this.mesh.geometry.vertices[i];
+      let distance = new THREE.Vector2(vertice.x, vertice.y).sub(
+        new THREE.Vector2(0, 0)
+      );
       let size = 10;
       let magnitude = 3;
-      vertice.z = Math.sin(distance.length() / size + (ts/500)) * magnitude
+      vertice.z = Math.sin(distance.length() / size + ts / 500) * magnitude;
     }
 
-    this.mesh.geometry.verticesNeedUpdate = true
+    this.mesh.geometry.verticesNeedUpdate = true;
   }
 
   recalculateRenderingDimensions() {

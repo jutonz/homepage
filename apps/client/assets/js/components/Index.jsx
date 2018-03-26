@@ -39,7 +39,8 @@ class _Index extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setSessionEstablished: (established) => dispatch({ type: "SET_SESSION_ESTABLISHED", established })
+  setSessionEstablished: established =>
+    dispatch({ type: "SET_SESSION_ESTABLISHED", established })
 });
 
 export const Index = connect(null, mapDispatchToProps)(_Index);

@@ -20,7 +20,7 @@ export const initialState = {};
 export const coffeemaker = (state = initialState, action) => {
   let newState;
 
-  switch(action.type) {
+  switch (action.type) {
     case "SET_COFFEEMAKER_FLOZ": {
       const floz = action.floz;
       const grounds = groundsForWater(floz);
@@ -47,7 +47,8 @@ export const coffeemaker = (state = initialState, action) => {
       return { ...state, ...newState };
     }
 
-    default: return state;
+    default:
+      return state;
   }
 };
 
@@ -73,6 +74,6 @@ const groundsForWater = floz => {
 // floz = (grams / GRAMS_PER_CUP) * FLOZ_PER_CUP
 
 const flozForGrams = grams => {
-  const floz = (grams / GRAMS_PER_CUP) * FLOZ_PER_CUP;
+  const floz = grams / GRAMS_PER_CUP * FLOZ_PER_CUP;
   return round(floz);
 };

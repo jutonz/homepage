@@ -52,7 +52,8 @@ const mapStoreToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  initSession: () => dispatch({ type: "SET_SESSION_ESTABLISHED", established: true })
+  initSession: () =>
+    dispatch({ type: "SET_SESSION_ESTABLISHED", established: true })
 });
 
 export const LoginRoute = compose(
