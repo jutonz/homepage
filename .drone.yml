@@ -46,6 +46,42 @@ pipeline:
     - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
     environment: ["SERVICE=redis"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  build-prod-redis:
+    group: build
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
+    commands: [". /etc/build-service.sh"]
+    secrets: [ kubelet_conf ]
+    environment:
+    - KUBELET_CONF=$$KUBELET_CONF
+    - KUBECONFIG=/root/kubelet.conf
+    - DCTL_ENV=prod
+    - SERVICE=redis
+    when: { branch: master }
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  build-prod-psql:
+    group: build
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
+    commands: [". /etc/build-service.sh"]
+    secrets: [ kubelet_conf ]
+    environment:
+    - KUBELET_CONF=$$KUBELET_CONF
+    - KUBECONFIG=/root/kubelet.conf
+    - DCTL_ENV=prod
+    - SERVICE=psql
+    when: { branch: master }
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  build-prod-app:
+    group: build
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
+    commands: [". /etc/build-service.sh"]
+    secrets: [ kubelet_conf ]
+    environment:
+    - KUBELET_CONF=$$KUBELET_CONF
+    - KUBECONFIG=/root/kubelet.conf
+    - DCTL_ENV=prod
+    - SERVICE=app
+    when: { branch: master }
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
@@ -125,43 +161,6 @@ pipeline:
     - DOCKER_USERNAME=$$DOCKER_USERNAME
     - DOCKER_PASSWORD=$$DOCKER_PASSWORD
     - SERVICE=redis
-    when: { branch: master }
-    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-
-  build-prod-redis:
-    group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
-    commands: [". /etc/build-service.sh"]
-    secrets: [ kubelet_conf ]
-    environment:
-    - KUBELET_CONF=$$KUBELET_CONF
-    - KUBECONFIG=/root/kubelet.conf
-    - DCTL_ENV=prod
-    - SERVICE=redis
-    when: { branch: master }
-    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-  build-prod-psql:
-    group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
-    commands: [". /etc/build-service.sh"]
-    secrets: [ kubelet_conf ]
-    environment:
-    - KUBELET_CONF=$$KUBELET_CONF
-    - KUBECONFIG=/root/kubelet.conf
-    - DCTL_ENV=prod
-    - SERVICE=psql
-    when: { branch: master }
-    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-  build-prod-app:
-    group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
-    commands: [". /etc/build-service.sh"]
-    secrets: [ kubelet_conf ]
-    environment:
-    - KUBELET_CONF=$$KUBELET_CONF
-    - KUBECONFIG=/root/kubelet.conf
-    - DCTL_ENV=prod
-    - SERVICE=app
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
