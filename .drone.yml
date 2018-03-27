@@ -22,7 +22,7 @@ pipeline:
     - docker volume prune -f
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
-  build-local-dev-psql:
+  build-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
     group: build
     commands:
@@ -30,7 +30,7 @@ pipeline:
     - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
     environment: ["SERVICE=psql"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-  build-local-dev-app:
+  build-dev-app:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
     group: build
     commands:
@@ -38,7 +38,7 @@ pipeline:
     - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
     environment: ["SERVICE=app"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-  build-local-dev-redis:
+  build-dev-redis:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
     group: build
     commands:
