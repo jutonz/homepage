@@ -1,12 +1,19 @@
 import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
+import { StyleSheet, css } from "aphrodite";
+import { Loader } from "semantic-ui-react";
 import { MainNav } from "@components/MainNav";
 import { AccountName } from "@components/AccountName";
 import { AccountDeleteButton } from "@components/AccountDeleteButton";
 import { AccountRenameForm } from "@components/AccountRenameForm";
-import { Loader } from "semantic-ui-react";
 import { fetchAccount, showFlash } from "@store";
+
+const style = StyleSheet.create({
+  routeContainer: {
+    margin: "30px"
+  }
+});
 
 class _AccountRoute extends React.Component {
   componentWillMount() {
@@ -22,7 +29,9 @@ class _AccountRoute extends React.Component {
       <div>
         <MainNav activeItem={"settings"} />
         <Loader active={isLoading} />
-        {account && this.renderAccount()}
+        <div className={css(style.routeContainer)}>
+          {account && this.renderAccount()}
+        </div>
       </div>
     );
   }
