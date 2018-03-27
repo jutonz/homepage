@@ -56,7 +56,6 @@ pipeline:
     - KUBECONFIG=/root/kubelet.conf
     - DCTL_ENV=prod
     - SERVICE=redis
-    when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-prod-psql:
     group: build
@@ -68,7 +67,6 @@ pipeline:
     - KUBECONFIG=/root/kubelet.conf
     - DCTL_ENV=prod
     - SERVICE=psql
-    when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-prod-app:
     group: build
@@ -80,7 +78,6 @@ pipeline:
     - KUBECONFIG=/root/kubelet.conf
     - DCTL_ENV=prod
     - SERVICE=app
-    when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   initdb:
