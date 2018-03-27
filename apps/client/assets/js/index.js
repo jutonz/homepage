@@ -29,10 +29,16 @@ window.Utils = {
   isValidPassword
 };
 
+let graphqlEndpoint;
+if (window.location.port === "4000") {
+  // dev
+  graphqlEndpoint = "http://localhost:4000/graphql";
+} else {
+  graphqlEndpoint = window.location.origin;
+}
 window.grapqlClient = new ApolloClient({
   link: new HttpLink({
-    //uri: `${window.location.origin}/graphql`,
-    uri: "http://localhost:4000/graphql",
+    uri: graphqlEndpoint,
     credentials: "include" // TODO use same-origin in dev
     //credentials: "same-origin"
   }),
