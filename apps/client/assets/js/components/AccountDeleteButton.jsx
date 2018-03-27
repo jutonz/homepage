@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Header, Form, Message } from "semantic-ui-react";
-import { connect, Dispatch } from "react-redux";
+import { connect } from "react-redux";
 import { StyleSheet, css } from "aphrodite";
 
 const style = StyleSheet.create({

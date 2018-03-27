@@ -63,5 +63,11 @@ defmodule ClientWeb.Schema do
       arg(:id, non_null(:id))
       resolve(&ClientWeb.AccountResolver.delete_account/3)
     end
+
+    field :rename_account, :account do
+      arg(:id, non_null(:id))
+      arg(:name, non_null(:string))
+      resolve(&ClientWeb.AccountResolver.rename_account/3)
+    end
   end
 end

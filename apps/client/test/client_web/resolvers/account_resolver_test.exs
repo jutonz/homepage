@@ -58,4 +58,25 @@ defmodule ClientWeb.AccountResolverTest do
       assert error_message == "Name has already been taken"
     end
   end
+
+  describe "rename_account" do
+    test "can rename an account", %{conn: conn} do
+      conn = conn |> TestUtils.setup_current_user
+      {:ok, user} = conn |> SessionServer.current_user()
+
+      {:ok, account} = %Account{name: "hello"} |> Account.changeset |> Ecto.Changeset.put_assoc(:users, [user]) |> Repo.insert
+      new_name = "#{account.name}_#{:rand.uniform()}"
+
+      query = """
+      mutation {
+        renameAccount(id: #{account.id}, name: "#{new_name}") { name }
+      }
+      """
+
+      json = conn |> post("/graphql", %{query: query}) |> json_response(200)
+      %{"data" => %{"renameAccount" => %{ "name" => actual}}} = json
+
+      assert new_name === actual
+    end
+  end
 end
