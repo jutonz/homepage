@@ -54,15 +54,15 @@ pipeline:
     - docker run -v dev_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
-    - dctl run psql /etc/initdb.sh
-    - dctl run app /etc/seedci.sh
+    - dctl run --rm psql /etc/initdb.sh
+    - dctl run --rm app /etc/seedci.sh
     environment: ["CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   unit-tests:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:12
-    commands: ["dctl run app /etc/runtests.sh"]
+    commands: ["dctl run --rm app /etc/runtests.sh"]
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
