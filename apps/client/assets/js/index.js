@@ -34,7 +34,7 @@ if (window.location.port === "4000") {
   // dev
   graphqlEndpoint = "http://localhost:4000/graphql";
 } else {
-  graphqlEndpoint = window.location.origin;
+  graphqlEndpoint = `${window.location.origin}/graphql`;
 }
 window.grapqlClient = new ApolloClient({
   link: new HttpLink({
