@@ -7,12 +7,12 @@ defmodule ClientWeb.Endpoint do
   #
   # You should set gzip to true if you are running phoenix.digest when
   # deploying your static files in production.
+  plug Plug.Static.IndexHtml, at: "/"
   plug(
     Plug.Static,
     at: "/",
     from: :client,
-    gzip: false,
-    only: ~w(css fonts images js files favicon.ico robots.txt)
+    gzip: false
   )
 
   # Code reloading can be explicitly enabled under the :code_reloader
@@ -36,18 +36,6 @@ defmodule ClientWeb.Endpoint do
   plug CORSPlug, origin: ["http://localhost:4001"]
   plug(Plug.MethodOverride)
   plug(Plug.Head)
-
-  plug Plug.Static.IndexHtml, at: "/"
-
-  if Mix.env() == :dev do
-    plug Plug.Static,
-      at: "/",
-      from: "assets/public/"
-  else
-    plug Plug.Static,
-      at: "/",
-      from: "priv/static"
-  end
 
   # The session will be stored in the cookie and signed, this means its
   # contents can be read but not tampered with.  Set :encryption_salt if you

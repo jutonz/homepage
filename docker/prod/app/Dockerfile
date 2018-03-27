@@ -57,9 +57,9 @@ RUN MIX_ENV=prod mix local.hex --force
 RUN MIX_ENV=prod mix local.rebar --force
 RUN MIX_ENV=prod mix deps.get
 RUN MIX_ENV=prod mix compile
-RUN MIX_ENV=prod mix phx.digest
 
 # Compile js
 RUN cd apps/client/assets && yarn && yarn cache clean && yarn run bundle
+RUN MIX_ENV=prod mix phx.digest
 
 CMD ["/bin/bash", "-c", "/etc/init.sh"]

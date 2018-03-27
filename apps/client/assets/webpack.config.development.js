@@ -92,8 +92,7 @@ const webpackConfig = {
       chunkFilename: "[id].css"
     }),
     new HtmlWebpackPlugin({
-      template: "public/index.html"
-      //favicon: 'public/favicon.ico'
+      template: "static/index.html"
     })
   ],
 
