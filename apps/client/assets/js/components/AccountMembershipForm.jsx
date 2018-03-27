@@ -72,14 +72,11 @@ class _AccountMembershipForm extends React.Component {
   };
 }
 
-const mapStateToProps = state => {
-  console.log("mapStateToProps");
-  return {
-    isLoading: state.accounts.loadingAllAccounts,
-    accounts: state.accounts.accounts,
-    accountsFetchError: state.accounts.accountsFetchError
-  };
-};
+const mapStateToProps = state => ({
+  isLoading: state.accounts.loadingAllAccounts,
+  accounts: state.accounts.accounts,
+  accountsFetchError: state.accounts.accountsFetchError
+});
 
 const mapDispatchToProps = dispatch => ({
   fetchAccounts: () => dispatch(fetchAccounts())

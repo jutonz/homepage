@@ -186,6 +186,41 @@ export const accounts = (state = initialState, action) => {
       newState = { accounts: { ...state.accounts, ...withError } };
       break;
     }
+    case "SET_ACCOUNT_RENAME_NAME": {
+      const { name, id } = action;
+      const account = state.accounts[parseInt(id)];
+      const withRenameName = { ...account, renameName: name };
+      const normal = normalizeAccount(withRenameName);
+      newState = { accounts: { ...state.accounts, ...normal } };
+      break;
+    }
+    case "ACCOUNT_RENAME_REQUEST": {
+      const { id } = action;
+      const account = state.accounts[parseInt(id)];
+      const { renameErrors, ...withoutErrors } = account;
+      const withLoading = { ...withoutErrors, isRenaming: true };
+      const normal = normalizeAccount(withLoading);
+      newState = { accounts: { ...state.accounts, ...normal } };
+      break;
+    }
+    case "ACCOUNT_RENAME_SUCCESS": {
+      const { id, name } = action;
+      const account = state.accounts[parseInt(id)];
+      const { isRenaming, renameName, ...withoutLoading } = account;
+      const withNewName = { ...withoutLoading, name };
+      const normal = normalizeAccount(withNewName);
+      newState = { accounts: { ...state.accounts, ...normal } };
+      break;
+    }
+    case "ACCOUNT_RENAME_FAILURE": {
+      const { id, errors } = action;
+      const account = state.accounts[parseInt(id)];
+      const { isRenaming, ...withoutLoading } = account;
+      const withErrors = { ...withoutLoading, renameErrors: errors };
+      const normal = normalizeAccount(withErrors);
+      newState = { accounts: { ...state.accounts, ...normal } };
+      break;
+    }
   }
 
   // Handle child reducers

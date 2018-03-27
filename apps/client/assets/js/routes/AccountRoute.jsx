@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { MainNav } from "@components/MainNav";
 import { AccountName } from "@components/AccountName";
 import { AccountDeleteButton } from "@components/AccountDeleteButton";
+import { AccountRenameForm } from "@components/AccountRenameForm";
 import { Loader } from "semantic-ui-react";
 import { fetchAccount, showFlash } from "@store";
 
@@ -44,6 +45,7 @@ class _AccountRoute extends React.Component {
           <div>
             <AccountName account={account} />
             <AccountDeleteButton account={account} onDelete={this.onDelete} />
+            <AccountRenameForm account={account} />
           </div>
         );
       default:

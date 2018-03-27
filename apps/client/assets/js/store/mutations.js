@@ -12,3 +12,17 @@ export const deleteAccountMutation = variables => {
 
   return window.grapqlClient.mutate({ mutation, variables });
 };
+
+export const renameAccountMutation = variables => {
+  const mutation = gql`
+    mutation RenameAccount($id: ID!, $name: String!) {
+      renameAccount(id: $id, name: $name) {
+        name
+      }
+    }
+  `;
+
+  return window.grapqlClient.mutate({ mutation, variables }).then(response => {
+    return response.data.renameAccount;
+  });
+};
