@@ -45,7 +45,7 @@ function* fetchAccountUsers({ id }) {
     yield put({ type: "STORE_USERS", users });
     const userIds = users.map(user => user.id);
     yield put({ type: "FETCH_ACCOUNT_USERS_SUCCESS", id, userIds });
-  } catch(error) {
+  } catch (error) {
     console.error(error);
     const errors = collectGraphqlErrors(error);
     yield put({ type: "FETCH_ACCOUNT_USERS_FAILURE", id, errors });

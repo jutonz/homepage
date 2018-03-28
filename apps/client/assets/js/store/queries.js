@@ -2,9 +2,10 @@ import gql from "graphql-tag";
 
 export const fetchAccountUsersQuery = variables => {
   const query = gql`
-    query GetAccountUsersQuery($id: ID!) { 
+    query GetAccountUsersQuery($id: ID!) {
       getAccountUsers(id: $id) {
-        email id
+        email
+        id
       }
     }
   `;

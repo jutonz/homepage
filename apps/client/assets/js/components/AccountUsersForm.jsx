@@ -33,27 +33,29 @@ class _AccountUsersForm extends React.Component {
           <Loader active={isLoadingUsers} inline />
         </div>
         <Message error>{loadUsersErrors}</Message>
-        {users.map(user => (
-          <div key={user.id}>{user.email}</div>
-        ))}
+        {users.map(user => <div key={user.id}>{user.email}</div>)}
         {!!!users && !isLoadingUsers && <p>No users</p>}
       </Form>
     );
   }
-};
+}
 
 const getUsers = (state, props) => {
   const ids = props.account.userIds || [];
-  return ids.map(id => {
-    return (state.users.users || {})[parseInt(id)]
-  }).filter(user => !!user);
+  return ids
+    .map(id => {
+      return (state.users.users || {})[parseInt(id)];
+    })
+    .filter(user => !!user);
 };
 
 const mapStateToProps = (state, props) => ({
   users: getUsers(state, props)
 });
 const mapDispatchToProps = dispatch => ({
-  fetchUsers: (id) => dispatch({ type: "FETCH_ACCOUNT_USERS", id })
+  fetchUsers: id => dispatch({ type: "FETCH_ACCOUNT_USERS", id })
 });
 
-export const AccountUsersForm = connect(mapStateToProps, mapDispatchToProps)(_AccountUsersForm);
+export const AccountUsersForm = connect(mapStateToProps, mapDispatchToProps)(
+  _AccountUsersForm
+);

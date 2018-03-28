@@ -7,10 +7,10 @@ export const users = (state = initialState, action) => {
       const { users } = action;
       let newUsers = {};
       users.forEach(user => {
-        newUsers = { ...newUsers, ...normalizeUser(user) }
+        newUsers = { ...newUsers, ...normalizeUser(user) };
       });
 
-      newState = { users: { ...state.users, ...newUsers} };
+      newState = { users: { ...state.users, ...newUsers } };
       break;
     }
     default:
