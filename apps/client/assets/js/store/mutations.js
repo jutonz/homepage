@@ -1,5 +1,4 @@
 import gql from "graphql-tag";
-import { FetchResult } from "apollo-link";
 
 export const deleteAccountMutation = variables => {
   const mutation = gql`

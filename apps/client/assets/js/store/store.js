@@ -3,6 +3,7 @@ import { coffeemaker } from "./reducers/coffeemaker";
 import { flash } from "./reducers/flash";
 import { accounts } from "./reducers/accounts";
 import { session } from "./reducers/session";
+import { users } from "./reducers/users";
 
 export * from "./reducers/coffeemaker";
 export * from "./reducers/accounts";
@@ -31,6 +32,7 @@ const count = (state = { count: 0 }, action) => {
 };
 
 export const appStore = combineReducers({
+  users,
   accounts,
   coffeemaker,
   count,

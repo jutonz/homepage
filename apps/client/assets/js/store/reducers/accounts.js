@@ -221,6 +221,32 @@ export const accounts = (state = initialState, action) => {
       newState = { accounts: { ...state.accounts, ...normal } };
       break;
     }
+    case "FETCH_ACCOUNT_USERS_REQUEST": {
+      const { id } = action;
+      const account = state.accounts[parseInt(id)];
+      const withLoading = { ...account, isLoadingUsers: true };
+      const normal = normalizeAccount(withLoading);
+      newState = { accounts: { ...state.accounts, ...normal } };
+      break;
+    }
+    case "FETCH_ACCOUNT_USERS_SUCCESS": {
+      const { id, userIds } = action;
+      const account = state.accounts[parseInt(id)];
+      const { isLoadingUsers, ...withoutLoading } = account;
+      const withUserIds = { ...withoutLoading, userIds };
+      const normal = normalizeAccount(withUserIds);
+      newState = { accounts: { ...state.accounts, ...normal } };
+      break;
+    }
+    case "FETCH_ACCOUNT_USERS_FAILURE": {
+      const { id, errors } = action;
+      const account = state.accounts[parseInt(id)];
+      const { isLoadingUsers, ...withoutLoading } = account;
+      const withErrors = { ...withoutLoading, loadUsersErrors: errors };
+      const normal = normalizeAccount(withErrors);
+      newState = { accounts: { ...state.accounts, ...normal } };
+      break;
+    }
   }
 
   // Handle child reducers
