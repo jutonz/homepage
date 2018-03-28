@@ -79,4 +79,25 @@ defmodule ClientWeb.AccountResolverTest do
       assert new_name === actual
     end
   end
+
+  describe "get_account_users" do
+    test "can get account users", %{conn: conn} do
+      conn = conn |> TestUtils.setup_current_user
+      {:ok, user} = conn |> SessionServer.current_user()
+
+      {:ok, account} = %Account{name: "hello"} |> Account.changeset |> Ecto.Changeset.put_assoc(:users, [user]) |> Repo.insert
+
+      query = """
+      query {
+        getAccountUsers(id: #{account.id}) { email }
+      }
+      """
+
+      json = conn |> post("/graphql", %{query: query}) |> json_response(200)
+
+      %{"data" => %{"getAccountUsers" => [%{"email" => actual}]}} = json
+
+      assert user.email === actual
+    end
+  end
 end

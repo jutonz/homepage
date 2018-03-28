@@ -7,6 +7,7 @@ import { MainNav } from "@components/MainNav";
 import { AccountName } from "@components/AccountName";
 import { AccountDeleteButton } from "@components/AccountDeleteButton";
 import { AccountRenameForm } from "@components/AccountRenameForm";
+import { AccountUsersForm } from "@components/AccountUsersForm";
 import { fetchAccount, showFlash } from "@store";
 
 const style = StyleSheet.create({
@@ -53,8 +54,9 @@ class _AccountRoute extends React.Component {
         return (
           <div>
             <AccountName account={account} />
-            <AccountDeleteButton account={account} onDelete={this.onDelete} />
             <AccountRenameForm account={account} />
+            <AccountUsersForm account={account} />
+            <AccountDeleteButton account={account} onDelete={this.onDelete} />
           </div>
         );
       default:

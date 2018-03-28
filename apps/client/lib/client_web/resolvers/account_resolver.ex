@@ -65,6 +65,20 @@ defmodule ClientWeb.AccountResolver do
       )
   end
 
+  def get_account_users(_parent, args, %{context: context}) do
+    with {:ok, user} <- context |> Map.fetch(:current_user),
+         {:ok, account_id} <- args |> Map.fetch(:id),
+         {:ok, account} <- user |> User.get_account(account_id),
+         withUsers <- account |> Repo.preload(:users),
+      do: {:ok, withUsers.users},
+      else: (
+        {:error, %Ecto.Changeset{} = changeset} ->
+          {:error, changeset |> extract_errors}
+        {:eror, reason} -> {:error, reason}
+        _ -> {:error, "Could not retrieve users"}
+      )
+  end
+
   def extract_errors(%Ecto.Changeset{} = changeset) do
     changeset.errors
     |> Enum.map(fn(error) ->
