@@ -41,13 +41,6 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
  && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
  && apt-get install -y nodejs
 
-# Yarn
-RUN export DEBIAN_FRONTEND="noninteractive" \
- && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
- && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
- && apt-get update \
- && apt-get install -y yarn
-
 # Install hex deps
 COPY mix.exs mix.lock /tmp/code/
 COPY apps/client/mix.exs /tmp/code/apps/client/
@@ -58,12 +51,6 @@ RUN cd /tmp/code \
   && mix local.rebar --force \
   && mix deps.get
 
-# Install node deps
-COPY apps/client/assets/package.json apps/client/assets/yarn.lock /tmp/code/apps/client/assets/
-RUN cd /tmp/code/apps/client/assets && yarn && yarn cache clean
-
-# Compile hex deps (This is done after yarn since react_phoenix needs
-# react-stdio node module to be present to compile)
 RUN cd /tmp/code && mix deps.compile
 RUN cd /tmp/code && MIX_ENV=test mix deps.compile
 
