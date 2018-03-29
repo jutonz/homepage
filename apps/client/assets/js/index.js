@@ -1,5 +1,4 @@
 import "semantic-ui-less/semantic.less";
-import "phoenix_html";
 import React from "react";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";

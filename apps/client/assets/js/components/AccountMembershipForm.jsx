@@ -67,7 +67,11 @@ class _AccountMembershipForm extends React.Component {
         </div>
       );
     } else {
-      return <div />;
+      return (
+        <div>
+          <p>You do not belong to any accounts</p>
+        </div>
+      );
     }
   };
 }
