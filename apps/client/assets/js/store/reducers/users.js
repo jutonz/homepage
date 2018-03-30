@@ -38,6 +38,37 @@ export const users = (state = initialState, action) => {
       newState = { users: { ...state.users, ...normal } };
       break;
     }
+    case "FETCH_ACCOUNT_USER_REQUEST": {
+      const { userId } = action;
+      const user = getUserFromState(userId, state);
+      const withLoading = { ...user, isFetching: true };
+      const normal = normalizeUser(withLoading);
+      newState = { users: { ...state.users, ...normal } };
+      break;
+    }
+    case "FETCH_ACCOUNT_USER_SUCCESS": {
+      const { userId } = action;
+      const user = getUserFromState(userId, state);
+      const { isFetching, ...withoutLoading } = user;
+      const normal = normalizeUser(withoutLoading);
+      newState = { users: { ...state.users, ...normal } };
+      //const { id, userIds } = action;
+      //const account = state.accounts[parseInt(id)];
+      //const { isLoadingUsers, ...withoutLoading } = account;
+      //const withUserIds = { ...withoutLoading, userIds };
+      //const normal = normalizeAccount(withUserIds);
+      //newState = { accounts: { ...state.accounts, ...normal } };
+      break;
+    }
+    case "FETCH_ACCOUNT_USER_FAILURE": {
+      const { userId, errors } = action;
+      const user = getUserFromState(userId, state);
+      const { isFetching, ...withoutLoading } = user;
+      const withErrors = { ...withoutLoading, fetchErrors: errors };
+      const normal = normalizeUser(withErrors);
+      newState = { users: { ...state.users, ...normal } };
+      break;
+    }
     default:
       newState = {};
       break;
@@ -48,7 +79,7 @@ export const users = (state = initialState, action) => {
 
 const getUserFromState = (id, state) => {
   const user = state.users[parseInt(id)];
-  return user || {};
+  return user || { id };
 };
 
 const normalizeUser = user => {

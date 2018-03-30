@@ -15,6 +15,21 @@ export const fetchAccountUsersQuery = variables => {
   });
 };
 
+export const fetchAccountUserQuery = variables => {
+  const query = gql`
+    query GetAccountUserQuery($userId: ID!, $accountId: ID!) {
+      getAccountUser(userId: $userId, accountId: $accountId) {
+        email
+        id
+      }
+    }
+  `;
+
+  return window.grapqlClient.query({ query, variables }).then(response => {
+    return response.data.getAccountUser;
+  });
+};
+
 export const fetchUserQuery = variables => {
   const query = gql`
     query GetUserQuery($id: ID!) {
