@@ -2,6 +2,7 @@ import React from "react";
 import { Header, Form, Message, Loader } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 const style = StyleSheet.create({
   container: {
@@ -33,7 +34,13 @@ class _AccountUsersForm extends React.Component {
           <Loader active={isLoadingUsers} inline />
         </div>
         <Message error>{loadUsersErrors}</Message>
-        {users.map(user => <div key={user.id}>{user.email}</div>)}
+        {users.map(user => (
+          <div key={user.id}>
+            <Link to={`/accounts/${account.id}/users/${user.id}`}>
+              {user.email}
+            </Link>
+          </div>
+        ))}
         {!!!users && !isLoadingUsers && <p>No users</p>}
       </Form>
     );
