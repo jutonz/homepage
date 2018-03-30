@@ -52,12 +52,6 @@ export const users = (state = initialState, action) => {
       const { isFetching, ...withoutLoading } = user;
       const normal = normalizeUser(withoutLoading);
       newState = { users: { ...state.users, ...normal } };
-      //const { id, userIds } = action;
-      //const account = state.accounts[parseInt(id)];
-      //const { isLoadingUsers, ...withoutLoading } = account;
-      //const withUserIds = { ...withoutLoading, userIds };
-      //const normal = normalizeAccount(withUserIds);
-      //newState = { accounts: { ...state.accounts, ...normal } };
       break;
     }
     case "FETCH_ACCOUNT_USER_FAILURE": {

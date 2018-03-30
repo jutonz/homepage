@@ -8,7 +8,6 @@ function* fetchUser({ id }) {
     const user = yield fetchUserQuery({ id });
     debugger;
     yield put({ type: "STORE_USER", user });
-    //yield put({ type: "STORE_USERS", users: [{ id, ...response }] });
     yield put({ type: "FETCH_USER_SUCCESS", id });
   } catch (error) {
     console.error(error);
