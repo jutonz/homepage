@@ -100,4 +100,48 @@ defmodule ClientWeb.AccountResolverTest do
       assert user.email === actual
     end
   end
+
+  describe "get_account_user" do
+    test "returns a user of the account", %{conn: conn} do
+      conn = conn |> TestUtils.setup_current_user
+      {:ok, user} = conn |> SessionServer.current_user()
+
+      {:ok, account} = %Account{name: "hi"}
+                       |> Account.changeset
+                       |> Ecto.Changeset.put_assoc(:users, [user])
+                       |> Repo.insert
+
+      query = """
+      query {
+        getAccountUser(accountId: #{account.id}, userId: #{user.id}) { email }
+      }
+      """
+
+      json = conn |> post("/graphql", %{query: query}) |> json_response(200)
+      %{"data" => %{"getAccountUser" => %{"email" => actual}}} = json
+
+      assert user.email == actual
+    end
+
+    test "does not return a user if not on the account", %{conn: conn} do
+      conn = conn |> TestUtils.setup_current_user
+      {:ok, user} = conn |> SessionServer.current_user()
+
+      {:ok, account} = %Account{name: "hi"}
+                       |> Account.changeset
+                       |> Repo.insert
+
+      query = """
+      query {
+        getAccountUser(accountId: #{account.id}, userId: #{user.id}) { email }
+      }
+      """
+
+      json = conn |> post("/graphql", %{query: query}) |> json_response(200)
+
+      %{"data" => %{"getAccountUser" => data}} = json
+
+      assert data == nil
+    end
+  end
 end

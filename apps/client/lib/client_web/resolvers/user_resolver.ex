@@ -6,7 +6,7 @@ defmodule ClientWeb.UserResolver do
   end
 
   def get_user(_parent, args, %{context: context}) do
-    with {:ok, user } <- context |> Map.fetch(:current_user),
+    with {:ok, _user } <- context |> Map.fetch(:current_user),
          {:ok, user_id} <- args |> Map.fetch(:id),
          user = %User{} <- User |> Repo.get(user_id),
       do: {:ok, user },

@@ -12,7 +12,8 @@ const style = StyleSheet.create({
 
 const _AccountUserRoute = ({ user, fetchUser, match }) => {
   if (!user) {
-    fetchUser(match.params.user_id);
+    const { user_id, account_id } = match.params;
+    fetchUser(account_id, user_id);
   }
   const { isFetching, fetchErrors } = user || {};
 
@@ -36,14 +37,12 @@ const getUserFromState = (state, props) => {
   return state.users.users[parseInt(userId)];
 };
 
-const mapStateToProps = (state, props) => ({
-  user: getUserFromState(state, props)
-});
-
-const mapDispatchToProps = dispatch => ({
-  fetchUser: id => dispatch({ type: "FETCH_USER", id })
-});
-
-export const AccountUserRoute = connect(mapStateToProps, mapDispatchToProps)(
-  _AccountUserRoute
-);
+export const AccountUserRoute = connect(
+  (state, props) => ({
+    user: getUserFromState(state, props)
+  }),
+  dispatch => ({
+    fetchUser: (accountId, userId) =>
+      dispatch({ type: "FETCH_ACCOUNT_USER", accountId, userId })
+  })
+)(_AccountUserRoute);
