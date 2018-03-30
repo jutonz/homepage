@@ -3,13 +3,13 @@ defmodule Client.Repo.Migrations.AddAccounts do
 
   def change do
     create table("accounts") do
-      add :name, :string, size: 100
+      add(:name, :string, size: 100)
       timestamps()
     end
 
     create table("user_accounts", primary_key: false) do
-      add :account_id, references(:accounts)
-      add :user_id, references(:users)
+      add(:account_id, references(:accounts))
+      add(:user_id, references(:users))
     end
 
     create(index(:accounts, :name, unique: true))

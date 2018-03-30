@@ -1,18 +1,16 @@
 defmodule ClientWeb.UserResolver do
-  alias Client.{User,UserServer,Repo}
+  alias Client.{User, UserServer, Repo}
 
   def get_users(_parent, _args, _context) do
     {:ok, Repo.all(User)}
   end
 
   def get_user(_parent, args, %{context: context}) do
-    with {:ok, _user } <- context |> Map.fetch(:current_user),
+    with {:ok, _user} <- context |> Map.fetch(:current_user),
          {:ok, user_id} <- args |> Map.fetch(:id),
          user = %User{} <- User |> Repo.get(user_id),
-      do: {:ok, user },
-      else: (
-        _ -> {:error, "No users matching criteria"}
-      )
+         do: {:ok, user},
+         else: (_ -> {:error, "No users matching criteria"})
   end
 
   def update_user(_parent, args, context) do

@@ -7,7 +7,8 @@ defmodule ClientWeb.Endpoint do
   #
   # You should set gzip to true if you are running phoenix.digest when
   # deploying your static files in production.
-  plug Plug.Static.IndexHtml, at: "/"
+  plug(Plug.Static.IndexHtml, at: "/")
+
   plug(
     Plug.Static,
     at: "/",
@@ -33,7 +34,7 @@ defmodule ClientWeb.Endpoint do
     json_decoder: Poison
   )
 
-  plug CORSPlug, origin: ["http://localhost:4001"]
+  plug(CORSPlug, origin: ["http://localhost:4001"])
   plug(Plug.MethodOverride)
   plug(Plug.Head)
 
