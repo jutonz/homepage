@@ -4,7 +4,6 @@ import { Link, withRouter } from "react-router-dom";
 import { connect, Dispatch } from "react-redux";
 import { compose } from "redux";
 import { setSessionAction } from "@store";
-
 class _MainNav extends React.Component {
   constructor(props) {
     super(props);
@@ -62,8 +61,7 @@ class _MainNav extends React.Component {
   logout = () => {
     fetch("/api/logout", {
       method: "POST",
-      credentials: "same-origin",
-      headers: new Headers({ "X-CSRF-Token": this.props.csrfToken })
+      credentials: "same-origin"
     })
       .then(response => {
         if (response.ok) {
@@ -91,7 +89,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  destroySession: () => dispatch(setSessionAction(false))
+  destroySession: () =>
+    dispatch({ type: "SET_SESSION_ESTABLISHED", established: false })
 });
 
 export const MainNav = compose(
