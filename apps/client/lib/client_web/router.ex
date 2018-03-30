@@ -9,14 +9,14 @@ defmodule ClientWeb.Router do
     plug(:accepts, ["html"])
     plug(:fetch_session)
     plug(:fetch_flash)
-    #plug(:protect_from_forgery)
+    # plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
   end
 
   scope "/", ClientWeb do
     pipe_through(:browser)
 
-    #get("/", PageController, :index)
+    # get("/", PageController, :index)
     get("/login", SessionController, :exchange)
   end
 

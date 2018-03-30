@@ -1,3 +1,3 @@
 [
-  inputs: ["mix.exs", "apps/{client,redis,auth}/{config,lib,priv,test}/**/.{ex,exs}"]
+  inputs: ["{mix,.formatter}.exs", "apps/*/{config,lib,priv,test}/**/*.{ex,exs}"]
 ]

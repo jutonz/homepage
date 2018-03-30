@@ -2,7 +2,7 @@ defmodule Client.User do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
-  alias Client.{Account,Repo,User}
+  alias Client.{Account, Repo, User}
 
   schema "users" do
     field(:password_hash, :string)
@@ -10,7 +10,7 @@ defmodule Client.User do
     field(:email, :string)
     timestamps()
 
-    many_to_many :accounts, Account, join_through: "user_accounts"
+    many_to_many(:accounts, Account, join_through: "user_accounts")
   end
 
   @doc false
@@ -23,13 +23,17 @@ defmodule Client.User do
   end
 
   def get_account(%User{} = user, account_id) do
-    query = from u in User,
-      left_join: a in assoc(u, :accounts),
-      where: u.id == ^user.id,
-      where: a.id == ^account_id,
-      select: a
+    query =
+      from(
+        u in User,
+        left_join: a in assoc(u, :accounts),
+        where: u.id == ^user.id,
+        where: a.id == ^account_id,
+        select: a
+      )
 
-    account = query |> Repo.one
+    account = query |> Repo.one()
+
     if account do
       {:ok, account}
     else
