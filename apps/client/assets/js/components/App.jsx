@@ -43,8 +43,15 @@ const _App = props => (
 
         <AuthenticatedRoute path="/" exact={true} component={HomeRoute} />
         <AuthenticatedRoute path="/settings" component={SettingsRoute} />
-        <AuthenticatedRoute exact path="/accounts/:id" component={AccountRoute} />
-        <AuthenticatedRoute path="/accounts/:account_id/users/:user_id" component={AccountUserRoute} />
+        <AuthenticatedRoute
+          exact
+          path="/accounts/:id"
+          component={AccountRoute}
+        />
+        <AuthenticatedRoute
+          path="/accounts/:account_id/users/:user_id"
+          component={AccountUserRoute}
+        />
       </Switch>
     </Router>
   </div>

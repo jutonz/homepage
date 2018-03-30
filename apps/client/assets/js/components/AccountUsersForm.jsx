@@ -36,7 +36,9 @@ class _AccountUsersForm extends React.Component {
         <Message error>{loadUsersErrors}</Message>
         {users.map(user => (
           <div key={user.id}>
-            <Link to={`/accounts/${account.id}/users/${user.id}`}>{user.email}</Link>
+            <Link to={`/accounts/${account.id}/users/${user.id}`}>
+              {user.email}
+            </Link>
           </div>
         ))}
         {!!!users && !isLoadingUsers && <p>No users</p>}

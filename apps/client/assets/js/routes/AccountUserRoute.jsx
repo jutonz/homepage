@@ -14,7 +14,7 @@ const _AccountUserRoute = ({ user, fetchUser, match }) => {
   if (!user) {
     fetchUser(match.params.user_id);
   }
-  const { isFetching, fetchErrors } = (user || {});
+  const { isFetching, fetchErrors } = user || {};
 
   return (
     <div>
@@ -22,19 +22,14 @@ const _AccountUserRoute = ({ user, fetchUser, match }) => {
       <Loader active={isFetching} />
       <div className={css(style.routeContainer)}>
         {user && renderUser(user)}
-        {fetchErrors && fetchErrors.map(error => (
-          <div key={error}>{error}</div>
-        ))}
+        {fetchErrors &&
+          fetchErrors.map(error => <div key={error}>{error}</div>)}
       </div>
     </div>
   );
 };
 
-const renderUser = user => (
-  <div>
-    {user.email}
-  </div>
-);
+const renderUser = user => <div>{user.email}</div>;
 
 const getUserFromState = (state, props) => {
   const userId = props.match.params.user_id;
@@ -46,7 +41,9 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchUser: (id) => dispatch({ type: "FETCH_USER", id })
+  fetchUser: id => dispatch({ type: "FETCH_USER", id })
 });
 
-export const AccountUserRoute = connect(mapStateToProps, mapDispatchToProps)(_AccountUserRoute);
+export const AccountUserRoute = connect(mapStateToProps, mapDispatchToProps)(
+  _AccountUserRoute
+);
