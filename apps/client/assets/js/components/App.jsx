@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { css, StyleSheet } from "aphrodite";
@@ -14,6 +14,7 @@ import { SettingsRoute } from "@routes/SettingsRoute";
 import { CoffeemakerRoute } from "@routes/CoffeemakerRoute";
 import { ResumeRoute } from "@routes/ResumeRoute";
 import { AccountRoute } from "@routes/AccountRoute";
+import { AccountUserRoute } from "@routes/AccountUserRoute";
 
 const style = StyleSheet.create({
   flashContainer: {
@@ -34,7 +35,7 @@ const _App = props => (
     </div>
 
     <Router>
-      <div>
+      <Switch>
         <Route path="/login" component={LoginRoute} />
         <Route path="/signup" component={SignupRoute} />
         <Route path="/coffeemaker" component={CoffeemakerRoute} />
@@ -42,8 +43,9 @@ const _App = props => (
 
         <AuthenticatedRoute path="/" exact={true} component={HomeRoute} />
         <AuthenticatedRoute path="/settings" component={SettingsRoute} />
-        <AuthenticatedRoute path="/accounts/:id" component={AccountRoute} />
-      </div>
+        <AuthenticatedRoute exact path="/accounts/:id" component={AccountRoute} />
+        <AuthenticatedRoute path="/accounts/:account_id/users/:user_id" component={AccountUserRoute} />
+      </Switch>
     </Router>
   </div>
 );

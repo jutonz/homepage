@@ -8,6 +8,8 @@ import { AccountName } from "@components/AccountName";
 import { AccountDeleteButton } from "@components/AccountDeleteButton";
 import { AccountRenameForm } from "@components/AccountRenameForm";
 import { AccountUsersForm } from "@components/AccountUsersForm";
+import { AccountUserRoute } from "@routes/AccountUserRoute";
+import { AuthenticatedRoute } from "@routes/AuthenticatedRoute";
 import { fetchAccount, showFlash } from "@store";
 
 const style = StyleSheet.create({

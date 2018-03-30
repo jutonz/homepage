@@ -14,3 +14,18 @@ export const fetchAccountUsersQuery = variables => {
     return response.data.getAccountUsers;
   });
 };
+
+export const fetchUserQuery = variables => {
+  const query = gql`
+    query GetUserQuery($id: ID!) {
+      getUser(id: $id) {
+        id
+        email
+      }
+    }
+  `;
+
+  return window.grapqlClient.query({ query, variables }).then(response => {
+    return response.data.getUser;
+  });
+};
