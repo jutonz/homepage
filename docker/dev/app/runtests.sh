@@ -1,6 +1,6 @@
 cd /tmp/app
 
-cd apps/client/assets && yarn lint && cd -
+#cd apps/client/assets && yarn lint && cd -
 
 mix format --check-formatted
 

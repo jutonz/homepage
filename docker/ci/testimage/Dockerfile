@@ -9,7 +9,7 @@ RUN apk add --update ca-certificates \
  && apk del --purge deps \
 && rm /var/cache/apk/*
 
-RUN apk add alpine-sdk ruby ruby-dev python3 py3-pip --no-cache
+RUN apk add alpine-sdk ruby ruby-dev nodejs yarn python3 py3-pip --no-cache
 RUN pip3 install docker-compose=="1.19.0"
 RUN gem install bigdecimal --no-document
 RUN gem install dctl_rb -v '0.11.2' --no-document
