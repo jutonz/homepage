@@ -113,15 +113,16 @@ defmodule ClientWeb.AccountResolver do
   end
 
   def join_account(_parent, args, %{context: context}) do
-    with {:ok, user } <- context |> Map.fetch(:current_user),
+    with {:ok, user} <- context |> Map.fetch(:current_user),
          {:ok, name} <- args |> Map.fetch(:name),
-         {:ok, account} <- name |> Account.get_by_name,
+         {:ok, account} <- name |> Account.get_by_name(),
          {:ok, user} <- user |> User.join_account(account),
-      do: {:ok, account},
-      else: (
-        {:error, reason} -> {:error, reason}
-        _ -> {:error, "Failed to join account"}
-      )
+         do: {:ok, account},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to join account"}
+           )
   end
 
   def extract_errors(%Ecto.Changeset{} = changeset) do

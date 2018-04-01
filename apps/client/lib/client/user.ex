@@ -43,14 +43,15 @@ defmodule Client.User do
 
   def join_account(%User{} = user, %Account{} = account) do
     with user <- user |> Repo.preload(:accounts),
-         cset <- user |> User.changeset,
+         cset <- user |> User.changeset(),
          cset <- cset |> Ecto.Changeset.put_assoc(:accounts, [account | user.accounts]),
-         {:ok, user} <- cset |> Repo.update,
-      do: {:ok, user},
-      else: (
-        {:error, reason} -> {:error, reason}
-        _ -> {:error, "Could not join account"}
-      )
+         {:ok, user} <- cset |> Repo.update(),
+         do: {:ok, user},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Could not join account"}
+           )
   end
 
   ##
