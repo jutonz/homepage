@@ -145,8 +145,10 @@ export const accounts = (state = initialState, action) => {
       break;
     }
     case "STORE_ACCOUNT": {
-      const account = normalizeAccount(action.account);
-      newState = { accounts: { ...state.accounts, ...account } };
+      const { account } = action;
+      const withFetchStatus = { ...account, fetchStatus: "success" };
+      const normal = normalizeAccount(withFetchStatus);
+      newState = { accounts: { ...state.accounts, ...normal } };
       break;
     }
     case "UNSTORE_ACCOUNT": {
@@ -245,6 +247,25 @@ export const accounts = (state = initialState, action) => {
       const withErrors = { ...withoutLoading, loadUsersErrors: errors };
       const normal = normalizeAccount(withErrors);
       newState = { accounts: { ...state.accounts, ...normal } };
+      break;
+    }
+    case "SET_JOIN_ACCOUNT_NAME": {
+      const { name } = action;
+      newState = { ...state, joinAccountName: name };
+      break;
+    }
+    case "JOIN_ACCOUNT_REQUEST": {
+      const { joinAccountErrors, ...withoutErrors } = state;
+      newState = { ...withoutErrors, joiningAccount: true };
+      break;
+    }
+    case "JOIN_ACCOUNT_SUCCESS": {
+      newState = { joiningAccount: false, joinAccountName: null };
+      break;
+    }
+    case "JOIN_ACCOUNT_FAILURE": {
+      const { errors } = action;
+      newState = { joiningAccount: false, joinAccountErrors: errors };
       break;
     }
   }

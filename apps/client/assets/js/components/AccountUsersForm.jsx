@@ -1,8 +1,8 @@
 import React from "react";
 import { Header, Form, Message, Loader } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import { StyleSheet, css } from "aphrodite";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 
 const style = StyleSheet.create({
   container: {
@@ -56,13 +56,11 @@ const getUsers = (state, props) => {
     .filter(user => !!user);
 };
 
-const mapStateToProps = (state, props) => ({
-  users: getUsers(state, props)
-});
-const mapDispatchToProps = dispatch => ({
-  fetchUsers: id => dispatch({ type: "FETCH_ACCOUNT_USERS", id })
-});
-
-export const AccountUsersForm = connect(mapStateToProps, mapDispatchToProps)(
-  _AccountUsersForm
-);
+export const AccountUsersForm = connect(
+  (state, props) => ({
+    users: getUsers(state, props)
+  }),
+  dispatch => ({
+    fetchUsers: id => dispatch({ type: "FETCH_ACCOUNT_USERS", id })
+  })
+)(_AccountUsersForm);

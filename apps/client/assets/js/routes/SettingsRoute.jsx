@@ -6,6 +6,7 @@ import { ChangePasswordForm } from "@components/ChangePasswordForm";
 import { OneTimeLoginLink } from "@components/OneTimeLoginLink";
 import { AccountMembershipForm } from "@components/AccountMembershipForm";
 import { AccountCreationForm } from "@components/AccountCreationForm";
+import { AccountJoinForm } from "@components/AccountJoinForm";
 
 const style = StyleSheet.create({
   routeContainer: {
@@ -36,6 +37,7 @@ export const SettingsRoute = () => (
         <Grid columns={2} relaxed stackable>
           <AccountMembershipForm />
           <AccountCreationForm />
+          <AccountJoinForm />
         </Grid>
       </Grid.Column>
     </Grid>

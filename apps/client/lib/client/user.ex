@@ -14,7 +14,7 @@ defmodule Client.User do
   end
 
   @doc false
-  def changeset(%User{} = user, attrs) do
+  def changeset(%User{} = user, attrs \\ %{}) do
     user
     |> cast(attrs, [:email, :password, :password_hash])
     |> put_pass_hash()
@@ -41,16 +41,29 @@ defmodule Client.User do
     end
   end
 
+  def join_account(%User{} = user, %Account{} = account) do
+    with user <- user |> Repo.preload(:accounts),
+         cset <- user |> User.changeset(),
+         cset <- cset |> Ecto.Changeset.put_assoc(:accounts, [account | user.accounts]),
+         {:ok, user} <- cset |> Repo.update(),
+         do: {:ok, user},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Could not join account"}
+           )
+  end
+
   ##
   # If the virtual key :password is a part of the changeset, add a hash before
   # it is inserted into the DB. Virtual fields are automatically not inserted
   # by ecto, so the password itself will never be stored.
   defp put_pass_hash(changeset) do
-    pass = changeset.changes.password
+    pass = changeset.changes[:password]
 
     if pass do
       {:ok, hashed} = Auth.hash_password(pass)
-      changeset |> change(%{password: nil, password_hash: hashed})
+      changeset |> Ecto.Changeset.change(%{password: nil, password_hash: hashed})
     else
       changeset
     end

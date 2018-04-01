@@ -33,4 +33,11 @@ defmodule Client.Account do
       _ -> {:error, "Could not find matching account"}
     end
   end
+
+  def get_by_name(name) do
+    case Account |> Repo.get_by(name: name) do
+      account = %Account{} -> {:ok, account}
+      _ -> {:error, "An account called #{name} does not exist."}
+    end
+  end
 end
