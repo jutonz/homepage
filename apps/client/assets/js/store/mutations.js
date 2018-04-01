@@ -25,3 +25,18 @@ export const renameAccountMutation = variables => {
     return response.data.renameAccount;
   });
 };
+
+export const joinAccountMutation = variables => {
+  const mutation = gql`
+    mutation JoinAccount($name: String!) {
+      joinAccount(name: $name) {
+        name
+        id
+      }
+    }
+  `;
+
+  return window.grapqlClient.mutate({ mutation, variables }).then(response => {
+    return response.data.joinAccount;
+  });
+};

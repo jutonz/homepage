@@ -80,5 +80,10 @@ defmodule ClientWeb.Schema do
       arg(:name, non_null(:string))
       resolve(&ClientWeb.AccountResolver.rename_account/3)
     end
+
+    field :join_account, :account do
+      arg(:name, non_null(:string))
+      resolve(&ClientWeb.AccountResolver.join_account/3)
+    end
   end
 end

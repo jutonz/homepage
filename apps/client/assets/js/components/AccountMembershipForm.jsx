@@ -9,7 +9,10 @@ import { fetchAccounts } from "@store";
 const style = StyleSheet.create({
   container: {
     maxWidth: 300,
-    marginTop: 30
+    marginTop: 30,
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: 1
   },
 
   loaderContainer: {

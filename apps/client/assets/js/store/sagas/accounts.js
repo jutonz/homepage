@@ -1,7 +1,11 @@
 import { put, takeEvery } from "redux-saga/effects";
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 import { showFlash } from "@store";
-import { deleteAccountMutation, renameAccountMutation } from "@store/mutations";
+import {
+  deleteAccountMutation,
+  renameAccountMutation,
+  joinAccountMutation
+} from "@store/mutations";
 import { fetchAccountUsersQuery } from "@store/queries";
 
 function* deleteAccount({ id, resolve, reject }) {
@@ -52,8 +56,23 @@ function* fetchAccountUsers({ id }) {
   }
 }
 
+function* joinAccount({ name }) {
+  try {
+    yield put({ type: "JOIN_ACCOUNT_REQUEST" });
+    const account = yield joinAccountMutation({ name });
+    yield put({ type: "STORE_ACCOUNT", account });
+    yield put({ type: "JOIN_ACCOUNT_SUCCESS", account });
+    yield put(showFlash("Successfully joined account", "success"));
+  } catch (error) {
+    console.error(error);
+    const errors = collectGraphqlErrors(error);
+    yield put({ type: "JOIN_ACCOUNT_FAILURE", errors });
+  }
+}
+
 export default function* acountsSaga() {
   yield takeEvery("DELETE_ACCOUNT", deleteAccount);
   yield takeEvery("RENAME_ACCOUNT", renameAccount);
   yield takeEvery("FETCH_ACCOUNT_USERS", fetchAccountUsers);
+  yield takeEvery("JOIN_ACCOUNT", joinAccount);
 }

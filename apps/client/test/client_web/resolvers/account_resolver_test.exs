@@ -1,6 +1,6 @@
 defmodule ClientWeb.AccountResolverTest do
   use ClientWeb.ConnCase
-  alias Client.{TestUtils, Account, Repo, SessionServer}
+  alias Client.{TestUtils,Account,Repo,SessionServer,User}
 
   describe "create_account" do
     test "can create an account", %{conn: conn} do
@@ -149,6 +149,34 @@ defmodule ClientWeb.AccountResolverTest do
       %{"data" => %{"getAccountUser" => data}} = json
 
       assert data == nil
+    end
+  end
+
+  describe "join_account" do
+    test "it adds a user to an account", %{conn: conn} do
+      conn = conn |> TestUtils.setup_current_user
+      {:ok, user} = conn |> SessionServer.current_user
+
+      {:ok, account_creator} = %User{}
+                               |> User.changeset(%{email: "wee@mail.com", password: "password123"})
+                               |> Repo.insert
+      {:ok, account} = %Account{name: "hi"}
+                       |> Account.changeset
+                       |> Ecto.Changeset.put_assoc(:users, [account_creator])
+                       |> Repo.insert
+
+
+      query = """
+        mutation {
+          joinAccount(name: "#{account.name}") { name id }
+        }
+      """
+
+      json = conn |> post("/graphql", %{query: query}) |> json_response(200)
+      %{ "data" => %{"joinAccount" => %{"id" => id }}} = json
+      db_account = Account |> Repo.get(id) |> Repo.preload(:users)
+
+      assert db_account.users |> Enum.member?(user) == true
     end
   end
 end
