@@ -14,7 +14,9 @@ defmodule Client.Mixfile do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
     ]
   end
 
@@ -49,6 +51,7 @@ defmodule Client.Mixfile do
       {:absinthe_plug, "~> 1.4"},
       {:cors_plug, "~> 1.5"},
       {:plug_static_index_html, "~> 1.0"},
+      {:coveralls, "~> 1.4", only: :test},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true}
     ]
