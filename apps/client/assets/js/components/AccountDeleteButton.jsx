@@ -30,7 +30,7 @@ class _AccountDeleteButton extends React.Component {
           onClick={() => this.deleteAccount(account.id)}
           loading={isDeleting}
         >
-          Delete Account
+          Delete
         </Button>
       </Form>
     );

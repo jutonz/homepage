@@ -181,4 +181,34 @@ defmodule ClientWeb.AccountResolverTest do
       assert db_account.users |> Enum.member?(user) == true
     end
   end
+
+  describe "leave_account" do
+    test "it removes a user from an account", %{conn: conn} do
+      conn = conn |> TestUtils.setup_current_user()
+      {:ok, user} = conn |> SessionServer.current_user()
+
+      {:ok, account_creator} =
+        %User{}
+        |> User.changeset(%{email: "wee@mail.com", password: "password123"})
+        |> Repo.insert()
+
+      {:ok, account} =
+        %Account{}
+        |> Account.changeset(%{name: "hi"})
+        |> Ecto.Changeset.put_assoc(:users, [account_creator, user])
+        |> Repo.insert()
+
+      query = """
+        mutation {
+          leaveAccount(id: "#{account.id}") { id }
+        }
+      """
+
+      json = conn |> post("/graphql", %{query: query}) |> json_response(200)
+      %{"data" => %{"leaveAccount" => %{"id" => id}}} = json
+      db_account = Account |> Repo.get(id) |> Repo.preload(:users)
+
+      assert db_account.users |> Enum.member?(user) == false
+    end
+  end
 end

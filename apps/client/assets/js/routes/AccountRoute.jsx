@@ -1,15 +1,15 @@
-import React from "react";
+import { Loader } from "semantic-ui-react";
+import { StyleSheet, css } from "aphrodite";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import { StyleSheet, css } from "aphrodite";
-import { Loader } from "semantic-ui-react";
-import { MainNav } from "@components/MainNav";
-import { AccountName } from "@components/AccountName";
+import React from "react";
+
 import { AccountDeleteButton } from "@components/AccountDeleteButton";
+import { AccountName } from "@components/AccountName";
 import { AccountRenameForm } from "@components/AccountRenameForm";
 import { AccountUsersForm } from "@components/AccountUsersForm";
-import { AccountUserRoute } from "@routes/AccountUserRoute";
-import { AuthenticatedRoute } from "@routes/AuthenticatedRoute";
+import { AccountLeaveForm } from "@components/AccountLeaveForm";
+import { MainNav } from "@components/MainNav";
 import { fetchAccount, showFlash } from "@store";
 
 const style = StyleSheet.create({
@@ -59,6 +59,7 @@ class _AccountRoute extends React.Component {
             <AccountRenameForm account={account} />
             <AccountUsersForm account={account} />
             <AccountDeleteButton account={account} onDelete={this.onDelete} />
+            <AccountLeaveForm account={account} />
           </div>
         );
       default:
