@@ -46,8 +46,6 @@ RUN cd /tmp/code \
   && mix local.rebar --force \
   && mix deps.get
 
-# Compile hex deps (This is done after yarn since react_phoenix needs
-# react-stdio node module to be present to compile)
 RUN cd /tmp/code && mix deps.compile
 RUN cd /tmp/code && MIX_ENV=test mix deps.compile
 
