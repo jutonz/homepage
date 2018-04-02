@@ -92,7 +92,7 @@ pipeline:
     environment: ["CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
-  unit-tests:
+  mix-test:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands: ["dctl run --rm app /etc/runtests.sh"]
