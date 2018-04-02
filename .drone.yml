@@ -98,6 +98,12 @@ pipeline:
     commands: ["dctl run --rm app /etc/runtests.sh"]
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  mix-format:
+    group: test
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    commands: ["dctl run --rm app '"mix format --check-formatted"'"]
+    environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   eslint:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
