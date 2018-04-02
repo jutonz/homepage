@@ -103,7 +103,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
     - cd apps/client/assets
-    - yarn
+    - yarn install --dev
     - yarn lint
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
