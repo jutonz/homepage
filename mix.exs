@@ -5,7 +5,8 @@ defmodule HomepageUmbrella.Mixfile do
     [
       apps_path: "apps",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -15,6 +16,8 @@ defmodule HomepageUmbrella.Mixfile do
   #
   # Run "mix help deps" for examples and options.
   defp deps do
-    []
+    [
+      {:excoveralls, "~> 0.8.1"}
+    ]
   end
 end
