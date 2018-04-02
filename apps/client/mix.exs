@@ -51,7 +51,7 @@ defmodule Client.Mixfile do
       {:absinthe_plug, "~> 1.4"},
       {:cors_plug, "~> 1.5"},
       {:plug_static_index_html, "~> 1.0"},
-      {:coveralls, "~> 1.4", only: :test},
+      {:excoveralls, "~> 0.8.1", only: :test},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true}
     ]
