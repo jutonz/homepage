@@ -1,7 +1,5 @@
 cd /tmp/app
 
-#cd apps/client/assets && yarn lint && cd -
-
 mix format --check-formatted
 
 mix test
