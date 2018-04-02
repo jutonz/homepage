@@ -10,7 +10,13 @@ defmodule Client.User do
     field(:email, :string)
     timestamps()
 
-    many_to_many(:accounts, Account, join_through: "user_accounts")
+    many_to_many(
+      :accounts,
+      Account,
+      join_through: "user_accounts",
+      on_replace: :delete,
+      on_delete: :delete_all
+    )
   end
 
   @doc false
@@ -47,6 +53,20 @@ defmodule Client.User do
          cset <- cset |> Ecto.Changeset.put_assoc(:accounts, [account | user.accounts]),
          {:ok, user} <- cset |> Repo.update(),
          do: {:ok, user},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Could not join account"}
+           )
+  end
+
+  def leave_account(%User{} = user, %Account{} = account) do
+    with user <- user |> Repo.preload(:accounts),
+         cset <- user |> User.changeset(),
+         new_accounts <- user.accounts |> List.delete(account),
+         cset <- cset |> Ecto.Changeset.put_assoc(:accounts, new_accounts),
+         {:ok, user} <- cset |> Repo.update(),
+         do: {:ok, account},
          else:
            (
              {:error, reason} -> {:error, reason}

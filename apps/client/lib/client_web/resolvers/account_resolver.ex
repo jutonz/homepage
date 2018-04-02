@@ -125,6 +125,19 @@ defmodule ClientWeb.AccountResolver do
            )
   end
 
+  def leave_account(_parent, args, %{context: context}) do
+    with {:ok, user} <- context |> Map.fetch(:current_user),
+         {:ok, account_id} <- args |> Map.fetch(:id),
+         {:ok, account} <- user |> User.get_account(account_id),
+         {:ok, account} <- user |> User.leave_account(account),
+         do: {:ok, account},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to join account"}
+           )
+  end
+
   def extract_errors(%Ecto.Changeset{} = changeset) do
     changeset.errors
     |> Enum.map(fn error ->

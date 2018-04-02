@@ -268,6 +268,19 @@ export const accounts = (state = initialState, action) => {
       newState = { joiningAccount: false, joinAccountErrors: errors };
       break;
     }
+    case "LEAVE_ACCOUNT_REQUEST": {
+      newState = { leavingAccount: true, leavingAccountErrors: null };
+      break;
+    }
+    case "LEAVE_ACCOUNT_SUCCESS": {
+      newState = { leavingAccount: false };
+      break;
+    }
+    case "LEAVE_ACCOUNT_FAILURE": {
+      const { errors } = action;
+      newState = { leavingAccount: false, leavingAccountErrors: errors };
+      break;
+    }
   }
 
   // Handle child reducers

@@ -8,7 +8,13 @@ defmodule Client.Account do
     field(:name, :string)
     timestamps()
 
-    many_to_many(:users, Client.User, join_through: "user_accounts", on_delete: :delete_all)
+    many_to_many(
+      :users,
+      Client.User,
+      join_through: "user_accounts",
+      on_replace: :delete,
+      on_delete: :delete_all
+    )
   end
 
   def changeset(%Account{} = account, attrs \\ %{}) do

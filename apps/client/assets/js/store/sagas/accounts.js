@@ -4,7 +4,8 @@ import { showFlash } from "@store";
 import {
   deleteAccountMutation,
   renameAccountMutation,
-  joinAccountMutation
+  joinAccountMutation,
+  leaveAccountMutation
 } from "@store/mutations";
 import { fetchAccountUsersQuery } from "@store/queries";
 
@@ -56,12 +57,13 @@ function* fetchAccountUsers({ id }) {
   }
 }
 
-function* joinAccount({ name }) {
+function* joinAccount({ name, history }) {
   try {
     yield put({ type: "JOIN_ACCOUNT_REQUEST" });
     const account = yield joinAccountMutation({ name });
     yield put({ type: "STORE_ACCOUNT", account });
     yield put({ type: "JOIN_ACCOUNT_SUCCESS", account });
+    history.push(`/accounts/${account.id}`);
     yield put(showFlash("Successfully joined account", "success"));
   } catch (error) {
     console.error(error);
@@ -70,9 +72,23 @@ function* joinAccount({ name }) {
   }
 }
 
+function* leaveAccount({ id, history }) {
+  try {
+    yield put({ type: "LEAVE_ACCOUNT_REQUEST" });
+    yield leaveAccountMutation({ id });
+    yield put({ type: "UNSTORE_ACCOUNT", id });
+    yield put({ type: "LEAVE_ACCOUNT_SUCCESS", id });
+    history.push("/settings");
+    yield put(showFlash("Successfully left account", "success"));
+  } catch (errors) {
+    yield put({ type: "LEAVE_ACCOUNT_FAILURE", errors });
+  }
+}
+
 export default function* acountsSaga() {
   yield takeEvery("DELETE_ACCOUNT", deleteAccount);
   yield takeEvery("RENAME_ACCOUNT", renameAccount);
   yield takeEvery("FETCH_ACCOUNT_USERS", fetchAccountUsers);
   yield takeEvery("JOIN_ACCOUNT", joinAccount);
+  yield takeEvery("LEAVE_ACCOUNT", leaveAccount);
 }

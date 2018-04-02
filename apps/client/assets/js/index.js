@@ -1,26 +1,28 @@
 import "semantic-ui-less/semantic.less";
-import React from "react";
-import { createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import createHistory from "history/createBrowserHistory";
-import { routerMiddleware } from "react-router-redux";
-import { ApolloClient } from "apollo-client";
-import { HttpLink } from "apollo-link-http";
-import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
-import { createLogger } from "redux-logger";
-import createSagaMiddleware from "redux-saga";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
 
-import { Index } from "@components/Index";
-import { appStore, setSessionAction } from "@store";
-import { rootSaga } from "@store/sagas/root";
 import "./../css/app.less";
 
-// Utility functions
-import BgGrid from "./BgGrid";
+import { ApolloClient } from "apollo-client";
+import { ApolloProvider } from "react-apollo";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import { routerMiddleware } from "react-router-redux";
+import React from "react";
+import ReactDOM from "react-dom";
+import createHistory from "history/createBrowserHistory";
+import createSagaMiddleware from "redux-saga";
+import thunk from "redux-thunk";
+
+import { HttpLink } from "apollo-link-http";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { Index } from "@components/Index";
+import { appStore } from "@store";
+import { createLogger } from "redux-logger";
+import { rootSaga } from "@store/sagas/root";
 import isValidEmail from "@utils/isValidEmail";
 import isValidPassword from "@utils/isValidPassword";
+
+import BgGrid from "./BgGrid";
 
 window.Utils = {
   BgGrid,
@@ -58,7 +60,9 @@ sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Index />
+    <ApolloProvider client={window.grapqlClient}>
+      <Index />
+    </ApolloProvider>
   </Provider>,
   document.getElementById("wee")
 );

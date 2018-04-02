@@ -85,5 +85,10 @@ defmodule ClientWeb.Schema do
       arg(:name, non_null(:string))
       resolve(&ClientWeb.AccountResolver.join_account/3)
     end
+
+    field :leave_account, :account do
+      arg(:id, non_null(:id))
+      resolve(&ClientWeb.AccountResolver.leave_account/3)
+    end
   end
 end

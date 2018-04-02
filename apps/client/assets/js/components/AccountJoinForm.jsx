@@ -2,6 +2,8 @@ import React from "react";
 import { StyleSheet, css } from "aphrodite";
 import { Header, Form, Message } from "semantic-ui-react";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import { withRouter } from "react-router";
 
 const style = StyleSheet.create({
   container: {
@@ -13,8 +15,15 @@ const style = StyleSheet.create({
   }
 });
 
-const _AccountJoinForm = ({ name, setName, join, isLoading, errors }) => (
-  <div className={css(style.container)} onSubmit={() => join(name)}>
+const _AccountJoinForm = ({
+  name,
+  setName,
+  join,
+  isLoading,
+  errors,
+  history
+}) => (
+  <div className={css(style.container)} onSubmit={() => join(name, history)}>
     <Form error={!!errors}>
       <Header>Join an account</Header>
       <p>Become a member of an existing account</p>
@@ -31,14 +40,17 @@ const _AccountJoinForm = ({ name, setName, join, isLoading, errors }) => (
   </div>
 );
 
-export const AccountJoinForm = connect(
-  state => ({
-    name: state.accounts.joinAccountName || "",
-    isLoading: state.accounts.joiningAccount,
-    errors: state.accounts.joinAccountErrors
-  }),
-  dispatch => ({
-    setName: name => dispatch({ type: "SET_JOIN_ACCOUNT_NAME", name }),
-    join: name => dispatch({ type: "JOIN_ACCOUNT", name })
-  })
+export const AccountJoinForm = compose(
+  connect(
+    state => ({
+      name: state.accounts.joinAccountName || "",
+      isLoading: state.accounts.joiningAccount,
+      errors: state.accounts.joinAccountErrors
+    }),
+    dispatch => ({
+      setName: name => dispatch({ type: "SET_JOIN_ACCOUNT_NAME", name }),
+      join: (name, history) => dispatch({ type: "JOIN_ACCOUNT", name, history })
+    })
+  ),
+  withRouter
 )(_AccountJoinForm);

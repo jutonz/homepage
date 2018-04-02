@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 
 export const deleteAccountMutation = variables => {
   const mutation = gql`
@@ -38,5 +39,27 @@ export const joinAccountMutation = variables => {
 
   return window.grapqlClient.mutate({ mutation, variables }).then(response => {
     return response.data.joinAccount;
+  });
+};
+
+export const leaveAccountMutation = variables => {
+  const mutation = gql`
+    mutation LeaveAccount($id: ID!) {
+      leaveAccount(id: $id) {
+        id
+      }
+    }
+  `;
+
+  return new Promise((resolve, reject) => {
+    window.grapqlClient
+      .mutate({ mutation, variables })
+      .then(response => {
+        resolve(response.data.joinAccount);
+      })
+      .catch(error => {
+        console.error(error);
+        reject(collectGraphqlErrors(error));
+      });
   });
 };
