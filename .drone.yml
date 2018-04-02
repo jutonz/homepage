@@ -96,7 +96,7 @@ pipeline:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
-    - dctl run --rm app "'cd /tmp/app && mix coveralls --umbrella'"
+    - dctl run --rm app "'cd /tmp/app && MIX_ENV=test mix coveralls --umbrella'"
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   mix-format:
