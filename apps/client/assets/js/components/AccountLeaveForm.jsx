@@ -8,10 +8,9 @@ import { withRouter } from "react-router";
 const style = StyleSheet.create({
   container: {
     maxWidth: 300,
+    minWidth: 300,
     marginTop: 30,
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1
+    marginRight: 30
   }
 });
 

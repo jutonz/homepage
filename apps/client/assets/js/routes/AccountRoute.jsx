@@ -15,6 +15,11 @@ import { fetchAccount, showFlash } from "@store";
 const style = StyleSheet.create({
   routeContainer: {
     margin: "30px"
+  },
+  components: {
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "column"
   }
 });
 
@@ -56,10 +61,12 @@ class _AccountRoute extends React.Component {
         return (
           <div>
             <AccountName account={account} />
-            <AccountRenameForm account={account} />
-            <AccountUsersForm account={account} />
-            <AccountDeleteButton account={account} onDelete={this.onDelete} />
-            <AccountLeaveForm account={account} />
+            <div className={css(style.components)}>
+              <AccountRenameForm account={account} />
+              <AccountUsersForm account={account} />
+              <AccountDeleteButton account={account} onDelete={this.onDelete} />
+              <AccountLeaveForm account={account} />
+            </div>
           </div>
         );
       default:

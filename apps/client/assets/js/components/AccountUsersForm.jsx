@@ -7,7 +7,9 @@ import { connect } from "react-redux";
 const style = StyleSheet.create({
   container: {
     maxWidth: 300,
-    marginTop: 30
+    minWidth: 300,
+    marginTop: 30,
+    marginRight: 30
   },
   loaderContainer: {
     display: "flex",
