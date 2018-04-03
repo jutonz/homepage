@@ -6,7 +6,9 @@ import { StyleSheet, css } from "aphrodite";
 const style = StyleSheet.create({
   container: {
     maxWidth: 300,
-    marginTop: 30
+    minWidth: 300,
+    marginTop: 30,
+    marginRight: 30
   }
 });
 
