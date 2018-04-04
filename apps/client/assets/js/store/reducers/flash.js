@@ -1,58 +1,47 @@
+import { fromJS, Record } from "immutable";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Action creators
 ////////////////////////////////////////////////////////////////////////////////
 
-const _addFlash = (message, tone, id) => ({
-  type: "FLASH_ADD",
-  message,
-  tone,
-  id
-});
+//const _addFlash = (message, tone, id) => ({
+//type: "FLASH_ADD",
+//message,
+//tone,
+//id
+//});
 
-const _removeFlash = id => ({ type: "FLASH_REMOVE", id });
+//const _removeFlash = id => ({ type: "FLASH_REMOVE", id });
 
 export const showFlash = (message, tone: "info", duration = 3000) => {
-  return dispatch => {
-    const id = Math.random().toString();
-    dispatch(_addFlash(message, tone, id));
-
-    setTimeout(() => {
-      dispatch(_removeFlash(id));
-    }, duration);
-  };
+  return { type: "SHOW_FLASH", message, tone, duration };
 };
+
+const Flash = Record({
+  message: null,
+  tone: null,
+  duration: null
+});
 
 ////////////////////////////////////////////////////////////////////////////////
 // Action reducer
 ////////////////////////////////////////////////////////////////////////////////
 
-const initialState = { messages: [] };
+const initialState = fromJS({ messages: {} });
 
 export const flash = (state = initialState, action) => {
-  let newState;
-
   switch (action.type) {
     case "FLASH_ADD": {
       const { message, tone, id } = action;
-      const newMessage = { message, tone, id };
-      newState = {
-        messages: [...state.messages, newMessage]
-      };
-      break;
+      const newMessage = new Flash({ message, tone, id });
+      return state.setIn(["messages", id], newMessage);
     }
 
     case "FLASH_REMOVE": {
       const { id } = action;
-      newState = {
-        messages: state.messages.filter(msg => msg.id !== id)
-      };
-      break;
+      return state.removeIn(["messages", id]);
     }
-
-    default: {
-      newState = {};
-    }
+    default:
+      return state;
   }
-
-  return { ...state, ...newState };
 };

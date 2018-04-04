@@ -1,3 +1,5 @@
+import { Map } from "immutable";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Action creators
 ////////////////////////////////////////////////////////////////////////////////
@@ -18,38 +20,41 @@ export const setCoffeemakerGramsAction = grams => ({
 
 export const initialState = {};
 export const coffeemaker = (state = initialState, action) => {
-  let newState;
+  state = Map(state);
 
   switch (action.type) {
     case "SET_COFFEEMAKER_FLOZ": {
-      const floz = action.floz;
+      const { floz } = action;
       const grounds = groundsForWater(floz);
 
       if (isNaN(grounds)) {
-        newState = { grams: null, errorMessage: "Floz is not a number" };
+        state = state
+          .set("errorMessage", "Floz is not a number")
+          .delete("grams");
       } else {
-        newState = { grams: grounds, errorMessage: null };
+        state = state.set("grams", grounds).delete("errorMessage");
       }
 
-      return { ...state, ...newState };
+      break;
     }
 
     case "SET_COFFEEMAKER_GRAMS": {
-      const grams = action.grams;
+      const { grams } = action;
       const floz = flozForGrams(grams);
 
       if (isNaN(floz)) {
-        newState = { floz: null, errorMessage: "Grams is not a number" };
+        state = state
+          .set("errorMesssage", "Grams is not a number")
+          .delete("floz");
       } else {
-        newState = { floz: floz, errorMessage: null };
+        state = state.set("floz", floz).delete("erroMessage");
       }
 
-      return { ...state, ...newState };
+      break;
     }
-
-    default:
-      return state;
   }
+
+  return state;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

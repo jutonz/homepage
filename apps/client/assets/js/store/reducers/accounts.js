@@ -1,6 +1,7 @@
 import gql from "graphql-tag";
 export * from "./accounts/create-account";
 import { createAccountReducer } from "./accounts/create-account";
+import { Map } from "immutable";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Public action creators
