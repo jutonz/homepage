@@ -51,11 +51,7 @@ class _AccountUsersForm extends React.Component {
 
 const getUsers = (state, props) => {
   const ids = props.account.userIds || [];
-  return ids
-    .map(id => {
-      return (state.users.users || {})[parseInt(id)];
-    })
-    .filter(user => !!user);
+  return ids.map(id => state.users.getIn(["users", id])).filter(user => !!user);
 };
 
 export const AccountUsersForm = connect(
