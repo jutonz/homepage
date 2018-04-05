@@ -14,7 +14,6 @@ defmodule Client.Application do
       supervisor(ClientWeb.Endpoint, []),
       # Start your own worker by calling: Client.Worker.start_link(arg1, arg2, arg3)
       # worker(Client.Worker, [arg1, arg2, arg3]),
-      worker(Client.SessionServer, [[name: :session_server]]),
       worker(Client.UserServer, [[name: :user_server]])
     ]
 
