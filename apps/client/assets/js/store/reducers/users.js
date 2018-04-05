@@ -1,24 +1,40 @@
+import { fromJS, Record, Map } from "immutable";
+
+const User = Record({
+  id: null,
+  email: null,
+  insertedAt: null,
+  updatedAt: null
+});
+
 const initialState = { users: {} };
 export const users = (state = initialState, action) => {
   let newState;
 
   switch (action.type) {
     case "STORE_USERS": {
-      const { users } = action;
-      let newUsers = {};
-      users.forEach(user => {
-        newUsers = { ...newUsers, ...normalizeUser(user) };
+      const { users: usersToAdd } = action;
+      state = fromJS(state);
+      const users = state.get("users").withMutations(users => {
+        usersToAdd.forEach(user => {
+          const normal = normalizeUser(user);
+          users.set(user.id, user);
+        });
       });
-      newState = { users: { ...state.users, ...newUsers } };
-      break;
+      state = state.set("users", users);
+
+      return state.toJS();
     }
     case "FETCH_USER_REQUEST": {
       const { id } = action;
       const user = getUserFromState(id, state);
-      const { fetchErrors, ...withoutErrors } = user;
-      const withLoading = { ...withoutErrors, id, isFetching: true };
-      const normal = normalizeUser(withLoading);
-      newState = { users: { ...state.users, ...normal } };
+      state = fromJS(state);
+      user = user.withMutations(user => {
+        user.delete("fetchErrors").set("isLoading", true);
+      });
+      user = normalizeUser(user);
+      state = state.setIn(["users", id], user);
+      return state.toJS();
       break;
     }
     case "FETCH_USER_SUCCESS": {
@@ -40,11 +56,12 @@ export const users = (state = initialState, action) => {
     }
     case "FETCH_ACCOUNT_USER_REQUEST": {
       const { userId } = action;
-      const user = getUserFromState(userId, state);
-      const withLoading = { ...user, isFetching: true };
-      const normal = normalizeUser(withLoading);
-      newState = { users: { ...state.users, ...normal } };
-      break;
+      let user = getUserFromState(userId, state);
+      state = fromJS(state);
+      user = user.set("isFetching", true);
+      const normal = normalizeUser(withLoading.toJS());
+      state = state.setIn(["users", normal.id], normal);
+      return state.toJS();
     }
     case "FETCH_ACCOUNT_USER_SUCCESS": {
       const { userId } = action;
@@ -72,8 +89,9 @@ export const users = (state = initialState, action) => {
 };
 
 const getUserFromState = (id, state) => {
-  const user = state.users[parseInt(id)];
-  return user || { id };
+  let user = state.users[parseInt(id)];
+  user = user || { id };
+  return new User(user);
 };
 
 const normalizeUser = user => {
