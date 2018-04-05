@@ -1,12 +1,12 @@
 defmodule ClientWeb.SessionController do
   use ClientWeb, :controller
-  alias Client.SessionServer
+  alias Client.Session
 
   @doc """
   Login via username and password.
   """
   def login(conn, %{"email" => email, "password" => password}) do
-    case conn |> SessionServer.login(email, password) do
+    case conn |> Session.login(email, password) do
       {:ok, _user, conn} ->
         conn |> put_status(200) |> json(%{error: false})
 
@@ -21,7 +21,7 @@ defmodule ClientWeb.SessionController do
   Login via token. Token is invalidated after use.
   """
   def exchange(conn, %{"token" => token}) do
-    case conn |> SessionServer.exchange(token) do
+    case conn |> Session.exchange(token) do
       {:ok, _user, conn} ->
         conn |> redirect(to: "/#/")
 
@@ -33,11 +33,11 @@ defmodule ClientWeb.SessionController do
   end
 
   def logout(conn, _params) do
-    with {:ok, conn} <- SessionServer.logout(conn), do: redirect(conn, to: "/")
+    with {:ok, conn} <- Session.logout(conn), do: redirect(conn, to: "/")
   end
 
   def signup(conn, %{"email" => email, "password" => password}) do
-    case conn |> SessionServer.signup(email, password) do
+    case conn |> Session.signup(email, password) do
       {:ok, _user, conn} ->
         conn |> put_status(200) |> json(%{error: false})
 

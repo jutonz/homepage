@@ -1,6 +1,6 @@
 defmodule ClientWeb.AccountResolverTest do
   use ClientWeb.ConnCase
-  alias Client.{TestUtils, Account, Repo, SessionServer, User}
+  alias Client.{TestUtils, Account, Repo, Session, User}
 
   describe "create_account" do
     test "can create an account", %{conn: conn} do
@@ -32,7 +32,7 @@ defmodule ClientWeb.AccountResolverTest do
 
       account = Account |> Repo.get!(id) |> Repo.preload(:users)
       account_user = account.users |> hd
-      {:ok, current_user} = conn |> SessionServer.current_user()
+      {:ok, current_user} = conn |> Session.current_user()
 
       assert current_user.id == account_user.id
     end
@@ -62,7 +62,7 @@ defmodule ClientWeb.AccountResolverTest do
   describe "rename_account" do
     test "can rename an account", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
-      {:ok, user} = conn |> SessionServer.current_user()
+      {:ok, user} = conn |> Session.current_user()
 
       {:ok, account} =
         %Account{name: "hello"} |> Account.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
@@ -86,7 +86,7 @@ defmodule ClientWeb.AccountResolverTest do
   describe "get_account_users" do
     test "can get account users", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
-      {:ok, user} = conn |> SessionServer.current_user()
+      {:ok, user} = conn |> Session.current_user()
 
       {:ok, account} =
         %Account{name: "hello"} |> Account.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
@@ -109,7 +109,7 @@ defmodule ClientWeb.AccountResolverTest do
   describe "get_account_user" do
     test "returns a user of the account", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
-      {:ok, user} = conn |> SessionServer.current_user()
+      {:ok, user} = conn |> Session.current_user()
 
       {:ok, account} =
         %Account{name: "hi"}
@@ -131,7 +131,7 @@ defmodule ClientWeb.AccountResolverTest do
 
     test "does not return a user if not on the account", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
-      {:ok, user} = conn |> SessionServer.current_user()
+      {:ok, user} = conn |> Session.current_user()
 
       {:ok, account} =
         %Account{name: "hi"}
@@ -155,7 +155,7 @@ defmodule ClientWeb.AccountResolverTest do
   describe "join_account" do
     test "it adds a user to an account", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
-      {:ok, user} = conn |> SessionServer.current_user()
+      {:ok, user} = conn |> Session.current_user()
 
       {:ok, account_creator} =
         %User{}
@@ -185,7 +185,7 @@ defmodule ClientWeb.AccountResolverTest do
   describe "leave_account" do
     test "it removes a user from an account", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
-      {:ok, user} = conn |> SessionServer.current_user()
+      {:ok, user} = conn |> Session.current_user()
 
       {:ok, account_creator} =
         %User{}

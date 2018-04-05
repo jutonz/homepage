@@ -16,7 +16,7 @@ defmodule ClientWeb.Plugs.Context do
   end
 
   defp resource_from_conn(conn) do
-    case conn |> Client.SessionServer.current_user() do
+    case conn |> Client.Session.current_user() do
       {:ok, user} -> {:ok, user}
       {:error, reason} -> {:error, reason}
     end
