@@ -79,6 +79,12 @@ pipeline:
     - DCTL_ENV=prod
     - SERVICE=app
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  fetch-node-modules:
+    group: build
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    commands:
+    - cd apps/client/assets
+    - yarn install
 
   initdb:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
@@ -111,10 +117,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
     - cd apps/client/assets
-    - yarn install --dev
     - yarn lint
-    environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
-    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   push-test-image:
     image: docker
