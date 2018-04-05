@@ -58,9 +58,17 @@ const _App = props => (
 );
 
 const renderFlash = messages => {
-  return messages.map(message => <Flash message={message} key={message.id} />);
+  let comps = [];
+
+  messages.mapEntries(([id, message]) => {
+    comps.push(<Flash message={message.get("message")} key={id} />);
+  });
+
+  return comps;
 };
 
-const mapStoreToProps = state => ({ flashMessages: state.flash.messages });
+const mapStoreToProps = state => ({
+  flashMessages: state.flash.get("messages")
+});
 
 export const App = compose(connect(mapStoreToProps, null))(_App);

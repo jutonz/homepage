@@ -10,16 +10,16 @@ const style = StyleSheet.create({
   }
 });
 
-export const Flash = props => (
+export const Flash = ({ message: { message, tone } }) => (
   <Message
-    content={props.message.message}
+    content={message}
     className={css(style.message)}
-    {...styleForTone(props.message)}
+    {...styleForTone(tone)}
   />
 );
 
-const styleForTone = message => {
-  switch (message.tone) {
+const styleForTone = tone => {
+  switch (tone) {
     case "warning":
       return { icon: "warning circle", warning: true };
     case "error":

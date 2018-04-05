@@ -1,83 +1,55 @@
-const initialState = { users: {} };
-export const users = (state = initialState, action) => {
-  let newState;
+import { fromJS, Record } from "immutable";
 
+const User = Record({
+  id: null,
+  email: null,
+  insertedAt: null,
+  updatedAt: null,
+
+  isFetching: false,
+  fetchErrors: null
+});
+
+const initialState = fromJS({ users: {} });
+
+export const users = (state = initialState, action) => {
   switch (action.type) {
     case "STORE_USERS": {
-      const { users } = action;
-      let newUsers = {};
-      users.forEach(user => {
-        newUsers = { ...newUsers, ...normalizeUser(user) };
+      const { users: usersToAdd } = action;
+      const users = state.get("users").withMutations(users => {
+        usersToAdd.forEach(user => users.set(user.id, user));
       });
-      newState = { users: { ...state.users, ...newUsers } };
-      break;
+
+      return state.set("users", users);
     }
-    case "FETCH_USER_REQUEST": {
-      const { id } = action;
-      const user = getUserFromState(id, state);
-      const { fetchErrors, ...withoutErrors } = user;
-      const withLoading = { ...withoutErrors, id, isFetching: true };
-      const normal = normalizeUser(withLoading);
-      newState = { users: { ...state.users, ...normal } };
-      break;
-    }
-    case "FETCH_USER_SUCCESS": {
-      const { id } = action;
-      const user = getUserFromState(id, state);
-      const { isFetching, ...withoutLoading } = user;
-      const normal = normalizeUser(withoutLoading);
-      newState = { users: { ...state.users, ...normal } };
-      break;
-    }
-    case "FETCH_USER_FAILURE": {
-      const { id, errors } = action;
-      const user = getUserFromState(id, state);
-      const { isFetching, ...withoutLoading } = user;
-      const withErrors = { ...withoutLoading, fetchErrors: errors };
-      const normal = normalizeUser(withErrors);
-      newState = { users: { ...state.users, ...normal } };
-      break;
-    }
+
     case "FETCH_ACCOUNT_USER_REQUEST": {
       const { userId } = action;
-      const user = getUserFromState(userId, state);
-      const withLoading = { ...user, isFetching: true };
-      const normal = normalizeUser(withLoading);
-      newState = { users: { ...state.users, ...normal } };
-      break;
+      const user = getUserFromState(state, userId).set("isFetching", true);
+      return state.setIn(["users", user.get("id")], user);
     }
+
     case "FETCH_ACCOUNT_USER_SUCCESS": {
       const { userId } = action;
-      const user = getUserFromState(userId, state);
-      const { isFetching, ...withoutLoading } = user;
-      const normal = normalizeUser(withoutLoading);
-      newState = { users: { ...state.users, ...normal } };
-      break;
+      const user = getUserFromState(state, userId).delete("isFetching");
+      return state.setIn(["users", user.get("id")], user);
     }
+
     case "FETCH_ACCOUNT_USER_FAILURE": {
       const { userId, errors } = action;
-      const user = getUserFromState(userId, state);
-      const { isFetching, ...withoutLoading } = user;
-      const withErrors = { ...withoutLoading, fetchErrors: errors };
-      const normal = normalizeUser(withErrors);
-      newState = { users: { ...state.users, ...normal } };
-      break;
+      const user = getUserFromState(state, userId).withMutations(user => {
+        user.delete("isFetching").set("fetchErrors", errors);
+      });
+      state = state.setIn(["users", user.get("id")], user);
+      return state;
     }
+
     default:
-      newState = {};
-      break;
+      return state;
   }
-
-  return { ...state, ...newState };
 };
 
-const getUserFromState = (id, state) => {
-  const user = state.users[parseInt(id)];
-  return user || { id };
-};
-
-const normalizeUser = user => {
-  let normalized = {};
-  normalized[user.id] = user;
-  return normalized;
+const getUserFromState = (state, id) => {
+  const user = state.get("users", id) || { id };
+  return new User(user);
 };

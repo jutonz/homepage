@@ -34,7 +34,7 @@ const renderUser = user => <div>{user.email}</div>;
 
 const getUserFromState = (state, props) => {
   const userId = props.match.params.user_id;
-  return state.users.users[parseInt(userId)];
+  return state.users.getIn(["users", userId]);
 };
 
 export const AccountUserRoute = connect(

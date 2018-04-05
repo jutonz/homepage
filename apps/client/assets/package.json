@@ -21,6 +21,7 @@
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
     "history": "^4.7.2",
+    "immutable": "^3.8.2",
     "pdfjs-dist": "^2.0.205",
     "react": "^15.6.1",
     "react-apollo": "^2.0.1",

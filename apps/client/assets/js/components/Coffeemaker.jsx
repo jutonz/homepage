@@ -1,7 +1,11 @@
 import React from "react";
 import { Input } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
-import { setCoffeemakerFlozAction, setCoffeemakerGramsAction } from "@store";
+import {
+  showFlash,
+  setCoffeemakerFlozAction,
+  setCoffeemakerGramsAction
+} from "@store";
 import { connect } from "react-redux";
 
 const styles = StyleSheet.create({
@@ -70,9 +74,9 @@ class _Coffeemaker extends React.Component {
 }
 
 const mapStoreToProps = store => ({
-  grams: store.coffeemaker.grams,
-  floz: store.coffeemaker.floz,
-  errorMessage: store.coffeemaker.errorMessage
+  grams: store.coffeemaker.get("grams"),
+  floz: store.coffeemaker.get("floz"),
+  errorMessage: store.coffeemaker.get("errorMessage")
 });
 
 const mapDispatchToProps = dispatch => ({
