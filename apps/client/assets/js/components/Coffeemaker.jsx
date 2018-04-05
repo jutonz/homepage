@@ -27,10 +27,6 @@ class _Coffeemaker extends React.Component {
     this.state = { focusedInput: "left" };
   }
 
-  componentWillMount() {
-    this.props.showFlash("hey");
-  }
-
   render() {
     const { floz, grams } = this.props;
     const flozStr = floz ? floz.toString() : "";
@@ -85,8 +81,7 @@ const mapStoreToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   setFloz: (floz: number) => dispatch(setCoffeemakerFlozAction(floz)),
-  setGrams: (g: number) => dispatch(setCoffeemakerGramsAction(g)),
-  showFlash: (g: number) => dispatch(showFlash(g))
+  setGrams: (g: number) => dispatch(setCoffeemakerGramsAction(g))
 });
 
 export const Coffeemaker = connect(mapStoreToProps, mapDispatchToProps)(

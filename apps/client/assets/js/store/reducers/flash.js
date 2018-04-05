@@ -4,15 +4,6 @@ import { fromJS, Record } from "immutable";
 // Action creators
 ////////////////////////////////////////////////////////////////////////////////
 
-//const _addFlash = (message, tone, id) => ({
-//type: "FLASH_ADD",
-//message,
-//tone,
-//id
-//});
-
-//const _removeFlash = id => ({ type: "FLASH_REMOVE", id });
-
 export const showFlash = (message, tone: "info", duration = 3000) => {
   return { type: "SHOW_FLASH", message, tone, duration };
 };
