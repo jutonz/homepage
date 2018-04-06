@@ -15,6 +15,13 @@ defmodule ClientWeb.Schema do
     field(:updated_at, non_null(:string))
   end
 
+  object :ijust_context do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
+    field(:inserted_at, non_null(:string))
+    field(:updated_at, non_null(:string))
+  end
+
   query do
     field :get_user, :user do
       arg(:id, :id)
@@ -48,6 +55,10 @@ defmodule ClientWeb.Schema do
       arg(:team_id, non_null(:id))
       arg(:user_id, non_null(:id))
       resolve(&ClientWeb.TeamResolver.get_team_user/3)
+    end
+
+    field :get_ijust_context, :ijust_context do
+      resolve(&ClientWeb.IjustResolver.get_ijust_context/3)
     end
   end
 

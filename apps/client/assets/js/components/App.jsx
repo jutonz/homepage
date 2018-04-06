@@ -15,6 +15,7 @@ import { CoffeemakerRoute } from "@routes/CoffeemakerRoute";
 import { ResumeRoute } from "@routes/ResumeRoute";
 import { TeamRoute } from "@routes/TeamRoute";
 import { TeamUserRoute } from "@routes/TeamUserRoute";
+import { IjustRoute } from "@routes/IjustRoute";
 
 const style = StyleSheet.create({
   flashContainer: {
@@ -28,10 +29,10 @@ const style = StyleSheet.create({
   }
 });
 
-const _App = props => (
+const _App = ({ flashMessages }) => (
   <div>
     <div className={css(style.flashContainer)}>
-      {renderFlash(props.flashMessages)}
+      {renderFlash(flashMessages)}
     </div>
 
     <Router>
@@ -48,6 +49,7 @@ const _App = props => (
           path="/teams/:team_id/users/:user_id"
           component={TeamUserRoute}
         />
+        <AuthenticatedRoute path="/ijust" component={IjustRoute} />
       </Switch>
     </Router>
   </div>

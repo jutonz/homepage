@@ -1,8 +1,10 @@
 import { all } from "redux-saga/effects";
-import teamsSaga from "./teams";
-import usersSaga from "./users";
-import flashSaga from "./flash";
+
+import accounts from "./accounts";
+import teams from "./teams";
+import flash from "./flash";
+import ijust from "./ijust";
 
 export function* rootSaga() {
-  yield all([teamsSaga(), usersSaga(), flashSaga()]);
+  yield all([teams(), users(), flash(), ijust()]);
 }

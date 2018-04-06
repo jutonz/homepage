@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 
 export const fetchTeamUsersQuery = variables => {
   const query = gql`
@@ -44,3 +45,22 @@ export const fetchUserQuery = variables => {
     return response.data.getUser;
   });
 };
+
+export const getIjustContextQuery = variables => {
+  const query = gql`
+    query FetchIjustContextQuery {
+      getIjustContext {
+        name
+      }
+    }
+  `;
+
+  return new Promise((resolve, reject) => {
+    window.grapqlClient.query({ query, variables, errorPolicy: "all" }).then(response => {
+      resolve(response.data.getIjustContext);
+    }).catch(error => {
+      console.error(error);
+      reject(collectGraphqlErrors(error));
+    });
+  });
+}
