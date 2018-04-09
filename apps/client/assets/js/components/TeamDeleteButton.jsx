@@ -12,24 +12,24 @@ const style = StyleSheet.create({
   }
 });
 
-class _AccountDeleteButton extends React.Component {
+class _TeamDeleteButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isDeleting: false, errors: null };
   }
 
   render() {
-    const { account } = this.props;
+    const { team } = this.props;
     const { errors, isDeleting } = this.state;
     return (
       <Form error={!!errors} className={css(style.container)}>
-        <Header>Delete account</Header>
-        <p>Existing users will be removed from the account</p>
+        <Header>Delete team</Header>
+        <p>Existing users will be removed from the team</p>
         <Message error>{errors}</Message>
         <Button
           primary
           fluid
-          onClick={() => this.deleteAccount(account.id)}
+          onClick={() => this.deleteTeam(team.id)}
           loading={isDeleting}
         >
           Delete
@@ -38,10 +38,10 @@ class _AccountDeleteButton extends React.Component {
     );
   }
 
-  deleteAccount = id => {
+  deleteTeam = id => {
     this.setState({ isDeleting: true, errors: null });
     this.props
-      .deleteAccount(id)
+      .deleteTeam(id)
       .then(() => {
         this.setState({ isDeleting: false });
         this.props.onDelete();
@@ -53,14 +53,14 @@ class _AccountDeleteButton extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  deleteAccount: id => {
+  deleteTeam: id => {
     // antipattern but worth it?
     return new Promise((resolve, reject) => {
-      dispatch({ type: "DELETE_ACCOUNT", id, resolve, reject });
+      dispatch({ type: "DELETE_TEAM", id, resolve, reject });
     });
   }
 });
 
-export const AccountDeleteButton = connect(undefined, mapDispatchToProps)(
-  _AccountDeleteButton
+export const TeamDeleteButton = connect(undefined, mapDispatchToProps)(
+  _TeamDeleteButton
 );

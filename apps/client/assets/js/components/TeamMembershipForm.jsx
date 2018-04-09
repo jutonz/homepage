@@ -4,7 +4,7 @@ import { Header, Form, Loader } from "semantic-ui-react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchAccounts } from "@store";
+import { fetchTeams } from "@store";
 
 const style = StyleSheet.create({
   container: {
@@ -25,46 +25,46 @@ const style = StyleSheet.create({
   }
 });
 
-class _AccountMembershipForm extends React.Component {
+class _TeamMembershipForm extends React.Component {
   componentWillMount() {
-    this.props.fetchAccounts();
+    this.props.fetchTeams();
   }
 
   render() {
     return (
       <div className={css(style.container)}>
         <Form>
-          <Header>Account membership</Header>
-          <p>Change which accounts you belong to</p>
+          <Header>Team membership</Header>
+          <p>Change which teams you belong to</p>
 
-          {this.renderAccounts()}
+          {this.renderTeams()}
         </Form>
       </div>
     );
   }
 
-  renderAccounts = () => {
+  renderTeams = () => {
     if (this.props.isLoading) {
       return (
         <div className={css(style.loaderContainer)}>
           <Loader active inline />
         </div>
       );
-    } else if (this.props.accountsFetchError) {
+    } else if (this.props.teamsFetchError) {
       return (
         <div className={css(style.fetchError)}>
-          {this.props.accountsFetchError}
+          {this.props.teamsFetchError}
         </div>
       );
     } else if (
-      this.props.accounts &&
-      Object.getOwnPropertyNames(this.props.accounts).length !== 0
+      this.props.teams &&
+      Object.getOwnPropertyNames(this.props.teams).length !== 0
     ) {
       return (
         <div>
-          {Object.keys(this.props.accounts).map(id => (
+          {Object.keys(this.props.teams).map(id => (
             <div key={id}>
-              <Link to={`accounts/${id}`}>{this.props.accounts[id].name}</Link>
+              <Link to={`teams/${id}`}>{this.props.teams[id].name}</Link>
             </div>
           ))}
         </div>
@@ -72,7 +72,7 @@ class _AccountMembershipForm extends React.Component {
     } else {
       return (
         <div>
-          <p>You do not belong to any accounts</p>
+          <p>You do not belong to any teams</p>
         </div>
       );
     }
@@ -80,15 +80,15 @@ class _AccountMembershipForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isLoading: state.accounts.loadingAllAccounts,
-  accounts: state.accounts.accounts,
-  accountsFetchError: state.accounts.accountsFetchError
+  isLoading: state.teams.loadingAllTeams,
+  teams: state.teams.teams,
+  teamsFetchError: state.teams.teamsFetchError
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchAccounts: () => dispatch(fetchAccounts())
+  fetchTeams: () => dispatch(fetchTeams())
 });
 
-export const AccountMembershipForm = compose(
+export const TeamMembershipForm = compose(
   connect(mapStateToProps, mapDispatchToProps)
-)(_AccountMembershipForm);
+)(_TeamMembershipForm);

@@ -2,7 +2,7 @@ defmodule Client.User do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
-  alias Client.{Account, Repo, User}
+  alias Client.{Team, Repo, User}
 
   schema "users" do
     field(:password_hash, :string)
@@ -11,9 +11,9 @@ defmodule Client.User do
     timestamps()
 
     many_to_many(
-      :accounts,
-      Account,
-      join_through: "user_accounts",
+      :teams,
+      Team,
+      join_through: "user_teams",
       on_replace: :delete,
       on_delete: :delete_all
     )
@@ -28,49 +28,49 @@ defmodule Client.User do
     |> unique_constraint(:email)
   end
 
-  def get_account(%User{} = user, account_id) do
+  def get_team(%User{} = user, team_id) do
     query =
       from(
         u in User,
-        left_join: a in assoc(u, :accounts),
+        left_join: a in assoc(u, :teams),
         where: u.id == ^user.id,
-        where: a.id == ^account_id,
+        where: a.id == ^team_id,
         select: a
       )
 
-    account = query |> Repo.one()
+    team = query |> Repo.one()
 
-    if account do
-      {:ok, account}
+    if team do
+      {:ok, team}
     else
-      {:error, "No account #{account_id} belonging to user #{user.id}"}
+      {:error, "No team #{team_id} belonging to user #{user.id}"}
     end
   end
 
-  def join_account(%User{} = user, %Account{} = account) do
-    with user <- user |> Repo.preload(:accounts),
+  def join_team(%User{} = user, %Team{} = team) do
+    with user <- user |> Repo.preload(:teams),
          cset <- user |> User.changeset(),
-         cset <- cset |> Ecto.Changeset.put_assoc(:accounts, [account | user.accounts]),
+         cset <- cset |> Ecto.Changeset.put_assoc(:teams, [team | user.teams]),
          {:ok, user} <- cset |> Repo.update(),
          do: {:ok, user},
          else:
            (
              {:error, reason} -> {:error, reason}
-             _ -> {:error, "Could not join account"}
+             _ -> {:error, "Could not join team"}
            )
   end
 
-  def leave_account(%User{} = user, %Account{} = account) do
-    with user <- user |> Repo.preload(:accounts),
+  def leave_team(%User{} = user, %Team{} = team) do
+    with user <- user |> Repo.preload(:teams),
          cset <- user |> User.changeset(),
-         new_accounts <- user.accounts |> List.delete(account),
-         cset <- cset |> Ecto.Changeset.put_assoc(:accounts, new_accounts),
-         {:ok, user} <- cset |> Repo.update(),
-         do: {:ok, account},
+         new_teams <- user.teams |> List.delete(team),
+         cset <- cset |> Ecto.Changeset.put_assoc(:teams, new_teams),
+         {:ok, _user} <- cset |> Repo.update(),
+         do: {:ok, team},
          else:
            (
              {:error, reason} -> {:error, reason}
-             _ -> {:error, "Could not join account"}
+             _ -> {:error, "Could not join team"}
            )
   end
 

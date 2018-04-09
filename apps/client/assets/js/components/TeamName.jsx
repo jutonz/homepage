@@ -1,8 +1,8 @@
 import React from "react";
 import { Header } from "semantic-ui-react";
 
-export const AccountName = props => (
+export const TeamName = props => (
   <div>
-    <Header>Account {props.account.name}</Header>
+    <Header>Team {props.team.name}</Header>
   </div>
 );

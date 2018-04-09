@@ -8,7 +8,7 @@ defmodule ClientWeb.Schema do
     field(:updated_at, non_null(:string))
   end
 
-  object :account do
+  object :team do
     field(:id, non_null(:id))
     field(:name, non_null(:string))
     field(:inserted_at, non_null(:string))
@@ -30,24 +30,24 @@ defmodule ClientWeb.Schema do
       resolve(&ClientWeb.SessionResolver.get_one_time_login_link/3)
     end
 
-    field :get_accounts, list_of(:account) do
-      resolve(&ClientWeb.AccountResolver.get_user_accounts/3)
+    field :get_teams, list_of(:team) do
+      resolve(&ClientWeb.TeamResolver.get_user_teams/3)
     end
 
-    field :get_account, :account do
+    field :get_team, :team do
       arg(:id, :id)
-      resolve(&ClientWeb.AccountResolver.get_account/3)
+      resolve(&ClientWeb.TeamResolver.get_team/3)
     end
 
-    field :get_account_users, list_of(:user) do
+    field :get_team_users, list_of(:user) do
       arg(:id, non_null(:id))
-      resolve(&ClientWeb.AccountResolver.get_account_users/3)
+      resolve(&ClientWeb.TeamResolver.get_team_users/3)
     end
 
-    field :get_account_user, :user do
-      arg(:account_id, non_null(:id))
+    field :get_team_user, :user do
+      arg(:team_id, non_null(:id))
       arg(:user_id, non_null(:id))
-      resolve(&ClientWeb.AccountResolver.get_account_user/3)
+      resolve(&ClientWeb.TeamResolver.get_team_user/3)
     end
   end
 
@@ -65,30 +65,30 @@ defmodule ClientWeb.Schema do
       resolve(&ClientWeb.UserResolver.change_password/3)
     end
 
-    field :create_account, :account do
+    field :create_team, :team do
       arg(:name, non_null(:string))
-      resolve(&ClientWeb.AccountResolver.create_account/3)
+      resolve(&ClientWeb.TeamResolver.create_team/3)
     end
 
-    field :delete_account, :account do
+    field :delete_team, :team do
       arg(:id, non_null(:id))
-      resolve(&ClientWeb.AccountResolver.delete_account/3)
+      resolve(&ClientWeb.TeamResolver.delete_team/3)
     end
 
-    field :rename_account, :account do
+    field :rename_team, :team do
       arg(:id, non_null(:id))
       arg(:name, non_null(:string))
-      resolve(&ClientWeb.AccountResolver.rename_account/3)
+      resolve(&ClientWeb.TeamResolver.rename_team/3)
     end
 
-    field :join_account, :account do
+    field :join_team, :team do
       arg(:name, non_null(:string))
-      resolve(&ClientWeb.AccountResolver.join_account/3)
+      resolve(&ClientWeb.TeamResolver.join_team/3)
     end
 
-    field :leave_account, :account do
+    field :leave_team, :team do
       arg(:id, non_null(:id))
-      resolve(&ClientWeb.AccountResolver.leave_account/3)
+      resolve(&ClientWeb.TeamResolver.leave_team/3)
     end
   end
 end

@@ -1,20 +1,20 @@
-defmodule ClientWeb.AccountResolverTest do
+defmodule ClientWeb.TeamResolverTest do
   use ClientWeb.ConnCase
-  alias Client.{TestUtils, Account, Repo, Session, User}
+  alias Client.{TestUtils, Team, Repo, Session, User}
 
-  describe "create_account" do
-    test "can create an account", %{conn: conn} do
+  describe "create_team" do
+    test "can create an team", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
 
       query = """
         mutation {
-          createAccount(name: "hello") { name id }
+          createTeam(name: "hello") { name id }
         }
       """
 
       res = conn |> post("/graphql", %{query: query}) |> json_response(200)
 
-      %{"data" => %{"createAccount" => %{"name" => name}}} = res
+      %{"data" => %{"createTeam" => %{"name" => name}}} = res
       assert name == "hello"
     end
 
@@ -23,18 +23,18 @@ defmodule ClientWeb.AccountResolverTest do
 
       query = """
         mutation {
-          createAccount(name: "hello") { name id }
+          createTeam(name: "hello") { name id }
         }
       """
 
       res = conn |> post("/graphql", %{query: query}) |> json_response(200)
-      %{"data" => %{"createAccount" => %{"id" => id}}} = res
+      %{"data" => %{"createTeam" => %{"id" => id}}} = res
 
-      account = Account |> Repo.get!(id) |> Repo.preload(:users)
-      account_user = account.users |> hd
+      team = Team |> Repo.get!(id) |> Repo.preload(:users)
+      team_user = team.users |> hd
       {:ok, current_user} = conn |> Session.current_user()
 
-      assert current_user.id == account_user.id
+      assert current_user.id == team_user.id
     end
 
     test "returns validation errors nicely", %{conn: conn} do
@@ -42,7 +42,7 @@ defmodule ClientWeb.AccountResolverTest do
 
       query = """
         mutation {
-          createAccount(name: "hello") { name id }
+          createTeam(name: "hello") { name id }
         }
       """
 
@@ -59,156 +59,156 @@ defmodule ClientWeb.AccountResolverTest do
     end
   end
 
-  describe "rename_account" do
-    test "can rename an account", %{conn: conn} do
+  describe "rename_team" do
+    test "can rename an team", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
       {:ok, user} = conn |> Session.current_user()
 
-      {:ok, account} =
-        %Account{name: "hello"} |> Account.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
+      {:ok, team} =
+        %Team{name: "hello"} |> Team.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
         |> Repo.insert()
 
-      new_name = "#{account.name}_#{:rand.uniform()}"
+      new_name = "#{team.name}_#{:rand.uniform()}"
 
       query = """
       mutation {
-        renameAccount(id: #{account.id}, name: "#{new_name}") { name }
+        renameTeam(id: #{team.id}, name: "#{new_name}") { name }
       }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
-      %{"data" => %{"renameAccount" => %{"name" => actual}}} = json
+      %{"data" => %{"renameTeam" => %{"name" => actual}}} = json
 
       assert new_name === actual
     end
   end
 
-  describe "get_account_users" do
-    test "can get account users", %{conn: conn} do
+  describe "get_team_users" do
+    test "can get team users", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
       {:ok, user} = conn |> Session.current_user()
 
-      {:ok, account} =
-        %Account{name: "hello"} |> Account.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
+      {:ok, team} =
+        %Team{name: "hello"} |> Team.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
         |> Repo.insert()
 
       query = """
       query {
-        getAccountUsers(id: #{account.id}) { email }
+        getTeamUsers(id: #{team.id}) { email }
       }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
 
-      %{"data" => %{"getAccountUsers" => [%{"email" => actual}]}} = json
+      %{"data" => %{"getTeamUsers" => [%{"email" => actual}]}} = json
 
       assert user.email === actual
     end
   end
 
-  describe "get_account_user" do
-    test "returns a user of the account", %{conn: conn} do
+  describe "get_team_user" do
+    test "returns a user of the team", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
       {:ok, user} = conn |> Session.current_user()
 
-      {:ok, account} =
-        %Account{name: "hi"}
-        |> Account.changeset()
+      {:ok, team} =
+        %Team{name: "hi"}
+        |> Team.changeset()
         |> Ecto.Changeset.put_assoc(:users, [user])
         |> Repo.insert()
 
       query = """
       query {
-        getAccountUser(accountId: #{account.id}, userId: #{user.id}) { email }
+        getTeamUser(teamId: #{team.id}, userId: #{user.id}) { email }
       }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
-      %{"data" => %{"getAccountUser" => %{"email" => actual}}} = json
+      %{"data" => %{"getTeamUser" => %{"email" => actual}}} = json
 
       assert user.email == actual
     end
 
-    test "does not return a user if not on the account", %{conn: conn} do
+    test "does not return a user if not on the team", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
       {:ok, user} = conn |> Session.current_user()
 
-      {:ok, account} =
-        %Account{name: "hi"}
-        |> Account.changeset()
+      {:ok, team} =
+        %Team{name: "hi"}
+        |> Team.changeset()
         |> Repo.insert()
 
       query = """
       query {
-        getAccountUser(accountId: #{account.id}, userId: #{user.id}) { email }
+        getTeamUser(teamId: #{team.id}, userId: #{user.id}) { email }
       }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
 
-      %{"data" => %{"getAccountUser" => data}} = json
+      %{"data" => %{"getTeamUser" => data}} = json
 
       assert data == nil
     end
   end
 
-  describe "join_account" do
-    test "it adds a user to an account", %{conn: conn} do
+  describe "join_team" do
+    test "it adds a user to an team", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
       {:ok, user} = conn |> Session.current_user()
 
-      {:ok, account_creator} =
+      {:ok, team_creator} =
         %User{}
         |> User.changeset(%{email: "wee@mail.com", password: "password123"})
         |> Repo.insert()
 
-      {:ok, account} =
-        %Account{}
-        |> Account.changeset(%{name: "hi"})
-        |> Ecto.Changeset.put_assoc(:users, [account_creator])
+      {:ok, team} =
+        %Team{}
+        |> Team.changeset(%{name: "hi"})
+        |> Ecto.Changeset.put_assoc(:users, [team_creator])
         |> Repo.insert()
 
       query = """
         mutation {
-          joinAccount(name: "#{account.name}") { name id }
+          joinTeam(name: "#{team.name}") { name id }
         }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
-      %{"data" => %{"joinAccount" => %{"id" => id}}} = json
-      db_account = Account |> Repo.get(id) |> Repo.preload(:users)
+      %{"data" => %{"joinTeam" => %{"id" => id}}} = json
+      db_team = Team |> Repo.get(id) |> Repo.preload(:users)
 
-      assert db_account.users |> Enum.member?(user) == true
+      assert db_team.users |> Enum.member?(user) == true
     end
   end
 
-  describe "leave_account" do
-    test "it removes a user from an account", %{conn: conn} do
+  describe "leave_team" do
+    test "it removes a user from an team", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
       {:ok, user} = conn |> Session.current_user()
 
-      {:ok, account_creator} =
+      {:ok, team_creator} =
         %User{}
         |> User.changeset(%{email: "wee@mail.com", password: "password123"})
         |> Repo.insert()
 
-      {:ok, account} =
-        %Account{}
-        |> Account.changeset(%{name: "hi"})
-        |> Ecto.Changeset.put_assoc(:users, [account_creator, user])
+      {:ok, team} =
+        %Team{}
+        |> Team.changeset(%{name: "hi"})
+        |> Ecto.Changeset.put_assoc(:users, [team_creator, user])
         |> Repo.insert()
 
       query = """
         mutation {
-          leaveAccount(id: "#{account.id}") { id }
+          leaveTeam(id: "#{team.id}") { id }
         }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
-      %{"data" => %{"leaveAccount" => %{"id" => id}}} = json
-      db_account = Account |> Repo.get(id) |> Repo.preload(:users)
+      %{"data" => %{"leaveTeam" => %{"id" => id}}} = json
+      db_team = Team |> Repo.get(id) |> Repo.preload(:users)
 
-      assert db_account.users |> Enum.member?(user) == false
+      assert db_team.users |> Enum.member?(user) == false
     end
   end
 end
