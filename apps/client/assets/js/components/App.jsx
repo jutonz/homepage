@@ -43,11 +43,7 @@ const _App = props => (
 
         <AuthenticatedRoute path="/" exact={true} component={HomeRoute} />
         <AuthenticatedRoute path="/settings" component={SettingsRoute} />
-        <AuthenticatedRoute
-          exact
-          path="/teams/:id"
-          component={TeamRoute}
-        />
+        <AuthenticatedRoute exact path="/teams/:id" component={TeamRoute} />
         <AuthenticatedRoute
           path="/teams/:team_id/users/:user_id"
           component={TeamUserRoute}

@@ -14,13 +14,7 @@ const style = StyleSheet.create({
   }
 });
 
-const _TeamLeaveForm = ({
-  team,
-  leaveTeam,
-  isLoading,
-  errors,
-  history
-}) => (
+const _TeamLeaveForm = ({ team, leaveTeam, isLoading, errors, history }) => (
   <div className={css(style.container)}>
     <Form onSubmit={() => leaveTeam(team.id, history)} error={!!errors}>
       <Header>Leave team</Header>
@@ -40,8 +34,7 @@ export const TeamLeaveForm = compose(
       errors: state.teams.leavingTeamErrors
     }),
     dispatch => ({
-      leaveTeam: (id, history) =>
-        dispatch({ type: "LEAVE_TEAM", id, history })
+      leaveTeam: (id, history) => dispatch({ type: "LEAVE_TEAM", id, history })
     })
   ),
   withRouter

@@ -15,14 +15,7 @@ const style = StyleSheet.create({
   }
 });
 
-const _TeamJoinForm = ({
-  name,
-  setName,
-  join,
-  isLoading,
-  errors,
-  history
-}) => (
+const _TeamJoinForm = ({ name, setName, join, isLoading, errors, history }) => (
   <div className={css(style.container)} onSubmit={() => join(name, history)}>
     <Form error={!!errors}>
       <Header>Join a team</Header>

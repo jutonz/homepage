@@ -1,6 +1,6 @@
-defmodule ClientWeb.AccountResolverTest do
+defmodule ClientWeb.TeamResolverTest do
   use ClientWeb.ConnCase
-  alias Client.{TestUtils, Account, Repo, Session, User}
+  alias Client.{TestUtils, Team, Repo, Session, User}
 
   describe "create_team" do
     test "can create an team", %{conn: conn} do
@@ -8,13 +8,13 @@ defmodule ClientWeb.AccountResolverTest do
 
       query = """
         mutation {
-          createAccount(name: "hello") { name id }
+          createTeam(name: "hello") { name id }
         }
       """
 
       res = conn |> post("/graphql", %{query: query}) |> json_response(200)
 
-      %{"data" => %{"createAccount" => %{"name" => name}}} = res
+      %{"data" => %{"createTeam" => %{"name" => name}}} = res
       assert name == "hello"
     end
 
@@ -23,14 +23,14 @@ defmodule ClientWeb.AccountResolverTest do
 
       query = """
         mutation {
-          createAccount(name: "hello") { name id }
+          createTeam(name: "hello") { name id }
         }
       """
 
       res = conn |> post("/graphql", %{query: query}) |> json_response(200)
-      %{"data" => %{"createAccount" => %{"id" => id}}} = res
+      %{"data" => %{"createTeam" => %{"id" => id}}} = res
 
-      team = Account |> Repo.get!(id) |> Repo.preload(:users)
+      team = Team |> Repo.get!(id) |> Repo.preload(:users)
       team_user = team.users |> hd
       {:ok, current_user} = conn |> Session.current_user()
 
@@ -42,7 +42,7 @@ defmodule ClientWeb.AccountResolverTest do
 
       query = """
         mutation {
-          createAccount(name: "hello") { name id }
+          createTeam(name: "hello") { name id }
         }
       """
 
@@ -65,19 +65,19 @@ defmodule ClientWeb.AccountResolverTest do
       {:ok, user} = conn |> Session.current_user()
 
       {:ok, team} =
-        %Account{name: "hello"} |> Account.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
+        %Team{name: "hello"} |> Team.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
         |> Repo.insert()
 
       new_name = "#{team.name}_#{:rand.uniform()}"
 
       query = """
       mutation {
-        renameAccount(id: #{team.id}, name: "#{new_name}") { name }
+        renameTeam(id: #{team.id}, name: "#{new_name}") { name }
       }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
-      %{"data" => %{"renameAccount" => %{"name" => actual}}} = json
+      %{"data" => %{"renameTeam" => %{"name" => actual}}} = json
 
       assert new_name === actual
     end
@@ -89,18 +89,18 @@ defmodule ClientWeb.AccountResolverTest do
       {:ok, user} = conn |> Session.current_user()
 
       {:ok, team} =
-        %Account{name: "hello"} |> Account.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
+        %Team{name: "hello"} |> Team.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
         |> Repo.insert()
 
       query = """
       query {
-        getAccountUsers(id: #{team.id}) { email }
+        getTeamUsers(id: #{team.id}) { email }
       }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
 
-      %{"data" => %{"getAccountUsers" => [%{"email" => actual}]}} = json
+      %{"data" => %{"getTeamUsers" => [%{"email" => actual}]}} = json
 
       assert user.email === actual
     end
@@ -112,19 +112,19 @@ defmodule ClientWeb.AccountResolverTest do
       {:ok, user} = conn |> Session.current_user()
 
       {:ok, team} =
-        %Account{name: "hi"}
-        |> Account.changeset()
+        %Team{name: "hi"}
+        |> Team.changeset()
         |> Ecto.Changeset.put_assoc(:users, [user])
         |> Repo.insert()
 
       query = """
       query {
-        getAccountUser(teamId: #{team.id}, userId: #{user.id}) { email }
+        getTeamUser(teamId: #{team.id}, userId: #{user.id}) { email }
       }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
-      %{"data" => %{"getAccountUser" => %{"email" => actual}}} = json
+      %{"data" => %{"getTeamUser" => %{"email" => actual}}} = json
 
       assert user.email == actual
     end
@@ -134,19 +134,19 @@ defmodule ClientWeb.AccountResolverTest do
       {:ok, user} = conn |> Session.current_user()
 
       {:ok, team} =
-        %Account{name: "hi"}
-        |> Account.changeset()
+        %Team{name: "hi"}
+        |> Team.changeset()
         |> Repo.insert()
 
       query = """
       query {
-        getAccountUser(teamId: #{team.id}, userId: #{user.id}) { email }
+        getTeamUser(teamId: #{team.id}, userId: #{user.id}) { email }
       }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
 
-      %{"data" => %{"getAccountUser" => data}} = json
+      %{"data" => %{"getTeamUser" => data}} = json
 
       assert data == nil
     end
@@ -163,20 +163,20 @@ defmodule ClientWeb.AccountResolverTest do
         |> Repo.insert()
 
       {:ok, team} =
-        %Account{}
-        |> Account.changeset(%{name: "hi"})
+        %Team{}
+        |> Team.changeset(%{name: "hi"})
         |> Ecto.Changeset.put_assoc(:users, [team_creator])
         |> Repo.insert()
 
       query = """
         mutation {
-          joinAccount(name: "#{team.name}") { name id }
+          joinTeam(name: "#{team.name}") { name id }
         }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
-      %{"data" => %{"joinAccount" => %{"id" => id}}} = json
-      db_team = Account |> Repo.get(id) |> Repo.preload(:users)
+      %{"data" => %{"joinTeam" => %{"id" => id}}} = json
+      db_team = Team |> Repo.get(id) |> Repo.preload(:users)
 
       assert db_team.users |> Enum.member?(user) == true
     end
@@ -193,20 +193,20 @@ defmodule ClientWeb.AccountResolverTest do
         |> Repo.insert()
 
       {:ok, team} =
-        %Account{}
-        |> Account.changeset(%{name: "hi"})
+        %Team{}
+        |> Team.changeset(%{name: "hi"})
         |> Ecto.Changeset.put_assoc(:users, [team_creator, user])
         |> Repo.insert()
 
       query = """
         mutation {
-          leaveAccount(id: "#{team.id}") { id }
+          leaveTeam(id: "#{team.id}") { id }
         }
       """
 
       json = conn |> post("/graphql", %{query: query}) |> json_response(200)
-      %{"data" => %{"leaveAccount" => %{"id" => id}}} = json
-      db_team = Account |> Repo.get(id) |> Repo.preload(:users)
+      %{"data" => %{"leaveTeam" => %{"id" => id}}} = json
+      db_team = Team |> Repo.get(id) |> Repo.preload(:users)
 
       assert db_team.users |> Enum.member?(user) == false
     end

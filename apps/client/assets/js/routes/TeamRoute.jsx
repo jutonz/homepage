@@ -51,9 +51,7 @@ class _TeamRoute extends React.Component {
         return (
           <div>
             <div>Failed to load team:</div>
-            {team.errors.map((error, index) => (
-              <div key={index}>{error}</div>
-            ))}
+            {team.errors.map((error, index) => <div key={index}>{error}</div>)}
             {team.name}
           </div>
         );
@@ -102,6 +100,6 @@ const mapDispatchToProps = dispatch => ({
   showFlash: (message, tone) => dispatch(showFlash(message, tone))
 });
 
-export const TeamRoute = compose(
-  connect(mapStoreToProps, mapDispatchToProps)
-)(_TeamRoute);
+export const TeamRoute = compose(connect(mapStoreToProps, mapDispatchToProps))(
+  _TeamRoute
+);

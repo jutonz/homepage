@@ -14,13 +14,7 @@ const style = StyleSheet.create({
   }
 });
 
-const _TeamLeaveForm = ({
-  team,
-  leaveTeam,
-  isLoading,
-  errors,
-  history
-}) => (
+const _TeamLeaveForm = ({ team, leaveTeam, isLoading, errors, history }) => (
   <div className={css(style.container)}>
     <Form onSubmit={() => leaveTeam(team.id, history)} error={!!errors}>
       <Header>Leave team</Header>

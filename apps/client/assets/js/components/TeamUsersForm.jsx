@@ -38,9 +38,7 @@ class _TeamUsersForm extends React.Component {
         <Message error>{loadUsersErrors}</Message>
         {users.map(user => (
           <div key={user.id}>
-            <Link to={`/teams/${team.id}/users/${user.id}`}>
-              {user.email}
-            </Link>
+            <Link to={`/teams/${team.id}/users/${user.id}`}>{user.email}</Link>
           </div>
         ))}
         {!!!users && !isLoadingUsers && <p>No users</p>}
