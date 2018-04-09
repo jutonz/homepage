@@ -4,9 +4,9 @@ import { Grid, Header } from "semantic-ui-react";
 import { MainNav } from "@components/MainNav";
 import { ChangePasswordForm } from "@components/ChangePasswordForm";
 import { OneTimeLoginLink } from "@components/OneTimeLoginLink";
-import { AccountMembershipForm } from "@components/AccountMembershipForm";
-import { AccountCreationForm } from "@components/AccountCreationForm";
-import { AccountJoinForm } from "@components/AccountJoinForm";
+import { TeamMembershipForm } from "@components/TeamMembershipForm";
+import { TeamCreationForm } from "@components/TeamCreationForm";
+import { TeamJoinForm } from "@components/TeamJoinForm";
 
 const style = StyleSheet.create({
   routeContainer: {
@@ -33,11 +33,11 @@ export const SettingsRoute = () => (
       </Grid.Column>
 
       <Grid.Column>
-        <Header>Account settings</Header>
+        <Header>Team settings</Header>
         <Grid columns={2} relaxed stackable>
-          <AccountMembershipForm />
-          <AccountCreationForm />
-          <AccountJoinForm />
+          <TeamMembershipForm />
+          <TeamCreationForm />
+          <TeamJoinForm />
         </Grid>
       </Grid.Column>
     </Grid>

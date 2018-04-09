@@ -1,9 +1,9 @@
 import gql from "graphql-tag";
 
-export const fetchAccountUsersQuery = variables => {
+export const fetchTeamUsersQuery = variables => {
   const query = gql`
-    query GetAccountUsersQuery($id: ID!) {
-      getAccountUsers(id: $id) {
+    query GetTeamUsersQuery($id: ID!) {
+      getTeamUsers(id: $id) {
         email
         id
       }
@@ -11,14 +11,14 @@ export const fetchAccountUsersQuery = variables => {
   `;
 
   return window.grapqlClient.query({ query, variables }).then(response => {
-    return response.data.getAccountUsers;
+    return response.data.getTeamUsers;
   });
 };
 
-export const fetchAccountUserQuery = variables => {
+export const fetchTeamUserQuery = variables => {
   const query = gql`
-    query GetAccountUserQuery($userId: ID!, $accountId: ID!) {
-      getAccountUser(userId: $userId, accountId: $accountId) {
+    query GetTeamUserQuery($userId: ID!, $teamId: ID!) {
+      getTeamUser(userId: $userId, teamId: $teamId) {
         email
         id
       }
@@ -26,7 +26,7 @@ export const fetchAccountUserQuery = variables => {
   `;
 
   return window.grapqlClient.query({ query, variables }).then(response => {
-    return response.data.getAccountUser;
+    return response.data.getTeamUser;
   });
 };
 

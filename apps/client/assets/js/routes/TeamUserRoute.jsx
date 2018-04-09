@@ -10,10 +10,10 @@ const style = StyleSheet.create({
   }
 });
 
-const _AccountUserRoute = ({ user, fetchUser, match }) => {
+const _TeamUserRoute = ({ user, fetchUser, match }) => {
   if (!user) {
-    const { user_id, account_id } = match.params;
-    fetchUser(account_id, user_id);
+    const { user_id, team_id } = match.params;
+    fetchUser(team_id, user_id);
   }
   const { isFetching, fetchErrors } = user || {};
 
@@ -37,12 +37,12 @@ const getUserFromState = (state, props) => {
   return state.users.getIn(["users", userId]);
 };
 
-export const AccountUserRoute = connect(
+export const TeamUserRoute = connect(
   (state, props) => ({
     user: getUserFromState(state, props)
   }),
   dispatch => ({
-    fetchUser: (accountId, userId) =>
-      dispatch({ type: "FETCH_ACCOUNT_USER", accountId, userId })
+    fetchUser: (teamId, userId) =>
+      dispatch({ type: "FETCH_TEAM_USER", teamId, userId })
   })
-)(_AccountUserRoute);
+)(_TeamUserRoute);

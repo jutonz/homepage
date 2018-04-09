@@ -1,35 +1,35 @@
-import { storeAccount } from "./../accounts";
+import { storeTeam } from "./../teams";
 import gql from "graphql-tag";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Public action creators
 ////////////////////////////////////////////////////////////////////////////////
 
-export const setNewAccountName = newName => ({
-  type: "SET_NEW_ACCOUNT_NAME",
+export const setNewTeamName = newName => ({
+  type: "SET_NEW_TEAM_NAME",
   newName
 });
 
-export const createAccount = name => {
+export const createTeam = name => {
   return dispatch => {
-    dispatch(createAccountRequest());
+    dispatch(createTeamRequest());
 
     const mutation = gql`mutation {
-      createAccount(name: "${name}") { name id }
+      createTeam(name: "${name}") { name id }
     }`;
 
     window.grapqlClient
       .mutate({ mutation })
       .then(response => {
-        const { name, id } = response.data.createAccount;
-        const account = { name, id, fetchStatus: "success" };
-        dispatch(createAccountSuccess(account));
-        dispatch(storeAccount(account));
+        const { name, id } = response.data.createTeam;
+        const team = { name, id, fetchStatus: "success" };
+        dispatch(createTeamSuccess(team));
+        dispatch(storeTeam(team));
       })
       .catch(error => {
         console.log(error);
         const message = error.message.replace("GraphQL error: ", "");
-        dispatch(createAccountFailure(message));
+        dispatch(createTeamFailure(message));
       });
   };
 };
@@ -38,18 +38,18 @@ export const createAccount = name => {
 // Private action creators
 ////////////////////////////////////////////////////////////////////////////////
 
-const createAccountRequest = () => ({
-  type: "CREATE_ACCOUNT_REQUEST"
+const createTeamRequest = () => ({
+  type: "CREATE_TEAM_REQUEST"
 });
 
-const createAccountSuccess = account => ({
-  type: "CREATE_ACCOUNT_RECEIVE",
+const createTeamSuccess = team => ({
+  type: "CREATE_TEAM_RECEIVE",
   status: "success",
-  account
+  team
 });
 
-const createAccountFailure = error => ({
-  type: "CREATE_ACCOUNT_RECEIVE",
+const createTeamFailure = error => ({
+  type: "CREATE_TEAM_RECEIVE",
   status: "failure",
   error
 });
@@ -58,25 +58,25 @@ const createAccountFailure = error => ({
 // Action reducer
 ////////////////////////////////////////////////////////////////////////////////
 
-const initialState = { newAccountName: "" };
+const initialState = { newTeamName: "" };
 
-export const createAccountReducer = (state = initialState, action) => {
+export const createTeamReducer = (state = initialState, action) => {
   let newState;
 
   switch (action.type) {
-    case "SET_NEW_ACCOUNT_NAME": {
+    case "SET_NEW_TEAM_NAME": {
       const newName = action.newName;
-      const isValid = isNewAccountNameValid(newName);
-      newState = { newAccountName: newName, newAccountNameIsValid: isValid };
+      const isValid = isNewTeamNameValid(newName);
+      newState = { newTeamName: newName, newTeamNameIsValid: isValid };
       break;
     }
-    case "CREATE_ACCOUNT_REQUEST": {
+    case "CREATE_TEAM_REQUEST": {
       newState = { creating: true, error: null };
       break;
     }
-    case "CREATE_ACCOUNT_RECEIVE": {
+    case "CREATE_TEAM_RECEIVE": {
       if (action.status === "success") {
-        newState = { creating: false, newAccountName: "" };
+        newState = { creating: false, newTeamName: "" };
       } else {
         const { error } = action;
         newState = { creating: false, error: error };
@@ -95,4 +95,4 @@ export const createAccountReducer = (state = initialState, action) => {
 // Helpers
 ////////////////////////////////////////////////////////////////////////////////
 
-const isNewAccountNameValid = newName => newName && newName !== "";
+const isNewTeamNameValid = newName => newName && newName !== "";

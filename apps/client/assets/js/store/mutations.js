@@ -1,10 +1,10 @@
 import gql from "graphql-tag";
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 
-export const deleteAccountMutation = variables => {
+export const deleteTeamMutation = variables => {
   const mutation = gql`
-    mutation DeleteAccount($id: ID!) {
-      deleteAccount(id: $id) {
+    mutation DeleteTeam($id: ID!) {
+      deleteTeam(id: $id) {
         id
       }
     }
@@ -13,24 +13,24 @@ export const deleteAccountMutation = variables => {
   return window.grapqlClient.mutate({ mutation, variables });
 };
 
-export const renameAccountMutation = variables => {
+export const renameTeamMutation = variables => {
   const mutation = gql`
-    mutation RenameAccount($id: ID!, $name: String!) {
-      renameAccount(id: $id, name: $name) {
+    mutation RenameTeam($id: ID!, $name: String!) {
+      renameTeam(id: $id, name: $name) {
         name
       }
     }
   `;
 
   return window.grapqlClient.mutate({ mutation, variables }).then(response => {
-    return response.data.renameAccount;
+    return response.data.renameTeam;
   });
 };
 
-export const joinAccountMutation = variables => {
+export const joinTeamMutation = variables => {
   const mutation = gql`
-    mutation JoinAccount($name: String!) {
-      joinAccount(name: $name) {
+    mutation JoinTeam($name: String!) {
+      joinTeam(name: $name) {
         name
         id
       }
@@ -38,14 +38,14 @@ export const joinAccountMutation = variables => {
   `;
 
   return window.grapqlClient.mutate({ mutation, variables }).then(response => {
-    return response.data.joinAccount;
+    return response.data.joinTeam;
   });
 };
 
-export const leaveAccountMutation = variables => {
+export const leaveTeamMutation = variables => {
   const mutation = gql`
-    mutation LeaveAccount($id: ID!) {
-      leaveAccount(id: $id) {
+    mutation LeaveTeam($id: ID!) {
+      leaveTeam(id: $id) {
         id
       }
     }
@@ -55,7 +55,7 @@ export const leaveAccountMutation = variables => {
     window.grapqlClient
       .mutate({ mutation, variables })
       .then(response => {
-        resolve(response.data.joinAccount);
+        resolve(response.data.joinTeam);
       })
       .catch(error => {
         console.error(error);

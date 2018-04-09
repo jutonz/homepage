@@ -13,8 +13,8 @@ import { LoginRoute } from "@routes/LoginRoute";
 import { SettingsRoute } from "@routes/SettingsRoute";
 import { CoffeemakerRoute } from "@routes/CoffeemakerRoute";
 import { ResumeRoute } from "@routes/ResumeRoute";
-import { AccountRoute } from "@routes/AccountRoute";
-import { AccountUserRoute } from "@routes/AccountUserRoute";
+import { TeamRoute } from "@routes/TeamRoute";
+import { TeamUserRoute } from "@routes/TeamUserRoute";
 
 const style = StyleSheet.create({
   flashContainer: {
@@ -45,12 +45,12 @@ const _App = props => (
         <AuthenticatedRoute path="/settings" component={SettingsRoute} />
         <AuthenticatedRoute
           exact
-          path="/accounts/:id"
-          component={AccountRoute}
+          path="/teams/:id"
+          component={TeamRoute}
         />
         <AuthenticatedRoute
-          path="/accounts/:account_id/users/:user_id"
-          component={AccountUserRoute}
+          path="/teams/:team_id/users/:user_id"
+          component={TeamUserRoute}
         />
       </Switch>
     </Router>

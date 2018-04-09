@@ -15,7 +15,7 @@ const style = StyleSheet.create({
   }
 });
 
-const _AccountJoinForm = ({
+const _TeamJoinForm = ({
   name,
   setName,
   join,
@@ -25,8 +25,8 @@ const _AccountJoinForm = ({
 }) => (
   <div className={css(style.container)} onSubmit={() => join(name, history)}>
     <Form error={!!errors}>
-      <Header>Join an account</Header>
-      <p>Become a member of an existing account</p>
+      <Header>Join a team</Header>
+      <p>Become a member of an existing team</p>
       <Message error>{errors}</Message>
       <Form.Input
         label="Name"
@@ -40,17 +40,17 @@ const _AccountJoinForm = ({
   </div>
 );
 
-export const AccountJoinForm = compose(
+export const TeamJoinForm = compose(
   connect(
     state => ({
-      name: state.accounts.joinAccountName || "",
-      isLoading: state.accounts.joiningAccount,
-      errors: state.accounts.joinAccountErrors
+      name: state.teams.joinTeamName || "",
+      isLoading: state.teams.joiningTeam,
+      errors: state.teams.joinTeamErrors
     }),
     dispatch => ({
-      setName: name => dispatch({ type: "SET_JOIN_ACCOUNT_NAME", name }),
-      join: (name, history) => dispatch({ type: "JOIN_ACCOUNT", name, history })
+      setName: name => dispatch({ type: "SET_JOIN_TEAM_NAME", name }),
+      join: (name, history) => dispatch({ type: "JOIN_TEAM", name, history })
     })
   ),
   withRouter
-)(_AccountJoinForm);
+)(_TeamJoinForm);

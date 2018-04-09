@@ -41,7 +41,7 @@ export const TeamLeaveForm = compose(
     }),
     dispatch => ({
       leaveTeam: (id, history) =>
-        dispatch({ type: "LEAVE_ACCOUNT", id, history })
+        dispatch({ type: "LEAVE_TEAM", id, history })
     })
   ),
   withRouter
