@@ -18,6 +18,17 @@ defmodule ClientWeb.Schema do
   object :ijust_context do
     field(:id, non_null(:id))
     field(:name, non_null(:string))
+    field(:user_id, non_null(:id))
+    field(:account_id, non_null(:id))
+    field(:inserted_at, non_null(:string))
+    field(:updated_at, non_null(:string))
+  end
+
+  object :ijust_event do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
+    field(:count, non_null(:integer))
+    field(:ijust_context_id, non_null(:id))
     field(:inserted_at, non_null(:string))
     field(:updated_at, non_null(:string))
   end
@@ -57,8 +68,13 @@ defmodule ClientWeb.Schema do
       resolve(&ClientWeb.TeamResolver.get_team_user/3)
     end
 
-    field :get_ijust_context, :ijust_context do
-      resolve(&ClientWeb.IjustResolver.get_ijust_context/3)
+    field :get_ijust_default_context, :ijust_context do
+      resolve(&ClientWeb.IjustResolver.get_ijust_default_context/3)
+    end
+
+    field :get_ijust_recent_events, list_of(:ijust_event) do
+      arg(:context_id, non_null(:id))
+      resolve(&ClientWeb.IjustResolver.get_recent_events/3)
     end
   end
 
@@ -100,6 +116,12 @@ defmodule ClientWeb.Schema do
     field :leave_team, :team do
       arg(:id, non_null(:id))
       resolve(&ClientWeb.TeamResolver.leave_team/3)
+    end
+
+    field :create_ijust_event, :ijust_event do
+      arg(:context_id, non_null(:id))
+      arg(:name, non_null(:string))
+      resolve(&ClientWeb.IjustResolver.create_ijust_event/3)
     end
   end
 end

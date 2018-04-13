@@ -46,21 +46,53 @@ export const fetchUserQuery = variables => {
   });
 };
 
-export const getIjustContextQuery = variables => {
+export const getIjustDefaultContextQuery = variables => {
   const query = gql`
-    query FetchIjustContextQuery {
-      getIjustContext {
+    query FetchIjustDefaultContextQuery {
+      getIjustDefaultContext {
+        id
         name
+        userId
       }
     }
   `;
 
   return new Promise((resolve, reject) => {
-    window.grapqlClient.query({ query, variables, errorPolicy: "all" }).then(response => {
-      resolve(response.data.getIjustContext);
-    }).catch(error => {
-      console.error(error);
-      reject(collectGraphqlErrors(error));
-    });
+    window.grapqlClient
+      .query({ query, variables })
+      .then(response => {
+        resolve(response.data.getIjustDefaultContext);
+      })
+      .catch(error => {
+        console.error(error);
+        reject(collectGraphqlErrors(error));
+      });
   });
-}
+};
+
+export const getIjustRecentEventsQuery = variables => {
+  const query = gql`
+    query FetchIjustRecentEventsQuery($contextId: ID!) {
+      getIjustRecentEvents(contextId: $contextId) {
+        id
+        name
+        count
+        insertedAt
+        updatedAt
+        ijustContextId
+      }
+    }
+  `;
+
+  return new Promise((resolve, reject) => {
+    window.grapqlClient
+      .query({ query, variables })
+      .then(response => {
+        resolve(response.data.getIjustRecentEvents);
+      })
+      .catch(error => {
+        console.error(error);
+        reject(collectGraphqlErrors(error));
+      });
+  });
+};

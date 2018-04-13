@@ -43,15 +43,7 @@ window.grapqlClient = new ApolloClient({
     credentials: "include" // TODO use same-origin in dev
     //credentials: "same-origin"
   }),
-  cache: new InMemoryCache(),
-  defaultOptions: {
-    query: {
-      errorPolicy: "all"
-    },
-    mutate: {
-      errorPolicy: "all"
-    }
-  }
+  cache: new InMemoryCache()
 });
 
 const reduxLogger = createLogger({}); // use default opts

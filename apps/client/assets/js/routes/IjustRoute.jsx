@@ -1,8 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { StyleSheet, css } from "aphrodite";
 import { Loader } from "semantic-ui-react";
+import { StyleSheet, css } from "aphrodite";
+import { connect } from "react-redux";
+import React from "react";
+
 import { MainNav } from "@components/MainNav";
+import { IjustContext } from "@components/ijust/IjustContext";
 
 const style = StyleSheet.create({
   routeContainer: {
@@ -13,7 +15,12 @@ const style = StyleSheet.create({
   }
 });
 
-const _IjustRoute = ({ context, fetchContext, fetchingContext, fetchErrors }) => {
+const _IjustRoute = ({
+  context,
+  fetchContext,
+  fetchingContext,
+  fetchErrors
+}) => {
   if (fetchingContext) {
     return (
       <div>
@@ -27,9 +34,7 @@ const _IjustRoute = ({ context, fetchContext, fetchingContext, fetchErrors }) =>
     return (
       <div>
         <MainNav activeItem={"ijust"} />
-        <div className={css(style.errors)}>
-          {fetchErrors}
-        </div>
+        <div className={css(style.errors)}>{fetchErrors}</div>
       </div>
     );
   }
@@ -43,19 +48,24 @@ const _IjustRoute = ({ context, fetchContext, fetchingContext, fetchErrors }) =>
     <div>
       <MainNav activeItem={"ijust"} />
       <div className={css(style.routeContainer)}>
-        {context.name}
+        <IjustContext context={context} />
       </div>
     </div>
   );
 };
 
+const extractDefaultContext = state => {
+  const id = state.ijust.get("defaultContextId");
+  return state.ijust.getIn(["contexts", id]);
+};
+
 export const IjustRoute = connect(
   (state, props) => ({
-    fetchingContext: state.ijust.get("fetchingContext"),
-    fetchErrors: state.ijust.get("fetchErrors"),
-    context: state.ijust.get("context")
+    fetchingContext: state.ijust.get("isFetchingDefaultContext"),
+    fetchErrors: state.ijust.get("fetchDefaultContextErrors"),
+    context: extractDefaultContext(state)
   }),
   dispatch => ({
-    fetchContext: () => dispatch({ type: "FETCH_IJUST_CONTEXT" })
+    fetchContext: () => dispatch({ type: "IJUST_FETCH_DEFAULT_CONTEXT" })
   })
 )(_IjustRoute);

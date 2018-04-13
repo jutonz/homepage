@@ -3,7 +3,7 @@ defmodule Client.Repo.Migrations.AddIjust do
 
   def change do
     create table("ijust_contexts") do
-      add :name, :string
+      add(:name, :string)
       add(:account_id, references(:accounts))
       add(:user_id, references(:users))
       timestamps()
@@ -22,7 +22,8 @@ defmodule Client.Repo.Migrations.AddIjust do
       timestamps()
     end
 
-    create index(:ijust_contexts, :name, unique: true)
-    create index(:ijust_events, [:ijust_context_id, :name], unique: true)
+    create(index(:ijust_contexts, [:account_id, :name], unique: true))
+    create(index(:ijust_contexts, [:user_id, :name], unique: true))
+    create(index(:ijust_events, [:ijust_context_id, :name], unique: true))
   end
 end
