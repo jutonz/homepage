@@ -9,7 +9,6 @@ defmodule Client.Ijust.Context do
     field(:name, :string)
 
     belongs_to(:user, User)
-    belongs_to(:account, Account)
     has_many(:ijust_events, Ijust.Event)
   end
 
@@ -42,7 +41,8 @@ defmodule Client.Ijust.Context do
       |> changeset(%{name: "default"})
       |> put_assoc(:user, user)
 
-    {:ok, cset |> Repo.insert()}
+    cset |> Repo.insert()
+    # {:ok, cset |> Repo.insert()}
   end
 
   def recent_events(context_id, limit \\ 10) do

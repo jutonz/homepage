@@ -5,11 +5,13 @@ defmodule Client.Ijust.Occurrence do
 
   schema "ijust_occurrences" do
     timestamps()
+
     belongs_to(:user, User)
+    belongs_to(:ijust_event, Ijust.Event)
   end
 
-  def changeset(%Ijust.Occurrence{} = occurrence) do
+  def changeset(%Ijust.Occurrence{} = occurrence, attrs \\ %{}) do
     # No attrs to track, but provide this function for parity
-    occurrence |> cast(%{}, [])
+    occurrence |> cast(attrs, [])
   end
 end

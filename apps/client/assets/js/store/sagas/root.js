@@ -1,7 +1,7 @@
 import { all } from "redux-saga/effects";
 
-import accounts from "./accounts";
 import teams from "./teams";
+import users from "./users";
 import flash from "./flash";
 import ijust from "./ijust";
 
