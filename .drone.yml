@@ -108,7 +108,8 @@ pipeline:
     - ls -alh
     - echo $CI
     - dctl run --rm psql /etc/initdb.sh
-    - dctl run --rm app /etc/seed.sh
+    - dctl run --rm app "'CI=yep /etc/seed.sh'"
+    environment: ["CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   mix-test:
