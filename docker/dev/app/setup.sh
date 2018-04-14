@@ -9,4 +9,6 @@ set -x
 
 cd /app
 
+ls -alh
+
 mix deps.get
