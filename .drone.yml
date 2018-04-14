@@ -292,6 +292,16 @@ pipeline:
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
+  copyback-cache:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    commands:
+    - docker run -v dev_ci_code:/data --name helper busybox true
+    - docker cp helper:/data/deps .
+    - docker cp helper:/data/_build .
+    when:
+      status: [success, failure]
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+
   cleanup-post:
     group: post
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
