@@ -65,7 +65,9 @@ defmodule ClientWeb.TeamResolverTest do
       {:ok, user} = conn |> Session.current_user()
 
       {:ok, team} =
-        %Team{name: "hello"} |> Team.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
+        %Team{name: "hello"}
+        |> Team.changeset()
+        |> Ecto.Changeset.put_assoc(:users, [user])
         |> Repo.insert()
 
       new_name = "#{team.name}_#{:rand.uniform()}"
@@ -89,7 +91,9 @@ defmodule ClientWeb.TeamResolverTest do
       {:ok, user} = conn |> Session.current_user()
 
       {:ok, team} =
-        %Team{name: "hello"} |> Team.changeset() |> Ecto.Changeset.put_assoc(:users, [user])
+        %Team{name: "hello"}
+        |> Team.changeset()
+        |> Ecto.Changeset.put_assoc(:users, [user])
         |> Repo.insert()
 
       query = """

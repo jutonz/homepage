@@ -13,7 +13,9 @@ pipeline:
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
     - TAG=13
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+
   cleanup-pre:
+    group: pre
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
     - dctl down
@@ -21,6 +23,16 @@ pipeline:
     - dctl cleanup
     - docker volume prune -f
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  restore-build-cache:
+    group: pre
+    image: drillster/drone-volume-cache
+    restore: true
+    mount:
+      - ./apps/client/assets/node_modules
+      - ./_build
+      - ./deps
+    volumes:
+      - /tmp/cache:/cache
 
   build-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
@@ -277,6 +289,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   cleanup-post:
+    group: post
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
     - dctl down
@@ -286,6 +299,16 @@ pipeline:
     when:
       status: [success, failure]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  rebuild-build-cache:
+    group: post
+    image: drillster/drone-volume-cache
+    rebuild: true
+    mount:
+      - ./apps/client/assets/node_modules
+      - ./_build
+      - ./deps
+    volumes:
+      - /tmp/cache:/cache
 
 #services:
   #dind:
