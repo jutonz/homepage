@@ -7,7 +7,6 @@ tmp/
 docker.thor
 apps/client/assets/node_modules
 .mix
-deps
 priv/static
 
 *.log
