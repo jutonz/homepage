@@ -22,7 +22,6 @@ RUN mix local.rebar --force \
     && mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez --force
 
 COPY docker/dev/app/*.sh /etc/
-COPY docker/dev/app/runscripts /usr/bin/
 
-ENTRYPOINT ["runscripts", "/etc/setup.sh"]
+ENTRYPOINT ["/bin/bash", "-c", "/etc/runscripts.sh", "/etc/setup.sh"]
 CMD ["/etc/start.sh"]

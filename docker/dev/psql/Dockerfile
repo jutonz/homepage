@@ -31,7 +31,7 @@ COPY docker/dev/psql/initdb.sh docker/dev/psql/startdb.sh /etc/
 RUN chmod +x /etc/initdb.sh && chown postgres:postgres /etc/initdb.sh
 RUN chmod +x /etc/startdb.sh && chown postgres:postgres /etc/startdb.sh
 
-COPY docker/dev/app/runscripts /usr/bin/
+COPY docker/dev/app/runscripts.sh /etc/
 
-ENTRYPOINT ["runscripts"]
+ENTRYPOINT ["/bin/bash", "-c", "/etc/runscripts.sh"]
 CMD ["/etc/startdb.sh"]

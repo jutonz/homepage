@@ -1,8 +1,6 @@
 #!/bin/bash
 set -x
 
-echo $CI
-
 for script in "$@"; do
   /bin/bash -c "$script"
 done
