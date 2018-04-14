@@ -12,8 +12,8 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
   tzdata \
   htop \
   sudo \
-  libpq-dev \ # postgres adapter lib
-  inotify-tools \ # for phoenix code reloader
+  libpq-dev \
+  inotify-tools \
 && rm -rf /var/lib/apt/lists/*
 
 # Build tools + phoenix exe
