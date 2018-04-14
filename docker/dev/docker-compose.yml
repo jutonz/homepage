@@ -2,7 +2,7 @@
 version: '3'
 services:
   psql:
-    image: jutonz/homepage-dev-psql:5
+    image: jutonz/homepage-dev-psql:6
     volumes:
     - "../../:/tmp/code"
     - "pgdata:/var/lib/postgresql/data"
