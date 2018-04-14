@@ -7,7 +7,7 @@
 
 set -x
 
-if [ -n "$CI" ]; then	+cd /app
+if [ -n "$CI" ]; then
   cd /tmp/ciapp
 else
   cd /app
