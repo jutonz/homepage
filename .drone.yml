@@ -13,14 +13,27 @@ pipeline:
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
     - TAG=13
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+
   cleanup-pre:
+    group: pre
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
     - dctl down
     - dctl rm -f
     - dctl cleanup
     - docker volume prune -f
+    - docker rm helper
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  restore-build-cache:
+    group: pre
+    image: drillster/drone-volume-cache
+    restore: true
+    mount:
+      - ./apps/client/assets/node_modules
+      - ./_build
+      - ./deps
+    volumes:
+      - /tmp/cache:/cache
 
   build-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
@@ -90,11 +103,15 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
     - set -e
-    - docker run -v dev_code:/data --name helper busybox true
+    - ruby -ryaml -e "fn = 'docker/dev/docker-compose.yml'; y = YAML.load_file(fn); y['services']['app']['volumes'] = ['ci_code:/app']; File.open(fn, 'w') { |f| f.write(y.to_yaml) }"
+    - cat docker/dev/docker-compose.yml
+    - docker run -v dev_ci_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
-    - dctl run --rm psql /etc/initdb.sh
-    - dctl run --rm app /etc/seedci.sh
+    - ls -alh
+    - echo $CI
+    - dctl run --rm psql /etc/initdb
+    - dctl run --rm app /etc/seed
     environment: ["CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
@@ -102,14 +119,14 @@ pipeline:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
-    - dctl run --rm app "'cd /tmp/app && MIX_ENV=test mix coveralls --umbrella'"
+    - dctl run --rm app "'MIX_ENV=test mix coveralls --umbrella'"
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   mix-format:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
-    - dctl run --rm app "'cd /tmp/app && mix format --check-formatted'"
+    - dctl run --rm app "'mix format --check-formatted'"
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   eslint:
@@ -276,7 +293,19 @@ pipeline:
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
+  copyback-cache:
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    commands:
+    - docker run -v dev_ci_code:/data --name helper busybox true
+    - docker cp helper:/data/deps .
+    - docker cp helper:/data/_build .
+    - docker rm helper
+    when:
+      status: [success, failure]
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+
   cleanup-post:
+    group: post
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
     - dctl down
@@ -286,6 +315,18 @@ pipeline:
     when:
       status: [success, failure]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+  rebuild-build-cache:
+    group: post
+    image: drillster/drone-volume-cache
+    rebuild: true
+    mount:
+      - ./apps/client/assets/node_modules
+      - ./_build
+      - ./deps
+    when:
+      status: [success, failure]
+    volumes:
+      - /tmp/cache:/cache
 
 #services:
   #dind:

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+################################################################################
+# This is run each time the app container is started. Mostly it ensures that
+# required dependencies are present.
+################################################################################
+
+set -ex
+
+cd /app
+
+ls -alh
+
+mix deps.get

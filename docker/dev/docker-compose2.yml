@@ -5,7 +5,7 @@ services:
     image: jutonz/homepage-dev-psql:6
     volumes:
     - "../../:/tmp/code"
-    - "pgdata:/var/lib/postgresql/data"
+    - pgdata:/var/lib/postgresql/data
   redis:
     image: jutonz/homepage-dev-redis:1
   app:
@@ -16,8 +16,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-    - "../../:/app"
-    - "ci_code:/tmp/ciapp"
+    - ci_code:/tmp/ciapp
     ports:
     - 4000:4000
     depends_on:
@@ -26,7 +25,7 @@ services:
     links:
     - psql
     - redis
-    working_dir: /app
+    working_dir: "/app"
 volumes:
-  pgdata:
-  ci_code:
+  pgdata: 
+  ci_code: 
