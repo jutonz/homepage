@@ -22,6 +22,7 @@ pipeline:
     - dctl rm -f
     - dctl cleanup
     - docker volume prune -f
+    - docker rm helper
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   restore-build-cache:
     group: pre
@@ -298,6 +299,7 @@ pipeline:
     - docker run -v dev_ci_code:/data --name helper busybox true
     - docker cp helper:/data/deps .
     - docker cp helper:/data/_build .
+    - docker rm helper
     when:
       status: [success, failure]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
