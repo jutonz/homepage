@@ -27,11 +27,12 @@ RUN usermod -aG sudo postgres
 
 WORKDIR /tmp
 
-COPY docker/dev/psql/initdb.sh docker/dev/psql/startdb.sh /etc/
-RUN chmod +x /etc/initdb.sh && chown postgres:postgres /etc/initdb.sh
-RUN chmod +x /etc/startdb.sh && chown postgres:postgres /etc/startdb.sh
+COPY docker/dev/app/entrypoint.sh /etc/
+COPY docker/dev/psql/* /etc/
 
-COPY docker/dev/app/runscripts.sh /etc/
+#ENTRYPOINT ["/bin/bash", "-c", "/etc/runscripts.sh"]
+#ENTRYPOINT /etc/runscripts.sh
+#CMD ["/etc/startdb.sh"]
 
-ENTRYPOINT ["/bin/bash", "-c", "/etc/runscripts.sh"]
-CMD ["/etc/startdb.sh"]
+ENTRYPOINT ["/etc/entrypoint.sh"]
+CMD ["/etc/startdb"]

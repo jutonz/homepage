@@ -21,7 +21,14 @@ RUN mix local.rebar --force \
     && mix local.hex --force \
     && mix archive.install https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez --force
 
-COPY docker/dev/app/*.sh /etc/
+COPY docker/dev/app/* /etc/
+COPY docker/dev/app/setup /etc/entrypoint.d/
 
-ENTRYPOINT ["/bin/bash", "-c", "/etc/runscripts.sh", "/etc/setup.sh"]
-CMD ["/etc/start.sh"]
+#ENTRYPOINT ["/bin/bash", "-c", "/etc/runscripts.sh"]
+#ENTRYPOINT /etc/runscripts.sh /etc/setup.sh
+#CMD /etc/start.sh
+#CMD ["'/etc/start.sh'"]
+
+
+ENTRYPOINT ["/etc/entrypoint.sh"]
+CMD ["/etc/start"]
