@@ -4,14 +4,8 @@ set -ex
 
 # Idential to seed.sh, but moves to /tmp/code rather than /root to find app files.
 
-cd /tmp/app
-
-cp -r /tmp/code/deps deps
-cp -r /tmp/code/_build _build
+cd /app
 
 MIX_ENV=test PG_HOST=psql mix ecto.drop
 MIX_ENV=test PG_HOST=psql mix ecto.create --force
 MIX_ENV=test PG_HOST=psql mix ecto.migrate
-
-rm -rf deps
-rm -rf _build

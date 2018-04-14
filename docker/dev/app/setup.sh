@@ -7,4 +7,6 @@
 
 set -x
 
+cd /app
+
 mix deps.get

@@ -2,7 +2,7 @@
 
 set -ex
 
-cd /root
+cd /app
 
 mix ecto.create --force
 mix ecto.migrate
