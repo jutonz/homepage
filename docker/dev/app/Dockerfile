@@ -30,6 +30,6 @@ COPY docker/dev/app/setup /etc/entrypoint.d/
 #CMD ["'/etc/start.sh'"]
 
 
-#ENTRYPOINT ["/etc/entrypoint.sh"]
-ENTRYPOINT /etc/entrypoint.sh
+ENTRYPOINT ["/etc/entrypoint.sh"]
+#ENTRYPOINT /etc/entrypoint.sh
 CMD ["/etc/start"]
