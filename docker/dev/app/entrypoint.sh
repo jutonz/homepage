@@ -8,4 +8,5 @@ if [[ -d "$DIR" ]]; then
   /bin/run-parts --verbose --exit-on-error $DIR
 fi
 
-exec "$@"
+#exec "$@"
+/bin/bash -c "$@"

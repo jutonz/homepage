@@ -102,7 +102,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
     - set -e
-    - ruby -e "require 'yaml'; fn = 'docker/dev/docker-compose.yml'; y = YAML.load_file(fn); y['services']['app']['volumes'] = ['ci_code:/app']; File.open(fn, 'w') { |f| f.write(y.to_yaml) }"
+    - ruby -ryaml -e "fn = 'docker/dev/docker-compose.yml'; y = YAML.load_file(fn); y['services']['app']['volumes'] = ['ci_code:/app']; File.open(fn, 'w') { |f| f.write(y.to_yaml) }"
     - cat docker/dev/docker-compose.yml
     - docker run -v dev_ci_code:/data --name helper busybox true
     - docker cp . helper:/data
