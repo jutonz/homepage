@@ -17,7 +17,6 @@ services:
     tty: true
     volumes:
     - "../../:/app"
-    - "node_modules:/app/apps/client/assets/node_modules"
     ports:
     - 4000:4000
     depends_on:
@@ -26,6 +25,6 @@ services:
     links:
     - psql
     - redis
+    working_dir: /app
 volumes:
-  node_modules:
   pgdata:
