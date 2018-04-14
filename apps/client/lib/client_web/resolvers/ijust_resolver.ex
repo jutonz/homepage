@@ -1,9 +1,9 @@
 defmodule ClientWeb.IjustResolver do
-  alias Client.{Ijust, Repo}
+  alias Client.{IjustContext, IjustEvent, Repo}
 
   def get_ijust_default_context(_parent, _args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
-         {:ok, context} <- user |> Ijust.Context.get_default_context(),
+         {:ok, context} <- user |> IjustContext.get_default_context(),
          do: {:ok, context},
          else:
            (
@@ -15,7 +15,7 @@ defmodule ClientWeb.IjustResolver do
   def create_ijust_event(_parent, args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
          {:ok, context_id} <- args |> Map.fetch(:context_id),
-         {:ok, event} <- context_id |> Ijust.Event.add_for_user(user, args),
+         {:ok, event} <- context_id |> IjustEvent.add_for_user(user, args),
          do: {:ok, event},
          else:
            (
@@ -25,9 +25,9 @@ defmodule ClientWeb.IjustResolver do
   end
 
   def get_recent_events(_parent, args, %{context: context}) do
-    with {:ok, user} <- context |> Map.fetch(:current_user),
+    with {:ok, _user} <- context |> Map.fetch(:current_user),
          {:ok, context_id} <- args |> Map.fetch(:context_id),
-         {:ok, events} <- context_id |> Ijust.Context.recent_events(),
+         {:ok, events} <- context_id |> IjustContext.recent_events(),
          do: {:ok, events},
          else:
            (

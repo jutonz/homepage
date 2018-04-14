@@ -1,17 +1,17 @@
-defmodule Client.Ijust.Event do
+defmodule Client.IjustEvent do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Client.{Ijust, Repo}
+  alias Client.{IjustContext, IjustOccurrence, IjustEvent, Repo}
 
   schema "ijust_events" do
     field(:name, :string)
     field(:count, :integer, default: 1)
     timestamps()
-    belongs_to(:ijust_context, Ijust.Context)
-    has_many(:ijust_occurrences, Ijust.Occurrence)
+    belongs_to(:ijust_context, IjustContext)
+    has_many(:ijust_occurrences, IjustOccurrence)
   end
 
-  def changeset(%Ijust.Event{} = event, attrs \\ %{}) do
+  def changeset(%IjustEvent{} = event, attrs \\ %{}) do
     event
     |> cast(attrs, [:name, :count])
     |> validate_required([:name, :count])
@@ -19,30 +19,32 @@ defmodule Client.Ijust.Event do
 
   def add_for_user(context_id, user, args) do
     {:ok, name} = args |> Map.fetch(:name)
-    existing = Ijust.Event |> Repo.get_by(name: name, ijust_context_id: context_id)
+    existing = IjustEvent |> Repo.get_by(name: name, ijust_context_id: context_id)
 
     case existing do
-      %Ijust.Event{} = event -> event |> add_occurrence
+      %IjustEvent{} = event -> event |> add_occurrence
       _ -> create_with_occurrence(context_id, user, args)
     end
   end
 
   def create_with_occurrence(context_id, user, args) do
-    {:ok, context} = context_id |> Ijust.Context.get_for_user(user.id)
+    {:ok, context} = context_id |> IjustContext.get_for_user(user.id)
 
     cset =
-      %Ijust.Event{}
+      %IjustEvent{}
       |> changeset(args)
       |> put_assoc(:ijust_context, context)
 
-    res = Ecto.Multi.new()
-    |> Ecto.Multi.insert(:ijust_event, cset)
-    |> Ecto.Multi.run(:ijust_occurrence, fn %{ijust_event: event} ->
-      event |> new_occurrence_changeset |> Repo.insert()
-    end)
-    |> Repo.transaction()
+    res =
+      Ecto.Multi.new()
+      |> Ecto.Multi.insert(:ijust_event, cset)
+      |> Ecto.Multi.run(:ijust_occurrence, fn %{ijust_event: event} ->
+        event |> new_occurrence_changeset |> Repo.insert()
+      end)
+      |> Repo.transaction()
 
-    require IEx; IEx.pry()
+    require IEx
+    IEx.pry()
 
     res
   end
@@ -54,13 +56,13 @@ defmodule Client.Ijust.Event do
     |> Repo.transaction()
   end
 
-  def inc_count_changeset(%Ijust.Event{} = event) do
+  def inc_count_changeset(%IjustEvent{} = event) do
     event |> changeset(%{count: event.count + 1})
   end
 
-  def new_occurrence_changeset(%Ijust.Event{} = event) do
-    %Ijust.Occurrence{}
-    |> Ijust.Occurrence.changeset()
+  def new_occurrence_changeset(%IjustEvent{} = event) do
+    %IjustOccurrence{}
+    |> IjustOccurrence.changeset()
     |> put_assoc(:ijust_event, event)
   end
 end
