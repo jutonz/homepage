@@ -17,6 +17,7 @@ services:
     tty: true
     volumes:
     - "../../:/app"
+    - "ci_code:/tmp/ciapp"
     ports:
     - 4000:4000
     depends_on:
@@ -28,3 +29,4 @@ services:
     working_dir: /app
 volumes:
   pgdata:
+  ci_code:

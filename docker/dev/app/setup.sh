@@ -7,7 +7,11 @@
 
 set -x
 
-cd /app
+if [ -n "$CI" ]; then	+cd /app
+  cd /tmp/ciapp
+else
+  cd /app
+fi
 
 ls -alh
 

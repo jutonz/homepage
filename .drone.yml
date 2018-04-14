@@ -102,6 +102,9 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
     - set -e
+    - docker run -v dev_ci_code:/data --name helper busybox true
+    - docker cp . helper:/data
+    - docker rm helper
     - ls -alh
     - dctl run --rm psql /etc/initdb.sh
     - dctl run --rm app /etc/seed.sh
@@ -112,14 +115,14 @@ pipeline:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
-    - dctl run --rm app "'cd /tmp/app && MIX_ENV=test mix coveralls --umbrella'"
+    - dctl run --rm app "'MIX_ENV=test mix coveralls --umbrella'"
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   mix-format:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
-    - dctl run --rm app "'cd /tmp/app && mix format --check-formatted'"
+    - dctl run --rm app "'mix format --check-formatted'"
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   eslint:
