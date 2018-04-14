@@ -102,13 +102,14 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     commands:
     - set -e
+    - ruby -e "require 'yaml'; fn = 'docker-compose.yml'; y = YAML.load_file(fn); y['services']['app']['volumes'] = ['ci_code:/tmp/app']; File.open(fn, 'w') { |f| f.write(y.to_yaml) }"
     - docker run -v dev_ci_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
     - ls -alh
     - echo $CI
     - dctl run --rm psql /etc/initdb
-    - dctl run --rm app "'CI=yep /etc/seed'"
+    - dctl run --rm app /etc/seed
     environment: ["CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
