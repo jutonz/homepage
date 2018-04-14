@@ -308,6 +308,8 @@ pipeline:
       - ./apps/client/assets/node_modules
       - ./_build
       - ./deps
+    when:
+      status: [success, failure]
     volumes:
       - /tmp/cache:/cache
 
