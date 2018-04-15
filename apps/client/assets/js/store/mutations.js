@@ -68,8 +68,11 @@ export const createIjustEventMuation = variables => {
   const mutation = gql`
     mutation CreateIjustEvent($contextId: ID!, $name: String!) {
       createIjustEvent(contextId: $contextId, name: $name) {
-        name
         id
+        name
+        count
+        insertedAt
+        updatedAt
         ijustContextId
       }
     }

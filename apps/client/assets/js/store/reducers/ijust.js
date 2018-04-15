@@ -99,9 +99,11 @@ export const ijust = (state = initialState, action) => {
     }
 
     case "IJUST_FETCH_RECENT_EVENTS_REQUEST": {
+      const { contextId } = action;
       return state.withMutations(state => {
         state
           .delete("loadRecentEventsErrors")
+          .deleteIn(["contexts", contextId, "recentEventIds"])
           .set("isLoadingRecentEvents", true);
       });
     }

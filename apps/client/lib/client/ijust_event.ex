@@ -35,7 +35,7 @@ defmodule Client.IjustEvent do
       |> changeset(args)
       |> put_assoc(:ijust_context, context)
 
-    res =
+    {:ok, %{ijust_event: event}} =
       Ecto.Multi.new()
       |> Ecto.Multi.insert(:ijust_event, cset)
       |> Ecto.Multi.run(:ijust_occurrence, fn %{ijust_event: event} ->
@@ -43,17 +43,17 @@ defmodule Client.IjustEvent do
       end)
       |> Repo.transaction()
 
-    require IEx
-    IEx.pry()
-
-    res
+    {:ok, event}
   end
 
   def add_occurrence(event) do
-    Ecto.Multi.new()
-    |> Ecto.Multi.insert(:ijust_occurrence, new_occurrence_changeset(event))
-    |> Ecto.Multi.update(:ijust_event, inc_count_changeset(event))
-    |> Repo.transaction()
+    {:ok, %{ijust_event: event}} =
+      Ecto.Multi.new()
+      |> Ecto.Multi.insert(:ijust_occurrence, new_occurrence_changeset(event))
+      |> Ecto.Multi.update(:ijust_event, inc_count_changeset(event))
+      |> Repo.transaction()
+
+    {:ok, event}
   end
 
   def inc_count_changeset(%IjustEvent{} = event) do

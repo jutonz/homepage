@@ -44,7 +44,7 @@ defmodule Client.IjustContext do
     cset |> Repo.insert()
   end
 
-  def recent_events(context_id, limit \\ 10) do
+  def recent_events(context_id, limit \\ 5) do
     query =
       from(
         ev in IjustEvent,

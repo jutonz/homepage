@@ -86,7 +86,7 @@ export const getIjustRecentEventsQuery = variables => {
 
   return new Promise((resolve, reject) => {
     window.grapqlClient
-      .query({ query, variables })
+      .query({ query, variables, fetchPolicy: "network-only" })
       .then(response => {
         resolve(response.data.getIjustRecentEvents);
       })

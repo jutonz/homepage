@@ -21,10 +21,7 @@ class _MainNav extends React.Component {
           </Link>
 
           <Link to="/ijust">
-            <Menu.Item
-              name={"ijust"}
-              active={activeItem === "ijust"}
-            />
+            <Menu.Item name={"ijust"} active={activeItem === "ijust"} />
           </Link>
 
           <Link to="/coffeemaker">

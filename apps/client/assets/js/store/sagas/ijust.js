@@ -26,6 +26,7 @@ function* createEvent({ contextId, name }) {
     });
     yield put({ type: "IJUST_STORE_EVENT", event });
     yield put({ type: "IJUST_CREATE_EVENT_SUCCESS", event });
+    yield put({ type: "IJUST_FETCH_RECENT_EVENTS", contextId });
   } catch (errors) {
     yield put({ type: "IJUST_CREATE_EVENT_FAILURE", errors });
   }
@@ -37,7 +38,7 @@ function* storeEvent({ event }) {
 
 function* fetchRecentEvents({ contextId }) {
   try {
-    yield put({ type: "IJUST_FETCH_RECENT_EVENTS_REQUEST" });
+    yield put({ type: "IJUST_FETCH_RECENT_EVENTS_REQUEST", contextId });
     const events = yield getIjustRecentEventsQuery({ contextId });
     yield put({ type: "IJUST_STORE_EVENTS", events, contextId });
     const eventIds = events.map(e => e.id);

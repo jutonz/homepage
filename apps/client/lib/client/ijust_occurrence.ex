@@ -1,7 +1,7 @@
 defmodule Client.IjustOccurrence do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Client.{User, IjustEvnet, IjustOccurrence}
+  alias Client.{User, IjustEvent, IjustOccurrence}
 
   schema "ijust_occurrences" do
     timestamps()
