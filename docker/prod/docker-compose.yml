@@ -9,7 +9,7 @@ services:
     ports:
       - "5000:80"
   app:
-    image: jutonz/homepage-prod-app:62
+    image: jutonz/homepage-prod-app:63
     depends_on:
       - psql
     links:
