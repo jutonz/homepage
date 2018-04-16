@@ -1,5 +1,5 @@
 defmodule ClientWeb.IjustResolver do
-  alias Client.{IjustContext, IjustEvent, Repo}
+  alias Client.{IjustContext, IjustEvent}
 
   def get_ijust_default_context(_parent, _args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),

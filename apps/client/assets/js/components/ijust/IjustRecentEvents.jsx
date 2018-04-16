@@ -1,6 +1,4 @@
-import { IjustRecentEvent } from "@components/ijust/IjustRecentEvent";
-
-import { Header, Loader } from "semantic-ui-react";
+import { Header, Loader, Table } from "semantic-ui-react";
 import { connect } from "react-redux";
 import React from "react";
 
@@ -20,11 +18,38 @@ const _IjustRecentEvents = ({
       <Header>Recent events</Header>
       {errors}
       <Loader active={isLoading} inline />
-      {recentEvents &&
-        recentEvents.map(ev => <IjustRecentEvent key={ev.id} event={ev} />)}
+      {renderRecentEvents(recentEvents)}
     </div>
   );
 };
+
+const renderRecentEvents = recentEvents => {
+  if (!recentEvents) {
+    return;
+  }
+
+  return (
+    <Table basic="very">
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>Event</Table.HeaderCell>
+          <Table.HeaderCell>Count</Table.HeaderCell>
+          <Table.HeaderCell>Last occurrence</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>{recentEvents.map(renderRecentEvent)}</Table.Body>
+    </Table>
+  );
+};
+
+const renderRecentEvent = event => (
+  <Table.Row key={event.id}>
+    <Table.Cell>{event.name}</Table.Cell>
+    <Table.Cell>{event.count}</Table.Cell>
+    <Table.Cell>{event.updatedAt}</Table.Cell>
+  </Table.Row>
+);
 
 const extractRecentEvents = (state, contextId) => {
   const ids = state.ijust.getIn(["contexts", contextId, "recentEventIds"]);

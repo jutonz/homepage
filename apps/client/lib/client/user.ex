@@ -2,7 +2,7 @@ defmodule Client.User do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
-  alias Client.{Team, Repo, User}
+  alias Client.{Team, Repo, User, IjustContext}
 
   schema "users" do
     field(:password_hash, :string)
@@ -17,6 +17,8 @@ defmodule Client.User do
       on_replace: :delete,
       on_delete: :delete_all
     )
+
+    has_many(:ijust_contexts, IjustContext)
   end
 
   @doc false
