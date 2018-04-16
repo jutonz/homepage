@@ -9,15 +9,12 @@ services:
   redis:
     image: jutonz/homepage-dev-redis:1
   app:
-    image: jutonz/homepage-dev-app:30
+    image: jutonz/homepage-dev-app:31
     environment:
     - SECRET_KEY_BASE="9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
     - CI
-    stdin_open: true
-    tty: true
     volumes:
     - "../../:/app"
-    - "ci_code:/tmp/ciapp"
     ports:
     - 4000:4000
     depends_on:

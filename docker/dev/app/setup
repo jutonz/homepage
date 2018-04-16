@@ -9,6 +9,4 @@ set -ex
 
 cd /app
 
-ls -alh
-
-mix deps.get
+mix deps.get > /dev/null
