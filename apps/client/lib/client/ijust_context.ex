@@ -9,7 +9,7 @@ defmodule Client.IjustContext do
     field(:name, :string)
 
     belongs_to(:user, User)
-    has_many(:ijust_events, IjustEvent)
+    has_many(:ijust_events, IjustEvent, on_delete: :delete_all)
   end
 
   def changeset(%IjustContext{} = context, attrs \\ %{}) do
@@ -49,7 +49,7 @@ defmodule Client.IjustContext do
       from(
         ev in IjustEvent,
         where: ev.ijust_context_id == ^context_id,
-        order_by: ev.updated_at,
+        order_by: [desc: ev.updated_at],
         limit: ^limit
       )
 

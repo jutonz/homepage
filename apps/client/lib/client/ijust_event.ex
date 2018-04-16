@@ -8,7 +8,7 @@ defmodule Client.IjustEvent do
     field(:count, :integer, default: 1)
     timestamps()
     belongs_to(:ijust_context, IjustContext)
-    has_many(:ijust_occurrences, IjustOccurrence)
+    has_many(:ijust_occurrences, IjustOccurrence, on_delete: :delete_all)
   end
 
   def changeset(%IjustEvent{} = event, attrs \\ %{}) do
