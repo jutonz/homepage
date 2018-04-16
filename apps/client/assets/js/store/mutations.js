@@ -63,3 +63,28 @@ export const leaveTeamMutation = variables => {
       });
   });
 };
+
+export const createIjustEventMuation = variables => {
+  const mutation = gql`
+    mutation CreateIjustEvent($contextId: ID!, $name: String!) {
+      createIjustEvent(contextId: $contextId, name: $name) {
+        id
+        name
+        count
+        insertedAt
+        updatedAt
+        ijustContextId
+      }
+    }
+  `;
+
+  return new Promise((resolve, reject) => {
+    window.grapqlClient
+      .mutate({ mutation, variables })
+      .then(response => resolve(response.data.createIjustEvent))
+      .catch(error => {
+        console.error(error);
+        reject(collectGraphqlErrors(error));
+      });
+  });
+};

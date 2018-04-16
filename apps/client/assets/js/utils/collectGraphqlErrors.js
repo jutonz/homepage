@@ -10,5 +10,6 @@ export default function(error) {
   } else {
     errors = ["Unable to perform request"];
   }
+
   return errors;
 }
