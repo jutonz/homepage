@@ -49,14 +49,17 @@ export const ijust = (state = initialState, action) => {
     case "IJUST_FETCH_CONTEXT_SUCCESS": {
       const { context } = action;
       return state.withMutations(state => {
-        state.delete("fetchingContext").set("context", context);
+        state.deleteIn(["contexts", context.id, "isFetching"]);
+        //state.delete("fetchingContext").set("context", context);
       });
     }
 
     case "IJUST_FETCH_CONTEXT_FAILURE": {
-      const { errors } = action;
+      const { errors, id } = action;
       return state.withMutations(state => {
-        state.delete("fetchingContext").set("fetchErrors", errors);
+        state
+          .deleteIn(["contexts", id, "isFetching"])
+          .setIn(["contexts", id, "fetchErrors"], errors);
       });
     }
 

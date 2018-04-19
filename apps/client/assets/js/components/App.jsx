@@ -16,6 +16,7 @@ import { ResumeRoute } from "@routes/ResumeRoute";
 import { TeamRoute } from "@routes/TeamRoute";
 import { TeamUserRoute } from "@routes/TeamUserRoute";
 import { IjustRoute } from "@routes/IjustRoute";
+import { IjustContextRoute } from "@routes/IjustContextRoute";
 
 const style = StyleSheet.create({
   flashContainer: {
@@ -49,7 +50,12 @@ const _App = ({ flashMessages }) => (
           path="/teams/:team_id/users/:user_id"
           component={TeamUserRoute}
         />
-        <AuthenticatedRoute path="/ijust" component={IjustRoute} />
+        <AuthenticatedRoute exact path="/ijust" component={IjustRoute} />
+        <AuthenticatedRoute
+          exact
+          path="/ijust/contexts/:id"
+          component={IjustContextRoute}
+        />
       </Switch>
     </Router>
   </div>
