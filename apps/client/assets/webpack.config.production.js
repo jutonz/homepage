@@ -17,11 +17,11 @@ const webpackConfig = {
     rules: [
       // Handle ts and tsx
       {
-        test: /\.(js|jsx)$/,
-        use: "babel-loader",
+        test: /\.(ts|tsx|js|jsx)$/,
+        use: ["babel-loader", "ts-loader"],
         include: path.resolve(__dirname, "js"),
         exclude: /node_modules/
-      }, // Handle semantic-ui images
+      },
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.ttf$|\.eot$|\.svg$/,
         loader: "file-loader",
@@ -30,9 +30,7 @@ const webpackConfig = {
           outputPath: "fonts/",
           publicPath: "../"
         },
-        include: [
-          path.resolve(__dirname, "node_modules/semantic-ui-less")
-        ]
+        include: [path.resolve(__dirname, "node_modules/semantic-ui-less")]
       },
       // Handle semantic-ui fonts
       {
@@ -44,7 +42,10 @@ const webpackConfig = {
           publicPath: "../"
         },
         include: [
-          path.resolve(__dirname, "node_modules/semantic-ui-less/themes/default/assets/fonts")
+          path.resolve(
+            __dirname,
+            "node_modules/semantic-ui-less/themes/default/assets/fonts"
+          )
         ]
       },
       // Handle static files
@@ -59,11 +60,7 @@ const webpackConfig = {
       // Handle less (semantic-ui + ours)
       {
         test: /\.less$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          "less-loader"
-        ],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
         include: [
           path.resolve(__dirname, "css"),
           path.resolve(__dirname, "node_modules/semantic-ui-less")
@@ -85,7 +82,10 @@ const webpackConfig = {
 
   resolve: {
     alias: {
-      "../../theme.config$": path.join(__dirname, "semantic-theme/theme.config"),
+      "../../theme.config$": path.join(
+        __dirname,
+        "semantic-theme/theme.config"
+      ),
       "@store$": path.resolve(__dirname, "js/store/store"),
       "@store": path.resolve(__dirname, "js/store/"),
       "@utils": path.resolve(__dirname, "js/utils/"),
@@ -93,12 +93,9 @@ const webpackConfig = {
       "@routes": path.resolve(__dirname, "js/routes/"),
       "@static": path.resolve(__dirname, "static/")
     },
-    extensions: [".js", ".jsx"],
-    modules: [
-      "./",
-      "./node_modules/"
-    ]
-  },
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    modules: ["./", "./node_modules/"]
+  }
 };
 
 module.exports = webpackConfig;
