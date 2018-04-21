@@ -70,6 +70,30 @@ export const getIjustDefaultContextQuery = variables => {
   });
 };
 
+export const getIjustContextQuery = variables => {
+  const query = gql`
+    query FetchIjustContextQuery($id: ID!) {
+      getIjustContext(id: $id) {
+        id
+        name
+        userId
+      }
+    }
+  `;
+
+  return new Promise((resolve, reject) => {
+    window.grapqlClient
+      .query({ query, variables })
+      .then(response => {
+        resolve(response.data.getIjustContext);
+      })
+      .catch(error => {
+        console.error(error);
+        reject(collectGraphqlErrors(error));
+      });
+  });
+};
+
 export const getIjustRecentEventsQuery = variables => {
   const query = gql`
     query FetchIjustRecentEventsQuery($contextId: ID!) {

@@ -72,6 +72,11 @@ defmodule ClientWeb.Schema do
       resolve(&ClientWeb.IjustResolver.get_ijust_default_context/3)
     end
 
+    field :get_ijust_context, :ijust_context do
+      arg(:id, non_null(:id))
+      resolve(&ClientWeb.IjustResolver.get_ijust_context/3)
+    end
+
     field :get_ijust_recent_events, list_of(:ijust_event) do
       arg(:context_id, non_null(:id))
       resolve(&ClientWeb.IjustResolver.get_recent_events/3)

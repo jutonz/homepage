@@ -1,19 +1,10 @@
 import { Loader } from "semantic-ui-react";
-import { StyleSheet, css } from "aphrodite";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { css } from "aphrodite";
 import React from "react";
 
 import { MainNav } from "@components/MainNav";
-import { IjustContext } from "@components/ijust/IjustContext";
-
-const style = StyleSheet.create({
-  routeContainer: {
-    margin: "0 30px"
-  },
-  errors: {
-    color: "red"
-  }
-});
 
 const _IjustRoute = ({
   context,
@@ -44,14 +35,14 @@ const _IjustRoute = ({
     return <div />;
   }
 
-  return (
-    <div>
-      <MainNav activeItem={"ijust"} />
-      <div className={css(style.routeContainer)}>
-        <IjustContext context={context} />
-      </div>
-    </div>
-  );
+  if (context.id) {
+    const contextRoute = {
+      pathname: `ijust/contexts/${context.id}`
+    };
+    return <Redirect to={contextRoute} />;
+  }
+
+  return <Loader active />;
 };
 
 const extractDefaultContext = state => {

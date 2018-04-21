@@ -3,6 +3,7 @@ import { put, takeEvery } from "redux-saga/effects";
 import { createIjustEventMuation } from "@store/mutations";
 import {
   getIjustDefaultContextQuery,
+  getIjustContextQuery,
   getIjustRecentEventsQuery
 } from "@store/queries";
 
@@ -14,6 +15,17 @@ function* fetchDefaultContext() {
     yield put({ type: "IJUST_FETCH_DEFAULT_CONTEXT_SUCCESS", context });
   } catch (errors) {
     yield put({ type: "IJUST_FETCH_DEFAULT_CONTEXT_FAILURE", errors });
+  }
+}
+
+function* fetchContext({ id }) {
+  try {
+    yield put({ type: "IJUST_FETCH_CONTEXT_REQUEST" });
+    const context = yield getIjustContextQuery({ id });
+    yield put({ type: "IJUST_STORE_CONTEXT", context });
+    yield put({ type: "IJUST_FETCH_CONTEXT_SUCCESS", context });
+  } catch (errors) {
+    yield put({ type: "IJUST_FETCH_CONTEXT_FAILURE", errors, id });
   }
 }
 
@@ -54,6 +66,7 @@ function* fetchRecentEvents({ contextId }) {
 
 export default function*() {
   yield takeEvery("IJUST_FETCH_DEFAULT_CONTEXT", fetchDefaultContext);
+  yield takeEvery("IJUST_FETCH_CONTEXT", fetchContext);
   yield takeEvery("IJUST_CREATE_EVENT", createEvent);
   yield takeEvery("IJUST_STORE_EVENT", storeEvent);
   yield takeEvery("IJUST_FETCH_RECENT_EVENTS", fetchRecentEvents);
