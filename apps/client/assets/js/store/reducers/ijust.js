@@ -42,7 +42,7 @@ export const ijust = (state = initialState, action) => {
     }
 
     case "IJUST_FETCH_CONTEXT_REQUEST": {
-      const { contextId } = action;
+      const { id } = action;
       return state.setIn(["contexts", contextId, "isFetching"], true);
     }
 
