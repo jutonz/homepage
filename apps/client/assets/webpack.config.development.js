@@ -35,18 +35,18 @@ const webpackConfig = {
     rules: [
       // Handle ts and tsx
       {
-        test: /\.(ts|tsx)$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         use: ["babel-loader", "ts-loader"],
         include: path.resolve(__dirname, "js"),
         exclude: /node_modules/
       },
       // Handle js and jsx
-      {
-        test: /\.(js|jsx)$/,
-        use: "babel-loader",
-        include: path.resolve(__dirname, "js"),
-        exclude: /node_modules/
-      },
+      //{
+      //test: /\.(js|jsx)$/,
+      //use: "babel-loader",
+      //include: path.resolve(__dirname, "js"),
+      //exclude: /node_modules/
+      //},
       // Handle semantic-ui images
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.ttf$|\.eot$|\.svg$/,

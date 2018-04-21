@@ -5,6 +5,7 @@ import React from "react";
 
 import { IjustContext } from "../components/ijust/IjustContext";
 import { MainNav } from "../components/MainNav";
+import { fetchContext } from "@store/sagas/ijust";
 
 const style = StyleSheet.create({
   routeContainer: {
@@ -56,6 +57,6 @@ export const IjustContextRoute = connect(
     context: state.ijust.getIn(["contexts", props.match.params.id])
   }),
   dispatch => ({
-    fetchContext: id => dispatch({ type: "IJUST_FETCH_CONTEXT", id })
+    fetchContext: id => dispatch(fetchContext(id))
   })
 )(_IjustContextRoute);
