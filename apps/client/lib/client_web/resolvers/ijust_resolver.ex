@@ -15,7 +15,7 @@ defmodule ClientWeb.IjustResolver do
   def get_ijust_context(_parent, args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
          {:ok, context_id} <- args |> Map.fetch(:id),
-         {:ok, context} <- context_id|> IjustContext.get_for_user(user.id),
+         {:ok, context} <- context_id |> IjustContext.get_for_user(user.id),
          do: {:ok, context},
          else:
            (
