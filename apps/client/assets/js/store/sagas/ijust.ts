@@ -7,6 +7,10 @@ import {
   getIjustRecentEventsQuery
 } from "@store/queries";
 
+interface Action {
+  type: string;
+}
+
 function* fetchDefaultContext() {
   try {
     yield put({ type: "IJUST_FETCH_DEFAULT_CONTEXT_REQUEST" });
@@ -18,7 +22,14 @@ function* fetchDefaultContext() {
   }
 }
 
-function* fetchContext({ id }) {
+interface FetchContextAction extends Action {
+  id: string;
+}
+export const fetchContext = (id: string): FetchContextAction => ({
+  type: "IJUST_FETCH_CONTEXT",
+  id
+});
+function* _fetchContext({ id }: FetchContextAction) {
   try {
     yield put({ type: "IJUST_FETCH_CONTEXT_REQUEST" });
     const context = yield getIjustContextQuery({ id });
@@ -29,7 +40,11 @@ function* fetchContext({ id }) {
   }
 }
 
-function* createEvent({ contextId, name }) {
+interface CreateEventAction extends Action {
+  contextId: string;
+  name: string;
+}
+function* createEvent({ contextId, name }: CreateEventAction) {
   try {
     yield put({ type: "IJUST_CREATE_EVENT_REQUEST" });
     const event = yield createIjustEventMuation({
@@ -44,11 +59,17 @@ function* createEvent({ contextId, name }) {
   }
 }
 
-function* storeEvent({ event }) {
+interface StoreEventAction extends Action {
+  event: any;
+}
+function* storeEvent({ event }: StoreEventAction) {
   yield put({ type: "IJUST_STORE_EVENTS", events: [event] });
 }
 
-function* fetchRecentEvents({ contextId }) {
+interface FetchRecentEventsAction extends Action {
+  contextId: string;
+}
+function* fetchRecentEvents({ contextId }: FetchRecentEventsAction) {
   try {
     yield put({ type: "IJUST_FETCH_RECENT_EVENTS_REQUEST", contextId });
     const events = yield getIjustRecentEventsQuery({ contextId });
@@ -66,7 +87,7 @@ function* fetchRecentEvents({ contextId }) {
 
 export default function*() {
   yield takeEvery("IJUST_FETCH_DEFAULT_CONTEXT", fetchDefaultContext);
-  yield takeEvery("IJUST_FETCH_CONTEXT", fetchContext);
+  yield takeEvery("IJUST_FETCH_CONTEXT", _fetchContext);
   yield takeEvery("IJUST_CREATE_EVENT", createEvent);
   yield takeEvery("IJUST_STORE_EVENT", storeEvent);
   yield takeEvery("IJUST_FETCH_RECENT_EVENTS", fetchRecentEvents);
