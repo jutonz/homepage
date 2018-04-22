@@ -8,12 +8,8 @@ import { MainNav } from "../components/MainNav";
 import { fetchContext } from "@store/sagas/ijust";
 
 const style = StyleSheet.create({
-  routeContainer: {
-    margin: "0 30px"
-  },
-  errors: {
-    color: "red"
-  }
+  routeContainer: { margin: "0 30px" },
+  errors: { color: "red" }
 });
 
 const _IjustContextRoute = ({ match, context, fetchContext }) => {
