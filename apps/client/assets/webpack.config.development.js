@@ -16,7 +16,7 @@ const webpackConfig = {
     host: "localhost",
     port: port,
     historyApiFallback: true,
-    open: true,
+    open: false,
     proxy: {
       "/api": {
         target: "http://localhost:4000",
