@@ -1,7 +1,7 @@
 import { Loader } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 import { connect } from "react-redux";
-import React from "react";
+import * as React from "react";
 
 import { IjustContext } from "../components/ijust/IjustContext";
 import { MainNav } from "../components/MainNav";
@@ -49,7 +49,7 @@ const _IjustContextRoute = ({ match, context, fetchContext }) => {
 };
 
 export const IjustContextRoute = connect(
-  (state, props) => ({
+  (state: any, props: any) => ({
     context: state.ijust.getIn(["contexts", props.match.params.id])
   }),
   dispatch => ({

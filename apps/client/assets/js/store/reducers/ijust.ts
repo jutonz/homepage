@@ -1,12 +1,5 @@
 import { fromJS, List, Record } from "immutable";
 
-interface IContext {
-  name: string;
-  id: string;
-  eventIds: Array<string>;
-  recentEventIds: Array<string>;
-}
-
 const Context = Record({
   name: null,
   id: null,

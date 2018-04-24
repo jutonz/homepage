@@ -71,7 +71,7 @@ const extractRecentEvents = (state, contextId) => {
 };
 
 export const IjustRecentEvents = connect(
-  (state: any, props) => ({
+  (state: any, props: any) => ({
     recentEvents: extractRecentEvents(state, props.context.id),
     isLoading: state.ijust.get("isLoadingRecentEvents"),
     errors: state.ijust.get("loadRecentEventsErrors")
