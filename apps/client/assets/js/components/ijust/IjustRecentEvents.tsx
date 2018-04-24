@@ -1,14 +1,23 @@
 import { Header, Loader, Table } from "semantic-ui-react";
 import { connect } from "react-redux";
-import React from "react";
+import * as React from "react";
 
+import { fetchRecentEvents } from "@store/sagas/ijust";
+
+interface Props {
+  context: any;
+  fetchEvents(any): any;
+  isLoading: boolean;
+  errors: Array<string> | null;
+  recentEvents: Array<any> | null;
+}
 const _IjustRecentEvents = ({
   context,
   fetchEvents,
   isLoading,
   errors,
   recentEvents
-}) => {
+}: Props) => {
   if (!recentEvents && !isLoading && !errors) {
     fetchEvents(context.id);
   }
@@ -62,13 +71,12 @@ const extractRecentEvents = (state, contextId) => {
 };
 
 export const IjustRecentEvents = connect(
-  (state, props) => ({
+  (state: any, props) => ({
     recentEvents: extractRecentEvents(state, props.context.id),
     isLoading: state.ijust.get("isLoadingRecentEvents"),
     errors: state.ijust.get("loadRecentEventsErrors")
   }),
   dispatch => ({
-    fetchEvents: contextId =>
-      dispatch({ type: "IJUST_FETCH_RECENT_EVENTS", contextId })
+    fetchEvents: contextId => dispatch(fetchRecentEvents(contextId))
   })
 )(_IjustRecentEvents);

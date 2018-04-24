@@ -1,6 +1,6 @@
-const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require("path");
 
 const webpackConfig = {
   mode: "production",
@@ -91,7 +91,8 @@ const webpackConfig = {
       "@utils": path.resolve(__dirname, "js/utils/"),
       "@components": path.resolve(__dirname, "js/components/"),
       "@routes": path.resolve(__dirname, "js/routes/"),
-      "@static": path.resolve(__dirname, "static/")
+      "@static": path.resolve(__dirname, "static/"),
+      "@app": path.resolve(__dirname, "js/")
     },
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     modules: ["./", "./node_modules/"]

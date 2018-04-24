@@ -1,4 +1,6 @@
 import gql from "graphql-tag";
+
+import { GraphqlClient } from "@app/index";
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 
 export const deleteTeamMutation = variables => {
@@ -10,7 +12,7 @@ export const deleteTeamMutation = variables => {
     }
   `;
 
-  return window.grapqlClient.mutate({ mutation, variables });
+  return GraphqlClient.mutate({ mutation, variables });
 };
 
 export const renameTeamMutation = variables => {
@@ -22,7 +24,7 @@ export const renameTeamMutation = variables => {
     }
   `;
 
-  return window.grapqlClient.mutate({ mutation, variables }).then(response => {
+  return GraphqlClient.mutate({ mutation, variables }).then(response => {
     return response.data.renameTeam;
   });
 };
@@ -37,7 +39,7 @@ export const joinTeamMutation = variables => {
     }
   `;
 
-  return window.grapqlClient.mutate({ mutation, variables }).then(response => {
+  return GraphqlClient.mutate({ mutation, variables }).then(response => {
     return response.data.joinTeam;
   });
 };
@@ -52,8 +54,7 @@ export const leaveTeamMutation = variables => {
   `;
 
   return new Promise((resolve, reject) => {
-    window.grapqlClient
-      .mutate({ mutation, variables })
+    GraphqlClient.mutate({ mutation, variables })
       .then(response => {
         resolve(response.data.joinTeam);
       })
@@ -64,7 +65,10 @@ export const leaveTeamMutation = variables => {
   });
 };
 
-export const createIjustEventMuation = variables => {
+export const createIjustEventMuation = (variables: {
+  contextId: string;
+  name: string;
+}) => {
   const mutation = gql`
     mutation CreateIjustEvent($contextId: ID!, $name: String!) {
       createIjustEvent(contextId: $contextId, name: $name) {
@@ -79,8 +83,7 @@ export const createIjustEventMuation = variables => {
   `;
 
   return new Promise((resolve, reject) => {
-    window.grapqlClient
-      .mutate({ mutation, variables })
+    GraphqlClient.mutate({ mutation, variables })
       .then(response => resolve(response.data.createIjustEvent))
       .catch(error => {
         console.error(error);

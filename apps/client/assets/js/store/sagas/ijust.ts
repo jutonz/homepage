@@ -69,7 +69,13 @@ function* storeEvent({ event }: StoreEventAction) {
 interface FetchRecentEventsAction extends Action {
   contextId: string;
 }
-function* fetchRecentEvents({ contextId }: FetchRecentEventsAction) {
+export const fetchRecentEvents = (
+  contextId: string
+): FetchRecentEventsAction => ({
+  type: "IJUST_FETCH_RECENT_EVENTS",
+  contextId
+});
+function* _fetchRecentEvents({ contextId }: FetchRecentEventsAction) {
   try {
     yield put({ type: "IJUST_FETCH_RECENT_EVENTS_REQUEST", contextId });
     const events = yield getIjustRecentEventsQuery({ contextId });
@@ -90,5 +96,5 @@ export default function*() {
   yield takeEvery("IJUST_FETCH_CONTEXT", _fetchContext);
   yield takeEvery("IJUST_CREATE_EVENT", createEvent);
   yield takeEvery("IJUST_STORE_EVENT", storeEvent);
-  yield takeEvery("IJUST_FETCH_RECENT_EVENTS", fetchRecentEvents);
+  yield takeEvery("IJUST_FETCH_RECENT_EVENTS", _fetchRecentEvents);
 }
