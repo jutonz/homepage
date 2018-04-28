@@ -1,22 +1,22 @@
-import React from "react";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { css, StyleSheet } from "aphrodite";
-import { Flash } from "@components/Flash";
+import React from "react";
 
-// Routes
 import { AuthenticatedRoute } from "@routes/AuthenticatedRoute";
-import { HomeRoute } from "@routes/HomeRoute";
-import { SignupRoute } from "@routes/SignupRoute";
-import { LoginRoute } from "@routes/LoginRoute";
-import { SettingsRoute } from "@routes/SettingsRoute";
 import { CoffeemakerRoute } from "@routes/CoffeemakerRoute";
+import { Flash } from "@components/Flash";
+import { HomeRoute } from "@routes/HomeRoute";
+import { IjustContextEventRoute } from "@routes/ijust/IjustContextEventRoute";
+import { IjustContextRoute } from "@routes/IjustContextRoute";
+import { IjustRoute } from "@routes/IjustRoute";
+import { LoginRoute } from "@routes/LoginRoute";
 import { ResumeRoute } from "@routes/ResumeRoute";
+import { SettingsRoute } from "@routes/SettingsRoute";
+import { SignupRoute } from "@routes/SignupRoute";
 import { TeamRoute } from "@routes/TeamRoute";
 import { TeamUserRoute } from "@routes/TeamUserRoute";
-import { IjustRoute } from "@routes/IjustRoute";
-import { IjustContextRoute } from "@routes/IjustContextRoute";
 
 const style = StyleSheet.create({
   flashContainer: {
@@ -55,6 +55,11 @@ const _App = ({ flashMessages }) => (
           exact
           path="/ijust/contexts/:id"
           component={IjustContextRoute}
+        />
+        <AuthenticatedRoute
+          exact
+          path="/ijust/contexts/:context_id/events/:event_id"
+          component={IjustContextEventRoute}
         />
       </Switch>
     </Router>

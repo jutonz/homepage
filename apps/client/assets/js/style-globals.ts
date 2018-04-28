@@ -7,4 +7,6 @@ const Globals = {
   errorColor: "#E81667"
 };
 
+export const StyleGlobals = Globals;
+
 export default Globals;

@@ -1,8 +1,20 @@
 import { Header, Loader, Table } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import { StyleSheet, css } from "aphrodite";
 import { connect } from "react-redux";
 import * as React from "react";
 
+import { StyleGlobals } from "@app/style-globals";
 import { fetchRecentEvents } from "@store/sagas/ijust";
+
+const styles = StyleSheet.create({
+  recentEvent: {
+    ":hover": {
+      color: StyleGlobals.brandPrimary,
+      cursor: "pointer"
+    }
+  }
+});
 
 interface Props {
   context: any;
@@ -27,12 +39,12 @@ const _IjustRecentEvents = ({
       <Header>Recent events</Header>
       {errors}
       <Loader active={isLoading} inline />
-      {renderRecentEvents(recentEvents)}
+      {renderRecentEvents(recentEvents, context)}
     </div>
   );
 };
 
-const renderRecentEvents = recentEvents => {
+const renderRecentEvents = (recentEvents, context) => {
   if (!recentEvents) {
     return;
   }
@@ -47,14 +59,20 @@ const renderRecentEvents = recentEvents => {
         </Table.Row>
       </Table.Header>
 
-      <Table.Body>{recentEvents.map(renderRecentEvent)}</Table.Body>
+      <Table.Body>
+        {recentEvents.map(ev => renderRecentEvent(ev, context))}
+      </Table.Body>
     </Table>
   );
 };
 
-const renderRecentEvent = event => (
-  <Table.Row key={event.id}>
-    <Table.Cell>{event.name}</Table.Cell>
+const renderRecentEvent = (event, context) => (
+  <Table.Row key={event.id} className={css(styles.recentEvent)}>
+    <Table.Cell>
+      <Link to={`/ijust/contexts/${context.id}/events/${event.id}`}>
+        {event.name}
+      </Link>
+    </Table.Cell>
     <Table.Cell>{event.count}</Table.Cell>
     <Table.Cell>{event.updatedAt}</Table.Cell>
   </Table.Row>
