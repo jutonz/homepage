@@ -3,6 +3,9 @@ defmodule Client.IjustEvent do
   import Ecto.Changeset
   alias Client.{IjustContext, IjustOccurrence, IjustEvent, Repo}
 
+  @type t :: %__MODULE__{}
+  @moduledoc false
+
   schema "ijust_events" do
     field(:name, :string)
     field(:count, :integer, default: 1)
@@ -15,6 +18,16 @@ defmodule Client.IjustEvent do
     event
     |> cast(attrs, [:name, :count])
     |> validate_required([:name, :count])
+  end
+
+  @spec get_for_context(String.t(), String.t()) :: {:ok, IjustEvent.t()} | {:error, String.t()}
+  def get_for_context(context_id, event_id) do
+    ev = IjustEvent |> Repo.get_by(ijust_context_id: context_id, id: event_id)
+
+    case ev do
+      %IjustEvent{} = ev -> {:ok, ev}
+      _ -> {:error, "Could not find matching event"}
+    end
   end
 
   def add_for_user(context_id, user, args) do

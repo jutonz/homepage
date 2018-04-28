@@ -58,7 +58,7 @@ const _App = ({ flashMessages }) => (
         />
         <AuthenticatedRoute
           exact
-          path="/ijust/contexts/:context_id/events/:event_id"
+          path="/ijust/contexts/:contextId/events/:eventId"
           component={IjustContextEventRoute}
         />
       </Switch>

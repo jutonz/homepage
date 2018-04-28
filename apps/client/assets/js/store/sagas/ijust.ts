@@ -4,12 +4,15 @@ import { createIjustEventMuation } from "@store/mutations";
 import {
   getIjustDefaultContextQuery,
   getIjustContextQuery,
-  getIjustRecentEventsQuery
+  getIjustRecentEventsQuery,
+  getIjustContextEventQuery
 } from "@store/queries";
 
 interface Action {
   type: string;
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 function* fetchDefaultContext() {
   try {
@@ -21,6 +24,8 @@ function* fetchDefaultContext() {
     yield put({ type: "IJUST_FETCH_DEFAULT_CONTEXT_FAILURE", errors });
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 interface FetchContextAction extends Action {
   id: string;
@@ -39,6 +44,8 @@ function* _fetchContext({ id }: FetchContextAction) {
     yield put({ type: "IJUST_FETCH_CONTEXT_FAILURE", errors, id });
   }
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 interface CreateEventAction extends Action {
   contextId: string;
@@ -59,12 +66,44 @@ function* createEvent({ contextId, name }: CreateEventAction) {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+interface FetchContextEventAction extends Action {
+  contextId: string;
+  eventId: string;
+}
+export const fetchContextEvent = (
+  contextId,
+  eventId
+): FetchContextEventAction => ({
+  type: "IJUST_FETCH_CONTEXT_EVENT",
+  contextId,
+  eventId
+});
+function* _fetchContextEvent({ contextId, eventId }: FetchContextEventAction) {
+  try {
+    yield put({ type: "IJUST_FETCH_CONTEXT_EVENT_REQUEST", eventId });
+    const event = yield getIjustContextEventQuery({
+      contextId,
+      eventId
+    });
+    yield put({ type: "IJUST_STORE_EVENT", event });
+    yield put({ type: "IJUST_FETCH_CONTEXT_EVENT_SUCCESS", event });
+  } catch (errors) {
+    yield put({ type: "IJUST_FETCH_CONTEXT_EVENT_FAILURE", eventId, errors });
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 interface StoreEventAction extends Action {
   event: any;
 }
 function* storeEvent({ event }: StoreEventAction) {
   yield put({ type: "IJUST_STORE_EVENTS", events: [event] });
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 interface FetchRecentEventsAction extends Action {
   contextId: string;
@@ -91,10 +130,13 @@ function* _fetchRecentEvents({ contextId }: FetchRecentEventsAction) {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 export default function*() {
   yield takeEvery("IJUST_FETCH_DEFAULT_CONTEXT", fetchDefaultContext);
   yield takeEvery("IJUST_FETCH_CONTEXT", _fetchContext);
   yield takeEvery("IJUST_CREATE_EVENT", createEvent);
   yield takeEvery("IJUST_STORE_EVENT", storeEvent);
   yield takeEvery("IJUST_FETCH_RECENT_EVENTS", _fetchRecentEvents);
+  yield takeEvery("IJUST_FETCH_CONTEXT_EVENT", _fetchContextEvent);
 }

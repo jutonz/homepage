@@ -7,6 +7,15 @@ const Context = Record({
   recentEventIds: List()
 });
 
+const Event = Record({
+  id: null,
+  name: null,
+  count: null,
+  insertedAt: null,
+  updatedAt: null,
+  ijustContextId: null
+});
+
 const initialState = fromJS({});
 export const ijust = (state = initialState, action) => {
   switch (action.type) {
@@ -72,13 +81,30 @@ export const ijust = (state = initialState, action) => {
       const { events } = action;
       return state.withMutations(state => {
         events.forEach(ev => {
-          state.setIn(["events", ev.id], ev);
+          const record = new Event(ev);
+          state.setIn(["events", record.get("id")], record);
 
           const contextId = ev.ijustContextId;
           let eventIds = state.getIn(["contexts", contextId, "eventIds"]);
           eventIds = (eventIds || List()).push(ev.id);
           state.setIn(["contexts", contextId, "eventIds"], eventIds);
         });
+      });
+    }
+
+    case "IJUST_FETCH_CONTEXT_EVENT_REQUEST": {
+      const { eventId } = action;
+      return state.withMutations(state => {
+        state.setIn(["events", eventId, "isLoading"], true);
+      });
+    }
+
+    case "IJUST_FETCH_CONTEXT_EVENT_FAILURE": {
+      const { eventId, errors } = action;
+      return state.withMutations(state => {
+        state
+          .deleteIn(["events", eventId, "isLoading"])
+          .setIn(["events", eventId, "fetchErrors"], errors);
       });
     }
 
