@@ -37,7 +37,7 @@ if (window.location.port === "4000") {
 } else {
   graphqlEndpoint = `${window.location.origin}/graphql`;
 }
-window.grapqlClient = new ApolloClient({
+const graphqlClient = new ApolloClient({
   link: new HttpLink({
     uri: graphqlEndpoint,
     credentials: "include" // TODO use same-origin in dev
@@ -45,6 +45,8 @@ window.grapqlClient = new ApolloClient({
   }),
   cache: new InMemoryCache()
 });
+window.grapqlClient = graphqlClient;
+export const GraphqlClient = graphqlClient;
 
 const reduxLogger = createLogger({}); // use default opts
 const sagaMiddleware = createSagaMiddleware();
