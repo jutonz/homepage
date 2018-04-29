@@ -25,9 +25,9 @@
       "@store$": ["js/store/store"],
       "@store/*": ["js/store/*"],
       "@utils/*": ["js/utils/*"],
-      "@components/*": ["js/components/"],
-      "@routes/*": ["js/routes/"],
-      "@static/*": ["static/"],
+      "@components/*": ["js/components/*"],
+      "@routes/*": ["js/routes/*"],
+      "@static/*": ["static/*"],
       "@app/*": ["js/*"]
     }
   },

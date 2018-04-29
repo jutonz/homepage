@@ -47,4 +47,17 @@ defmodule ClientWeb.IjustResolver do
              _ -> {:error, "Failed to fetch recent events"}
            )
   end
+
+  def get_context_event(_parent, args, %{context: context}) do
+    with {:ok, _user} <- context |> Map.fetch(:current_user),
+         {:ok, context_id} <- args |> Map.fetch(:context_id),
+         {:ok, event_id} <- args |> Map.fetch(:event_id),
+         {:ok, event} <- context_id |> IjustEvent.get_for_context(event_id),
+         do: {:ok, event},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to fetch event"}
+           )
+  end
 end

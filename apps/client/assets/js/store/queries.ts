@@ -1,5 +1,6 @@
 import gql from "graphql-tag";
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
+import { GraphqlClient } from "@app/index";
 
 export const fetchTeamUsersQuery = variables => {
   const query = gql`
@@ -11,7 +12,7 @@ export const fetchTeamUsersQuery = variables => {
     }
   `;
 
-  return window.grapqlClient.query({ query, variables }).then(response => {
+  return GraphqlClient.query({ query, variables }).then((response: any) => {
     return response.data.getTeamUsers;
   });
 };
@@ -26,7 +27,7 @@ export const fetchTeamUserQuery = variables => {
     }
   `;
 
-  return window.grapqlClient.query({ query, variables }).then(response => {
+  return GraphqlClient.query({ query, variables }).then((response: any) => {
     return response.data.getTeamUser;
   });
 };
@@ -41,12 +42,12 @@ export const fetchUserQuery = variables => {
     }
   `;
 
-  return window.grapqlClient.query({ query, variables }).then(response => {
+  return GraphqlClient.query({ query, variables }).then((response: any) => {
     return response.data.getUser;
   });
 };
 
-export const getIjustDefaultContextQuery = variables => {
+export const getIjustDefaultContextQuery = (variables = {}) => {
   const query = gql`
     query FetchIjustDefaultContextQuery {
       getIjustDefaultContext {
@@ -58,9 +59,8 @@ export const getIjustDefaultContextQuery = variables => {
   `;
 
   return new Promise((resolve, reject) => {
-    window.grapqlClient
-      .query({ query, variables })
-      .then(response => {
+    GraphqlClient.query({ query, variables })
+      .then((response: any) => {
         resolve(response.data.getIjustDefaultContext);
       })
       .catch(error => {
@@ -82,9 +82,8 @@ export const getIjustContextQuery = variables => {
   `;
 
   return new Promise((resolve, reject) => {
-    window.grapqlClient
-      .query({ query, variables })
-      .then(response => {
+    GraphqlClient.query({ query, variables })
+      .then((response: any) => {
         resolve(response.data.getIjustContext);
       })
       .catch(error => {
@@ -109,10 +108,38 @@ export const getIjustRecentEventsQuery = variables => {
   `;
 
   return new Promise((resolve, reject) => {
-    window.grapqlClient
-      .query({ query, variables, fetchPolicy: "network-only" })
-      .then(response => {
+    GraphqlClient.query({ query, variables, fetchPolicy: "network-only" })
+      .then((response: any) => {
         resolve(response.data.getIjustRecentEvents);
+      })
+      .catch(error => {
+        console.error(error);
+        reject(collectGraphqlErrors(error));
+      });
+  });
+};
+
+export const getIjustContextEventQuery = (variables: {
+  contextId: string;
+  eventId: string;
+}) => {
+  const query = gql`
+    query GetIjustContextEvent($contextId: ID!, $eventId: ID!) {
+      getIjustContextEvent(contextId: $contextId, eventId: $eventId) {
+        id
+        name
+        count
+        insertedAt
+        updatedAt
+        ijustContextId
+      }
+    }
+  `;
+
+  return new Promise((resolve, reject) => {
+    GraphqlClient.query({ query, variables })
+      .then((response: any) => {
+        resolve(response.data.getIjustContextEvent);
       })
       .catch(error => {
         console.error(error);
