@@ -1,5 +1,5 @@
 defmodule ClientWeb.TeamResolverTest do
-  use ClientWeb.ConnCase
+  use ClientWeb.ConnCase, async: true
   alias Client.{TestUtils, Team, Repo, Session, User}
 
   describe "create_team" do
