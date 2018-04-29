@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
     ":hover": {
       color: StyleGlobals.brandPrimary,
       cursor: "pointer"
+    },
+    ":hover a": {
+      color: StyleGlobals.brandPrimary
     }
   }
 });
@@ -73,8 +76,16 @@ const renderRecentEvent = (event, context) => (
         {event.name}
       </Link>
     </Table.Cell>
-    <Table.Cell>{event.count}</Table.Cell>
-    <Table.Cell>{event.updatedAt}</Table.Cell>
+    <Table.Cell>
+      <Link to={`/ijust/contexts/${context.id}/events/${event.id}`}>
+        {event.count}
+      </Link>
+    </Table.Cell>
+    <Table.Cell>
+      <Link to={`/ijust/contexts/${context.id}/events/${event.id}`}>
+        {event.updatedAt}
+      </Link>
+    </Table.Cell>
   </Table.Row>
 );
 
