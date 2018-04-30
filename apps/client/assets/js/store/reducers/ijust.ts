@@ -82,7 +82,7 @@ export const ijust = (state = initialState, action) => {
       return state.withMutations(state => {
         events.forEach(ev => {
           const record = new Event(ev);
-          state.setIn(["events", record.get("id")], record);
+          state.setIn(["events", ev.id], record);
 
           const contextId = ev.ijustContextId;
           let eventIds = state.getIn(["contexts", contextId, "eventIds"]);
