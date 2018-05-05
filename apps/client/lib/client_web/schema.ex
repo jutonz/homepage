@@ -33,6 +33,12 @@ defmodule ClientWeb.Schema do
     field(:updated_at, non_null(:string))
   end
 
+  object :ijust_occurrence do
+    field(:id, non_null(:id))
+    field(:inserted_at, non_null(:string))
+    field(:updated_at, non_null(:string))
+  end
+
   query do
     field :get_user, :user do
       arg(:id, :id)
@@ -86,6 +92,11 @@ defmodule ClientWeb.Schema do
       arg(:context_id, non_null(:id))
       arg(:event_id, non_null(:id))
       resolve(&ClientWeb.IjustResolver.get_context_event/3)
+    end
+
+    field :get_ijust_event_occurrences, list_of(:ijust_occurrence) do
+      arg(:event_id, non_null(:id))
+      resolve(&ClientWeb.IjustResolver.get_event_occurrences/3)
     end
   end
 

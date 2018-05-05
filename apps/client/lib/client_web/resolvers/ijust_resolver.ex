@@ -60,4 +60,16 @@ defmodule ClientWeb.IjustResolver do
              _ -> {:error, "Failed to fetch event"}
            )
   end
+
+  def get_event_occurrences(_parent, args, %{context: context}) do
+    with {:ok, _user} <- context |> Map.fetch(:current_user),
+         {:ok, event_id} <- args |> Map.fetch(:event_id),
+         {:ok, occurrences} <- event_id |> IjustOccurrence.get_for_event(event_id),
+         do: {:ok, occurrences},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to fetch occurrences"}
+           )
+  end
 end

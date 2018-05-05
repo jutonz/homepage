@@ -14,4 +14,10 @@ defmodule Client.IjustOccurrence do
     # No attrs to track, but provide this function for parity
     occurrence |> cast(attrs, [])
   end
+
+  def get_for_event(event_id) do
+    occurrences = IJustOccurrence |> Repo.where(ijust_event_id: event_id)
+
+    {:ok, occurrences}
+  end
 end
