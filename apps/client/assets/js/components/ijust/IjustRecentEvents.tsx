@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
     ":hover a": {
       color: StyleGlobals.brandPrimary
     }
-  }
+  },
+  eventLink: { display: "flex" }
 });
 
 interface Props {
@@ -72,17 +73,26 @@ const renderRecentEvents = (recentEvents, context) => {
 const renderRecentEvent = (event, context) => (
   <Table.Row key={event.id} className={css(styles.recentEvent)}>
     <Table.Cell>
-      <Link to={`/ijust/contexts/${context.id}/events/${event.id}`}>
+      <Link
+        to={`/ijust/contexts/${context.id}/events/${event.id}`}
+        className={css(styles.eventLink)}
+      >
         {event.name}
       </Link>
     </Table.Cell>
     <Table.Cell>
-      <Link to={`/ijust/contexts/${context.id}/events/${event.id}`}>
+      <Link
+        to={`/ijust/contexts/${context.id}/events/${event.id}`}
+        className={css(styles.eventLink)}
+      >
         {event.count}
       </Link>
     </Table.Cell>
     <Table.Cell>
-      <Link to={`/ijust/contexts/${context.id}/events/${event.id}`}>
+      <Link
+        to={`/ijust/contexts/${context.id}/events/${event.id}`}
+        className={css(styles.eventLink)}
+      >
         {event.updatedAt}
       </Link>
     </Table.Cell>

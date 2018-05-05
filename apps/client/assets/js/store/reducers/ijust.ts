@@ -1,6 +1,6 @@
 import { fromJS, List, Record } from "immutable";
 
-const Context = Record({
+export const Context = Record({
   name: null,
   id: null,
   eventIds: List(),
