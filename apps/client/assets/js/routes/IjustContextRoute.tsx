@@ -26,7 +26,7 @@ const QUERY = gql`
 `;
 
 const _IjustContextRoute = ({ match }) => (
-  <>
+  <div>
     <MainNav activeItem={"ijust"} />
     <QueryLoader
       query={QUERY}
@@ -36,7 +36,7 @@ const _IjustContextRoute = ({ match }) => (
         return renderContext(context);
       }}
     />
-  </>
+  </div>
 );
 
 const renderContext = context => (

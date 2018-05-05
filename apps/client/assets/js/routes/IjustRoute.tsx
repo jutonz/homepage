@@ -16,7 +16,7 @@ const QUERY = gql`
 `;
 
 export const IjustRoute = () => (
-  <>
+  <div>
     <MainNav activeItem={"ijust"} />
     <QueryLoader
       query={QUERY}
@@ -33,5 +33,5 @@ export const IjustRoute = () => (
         );
       }}
     />
-  </>
+  </div>
 );
