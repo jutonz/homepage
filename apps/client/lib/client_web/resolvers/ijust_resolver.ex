@@ -1,5 +1,5 @@
 defmodule ClientWeb.IjustResolver do
-  alias Client.{IjustContext, IjustEvent}
+  alias Client.{IjustContext, IjustEvent, IjustOccurrence}
 
   def get_ijust_default_context(_parent, _args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
@@ -64,7 +64,7 @@ defmodule ClientWeb.IjustResolver do
   def get_event_occurrences(_parent, args, %{context: context}) do
     with {:ok, _user} <- context |> Map.fetch(:current_user),
          {:ok, event_id} <- args |> Map.fetch(:event_id),
-         {:ok, occurrences} <- event_id |> IjustOccurrence.get_for_event(event_id),
+         {:ok, occurrences} <- event_id |> IjustOccurrence.get_for_event,
          do: {:ok, occurrences},
          else:
            (
