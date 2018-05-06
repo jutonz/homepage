@@ -284,7 +284,7 @@ pipeline:
     commands:
       - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
       - kubectl get pods -nhomepage
-      - export POD=`kubectl get pods -nhomepage | grep app | grep Running | head -n1 | awk '{print $1}'`
+      - export POD=`kubectl get pods -nhomepage --sort-by=.status.startTime | grep app | grep Running | head -n1 | awk '{print $1}'`
       - kubectl exec $POD -nhomepage -- bash -c 'MIX_ENV=prod mix ecto.migrate'
       - rm -f $KUBECONFIG
     secrets: [ kubelet_conf ]
