@@ -3,6 +3,9 @@ defmodule Client.IjustOccurrence do
   import Ecto.Changeset
   alias Client.{User, Repo, IjustEvent, IjustOccurrence}
 
+  @type t :: %__MODULE__{}
+  @moduledoc false
+
   schema "ijust_occurrences" do
     timestamps()
 
@@ -15,9 +18,9 @@ defmodule Client.IjustOccurrence do
     occurrence |> cast(attrs, [])
   end
 
+  @spec get_for_event(String.t()) :: {:ok, list(IjustOccurrence.t())}
   def get_for_event(event_id) do
-    occurrences = IJustOccurrence |> Repo.get_by(ijust_event_id: event_id)
-
+    occurrences = IjustOccurrence |> Repo.all(ijust_event_id: event_id)
     {:ok, occurrences}
   end
 end

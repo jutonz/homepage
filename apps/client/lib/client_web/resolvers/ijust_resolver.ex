@@ -64,7 +64,7 @@ defmodule ClientWeb.IjustResolver do
   def get_event_occurrences(_parent, args, %{context: context}) do
     with {:ok, _user} <- context |> Map.fetch(:current_user),
          {:ok, event_id} <- args |> Map.fetch(:event_id),
-         {:ok, occurrences} <- event_id |> IjustOccurrence.get_for_event,
+         {:ok, occurrences} <- event_id |> IjustOccurrence.get_for_event(),
          do: {:ok, occurrences},
          else:
            (
