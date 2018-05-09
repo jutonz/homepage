@@ -11,7 +11,7 @@ defmodule Client.IjustEvent do
     field(:count, :integer, default: 1)
     timestamps()
     belongs_to(:ijust_context, IjustContext)
-    has_many(:ijust_occurrences, IjustOccurrence, on_delete: :delete_all)
+    #has_many(:ijust_occurrences, IjustOccurrence, on_delete: :delete_all)
   end
 
   def changeset(%IjustEvent{} = event, attrs \\ %{}) do
@@ -75,7 +75,6 @@ defmodule Client.IjustEvent do
 
   def new_occurrence_changeset(%IjustEvent{} = event) do
     %IjustOccurrence{}
-    |> IjustOccurrence.changeset()
-    |> put_assoc(:ijust_event, event)
+    |> IjustOccurrence.changeset(%{ijust_event_id: event.id})
   end
 end
