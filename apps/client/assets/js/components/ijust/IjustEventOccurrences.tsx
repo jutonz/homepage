@@ -1,6 +1,6 @@
 import * as React from "react";
 import gql from "graphql-tag";
-import { Header } from "semantic-ui-react";
+import { Header, Table } from "semantic-ui-react";
 
 import { QueryLoader } from "@utils/QueryLoader";
 
@@ -18,7 +18,7 @@ interface Props {
 }
 export const IjustEventOccurrences = ({ eventId }: Props) => (
   <div>
-    <Header>Event occurrences</Header>
+    <Header>Occurrences</Header>
     <QueryLoader
       query={QUERY}
       variables={{ eventId }}
@@ -30,7 +30,14 @@ export const IjustEventOccurrences = ({ eventId }: Props) => (
   </div>
 );
 
-const renderOccurrences = occurrences => {
-  console.log(occurrences);
-  debugger;
-};
+const renderOccurrences = occurrences => (
+  <Table basic="very">
+    <Table.Body>{occurrences.map(renderOccurrence)}</Table.Body>
+  </Table>
+);
+
+const renderOccurrence = occurrence => (
+  <Table.Row key={occurrence.id}>
+    <Table.Cell>{occurrence.insertedAt}</Table.Cell>
+  </Table.Row>
+);

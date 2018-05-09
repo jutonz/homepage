@@ -1,6 +1,7 @@
 defmodule Client.IjustOccurrence do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query, only: [from: 2]
   alias Client.{User, Repo, IjustEvent, IjustOccurrence}
 
   @type t :: %__MODULE__{}
@@ -20,7 +21,14 @@ defmodule Client.IjustOccurrence do
 
   @spec get_for_event(String.t()) :: {:ok, list(IjustOccurrence.t())}
   def get_for_event(event_id) do
-    occurrences = IjustOccurrence |> Repo.all(ijust_event_id: event_id)
-    {:ok, occurrences}
+    query =
+      from(
+        occ in IjustOccurrence,
+        where: occ.ijust_event_id == ^event_id,
+        order_by: [desc: occ.inserted_at],
+        limit: 100
+      )
+
+    {:ok, query |> Repo.all()}
   end
 end

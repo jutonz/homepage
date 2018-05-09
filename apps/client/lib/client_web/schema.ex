@@ -35,6 +35,7 @@ defmodule ClientWeb.Schema do
 
   object :ijust_occurrence do
     field(:id, non_null(:id))
+    field(:ijust_event_id, non_null(:id))
     field(:inserted_at, non_null(:string))
     field(:updated_at, non_null(:string))
   end
