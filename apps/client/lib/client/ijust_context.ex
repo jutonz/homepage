@@ -9,7 +9,7 @@ defmodule Client.IjustContext do
     field(:name, :string)
 
     belongs_to(:user, User)
-    has_many(:ijust_events, IjustEvent, on_delete: :delete_all)
+    #has_many(:ijust_events, IjustEvent, on_delete: :delete_all)
   end
 
   def changeset(%IjustContext{} = context, attrs \\ %{}) do

@@ -6,7 +6,7 @@ defmodule Client.IjustEventTest do
   test "#get_for_context returns an event for a context" do
     user = TestUtils.create_user()
     {:ok, context} = user |> IjustContext.get_default_context()
-    {:ok, event} = IjustEvent.create_with_occurrence(context.id, user, %{name: "test"})
+    {:ok, event} = IjustEvent.create_with_occurrence(user, %{name: "test", ijust_context_id: context.id})
 
     {:ok, _event} = IjustEvent.get_for_context(context.id, event.id)
   end
@@ -21,7 +21,7 @@ defmodule Client.IjustEventTest do
       |> Ecto.Changeset.put_assoc(:user, user)
       |> Repo.insert()
 
-    {:ok, event} = IjustEvent.create_with_occurrence(correct_context.id, user, %{name: "test"})
+    {:ok, event} = IjustEvent.create_with_occurrence(user, %{name: "test", ijust_context_id: correct_context.id})
 
     {:error, _reason} = IjustEvent.get_for_context(incorrect_context.id, event.id)
   end

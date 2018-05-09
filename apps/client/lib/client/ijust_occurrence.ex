@@ -14,7 +14,6 @@ defmodule Client.IjustOccurrence do
   end
 
   def changeset(%IjustOccurrence{} = occurrence, attrs \\ %{}) do
-    # No attrs to track, but provide this function for parity
     occurrence
     |> cast(attrs, [:ijust_event_id])
     |> validate_required([:ijust_event_id])

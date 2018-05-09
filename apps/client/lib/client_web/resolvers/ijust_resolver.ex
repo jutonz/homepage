@@ -26,8 +26,7 @@ defmodule ClientWeb.IjustResolver do
 
   def create_ijust_event(_parent, args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
-         {:ok, context_id} <- args |> Map.fetch(:context_id),
-         {:ok, event} <- context_id |> IjustEvent.add_for_user(user, args),
+         {:ok, event} <- user |> IjustEvent.add_for_user(args),
          do: {:ok, event},
          else:
            (
