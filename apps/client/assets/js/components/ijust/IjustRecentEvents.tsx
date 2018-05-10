@@ -1,8 +1,9 @@
+import * as React from "react";
 import { Header, Loader, Table } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { StyleSheet, css } from "aphrodite";
 import { connect } from "react-redux";
-import * as React from "react";
+import { distanceInWordsToNow } from "date-fns";
 
 import { StyleGlobals } from "@app/style-globals";
 import { fetchRecentEvents } from "@store/sagas/ijust";
@@ -93,7 +94,7 @@ const renderRecentEvent = (event, context) => (
         to={`/ijust/contexts/${context.id}/events/${event.id}`}
         className={css(styles.eventLink)}
       >
-        {event.updatedAt}
+        {distanceInWordsToNow(event.updatedAt)} ago
       </Link>
     </Table.Cell>
   </Table.Row>

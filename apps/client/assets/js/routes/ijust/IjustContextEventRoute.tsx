@@ -2,10 +2,12 @@ import * as React from "react";
 import gql from "graphql-tag";
 import { Header, Table } from "semantic-ui-react";
 import { css, StyleSheet } from "aphrodite";
+import { format, distanceInWordsToNow } from "date-fns";
 
 import { MainNav } from "@components/MainNav";
 import { QueryLoader } from "@utils/QueryLoader";
 import { IjustEventOccurrences } from "@components/ijust/IjustEventOccurrences";
+import { Constants } from "@utils/Constants";
 
 const QUERY = gql`
   query GetIjustContextEvent($contextId: ID!, $eventId: ID!) {
@@ -23,6 +25,9 @@ const QUERY = gql`
 const styles = StyleSheet.create({
   routeContainer: {
     margin: "0 30px"
+  },
+  relativeDateSpacer: {
+    marginLeft: "10px"
   }
 });
 
@@ -61,11 +66,21 @@ const renderEvent = event => (
         </Table.Row>
         <Table.Row>
           <Table.Cell>First occurred</Table.Cell>
-          <Table.Cell>{event.insertedAt}</Table.Cell>
+          <Table.Cell>
+            {format(event.insertedAt, Constants.dateTimeFormat)}
+            <span className={css(styles.relativeDateSpacer)}>
+              ({distanceInWordsToNow(event.insertedAt)} ago)
+            </span>
+          </Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>Last occurred</Table.Cell>
-          <Table.Cell>{event.updatedAt}</Table.Cell>
+          <Table.Cell>
+            {format(event.updatedAt, Constants.dateTimeFormat)}
+            <span className={css(styles.relativeDateSpacer)}>
+              ({distanceInWordsToNow(event.updatedAt)} ago)
+            </span>
+          </Table.Cell>
         </Table.Row>
       </Table.Body>
     </Table>
