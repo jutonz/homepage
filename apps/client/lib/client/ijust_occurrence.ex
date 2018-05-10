@@ -9,18 +9,19 @@ defmodule Client.IjustOccurrence do
 
   schema "ijust_occurrences" do
     timestamps()
-
+    field(:ijust_event_id, :id)
     belongs_to(:user, User)
-    belongs_to(:ijust_event, IjustEvent)
   end
 
   def changeset(%IjustOccurrence{} = occurrence, attrs \\ %{}) do
-    # No attrs to track, but provide this function for parity
-    occurrence |> cast(attrs, [])
+    occurrence
+    |> cast(attrs, [:ijust_event_id])
+    |> validate_required([:ijust_event_id])
+    |> foreign_key_constraint(:ijust_event_id)
   end
 
-  @spec get_for_event(String.t()) :: {:ok, list(IjustOccurrence.t())}
-  def get_for_event(event_id) do
+  @spec get_for_event(integer) :: {:ok, list(IjustOccurrence.t())}
+  def get_for_event(event_id) when is_integer(event_id) do
     query =
       from(
         occ in IjustOccurrence,

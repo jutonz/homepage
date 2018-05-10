@@ -1,7 +1,7 @@
 defmodule Client.IjustEvent do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Client.{IjustContext, IjustOccurrence, IjustEvent, Repo}
+  alias Client.{IjustOccurrence, IjustEvent, Repo}
 
   @type t :: %__MODULE__{}
   @moduledoc false
@@ -9,15 +9,16 @@ defmodule Client.IjustEvent do
   schema "ijust_events" do
     field(:name, :string)
     field(:count, :integer, default: 1)
+    field(:ijust_context_id, :id)
     timestamps()
-    belongs_to(:ijust_context, IjustContext)
-    has_many(:ijust_occurrences, IjustOccurrence, on_delete: :delete_all)
   end
 
   def changeset(%IjustEvent{} = event, attrs \\ %{}) do
     event
-    |> cast(attrs, [:name, :count])
-    |> validate_required([:name, :count])
+    |> cast(attrs, [:name, :count, :ijust_context_id])
+    |> validate_required([:name, :count, :ijust_context_id])
+    |> foreign_key_constraint(:ijust_context_id)
+    |> unique_constraint(:name)
   end
 
   @spec get_for_context(String.t(), String.t()) :: {:ok, IjustEvent.t()} | {:error, String.t()}
@@ -30,52 +31,50 @@ defmodule Client.IjustEvent do
     end
   end
 
-  def add_for_user(context_id, user, args) do
+  def add_for_user(user, args) do
     {:ok, name} = args |> Map.fetch(:name)
+    {:ok, context_id} = args |> Map.fetch(:ijust_context_id)
     existing = IjustEvent |> Repo.get_by(name: name, ijust_context_id: context_id)
 
     case existing do
       %IjustEvent{} = event -> event |> add_occurrence
-      _ -> create_with_occurrence(context_id, user, args)
+      _ -> create_with_occurrence(user, args)
     end
   end
 
-  def create_with_occurrence(context_id, user, args) do
-    {:ok, context} = context_id |> IjustContext.get_for_user(user.id)
-
-    cset =
-      %IjustEvent{}
-      |> changeset(args)
-      |> put_assoc(:ijust_context, context)
+  def create_with_occurrence(_user, args) do
+    cset = %IjustEvent{} |> changeset(args)
 
     {:ok, %{ijust_event: event}} =
       Ecto.Multi.new()
       |> Ecto.Multi.insert(:ijust_event, cset)
       |> Ecto.Multi.run(:ijust_occurrence, fn %{ijust_event: event} ->
-        event |> new_occurrence_changeset |> Repo.insert()
+        event.id |> new_occurrence_changeset |> Repo.insert()
       end)
       |> Repo.transaction()
 
     {:ok, event}
   end
 
+  @spec add_occurrence(IjustEvent.t()) :: IjustEvent.t()
   def add_occurrence(event) do
     {:ok, %{ijust_event: event}} =
       Ecto.Multi.new()
-      |> Ecto.Multi.insert(:ijust_occurrence, new_occurrence_changeset(event))
+      |> Ecto.Multi.insert(:ijust_occurrence, new_occurrence_changeset(event.id))
       |> Ecto.Multi.update(:ijust_event, inc_count_changeset(event))
       |> Repo.transaction()
 
     {:ok, event}
   end
 
+  @spec new_occurrence_changeset(IjustEvent.t()) :: Ecto.Changeset.t()
   def inc_count_changeset(%IjustEvent{} = event) do
     event |> changeset(%{count: event.count + 1})
   end
 
-  def new_occurrence_changeset(%IjustEvent{} = event) do
+  @spec new_occurrence_changeset(String.t()) :: Ecto.Changeset.t()
+  def new_occurrence_changeset(event_id) when is_integer(event_id) do
     %IjustOccurrence{}
-    |> IjustOccurrence.changeset()
-    |> put_assoc(:ijust_event, event)
+    |> IjustOccurrence.changeset(%{ijust_event_id: event_id})
   end
 end

@@ -17,8 +17,6 @@ defmodule Client.User do
       on_replace: :delete,
       on_delete: :delete_all
     )
-
-    has_many(:ijust_contexts, IjustContext)
   end
 
   @doc false
