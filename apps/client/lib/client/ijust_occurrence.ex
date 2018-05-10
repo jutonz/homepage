@@ -20,8 +20,8 @@ defmodule Client.IjustOccurrence do
     |> foreign_key_constraint(:ijust_event_id)
   end
 
-  @spec get_for_event(String.t()) :: {:ok, list(IjustOccurrence.t())}
-  def get_for_event(event_id) do
+  @spec get_for_event(integer) :: {:ok, list(IjustOccurrence.t())}
+  def get_for_event(event_id) when is_integer(event_id) do
     query =
       from(
         occ in IjustOccurrence,

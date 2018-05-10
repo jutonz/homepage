@@ -4,21 +4,24 @@ defmodule Client.IjustContext do
   import Ecto.Query, only: [from: 2]
   alias Client.{User, IjustEvent, IjustContext, Repo}
 
+  @type t :: %__MODULE__{}
+  @moduledoc false
+
   schema "ijust_contexts" do
     timestamps()
     field(:name, :string)
-
-    belongs_to(:user, User)
-    #has_many(:ijust_events, IjustEvent, on_delete: :delete_all)
+    field(:user_id, :id)
   end
 
   def changeset(%IjustContext{} = context, attrs \\ %{}) do
     context
-    |> cast(attrs, [:name])
-    |> validate_required(:name)
+    |> cast(attrs, [:name, :user_id])
+    |> validate_required([:name, :user_id])
     |> unique_constraint(:name)
+    |> foreign_key_constraint(:user_id)
   end
 
+  @spec get_for_user(integer, integer) :: {:ok, IjustContext.t()} | {:error, String.t()}
   def get_for_user(context_id, user_id) do
     case IjustContext |> Repo.get_by(id: context_id, user_id: user_id) do
       %IjustContext{} = context -> {:ok, context}
@@ -26,25 +29,25 @@ defmodule Client.IjustContext do
     end
   end
 
-  def get_default_context(%User{} = user) do
-    context = IjustContext |> Repo.get_by(name: "default", user_id: user.id)
+  @spec get_default_context(user_id :: number) :: {:ok, IjustContext.t()}
+  def get_default_context(user_id) when is_number(user_id) do
+    context = IjustContext |> Repo.get_by(name: "default", user_id: user_id)
 
     case context do
       %IjustContext{} -> {:ok, context}
-      nil -> user |> create_default_context
+      nil -> user_id |> create_default_context
     end
   end
 
-  def create_default_context(%User{} = user) do
-    cset =
-      %IjustContext{}
-      |> changeset(%{name: "default"})
-      |> put_assoc(:user, user)
-
-    cset |> Repo.insert()
+  @spec create_default_context(user_id :: number) :: {:ok, IjustContext.t()}
+  def create_default_context(user_id) when is_integer(user_id) do
+    %IjustContext{}
+    |> changeset(%{name: "default", user_id: user_id})
+    |> Repo.insert()
   end
 
-  def recent_events(context_id, limit \\ 5) do
+  @spec recent_events(context_id :: number, limit :: number) :: {:ok, list(IjustEvent.t())}
+  def recent_events(context_id, limit \\ 5) when is_integer(context_id) do
     query =
       from(
         ev in IjustEvent,

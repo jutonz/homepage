@@ -1,6 +1,6 @@
 defmodule Client.IjustOccurrenceTest do
   use Client.DataCase, async: true
-  alias Client.{IjustOccurrence, Repo, IjustEvent}
+  # alias Client.{IjustOccurrence, Repo, IjustEvent}
 
   describe "get_for_event" do
     # test "returns an occurrences for an event_id" do

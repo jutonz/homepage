@@ -18,6 +18,7 @@ defmodule Client.IjustEvent do
     |> cast(attrs, [:name, :count, :ijust_context_id])
     |> validate_required([:name, :count, :ijust_context_id])
     |> foreign_key_constraint(:ijust_context_id)
+    |> unique_constraint(:name)
   end
 
   @spec get_for_context(String.t(), String.t()) :: {:ok, IjustEvent.t()} | {:error, String.t()}

@@ -3,7 +3,7 @@ defmodule ClientWeb.IjustResolver do
 
   def get_ijust_default_context(_parent, _args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
-         {:ok, context} <- user |> IjustContext.get_default_context(),
+         {:ok, context} <- user.id |> IjustContext.get_default_context(),
          do: {:ok, context},
          else:
            (
