@@ -2,7 +2,7 @@ defmodule Client.IjustContext do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
-  alias Client.{User, IjustEvent, IjustContext, Repo}
+  alias Client.{IjustEvent, IjustContext, Repo}
 
   @type t :: %__MODULE__{}
   @moduledoc false
@@ -47,7 +47,7 @@ defmodule Client.IjustContext do
   end
 
   @spec recent_events(context_id :: number, limit :: number) :: {:ok, list(IjustEvent.t())}
-  def recent_events(context_id, limit \\ 5) when is_integer(context_id) do
+  def recent_events(context_id, limit \\ 5) do
     query =
       from(
         ev in IjustEvent,
