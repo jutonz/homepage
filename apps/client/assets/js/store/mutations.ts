@@ -66,12 +66,12 @@ export const leaveTeamMutation = variables => {
 };
 
 export const createIjustEventMuation = (variables: {
-  contextId: string;
+  ijustContextId: string;
   name: string;
 }) => {
   const mutation = gql`
-    mutation CreateIjustEvent($contextId: ID!, $name: String!) {
-      createIjustEvent(contextId: $contextId, name: $name) {
+    mutation CreateIjustEvent($ijustContextId: ID!, $name: String!) {
+      createIjustEvent(ijustContextId: $ijustContextId, name: $name) {
         id
         name
         count

@@ -31,7 +31,7 @@ export const IjustEventInput = connect(
   }),
   dispatch => ({
     setName: name => dispatch({ type: "SET_IJUST_NEW_EVENT_NAME", name }),
-    createEvent: (contextId, name) =>
-      dispatch({ type: "IJUST_CREATE_EVENT", contextId, name })
+    createEvent: (ijustContextId, name) =>
+      dispatch({ type: "IJUST_CREATE_EVENT", ijustContextId, name })
   })
 )(_IjustEventInput);

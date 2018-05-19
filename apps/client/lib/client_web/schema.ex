@@ -142,7 +142,7 @@ defmodule ClientWeb.Schema do
     end
 
     field :create_ijust_event, :ijust_event do
-      arg(:context_id, non_null(:id))
+      arg(:ijust_context_id, non_null(:id))
       arg(:name, non_null(:string))
       resolve(&ClientWeb.IjustResolver.create_ijust_event/3)
     end
