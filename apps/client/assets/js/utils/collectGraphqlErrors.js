@@ -1,6 +1,10 @@
 import { GraphQLError } from "graphql";
 
 export default function(error) {
+  if (!!!error) {
+    return "";
+  }
+
   const graphQLErrors = error.graphQLErrors;
   let errors;
   if (graphQLErrors && graphQLErrors.length > 0) {
