@@ -48,19 +48,19 @@ function* _fetchContext({ id }: FetchContextAction) {
 ////////////////////////////////////////////////////////////////////////////////
 
 interface CreateEventAction extends Action {
-  contextId: string;
+  ijustContextId: string;
   name: string;
 }
-function* createEvent({ contextId, name }: CreateEventAction) {
+function* createEvent({ ijustContextId, name }: CreateEventAction) {
   try {
     yield put({ type: "IJUST_CREATE_EVENT_REQUEST" });
     const event = yield createIjustEventMuation({
-      contextId,
+      ijustContextId,
       name
     });
     yield put({ type: "IJUST_STORE_EVENT", event });
     yield put({ type: "IJUST_CREATE_EVENT_SUCCESS", event });
-    yield put({ type: "IJUST_FETCH_RECENT_EVENTS", contextId });
+    yield put({ type: "IJUST_FETCH_RECENT_EVENTS", contextId: ijustContextId });
   } catch (errors) {
     yield put({ type: "IJUST_CREATE_EVENT_FAILURE", errors });
   }
