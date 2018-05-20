@@ -75,7 +75,6 @@ export class IjustEventInput extends React.Component<Props, State> {
   }
 
   setName = (eventName: string) => {
-    console.log(eventName);
     this.setState({ eventName });
   };
 }
