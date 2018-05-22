@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Header, Loader, Table } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { StyleSheet, css } from "aphrodite";
-import { connect } from "react-redux";
+import gql from "graphql-tag";
 import { distanceInWordsToNow } from "date-fns";
 
 import { StyleGlobals } from "@app/style-globals";
-import { fetchRecentEvents } from "@store/sagas/ijust";
+import { QueryLoader } from "@utils/QueryLoader";
 
 const styles = StyleSheet.create({
   recentEvent: {
@@ -21,33 +21,35 @@ const styles = StyleSheet.create({
   eventLink: { display: "flex" }
 });
 
+const GET_RECENT_EVENTS = gql`
+  query FetchIjustRecentEventsQuery($contextId: ID!) {
+    getIjustRecentEvents(contextId: $contextId) {
+      id
+      name
+      count
+      insertedAt
+      updatedAt
+      ijustContextId
+    }
+  }
+`;
+
 interface Props {
   context: any;
-  fetchEvents(any): any;
-  isLoading: boolean;
-  errors: Array<string> | null;
-  recentEvents: Array<any> | null;
 }
-const _IjustRecentEvents = ({
-  context,
-  fetchEvents,
-  isLoading,
-  errors,
-  recentEvents
-}: Props) => {
-  if (!recentEvents && !isLoading && !errors) {
-    fetchEvents(context.id);
-  }
 
-  return (
-    <div>
-      <Header>Recent events</Header>
-      {errors}
-      <Loader active={isLoading} inline />
-      {renderRecentEvents(recentEvents, context)}
-    </div>
-  );
-};
+export const IjustRecentEvents = ({ context }: Props) => (
+  <div>
+    <QueryLoader
+      query={GET_RECENT_EVENTS}
+      variables={{ contextId: context.id }}
+      component={({ data }) => {
+        const events = data.getIjustRecentEvents;
+        return renderRecentEvents(events, context);
+      }}
+    />
+  </div>
+);
 
 const renderRecentEvents = (recentEvents, context) => {
   if (!recentEvents) {
@@ -99,24 +101,3 @@ const renderRecentEvent = (event, context) => (
     </Table.Cell>
   </Table.Row>
 );
-
-const extractRecentEvents = (state, contextId) => {
-  const ids = state.ijust.getIn(["contexts", contextId, "recentEventIds"]);
-  if (!ids || ids.size === 0) {
-    return;
-  }
-  return ids.map(id => {
-    return state.ijust.getIn(["events", id]);
-  });
-};
-
-export const IjustRecentEvents = connect(
-  (state: any, props: any) => ({
-    recentEvents: extractRecentEvents(state, props.context.id),
-    isLoading: state.ijust.get("isLoadingRecentEvents"),
-    errors: state.ijust.get("loadRecentEventsErrors")
-  }),
-  dispatch => ({
-    fetchEvents: contextId => dispatch(fetchRecentEvents(contextId))
-  })
-)(_IjustRecentEvents);
