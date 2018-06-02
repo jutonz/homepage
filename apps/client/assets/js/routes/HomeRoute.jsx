@@ -1,6 +1,7 @@
 import React from "react";
 import { MainNav } from "@components/MainNav";
 import { Incr } from "@components/Incr";
+import { Presence } from "@components/Presence";
 
 export const HomeRoute = () => (
   <div>
@@ -9,5 +10,6 @@ export const HomeRoute = () => (
     <Incr />
     <Incr />
     <Incr />
+    <Presence />
   </div>
 );
