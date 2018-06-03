@@ -71,6 +71,7 @@ defmodule ClientWeb.Presence do
   use Phoenix.Presence,
     otp_app: :client,
     pubsub_server: Client.PubSub
+
   use ClientWeb, :channel
 
   def join("user:" <> user_id, _params, socket) do

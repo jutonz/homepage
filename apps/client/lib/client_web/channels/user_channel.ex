@@ -8,10 +8,10 @@ defmodule ClientWeb.UserChannel do
   end
 
   def handle_info(:after_join, socket) do
-    #{:ok, _} =
-      #Presence.track(socket, socket.assigns.user_id, %{
-        #online_at: System.system_time(:seconds)
-      #})
+    # {:ok, _} =
+    # Presence.track(socket, socket.assigns.user_id, %{
+    # online_at: System.system_time(:seconds)
+    # })
 
     socket |> push("message", %{message: "hello world"})
 

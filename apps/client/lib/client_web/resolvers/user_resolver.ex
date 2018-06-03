@@ -15,10 +15,8 @@ defmodule ClientWeb.UserResolver do
 
   def get_current_user(_parent, _args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
-      do: {:ok, user},
-      else: (
-        _ -> {:error, "Could not load current user"}
-      )
+         do: {:ok, user},
+         else: (_ -> {:error, "Could not load current user"})
   end
 
   def update_user(_parent, args, context) do
