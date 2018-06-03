@@ -3,6 +3,7 @@ defmodule ClientWeb.UserSocket do
 
   ## Channels
   # channel "room:*", ClientWeb.RoomChannel
+  channel("user:*", ClientWeb.UserChannel)
 
   ## Transports
   transport(:websocket, Phoenix.Transports.WebSocket)
@@ -19,7 +20,8 @@ defmodule ClientWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
+  def connect(params, socket) do
+    socket = socket |> assign(:user_id, params["user_id"])
     {:ok, socket}
   end
 
@@ -33,5 +35,5 @@ defmodule ClientWeb.UserSocket do
   #     ClientWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: nil
+  def id(socket), do: "user_socket:%{socket.assigns.user_id}"
 end

@@ -85,7 +85,7 @@ defmodule ClientWeb.Presence do
         online_at: System.system_time(:seconds)
       })
 
-    socket |> push("hello", "world")
+    socket |> push("message", "hello world")
 
     {:noreply, socket}
   end

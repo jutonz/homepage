@@ -13,6 +13,14 @@ defmodule ClientWeb.UserResolver do
          else: (_ -> {:error, "No users matching criteria"})
   end
 
+  def get_current_user(_parent, _args, %{context: context}) do
+    with {:ok, user} <- context |> Map.fetch(:current_user),
+      do: {:ok, user},
+      else: (
+        _ -> {:error, "Could not load current user"}
+      )
+  end
+
   def update_user(_parent, args, context) do
     with {:ok, user} <- Map.fetch(context.context, :current_user),
          changeset <- user |> User.changeset(args),

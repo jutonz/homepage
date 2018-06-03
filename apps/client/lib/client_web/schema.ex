@@ -47,6 +47,10 @@ defmodule ClientWeb.Schema do
       resolve(&ClientWeb.UserResolver.get_user/3)
     end
 
+    field :get_current_user, :user do
+      resolve(&ClientWeb.UserResolver.get_current_user/3)
+    end
+
     field :check_session, :boolean do
       resolve(&ClientWeb.SessionResolver.check_session/3)
     end
