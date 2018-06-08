@@ -20,14 +20,15 @@ defmodule Client.IjustOccurrence do
     |> foreign_key_constraint(:ijust_event_id)
   end
 
-  @spec get_for_event(integer) :: {:ok, list(IjustOccurrence.t())}
-  def get_for_event(event_id) do
+  @spec get_for_event(integer, integer) :: {:ok, list(IjustOccurrence.t())}
+  def get_for_event(event_id, offset) do
     query =
       from(
         occ in IjustOccurrence,
         where: occ.ijust_event_id == ^event_id,
         order_by: [desc: occ.inserted_at],
-        limit: 100
+        limit: 10,
+        offset: ^offset
       )
 
     {:ok, query |> Repo.all()}
