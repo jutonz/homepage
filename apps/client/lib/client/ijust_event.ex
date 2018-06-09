@@ -31,6 +31,14 @@ defmodule Client.IjustEvent do
     end
   end
 
+  @spec get_by_id(String.t()) :: {:ok, IjustEvent.t()} | {:error, String.t()}
+  def get_by_id(event_id) do
+    case event = IjustEvent |> Repo.get(event_id) do
+      %IjustEvent{} -> IjustEvent.add_occurrence(event)
+      _ -> {:error, "No matching event"}
+    end
+  end
+
   def add_for_user(user, args) do
     {:ok, name} = args |> Map.fetch(:name)
     {:ok, context_id} = args |> Map.fetch(:ijust_context_id)
@@ -56,7 +64,7 @@ defmodule Client.IjustEvent do
     {:ok, event}
   end
 
-  @spec add_occurrence(IjustEvent.t()) :: IjustEvent.t()
+  @spec add_occurrence(IjustEvent.t()) :: {:ok, IjustEvent.t()}
   def add_occurrence(event) do
     {:ok, %{ijust_event: event}} =
       Ecto.Multi.new()
@@ -65,6 +73,18 @@ defmodule Client.IjustEvent do
       |> Repo.transaction()
 
     {:ok, event}
+  end
+
+  def add_occurrence_by_id(event_id) do
+    {:ok, event} = event_id |> IjustEvent.get_by_id()
+
+    {:ok, %{ijust_occurrence: occurrence}} =
+      Ecto.Multi.new()
+      |> Ecto.Multi.insert(:ijust_occurrence, new_occurrence_changeset(event.id))
+      |> Ecto.Multi.update(:ijust_event, inc_count_changeset(event))
+      |> Repo.transaction()
+
+    {:ok, occurrence}
   end
 
   @spec new_occurrence_changeset(IjustEvent.t()) :: Ecto.Changeset.t()

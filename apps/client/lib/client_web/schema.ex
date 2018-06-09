@@ -147,5 +147,10 @@ defmodule ClientWeb.Schema do
       arg(:name, non_null(:string))
       resolve(&ClientWeb.IjustResolver.create_ijust_event/3)
     end
+
+    field :ijust_add_occurrence_to_event, :ijust_occurrence do
+      arg(:ijust_event_id, non_null(:id))
+      resolve(&ClientWeb.IjustResolver.add_occurrence_to_event/3)
+    end
   end
 end

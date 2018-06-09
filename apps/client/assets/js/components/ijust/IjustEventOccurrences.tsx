@@ -6,8 +6,9 @@ import { format, distanceInWordsToNow } from "date-fns";
 
 import { QueryLoader } from "@utils/QueryLoader";
 import { Constants } from "@utils/Constants";
+import { IjustAddOccurrenceToEventButton } from "./IjustAddOccurrenceToEventButton";
 
-const QUERY = gql`
+export const GET_OCCURRENCES = gql`
   query GetIjustEventOccurrences($eventId: ID!, $offset: Int!) {
     getIjustEventOccurrences(eventId: $eventId, offset: $offset) {
       id
@@ -43,14 +44,20 @@ export class IjustEventOccurrences extends React.Component<Props, State> {
       <div>
         <Header>Occurrences</Header>
         <QueryLoader
-          query={QUERY}
+          query={GET_OCCURRENCES}
           variables={{ eventId, offset }}
           component={({ data, fetchMore }) => {
             const occurrences = data.getIjustEventOccurrences;
             return (
               <div>
+                <IjustAddOccurrenceToEventButton
+                  eventId={eventId}
+                  updateQuery={GET_OCCURRENCES}
+                />
                 <Table basic="very">
-                  <Table.Body>{occurrences.map(renderOccurrence)}</Table.Body>
+                  <Table.Body>
+                    {occurrences.map(this.renderOccurrence)}
+                  </Table.Body>
                 </Table>
                 <Button
                   onClick={() => {
@@ -79,15 +86,17 @@ export class IjustEventOccurrences extends React.Component<Props, State> {
       </div>
     );
   }
-}
 
-const renderOccurrence = occurrence => (
-  <Table.Row key={occurrence.id}>
-    <Table.Cell>
-      {format(occurrence.insertedAt, Constants.dateTimeFormat)}
-      <span className={css(styles.relativeDateSpacer)}>
-        ({distanceInWordsToNow(occurrence.insertedAt)} ago)
-      </span>
-    </Table.Cell>
-  </Table.Row>
-);
+  renderOccurrence(occurrence) {
+    return (
+      <Table.Row key={occurrence.id}>
+        <Table.Cell>
+          {format(occurrence.insertedAt, Constants.dateTimeFormat)}
+          <span className={css(styles.relativeDateSpacer)}>
+            ({distanceInWordsToNow(occurrence.insertedAt)} ago)
+          </span>
+        </Table.Cell>
+      </Table.Row>
+    );
+  }
+}
