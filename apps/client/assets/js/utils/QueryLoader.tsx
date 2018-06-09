@@ -24,7 +24,8 @@ export const QueryLoader = ({
 }: Props) => (
   <div>
     <Query query={query} variables={variables}>
-      {({ loading, error, data }) => {
+      {result => {
+        const { loading, error } = result;
         if (loading) {
           return <Loader active />;
         }
@@ -34,7 +35,7 @@ export const QueryLoader = ({
           return <div className={css(styles.error)}>{errors}</div>;
         }
 
-        return <Component data={data} />;
+        return <Component {...result} />;
       }}
     </Query>
   </div>

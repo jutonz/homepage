@@ -97,6 +97,7 @@ defmodule ClientWeb.Schema do
 
     field :get_ijust_event_occurrences, list_of(:ijust_occurrence) do
       arg(:event_id, non_null(:id))
+      arg(:offset, :integer, default_value: 0)
       resolve(&ClientWeb.IjustResolver.get_event_occurrences/3)
     end
   end
