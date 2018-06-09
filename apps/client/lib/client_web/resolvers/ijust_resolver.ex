@@ -72,4 +72,16 @@ defmodule ClientWeb.IjustResolver do
              _ -> {:error, "Failed to fetch occurrences"}
            )
   end
+
+  def add_occurrence_to_event(_parent, args, %{context: context}) do
+    with {:ok, _user} <- context |> Map.fetch(:current_user),
+         {:ok, event_id} <- args |> Map.fetch(:ijust_event_id),
+         {:ok, occurrence} <- event_id |> IjustEvent.add_occurrence_by_id(),
+         do: {:ok, occurrence},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to fetch occurrences"}
+           )
+  end
 end
