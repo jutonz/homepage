@@ -6,8 +6,5 @@ export const HomeRoute = () => (
   <div>
     <MainNav activeItem={"home"} />
     <Incr />
-    <Incr />
-    <Incr />
-    <Incr />
   </div>
 );

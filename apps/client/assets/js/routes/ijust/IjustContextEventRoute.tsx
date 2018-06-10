@@ -8,6 +8,7 @@ import { MainNav } from "@components/MainNav";
 import { QueryLoader } from "@utils/QueryLoader";
 import { IjustEventOccurrences } from "@components/ijust/IjustEventOccurrences";
 import { Constants } from "@utils/Constants";
+import { IjustBreadcrumbs } from "@components/ijust/IjustBreadcrumbs";
 
 const QUERY = gql`
   query GetIjustContextEvent($contextId: ID!, $eventId: ID!) {
@@ -51,8 +52,10 @@ export const IjustContextEventRoute = ({ match }) => {
   );
 };
 
+const context = { name: "default", id: 3 };
 const renderEvent = event => (
   <div>
+    <IjustBreadcrumbs context={context} event={event} viewing={event} />
     <Header>Ijust Event</Header>
     <Table basic="very">
       <Table.Body>

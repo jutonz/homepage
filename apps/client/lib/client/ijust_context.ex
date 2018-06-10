@@ -30,7 +30,7 @@ defmodule Client.IjustContext do
   end
 
   @spec get_default_context(user_id :: number) :: {:ok, IjustContext.t()}
-  def get_default_context(user_id) when is_number(user_id) do
+  def get_default_context(user_id) do
     context = IjustContext |> Repo.get_by(name: "default", user_id: user_id)
 
     case context do
@@ -40,7 +40,7 @@ defmodule Client.IjustContext do
   end
 
   @spec create_default_context(user_id :: number) :: {:ok, IjustContext.t()}
-  def create_default_context(user_id) when is_integer(user_id) do
+  def create_default_context(user_id) do
     %IjustContext{}
     |> changeset(%{name: "default", user_id: user_id})
     |> Repo.insert()
@@ -57,5 +57,19 @@ defmodule Client.IjustContext do
       )
 
     {:ok, query |> Repo.all()}
+  end
+
+  @spec get_by_user_id(number | String.t()) :: {:ok, list(IjustContext.t())} | {:error, String.t()}
+  def get_by_user_id(user_id) do
+    #contexts = IjustContext |> Repo.all(user_id: ^user_id)
+    query = from(c in IjustContext, where: c.user_id == ^user_id, order_by: c.name)
+    contexts = query |> Repo.all()
+
+    if contexts == [] do
+      {:ok, default} = user_id |> IjustContext.get_default_context()
+      {:ok, [default]}
+    else
+      {:ok, contexts}
+    end
   end
 end
