@@ -282,6 +282,7 @@ pipeline:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
     group: migrage
     commands:
+      - sleep 30
       - echo $KUBELET_CONF | base64 -d > $KUBECONFIG
       - kubectl get pods -nhomepage
       - export POD=`kubectl get pods -nhomepage --sort-by=.status.startTime | grep app | grep Running | head -n1 | awk '{print $1}'`
