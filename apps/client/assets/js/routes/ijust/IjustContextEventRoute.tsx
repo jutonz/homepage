@@ -44,7 +44,9 @@ export const IjustContextEventRoute = ({ match }) => {
           variables={{ contextId, eventId }}
           component={({ data }) => {
             const event = data.getIjustContextEvent;
-            return renderEvent(event);
+            // TODO: hacky hack
+            const context = { name: "default", id: contextId };
+            return renderEvent(event, context);
           }}
         />
       </div>
@@ -52,8 +54,7 @@ export const IjustContextEventRoute = ({ match }) => {
   );
 };
 
-const context = { name: "default", id: 3 };
-const renderEvent = event => (
+const renderEvent = (event, context) => (
   <div>
     <IjustBreadcrumbs context={context} event={event} viewing={event} />
     <Header>Ijust Event</Header>

@@ -58,18 +58,4 @@ defmodule Client.IjustContext do
 
     {:ok, query |> Repo.all()}
   end
-
-  @spec get_by_user_id(number | String.t()) :: {:ok, list(IjustContext.t())} | {:error, String.t()}
-  def get_by_user_id(user_id) do
-    #contexts = IjustContext |> Repo.all(user_id: ^user_id)
-    query = from(c in IjustContext, where: c.user_id == ^user_id, order_by: c.name)
-    contexts = query |> Repo.all()
-
-    if contexts == [] do
-      {:ok, default} = user_id |> IjustContext.get_default_context()
-      {:ok, [default]}
-    else
-      {:ok, contexts}
-    end
-  end
 end

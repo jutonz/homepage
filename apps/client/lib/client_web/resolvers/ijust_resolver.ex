@@ -84,15 +84,4 @@ defmodule ClientWeb.IjustResolver do
              _ -> {:error, "Failed to fetch occurrences"}
            )
   end
-
-  def get_contexts(_parent, _args, %{context: context}) do
-    with {:ok, user} <- context |> Map.fetch(:current_user),
-         {:ok, contexts} <- user.id |> IjustContext.get_by_user_id,
-      do: {:ok, contexts},
-      else: (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to fetch contexts"}
-      )
-         
-  end
 end
