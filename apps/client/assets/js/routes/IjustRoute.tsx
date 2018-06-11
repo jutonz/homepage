@@ -20,9 +20,7 @@ export const IjustRoute = () => (
     <MainNav activeItem={"ijust"} />
     <QueryLoader
       query={QUERY}
-      variables={{}}
       component={({ data }) => {
-        console.log(data);
         const contextId = data.getIjustDefaultContext.id;
         return (
           <Redirect

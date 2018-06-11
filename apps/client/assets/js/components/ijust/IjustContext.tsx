@@ -3,10 +3,11 @@ import { Divider } from "semantic-ui-react";
 
 import { IjustEventInput } from "@components/ijust/IjustEventInput";
 import { IjustRecentEvents } from "@components/ijust/IjustRecentEvents";
+import { IjustBreadcrumbs } from "@components/ijust/IjustBreadcrumbs";
 
 const _IjustContext = ({ context }) => (
   <div>
-    Using {context.name} context
+    <IjustBreadcrumbs context={context} viewing={context} />
     <IjustEventInput ijustContextId={context.id} />
     <Divider hidden />
     <IjustRecentEvents context={context} />
