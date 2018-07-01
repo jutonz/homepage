@@ -25,12 +25,5 @@ COPY docker/dev/app/* /etc/
 COPY docker/dev/app/remsh /usr/bin/
 COPY docker/dev/app/setup /etc/entrypoint.d/
 
-#ENTRYPOINT ["/bin/bash", "-c", "/etc/runscripts.sh"]
-#ENTRYPOINT /etc/runscripts.sh /etc/setup.sh
-#CMD /etc/start.sh
-#CMD ["'/etc/start.sh'"]
-
-
 ENTRYPOINT ["/etc/entrypoint.sh"]
-#ENTRYPOINT /etc/entrypoint.sh
 CMD ["/etc/start"]

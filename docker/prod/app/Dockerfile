@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM elixir:1.6
 
 RUN DEBIAN_FRONTEND="noninteractive" \
 && apt-get update -y && apt-get install -y \
@@ -27,14 +27,6 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
   libpq-dev \
 && rm -rf /var/lib/apt/lists/*
 
-# Erlang and Elixir
-RUN export DEBIAN_FRONTEND="noninteractive" \
-  && wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb \
-  && dpkg -i erlang-solutions_1.0_all.deb \
-  && apt-get update \
-  && apt-get install -y esl-erlang elixir \
-  && rm erlang-solutions_1.0_all.deb
-
 # Node
 RUN export DEBIAN_FRONTEND="noninteractive" \
  && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
@@ -52,13 +44,13 @@ COPY docker/prod/app/init.sh /etc/
 COPY . /root/code/
 WORKDIR /root/code
 
-# Compile elixir
+# Compile elixir and erl assets
 RUN MIX_ENV=prod mix local.hex --force
 RUN MIX_ENV=prod mix local.rebar --force
 RUN MIX_ENV=prod mix deps.get
 RUN MIX_ENV=prod mix compile
 
-# Compile js
+# Compile js assets
 RUN cd apps/client/assets && yarn && yarn cache clean && yarn run bundle
 RUN MIX_ENV=prod mix phx.digest
 
