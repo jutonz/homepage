@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Breadcrumb } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import { StyleSheet, css } from "aphrodite";
 
 interface Props {
   context?: any;
@@ -8,18 +9,33 @@ interface Props {
   viewing: any | "contexts";
 }
 
+const style = StyleSheet.create({
+  breadcrumb: {
+    fontSize: "1.5rem",
+    display: "flex"
+  },
+  sep: {
+    fontSize: "0.9rem",
+    display: "flex",
+    alignItems: "center",
+    margin: "0 10px 2px 10px"
+  }
+});
+
 export const IjustBreadcrumbs = ({ context, event, viewing }: Props) => (
-  <Breadcrumb>
+  <Breadcrumb className={css(style.breadcrumb)}>
     <Breadcrumb.Section>{contextsLinkOrNot(viewing)}</Breadcrumb.Section>
-    {context && <Breadcrumb.Divider />}
+    {context && (
+      <Breadcrumb.Divider className={css(style.sep)}>></Breadcrumb.Divider>
+    )}
     {context && (
       <Breadcrumb.Section>
         {contextLinkOrNot(context, viewing)}
       </Breadcrumb.Section>
     )}
-    {event && <Breadcrumb.Divider />}
-    {event && <Breadcrumb.Section>Events</Breadcrumb.Section>}
-    {event && <Breadcrumb.Divider />}
+    {event && (
+      <Breadcrumb.Divider className={css(style.sep)}>></Breadcrumb.Divider>
+    )}
     {event && <Breadcrumb.Section>{event.name}</Breadcrumb.Section>}
   </Breadcrumb>
 );
