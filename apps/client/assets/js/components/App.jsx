@@ -10,6 +10,7 @@ import { Flash } from "@components/Flash";
 import { HomeRoute } from "@routes/HomeRoute";
 import { IjustContextEventRoute } from "@routes/ijust/IjustContextEventRoute";
 import { IjustContextRoute } from "@routes/IjustContextRoute";
+import { IjustContextsRoute } from "@routes/IjustContextsRoute";
 import { IjustRoute } from "@routes/IjustRoute";
 import { LoginRoute } from "@routes/LoginRoute";
 import { ResumeRoute } from "@routes/ResumeRoute";
@@ -51,6 +52,11 @@ const _App = ({ flashMessages }) => (
           component={TeamUserRoute}
         />
         <AuthenticatedRoute exact path="/ijust" component={IjustRoute} />
+        <AuthenticatedRoute
+          exact
+          path="/ijust/contexts"
+          component={IjustContextsRoute}
+        />
         <AuthenticatedRoute
           exact
           path="/ijust/contexts/:id"
