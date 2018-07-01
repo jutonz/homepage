@@ -11,9 +11,6 @@ USER root
 ENV HOME /root
 WORKDIR /root
 
-# Configure locale
-RUN locale-gen en_US.utf8 && update-locale LANG=en_US.utf8 LC_ALL=en_US.utf8
-
 # Utilility packages
 RUN export DEBIAN_FRONTEND="noninteractive" \
 && apt-get update -y && apt-get install -y \
