@@ -30,11 +30,12 @@ defmodule Client.IjustContext do
   end
 
   def get_all_for_user(user_id) do
-    query = from(
-      c in IjustContext,
-      where: c.user_id == ^user_id,
-      order_by: [asc: c.name]
-    )
+    query =
+      from(
+        c in IjustContext,
+        where: c.user_id == ^user_id,
+        order_by: [asc: c.name]
+      )
 
     {:ok, query |> Repo.all()}
   end
