@@ -25,7 +25,8 @@ const QUERY = gql`
 
 const styles = StyleSheet.create({
   routeContainer: {
-    margin: "0 30px"
+    margin: "30px auto",
+    maxWidth: "700px"
   },
   relativeDateSpacer: {
     marginLeft: "10px"

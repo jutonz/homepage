@@ -8,7 +8,10 @@ import { IjustBreadcrumbs } from "@components/ijust/IjustBreadcrumbs";
 import { QueryLoader } from "@utils/QueryLoader";
 
 const style = StyleSheet.create({
-  routeContainer: { margin: "0 30px" },
+  routeContainer: {
+    margin: "30px auto",
+    maxWidth: "700px"
+  },
   errors: { color: "red" },
   context: {
     marginTop: "10px",
