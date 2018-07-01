@@ -8,7 +8,18 @@ defmodule ClientWeb.IjustResolver do
          else:
            (
              {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to update password"}
+             _ -> {:error, "Failed to get default context"}
+           )
+  end
+
+  def get_ijust_contexts(_parent, _args, %{context: context}) do
+    with {:ok, user} <- context |> Map.fetch(:current_user),
+         {:ok, contexts} <- user.id |> IjustContext.get_all_for_user,
+         do: {:ok, contexts},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to fetch contexts"}
            )
   end
 

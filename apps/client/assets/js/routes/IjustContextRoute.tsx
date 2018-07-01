@@ -1,9 +1,6 @@
 import { StyleSheet, css } from "aphrodite";
-import { connect } from "react-redux";
 import * as React from "react";
 import gql from "graphql-tag";
-
-import { fetchContext } from "@store/sagas/ijust";
 
 import { IjustContext } from "../components/ijust/IjustContext";
 import { MainNav } from "../components/MainNav";
@@ -25,7 +22,7 @@ const QUERY = gql`
   }
 `;
 
-const _IjustContextRoute = ({ match }) => (
+export const IjustContextRoute = ({ match }) => (
   <div>
     <MainNav activeItem={"ijust"} />
     <QueryLoader
@@ -46,12 +43,3 @@ const renderContext = context => (
     </div>
   </div>
 );
-
-export const IjustContextRoute = connect(
-  (state: any, props: any) => ({
-    context: state.ijust.getIn(["contexts", props.match.params.id])
-  }),
-  dispatch => ({
-    fetchContext: id => dispatch(fetchContext(id))
-  })
-)(_IjustContextRoute);
