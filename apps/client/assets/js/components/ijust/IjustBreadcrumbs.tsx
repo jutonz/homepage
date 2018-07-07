@@ -11,7 +11,7 @@ interface Props {
 
 const style = StyleSheet.create({
   breadcrumb: {
-    fontSize: "1.5rem",
+    fontSize: "1.3rem",
     display: "flex"
   },
   sep: {

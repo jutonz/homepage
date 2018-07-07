@@ -38,6 +38,8 @@ defmodule ClientWeb.Schema do
     field(:ijust_event_id, non_null(:id))
     field(:inserted_at, non_null(:string))
     field(:updated_at, non_null(:string))
+    # virtual
+    field(:is_deleted, :boolean)
   end
 
   query do
@@ -155,6 +157,11 @@ defmodule ClientWeb.Schema do
     field :ijust_add_occurrence_to_event, :ijust_occurrence do
       arg(:ijust_event_id, non_null(:id))
       resolve(&ClientWeb.IjustResolver.add_occurrence_to_event/3)
+    end
+
+    field :ijust_delete_occurrence, :ijust_occurrence do
+      arg(:ijust_occurrence_id, non_null(:id))
+      resolve(&ClientWeb.IjustResolver.delete_occurrence/3)
     end
   end
 end

@@ -58,13 +58,8 @@ export const IjustContextEventRoute = ({ match }) => {
 const renderEvent = (event, context) => (
   <div>
     <IjustBreadcrumbs context={context} event={event} viewing={event} />
-    <Header>Ijust Event</Header>
     <Table basic="very">
       <Table.Body>
-        <Table.Row>
-          <Table.Cell>Name</Table.Cell>
-          <Table.Cell>{event.name}</Table.Cell>
-        </Table.Row>
         <Table.Row>
           <Table.Cell>Count</Table.Cell>
           <Table.Cell>{event.count}</Table.Cell>

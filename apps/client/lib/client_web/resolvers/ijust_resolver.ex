@@ -95,4 +95,16 @@ defmodule ClientWeb.IjustResolver do
              _ -> {:error, "Failed to fetch occurrences"}
            )
   end
+
+  def delete_occurrence(_parent, args, %{context: context}) do
+    with {:ok, user} <- context |> Map.fetch(:current_user),
+         {:ok, occ_id} <- args |> Map.fetch(:ijust_occurrence_id),
+         {:ok, occurrence} <- IjustOccurrence.delete_by_user(user.id, occ_id),
+         do: {:ok, occurrence},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to fetch occurrences"}
+           )
+  end
 end
