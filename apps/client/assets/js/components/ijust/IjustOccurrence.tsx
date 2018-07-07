@@ -38,8 +38,7 @@ export const IjustOccurrence = ({ occurrence }: Props) => (
     <Table.Cell>
       {format(occurrence.insertedAt, Constants.dateTimeFormat)}
       <span className={css(styles.relativeDateSpacer)}>
-        ({distanceInWordsToNow(occurrence.insertedAt)} ago) isDeleted:{" "}
-        {occurrence.isDeleted}
+        ({distanceInWordsToNow(occurrence.insertedAt)} ago)
       </span>
     </Table.Cell>
     <Table.Cell>{renderDeleteButton(occurrence)}</Table.Cell>

@@ -11,6 +11,7 @@ export const GET_OCCURRENCES = gql`
     getIjustEventOccurrences(eventId: $eventId, offset: $offset) {
       id
       insertedAt
+      isDeleted
     }
   }
 `;
@@ -48,9 +49,10 @@ export class IjustEventOccurrences extends React.Component<Props, State> {
                 />
                 <Table basic="very">
                   <Table.Body>
-                    {occurrences
-                      .filter(o => !o.isDeleted)
-                      .map(this.renderOccurrence)}
+                    {occurrences &&
+                      occurrences
+                        .filter(o => !o.isDeleted)
+                        .map(this.renderOccurrence)}
                   </Table.Body>
                 </Table>
                 <Button

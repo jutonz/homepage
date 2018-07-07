@@ -10,6 +10,7 @@ const ADD_OCCURRENCE = gql`
     ijustAddOccurrenceToEvent(ijustEventId: $ijustEventId) {
       id
       insertedAt
+      isDeleted
     }
   }
 `;

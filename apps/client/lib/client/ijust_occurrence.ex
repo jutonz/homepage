@@ -37,7 +37,7 @@ defmodule Client.IjustOccurrence do
   def delete_by_user(_user_id, occurrence_id) do
     occurrence = IjustOccurrence |> Repo.get!(occurrence_id)
 
-    case occurrence |> Repo.delete do
+    case occurrence |> Repo.delete() do
       {:ok, occ} -> {:ok, occ}
       {:error, changeset} -> {:error, "Failed to delete occurrence"}
     end

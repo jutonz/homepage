@@ -38,6 +38,8 @@ defmodule ClientWeb.Schema do
     field(:ijust_event_id, non_null(:id))
     field(:inserted_at, non_null(:string))
     field(:updated_at, non_null(:string))
+    # virtual
+    field(:is_deleted, :boolean)
   end
 
   query do
