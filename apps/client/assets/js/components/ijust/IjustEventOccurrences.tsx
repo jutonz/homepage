@@ -1,12 +1,10 @@
 import * as React from "react";
 import gql from "graphql-tag";
 import { Button, Header, Table } from "semantic-ui-react";
-import { css, StyleSheet } from "aphrodite";
-import { format, distanceInWordsToNow } from "date-fns";
 
 import { QueryLoader } from "@utils/QueryLoader";
-import { Constants } from "@utils/Constants";
 import { IjustAddOccurrenceToEventButton } from "./IjustAddOccurrenceToEventButton";
+import { IjustOccurrence } from "@components/ijust/IjustOccurrence";
 
 export const GET_OCCURRENCES = gql`
   query GetIjustEventOccurrences($eventId: ID!, $offset: Int!) {
@@ -16,12 +14,6 @@ export const GET_OCCURRENCES = gql`
     }
   }
 `;
-
-const styles = StyleSheet.create({
-  relativeDateSpacer: {
-    marginLeft: "10px"
-  }
-});
 
 interface State {
   offset: number;
@@ -56,7 +48,9 @@ export class IjustEventOccurrences extends React.Component<Props, State> {
                 />
                 <Table basic="very">
                   <Table.Body>
-                    {occurrences.map(this.renderOccurrence)}
+                    {occurrences
+                      .filter(o => !o.isDeleted)
+                      .map(this.renderOccurrence)}
                   </Table.Body>
                 </Table>
                 <Button
@@ -88,15 +82,6 @@ export class IjustEventOccurrences extends React.Component<Props, State> {
   }
 
   renderOccurrence(occurrence) {
-    return (
-      <Table.Row key={occurrence.id}>
-        <Table.Cell>
-          {format(occurrence.insertedAt, Constants.dateTimeFormat)}
-          <span className={css(styles.relativeDateSpacer)}>
-            ({distanceInWordsToNow(occurrence.insertedAt)} ago)
-          </span>
-        </Table.Cell>
-      </Table.Row>
-    );
+    return <IjustOccurrence occurrence={occurrence} key={occurrence.id} />;
   }
 }
