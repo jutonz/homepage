@@ -41,16 +41,27 @@ COPY docker/prod/app/init.sh /etc/
 COPY . /root/code/
 WORKDIR /root/code
 
+#RUN ( \
+  #MIX_ENV=prod mix local.hex --force && \
+  #MIX_ENV=prod mix local.rebar --force && \
+  #MIX_ENV=prod mix deps.get && \
+  #MIX_ENV=prod mix compile \
+#) & \
+  #cd apps/client/assets && yarn && yarn cache clean && yarn run bundle \
+#); wait
+
+RUN (MIX_ENV=prod mix local.hex --force && MIX_ENV=prod mix local.rebar --force && MIX_ENV=prod mix deps.get && MIX_ENV=prod mix compile) & (cd apps/client/assets && yarn && yarn cache clean && yarn run bundle); wait
+
 # Prepare elixir assets
-RUN MIX_ENV=prod mix local.hex --force
-RUN MIX_ENV=prod mix local.rebar --force
-RUN MIX_ENV=prod mix deps.get
+#RUN MIX_ENV=prod mix local.hex --force
+#RUN MIX_ENV=prod mix local.rebar --force
+#RUN MIX_ENV=prod mix deps.get
 
 # Prepare js assets
-RUN cd apps/client/assets && yarn && yarn cache clean
+#RUN cd apps/client/assets && yarn && yarn cache clean
 
 # Bulid elixir and js assets in parallel
-RUN (MIX_ENV=prod mix compile) & (cd apps/client/assets && yarn run bundle); wait
+#RUN (MIX_ENV=prod mix compile) & (cd apps/client/assets && yarn run bundle); wait
 
 # Fingerprint frontend assets
 RUN MIX_ENV=prod mix phx.digest
