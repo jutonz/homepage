@@ -23,4 +23,7 @@ const mapDispatchToProps = dispatch => ({
   decCount: () => dispatch({ type: "DEC" })
 });
 
-export const Incr = connect(mapStateToProps, mapDispatchToProps)(_Incr);
+export const Incr = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(_Incr);

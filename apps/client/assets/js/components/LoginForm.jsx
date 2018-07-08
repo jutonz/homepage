@@ -181,6 +181,7 @@ const mapStateToProps = state => ({
   csrfToken: state.csrfToken
 });
 
-export const LoginForm = compose(withRouter, connect(mapStateToProps))(
-  _LoginForm
-);
+export const LoginForm = compose(
+  withRouter,
+  connect(mapStateToProps)
+)(_LoginForm);

@@ -61,6 +61,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export const TeamDeleteButton = connect(undefined, mapDispatchToProps)(
-  _TeamDeleteButton
-);
+export const TeamDeleteButton = connect(
+  undefined,
+  mapDispatchToProps
+)(_TeamDeleteButton);
