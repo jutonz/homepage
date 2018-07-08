@@ -84,6 +84,7 @@ const mapDispatchToProps = dispatch => ({
   setGrams: (g: number) => dispatch(setCoffeemakerGramsAction(g))
 });
 
-export const Coffeemaker = connect(mapStoreToProps, mapDispatchToProps)(
-  _Coffeemaker
-);
+export const Coffeemaker = connect(
+  mapStoreToProps,
+  mapDispatchToProps
+)(_Coffeemaker);

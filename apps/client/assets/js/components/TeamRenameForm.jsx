@@ -46,6 +46,7 @@ const mapDispatchToProps = dispatch => ({
   renameTeam: (id, name) => dispatch({ type: "RENAME_TEAM", id, name })
 });
 
-export const TeamRenameForm = connect(null, mapDispatchToProps)(
-  _TeamRenameForm
-);
+export const TeamRenameForm = connect(
+  null,
+  mapDispatchToProps
+)(_TeamRenameForm);

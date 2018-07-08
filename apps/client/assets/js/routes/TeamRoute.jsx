@@ -100,6 +100,9 @@ const mapDispatchToProps = dispatch => ({
   showFlash: (message, tone) => dispatch(showFlash(message, tone))
 });
 
-export const TeamRoute = compose(connect(mapStoreToProps, mapDispatchToProps))(
-  _TeamRoute
-);
+export const TeamRoute = compose(
+  connect(
+    mapStoreToProps,
+    mapDispatchToProps
+  )
+)(_TeamRoute);

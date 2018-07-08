@@ -86,4 +86,9 @@ const mapStoreToProps = state => ({
   flashMessages: state.flash.get("messages")
 });
 
-export const App = compose(connect(mapStoreToProps, null))(_App);
+export const App = compose(
+  connect(
+    mapStoreToProps,
+    null
+  )
+)(_App);

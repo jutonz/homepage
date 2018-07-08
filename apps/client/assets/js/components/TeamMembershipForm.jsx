@@ -90,5 +90,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export const TeamMembershipForm = compose(
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(_TeamMembershipForm);
