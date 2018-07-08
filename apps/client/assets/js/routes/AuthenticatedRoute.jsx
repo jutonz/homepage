@@ -30,6 +30,7 @@ const mapStoreToProps = store => ({
   sessionEstablished: store.session.established
 });
 
-export const AuthenticatedRoute = compose(withRouter, connect(mapStoreToProps))(
-  _AuthenticatedRoute
-);
+export const AuthenticatedRoute = compose(
+  withRouter,
+  connect(mapStoreToProps)
+)(_AuthenticatedRoute);

@@ -43,4 +43,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: "SET_SESSION_ESTABLISHED", established })
 });
 
-export const Index = connect(null, mapDispatchToProps)(_Index);
+export const Index = connect(
+  null,
+  mapDispatchToProps
+)(_Index);

@@ -79,6 +79,6 @@ const groundsForWater = floz => {
 // floz = (grams / GRAMS_PER_CUP) * FLOZ_PER_CUP
 
 const flozForGrams = grams => {
-  const floz = grams / GRAMS_PER_CUP * FLOZ_PER_CUP;
+  const floz = (grams / GRAMS_PER_CUP) * FLOZ_PER_CUP;
   return round(floz);
 };

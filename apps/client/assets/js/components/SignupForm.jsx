@@ -153,6 +153,7 @@ const mapStoreToProps = store => ({
   csrfToken: store.csrfToken
 });
 
-export const SignupForm = compose(withRouter, connect(mapStoreToProps))(
-  _SignupForm
-);
+export const SignupForm = compose(
+  withRouter,
+  connect(mapStoreToProps)
+)(_SignupForm);

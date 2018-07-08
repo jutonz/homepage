@@ -114,6 +114,9 @@ const mapDispatchToProps = dispatch => ({
   showFlash: (message, tone = "info") => dispatch(showFlash(message, tone))
 });
 
-export const OneTimeLoginLink = compose(connect(null, mapDispatchToProps))(
-  _OneTimeLoginLink
-);
+export const OneTimeLoginLink = compose(
+  connect(
+    null,
+    mapDispatchToProps
+  )
+)(_OneTimeLoginLink);
