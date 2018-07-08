@@ -42,13 +42,12 @@ COPY . /root/code/
 WORKDIR /root/code
 
 # Compile elixir and erl assets
-RUN MIX_ENV=prod mix local.hex --force
-RUN MIX_ENV=prod mix local.rebar --force
-RUN MIX_ENV=prod mix deps.get
-RUN MIX_ENV=prod mix compile
+RUN cd apps/client/assets && yarn compile:backend
 
 # Compile js assets
-RUN cd apps/client/assets && yarn && yarn cache clean && yarn run bundle
+RUN cd apps/client/assets && yarn compile:frontend
+
+# Fingerprint frontend assets
 RUN MIX_ENV=prod mix phx.digest
 
 CMD ["/bin/bash", "-c", "/etc/init.sh"]
