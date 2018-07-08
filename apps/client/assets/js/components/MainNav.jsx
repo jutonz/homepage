@@ -99,5 +99,8 @@ const mapDispatchToProps = dispatch => ({
 
 export const MainNav = compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(_MainNav);

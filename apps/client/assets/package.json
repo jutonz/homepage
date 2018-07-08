@@ -8,7 +8,9 @@
     "start": "node ./node_modules/.bin/webpack-dev-server --config webpack.config.development.js",
     "s": "yarn start",
     "lint": "node ./node_modules/.bin/eslint 'js/**/*.{js,jsx,ts,tsx}'",
-    "lintfix": "tslint js/**/*.ts js/**/*.tsx --fix"
+    "lintfix": "tslint js/**/*.ts js/**/*.tsx --fix",
+    "compile:backend": "cd ../../.. && MIX_ENV=prod mix local.hex --force && MIX_ENV=prod mix local.rebar --force && MIX_ENV=prod mix deps.get && MIX_ENV=prod mix compile",
+    "compile:frontend": "yarn --link-duplicates && yarn run bundle"
   },
   "dependencies": {
     "aphrodite": "^1.2.3",
@@ -60,6 +62,7 @@
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "mini-css-extract-plugin": "^0.2.0",
+    "prettier": "^1.13.7",
     "react-hot-loader": "^4.0.0",
     "redux-logger": "^3.0.6",
     "style-loader": "^0.20.3",
@@ -67,7 +70,7 @@
     "typescript": "^2.8.3",
     "url-loader": "^0.6.2",
     "webpack": "^4.2.0",
-    "webpack-cli": "^2.0.13",
+    "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.1"
   }
 }
