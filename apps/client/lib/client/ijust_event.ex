@@ -34,7 +34,7 @@ defmodule Client.IjustEvent do
   @spec get_by_id(String.t()) :: {:ok, IjustEvent.t()} | {:error, String.t()}
   def get_by_id(event_id) do
     case event = IjustEvent |> Repo.get(event_id) do
-      %IjustEvent{} -> IjustEvent.add_occurrence(event)
+      %IjustEvent{} -> {:ok, event}
       _ -> {:error, "No matching event"}
     end
   end
@@ -87,7 +87,7 @@ defmodule Client.IjustEvent do
     {:ok, occurrence}
   end
 
-  @spec new_occurrence_changeset(IjustEvent.t()) :: Ecto.Changeset.t()
+  @spec inc_count_changeset(IjustEvent.t()) :: Ecto.Changeset.t()
   def inc_count_changeset(%IjustEvent{} = event) do
     event |> changeset(%{count: event.count + 1})
   end
