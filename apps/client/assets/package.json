@@ -8,7 +8,8 @@
     "start": "node ./node_modules/.bin/webpack-dev-server --config webpack.config.development.js",
     "s": "yarn start",
     "lint": "node ./node_modules/.bin/eslint 'js/**/*.{js,jsx,ts,tsx}'",
-    "lintfix": "tslint js/**/*.ts js/**/*.tsx --fix"
+    "compile:backend": "cd ../../.. && MIX_ENV=prod mix local.hex --force && MIX_ENV=prod mix local.rebar --force && MIX_ENV=prod mix deps.get && MIX_ENV=prod mix compile",
+    "compile:frontend": "yarn --link-duplicates && yarn run bundle"
   },
   "dependencies": {
     "aphrodite": "^1.2.3",
