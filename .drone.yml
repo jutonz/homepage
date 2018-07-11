@@ -11,12 +11,12 @@ pipeline:
     - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
     - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
-    - TAG=13
+    - TAG=14
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   cleanup-pre:
     group: pre
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - dctl down
     - dctl rm -f
@@ -36,7 +36,7 @@ pipeline:
       - /tmp/cache:/cache
 
   build-dev-psql:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     group: build
     commands:
     - dctl pull $SERVICE --version=latest || true
@@ -44,7 +44,7 @@ pipeline:
     environment: ["SERVICE=psql"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-dev-app:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     group: build
     commands:
     - dctl pull $SERVICE --version=latest || true
@@ -52,7 +52,7 @@ pipeline:
     environment: ["SERVICE=app"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-dev-redis:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     group: build
     commands:
     - dctl pull $SERVICE --version=latest || true
@@ -61,7 +61,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-prod-redis:
     group: build
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands: [". /etc/build-service.sh"]
     secrets: [ kubelet_conf ]
     environment:
@@ -72,7 +72,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-prod-psql:
     group: build
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands: [". /etc/build-service.sh"]
     secrets: [ kubelet_conf ]
     environment:
@@ -83,7 +83,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-prod-app:
     group: build
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands: [". /etc/build-service.sh"]
     secrets: [ kubelet_conf ]
     environment:
@@ -94,13 +94,13 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   fetch-node-modules:
     group: build
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - cd apps/client/assets
     - yarn install
 
   initdb:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - set -e
     - ruby -ryaml -e "fn = 'docker/dev/docker-compose.yml'; y = YAML.load_file(fn); y['services']['app']['volumes'] = ['ci_code:/app']; File.open(fn, 'w') { |f| f.write(y.to_yaml) }"
@@ -117,21 +117,21 @@ pipeline:
 
   mix-test:
     group: test
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - dctl run --rm app "'MIX_ENV=test mix coveralls --umbrella'"
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   mix-format:
     group: test
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - dctl run --rm app "'mix format --check-formatted'"
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   eslint:
     group: test
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - cd apps/client/assets
     - yarn lint
@@ -149,12 +149,12 @@ pipeline:
     - PRIVATE_DOCKER_USERNAME=$$PRIVATE_DOCKER_USERNAME
     - PRIVATE_DOCKER_PASSWORD=$$PRIVATE_DOCKER_PASSWORD
     - IMAGE=registry.jutonz.com/jutonz/homepage-ci-testimage
-    - TAG=13
+    - TAG=14
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-dev-app:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
@@ -169,7 +169,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-dev-psql:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
@@ -184,7 +184,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-dev-redis:
     group: push
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     - docker tag `dctl tag-for $SERVICE` `dctl tag-for $SERVICE --version=latest`
@@ -200,7 +200,7 @@ pipeline:
 
   push-prod-redis:
     group: push-prod
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands: [". /etc/push-service.sh"]
     secrets: [kubelet_conf, docker_username, docker_password]
     environment:
@@ -214,7 +214,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-prod-psql:
     group: push-prod
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands: [". /etc/push-service.sh"]
     secrets: [kubelet_conf, docker_username, docker_password]
     environment:
@@ -228,7 +228,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   push-prod-app:
     group: push-prod
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands: [". /etc/push-service.sh"]
     secrets: [kubelet_conf, docker_username, docker_password]
     environment:
@@ -242,7 +242,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   deploy-app:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     group: deploy
     commands: [". /etc/deploy-service.sh"]
     secrets: [ kubelet_conf ]
@@ -254,7 +254,7 @@ pipeline:
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   deploy-psql:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     group: deploy
     commands: [". /etc/deploy-service.sh"]
     secrets: [ kubelet_conf ]
@@ -266,7 +266,7 @@ pipeline:
     when: { branch: master }
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   deploy-redis:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     group: deploy
     commands: [". /etc/deploy-service.sh"]
     secrets: [ kubelet_conf ]
@@ -279,7 +279,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   migrate-db:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     group: migrage
     commands:
       - sleep 30
@@ -296,7 +296,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
 
   copyback-cache:
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - docker run -v dev_ci_code:/data --name helper busybox true
     - docker cp helper:/data/deps .
@@ -308,7 +308,7 @@ pipeline:
 
   cleanup-post:
     group: post
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:13
+    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - dctl down
     - dctl rm -f
