@@ -34,18 +34,16 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
  && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - \
  && echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list \
  && apt-get update \
- && apt-get install -y yarn
+ && apt-get install -y yarn \
+ && yarn global add npm-run-all
 
 COPY docker/prod/app/init.sh /etc/
 
 COPY . /root/code/
 WORKDIR /root/code
 
-# Compile elixir and erl assets
-RUN cd apps/client/assets && yarn compile:backend
-
-# Compile js assets
-RUN cd apps/client/assets && yarn compile:frontend
+# Compile
+RUN cd apps/client/assets && run-p compile:*
 
 # Fingerprint frontend assets
 RUN MIX_ENV=prod mix phx.digest
