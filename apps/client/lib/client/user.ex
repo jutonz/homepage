@@ -28,14 +28,14 @@ defmodule Client.User do
     |> unique_constraint(:email)
   end
 
-  def get_team(%User{} = user, team_id) do
+  def get_team(%User{} = user, team_slug) do
     query =
       from(
         u in User,
-        left_join: a in assoc(u, :teams),
+        left_join: t in assoc(u, :teams),
         where: u.id == ^user.id,
-        where: a.id == ^team_id,
-        select: a
+        where: t.slug == ^team_slug,
+        select: t
       )
 
     team = query |> Repo.one()
@@ -43,7 +43,7 @@ defmodule Client.User do
     if team do
       {:ok, team}
     else
-      {:error, "No team #{team_id} belonging to user #{user.id}"}
+      {:error, "No team #{team_slug} belonging to user #{user.id}"}
     end
   end
 
