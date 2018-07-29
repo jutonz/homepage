@@ -1,8 +1,9 @@
+import React from "react";
 import { Loader } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 import { compose } from "redux";
 import { connect } from "react-redux";
-import React from "react";
+import gql from "graphql-tag";
 
 import { TeamDeleteButton } from "@components/TeamDeleteButton";
 import { TeamName } from "@components/TeamName";
@@ -11,6 +12,17 @@ import { TeamUsersForm } from "@components/TeamUsersForm";
 import { TeamLeaveForm } from "@components/TeamLeaveForm";
 import { MainNav } from "@components/MainNav";
 import { fetchTeam, showFlash } from "@store";
+import { QueryLoader } from "@utils/QueryLoader";
+
+const GET_TEAM = gql`
+  query GetTeam($slug: String!) {
+    getTeam(slug: $slug) {
+      id
+      name
+      slug
+    }
+  }
+`;
 
 const style = StyleSheet.create({
   routeContainer: {
@@ -24,53 +36,32 @@ const style = StyleSheet.create({
 });
 
 class _TeamRoute extends React.Component {
-  componentWillMount() {
-    if (!this.props.team) {
-      const { fetchTeam, match } = this.props;
-      fetchTeam(match.params.id);
-    }
-  }
-
   render() {
-    const { team, isLoading } = this.props;
+    const slug = this.props.match.params.slug;
     return (
       <div>
         <MainNav activeItem={"settings"} />
-        <Loader active={isLoading} />
-        <div className={css(style.routeContainer)}>
-          {team && this.renderTeam()}
-        </div>
+        <QueryLoader
+          query={GET_TEAM}
+          variables={{ slug }}
+          component={({ data }) => {
+            const team = data.getTeam;
+            return (
+              <div>
+                <TeamName team={team} />
+                <div className={css(style.components)}>
+                  <TeamRenameForm team={team} />
+                  <TeamUsersForm team={team} />
+                  <TeamDeleteButton team={team} onDelete={this.onDelete} />
+                  <TeamLeaveForm team={team} />
+                </div>
+              </div>
+            );
+          }}
+        />
       </div>
     );
   }
-
-  renderTeam = () => {
-    const { team } = this.props;
-    switch (team.fetchStatus) {
-      case "failure":
-        return (
-          <div>
-            <div>Failed to load team:</div>
-            {team.errors.map((error, index) => <div key={index}>{error}</div>)}
-            {team.name}
-          </div>
-        );
-      case "success":
-        return (
-          <div>
-            <TeamName team={team} />
-            <div className={css(style.components)}>
-              <TeamRenameForm team={team} />
-              <TeamUsersForm team={team} />
-              <TeamDeleteButton team={team} onDelete={this.onDelete} />
-              <TeamLeaveForm team={team} />
-            </div>
-          </div>
-        );
-      default:
-        return <div />;
-    }
-  };
 
   onDelete = () => {
     this.props.showFlash("Team deleted", "success");

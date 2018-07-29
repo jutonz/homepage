@@ -65,6 +65,7 @@ export const fetchTeams = () => {
         getTeams {
           name
           id
+          slug
         }
       }
     `;
@@ -75,8 +76,8 @@ export const fetchTeams = () => {
         const rawTeams = response.data.getTeams;
         const teams = {};
         rawTeams.forEach(raw => {
-          const { id, name } = raw;
-          const team = { id, name, fetchStatus: "success" };
+          const { id, name, slug } = raw;
+          const team = { id, name, slug, fetchStatus: "success" };
           teams[id] = team;
         });
         dispatch(receiveTeamsSuccess(teams));

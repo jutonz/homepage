@@ -4,6 +4,8 @@ defmodule Client.User do
   import Ecto.Query, only: [from: 2]
   alias Client.{Team, Repo, User}
 
+  @type t :: %User{}
+
   schema "users" do
     field(:password_hash, :string)
     field(:password, :string, virtual: true)
@@ -14,6 +16,7 @@ defmodule Client.User do
       :teams,
       Team,
       join_through: "user_teams",
+      join_keys: [user_id: :id, team_id: :id],
       on_replace: :delete,
       on_delete: :delete_all
     )
@@ -28,13 +31,15 @@ defmodule Client.User do
     |> unique_constraint(:email)
   end
 
-  def get_team(%User{} = user, team_id) do
+  def get_team(%User{} = user, team_slug) do
+    {:ok, team} = team_slug |> Team.get_by_slug
+
     query =
       from(
         u in User,
         left_join: a in assoc(u, :teams),
         where: u.id == ^user.id,
-        where: a.id == ^team_id,
+        where: a.id == ^team.id,
         select: a
       )
 
@@ -43,7 +48,7 @@ defmodule Client.User do
     if team do
       {:ok, team}
     else
-      {:error, "No team #{team_id} belonging to user #{user.id}"}
+      {:error, "No team #{team.id} belonging to user #{user.id}"}
     end
   end
 

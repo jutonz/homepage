@@ -3,6 +3,9 @@ import { Header, Form, Message, Loader } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { StyleSheet, css } from "aphrodite";
 import { connect } from "react-redux";
+import gql from "graphql-tag";
+
+import { QueryLoader } from "@utils/QueryLoader";
 
 const style = StyleSheet.create({
   container: {
@@ -17,46 +20,44 @@ const style = StyleSheet.create({
   }
 });
 
-class _TeamUsersForm extends React.Component {
-  componentWillMount() {
-    const { fetchUsers, team, isLoadingUsers } = this.props;
-    if (!isLoadingUsers) {
-      fetchUsers(team.id);
+const GET_TEAM_USERS = gql`
+  query GetTeamUsersQuery($slug: String!) {
+    getTeamUsers(slug: $slug) {
+      email
+      id
     }
   }
+`;
 
-  render() {
-    const { team, users } = this.props;
-    const { isLoadingUsers, loadUsersErrors } = team;
-    return (
-      <Form className={css(style.container)} error={!!loadUsersErrors}>
+export const TeamUsersForm = ({ team }) => {
+  return (
+    <div>
+      <Form className={css(style.container)}>
         <Header>Team users</Header>
         <p>View individual members of an team</p>
-        <div className={css(style.loaderContainer)}>
-          <Loader active={isLoadingUsers} inline />
-        </div>
-        <Message error>{loadUsersErrors}</Message>
-        {users.map(user => (
-          <div key={user.id}>
-            <Link to={`/teams/${team.id}/users/${user.id}`}>{user.email}</Link>
-          </div>
-        ))}
-        {!!!users && !isLoadingUsers && <p>No users</p>}
+        <QueryLoader
+          query={GET_TEAM_USERS}
+          variables={{ slug: team.slug }}
+          component={({ data }) => {
+            const users = data.getTeamUsers;
+            if (!users || users.length === 0) {
+              return <p>No users</p>;
+            } else {
+              return (
+                <div>
+                  {users.map(user => (
+                    <div key={user.id}>
+                      <Link to={`/teams/${team.id}/users/${user.id}`}>
+                        {user.email}
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              );
+            }
+          }}
+        />
       </Form>
-    );
-  }
-}
-
-const getUsers = (state, props) => {
-  const ids = props.team.userIds || [];
-  return ids.map(id => state.users.getIn(["users", id])).filter(user => !!user);
+    </div>
+  );
 };
-
-export const TeamUsersForm = connect(
-  (state, props) => ({
-    users: getUsers(state, props)
-  }),
-  dispatch => ({
-    fetchUsers: id => dispatch({ type: "FETCH_TEAM_USERS", id })
-  })
-)(_TeamUsersForm);

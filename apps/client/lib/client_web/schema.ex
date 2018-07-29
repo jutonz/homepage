@@ -11,6 +11,7 @@ defmodule ClientWeb.Schema do
   object :team do
     field(:id, non_null(:id))
     field(:name, non_null(:string))
+    field(:slug, non_null(:string))
     field(:inserted_at, non_null(:string))
     field(:updated_at, non_null(:string))
   end
@@ -62,12 +63,12 @@ defmodule ClientWeb.Schema do
     end
 
     field :get_team, :team do
-      arg(:id, :id)
+      arg(:slug, non_null(:string))
       resolve(&ClientWeb.TeamResolver.get_team/3)
     end
 
     field :get_team_users, list_of(:user) do
-      arg(:id, non_null(:id))
+      arg(:slug, non_null(:string))
       resolve(&ClientWeb.TeamResolver.get_team_users/3)
     end
 

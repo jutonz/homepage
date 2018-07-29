@@ -64,7 +64,9 @@ class _TeamMembershipForm extends React.Component {
         <div>
           {Object.keys(this.props.teams).map(id => (
             <div key={id}>
-              <Link to={`teams/${id}`}>{this.props.teams[id].name}</Link>
+              <Link to={`teams/${this.props.teams[id].slug}`}>
+                {this.props.teams[id].name}
+              </Link>
             </div>
           ))}
         </div>
