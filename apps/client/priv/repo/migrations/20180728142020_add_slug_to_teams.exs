@@ -17,7 +17,7 @@ defmodule Client.Repo.Migrations.AddSlugToTeams do
     |> Enum.each(fn team ->
       team
       |> Client.Team.changeset(%{name: team.name})
-      |> Client.Repo.update!
+      |> Client.Repo.update!()
     end)
   end
 

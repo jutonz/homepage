@@ -18,4 +18,5 @@ config :client, Client.Repo,
   password: "docker",
   database: "homepage_test",
   hostname: pg_host,
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  ownership_timeout: 999_999_999

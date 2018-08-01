@@ -41,24 +41,26 @@ class _TeamRoute extends React.Component {
     return (
       <div>
         <MainNav activeItem={"settings"} />
-        <QueryLoader
-          query={GET_TEAM}
-          variables={{ slug }}
-          component={({ data }) => {
-            const team = data.getTeam;
-            return (
-              <div>
-                <TeamName team={team} />
-                <div className={css(style.components)}>
-                  <TeamRenameForm team={team} />
-                  <TeamUsersForm team={team} />
-                  <TeamDeleteButton team={team} onDelete={this.onDelete} />
-                  <TeamLeaveForm team={team} />
+        <div className={css(style.routeContainer)}>
+          <QueryLoader
+            query={GET_TEAM}
+            variables={{ slug }}
+            component={({ data }) => {
+              const team = data.getTeam;
+              return (
+                <div>
+                  <TeamName team={team} />
+                  <div className={css(style.components)}>
+                    <TeamRenameForm team={team} />
+                    <TeamUsersForm team={team} />
+                    <TeamDeleteButton team={team} onDelete={this.onDelete} />
+                    <TeamLeaveForm team={team} />
+                  </div>
                 </div>
-              </div>
-            );
-          }}
-        />
+              );
+            }}
+          />
+        </div>
       </div>
     );
   }

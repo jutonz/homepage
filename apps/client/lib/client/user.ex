@@ -32,7 +32,7 @@ defmodule Client.User do
   end
 
   def get_team(%User{} = user, team_slug) do
-    {:ok, team} = team_slug |> Team.get_by_slug
+    {:ok, team} = team_slug |> Team.get_by_slug()
 
     query =
       from(
