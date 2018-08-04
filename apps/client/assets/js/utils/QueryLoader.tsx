@@ -9,6 +9,10 @@ import { StyleGlobals } from "@app/style-globals";
 const styles = StyleSheet.create({
   error: {
     color: StyleGlobals.errorColor
+  },
+  loaderContainer: {
+    display: "flex",
+    justifyContent: "center"
   }
 });
 
@@ -27,7 +31,11 @@ export const QueryLoader = ({
       {result => {
         const { loading, error } = result;
         if (loading) {
-          return <Loader active />;
+          return (
+            <div className={css(styles.loaderContainer)}>
+              <Loader active inline />
+            </div>
+          );
         }
 
         if (error) {

@@ -2,21 +2,6 @@ import gql from "graphql-tag";
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 import { GraphqlClient } from "@app/index";
 
-export const fetchTeamUsersQuery = variables => {
-  const query = gql`
-    query GetTeamUsersQuery($id: ID!) {
-      getTeamUsers(id: $id) {
-        email
-        id
-      }
-    }
-  `;
-
-  return GraphqlClient.query({ query, variables }).then((response: any) => {
-    return response.data.getTeamUsers;
-  });
-};
-
 export const fetchTeamUserQuery = variables => {
   const query = gql`
     query GetTeamUserQuery($userId: ID!, $teamId: ID!) {

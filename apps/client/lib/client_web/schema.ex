@@ -67,7 +67,7 @@ defmodule ClientWeb.Schema do
     end
 
     field :get_team_users, list_of(:user) do
-      arg(:id, non_null(:id))
+      arg(:team_id, non_null(:id))
       resolve(&ClientWeb.TeamResolver.get_team_users/3)
     end
 

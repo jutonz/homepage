@@ -8,7 +8,8 @@ const style = StyleSheet.create({
     maxWidth: 300,
     minWidth: 300,
     marginTop: 30,
-    marginRight: 30
+    marginRight: 30,
+    marginBottom: 0
   }
 });
 
