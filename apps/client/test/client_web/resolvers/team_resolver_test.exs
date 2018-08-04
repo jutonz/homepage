@@ -98,7 +98,7 @@ defmodule ClientWeb.TeamResolverTest do
 
       query = """
       query {
-        getTeamUsers(id: #{team.id}) { email }
+        getTeamUsers(teamId: #{team.id}) { email }
       }
       """
 
