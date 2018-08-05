@@ -1,6 +1,6 @@
 defmodule ClientWeb.IjustResolverTest do
   use ClientWeb.ConnCase, async: true
-  #alias Client.{TestUtils, IjustOccurrence, Repo}
+  # alias Client.{TestUtils, IjustOccurrence, Repo}
 
   # describe "get_event_occurrences" do
   # test "returns occurrences", %{conn: conn} do
