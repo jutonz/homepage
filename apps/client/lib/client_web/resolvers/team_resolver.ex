@@ -82,7 +82,7 @@ defmodule ClientWeb.TeamResolver do
 
   def get_team_users(_parent, args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
-         {:ok, team_id} <- args |> Map.fetch(:id),
+         {:ok, team_id} <- args |> Map.fetch(:team_id),
          {:ok, team} <- user |> User.get_team(team_id),
          withUsers <- team |> Repo.preload(:users),
          do: {:ok, withUsers.users},

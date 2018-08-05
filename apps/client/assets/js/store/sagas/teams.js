@@ -7,7 +7,6 @@ import {
   joinTeamMutation,
   leaveTeamMutation
 } from "@store/mutations";
-import { fetchTeamUsersQuery } from "@store/queries";
 
 function* deleteTeam({ id, resolve, reject }) {
   try {
@@ -43,20 +42,6 @@ function* renameTeam({ id, name, flash = true }) {
   }
 }
 
-function* fetchTeamUsers({ id }) {
-  try {
-    yield put({ type: "FETCH_TEAM_USERS_REQUEST", id });
-    const users = yield fetchTeamUsersQuery({ id });
-    yield put({ type: "STORE_USERS", users });
-    const userIds = users.map(user => user.id);
-    yield put({ type: "FETCH_TEAM_USERS_SUCCESS", id, userIds });
-  } catch (error) {
-    console.error(error);
-    const errors = collectGraphqlErrors(error);
-    yield put({ type: "FETCH_TEAM_USERS_FAILURE", id, errors });
-  }
-}
-
 function* joinTeam({ name, history }) {
   try {
     yield put({ type: "JOIN_TEAM_REQUEST" });
@@ -88,7 +73,6 @@ function* leaveTeam({ id, history }) {
 export default function* acountsSaga() {
   yield takeEvery("DELETE_TEAM", deleteTeam);
   yield takeEvery("RENAME_TEAM", renameTeam);
-  yield takeEvery("FETCH_TEAM_USERS", fetchTeamUsers);
   yield takeEvery("JOIN_TEAM", joinTeam);
   yield takeEvery("LEAVE_TEAM", leaveTeam);
 }
