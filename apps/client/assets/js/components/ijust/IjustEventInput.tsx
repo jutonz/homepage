@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Form, Header, Message } from "semantic-ui-react";
+import { Button, Message, Input } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { css, StyleSheet } from "aphrodite";
@@ -26,6 +26,12 @@ const styles = StyleSheet.create({
   form: {
     minWidth: 300,
     maxWidth: 300
+  },
+  input: {
+    width: "100%"
+  },
+  button: {
+    marginLeft: "10px"
   }
 });
 
@@ -50,24 +56,24 @@ export class IjustEventInput extends React.Component<Props, State> {
       <Mutation mutation={CREATE_EVENT}>
         {(createEvent, { loading, error }) => (
           <div className={css(styles.container)}>
-            <Form
-              onSubmit={() => {
-                createEvent({
-                  variables: { eventName, ijustContextId }
-                }).then(() => this.setName(""));
+            <Input
+              value={eventName}
+              autoFocus
+              className={css(styles.input)}
+              onChange={(_ev, data) => this.setName(data.value)}
+              action={{
+                content: "Create Event",
+                disabled: !eventName,
+                primary: true,
+                loading,
+                onClick: () => {
+                  createEvent({
+                    variables: { eventName, ijustContextId }
+                  }).then(() => this.setName(""));
+                }
               }}
-              className={css(styles.form)}
-            >
-              <Header>Create event</Header>
-              <Message error>{collectGraphqlErrors(error)}</Message>
-              <Form.Input
-                value={eventName}
-                onChange={(_ev, data) => this.setName(data.value)}
-              />
-              <Form.Button primary fluid type="submit" loading={loading}>
-                Create
-              </Form.Button>
-            </Form>
+            />
+            {error && <Message error>{collectGraphqlErrors(error)}</Message>}
           </div>
         )}
       </Mutation>
