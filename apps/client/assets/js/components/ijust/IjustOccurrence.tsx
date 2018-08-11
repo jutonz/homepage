@@ -36,9 +36,9 @@ interface Props {
 export const IjustOccurrence = ({ occurrence }: Props) => (
   <Table.Row>
     <Table.Cell>
-      {format(occurrence.insertedAt, Constants.dateTimeFormat)}
+      {format(occurrence.insertedAt + "Z", Constants.dateTimeFormat)}
       <span className={css(styles.relativeDateSpacer)}>
-        ({distanceInWordsToNow(occurrence.insertedAt)} ago)
+        ({distanceInWordsToNow(occurrence.insertedAt + "Z")} ago)
       </span>
     </Table.Cell>
     <Table.Cell>{renderDeleteButton(occurrence)}</Table.Cell>
