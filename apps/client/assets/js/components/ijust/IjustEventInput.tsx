@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Form, Header, Message } from "semantic-ui-react";
+import { Button, Header, Message, Input } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { css, StyleSheet } from "aphrodite";
 
+import { FormBox } from "@components/FormBox";
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 
 const CREATE_EVENT = gql`
@@ -26,6 +27,12 @@ const styles = StyleSheet.create({
   form: {
     minWidth: 300,
     maxWidth: 300
+  },
+  input: {
+    width: "100%"
+  },
+  button: {
+    marginTop: "20px"
   }
 });
 
@@ -50,24 +57,28 @@ export class IjustEventInput extends React.Component<Props, State> {
       <Mutation mutation={CREATE_EVENT}>
         {(createEvent, { loading, error }) => (
           <div className={css(styles.container)}>
-            <Form
-              onSubmit={() => {
-                createEvent({
-                  variables: { eventName, ijustContextId }
-                }).then(() => this.setName(""));
-              }}
-              className={css(styles.form)}
-            >
+            <FormBox styles={styles.form}>
               <Header>Create event</Header>
-              <Message error>{collectGraphqlErrors(error)}</Message>
-              <Form.Input
+              {error && <Message error>{collectGraphqlErrors(error)}</Message>}
+              <Input
                 value={eventName}
+                className={css(styles.input)}
                 onChange={(_ev, data) => this.setName(data.value)}
               />
-              <Form.Button primary fluid type="submit" loading={loading}>
+              <Button
+                primary
+                fluid
+                loading={loading}
+                className={css(styles.button)}
+                onClick={() => {
+                  createEvent({
+                    variables: { eventName, ijustContextId }
+                  }).then(() => this.setName(""));
+                }}
+              >
                 Create
-              </Form.Button>
-            </Form>
+              </Button>
+            </FormBox>
           </div>
         )}
       </Mutation>
