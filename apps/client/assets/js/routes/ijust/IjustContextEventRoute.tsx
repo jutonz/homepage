@@ -67,18 +67,18 @@ const renderEvent = (event, context) => (
         <Table.Row>
           <Table.Cell>First occurred</Table.Cell>
           <Table.Cell>
-            {format(event.insertedAt, Constants.dateTimeFormat)}
+            {format(event.insertedAt + "Z", Constants.dateTimeFormat)}
             <span className={css(styles.relativeDateSpacer)}>
-              ({distanceInWordsToNow(event.insertedAt)} ago)
+              ({distanceInWordsToNow(event.insertedAt + "Z")} ago)
             </span>
           </Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>Last occurred</Table.Cell>
           <Table.Cell>
-            {format(event.updatedAt, Constants.dateTimeFormat)}
+            {format(event.updatedAt + "Z", Constants.dateTimeFormat)}
             <span className={css(styles.relativeDateSpacer)}>
-              ({distanceInWordsToNow(event.updatedAt)} ago)
+              ({distanceInWordsToNow(event.updatedAt + "Z")} ago)
             </span>
           </Table.Cell>
         </Table.Row>

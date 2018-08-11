@@ -3,7 +3,7 @@ import { Table } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import { StyleSheet, css } from "aphrodite";
 import gql from "graphql-tag";
-import { distanceInWordsToNow } from "date-fns";
+import { distanceInWordsToNow, format, parse } from "date-fns";
 
 import { StyleGlobals } from "@app/style-globals";
 import { QueryLoader } from "@utils/QueryLoader";
@@ -96,7 +96,7 @@ const renderRecentEvent = (event, context) => (
         to={`/ijust/contexts/${context.id}/events/${event.id}`}
         className={css(styles.eventLink)}
       >
-        {distanceInWordsToNow(event.updatedAt)} ago
+        {distanceInWordsToNow(parse(event.updatedAt + "Z"))} ago
       </Link>
     </Table.Cell>
   </Table.Row>
