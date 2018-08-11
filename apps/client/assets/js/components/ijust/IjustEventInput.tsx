@@ -1,10 +1,9 @@
 import * as React from "react";
-import { Button, Header, Message, Input } from "semantic-ui-react";
+import { Button, Message, Input } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { css, StyleSheet } from "aphrodite";
 
-import { FormBox } from "@components/FormBox";
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 
 const CREATE_EVENT = gql`
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   button: {
-    marginTop: "20px"
+    marginLeft: "10px"
   }
 });
 
@@ -57,17 +56,15 @@ export class IjustEventInput extends React.Component<Props, State> {
       <Mutation mutation={CREATE_EVENT}>
         {(createEvent, { loading, error }) => (
           <div className={css(styles.container)}>
-            <FormBox styles={styles.form}>
-              <Header>Create event</Header>
-              {error && <Message error>{collectGraphqlErrors(error)}</Message>}
-              <Input
-                value={eventName}
-                className={css(styles.input)}
-                onChange={(_ev, data) => this.setName(data.value)}
-              />
+            <Input
+              value={eventName}
+              autoFocus
+              className={css(styles.input)}
+              onChange={(_ev, data) => this.setName(data.value)}
+            >
+              <input />
               <Button
                 primary
-                fluid
                 loading={loading}
                 className={css(styles.button)}
                 onClick={() => {
@@ -76,9 +73,10 @@ export class IjustEventInput extends React.Component<Props, State> {
                   }).then(() => this.setName(""));
                 }}
               >
-                Create
+                Create Event
               </Button>
-            </FormBox>
+            </Input>
+            {error && <Message error>{collectGraphqlErrors(error)}</Message>}
           </div>
         )}
       </Mutation>
