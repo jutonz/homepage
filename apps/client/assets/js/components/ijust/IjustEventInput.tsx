@@ -61,21 +61,18 @@ export class IjustEventInput extends React.Component<Props, State> {
               autoFocus
               className={css(styles.input)}
               onChange={(_ev, data) => this.setName(data.value)}
-            >
-              <input />
-              <Button
-                primary
-                loading={loading}
-                className={css(styles.button)}
-                onClick={() => {
+              action={{
+                content: "Create Event",
+                disabled: !eventName,
+                primary: true,
+                loading,
+                onClick: () => {
                   createEvent({
                     variables: { eventName, ijustContextId }
                   }).then(() => this.setName(""));
-                }}
-              >
-                Create Event
-              </Button>
-            </Input>
+                }
+              }}
+            />
             {error && <Message error>{collectGraphqlErrors(error)}</Message>}
           </div>
         )}
