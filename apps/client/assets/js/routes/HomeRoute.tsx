@@ -1,4 +1,5 @@
-import React from "react";
+import * as React from "react";
+
 import { MainNav } from "@components/MainNav";
 import { Incr } from "@components/Incr";
 
