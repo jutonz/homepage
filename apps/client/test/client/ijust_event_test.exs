@@ -30,4 +30,25 @@ defmodule Client.IjustEventTest do
 
     {:error, _reason} = IjustEvent.get_for_context(incorrect_context.id, event.id)
   end
+
+  test "#search_by_name returns an empty array when no matches" do
+    user = TestUtils.create_user()
+    {:ok, context} = IjustContext.get_default_context(user.id)
+
+    {:ok, []} = IjustEvent.search_by_name(context.id, "doesn't exist")
+  end
+
+  test "#search_by_name returns matching events" do
+    user = TestUtils.create_user()
+    {:ok, context} = IjustContext.get_default_context(user.id)
+
+    {:ok, event} =
+      user
+      |> IjustEvent.add_for_user(%{
+        name: "hello",
+        ijust_context_id: context.id
+      })
+
+    {:ok, [^event]} = IjustEvent.search_by_name(context.id, "hello")
+  end
 end

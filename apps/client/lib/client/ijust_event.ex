@@ -1,6 +1,7 @@
 defmodule Client.IjustEvent do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query, only: [from: 2]
   alias Client.{IjustOccurrence, IjustEvent, Repo}
 
   @type t :: %__MODULE__{}
@@ -85,6 +86,22 @@ defmodule Client.IjustEvent do
       |> Repo.transaction()
 
     {:ok, occurrence}
+  end
+
+  @spec search_by_name(String.t(), String.t()) ::
+          {:ok, list(IjustEvent.t())} | {:error, String.t()}
+  def search_by_name(context_id, name) do
+    like = "%" <> name <> "%"
+
+    query =
+      from(
+        ev in IjustEvent,
+        where: ev.ijust_context_id == ^context_id,
+        where: ilike(ev.name, ^like),
+        limit: 10
+      )
+
+    {:ok, Repo.all(query)}
   end
 
   @spec inc_count_changeset(IjustEvent.t()) :: Ecto.Changeset.t()
