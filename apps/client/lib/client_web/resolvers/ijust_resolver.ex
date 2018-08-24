@@ -107,4 +107,18 @@ defmodule ClientWeb.IjustResolver do
              _ -> {:error, "Failed to fetch occurrences"}
            )
   end
+
+  def search_events(_parent, args, %{context: context}) do
+    with {:ok, user} <- context |> Map.fetch(:current_user),
+         {:ok, context_id} <- args |> Map.fetch(:ijust_context_id),
+         {:ok, ijust_context} <- IjustContext.get_for_user(context_id, user.id),
+         {:ok, name} <- args |> Map.fetch(:name),
+         {:ok, events} <- IjustEvent.search_by_name(ijust_context.id, name),
+         do: {:ok, events},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to fetch events"}
+           )
+  end
 end

@@ -106,6 +106,12 @@ defmodule ClientWeb.Schema do
       arg(:offset, :integer, default_value: 0)
       resolve(&ClientWeb.IjustResolver.get_event_occurrences/3)
     end
+
+    field :ijust_events_search, list_of(:ijust_event) do
+      arg(:name, non_null(:string))
+      arg(:ijust_context_id, non_null(:id))
+      resolve(&ClientWeb.IjustResolver.search_events/3)
+    end
   end
 
   mutation do
