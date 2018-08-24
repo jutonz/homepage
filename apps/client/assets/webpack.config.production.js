@@ -38,7 +38,6 @@ const webpackConfig = {
         loader: "file-loader",
         options: {
           name: "[name].[ext]?[hash]",
-          outputPath: "fonts/",
           publicPath: "../"
         },
         include: [
