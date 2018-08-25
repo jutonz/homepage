@@ -5,7 +5,7 @@ import { IjustEventInput } from "@components/ijust/IjustEventInput";
 import { IjustRecentEvents } from "@components/ijust/IjustRecentEvents";
 import { IjustBreadcrumbs } from "@components/ijust/IjustBreadcrumbs";
 
-const _IjustContext = ({ context }) => (
+export const IjustContext = ({ context }) => (
   <div>
     <IjustBreadcrumbs context={context} viewing={context} />
     <IjustEventInput ijustContextId={context.id} />
@@ -13,5 +13,3 @@ const _IjustContext = ({ context }) => (
     <IjustRecentEvents context={context} />
   </div>
 );
-
-export const IjustContext = _IjustContext;

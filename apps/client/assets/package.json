@@ -23,6 +23,7 @@
     "graphql-tag": "^2.5.0",
     "history": "^4.7.2",
     "immutable": "4.0.0-rc.9",
+    "lodash.debounce": "^4.0.8",
     "pdfjs-dist": "^2.0.205",
     "react": "^15.6.1",
     "react-apollo": "^2.0.1",
@@ -35,6 +36,7 @@
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
+    "rxjs": "^6.2.2",
     "semantic-ui-less": "^2.2.12",
     "semantic-ui-react": "^0.76.0",
     "three": "^0.86.0"

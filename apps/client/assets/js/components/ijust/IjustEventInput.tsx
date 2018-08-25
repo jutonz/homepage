@@ -3,8 +3,10 @@ import { Button, Message, Input } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { css, StyleSheet } from "aphrodite";
+import debounce from "lodash.debounce";
 
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
+import { IjustEventTypeahead } from "@utils/IjustEventTypeahead";
 
 const CREATE_EVENT = gql`
   mutation CreateIjustEvent($ijustContextId: ID!, $eventName: String!) {
@@ -41,13 +43,19 @@ interface Props {
 
 interface State {
   eventName: string;
+  typeahead: any;
 }
 
 export class IjustEventInput extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { eventName: "" };
+    const typeahead = new IjustEventTypeahead(this.onTypeheadResult, props.ijustContextId);
+    this.state = { eventName: "", typeahead };
   }
+
+  onTypeheadResult = (results: Array<any>) => {
+    console.dir(results);
+  };
 
   render() {
     const { eventName } = this.state;
@@ -60,7 +68,7 @@ export class IjustEventInput extends React.Component<Props, State> {
               value={eventName}
               autoFocus
               className={css(styles.input)}
-              onChange={(_ev, data) => this.setName(data.value)}
+              onChange={(ev, data) => this.setName(data.value)}
               action={{
                 content: "Create Event",
                 disabled: !eventName,
@@ -82,5 +90,23 @@ export class IjustEventInput extends React.Component<Props, State> {
 
   setName = (eventName: string) => {
     this.setState({ eventName });
+    this.state.typeahead.search(eventName);
+    //this.state.observable.next(eventName);
+    //this.typeahead(eventName);
+    //debounce(() => { debugger; typeahead(eventName) }, 2000);
   };
+
+  //typeahead = (event: React.SyntheticEvent<HTMLInputElement>) => {
+    
+  //};
+
+  //typeahead = debounce((eventName: string) => {
+    //console.log(eventName);
+  //}, 500);
+
+  //typeahead = (name: string) => {
+    //debounce(() => {
+      //console.log(name);
+    //}, 100);
+  //}
 }
