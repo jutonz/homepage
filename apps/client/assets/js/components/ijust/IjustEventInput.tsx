@@ -1,9 +1,17 @@
 import * as React from "react";
-import { Button, Message, Input } from "semantic-ui-react";
+import {
+  Button,
+  Message,
+  Form,
+  Input,
+  Search,
+  SearchResultProps
+} from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { css, StyleSheet } from "aphrodite";
 import debounce from "lodash.debounce";
+import { Redirect } from "react-router-dom";
 
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 import { IjustEventTypeahead } from "@utils/IjustEventTypeahead";
@@ -34,6 +42,19 @@ const styles = StyleSheet.create({
   },
   button: {
     marginLeft: "10px"
+  },
+  searchResultTitle: {
+    fontFace: "bold"
+  },
+  searchResultDescription: {
+    color: "#ccc"
+  },
+  searchResultContainer: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  searchResultRight: {
+    alignItems: "center"
   }
 });
 
@@ -44,44 +65,114 @@ interface Props {
 interface State {
   eventName: string;
   typeahead: any;
+  searchResults?: Array<any>;
+  selectedEventId?: string;
 }
 
 export class IjustEventInput extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    const typeahead = new IjustEventTypeahead(this.onTypeheadResult, props.ijustContextId);
+    const typeahead = new IjustEventTypeahead(
+      this.onTypeheadResult,
+      props.ijustContextId
+    );
     this.state = { eventName: "", typeahead };
   }
 
-  onTypeheadResult = (results: Array<any>) => {
-    console.dir(results);
+  onTypeheadResult = (rawResults: Array<any>) => {
+    const transformed = rawResults.map(raw => {
+      return {
+        id: raw.id,
+        title: raw.name,
+        description: `${raw.count} existing occurrence${
+          raw.count !== 1 ? "s" : ""
+        }`
+      };
+    });
+    console.dir(transformed);
+    this.setState({ searchResults: transformed });
+  };
+
+  renderSearchResults = (
+    props: SearchResultProps
+  ): Array<React.ReactElement<any>> => {
+    const rendered = (
+      <div key={props.id} className={css(styles.searchResultContainer)}>
+        <div>
+          <div className={css(styles.searchResultTitle)}>{props.title}</div>
+          <div className={css(styles.searchResultDescription)}>
+            {props.description}
+          </div>
+        </div>
+        <div className={css(styles.searchResultRight)}>
+          {props.active && <div>Enter to view</div>}
+        </div>
+      </div>
+    );
+
+    return [rendered];
+  };
+
+  renderNoResultsMessage = () => {
+    if (this.state.searchResults) {
+      return (
+        <div>
+          <div className={css(styles.searchResultTitle)}>
+            Press enter to create new event
+          </div>
+        </div>
+      );
+    } else {
+      return <div>Loading</div>;
+    }
   };
 
   render() {
-    const { eventName } = this.state;
+    const { eventName, selectedEventId } = this.state;
     const { ijustContextId } = this.props;
+
+    if (selectedEventId) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/ijust/contexts/${ijustContextId}/events/${selectedEventId}`
+          }}
+        />
+      );
+    }
+
     return (
       <Mutation mutation={CREATE_EVENT}>
         {(createEvent, { loading, error }) => (
           <div className={css(styles.container)}>
-            <Input
-              value={eventName}
-              autoFocus
-              className={css(styles.input)}
-              onChange={(ev, data) => this.setName(data.value)}
-              action={{
-                content: "Create Event",
-                disabled: !eventName,
-                primary: true,
-                loading,
-                onClick: () => {
-                  createEvent({
-                    variables: { eventName, ijustContextId }
-                  }).then(() => this.setName(""));
-                }
+            <Form
+              onSubmit={() => {
+                const { ijustContextId } = this.props;
+                const eventName = this.state.typeahead.getLatestSearch();
+                createEvent({
+                  variables: { eventName, ijustContextId }
+                }).then((data: any) => {
+                  const newEventId = data.data.createIjustEvent.id;
+                  this.setState({ selectedEventId: newEventId });
+                });
               }}
-            />
-            {error && <Message error>{collectGraphqlErrors(error)}</Message>}
+            >
+              <Search
+                fluid
+                selectFirstResult
+                onSearchChange={(_ev, { value }) =>
+                  this.state.typeahead.search(value)
+                }
+                onResultSelect={(_ev, data) => {
+                  const selectedEventId = data.result.id;
+                  this.setState({ selectedEventId });
+                }}
+                results={this.state.searchResults}
+                resultRenderer={this.renderSearchResults}
+                noResultsMessage={this.renderNoResultsMessage()}
+              />
+              {error && <Message error>{collectGraphqlErrors(error)}</Message>}
+            </Form>
           </div>
         )}
       </Mutation>
@@ -96,17 +187,31 @@ export class IjustEventInput extends React.Component<Props, State> {
     //debounce(() => { debugger; typeahead(eventName) }, 2000);
   };
 
-  //typeahead = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    
-  //};
+  //<Input
+  //value={eventName}
+  //autoFocus
+  //className={css(styles.input)}
+  //onChange={(ev, data) => this.setName(data.value)}
+  //action={{
+  //content: "Create Event",
+  //disabled: !eventName,
+  //primary: true,
+  //loading,
+  //onClick: () => {
+  //createEvent({
+  //variables: { eventName, ijustContextId }
+  //}).then(() => this.setName(""));
+  //}
+  //}}
+  ///>
 
   //typeahead = debounce((eventName: string) => {
-    //console.log(eventName);
+  //console.log(eventName);
   //}, 500);
 
   //typeahead = (name: string) => {
-    //debounce(() => {
-      //console.log(name);
-    //}, 100);
+  //debounce(() => {
+  //console.log(name);
+  //}, 100);
   //}
 }

@@ -1,5 +1,5 @@
 import { from, Subject } from "rxjs";
-import { debounceTime, switchMap } from "rxjs/operators";
+import { filter, debounceTime, switchMap } from "rxjs/operators";
 import gql from "graphql-tag";
 
 import { GraphqlClient } from "@app/index";
@@ -21,24 +21,30 @@ export class IjustEventTypeahead {
   callback: (results: Array<any>) => void;
   ijustContextId: string;
   subject: any;
+  latestSearch: string | undefined;
 
   constructor(callback: (results: Array<any>) => void, ijustContextId: string) {
     this.callback = callback;
     this.ijustContextId = ijustContextId;
     this.subject = this.setupSubject();
+    this.latestSearch = undefined;
   }
 
   search = (eventName: string) => {
     this.subject.next(eventName);
+    this.latestSearch = eventName;
   };
+
+  getLatestSearch = () => this.latestSearch;
 
   //////////////////////////////////////////////////////////////////////////////
   // Private
   //////////////////////////////////////////////////////////////////////////////
 
-  private setupSubject() {
-    const subj = new Subject().pipe(
+  setupSubject = () => {
+    const subj = new Subject<any>().pipe(
       debounceTime(500),
+      filter(n => n.length && n.length >= 2),
       switchMap(this.queryRemote)
     );
 
