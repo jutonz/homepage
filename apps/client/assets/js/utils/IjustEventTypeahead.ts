@@ -53,7 +53,7 @@ export class IjustEventTypeahead {
     });
 
     return subj;
-  }
+  };
 
   private queryRemote = (eventName: string) => {
     return new Promise((resolve, _reject) => {
