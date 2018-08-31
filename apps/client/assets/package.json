@@ -23,7 +23,6 @@
     "graphql-tag": "^2.5.0",
     "history": "^4.7.2",
     "immutable": "4.0.0-rc.9",
-    "lodash.debounce": "^4.0.8",
     "pdfjs-dist": "^2.0.205",
     "react": "^15.6.1",
     "react-apollo": "^2.0.1",
@@ -36,7 +35,6 @@
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
-    "rxjs": "^6.2.2",
     "semantic-ui-less": "^2.2.12",
     "semantic-ui-react": "^0.76.0",
     "three": "^0.86.0"
@@ -47,7 +45,6 @@
     "@types/react-redux": "^5.0.16",
     "@types/redux-saga": "^0.10.5",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-semantic-ui-react-imports": "^1.3.1",
     "babel-preset-env": "^1.6.1",

@@ -10,7 +10,6 @@ import {
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { css, StyleSheet } from "aphrodite";
-import debounce from "lodash.debounce";
 import { Redirect } from "react-router-dom";
 
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
@@ -182,36 +181,5 @@ export class IjustEventInput extends React.Component<Props, State> {
   setName = (eventName: string) => {
     this.setState({ eventName });
     this.state.typeahead.search(eventName);
-    //this.state.observable.next(eventName);
-    //this.typeahead(eventName);
-    //debounce(() => { debugger; typeahead(eventName) }, 2000);
   };
-
-  //<Input
-  //value={eventName}
-  //autoFocus
-  //className={css(styles.input)}
-  //onChange={(ev, data) => this.setName(data.value)}
-  //action={{
-  //content: "Create Event",
-  //disabled: !eventName,
-  //primary: true,
-  //loading,
-  //onClick: () => {
-  //createEvent({
-  //variables: { eventName, ijustContextId }
-  //}).then(() => this.setName(""));
-  //}
-  //}}
-  ///>
-
-  //typeahead = debounce((eventName: string) => {
-  //console.log(eventName);
-  //}, 500);
-
-  //typeahead = (name: string) => {
-  //debounce(() => {
-  //console.log(name);
-  //}, 100);
-  //}
 }
