@@ -83,11 +83,6 @@ export class IjustEventOccurrences extends React.Component<Props, State> {
   }
 
   renderOccurrence(occurrence) {
-    return (
-      <IjustOccurrence
-        occurrence={occurrence}
-        key={occurrence.id}
-      />
-    );
+    return <IjustOccurrence occurrence={occurrence} key={occurrence.id} />;
   }
 }

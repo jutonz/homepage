@@ -78,11 +78,14 @@ defmodule Client.IjustEvent do
 
   def delete_occurrence(occ_id) do
     occ = IjustOccurrence |> Repo.get!(occ_id)
-    occ_count = from(
-      occ in IjustOccurrence,
-      where: occ.ijust_event_id == ^occ.ijust_event_id,
-      select: count(occ.id)
-    ) |> Repo.one
+
+    occ_count =
+      from(
+        occ in IjustOccurrence,
+        where: occ.ijust_event_id == ^occ.ijust_event_id,
+        select: count(occ.id)
+      )
+      |> Repo.one()
 
     {:ok, _occ} = occ |> Repo.delete()
 
