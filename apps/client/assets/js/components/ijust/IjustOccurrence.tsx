@@ -10,8 +10,7 @@ import { Constants } from "@utils/Constants";
 const styles = StyleSheet.create({
   relativeDateSpacer: {
     marginLeft: "10px"
-  }
-});
+  } });
 
 const DELETE_OCCURRENCE = gql`
   mutation IjustDeleteOccurrence($occurrenceId: ID!) {

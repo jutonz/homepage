@@ -2,15 +2,16 @@ defmodule Client.IjustOccurrence do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
-  alias Client.{User, Repo, IjustOccurrence}
+  alias Client.{User, Repo, IjustOccurrence, IjustEvent}
 
   @type t :: %__MODULE__{}
   @moduledoc false
 
   schema "ijust_occurrences" do
     timestamps()
-    field(:ijust_event_id, :id)
+    #field(:ijust_event_id, :id)
     belongs_to(:user, User)
+    belongs_to(:ijust_event, IjustEvent)
   end
 
   def changeset(%IjustOccurrence{} = occurrence, attrs \\ %{}) do
@@ -39,7 +40,7 @@ defmodule Client.IjustOccurrence do
 
     case occurrence |> Repo.delete() do
       {:ok, occ} -> {:ok, occ}
-      {:error, changeset} -> {:error, "Failed to delete occurrence"}
+      {:error, _changeset} -> {:error, "Failed to delete occurrence"}
     end
   end
 end

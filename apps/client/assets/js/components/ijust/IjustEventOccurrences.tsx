@@ -16,12 +16,12 @@ export const GET_OCCURRENCES = gql`
   }
 `;
 
-interface State {
-  offset: number;
-}
-
 interface Props {
   eventId: string;
+  onOccurrenceDelete(string): void;
+}
+interface State {
+  offset: number;
 }
 
 export class IjustEventOccurrences extends React.Component<Props, State> {
@@ -84,6 +84,11 @@ export class IjustEventOccurrences extends React.Component<Props, State> {
   }
 
   renderOccurrence(occurrence) {
-    return <IjustOccurrence occurrence={occurrence} key={occurrence.id} />;
+    return (
+      <IjustOccurrence
+        occurrence={occurrence}
+        key={occurrence.id}
+      />
+    );
   }
 }

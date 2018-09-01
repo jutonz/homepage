@@ -85,6 +85,11 @@ const renderEvent = (event, context) => (
       </Table.Body>
     </Table>
 
-    <IjustEventOccurrences eventId={event.id} />
+    <IjustEventOccurrences
+      eventId={event.id}
+      onOccurrenceDelete={onOccurrenceDelete}
+    />
   </div>
 );
+
+const onOccurrenceDelete = (occurrenceId: string): void => {};
