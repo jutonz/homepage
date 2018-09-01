@@ -1,0 +1,3 @@
+.ui.fluid.search .ui.icon.input {
+  width: 100%;
+}
