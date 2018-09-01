@@ -18,7 +18,6 @@ export const GET_OCCURRENCES = gql`
 
 interface Props {
   eventId: string;
-  onOccurrenceDelete(string): void;
 }
 interface State {
   offset: number;

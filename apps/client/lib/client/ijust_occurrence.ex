@@ -9,7 +9,6 @@ defmodule Client.IjustOccurrence do
 
   schema "ijust_occurrences" do
     timestamps()
-    #field(:ijust_event_id, :id)
     belongs_to(:user, User)
     belongs_to(:ijust_event, IjustEvent)
   end
