@@ -87,9 +87,6 @@ const renderEvent = (event, context) => (
 
     <IjustEventOccurrences
       eventId={event.id}
-      onOccurrenceDelete={onOccurrenceDelete}
     />
   </div>
 );
-
-const onOccurrenceDelete = (occurrenceId: string): void => {};
