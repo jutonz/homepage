@@ -11,7 +11,7 @@ defmodule Twitch.ChannelSubscription do
     }
 
     opts = [
-     #debug: [:trace],
+      # debug: [:trace],
       name: __MODULE__
     ]
 

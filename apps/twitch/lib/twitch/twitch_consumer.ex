@@ -16,6 +16,11 @@ defmodule Twitch.TwitchConsumer do
   def handle_events(events, _from, state) do
     for event <- events do
       IO.inspect(event)
+
+      %Client.TwitchEvent{}
+      |> Client.TwitchEvent.changeset(Map.from_struct(event))
+      |> Client.Repo.insert()
+
       # IO.puts "#{event["display-name"]}: #{event["message"]}"
     end
 

@@ -11,10 +11,11 @@ defmodule Twitch.TwitchEvent do
             username: nil,
             display_name: nil,
             message_type: nil,
-    message: nil,
-    channel: nil,
-    irc_name: nil,
-    irc_command: nil
+            message: nil,
+            channel: nil,
+            irc_name: nil,
+            irc_command: nil,
+            raw_event: nil
 
   def parse(raw_message, channel) do
     case raw_message |> String.contains?("PRIVMSG") do
@@ -25,18 +26,19 @@ defmodule Twitch.TwitchEvent do
         meta_map = extract_meta(meta)
 
         # "pokuna!pokuna@pokuna.tmi.twitch.tv PRIVMSG #sodapoppin "
-        [irc_name, command, channel] = user |> String.trim() |> String.split
+        [irc_name, command, channel] = user |> String.trim() |> String.split()
+
         user_map = %{
-          "irc_name" =>  irc_name,
+          "irc_name" => irc_name,
           "irc_command" => command,
-          "channel" =>  channel
+          "channel" => channel
         }
 
-        message = raw_message |> String.split("#{channel} :") |> Enum.at(-1) |> String.trim
+        message = raw_message |> String.split("#{channel} :") |> Enum.at(-1) |> String.trim()
         message_map = %{"message" => message}
 
         as_map =
-          %{}
+          %{"raw_event" => raw_message}
           |> Map.merge(meta_map)
           |> Map.merge(user_map)
           |> Map.merge(message_map)
@@ -44,21 +46,23 @@ defmodule Twitch.TwitchEvent do
         twitch_event = map_to_twitch_event(as_map)
 
         {:ok, twitch_event}
+
       false ->
         {:error, "Unknown message type"}
     end
   end
 
   def extract_meta(string) do
-    parsed = string
+    parsed =
+      string
       |> String.trim_leading("@")
-      |> String.trim
+      |> String.trim()
       |> String.split(";")
       |> Enum.map(&String.split(&1, "="))
       |> Enum.map(fn [a, b] -> {a |> String.replace("-", "_") |> Macro.underscore(), b} end)
       |> Map.new()
 
-      # Convert badges from string to map
+    # Convert badges from string to map
     {_changed, parsed} =
       Map.get_and_update(parsed, "badges", fn raw ->
         new_value =
@@ -81,8 +85,7 @@ defmodule Twitch.TwitchEvent do
   def map_to_twitch_event(map) do
     parsed =
       map
-      |> Map.take(
-        ~w(
+      |> Map.take(~w(
           badges
           color
           emotes
@@ -97,8 +100,8 @@ defmodule Twitch.TwitchEvent do
           channel
           irc_name
           irc_command
-        )
-      )
+          raw_event
+        ))
       |> Map.to_list()
       |> Enum.map(fn {a, b} -> {String.to_atom(a), b} end)
       |> Map.new()
