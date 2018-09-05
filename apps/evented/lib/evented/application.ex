@@ -12,9 +12,9 @@ defmodule Evented.Application do
     children = [
       # Starts a worker by calling: Evented.Worker.start_link(arg)
       # {Evented.Worker, arg},
-      worker(Evented.TwitchProducer, [0]),
-      worker(Evented.TwitchConsumer, []),
-      worker(Evented.TwitchServer, [])
+      #worker(Evented.TwitchProducer, [0]),
+      #worker(Evented.TwitchConsumer, []),
+      #worker(Evented.TwitchServer, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

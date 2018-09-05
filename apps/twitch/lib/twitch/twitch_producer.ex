@@ -1,12 +1,13 @@
-defmodule Evented.TwitchProducer do
+defmodule Twitch.TwitchProducer do
   use GenStage
 
-  def start_link(initial \\ 0) do
-    GenStage.start_link(__MODULE__, initial, name: __MODULE__)
+  def start_link(arg) do
+    GenStage.start_link(__MODULE__, arg, name: __MODULE__)
   end
 
-  def init(counter) do
-    {:producer, counter}
+  def init(_arg) do
+    state = :no_state
+    {:producer, state}
   end
 
   # Public API to publish an event

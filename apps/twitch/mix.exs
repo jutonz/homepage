@@ -26,7 +26,9 @@ defmodule Twitch.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.3"}
+      {:httpoison, "~> 1.3"},
+      {:gen_stage, "~> 0.14.0"},
+      {:websockex, "~> 0.4.1"}
     ]
   end
 end

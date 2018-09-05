@@ -1,13 +1,14 @@
-defmodule Evented.TwitchConsumer do
+defmodule Twitch.TwitchConsumer do
   use GenStage
 
-  def start_link do
-    GenStage.start_link(__MODULE__, :state_doesnt_matter, name: __MODULE__)
+  def start_link(arg) do
+    GenStage.start_link(__MODULE__, arg, name: __MODULE__)
   end
 
-  def init(state) do
+  def init(_arg) do
     # {:consumer, state, subscribe_to: []}
-    {:consumer, state, subscribe_to: [Evented.TwitchProducer]}
+    state = :no_state
+    {:consumer, state, subscribe_to: [Twitch.TwitchProducer]}
   end
 
   # Receive events from Producer

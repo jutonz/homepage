@@ -1,17 +1,17 @@
-defmodule Evented.TwitchServer do
+defmodule Twitch.ChannelSubscription do
   use WebSockex
   require Logger
 
-  def start_link() do
+  def start_link([channel, oauth_token]) do
     state = %{
       server: "wss://irc-ws.chat.twitch.tv",
-      pass: nil,
-      nick: "sypsbot9000",
-      channel: "#ninja"
+      pass: "oauth:#{oauth_token}",
+      nick: "_syps",
+      channel: channel
     }
 
     opts = [
-      # debug: [:trace],
+     #debug: [:trace],
       name: __MODULE__
     ]
 
@@ -24,9 +24,6 @@ defmodule Evented.TwitchServer do
 
   def handle_connect(_conn, state) do
     Logger.debug("Connected :)")
-    # {:ok, token} = Evented.Twitch.get_token()
-    token = "jmf2uj92pq949300z38v59p56kmjob"
-    state = state |> Map.put(:pass, "oauth:#{token}")
 
     pid = self()
 
@@ -48,7 +45,7 @@ defmodule Evented.TwitchServer do
   def handle_frame({_type, msg}, state) do
     case Twitch.TwitchEvent.parse(msg, state.channel) do
       {:ok, parsed} ->
-        Evented.TwitchProducer.publish(parsed)
+        Twitch.TwitchProducer.publish(parsed)
 
       {:error, reason} ->
         Logger.debug("Could not parse message (#{reason}), so it was skipped: #{msg}")

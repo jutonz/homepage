@@ -9,6 +9,10 @@ defmodule ClientWeb.TwitchController do
   def exchange(conn, %{"code" => code} = _params) do
     {:ok, token} = Twitch.Auth.exchange(code)
 
+    IO.puts "token: #{token}"
+
+    #Twitch.Application.subscribe_to_channel("#sodapopin", token)
+
     conn
     |> fetch_session()
     |> put_session(:twitch_token, token)
