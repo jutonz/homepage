@@ -11,7 +11,7 @@ defmodule Twitch.Application do
       # Starts a worker by calling: Twitch.Worker.start_link(arg)
       # {Twitch.Worker, arg},
       Twitch.ChannelSubscriptionSupervisor,
-      Twitch.TwitchProducer,
+      Twitch.TwitchProducer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

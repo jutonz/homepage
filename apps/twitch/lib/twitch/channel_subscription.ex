@@ -30,7 +30,7 @@ defmodule Twitch.ChannelSubscription do
     spawn(fn ->
       WebSockex.send_frame(
         pid,
-        #{:text, "CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership"}
+        # {:text, "CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership"}
         {:text, "CAP REQ :twitch.tv/commands twitch.tv/membership"}
       )
 
