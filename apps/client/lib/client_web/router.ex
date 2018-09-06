@@ -75,4 +75,9 @@ defmodule ClientWeb.Router do
 
     get("/whatismyip", ClientInfoController, :whatismyip)
   end
+
+  scope "/twitch", ClientWeb do
+    get("/login", TwitchController, :login)
+    get("/oauth", TwitchController, :exchange)
+  end
 end
