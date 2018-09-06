@@ -29,8 +29,7 @@ defmodule Twitch.TwitchEvent do
           display_name: parsed.nick,
           raw_event: raw_message
         }}
-      "PING" -> {:ok, %Twitch.TwitchEvent{irc_command: parsed.cmd}}
-      _ -> {:error, "Unknown message type: #{parsed.cmd}"}
+        _ -> {:error, "Unknown message type: #{parsed.cmd}"}
     end
   end
 

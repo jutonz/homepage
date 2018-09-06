@@ -28,7 +28,8 @@ defmodule Twitch.MixProject do
     [
       {:httpoison, "~> 1.3"},
       {:gen_stage, "~> 0.14.0"},
-      {:websockex, "~> 0.4.1"}
+      {:websockex, "~> 0.4.1"},
+      {:exirc, "~> 1.0"}
     ]
   end
 end

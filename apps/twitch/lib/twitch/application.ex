@@ -12,7 +12,6 @@ defmodule Twitch.Application do
       # {Twitch.Worker, arg},
       Twitch.ChannelSubscriptionSupervisor,
       Twitch.TwitchProducer,
-      {Twitch.TwitchConsumer, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

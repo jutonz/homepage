@@ -11,7 +11,7 @@ defmodule Twitch.ChannelSubscription do
     }
 
     opts = [
-      # debug: [:trace],
+      debug: [:trace],
       name: __MODULE__
     ]
 
@@ -30,7 +30,8 @@ defmodule Twitch.ChannelSubscription do
     spawn(fn ->
       WebSockex.send_frame(
         pid,
-        {:text, "CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership"}
+        #{:text, "CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership"}
+        {:text, "CAP REQ :twitch.tv/commands twitch.tv/membership"}
       )
 
       WebSockex.send_frame(pid, {:text, "PASS #{state.pass}"})
@@ -43,7 +44,7 @@ defmodule Twitch.ChannelSubscription do
   end
 
   def handle_frame({_type, msg}, state) do
-    case Twitch.TwitchEvent.parse(msg, state.channel) do
+    case Twitch.TwitchEvent.parse(msg) do
       {:ok, parsed} ->
         Twitch.TwitchProducer.publish(parsed)
 
