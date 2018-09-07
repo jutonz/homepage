@@ -16,12 +16,11 @@ export const GET_OCCURRENCES = gql`
   }
 `;
 
-interface State {
-  offset: number;
-}
-
 interface Props {
   eventId: string;
+}
+interface State {
+  offset: number;
 }
 
 export class IjustEventOccurrences extends React.Component<Props, State> {
