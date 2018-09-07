@@ -37,16 +37,20 @@ spec:
               secretKeyRef:
                 name: secret-key-base
                 key: SECRET_KEY_BASE
-          - name: PGHOST
+          - name: DB_HOST
             value: psql
-          - name: PGPASS
+          - name: DB_PORT
+            value: 5432
+          - name: DB_USER
             valueFrom:
               secretKeyRef:
                 name: dbsecrets
-                key: PGPASS
-          - name: PGUSER
+                key: DB_USER
+          - name: DB_PASS
             valueFrom:
               secretKeyRef:
                 name: dbsecrets
-                key: PGUSER
+                key: DB_PASS
+          - name: DB_POOL_SIZE
+            value: 20
       restartPolicy: Always

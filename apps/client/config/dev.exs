@@ -30,14 +30,3 @@ config :logger, :console, format: "[$level] $message\n"
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
-
-# Configure your database
-pg_host = System.get_env("PG_HOST") || "psql"
-
-config :client, Client.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "docker",
-  password: "docker",
-  database: "homepage_dev",
-  hostname: pg_host,
-  pool_size: 10
