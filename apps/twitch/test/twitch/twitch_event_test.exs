@@ -3,13 +3,15 @@ defmodule Twitch.TwitchEventTest do
   alias Twitch.TwitchEvent
 
   test "can be inserted" do
-    cset = %TwitchEvent{} |> TwitchEvent.changeset(%{
-      channel: "#comradenerdy",
-      message: "nrdyISee",
-      display_name: "syps_",
-      raw_event: "fff"
-    })
+    cset =
+      %TwitchEvent{}
+      |> TwitchEvent.changeset(%{
+        channel: "#comradenerdy",
+        message: "nrdyISee",
+        display_name: "syps_",
+        raw_event: "fff"
+      })
 
-    {:ok, ev} = cset |> Twitch.Repo.insert
+    {:ok, ev} = cset |> Twitch.Repo.insert()
   end
 end
