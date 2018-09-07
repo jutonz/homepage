@@ -19,18 +19,3 @@ config :client, ClientWeb.Endpoint,
 
 # Do not print debug messages in production
 config :logger, level: :info
-
-# Configures the database
-db_host = System.get_env("PGHOST") || "psql"
-db_user = System.get_env("PGUSER")
-db_pass = System.get_env("PGPASS")
-db_port = System.get_env("PGPORT") || 5432
-
-config :client, Client.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  hostname: db_host,
-  username: db_user,
-  password: db_pass,
-  port: db_port,
-  database: "homepage_prod",
-  pool_size: 20

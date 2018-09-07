@@ -12,6 +12,11 @@ services:
     image: jutonz/homepage-dev-app:31
     environment:
     - SECRET_KEY_BASE="9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
+    - DB_HOST=psql
+    - DB_USER=docker
+    - DB_PASS=docker
+    - DB_PORT=5432
+    - DB_POOL_SIZE=10
     - CI
     volumes:
     - "../../:/app"
