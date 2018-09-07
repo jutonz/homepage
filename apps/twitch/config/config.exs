@@ -54,3 +54,5 @@ config :twitch, Twitch.Repo,
   database: db_name,
   pool_size: db_pool_size
 
+
+import_config "#{Mix.env}.exs"
