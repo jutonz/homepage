@@ -6,12 +6,16 @@ defmodule Twitch.Application do
   use Application
 
   def start(_type, _args) do
+    import Supervisor.Spec
+
     # List all child processes to be supervised
     children = [
       # Starts a worker by calling: Twitch.Worker.start_link(arg)
       # {Twitch.Worker, arg},
+      supervisor(Twitch.Repo, []),
       Twitch.ChannelSubscriptionSupervisor,
-      Twitch.TwitchProducer
+      Twitch.TwitchProducer,
+      Twitch.TwitchEventPersister
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

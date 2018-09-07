@@ -1,5 +1,7 @@
-defmodule Client.TwitchEventPersister do
+defmodule Twitch.TwitchEventPersister do
   use GenStage
+
+  @persist_after 10
 
   def start_link(arg) do
     GenStage.start_link(__MODULE__, arg, name: __MODULE__)
@@ -18,12 +20,12 @@ defmodule Client.TwitchEventPersister do
       events
       |> Enum.map(&Map.from_struct(&1))
       |> Enum.map(fn ev ->
-        %Client.TwitchEvent{} |> Client.TwitchEvent.changeset(ev)
+        %Twitch.TwitchEvent{} |> Twitch.TwitchEvent.changeset(ev)
       end)
       |> Enum.concat(state)
       |> (fn st ->
-            if length(st) >= 10 do
-              st |> Enum.each(&Client.Repo.insert(&1))
+            if length(st) >= @persist_after do
+              st |> Enum.each(&Twitch.Repo.insert(&1))
               []
             else
               st
