@@ -51,8 +51,7 @@ defmodule Client.Mixfile do
       {:cors_plug, "~> 1.5"},
       {:plug_static_index_html, "~> 1.0"},
       {:auth, in_umbrella: true},
-      {:redis, in_umbrella: true},
-      {:twitch, in_umbrella: true}
+      {:redis, in_umbrella: true}
     ]
   end
 

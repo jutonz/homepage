@@ -1,47 +1,19 @@
 defmodule Twitch.TwitchEvent do
-  defstruct badges: nil,
-            color: nil,
-            emotes: nil,
-            id: nil,
-            room_id: nil,
-            subscriber: nil,
-            tmi_sent_ts: nil,
-            turbo: nil,
-            user_id: nil,
-            username: nil,
-            display_name: nil,
-            message_type: nil,
-            message: nil,
-            channel: nil,
-            irc_name: nil,
-            irc_command: nil,
-            raw_event: nil
+  use Ecto.Schema
+  alias Twitch.TwitchEvent
 
-  def parse(raw_message) do
-    parsed = raw_message |> :binary.bin_to_list() |> ExIrc.Utils.parse()
+  schema "twitch_events" do
+    field(:channel, :string)
+    field(:message, :string)
+    field(:display_name, :string)
+    field(:raw_event, :string)
 
-    case parsed.cmd do
-      "PRIVMSG" ->
-        [channel | message] = parsed.args
-
-        {:ok,
-         %Twitch.TwitchEvent{
-           channel: channel,
-           message: Enum.at(message, 0),
-           irc_command: parsed.cmd,
-           display_name: parsed.nick,
-           raw_event: raw_message
-         }}
-
-      "PING" ->
-        {:ok, %Twitch.TwitchEvent{irc_command: parsed.cmd}}
-
-      _ ->
-        {:error, "Unknown message type: #{parsed.cmd}"}
-    end
+    timestamps()
   end
 
-  def parse(raw_message) when is_binary(raw_message) do
-    IO.inspect(raw_message)
+  def changeset(%TwitchEvent{} = event, attrs \\ %{}) do
+    event
+    |> Ecto.Changeset.cast(attrs, ~w(channel message display_name raw_event)a)
+    |> Ecto.Changeset.validate_required(~w(channel message display_name raw_event)a)
   end
 end

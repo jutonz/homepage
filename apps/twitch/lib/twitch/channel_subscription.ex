@@ -44,7 +44,7 @@ defmodule Twitch.ChannelSubscription do
   end
 
   def handle_frame({_type, msg}, state) do
-    case Twitch.TwitchEvent.parse(msg) do
+    case Twitch.ParsedEvent.from_raw(msg) do
       {:ok, parsed} ->
         Twitch.TwitchProducer.publish(parsed)
 

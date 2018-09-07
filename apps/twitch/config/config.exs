@@ -29,9 +29,29 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 
+config :twitch, ecto_repos: [Twitch.Repo]
+
 config :twitch,
   oauth: %{
     client_id: "ja9ef15nl8k4wrvne24e9q1zzqnl7b",
     client_secret: "vbhd98sen9x1puhc02gxwbc6pq5xuq",
     redirect_uri: "http://localhost:4000/twitch/oauth"
   }
+
+db_host = System.get_env("DB_HOST")
+db_port = System.get_env("DB_PORT")
+db_user = System.get_env("DB_USER")
+db_pass = System.get_env("DB_PASS")
+db_name = "homepage_twitch_" <> to_string(Mix.env())
+db_pool_size = System.get_env("DB_POOL_SIZE") || "10" |> String.to_integer()
+
+config :twitch, Twitch.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  hostname: db_host,
+  username: db_user,
+  password: db_pass,
+  port: db_port,
+  database: db_name,
+  pool_size: db_pool_size
+
+import_config "#{Mix.env()}.exs"
