@@ -18,9 +18,11 @@ services:
     environment:
       SECRET_KEY_BASE: 9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+
       DATABASE_URL: postgres://homepage:homepage@psql:5432/homepage_prod
-      PGHOST: psql
-      PGUSER: homepage
-      PGPASS: homepage
+      DB_HOST: psql
+      DB_USER: homepage
+      DB_PASS: homepage
+      DB_POOL_SIZE: 20
+      DB_PORT: 5432
       PORT: '4000'
   redis:
     image: jutonz/homepage-prod-redis:1

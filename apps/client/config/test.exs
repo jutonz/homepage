@@ -9,13 +9,5 @@ config :client, ClientWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-# Configure your database
-pg_host = System.get_env("PG_HOST") || "psql"
-
 config :client, Client.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "docker",
-  password: "docker",
-  database: "homepage_test",
-  hostname: pg_host,
   pool: Ecto.Adapters.SQL.Sandbox
