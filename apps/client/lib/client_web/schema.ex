@@ -42,6 +42,14 @@ defmodule ClientWeb.Schema do
     field(:is_deleted, :boolean)
   end
 
+  object :twitch_user do
+    field(:id, non_null(:id))
+    field(:display_name, non_null(:string))
+    field(:user_id, non_null(:string))
+    field(:twitch_user_id, non_null(:string))
+    field(:email, non_null(:string))
+  end
+
   query do
     field :get_user, :user do
       arg(:id, :id)
@@ -111,6 +119,14 @@ defmodule ClientWeb.Schema do
       arg(:name, non_null(:string))
       arg(:ijust_context_id, non_null(:id))
       resolve(&ClientWeb.IjustResolver.search_events/3)
+    end
+
+    field :get_current_user, :user do
+      resolve(&ClientWeb.UserResolver.current_user/3)
+    end
+
+    field :get_twitch_user, :twitch_user do
+      resolve(&Twitch.TwitchResolver.get_current_user/3)
     end
   end
 

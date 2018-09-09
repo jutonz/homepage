@@ -7,6 +7,7 @@ defmodule Twitch.TwitchEvent do
     field(:message, :string)
     field(:display_name, :string)
     field(:raw_event, :string)
+    field(:user_id, :string)
 
     timestamps()
   end
