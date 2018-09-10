@@ -14,7 +14,7 @@ spec:
         app: app
     spec:
       containers:
-      - image: jutonz/homepage-prod-app:40
+      - image: jutonz/homepage-prod-app:95
         name: app
         imagePullPolicy: Always
         livenessProbe:
@@ -37,6 +37,21 @@ spec:
               secretKeyRef:
                 name: secret-key-base
                 key: SECRET_KEY_BASE
+          - name: TWITCH_CLIENT_ID
+            valueFrom:
+              secretKeyRef:
+                name: twitch
+                key: TWITCH_CLIENT_ID
+          - name: TWITCH_CLIENT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: twitch
+                key: TWITCH_CLIENT_SECRET
+          - name: TWITCH_REDIRECT_URI
+            valueFrom:
+              secretKeyRef:
+                name: twitch
+                key: TWITCH_REDIRECT_URI
           - name: DB_HOST
             value: psql
           - name: DB_PORT
