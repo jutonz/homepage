@@ -55,7 +55,7 @@ spec:
           - name: DB_HOST
             value: psql
           - name: DB_PORT
-            value: 5432
+            value: "5432"
           - name: DB_USER
             valueFrom:
               secretKeyRef:
@@ -67,5 +67,5 @@ spec:
                 name: dbsecrets
                 key: DB_PASS
           - name: DB_POOL_SIZE
-            value: 20
+            value: "20"
       restartPolicy: Always
