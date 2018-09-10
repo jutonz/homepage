@@ -17,6 +17,9 @@ services:
     - DB_PASS=docker
     - DB_PORT=5432
     - DB_POOL_SIZE=10
+    - TWITCH_CLIENT_ID=ja9ef15nl8k4wrvne24e9q1zzqnl7b
+    - TWITCH_CLIENT_SECRET=74qhweeq4jec8offmcwrody5raibm6
+    - TWITCH_REDIRECT_URI=http://localhost:4001/twitch/oauth
     - CI
     volumes:
     - "../../:/app"

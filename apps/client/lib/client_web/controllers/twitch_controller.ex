@@ -7,15 +7,17 @@ defmodule ClientWeb.TwitchController do
   end
 
   def exchange(conn, %{"code" => code} = _params) do
-    {:ok, token} = Twitch.Auth.exchange(code)
+    {:ok, access_token} = Twitch.Auth.exchange(code)
 
-    IO.puts("token: #{token}")
+    conn = conn |> fetch_session
+    current_user_id = conn |> get_session(:user_id)
 
-    # Twitch.Application.subscribe_to_channel("#sodapopin", token)
+    {:ok, user} = Twitch.User.login_from_twitch(current_user_id, access_token)
+
+    IO.inspect(user)
 
     conn
-    |> fetch_session()
-    |> put_session(:twitch_token, token)
-    |> redirect(to: "/#/twitch")
+    |> put_session(:twitch_token, access_token)
+    |> redirect(to: "/#/twitch?justintegrated=yep")
   end
 end

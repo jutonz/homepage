@@ -33,9 +33,9 @@ config :twitch, ecto_repos: [Twitch.Repo]
 
 config :twitch,
   oauth: %{
-    client_id: "ja9ef15nl8k4wrvne24e9q1zzqnl7b",
-    client_secret: "vbhd98sen9x1puhc02gxwbc6pq5xuq",
-    redirect_uri: "http://localhost:4000/twitch/oauth"
+    client_id: System.get_env("TWITCH_CLIENT_ID"),
+    client_secret: System.get_env("TWITCH_CLIENT_SECRET"),
+    redirect_uri: System.get_env("TWITCH_REDIRECT_URI")
   }
 
 db_host = System.get_env("DB_HOST")

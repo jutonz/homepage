@@ -34,6 +34,10 @@ class _MainNav extends React.Component {
           <Link to="/resume">
             <Menu.Item name={"resume"} active={activeItem === "resume"} />
           </Link>
+
+          <Link to="/twitch">
+            <Menu.Item name={"twitch"} active={activeItem === "twitch"} />
+          </Link>
         </Menu.Menu>
 
         <Menu.Menu position="right">
