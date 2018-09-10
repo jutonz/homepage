@@ -185,5 +185,9 @@ defmodule ClientWeb.Schema do
       arg(:ijust_occurrence_id, non_null(:id))
       resolve(&ClientWeb.IjustResolver.delete_occurrence/3)
     end
+
+    field :twitch_remove_integration, :twitch_user do
+      resolve(&Twitch.TwitchResolver.remove_integration/3)
+    end
   end
 end

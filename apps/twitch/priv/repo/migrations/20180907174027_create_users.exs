@@ -12,6 +12,6 @@ defmodule Twitch.Repo.Migrations.CreateUsers do
       timestamps()
     end
 
-    create index(:users, :twitch_user_id, unique: true)
+    create(index(:users, :twitch_user_id, unique: true))
   end
 end

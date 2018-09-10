@@ -46,7 +46,11 @@ const _App = ({ flashMessages }) => (
         <Route path="/resume" component={ResumeRoute} />
 
         <AuthenticatedRoute path="/" exact={true} component={HomeRoute} />
-        <AuthenticatedRoute path="/twitch" exact={true} component={TwitchRoute} />
+        <AuthenticatedRoute
+          path="/twitch"
+          exact={true}
+          component={TwitchRoute}
+        />
         <AuthenticatedRoute path="/settings" component={SettingsRoute} />
         <AuthenticatedRoute exact path="/teams/:id" component={TeamRoute} />
         <AuthenticatedRoute

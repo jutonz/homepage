@@ -7,6 +7,7 @@ import { OneTimeLoginLink } from "@components/OneTimeLoginLink";
 import { TeamMembershipForm } from "@components/TeamMembershipForm";
 import { TeamCreationForm } from "@components/TeamCreationForm";
 import { TeamJoinForm } from "@components/TeamJoinForm";
+import { IntegrateWithTwitchForm } from "@components/IntegrateWithTwitchForm";
 
 const style = StyleSheet.create({
   routeContainer: {
@@ -29,6 +30,7 @@ export const SettingsRoute = () => (
         <Grid columns={2} relaxed stackable>
           <ChangePasswordForm />
           <OneTimeLoginLink />
+          <IntegrateWithTwitchForm />
         </Grid>
       </Grid.Column>
 

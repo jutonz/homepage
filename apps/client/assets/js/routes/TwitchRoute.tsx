@@ -17,10 +17,13 @@ const GET_CURRENT_USER_QUERY = gql`
 export const TwitchRoute = () => (
   <div>
     <MainNav activeItem={"twitch"} />
-    <QueryLoader query={GET_CURRENT_USER_QUERY} component={({ data }) => {
-      const user = data.getTwitchUser;
-      return renderTwitchUser(user);
-    }} />
+    <QueryLoader
+      query={GET_CURRENT_USER_QUERY}
+      component={({ data }) => {
+        const user = data.getTwitchUser;
+        return renderTwitchUser(user);
+      }}
+    />
   </div>
 );
 
@@ -34,7 +37,9 @@ const renderTwitchUser = (twitchUser: any) => {
   } else {
     return (
       <div>
-        <p>Connect your Twitch account to view chat, track metrics, and more!</p>
+        <p>
+          Connect your Twitch account to view chat, track metrics, and more!
+        </p>
         <a href="/twitch/login">
           <Button primary>Connect Twitch</Button>
         </a>

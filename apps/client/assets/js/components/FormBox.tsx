@@ -8,6 +8,10 @@ const style = StyleSheet.create({
   }
 });
 
-export const FormBox = ({ children, styles }) => (
+interface Props {
+  children: any;
+  styles?: any;
+}
+export const FormBox = ({ children, styles }: Props) => (
   <div className={css(style.formBox, ...styles)}>{children}</div>
 );
