@@ -2,17 +2,19 @@ defmodule Twitch.ChannelSubscription do
   use WebSockex
   require Logger
 
-  def start_link([channel, oauth_token]) do
+  def start_link([channel, twitch_user, name]) do
+    oauth_token = twitch_user.access_token["access_token"]
+
     state = %{
       server: "wss://irc-ws.chat.twitch.tv",
       pass: "oauth:#{oauth_token}",
-      nick: "_syps",
+      nick: twitch_user.display_name,
       channel: channel
     }
 
     opts = [
       debug: [:trace],
-      name: __MODULE__
+      name: name
     ]
 
     WebSockex.start_link(state.server, __MODULE__, state, opts)

@@ -15,4 +15,42 @@ defmodule Twitch.TwitchResolver do
              _ -> {:error, "Failed to remove integration"}
            )
   end
+
+  def channel_subscribe(_parent, args, %{context: context}) do
+    with {:ok, user} <- context |> Map.fetch(:current_user),
+         {:ok, channel} <- args |> Map.fetch(:channel),
+         {:ok, twitch_user} <- user.id |> Twitch.User.get_by_user_id(),
+         {:ok, channel} <- Twitch.Channel.subscribe(channel, twitch_user),
+         do: {:ok, channel},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to subscribe"}
+           )
+  end
+
+  def channel_unsubscribe(_parent, args, %{context: context}) do
+    with {:ok, user} <- context |> Map.fetch(:current_user),
+         {:ok, name} <- args |> Map.fetch(:name),
+         {:ok, twitch_user} <- user.id |> Twitch.User.get_by_user_id(),
+         {:ok, channel} <- Twitch.Channel.unsubscribe(name, twitch_user),
+         do: {:ok, channel},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to unsubscribe"}
+           )
+  end
+
+  def get_channels(_parent, _args, %{context: context}) do
+    with {:ok, user} <- context |> Map.fetch(:current_user),
+         {:ok, twitch_user} <- user.id |> Twitch.User.get_by_user_id(),
+         {:ok, channels} <- twitch_user.id |> Twitch.Channel.get_by_user_id(),
+         do: {:ok, channels},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to unsubscribe"}
+           )
+  end
 end

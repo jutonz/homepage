@@ -49,4 +49,11 @@ defmodule Twitch.User do
   def delete_by_user_id(user_id) do
     User |> Repo.get_by(user_id: to_string(user_id)) |> Repo.delete()
   end
+
+  def get_by_user_id(user_id) do
+    case Twitch.User |> Twitch.Repo.get_by(user_id: to_string(user_id)) do
+      user = %Twitch.User{} -> {:ok, user}
+      _ -> {:error, "No twitch account for user #{user_id}"}
+    end
+  end
 end
