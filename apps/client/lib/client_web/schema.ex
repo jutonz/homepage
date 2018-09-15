@@ -50,6 +50,13 @@ defmodule ClientWeb.Schema do
     field(:email, non_null(:string))
   end
 
+  object :twitch_channel do
+    field(:id, non_null(:id))
+    field(:name, non_null(:string))
+    field(:inserted_at, non_null(:string))
+    field(:updated_at, non_null(:string))
+  end
+
   query do
     field :get_user, :user do
       arg(:id, :id)
@@ -128,6 +135,10 @@ defmodule ClientWeb.Schema do
     field :get_twitch_user, :twitch_user do
       resolve(&Twitch.TwitchResolver.get_current_user/3)
     end
+
+    field :get_twitch_channels, list_of(:twitch_channel) do
+      resolve(&Twitch.TwitchResolver.get_channels/3)
+    end
   end
 
   mutation do
@@ -188,6 +199,16 @@ defmodule ClientWeb.Schema do
 
     field :twitch_remove_integration, :twitch_user do
       resolve(&Twitch.TwitchResolver.remove_integration/3)
+    end
+
+    field :twitch_channel_subscribe, :twitch_channel do
+      arg(:channel, non_null(:string))
+      resolve(&Twitch.TwitchResolver.channel_subscribe/3)
+    end
+
+    field :twitch_channel_unsubscribe, :twitch_channel do
+      arg(:name, non_null(:string))
+      resolve(&Twitch.TwitchResolver.channel_unsubscribe/3)
     end
   end
 end

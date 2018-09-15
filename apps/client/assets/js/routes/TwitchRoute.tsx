@@ -3,6 +3,8 @@ import gql from "graphql-tag";
 import { Button } from "semantic-ui-react";
 
 import { MainNav } from "@components/MainNav";
+import { TwitchChannel } from "@components/twitch/TwitchChannel";
+import { TwitchChannelSubscription } from "@components/twitch/TwitchChannelSubscription";
 import { QueryLoader } from "@utils/QueryLoader";
 
 const GET_CURRENT_USER_QUERY = gql`
@@ -10,6 +12,15 @@ const GET_CURRENT_USER_QUERY = gql`
     getTwitchUser {
       id
       display_name
+    }
+  }
+`;
+
+const GET_CHANNELS_QUERY = gql`
+  query GetTwitchChannels {
+    getTwitchChannels {
+      name
+      id
     }
   }
 `;
@@ -32,6 +43,8 @@ const renderTwitchUser = (twitchUser: any) => {
     return (
       <div>
         <p>Hey {twitchUser.display_name}</p>
+        <TwitchChannelSubscription />
+        {renderTwitchChannels()}
       </div>
     );
   } else {
@@ -47,3 +60,22 @@ const renderTwitchUser = (twitchUser: any) => {
     );
   }
 };
+
+const renderTwitchChannels = () => (
+  <div>
+    <QueryLoader
+      query={GET_CHANNELS_QUERY}
+      component={({ data }) => {
+        const channels = data.getTwitchChannels;
+        return (
+          <div>
+            {channels &&
+              channels.map(channel => (
+                <TwitchChannel key={channel.id} channel={channel} />
+              ))}
+          </div>
+        );
+      }}
+    />
+  </div>
+);
