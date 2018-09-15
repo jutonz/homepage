@@ -41,8 +41,9 @@ defmodule Twitch.Channel do
 
   def unsubscribe(channel_name, twitch_user) do
     channel = Channel |> Repo.get_by(name: channel_name, user_id: twitch_user.id)
+
     if channel do
-      channel |> Repo.delete
+      channel |> Repo.delete()
     end
 
     process_name = Twitch.Channel.process_name(channel_name, twitch_user)
@@ -60,11 +61,14 @@ defmodule Twitch.Channel do
   end
 
   def get_by_user_id(twitch_user_id) do
-    channels = from(
-      c in Twitch.Channel,
-      where: c.user_id == ^twitch_user_id,
-      limit: 100
-    ) |> Repo.all()
+    channels =
+      from(
+        c in Twitch.Channel,
+        where: c.user_id == ^twitch_user_id,
+        limit: 100
+      )
+      |> Repo.all()
+
     {:ok, channels || []}
   end
 
