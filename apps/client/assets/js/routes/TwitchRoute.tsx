@@ -1,6 +1,7 @@
 import * as React from "react";
 import gql from "graphql-tag";
-import { Button } from "semantic-ui-react";
+import { Button, Grid } from "semantic-ui-react";
+import { StyleSheet, css } from "aphrodite";
 
 import { MainNav } from "@components/MainNav";
 import { TwitchChannel } from "@components/twitch/TwitchChannel";
@@ -19,11 +20,22 @@ const GET_CURRENT_USER_QUERY = gql`
 const GET_CHANNELS_QUERY = gql`
   query GetTwitchChannels {
     getTwitchChannels {
-      name
       id
+      name
+      user_id
     }
   }
 `;
+
+const style = StyleSheet.create({
+  routeContainer: {
+    margin: "0 30px"
+  },
+  channelGrid: {
+    marginLeft: 0,
+    marginRight: 0
+  }
+});
 
 export const TwitchRoute = () => (
   <div>
@@ -41,7 +53,7 @@ export const TwitchRoute = () => (
 const renderTwitchUser = (twitchUser: any) => {
   if (twitchUser) {
     return (
-      <div>
+      <div className={css(style.routeContainer)}>
         <p>Hey {twitchUser.display_name}</p>
         <TwitchChannelSubscription />
         {renderTwitchChannels()}
@@ -49,7 +61,7 @@ const renderTwitchUser = (twitchUser: any) => {
     );
   } else {
     return (
-      <div>
+      <div className={css(style.routeContainer)}>
         <p>
           Connect your Twitch account to view chat, track metrics, and more!
         </p>
@@ -68,12 +80,17 @@ const renderTwitchChannels = () => (
       component={({ data }) => {
         const channels = data.getTwitchChannels;
         return (
-          <div>
+          <Grid
+            columns={2}
+            relaxed
+            stackable
+            className={css(style.channelGrid)}
+          >
             {channels &&
               channels.map(channel => (
                 <TwitchChannel key={channel.id} channel={channel} />
               ))}
-          </div>
+          </Grid>
         );
       }}
     />

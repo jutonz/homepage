@@ -50,8 +50,10 @@ defmodule Client.Mixfile do
       {:absinthe_plug, "~> 1.4"},
       {:cors_plug, "~> 1.5"},
       {:plug_static_index_html, "~> 1.0"},
+      {:gen_stage, "~> 0.14.0"},
       {:auth, in_umbrella: true},
-      {:redis, in_umbrella: true}
+      {:redis, in_umbrella: true},
+      {:twitch, in_umbrella: true}
     ]
   end
 

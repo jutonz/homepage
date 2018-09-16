@@ -23,6 +23,10 @@ const webpackConfig = {
         target: "http://localhost:4000",
         secure: false,
         changeOrigin: true
+      },
+      "/twitchsocket": {
+        target: "ws://localhost:4000",
+        ws: true
       }
     }
   },

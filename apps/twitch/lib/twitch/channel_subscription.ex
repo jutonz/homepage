@@ -13,7 +13,7 @@ defmodule Twitch.ChannelSubscription do
     }
 
     opts = [
-      debug: [:trace],
+      # debug: [:trace],
       name: name
     ]
 
@@ -47,6 +47,13 @@ defmodule Twitch.ChannelSubscription do
 
   def handle_frame({_type, msg}, state) do
     case Twitch.ParsedEvent.from_raw(msg) do
+      {:ok, %Twitch.ParsedEvent{irc_command: "PING"}} ->
+        pid = self()
+
+        spawn(fn ->
+          WebSockex.send_frame(pid, {:text, "PONG"})
+        end)
+
       {:ok, parsed} ->
         Twitch.TwitchProducer.publish(parsed)
 
