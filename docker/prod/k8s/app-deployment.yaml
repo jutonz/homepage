@@ -13,29 +13,11 @@ spec:
       labels:
         app: app
     spec:
-      containers:
+      initContainers:
       - image: jutonz/homepage-prod-app:98
-        name: app
-        imagePullPolicy: Always
-        livenessProbe:
-          httpGet:
-            path: /api/healthz
-            port: 4000
-            scheme: HTTP
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /api/healthz
-            port: 4000
-            scheme: HTTP
-          initialDelaySeconds: 10
-          timeoutSeconds: 5
-        lifecycle:
-          postStart:
-            exec:
-              command: ["/bin/bash", "/etc/migrate.sh"]
-        env:
+        name: migrate-db
+        command: ["bin/bash", "/etc/migrate.sh"]
+        env: &env
           - name: SECRET_KEY_BASE
             valueFrom:
               secretKeyRef:
@@ -72,4 +54,23 @@ spec:
                 key: DB_PASS
           - name: DB_POOL_SIZE
             value: "20"
+      containers:
+      - image: jutonz/homepage-prod-app:98
+        name: app
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /api/healthz
+            port: 4000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /api/healthz
+            port: 4000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        env: *env
       restartPolicy: Always
