@@ -12,7 +12,6 @@ defmodule Client.TwitchServer do
   def handle_events(events, _from, state) do
     events
     |> Enum.each(fn event ->
-      IO.puts("TwitchServer: #{event.message}")
       ClientWeb.Endpoint.broadcast!("twitch_channel:#{event.channel}", event.irc_command, event)
     end)
 

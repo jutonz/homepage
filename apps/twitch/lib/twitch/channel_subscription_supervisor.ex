@@ -31,7 +31,7 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
     res =
       DynamicSupervisor.start_child(
         __MODULE__,
-        {Twitch.ChannelSubscription, [channel, twitch_user, process_name]}
+        {Twitch.ChannelSubscription, [channel, twitch_user.id, process_name]}
       )
 
     Logger.info("Starting twitch channel subscription for channel #{channel}: #{inspect(res)}")

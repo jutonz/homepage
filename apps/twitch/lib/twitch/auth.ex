@@ -49,7 +49,30 @@ defmodule Twitch.Auth do
     response |> parse_response
   end
 
-  def current_user(access_token \\ "8yrp2vl7kwikrc5edi5qiefbgqn0k5") do
+  def refresh(refresh_token) do
+    query = %{
+      grant_type: "refresh_token",
+      refresh_token: refresh_token,
+      client_id: client_id(),
+      client_secret: client_secret()
+    }
+
+    headers = [
+      {"Accept", "application/json"}
+    ]
+
+    response =
+      HTTPoison.post(
+        "https://id.twitch.tv/oauth2/token",
+        "",
+        headers,
+        params: query
+      )
+
+    response |> parse_response
+  end
+
+  def current_user(access_token) do
     with {:ok, json} <- Twitch.Auth.twitch_connection(access_token, :get, "/helix/users"),
          do:
            (
