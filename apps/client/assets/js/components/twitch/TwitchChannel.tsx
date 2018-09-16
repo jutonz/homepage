@@ -97,7 +97,7 @@ export class TwitchChannel extends React.Component<Props, State> {
   }
 
   subscribe() {
-    const socket = new Socket("ws://localhost:4001/twitchsocket", {
+    const socket = new Socket("/twitchsocket", {
       params: { twitch_user_id: this.props.channel.user_id }
     });
     socket.connect();
