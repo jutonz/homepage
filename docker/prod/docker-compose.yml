@@ -4,7 +4,7 @@ services:
   nginx:
     depends_on:
     - app
-    image: jutonz/homepage-prod-nginx:5
+    image: jutonz/homepage-prod-nginx:6
     links:
     - app
     ports:

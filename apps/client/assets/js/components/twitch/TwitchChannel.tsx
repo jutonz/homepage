@@ -95,21 +95,6 @@ export class TwitchChannel extends React.Component<Props, State> {
       </div>
     );
   }
-  //<ReactList
-  //itemRenderer={(index, key) => this.renderMessage(index, key)}
-  //length={messages.length}
-  //ref={c => (this.list = c)}
-  ///>
-
-  //renderMessage(index, key) {
-  //const { messages } = this.state;
-  //const message = messages[index];
-  //return (
-  //<p key={key}>
-  //{message.display_name}: {message.message}
-  //</p>
-  //);
-  //}
 
   subscribe() {
     const socket = new Socket("/twitchsocket", {
