@@ -14,9 +14,9 @@ spec:
         app: app
     spec:
       initContainers:
-      - image: jutonz/homepage-prod-app:98
-        name: migrate-db
-        command: ["bin/bash", "/etc/migrate.sh"]
+      - name: migrate-db
+        image: jutonz/homepage-prod-app:98
+        command: ["/bin/bash", "/etc/migrate.sh"]
         env: &env
           - name: SECRET_KEY_BASE
             valueFrom:
