@@ -14,8 +14,8 @@ spec:
         app: nginx
     spec:
       containers:
-      - image: jutonz/homepage-prod-nginx:5
-        name: nginx
+      - image: jutonz/homepage-prod-nginx:6
+        name: app
         ports:
         - containerPort: 80
         livenessProbe:
