@@ -37,7 +37,7 @@ RUN export DEBIAN_FRONTEND="noninteractive" \
  && apt-get install -y yarn \
  && yarn global add npm-run-all
 
-COPY docker/prod/app/init.sh /etc/
+COPY docker/prod/app/*.sh /etc/
 
 COPY . /root/code/
 WORKDIR /root/code

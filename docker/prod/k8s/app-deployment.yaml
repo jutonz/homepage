@@ -14,7 +14,7 @@ spec:
         app: app
     spec:
       containers:
-      - image: jutonz/homepage-prod-app:95
+      - image: jutonz/homepage-prod-app:98
         name: app
         imagePullPolicy: Always
         livenessProbe:
@@ -31,6 +31,10 @@ spec:
             scheme: HTTP
           initialDelaySeconds: 10
           timeoutSeconds: 5
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/bash", "/etc/migrate.sh"]
         env:
           - name: SECRET_KEY_BASE
             valueFrom:
