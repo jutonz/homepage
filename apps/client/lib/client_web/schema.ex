@@ -53,6 +53,7 @@ defmodule ClientWeb.Schema do
   object :twitch_channel do
     field(:id, non_null(:id))
     field(:name, non_null(:string))
+    field(:user_id, non_null(:id))
     field(:inserted_at, non_null(:string))
     field(:updated_at, non_null(:string))
   end

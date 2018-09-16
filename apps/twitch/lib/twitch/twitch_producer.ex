@@ -16,6 +16,7 @@ defmodule Twitch.TwitchProducer do
   end
 
   def handle_cast({:add, event}, state) do
+    IO.puts("TwitchProducer: #{event.message}")
     {:noreply, [event], state}
   end
 

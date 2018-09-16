@@ -2,6 +2,7 @@ defmodule ClientWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :client
 
   socket("/socket", ClientWeb.UserSocket)
+  socket("/twitchsocket", ClientWeb.TwitchSocket)
 
   # Serve at "/" the static files from "priv/static" directory.
   #
