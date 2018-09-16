@@ -2,7 +2,8 @@ defmodule Twitch.ChannelSubscription do
   use WebSockex
   require Logger
 
-  def start_link([channel, twitch_user, name]) do
+  def start_link([channel, twitch_user_id, name]) do
+    {:ok, twitch_user} = Twitch.User.refresh_token(twitch_user_id)
     oauth_token = twitch_user.access_token["access_token"]
 
     state = %{

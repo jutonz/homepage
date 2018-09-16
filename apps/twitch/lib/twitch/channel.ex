@@ -33,7 +33,7 @@ defmodule Twitch.Channel do
 
     DynamicSupervisor.start_child(
       Twitch.ChannelSubscriptionSupervisor,
-      {Twitch.ChannelSubscription, [channel_name, twitch_user, process_name]}
+      {Twitch.ChannelSubscription, [channel_name, twitch_user.id, process_name]}
     )
 
     {:ok, channel}

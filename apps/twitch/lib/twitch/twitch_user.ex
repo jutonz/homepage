@@ -45,6 +45,18 @@ defmodule Twitch.User do
     end
   end
 
+  @spec refresh_token(Number.t()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
+  def refresh_token(twitch_user_id) do
+    %User{} = user = User |> Repo.get(twitch_user_id)
+    refresh_token = user.access_token["refresh_token"]
+
+    {:ok, new_access_token} = Twitch.Auth.refresh(refresh_token)
+
+    user
+    |> User.changeset(%{access_token: new_access_token})
+    |> Repo.update()
+  end
+
   @spec delete_by_user_id(String.t()) :: {:ok, User.t()} | {:error, String.t()}
   def delete_by_user_id(user_id) do
     User |> Repo.get_by(user_id: to_string(user_id)) |> Repo.delete()
@@ -54,6 +66,14 @@ defmodule Twitch.User do
     case Twitch.User |> Twitch.Repo.get_by(user_id: to_string(user_id)) do
       user = %Twitch.User{} -> {:ok, user}
       _ -> {:error, "No twitch account for user #{user_id}"}
+    end
+  end
+
+  @spec get_by_id(Number.t()) :: {:ok, User.t()} | {:error, String.t()}
+  def get_by_id(id) do
+    case User |> Repo.get(id) do
+      user = %User{} -> {:ok, user}
+      _ -> {:error, "No Twitch.User with ID #{id}"}
     end
   end
 end
