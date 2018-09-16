@@ -22,7 +22,7 @@ const GET_CHANNELS_QUERY = gql`
     getTwitchChannels {
       id
       name
-      user_id
+      userId
     }
   }
 `;

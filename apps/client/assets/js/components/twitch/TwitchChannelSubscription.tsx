@@ -12,6 +12,7 @@ const CHANNEL_SUBSCRIBE_MUTATION = gql`
     twitchChannelSubscribe(channel: $channel) {
       id
       name
+      userId
     }
   }
 `;
@@ -70,11 +71,10 @@ class SubscribeForm extends React.Component<Props, State> {
               });
 
               const newChannel = data.twitchChannelSubscribe;
-              const newChannels = [...existingChannels, newChannel];
 
               cache.writeQuery({
                 query: GET_TWITCH_CHANNELS,
-                data: { getTwitchChannels: newChannels }
+                data: { getTwitchChannels: existingChannels.concat([newChannel]) }
               });
             }}
           >
