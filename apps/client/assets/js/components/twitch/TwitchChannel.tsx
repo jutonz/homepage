@@ -4,7 +4,6 @@ import { StyleSheet, css } from "aphrodite";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { Socket } from "phoenix";
-import ReactList from "react-list";
 
 import { FormBox } from "@components/FormBox";
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
@@ -19,7 +18,8 @@ const style = StyleSheet.create({
   list: {
     overflow: "auto",
     minHeight: "400px",
-    maxHeight: "400px"
+    maxHeight: "400px",
+    marginBottom: 20
   }
 });
 
@@ -49,7 +49,7 @@ interface State {
   messages: Array<any>;
 }
 export class TwitchChannel extends React.Component<Props, State> {
-  lastMessageId = null;
+  list = null;
 
   constructor(props: Props) {
     super(props);
@@ -58,14 +58,15 @@ export class TwitchChannel extends React.Component<Props, State> {
   }
 
   componentDidUpdate() {
-    if (this.lastMessageId) {
-      const el = document.querySelectorAll(
-        `[data-message-id='${this.lastMessageId}']`
-      )[0];
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
-    }
+    const list = this.list;
+    list.scrollTop = list.scrollHeight - list.clientHeight;
+  }
+
+  componentDidMount() {
+    const { name } = this.props.channel;
+    const list = document.querySelectorAll(`[data-channel-name='${name}']`)[0];
+    console.dir(list);
+    this.list = list;
   }
 
   render() {
@@ -86,7 +87,10 @@ export class TwitchChannel extends React.Component<Props, State> {
     const { messages } = this.state;
 
     return (
-      <div className={css(style.list)}>
+      <div
+        className={css(style.list)}
+        data-channel-name={this.props.channel.name}
+      >
         {messages.map(message => (
           <p key={message.id} data-message-id={message.id}>
             {message.display_name}: {message.message}
@@ -115,7 +119,6 @@ export class TwitchChannel extends React.Component<Props, State> {
 
   messageReceived(message) {
     message.id = Math.random();
-    this.lastMessageId = message.id;
     const { messages } = this.state;
     let newMessages = messages.concat(message);
 
