@@ -63,7 +63,7 @@ export class TwitchChannel extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const { name } = this.props.channel;;
+    const { name } = this.props.channel;
     const list = document.querySelectorAll(`[data-channel-name='${name}']`)[0];
     console.dir(list);
     this.list = list;
@@ -87,7 +87,10 @@ export class TwitchChannel extends React.Component<Props, State> {
     const { messages } = this.state;
 
     return (
-      <div className={css(style.list)} data-channel-name={this.props.channel.name}>
+      <div
+        className={css(style.list)}
+        data-channel-name={this.props.channel.name}
+      >
         {messages.map(message => (
           <p key={message.id} data-message-id={message.id}>
             {message.display_name}: {message.message}

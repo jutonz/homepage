@@ -74,7 +74,9 @@ class SubscribeForm extends React.Component<Props, State> {
 
               cache.writeQuery({
                 query: GET_TWITCH_CHANNELS,
-                data: { getTwitchChannels: existingChannels.concat([newChannel]) }
+                data: {
+                  getTwitchChannels: existingChannels.concat([newChannel])
+                }
               });
             }}
           >
