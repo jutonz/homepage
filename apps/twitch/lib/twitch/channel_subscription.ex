@@ -58,7 +58,7 @@ defmodule Twitch.ChannelSubscription do
         Twitch.TwitchProducer.publish(parsed)
 
       {:error, reason} ->
-        Logger.debug("Could not parse message (#{reason}), so it was skipped: #{msg}")
+        Logger.debug("Could not parse message (#{reason}), so it was skipped: #{inspect(msg)}")
     end
 
     {:ok, state}
