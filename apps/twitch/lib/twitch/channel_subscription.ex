@@ -21,47 +21,55 @@ defmodule Twitch.ChannelSubscription do
     WebSockex.start_link(state.server, __MODULE__, state, opts)
   end
 
-  def call(message) do
-    WebSockex.send_frame(self(), {:text, message})
+  def call(messages) when is_list(messages) do
+    pid = self()
+
+    spawn(fn ->
+      messages |> Enum.each(&WebSockex.send_frame(pid, {:text, &1}))
+    end)
   end
+
+  def call(message), do: call([message])
 
   def handle_connect(_conn, state) do
     Logger.debug("Connected :)")
 
-    pid = self()
-
-    spawn(fn ->
-      WebSockex.send_frame(
-        pid,
-        # {:text, "CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership"}
-        {:text, "CAP REQ :twitch.tv/commands twitch.tv/membership"}
-      )
-
-      WebSockex.send_frame(pid, {:text, "PASS #{state.pass}"})
-      WebSockex.send_frame(pid, {:text, "NICK #{state.nick}"})
-      WebSockex.send_frame(pid, {:text, "USER #{state.nick} 8 * :#{state.nick}"})
-      WebSockex.send_frame(pid, {:text, "JOIN #{state.channel}"})
-    end)
+    call([
+      "CAP REQ :twitch.tv/commands twitch.tv/membership",
+      "PASS #{state.pass}",
+      "NICK #{state.nick}",
+      "USER #{state.nick} 8 * :#{state.nick}",
+      "JOIN #{state.channel}"
+    ])
 
     {:ok, state}
   end
 
-  def handle_frame({_type, msg}, state) do
-    case Twitch.ParsedEvent.from_raw(msg) do
+  def handle_raw_message(message) do
+    case Twitch.ParsedEvent.from_raw(message) do
       {:ok, %Twitch.ParsedEvent{irc_command: "PING"}} ->
-        pid = self()
-
-        spawn(fn ->
-          WebSockex.send_frame(pid, {:text, "PONG"})
-        end)
+        call("PONG")
 
       {:ok, parsed} ->
         Twitch.TwitchProducer.publish(parsed)
 
       {:error, reason} ->
-        Logger.debug("Could not parse message (#{reason}), so it was skipped: #{inspect(msg)}")
+        Logger.debug(
+          "Could not parse message (#{reason}), so it was skipped: #{inspect(message)}"
+        )
     end
+  end
 
+  def handle_frame({_type, msg}, state) do
+    msg
+    |> String.split("\r\n")
+    |> Enum.each(fn raw ->
+      if String.length(raw) > 0 do
+        handle_raw_message(raw)
+      end
+    end)
+
+    # msg |> String.split("\r\n") |> Enum.each(&Twitch.ChannelSubscription.handle_raw_message(&1))
     {:ok, state}
   end
 

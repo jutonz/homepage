@@ -47,14 +47,16 @@ interface Props {
 }
 interface State {
   messages: Array<any>;
+  socket?: any;
+  channel?: any;
 }
 export class TwitchChannel extends React.Component<Props, State> {
   list = null;
 
   constructor(props: Props) {
     super(props);
-    this.state = { messages: [] };
-    this.subscribe();
+    const { socket, channel } = this.subscribe();
+    this.state = { socket, channel, messages: [] };
   }
 
   componentDidUpdate() {
@@ -65,8 +67,11 @@ export class TwitchChannel extends React.Component<Props, State> {
   componentDidMount() {
     const { name } = this.props.channel;
     const list = document.querySelectorAll(`[data-channel-name='${name}']`)[0];
-    console.dir(list);
     this.list = list;
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   render() {
@@ -107,14 +112,24 @@ export class TwitchChannel extends React.Component<Props, State> {
     socket.connect();
 
     const { user_id: userId, name } = this.props.channel;
-    const channel = socket.channel(`twitch_channel:${name}`, {});
+    const channelName = `twitch_channel:${name}`;
+    const channel = socket.channel(channelName, {});
 
     channel.on("PRIVMSG", message => this.messageReceived(message));
 
     channel
       .join()
-      .receive("ok", resp => console.log("Joined!", resp))
+      .receive("ok", () => console.log(`Joined ${channelName}!`))
       .receive("error", resp => console.log("Error joining :(", resp));
+
+    return { socket, channel };
+  }
+
+  unsubscribe() {
+    const { channel } = this.state;
+    if (channel) {
+      channel.leave();
+    }
   }
 
   messageReceived(message) {

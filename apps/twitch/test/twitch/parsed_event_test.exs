@@ -3,7 +3,7 @@ defmodule Twitch.ParsedEventTest do
   alias Twitch.ParsedEvent
 
   test "#from_raw can parse PRIVMSG" do
-    raw = ":syps_!syps_@syps_.tmi.twitch.tv PRIVMSG #comradenerdy :TaBeRu\r\n"
+    raw = ":syps_!syps_@syps_.tmi.twitch.tv PRIVMSG #comradenerdy :TaBeRu"
     {:ok, parsed} = ParsedEvent.from_raw(raw)
     assert parsed.message == "TaBeRu"
   end
@@ -29,5 +29,59 @@ defmodule Twitch.ParsedEventTest do
 
     assert parsed.message ==
              "ACTION GoAkke went all in and lost every single one of their 215 blyats LUL"
+  end
+
+  test "#from_raw can parse CLEARCHAT" do
+    raw = ":tmi.twitch.tv CLEARCHAT #twitchpresents :spookyboogie27\r\n"
+
+    {:ok, parsed} = ParsedEvent.from_raw(raw)
+
+    assert parsed.irc_command == "CLEARCHAT"
+    assert parsed.channel == "#twitchpresents"
+    assert parsed.message == "spookyboogie27"
+  end
+
+  test "#from_raw can parse PART" do
+    raw =
+      ":stay_hydrated_bot!stay_hydrated_bot@stay_hydrated_bot.tmi.twitch.tv PART #themunchdown\r\n"
+
+    {:ok, parsed} = ParsedEvent.from_raw(raw)
+
+    assert parsed.irc_command == "PART"
+    assert parsed.display_name == "stay_hydrated_bot"
+    assert parsed.channel == "#themunchdown"
+    assert parsed.raw_event == raw
+  end
+
+  test "#from_raw can parse JOIN" do
+    raw = ":lord0pichacufon!lord0pichacufon@lord0pichacufon.tmi.twitch.tv JOIN #themunchdown\r\n"
+
+    {:ok, parsed} = ParsedEvent.from_raw(raw)
+
+    assert parsed.irc_command == "JOIN"
+    assert parsed.display_name == "lord0pichacufon"
+    assert parsed.raw_event == raw
+  end
+
+  test "#from_raw can parse HOSTTARGET" do
+    raw = ":tmi.twitch.tv HOSTTARGET #admiralbahroo :woops -\r\n"
+
+    {:ok, parsed} = ParsedEvent.from_raw(raw)
+
+    assert parsed.irc_command == "HOSTTARGET"
+    assert parsed.channel == "#admiralbahroo"
+    assert parsed.message == "woops"
+  end
+
+  test "#from_raw can parse USERNOTICE" do
+    raw =
+      ":tmi.twitch.tv USERNOTICE #admiralbahroo :31 motnhs, sorry for not coming round much anymore, enjoy my money\r\n"
+
+    {:ok, parsed} = ParsedEvent.from_raw(raw)
+
+    assert parsed.irc_command == "USERNOTICE"
+    assert parsed.raw_event == raw
+    assert parsed.channel == "#admiralbahroo"
+    assert parsed.message == "31 motnhs, sorry for not coming round much anymore, enjoy my money"
   end
 end

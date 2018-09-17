@@ -1,6 +1,5 @@
 defmodule Twitch.User do
   use Ecto.Schema
-  import Ecto.Changeset
   alias Twitch.{Repo, User}
 
   @type t :: %__MODULE__{}
