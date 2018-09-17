@@ -70,6 +70,10 @@ export class TwitchChannel extends React.Component<Props, State> {
     this.list = list;
   }
 
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
   render() {
     const { channel } = this.props;
     const { messages } = this.state;
