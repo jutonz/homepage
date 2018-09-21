@@ -36,6 +36,7 @@ defmodule Twitch.MixProject do
       {:exirc, "~> 1.0"},
       {:ecto, "~> 2.2"},
       {:postgrex, ">= 0.0.0"},
+      {:event_bus, "~> 1.5"}
     ]
   end
 end

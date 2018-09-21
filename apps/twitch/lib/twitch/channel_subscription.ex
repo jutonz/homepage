@@ -51,6 +51,7 @@ defmodule Twitch.ChannelSubscription do
         call("PONG")
 
       {:ok, parsed} ->
+        Twitch.EventProducer.publish(parsed)
         Twitch.TwitchProducer.publish(parsed)
 
       {:error, reason} ->
