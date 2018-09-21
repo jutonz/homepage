@@ -14,7 +14,8 @@ defmodule Twitch.Application do
       # {Twitch.Worker, arg},
       supervisor(Twitch.Repo, []),
       Twitch.ChannelSubscriptionSupervisor,
-      Twitch.TwitchProducer
+      Twitch.TwitchProducer,
+      Twitch.EventPersister
       # Twitch.TwitchEventPersister
     ]
 
