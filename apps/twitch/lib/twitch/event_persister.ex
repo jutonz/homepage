@@ -10,8 +10,7 @@ defmodule Twitch.EventPersister do
   def init(_arg) do
     state = []
 
-    :ok = EventBus.register_topic(:chat_message)
-    EventBus.subscribe({__MODULE__, ["chat_message"]})
+    Events.subscribe({__MODULE__, ["chat_message"]})
 
     {:ok, state}
   end
@@ -21,7 +20,7 @@ defmodule Twitch.EventPersister do
   end
 
   def handle_cast({topic, id} = event_shadow, state) do
-    event = EventBus.fetch_event(event_shadow)
+    event = Events.fetch_event(event_shadow)
     struct = event.data |> Map.from_struct()
     cset = %Twitch.TwitchEvent{} |> Twitch.TwitchEvent.changeset(struct)
     events = Enum.concat(state, [cset])
@@ -34,7 +33,7 @@ defmodule Twitch.EventPersister do
         events
       end
 
-    EventBus.mark_as_completed({__MODULE__, event_shadow})
+    Events.mark_as_completed({__MODULE__, event_shadow})
 
     {:noreply, new_state}
   end

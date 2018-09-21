@@ -53,7 +53,8 @@ defmodule Client.Mixfile do
       {:gen_stage, "~> 0.14.0"},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
-      {:twitch, in_umbrella: true}
+      {:twitch, in_umbrella: true},
+      {:events, in_umbrella: true}
     ]
   end
 
