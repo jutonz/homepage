@@ -1,11 +1,12 @@
 import * as React from "react";
-import { Button, Header } from "semantic-ui-react";
+import { Button, Dropdown, Header, Icon } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import { Socket } from "phoenix";
 
 import { FormBox } from "@components/FormBox";
+import { TwitchChannelLiveChat } from "@components/twitch/TwitchChannelLiveChat";
+import { TwitchChannelArchiveView } from "@components/twitch/TwitchChannelArchiveView";
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 
 const style = StyleSheet.create({
@@ -13,13 +14,26 @@ const style = StyleSheet.create({
     maxWidth: 300,
     minWidth: 300,
     marginTop: 30,
-    marginRight: 30
+    minHeight: 500,
+    maxHeight: 500,
+    marginRight: 30,
+    display: "flex",
+    flexDirection: "column"
   },
-  list: {
-    overflow: "auto",
-    minHeight: "400px",
-    maxHeight: "400px",
-    marginBottom: 20
+  header: {
+    flexGrow: 0,
+    flexShrink: 0,
+    flexBasis: "auto",
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  body: {
+    flexGrow: 1,
+    maxHeight: "100%",
+    overflow: "hidden"
+  },
+  unsubButtonContainer: {
+    marginTop: 20
   }
 });
 
@@ -39,109 +53,72 @@ const GET_TWITCH_CHANNELS = gql`
   }
 `;
 
-const HISTORY_THRESSHOLD = 100;
-const HISTORY_BUFFER = 50;
+enum ChatMode {
+  Live,
+  Archive
+}
 
 interface Props {
   channel: any;
 }
 interface State {
-  messages: Array<any>;
-  socket?: any;
-  channel?: any;
+  chatMode: ChatMode;
 }
 export class TwitchChannel extends React.Component<Props, State> {
-  list = null;
-
   constructor(props: Props) {
     super(props);
-    const { socket, channel } = this.subscribe();
-    this.state = { socket, channel, messages: [] };
-  }
-
-  componentDidUpdate() {
-    const list = this.list;
-    list.scrollTop = list.scrollHeight - list.clientHeight;
-  }
-
-  componentDidMount() {
-    const { name } = this.props.channel;
-    const list = document.querySelectorAll(`[data-channel-name='${name}']`)[0];
-    this.list = list;
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
+    this.state = { chatMode: ChatMode.Live };
   }
 
   render() {
     const { channel } = this.props;
-    const { messages } = this.state;
     return (
       <FormBox styles={style.container}>
-        <Header>
-          {channel.name} ({messages.length})
-        </Header>
-        {this.renderMessages()}
+        <div className={css(style.header)}>
+          <Header>{channel.name}</Header>
+          {this.renderDropdown()}
+        </div>
+        <div className={css(style.body)}>{this.renderBody()}</div>
         {renderUnsubscribeButton(channel)}
       </FormBox>
     );
   }
 
-  renderMessages() {
-    const { messages } = this.state;
+  renderDropdown() {
+    const { chatMode } = this.state;
 
     return (
-      <div
-        className={css(style.list)}
-        data-channel-name={this.props.channel.name}
-      >
-        {messages.map(message => (
-          <p key={message.id} data-message-id={message.id}>
-            {message.display_name}: {message.message}
-          </p>
-        ))}
-      </div>
+      <Dropdown icon="setting">
+        <Dropdown.Menu>
+          <Dropdown.Item
+            active={chatMode === ChatMode.Live}
+            onClick={() => this.switchMode(ChatMode.Live)}
+            text="Live chat"
+          />
+          <Dropdown.Item
+            active={chatMode === ChatMode.Archive}
+            onClick={() => this.switchMode(ChatMode.Archive)}
+            text="Chat archive"
+          />
+        </Dropdown.Menu>
+      </Dropdown>
     );
   }
 
-  subscribe() {
-    const socket = new Socket("/twitchsocket", {
-      params: { twitch_user_id: this.props.channel.user_id }
-    });
-    socket.connect();
+  renderBody() {
+    const { channel } = this.props;
+    const { chatMode } = this.state;
 
-    const { user_id: userId, name } = this.props.channel;
-    const channelName = `twitch_channel:${name}`;
-    const channel = socket.channel(channelName, {});
-
-    channel.on("PRIVMSG", message => this.messageReceived(message));
-
-    channel
-      .join()
-      .receive("ok", () => console.log(`Joined ${channelName}!`))
-      .receive("error", resp => console.log("Error joining :(", resp));
-
-    return { socket, channel };
-  }
-
-  unsubscribe() {
-    const { channel } = this.state;
-    if (channel) {
-      channel.leave();
+    switch (chatMode) {
+      case ChatMode.Live:
+        return <TwitchChannelLiveChat channel={channel} />;
+      case ChatMode.Archive:
+        return <TwitchChannelArchiveView />;
     }
   }
 
-  messageReceived(message) {
-    message.id = Math.random();
-    const { messages } = this.state;
-    let newMessages = messages.concat(message);
-
-    if (newMessages.length > HISTORY_THRESSHOLD + HISTORY_BUFFER) {
-      newMessages = messages.slice(HISTORY_BUFFER);
-    }
-
-    this.setState({ messages: newMessages });
+  switchMode(chatMode: ChatMode) {
+    this.setState({ chatMode });
   }
 }
 
@@ -165,7 +142,7 @@ const renderUnsubscribeButton = channel => (
     }}
   >
     {(unsubscribe, { loading, error }) => (
-      <div>
+      <div className={css(style.unsubButtonContainer)}>
         {error && collectGraphqlErrors(error)}
         <Button
           primary
