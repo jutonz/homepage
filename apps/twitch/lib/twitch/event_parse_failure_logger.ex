@@ -35,7 +35,7 @@ defmodule Twitch.EventParseFailureLogger do
         [raw_message | state]
       end
 
-    Logger.info "Stored #{length(state)} invalid messages"
+    Logger.info("Stored #{length(state)} invalid messages")
 
     {:noreply, new_state}
   end

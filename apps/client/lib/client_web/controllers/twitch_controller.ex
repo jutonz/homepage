@@ -23,6 +23,9 @@ defmodule ClientWeb.TwitchController do
 
   def failurelog(conn, _params) do
     log = Twitch.EventParseFailureLogger.get_log() |> Enum.join("\n")
-    conn |> send_resp(200, log)
+
+    conn
+    |> put_resp_header("content-type", "text/plain")
+    |> send_resp(200, log)
   end
 end
