@@ -52,12 +52,9 @@ defmodule Twitch.ChannelSubscription do
 
       {:ok, parsed} ->
         Twitch.EventProducer.publish(parsed)
-        Twitch.TwitchProducer.publish(parsed)
 
       {:error, reason} ->
-        Logger.debug(
-          "Could not parse message (#{reason}), so it was skipped: #{inspect(message)}"
-        )
+        Twitch.EventParseFailureLogger.log(message, reason)
     end
   end
 
@@ -70,7 +67,6 @@ defmodule Twitch.ChannelSubscription do
       end
     end)
 
-    # msg |> String.split("\r\n") |> Enum.each(&Twitch.ChannelSubscription.handle_raw_message(&1))
     {:ok, state}
   end
 

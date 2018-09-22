@@ -14,9 +14,8 @@ defmodule Twitch.Application do
       # {Twitch.Worker, arg},
       supervisor(Twitch.Repo, []),
       Twitch.ChannelSubscriptionSupervisor,
-      Twitch.TwitchProducer,
-      Twitch.EventPersister
-      # Twitch.TwitchEventPersister
+      Twitch.EventPersister,
+      Twitch.EventParseFailureLogger
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

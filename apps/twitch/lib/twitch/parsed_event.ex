@@ -19,7 +19,8 @@ defmodule Twitch.ParsedEvent do
 
   def from_raw(raw_message) do
     parsed = raw_message |> :binary.bin_to_list() |> ExIrc.Utils.parse()
-    to_parsed_event(parsed.cmd, parsed, raw_message)
+    raw = raw_message |> :binary.bin_to_list() |> to_string()
+    to_parsed_event(parsed.cmd, parsed, raw)
   end
 
   def to_parsed_event("PRIVMSG", parsed, raw) do

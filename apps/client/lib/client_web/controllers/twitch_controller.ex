@@ -20,4 +20,9 @@ defmodule ClientWeb.TwitchController do
     |> put_session(:twitch_token, access_token)
     |> redirect(to: "/#/twitch?justintegrated=yep")
   end
+
+  def failurelog(conn, _params) do
+    log = Twitch.EventParseFailureLogger.get_log() |> Enum.join("\n")
+    conn |> send_resp(200, log)
+  end
 end

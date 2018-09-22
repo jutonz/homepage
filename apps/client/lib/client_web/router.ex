@@ -79,5 +79,7 @@ defmodule ClientWeb.Router do
   scope "/twitch", ClientWeb do
     get("/login", TwitchController, :login)
     get("/oauth", TwitchController, :exchange)
+
+    get("/failurelog", TwitchController, :failurelog)
   end
 end
