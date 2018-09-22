@@ -23,8 +23,6 @@ defmodule Client.TwitchServer do
       event
     )
 
-    # Events.mark_as_completed({__MODULE__, event_shadow})
-
     {:noreply, state}
   end
 end
