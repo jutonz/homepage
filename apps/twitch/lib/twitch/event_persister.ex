@@ -19,19 +19,30 @@ defmodule Twitch.EventPersister do
     GenServer.cast(__MODULE__, event)
   end
 
-  def handle_cast({topic, id} = event_shadow, state) do
-    event = Events.fetch_event(event_shadow)
-    struct = event.data |> Map.from_struct()
-    cset = %Twitch.TwitchEvent{} |> Twitch.TwitchEvent.changeset(struct)
+  # Ignore these commands
+  def make_state(%{irc_command: "MODE"}, state), do: state
+  def make_state(%{irc_command: "GLOBALUSERSTATE"}, state), do: state
+  def make_state(%{irc_command: "CAP"}, state), do: state
+  def make_state(%{irc_command: "353"}, state), do: state
+
+  # Create changest and add to state
+  def make_state(event_struct, state) do
+    cset = %Twitch.TwitchEvent{} |> Twitch.TwitchEvent.changeset(event_struct)
     events = Enum.concat(state, [cset])
 
-    new_state =
-      if length(events) >= @persist_after do
-        events |> Enum.each(&Twitch.Repo.insert(&1))
-        []
-      else
-        events
-      end
+    if length(events) >= @persist_after do
+      events |> Enum.each(&Twitch.Repo.insert(&1))
+      []
+    else
+      events
+    end
+  end
+
+  def handle_cast({_topic, _id} = event_shadow, state) do
+    event = Events.fetch_event(event_shadow)
+
+    struct = event.data |> Map.from_struct()
+    new_state = make_state(struct, state)
 
     Events.mark_as_completed({__MODULE__, event_shadow})
 

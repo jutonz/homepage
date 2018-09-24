@@ -103,6 +103,55 @@ defmodule Twitch.ParsedEvent do
     {:ok, %Twitch.ParsedEvent{irc_command: parsed.cmd}}
   end
 
+  def to_parsed_event("MODE", parsed, raw) do
+    [channel | rest] = parsed.args
+
+    # rest is an array like ["-o", "syps_"]
+    message = rest |> Enum.join(" ")
+
+    {:ok,
+     %Twitch.ParsedEvent{
+       channel: channel,
+       message: message,
+       irc_command: parsed.cmd,
+       display_name: parsed.nick,
+       raw_event: raw
+     }}
+  end
+
+  # NAMES list
+  def to_parsed_event("353", parsed, raw) do
+    [display_name | [_ | [channel | rest]]] = parsed.args
+
+    # rest is an array of a string of the users who joined, e,g.
+    # ["user1 user2 user3"]
+    message = rest |> Enum.at(0)
+
+    {:ok,
+     %Twitch.ParsedEvent{
+       channel: channel,
+       message: message,
+       irc_command: parsed.cmd,
+       display_name: display_name,
+       raw_event: raw
+     }}
+  end
+
+  def to_parsed_event("GLOBALUSERSTATE", parsed, raw) do
+    {:ok, %Twitch.ParsedEvent{irc_command: parsed.cmd, raw_event: raw}}
+  end
+
+  def to_parsed_event("CAP", parsed, raw) do
+    # parsed.args looks like ["*", "ACK", "cap1 cap2 cap3"]
+
+    {:ok,
+     %Twitch.ParsedEvent{
+       irc_command: parsed.cmd,
+       raw_event: raw,
+       message: Enum.at(parsed.args, 2)
+     }}
+  end
+
   def to_parsed_event(command, _parsed, _raw) do
     {:error, "Unknown message type: #{command}"}
   end
