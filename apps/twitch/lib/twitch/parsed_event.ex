@@ -136,6 +136,12 @@ defmodule Twitch.ParsedEvent do
        raw_event: raw
      }}
   end
+
+  # NAMES list
+  def to_parsed_event("GLOBALUSERSTATE", parsed, raw) do
+    {:ok, %Twitch.ParsedEvent{irc_command: parsed.cmd, raw_event: raw}}
+  end
+
   def to_parsed_event(command, _parsed, _raw) do
     {:error, "Unknown message type: #{command}"}
   end

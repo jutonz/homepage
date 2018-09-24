@@ -106,4 +106,15 @@ defmodule Twitch.ParsedEventTest do
     assert parsed.channel == "#naro"
     assert parsed.display_name == "syps_"
   end
+
+  test "#from_raw can handle GLOBALUSERSTATE" do
+    raw = ":tmi.twitch.tv GLOBALUSERSTATE"
+
+    {:ok, parsed} = ParsedEvent.from_raw(raw)
+
+    assert parsed.irc_command == "GLOBALUSERSTATE"
+    assert parsed.message == nil
+    assert parsed.channel == nil
+    assert parsed.display_name == nil
+  end
 end
