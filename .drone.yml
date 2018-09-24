@@ -59,8 +59,9 @@ pipeline:
     - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
     environment: ["SERVICE=redis"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+
   build-prod-redis:
-    group: build-dev
+    group: build-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands: [". /etc/build-service.sh"]
     secrets: [ kubelet_conf ]
@@ -70,7 +71,6 @@ pipeline:
     - DCTL_ENV=prod
     - SERVICE=redis
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-
   build-prod-psql:
     group: build-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
@@ -125,7 +125,7 @@ pipeline:
     group: test
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
-    - dctl run --rm app "'MIX_ENV=test mix coveralls --umbrella'"
+    - dctl exec app "'MIX_ENV=test mix coveralls --umbrella'"
     environment: ["DCTL_NOSUDO=yeah", "CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   mix-format:
