@@ -37,7 +37,7 @@ pipeline:
 
   build-dev-psql:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
-    group: build
+    group: build-dev
     commands:
     - dctl pull $SERVICE --version=latest || true
     - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
@@ -45,7 +45,7 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-dev-app:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
-    group: build
+    group: build-dev
     commands:
     - dctl pull $SERVICE --version=latest || true
     - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
@@ -53,14 +53,14 @@ pipeline:
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-dev-redis:
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
-    group: build
+    group: build-dev
     commands:
     - dctl pull $SERVICE --version=latest || true
     - dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
     environment: ["SERVICE=redis"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-prod-redis:
-    group: build
+    group: build-dev
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands: [". /etc/build-service.sh"]
     secrets: [ kubelet_conf ]
@@ -70,8 +70,9 @@ pipeline:
     - DCTL_ENV=prod
     - SERVICE=redis
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+
   build-prod-psql:
-    group: build
+    group: build-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands: [". /etc/build-service.sh"]
     secrets: [ kubelet_conf ]
@@ -82,7 +83,7 @@ pipeline:
     - SERVICE=psql
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-prod-app:
-    group: build
+    group: build-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands: [". /etc/build-service.sh"]
     secrets: [ kubelet_conf ]
@@ -93,7 +94,7 @@ pipeline:
     - SERVICE=app
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   build-prod-nginx:
-    group: build
+    group: build-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands: [". /etc/build-service.sh"]
     secrets: [ kubelet_conf ]
@@ -104,7 +105,7 @@ pipeline:
     - SERVICE=nginx
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
   initdb:
-    group: build
+    group: build-prod
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - set -e
