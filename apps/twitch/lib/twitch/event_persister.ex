@@ -23,6 +23,7 @@ defmodule Twitch.EventPersister do
   def make_state(%{irc_command: "MODE"}, state), do: state
   def make_state(%{irc_command: "GLOBALUSERSTATE"}, state), do: state
   def make_state(%{irc_command: "CAP"}, state), do: state
+  def make_state(%{irc_command: "353"}, state), do: state
 
   # Create changest and add to state
   def make_state(event_struct, state) do
