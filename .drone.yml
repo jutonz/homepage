@@ -103,14 +103,8 @@ pipeline:
     - DCTL_ENV=prod
     - SERVICE=nginx
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
-  fetch-node-modules:
-    group: build
-    image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
-    commands:
-    - cd apps/client/assets
-    - yarn install
-
   initdb:
+    group: build
     image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
     commands:
     - set -e
