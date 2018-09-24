@@ -117,4 +117,15 @@ defmodule Twitch.ParsedEventTest do
     assert parsed.channel == nil
     assert parsed.display_name == nil
   end
+
+  test "#from_raw can handle CAP * ACK" do
+    raw = ":tmi.twitch.tv CAP * ACK :twitch.tv/commands twitch.tv/membership"
+
+    {:ok, parsed} = ParsedEvent.from_raw(raw)
+
+    assert parsed.irc_command == "CAP"
+    assert parsed.message == "twitch.tv/commands twitch.tv/membership"
+    assert parsed.channel == nil
+    assert parsed.display_name == nil
+  end
 end

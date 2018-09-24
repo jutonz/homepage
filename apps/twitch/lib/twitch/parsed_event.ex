@@ -137,9 +137,20 @@ defmodule Twitch.ParsedEvent do
      }}
   end
 
-  # NAMES list
   def to_parsed_event("GLOBALUSERSTATE", parsed, raw) do
     {:ok, %Twitch.ParsedEvent{irc_command: parsed.cmd, raw_event: raw}}
+  end
+
+  def to_parsed_event("CAP", parsed, raw) do
+    # parsed.args looks like ["*", "ACK", "cap1 cap2 cap3"]
+
+    {:ok,
+      %Twitch.ParsedEvent{
+        irc_command: parsed.cmd,
+        raw_event: raw,
+        message: Enum.at(parsed.args, 2)
+      }
+    }
   end
 
   def to_parsed_event(command, _parsed, _raw) do
