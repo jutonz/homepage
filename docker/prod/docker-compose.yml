@@ -27,7 +27,7 @@ services:
   redis:
     image: jutonz/homepage-prod-redis:1
   psql:
-    image: jutonz/homepage-prod-psql:9
+    image: jutonz/homepage-prod-psql:10
     environment:
       POSTGRES_USER: homepage
       POSTGRES_PASSWORD: homepage
