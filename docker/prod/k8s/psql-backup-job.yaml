@@ -9,12 +9,12 @@ spec:
       name: psql-backup-oneoff
     spec:
       containers:
-      - name: db-backup
+      - name: homepage-db-backup
         image: jutonz/homepage-prod-psql:9
         args:
         - /bin/bash
         - /etc/backup.sh
-        env:
+        env: &env
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
@@ -37,4 +37,12 @@ spec:
               secretKeyRef:
                 name: aws
                 key: AWS_SECRET_ACCESS_KEY
+      - name: twitch-db-backup
+        image: jutonz/homepage-prod-psql:9
+        args:
+        - /bin/bash
+        - /etc/backup.sh
+        env: *env
+          - name: POSTGRES_DB
+            value: homepage_twitch_prod
       restartPolicy: Never
