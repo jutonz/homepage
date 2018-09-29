@@ -19,11 +19,10 @@ $ docker-compose --version
 ```
 
 #### 2. Install the CLI
-There is a [Thor](http://whatisthor.com/)-based CLI which wraps most relevant Docker commands so you don't have to remember all the flags and switches. Since it runs on your local machine, you'll have to install Ruby and a few gems locally to use it:
+There is a [Thor](http://whatisthor.com/)-based CLI which wraps most relevant Docker commands so you don't have to remember all the flags and switches. Since it runs on your local machine, you'll have to install Ruby and a gem locally to use it:
 
 ```bash
-$ gem install bundler
-$ bundle install --gemfile Gemfile.cli
+$ gem install dctl_rb
 ```
 
 #### 3. Pull images and setup the database
@@ -31,20 +30,26 @@ $ bundle install --gemfile Gemfile.cli
 Download the prebuilt images to your local machine:
 
 ```bash
-thor docker:pull
+dctl pull
 ```
 
 To allow database content to be persisted when the database image is destroyed, it must be saved on your local machine. Run this command to setup the database directories locally (this is a one-time thing--you won't have to do this again on your current machine).
 
 ```bash
-thor docker:initdb
+# Setup postgres and get it ready to create databases
+dctl run --rm psql /etc/initdb
+
+# Create databases, run migrations, and seed
+dctl run --rm app /etc/seed
 ```
 
 #### 4. Finally, start the app
 Almost there! Just run this command and you're up and running
 
 ```bash
-thor docker:up
+dctl up
 ```
 
-You should be able to visit [localhost:4000](localhost:4000) and see the app.
+You should be able to visit [localhost:4001](localhost:4001) and see the app.
+
+Also be sure to checkout the [dctl_rb](https://github.com/jutonz/dctl_rb) gem for more documentation and general tips for using docker in a development environment.
