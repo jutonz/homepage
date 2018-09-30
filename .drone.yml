@@ -119,6 +119,7 @@ pipeline:
     - docker run -v dev_ci_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
+    - dctl start psql || true
     - dctl run --rm app /etc/seed
     environment: ["CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
