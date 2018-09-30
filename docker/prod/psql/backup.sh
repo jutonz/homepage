@@ -6,10 +6,10 @@ PGPASSWORD=$POSTGRES_PASSWORD \
   --dbname=$POSTGRES_DB \
   --username=$POSTGRES_USER \
   -Fc \
-  > /tmp/homepage_prod.dump
+  > /tmp/$POSTGRES_DB.dump
 
 aws s3 cp \
-  /tmp/homepage_prod.dump \
-  s3://jutonz-homepage-prod-db-backups/homepage_prod.dump
+  /tmp/$POSTGRES_DB.dump \
+  s3://jutonz-homepage-prod-db-backups/$POSTGRES_DB.dump
 
-rm /tmp/homepage_prod.dump
+rm /tmp/$POSTGRES_DB.dump
