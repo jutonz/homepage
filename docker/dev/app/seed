@@ -7,6 +7,6 @@ cd /app
 mix ecto.create --force
 mix ecto.migrate
 
-MIX_ENV=test PG_HOST=psql mix ecto.drop
-MIX_ENV=test PG_HOST=psql mix ecto.create --force
-MIX_ENV=test PG_HOST=psql mix ecto.migrate
+MIX_ENV=test DB_HOST=psql mix ecto.drop
+MIX_ENV=test DB_HOST=psql mix ecto.create --force
+MIX_ENV=test DB_HOST=psql mix ecto.migrate
