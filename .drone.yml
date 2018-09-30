@@ -119,7 +119,6 @@ pipeline:
     - docker run -v dev_ci_code:/data --name helper busybox true
     - docker cp . helper:/data
     - docker rm helper
-    - ls -alh
     - echo $CI
     - dctl run --rm psql /etc/initdb
     - dctl run --rm app /etc/seed
