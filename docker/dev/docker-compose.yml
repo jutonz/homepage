@@ -2,14 +2,18 @@
 version: '3'
 services:
   psql:
-    image: jutonz/homepage-dev-psql:6
+    image: jutonz/homepage-dev-psql:7
     volumes:
     - "../../:/tmp/code"
-    - "pgdata:/var/lib/postgresql/data"
+    - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: homepage_prod
   redis:
     image: jutonz/homepage-dev-redis:1
   app:
-    image: jutonz/homepage-dev-app:31
+    image: jutonz/homepage-dev-app:32
     environment:
     - SECRET_KEY_BASE="9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
     - DB_HOST=psql
@@ -31,7 +35,7 @@ services:
     links:
     - psql
     - redis
-    working_dir: /app
+    working_dir: "/app"
 volumes:
-  pgdata:
-  ci_code:
+  pgdata: 
+  ci_code: 
