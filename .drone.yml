@@ -120,6 +120,7 @@ pipeline:
     - docker cp . helper:/data
     - docker rm helper
     - dctl start psql || true
+    - dctl run --rm app /bin/true
     - dctl run --rm app /etc/seed
     environment: ["CI=yep"]
     volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
