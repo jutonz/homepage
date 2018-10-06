@@ -36,11 +36,7 @@ dctl pull
 To allow database content to be persisted when the database image is destroyed, it must be saved on your local machine. Run this command to setup the database directories locally (this is a one-time thing--you won't have to do this again on your current machine).
 
 ```bash
-# Setup postgres and get it ready to create databases
-dctl run --rm psql /etc/initdb
-
-# Create databases, run migrations, and seed
-dctl run --rm app /etc/seed
+dctl dbsetup
 ```
 
 #### 4. Finally, start the app
