@@ -22,9 +22,6 @@ while [ $found -eq 0 ] && [ $tries -lt $max_tries ]; do
   fi
 done
 
-mix ecto.create --force
-mix ecto.migrate
-
-MIX_ENV=test DB_HOST=psql mix ecto.drop
-MIX_ENV=test DB_HOST=psql mix ecto.create --force
-MIX_ENV=test DB_HOST=psql mix ecto.migrate
+mix do ecto.create --force, ecto.migrate &
+MIX_ENV=test mix do ecto.drop, ecto.create --force, ecto.migrate &
+wait
