@@ -22,6 +22,8 @@ defmodule Twitch.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Twitch.DataCase
+
+      import Twitch.Factory
     end
   end
 
