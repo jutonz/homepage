@@ -11,6 +11,8 @@ defmodule Twitch.User do
     field(:user_id, :string)
     field(:twitch_user_id, :string)
 
+    has_many(:twitch_channels, Twitch.Channel, on_delete: :delete_all)
+
     timestamps()
   end
 
