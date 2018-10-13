@@ -1,12 +1,13 @@
 defmodule Twitch.UserTest do
-  use ExUnit.Case, async: true
-  alias Twitch.{TwitchUser, Repo, Channel}
+  use Twitch.DataCase, async: true
+  alias Twitch.{Repo, Channel}
 
-  it "deletes channel associations on destroy" do
-    user = build(:user)
+  test "deletes channel associations on destroy" do
+    channel = insert(:channel)
+    user = channel.user
 
-    require IEx; IEx.pry()
+    {:ok, _} = Repo.delete(user)
 
-    IO.inspect :yo
+    assert Repo.get(Channel, channel.id) == nil
   end
 end

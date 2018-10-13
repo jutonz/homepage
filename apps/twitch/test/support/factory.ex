@@ -9,4 +9,11 @@ defmodule Twitch.Factory do
       twitch_user_id: "456"
     }
   end
+
+  def channel_factory do
+    %Twitch.Channel{
+      name: "#comradenerdy",
+      user: build(:user)
+    }
+  end
 end
