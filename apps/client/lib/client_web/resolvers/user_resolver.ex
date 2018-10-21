@@ -1,6 +1,9 @@
 defmodule ClientWeb.UserResolver do
   alias Client.{User, UserServer, Repo}
 
+  def signup(_parent, args, _context) do
+  end
+
   def get_users(_parent, _args, _context) do
     {:ok, Repo.all(User)}
   end

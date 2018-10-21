@@ -143,6 +143,12 @@ defmodule ClientWeb.Schema do
   end
 
   mutation do
+    field :signup, :user do
+      arg(:email, non_null(:string))
+      arg(:password, non_null(:string))
+      resolve(&ClientWeb.UserResolver.signup/3)
+    end
+
     field :update_user, :user do
       arg(:id, non_null(:id))
       arg(:email, :string)
