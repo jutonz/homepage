@@ -26,13 +26,12 @@ defmodule Client.Session do
            )
   end
 
-  def signup(conn, email, password) do
+  def signup(email, password) do
     changeset = User.changeset(%User{}, %{email: email, password: password})
 
     case Repo.insert(changeset) do
       {:ok, user} ->
-        {:ok, conn} = init_user_session(conn, user)
-        {:ok, user, conn}
+        {:ok, user}
 
       {:error, result} ->
         errors =

@@ -35,14 +35,4 @@ defmodule ClientWeb.SessionController do
   def logout(conn, _params) do
     with {:ok, conn} <- Session.logout(conn), do: redirect(conn, to: "/")
   end
-
-  def signup(conn, %{"email" => email, "password" => password}) do
-    case conn |> Session.signup(email, password) do
-      {:ok, _user, conn} ->
-        conn |> put_status(200) |> json(%{error: false})
-
-      {:error, reason} ->
-        conn |> put_status(400) |> json(%{error: reason})
-    end
-  end
 end

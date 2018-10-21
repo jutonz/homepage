@@ -11,11 +11,7 @@ import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 
 const SIGNUP = gql`
   mutation Signup($email: String!, $password: String!) {
-    signup(email: $email, password: $password) {
-      email
-      username
-      id
-    }
+    signup(email: $email, password: $password)
   }
 `;
 
@@ -80,6 +76,7 @@ export class SignupForm extends React.Component<Props, State> {
               <Input
                 fluid
                 label="password"
+                input={{type: "password"}}
                 value={password}
                 onChange={(_ev, { value }) => this.setPassword(value)}
                 className={css(styles.inputLast)}
@@ -87,12 +84,15 @@ export class SignupForm extends React.Component<Props, State> {
               <Button
                 primary
                 fluid
-                //disabled={!formIsValid}
+                disabled={!formIsValid}
                 loading={loading}
                 className={css(styles.submit)}
                 onClick={() => {
                   signup({
                     variables: { email, password }
+                  }).then((response: any) => {
+                    const redirectLink = response.data.signup;
+                    window.location.href = redirectLink;
                   });
                 }}
               >
