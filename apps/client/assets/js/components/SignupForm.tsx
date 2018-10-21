@@ -76,7 +76,7 @@ export class SignupForm extends React.Component<Props, State> {
               <Input
                 fluid
                 label="password"
-                input={{type: "password"}}
+                input={{ type: "password" }}
                 value={password}
                 onChange={(_ev, { value }) => this.setPassword(value)}
                 className={css(styles.inputLast)}
