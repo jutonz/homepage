@@ -9,7 +9,7 @@ jobs:
     - image: docker:stable
     environment:
       IMAGE: registry.jutonz.com/jutonz/homepage-ci-testimage
-      TAG: 15
+      TAG: 14
     steps:
     - checkout
     - setup_remote_docker
