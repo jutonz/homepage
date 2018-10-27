@@ -4,21 +4,26 @@
 version: 2
 jobs:
   build:
-    docker:
-      - image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
-        auth:
-          username: $PRIVATE_DOCKER_USERNAME
-          password: $PRIVATE_DOCKER_PASSWORD
-      # specify the version here
-      #- image: circleci/elixir:1.4
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      #- image: circleci/postgres:10
-
     working_directory: ~/repo
+    docker:
+    - image: docker:17.05.0-ce-git
+    environment:
+      IMAGE: registry.jutonz.com/jutonz/homepage-ci-testimage
+      TAG: 15
     steps:
-      - checkout
+    - checkout
+    - setup_remote_docker
+    - run:
+      name: Build test image
+      command: |
+        docker build -f docker/ci/testimage/Dockerfile -t $IMAGE:$TAG
 
-      # specify any bash command here prefixed with `run: `
-      - run: dctl version
+  test:
+    working_directory: ~/repo
+    environment:
+      IMAGE: registry.jutonz.com/jutonz/homepage-ci-testimage
+      TAG: 15
+    docker:
+    - image: $IMAGE:TAG
+    steps:
+    - run: dctl version
