@@ -1,5 +1,18 @@
 defmodule ClientWeb.UserResolver do
-  alias Client.{User, UserServer, Repo}
+  alias Client.{User, UserServer, Repo, Session}
+
+  def signup(_parent, args, _context) do
+    with {:ok, email} <- args |> Map.fetch(:email),
+         {:ok, password} <- args |> Map.fetch(:password),
+         {:ok, user} <- Session.signup(email, password),
+         {:ok, token, _claims} <- Auth.single_use_jwt(user.id),
+         do: {:ok, "#{ClientWeb.Endpoint.url()}/login?token=#{token}"},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Could not generate link"}
+           )
+  end
 
   def get_users(_parent, _args, _context) do
     {:ok, Repo.all(User)}
