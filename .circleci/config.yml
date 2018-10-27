@@ -14,9 +14,9 @@ jobs:
     - checkout
     - setup_remote_docker
     - run:
-      name: Pull latest tag
-      command: |
-        docker pull $IMAGE:latest
+        name: Pull latest tag
+        command: |
+          docker pull $IMAGE:latest
     - run:
         name: Build test image
         command: |
