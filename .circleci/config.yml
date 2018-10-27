@@ -14,9 +14,13 @@ jobs:
     - checkout
     - setup_remote_docker
     - run:
+      name: Pull latest tag
+      command: |
+        docker pull $IMAGE:latest
+    - run:
         name: Build test image
         command: |
-          docker build -f docker/ci/testimage/Dockerfile -t $IMAGE:$TAG .
+          docker build -f docker/ci/testimage/Dockerfile -t $IMAGE:$TAG --cache-from $IMAGE:latest .
 
   test:
     working_directory: ~/repo
@@ -24,7 +28,7 @@ jobs:
       IMAGE: registry.jutonz.com/jutonz/homepage-ci-testimage
       TAG: 15
     docker:
-    - image: $IMAGE:TAG
+    - image: $IMAGE:$TAG
     steps:
     - run: dctl version
 
