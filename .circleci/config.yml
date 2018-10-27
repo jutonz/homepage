@@ -5,7 +5,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: registry.jutonz.com/jutonz/homepage-ci-testimage:15
+      - image: registry.jutonz.com/jutonz/homepage-ci-testimage:14
         auth:
           username: $PRIVATE_DOCKER_USERNAME
           password: $PRIVATE_DOCKER_PASSWORD
