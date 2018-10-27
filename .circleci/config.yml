@@ -27,3 +27,10 @@ jobs:
     - image: $IMAGE:TAG
     steps:
     - run: dctl version
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - build
+    - test
