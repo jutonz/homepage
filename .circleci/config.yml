@@ -14,6 +14,10 @@ jobs:
     - checkout
     - setup_remote_docker
     - run:
+        name: Authenticate to private registry
+        command: |
+          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin https://registry.jutonz.com
+    - run:
         name: Pull latest tag
         command: |
           docker pull $IMAGE:latest
