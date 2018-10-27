@@ -5,18 +5,20 @@ version: 2
 jobs:
   build:
     docker:
+      - image: registry.jutonz.com/jutonz/homepage-ci-testimage:15
+        auth:
+          username: $PRIVATE_DOCKER_USERNAME
+          password: $PRIVATE_DOCKER_PASSWORD
       # specify the version here
-      - image: circleci/elixir:1.4
+      #- image: circleci/elixir:1.4
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-      - image: circleci/postgres:10
+      #- image: circleci/postgres:10
 
     working_directory: ~/repo
     steps:
       - checkout
 
       # specify any bash command here prefixed with `run: `
-      - run: mix deps.get
-      - run: mix ecto.create
-      - run: mix test
+      - run: dctl version
