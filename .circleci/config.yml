@@ -21,7 +21,7 @@ jobs:
     - run:
         name: Load image from cache
         command: |
-          set -o pipefail
+          set +o pipefail
           docker load -i /caches/app.tar | true
     - run:
         name: Authenticate to private registry
