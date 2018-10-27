@@ -1,4 +1,4 @@
-FROM docker
+FROM docker:stable
 
 ENV KUBE_LATEST_VERSION="v1.9.3"
 
