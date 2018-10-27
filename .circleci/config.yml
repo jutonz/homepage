@@ -23,6 +23,7 @@ jobs:
         command: |
           set +o pipefail
           docker load -i /caches/app.tar | true
+    - run: docker images
     - run:
         name: Authenticate to private registry
         command: |
@@ -31,6 +32,7 @@ jobs:
         name: Pull latest tag
         command: |
           docker pull $IMAGE:latest
+    - run: docker images
     - run:
         name: Build test image
         command: |
