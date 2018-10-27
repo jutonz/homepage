@@ -16,7 +16,7 @@ jobs:
     - run:
       name: Build test image
       command: |
-        docker build -f docker/ci/testimage/Dockerfile -t $IMAGE:$TAG
+        docker build -f docker/ci/testimage/Dockerfile -t $IMAGE:$TAG .
 
   test:
     working_directory: ~/repo
