@@ -6,7 +6,7 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-    - image: docker:17.05.0-ce-git
+    - image: docker:stable
     environment:
       IMAGE: registry.jutonz.com/jutonz/homepage-ci-testimage
       TAG: 15
