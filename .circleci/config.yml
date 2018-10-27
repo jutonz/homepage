@@ -13,6 +13,16 @@ jobs:
     steps:
     - checkout
     - setup_remote_docker
+    - restore_cache:
+        keys:
+        - v1-{{ .Branch }}
+        paths:
+        - /caches/app.tar
+    - run:
+        name: Load image from cache
+        command: |
+          set -o pipefail
+          docker load -i /caches/app.tar | true
     - run:
         name: Authenticate to private registry
         command: |
@@ -25,6 +35,15 @@ jobs:
         name: Build test image
         command: |
           docker build -f docker/ci/testimage/Dockerfile -t $IMAGE:$TAG --cache-from $IMAGE:latest .
+    - run:
+        name: Save image layer cache
+        command: |
+          mkdir -p /caches
+          docker save -o /caches/app.tar $IMAGE:latest
+    - save_cache:
+        key: v1-{{ .Branch }}-{{ epoch }}
+        paths:
+        - /caches/app.tar
 
   test:
     working_directory: ~/repo
@@ -41,4 +60,3 @@ workflows:
   workflow:
     jobs:
     - build
-    - test
