@@ -9,6 +9,7 @@ defmodule Redis.Application do
     import Supervisor.Spec
     # List all child processes to be supervised
     redis_url = Application.get_env(:redis, :redis_url)
+
     children = [
       # Starts a worker by calling: Redis.Worker.start_link(arg)
       # {Redis.Worker, arg},
