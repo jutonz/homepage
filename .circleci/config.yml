@@ -42,7 +42,7 @@ jobs:
     - save_cache:
         key: v1-dev-{{ checksum "mix.lock" }}
         paths:
-        - _build/test
+        - _build/dev
 
   mix_test:
     working_directory: ~/code
