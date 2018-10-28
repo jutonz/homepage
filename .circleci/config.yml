@@ -70,4 +70,4 @@ workflows:
     jobs:
     - build_testimage
     - build_dev_psql:
-        requires: build_testimage
+        requires: ["build_testimage"]
