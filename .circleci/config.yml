@@ -106,7 +106,7 @@ jobs:
         name: Save image as tar
         command: |
           mkdir -p /caches
-          docker save $SERVICE -o /caches/$SERVICE.tar `dctl tag-for $SERVICE --version=latest`
+          docker save -o /caches/$SERVICE.tar `dctl tag-for $SERVICE --version=latest`
     - save_cache:
         key: v1-{{ .Branch }}-{{ epoch }}
         paths:
