@@ -7,6 +7,7 @@ jobs:
     working_directory: ~/code
     docker:
     - image: circleci/elixir:1.6
+    - image: circleci/postgres:10-alpine
     environment:
     - MIX_ENV=test
     steps:
@@ -17,6 +18,11 @@ jobs:
           mix local.hex --force
           mix local.rebar --force
     - run: mix deps.get
+    - run:
+        name: Create DB
+        command: |
+          mix ecto.create
+          mix ecto.migrate
     - run: mix test
 
   build_testimage:
