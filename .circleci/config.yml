@@ -10,6 +10,7 @@ jobs:
     - image: circleci/postgres:10-alpine
       environment:
       - POSTGRES_USER: homepage
+    - image: circleci/redis
     environment:
     - MIX_ENV=test
     steps:
