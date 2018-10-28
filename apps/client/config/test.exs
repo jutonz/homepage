@@ -9,4 +9,9 @@ config :client, ClientWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-config :client, Client.Repo, pool: Ecto.Adapters.SQL.Sandbox
+config :client, Client.Repo,
+  pool: Ecto.Adapters.SQL.Sandbox,
+  hostname: "localhost",
+  username: "homepage",
+  password: nil,
+  port: 5432

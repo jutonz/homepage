@@ -28,7 +28,7 @@ defmodule Auth.Mixfile do
     [
       {:guardian, "~> 1.0"},
       {:comeonin, "~> 4.0"},
-      {:argon2_elixir, "~> 1.2.8"}
+      {:argon2_elixir, "~> 1.3"}
     ]
   end
 end

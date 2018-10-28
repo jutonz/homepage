@@ -24,6 +24,7 @@ services:
       DB_POOL_SIZE: 20
       DB_PORT: 5432
       PORT: '4000'
+      REDIS_URL: redis
   redis:
     image: jutonz/homepage-prod-redis:1
   psql:

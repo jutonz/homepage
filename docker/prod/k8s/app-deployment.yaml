@@ -54,6 +54,8 @@ spec:
                 key: DB_PASS
           - name: DB_POOL_SIZE
             value: "20"
+          - name: REDIS_URL
+            value: redis
       containers:
       - image: jutonz/homepage-prod-app:98
         name: app
