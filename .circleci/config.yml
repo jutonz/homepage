@@ -51,7 +51,7 @@ jobs:
     steps:
     - run:
         name: build
-        commands: |
+        command: |
           dctl pull $SERVICE --version=latest || true
           dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
 
