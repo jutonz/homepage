@@ -3,7 +3,7 @@
 # Check https://circleci.com/docs/2.0/language-elixir/ for more details
 version: 2
 jobs:
-  build:
+  build_testimage:
     working_directory: ~/repo
     docker:
     - image: docker:stable
@@ -40,6 +40,20 @@ jobs:
           docker push $IMAGE:$TAG
           docker push $IMAGE:latest
 
+  build_dev_psql:
+    working_directory: ~/repo
+    environment:
+      IMAGE: registry.jutonz.com/jutonz/homepage-ci-testimage
+      TAG: 16
+      SERVICE: psql
+    docker:
+    - image: $IMAGE:$TAG
+    - run: 
+        name: build
+        commands: |
+          dctl pull $SERVICE --version=latest || true
+          dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
+
   test:
     working_directory: ~/repo
     environment:
@@ -54,4 +68,6 @@ workflows:
   version: 2
   workflow:
     jobs:
-    - build
+    - build_testimage
+    - build_dev_psql:
+        requires: build_testimage
