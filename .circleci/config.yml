@@ -19,9 +19,28 @@ jobs:
           mix local.hex --force
           mix local.rebar --force
           mix deps.get
-          mix deps.compile
+          mix compile
     - save_cache:
         key: v1-test-{{ checksum "mix.lock" }}
+        paths:
+        - _build/test
+  build_dev:
+    working_directory: ~/code
+    docker:
+    - image: circleci/elixir:1.6
+    steps:
+    - checkout
+    - restore_cache:
+        key: v1-dev-{{ checksum "mix.lock" }}
+    - run:
+        name: Setup hex
+        command: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+          mix compile
+    - save_cache:
+        key: v1-dev-{{ checksum "mix.lock" }}
         paths:
         - _build/test
 
@@ -38,7 +57,9 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-test-{{ checksum "mix.lock" }}
+        keys:
+        - v1-test-{{ checksum "mix.lock" }}
+        - v1-dev-{{ checksum "mix.lock" }}
     - run:
         name: Setup hex
         command: |
@@ -51,6 +72,15 @@ jobs:
           mix ecto.create
           mix ecto.migrate
     - run: mix test
+
+  mix_format:
+    working_directory: ~/code
+    docker:
+    - image: circleci/elixir:1.6
+    steps:
+    - checkout
+    - run: mix format --check-formatted
+
 
   build_testimage:
     working_directory: ~/repo
@@ -199,7 +229,7 @@ jobs:
         name: test
         command: |
           dctl run --rm app "MIX_ENV=test mix coveralls --umbrella"
-  mix_format:
+  mix_format_old:
     working_directory: ~/repo
     environment: *ci_env
     docker: *ci_image
@@ -225,8 +255,10 @@ workflows:
   workflow:
     jobs:
     - build_test
+    - bulid_dev
     - mix_test:
-        requires: ["build_test"]
+        requires: ["build_test", "build_dev"]
+    - mix_format
     #- build_testimage
     #- build_dev_app:
         #requires: ["build_testimage"]
