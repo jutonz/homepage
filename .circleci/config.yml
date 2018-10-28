@@ -10,6 +10,7 @@ jobs:
     environment: &ci_env
       IMAGE: registry.jutonz.com/jutonz/homepage-ci-testimage
       TAG: 16
+      DCTL_NOSUDO: yep
     steps:
     - checkout
     - setup_remote_docker:
@@ -50,6 +51,7 @@ jobs:
     - run:
         name: build
         command: |
+          echo -n $DOCKER_USERNAME | docker login -u $DOCKER_USERNAME --password-stdin
           dctl pull $SERVICE --version=latest || true
           dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
   build_dev_redis:
@@ -65,6 +67,7 @@ jobs:
     - run:
         name: build
         command: |
+          echo -n $DOCKER_USERNAME | docker login -u $DOCKER_USERNAME --password-stdin
           dctl pull $SERVICE --version=latest || true
           dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
   build_dev_psql:
@@ -80,6 +83,7 @@ jobs:
     - run:
         name: build
         command: |
+          echo -n $DOCKER_USERNAME | docker login -u $DOCKER_USERNAME --password-stdin
           dctl pull $SERVICE --version=latest || true
           dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
 
