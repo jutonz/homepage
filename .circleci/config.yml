@@ -3,6 +3,17 @@
 # Check https://circleci.com/docs/2.0/language-elixir/ for more details
 version: 2
 jobs:
+  mix_test:
+    working_directory: ~/code
+    docker:
+    - image: circleci/elixir:1.6
+    environment:
+    - MIX_ENV=test
+    steps:
+    - checkout
+    - run: mix deps.get
+    - run: mix test
+
   build_testimage:
     working_directory: ~/repo
     docker:
@@ -175,16 +186,17 @@ workflows:
   version: 2
   workflow:
     jobs:
-    - build_testimage
-    - build_dev_app:
-        requires: ["build_testimage"]
-    - build_dev_redis:
-        requires: ["build_testimage"]
-    - build_dev_psql:
-        requires: ["build_testimage"]
-    - initdb:
-        requires: ["build_dev_app", "build_dev_redis", "build_dev_psql"]
-    - mix_test:
-        requires: ["initdb"]
-    - mix_format:
-        requires: ["initdb"]
+    - mix_test
+    #- build_testimage
+    #- build_dev_app:
+        #requires: ["build_testimage"]
+    #- build_dev_redis:
+        #requires: ["build_testimage"]
+    #- build_dev_psql:
+        #requires: ["build_testimage"]
+    #- initdb:
+        #requires: ["build_dev_app", "build_dev_redis", "build_dev_psql"]
+    #- mix_test:
+        #requires: ["initdb"]
+    #- mix_format:
+        #requires: ["initdb"]
