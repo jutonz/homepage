@@ -8,6 +8,8 @@ jobs:
     docker:
     - image: circleci/elixir:1.6
     - image: circleci/postgres:10-alpine
+      environment:
+      - POSTGRES_USER: homepage
     environment:
     - MIX_ENV=test
     steps:
