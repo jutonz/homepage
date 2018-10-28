@@ -3,6 +3,28 @@
 # Check https://circleci.com/docs/2.0/language-elixir/ for more details
 version: 2
 jobs:
+  build_test:
+    working_directory: ~/code
+    docker:
+    - image: circleci/elixir:1.6
+    environment:
+    - MIX_ENV: test
+    steps:
+    - checkout
+    - restore_cache:
+        key: v1-test-{{ checksum "mix.lock" }}
+    - run:
+        name: Setup hex
+        command: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+          mix deps.compile
+    - save_cache:
+        key: v1-test-{{ checksum "mix.lock" }}
+        paths:
+        - _build/test
+
   mix_test:
     working_directory: ~/code
     docker:
@@ -15,6 +37,8 @@ jobs:
     - MIX_ENV=test
     steps:
     - checkout
+    - restore_cache:
+        key: v1-test-{{ checksum "mix.lock" }}
     - run:
         name: Setup hex
         command: |
@@ -200,7 +224,9 @@ workflows:
   version: 2
   workflow:
     jobs:
-    - mix_test
+    - build_test
+    - mix_test:
+        requires: ["build_test"]
     #- build_testimage
     #- build_dev_app:
         #requires: ["build_testimage"]
