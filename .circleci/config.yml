@@ -11,6 +11,7 @@ jobs:
       IMAGE: registry.jutonz.com/jutonz/homepage-ci-testimage
       TAG: 16
       DCTL_NOSUDO: yep
+      CI: yep
     steps:
     - checkout
     - setup_remote_docker:
@@ -84,6 +85,24 @@ jobs:
           dctl pull $SERVICE --version=latest || true
           dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
 
+  initdb:
+    working_directory: ~/repo
+    environment: *ci_env
+    docker: *ci_image
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: initdb
+        command: |
+          set -e
+          ruby -ryaml -e "fn = 'docker/dev/docker-compose.yml'; y = YAML.load_file(fn); y['services']['app']['volumes'] = ['ci_code:/app']; File.open(fn, 'w') { |f| f.write(y.to_yaml) }"
+          docker run -v dev_ci_code:/data --name helper busybox true
+          docker cp . helper:/data
+          docker rm helper
+          dctl dbsetup
+
 workflows:
   version: 2
   workflow:
@@ -95,3 +114,5 @@ workflows:
         requires: ["build_testimage"]
     - build_dev_psql:
         requires: ["build_testimage"]
+    - initdb:
+        requires: ["build_dev_app", "build_dev_redis", "build_dev_psql"]
