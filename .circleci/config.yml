@@ -150,6 +150,27 @@ jobs:
         name: test
         command: |
           dctl run --rm app "MIX_ENV=test mix coveralls --umbrella"
+  mix_format:
+    working_directory: ~/repo
+    environment: *ci_env
+    docker: *ci_image
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - restore_cache:
+        keys: ["v1-{{ .Branch }}"]
+        paths: ["/caches"]
+    - run:
+        name: Unpack cached images
+        command: |
+          set +o pipefail
+          ls /caches/*.tar | xargs -I{} docker load -i {} | true
+    - run:
+        name: test
+        command: |
+          dctl run --rm app "'mix format --check-formatted'"
+
 workflows:
   version: 2
   workflow:
@@ -164,4 +185,6 @@ workflows:
     - initdb:
         requires: ["build_dev_app", "build_dev_redis", "build_dev_psql"]
     - mix_test:
+        requires: ["initdb"]
+    - mix_format:
         requires: ["initdb"]
