@@ -103,6 +103,18 @@ jobs:
           docker rm helper
           dctl dbsetup
 
+  mix_test:
+    working_directory: ~/repo
+    environment: *ci_env
+    docker: *ci_image
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: initdb
+        command: |
+          dctl run --rm app "MIX_ENV=test mix coveralls --umbrella"
 workflows:
   version: 2
   workflow:
@@ -116,3 +128,5 @@ workflows:
         requires: ["build_testimage"]
     - initdb:
         requires: ["build_dev_app", "build_dev_redis", "build_dev_psql"]
+    - mix_test:
+        requires: ["initdb"]
