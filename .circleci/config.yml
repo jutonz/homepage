@@ -70,11 +70,9 @@ jobs:
   build_dev_psql:
     working_directory: ~/repo
     environment:
-      IMAGE: registry.jutonz.com/jutonz/homepage-ci-testimage
-      TAG: 16
+      <<: *ci_env
       SERVICE: psql
-    docker:
-    - image: $IMAGE:$TAG
+    docker: *ci_image
     steps:
     - checkout
     - setup_remote_docker:
