@@ -48,7 +48,8 @@ jobs:
       SERVICE: psql
     docker:
     - image: $IMAGE:$TAG
-    - run: 
+    steps:
+    - run:
         name: build
         commands: |
           dctl pull $SERVICE --version=latest || true
