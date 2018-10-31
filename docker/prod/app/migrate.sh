@@ -3,9 +3,9 @@ set -e
 cd /root/code
 
 cd apps/client
-MIX_ENV=prod mix ecto.migrate
+MIX_ENV=prod run ecto.create, ecto.migrate
 cd -
 
 cd apps/twitch
-MIX_ENV=prod mix ecto.migrate
+MIX_ENV=prod mix run ecto.create, ecto.migrate
 cd -
