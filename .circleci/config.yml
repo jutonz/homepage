@@ -41,8 +41,8 @@ jobs:
           mix local.hex --force
           mix local.rebar --force
           ls -alh
-          #ls deps/
-          #ls _build/dev
+          ls deps/
+          ls _build/dev
           mix deps.get
           mix compile
     - save_cache:
