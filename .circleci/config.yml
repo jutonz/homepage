@@ -269,7 +269,7 @@ workflows:
     - build_test
     - build_dev
     - mix_test:
-      requires: ["build_test", "build_dev"]
+        requires: ["build_test", "build_dev"]
       # - mix_format
     #- build_testimage
     #- build_dev_app:
