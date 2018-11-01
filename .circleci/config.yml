@@ -32,6 +32,9 @@ jobs:
     - checkout
     - restore_cache:
         key: v1-dev-{{ checksum "mix.lock" }}
+        paths:
+        - _build/dev
+        - deps
     - run:
         name: Setup hex
         command: |
