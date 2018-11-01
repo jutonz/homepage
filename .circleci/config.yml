@@ -37,6 +37,9 @@ jobs:
         command: |
           mix local.hex --force
           mix local.rebar --force
+          ls -alh
+          ls deps/
+          ls _build/dev
           mix deps.get
           mix compile
     - save_cache:
@@ -254,11 +257,10 @@ workflows:
   version: 2
   workflow:
     jobs:
-    - build_test
+    # - build_test
     - build_dev
-    - build_testimage
-    - mix_test:
-        requires: ["build_test", "build_dev"]
+    # - mix_test:
+      # requires: ["build_test", "build_dev"]
     - mix_format
     #- build_testimage
     #- build_dev_app:
