@@ -41,14 +41,15 @@ jobs:
           mix local.hex --force
           mix local.rebar --force
           ls -alh
-          ls deps/
-          ls _build/dev
+          #ls deps/
+          #ls _build/dev
           mix deps.get
           mix compile
     - save_cache:
         key: v1-dev-{{ checksum "mix.lock" }}
         paths:
         - _build/dev
+        - deps
 
   mix_test:
     working_directory: ~/code
