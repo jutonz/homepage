@@ -256,6 +256,7 @@ workflows:
     jobs:
     - build_test
     - build_dev
+    - build_testimage
     - mix_test:
         requires: ["build_test", "build_dev"]
     - mix_format
