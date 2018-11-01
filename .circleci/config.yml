@@ -12,7 +12,10 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-test-{{ checksum "mix.lock" }}
+        key: v2-test-{{ checksum "mix.lock" }}
+        paths:
+        - _build/test
+        - deps
     - run:
         name: Setup hex
         command: |
@@ -21,9 +24,10 @@ jobs:
           mix deps.get
           mix compile
     - save_cache:
-        key: v1-test-{{ checksum "mix.lock" }}
+        key: v2-test-{{ checksum "mix.lock" }}
         paths:
         - _build/test
+        - deps
   build_dev:
     working_directory: ~/code
     docker:
@@ -40,9 +44,6 @@ jobs:
         command: |
           mix local.hex --force
           mix local.rebar --force
-          ls -alh
-          ls deps/
-          ls _build/dev
           mix deps.get
           mix compile
     - save_cache:
@@ -65,8 +66,12 @@ jobs:
     - checkout
     - restore_cache:
         keys:
-        - v1-test-{{ checksum "mix.lock" }}
-        - v1-dev-{{ checksum "mix.lock" }}
+        - v2-test-{{ checksum "mix.lock" }}
+        - v2-dev-{{ checksum "mix.lock" }}
+        paths:
+        - _build/dev
+        - _build/test
+        - deps
     - run:
         name: Setup hex
         command: |
@@ -261,11 +266,11 @@ workflows:
   version: 2
   workflow:
     jobs:
-    # - build_test
+    - build_test
     - build_dev
-    # - mix_test:
-      # requires: ["build_test", "build_dev"]
-    - mix_format
+    - mix_test:
+      requires: ["build_test", "build_dev"]
+      # - mix_format
     #- build_testimage
     #- build_dev_app:
         #requires: ["build_testimage"]
