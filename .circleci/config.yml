@@ -102,7 +102,7 @@ jobs:
     - run:
         name: Pull latest tag
         command: |
-          docker pull $IMAGE:latest
+          docker pull $IMAGE:latest | true
     - run:
         name: Build test image
         command: |
