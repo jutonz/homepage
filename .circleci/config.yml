@@ -31,7 +31,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-dev-{{ checksum "mix.lock" }}
+        key: v2-dev-{{ checksum "mix.lock" }}
         paths:
         - _build/dev
         - deps
@@ -46,7 +46,7 @@ jobs:
           mix deps.get
           mix compile
     - save_cache:
-        key: v1-dev-{{ checksum "mix.lock" }}
+        key: v2-dev-{{ checksum "mix.lock" }}
         paths:
         - _build/dev
         - deps
