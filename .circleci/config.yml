@@ -54,7 +54,7 @@ jobs:
   fetch_node_modules:
     working_directory: ~/code
     docker:
-    - image: circleci/node
+    - image: circleci/node:8
     steps:
     - checkout
     - restore_cache:
