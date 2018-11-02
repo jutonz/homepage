@@ -103,7 +103,20 @@ jobs:
           mix ecto.create
           mix ecto.migrate
     - run: mix test
-
+  yarn_lint:
+    working_directory: ~/code
+    docker:
+    - image: circleci/node:8
+    steps:
+    - checkout
+    - restore_cache:
+        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        paths: ["apps/client/assets/node_modules"]
+    - run:
+        name: yarn lint
+        command: |
+          cd apps/client/assets
+          yarn lint
   mix_format:
     working_directory: ~/code
     docker:
@@ -290,6 +303,10 @@ workflows:
     - fetch_node_modules
     - mix_test:
         requires: ["build_test", "build_dev"]
+    - mix_format:
+        requires: ["build_test", "build_dev"]
+    - yarn_lint:
+        requires: ["fetch_node_modules"]
       # - mix_format
     #- build_testimage
     #- build_dev_app:
