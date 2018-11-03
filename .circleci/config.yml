@@ -238,10 +238,7 @@ jobs:
   build_prod_psql:
     working_directory: ~/code
     docker:
-    - image: registry.jutonz.com/jutonz/homepage-ci-testimage:15
-      auth:
-        username: $PRIVATE_DOCKER_USERNAME
-        password: $PRIVATE_DOCKER_PASSWORD
+    - image: circleci/ruby:2.5
     environment:
     - DCTL_ENV: prod
     steps:
@@ -249,15 +246,13 @@ jobs:
     - run:
         name: Pull last image
         command: |
+          gem install dctl_rb
           dctl pull psql
           dctl build psql --cache-from-self
   build_prod_redis:
     working_directory: ~/code
     docker:
-    - image: registry.jutonz.com/jutonz/homepage-ci-testimage:15
-      auth:
-        username: $PRIVATE_DOCKER_USERNAME
-        password: $PRIVATE_DOCKER_PASSWORD
+    - image: circleci/ruby:2.5
     environment:
     - DCTL_ENV: prod
     steps:
@@ -265,15 +260,13 @@ jobs:
     - run:
         name: Pull last image
         command: |
+          gem install dctl_rb
           dctl pull redis
           dctl build redis --cache-from-self
   build_prod_app:
     working_directory: ~/code
     docker:
-    - image: registry.jutonz.com/jutonz/homepage-ci-testimage:15
-      auth:
-        username: $PRIVATE_DOCKER_USERNAME
-        password: $PRIVATE_DOCKER_PASSWORD
+    - image: circleci/ruby:2.5
     environment:
     - DCTL_ENV: prod
     steps:
@@ -281,6 +274,7 @@ jobs:
     - run:
         name: Pull last image
         command: |
+          gem install dctl_rb
           dctl pull app
           dctl build app --cache-from-self
 
