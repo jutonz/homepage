@@ -250,7 +250,7 @@ jobs:
         name: Pull last image
         command: |
           gem install dctl_rb
-          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin
+          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin registry.jutonz.com
           dctl pull psql
           dctl build psql --cache-from-self
   build_prod_redis:
@@ -268,7 +268,7 @@ jobs:
         name: Pull last image
         command: |
           gem install dctl_rb
-          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin
+          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin registry.jutonz.com
           dctl pull redis || true
           dctl build redis --cache-from-self
   build_prod_app:
@@ -286,7 +286,7 @@ jobs:
         name: Pull last image
         command: |
           gem install dctl_rb
-          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin
+          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin registry.jutonz.com
           dctl pull app || true
           dctl build app --cache-from-self
 
