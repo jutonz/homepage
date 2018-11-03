@@ -235,71 +235,60 @@ jobs:
         paths:
         - /caches/$SERVICE.tar
 
-  initdb:
-    working_directory: ~/repo
-    environment: *ci_env
-    docker: *ci_image
+  build_prod_psql:
+    working_directory: ~/code
+    docker:
+    - image: registry.jutonz.com/jutonz/homepage-ci-testimage:15
+      auth:
+        username: $PRIVATE_DOCKER_USERNAME
+        password: $PRIVATE_DOCKER_PASSWORD
+    environment:
+    - DCTL_ENV: prod
     steps:
     - checkout
-    - setup_remote_docker:
-        docker_layer_caching: true
     - run:
-        name: initdb
+        name: Pull last image
         command: |
-          set -e
-          ruby -ryaml -e "fn = 'docker/dev/docker-compose.yml'; y = YAML.load_file(fn); y['services']['app']['volumes'] = ['ci_code:/app']; File.open(fn, 'w') { |f| f.write(y.to_yaml) }"
-          docker run -v dev_ci_code:/data --name helper busybox true
-          docker cp . helper:/data
-          docker rm helper
-          dctl dbsetup
-
-  mix_test_old:
-    working_directory: ~/repo
-    environment: *ci_env
-    docker: *ci_image
+          dctl pull psql
+          dctl build psql --cache-from-self
+  build_prod_redis:
+    working_directory: ~/code
+    docker:
+    - image: registry.jutonz.com/jutonz/homepage-ci-testimage:15
+      auth:
+        username: $PRIVATE_DOCKER_USERNAME
+        password: $PRIVATE_DOCKER_PASSWORD
+    environment:
+    - DCTL_ENV: prod
     steps:
     - checkout
-    - setup_remote_docker:
-        docker_layer_caching: true
-    - restore_cache:
-        keys: ["v1-{{ .Branch }}"]
-        paths: ["/caches"]
     - run:
-        name: Unpack cached images
+        name: Pull last image
         command: |
-          set +o pipefail
-          ls /caches/*.tar | xargs -I{} docker load -i {} | true
-    - run:
-        name: test
-        command: |
-          dctl run --rm app "MIX_ENV=test mix coveralls --umbrella"
-  mix_format_old:
-    working_directory: ~/repo
-    environment: *ci_env
-    docker: *ci_image
+          dctl pull redis
+          dctl build redis --cache-from-self
+  build_prod_app:
+    working_directory: ~/code
+    docker:
+    - image: registry.jutonz.com/jutonz/homepage-ci-testimage:15
+      auth:
+        username: $PRIVATE_DOCKER_USERNAME
+        password: $PRIVATE_DOCKER_PASSWORD
+    environment:
+    - DCTL_ENV: prod
     steps:
     - checkout
-    - setup_remote_docker:
-        docker_layer_caching: true
-    - restore_cache:
-        keys: ["v1-{{ .Branch }}"]
-        paths: ["/caches"]
     - run:
-        name: Unpack cached images
+        name: Pull last image
         command: |
-          set +o pipefail
-          ls /caches/*.tar | xargs -I{} docker load -i {} | true
-    - run:
-        name: test
-        command: |
-          dctl run --rm app "'mix format --check-formatted'"
+          dctl pull app
+          dctl build app --cache-from-self
 
 workflows:
   version: 2
   workflow:
     jobs:
     - build_test
-    - build_dev
     - fetch_node_modules
     - mix_test:
         requires: ["build_test", "build_dev"]
@@ -307,17 +296,9 @@ workflows:
         requires: ["build_test", "build_dev"]
     - yarn_lint:
         requires: ["fetch_node_modules"]
-      # - mix_format
-    #- build_testimage
-    #- build_dev_app:
-        #requires: ["build_testimage"]
-    #- build_dev_redis:
-        #requires: ["build_testimage"]
-    #- build_dev_psql:
-        #requires: ["build_testimage"]
-    #- initdb:
-        #requires: ["build_dev_app", "build_dev_redis", "build_dev_psql"]
-    #- mix_test:
-        #requires: ["initdb"]
-    #- mix_format:
-        #requires: ["initdb"]
+    - build_prod_psql:
+        requires: ["mix_test", "mix_format", "yarn_lint"]
+    - build_prod_redis:
+        requires: ["mix_test", "mix_format", "yarn_lint"]
+    - build_prod_app:
+        requires: ["mix_test", "mix_format", "yarn_lint"]
