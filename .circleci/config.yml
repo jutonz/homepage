@@ -243,6 +243,8 @@ jobs:
     - DCTL_ENV: prod
     steps:
     - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
     - run:
         name: Pull last image
         command: |
@@ -257,6 +259,8 @@ jobs:
     - DCTL_ENV: prod
     steps:
     - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
     - run:
         name: Pull last image
         command: |
@@ -271,6 +275,8 @@ jobs:
     - DCTL_ENV: prod
     steps:
     - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
     - run:
         name: Pull last image
         command: |
