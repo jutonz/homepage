@@ -241,6 +241,7 @@ jobs:
     - image: circleci/ruby:2.5
     environment:
     - DCTL_ENV: prod
+    - DCTL_NOSUDO: yes
     steps:
     - checkout
     - setup_remote_docker:
@@ -257,6 +258,7 @@ jobs:
     - image: circleci/ruby:2.5
     environment:
     - DCTL_ENV: prod
+    - DCTL_NOSUDO: yes
     steps:
     - checkout
     - setup_remote_docker:
@@ -273,6 +275,7 @@ jobs:
     - image: circleci/ruby:2.5
     environment:
     - DCTL_ENV: prod
+    - DCTL_NOSUDO: yes
     steps:
     - checkout
     - setup_remote_docker:
