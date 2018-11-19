@@ -10,7 +10,7 @@ services:
     ports:
     - 5000:80
   app:
-    image: registry.jutonz.com/jutonz/homepage-prod-app:113
+    image: registry.jutonz.com/jutonz/homepage-prod-app:114
     depends_on:
     - psql
     links:

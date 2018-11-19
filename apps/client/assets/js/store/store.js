@@ -1,12 +1,10 @@
 import { combineReducers } from "redux";
-import { coffeemaker } from "./reducers/coffeemaker";
 import { flash } from "./reducers/flash";
 import { teams } from "./reducers/teams";
 import { session } from "./reducers/session";
 import { users } from "./reducers/users";
 import { ijust } from "./reducers/ijust";
 
-export * from "./reducers/coffeemaker";
 export * from "./reducers/teams";
 export * from "./reducers/flash";
 export * from "./reducers/session";
@@ -36,7 +34,6 @@ const count = (state = { count: 0 }, action) => {
 export const appStore = combineReducers({
   users,
   teams,
-  coffeemaker,
   count,
   session,
   flash,
