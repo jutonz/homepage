@@ -1,0 +1,311 @@
+# Elixir CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-elixir/ for more details
+version: 2
+jobs:
+  build_test:
+    working_directory: ~/code
+    docker:
+    - image: circleci/elixir:1.6
+    environment:
+    - MIX_ENV: test
+    steps:
+    - checkout
+    - restore_cache:
+        key: v2-test-{{ checksum "mix.lock" }}
+        paths:
+        - _build/test
+        - deps
+    - run:
+        name: Setup hex
+        command: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+          mix compile
+    - save_cache:
+        key: v2-test-{{ checksum "mix.lock" }}
+        paths:
+        - _build/test
+        - deps
+  build_dev:
+    working_directory: ~/code
+    docker:
+    - image: circleci/elixir:1.6
+    steps:
+    - checkout
+    - restore_cache:
+        key: v2-dev-{{ checksum "mix.lock" }}
+        paths:
+        - _build/dev
+        - deps
+    - run:
+        name: Setup hex
+        command: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+          mix compile
+    - save_cache:
+        key: v2-dev-{{ checksum "mix.lock" }}
+        paths:
+        - _build/dev
+        - deps
+  fetch_node_modules:
+    working_directory: ~/code
+    docker:
+    - image: circleci/node:8
+    steps:
+    - checkout
+    - restore_cache:
+        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        paths:
+        - "apps/client/assets/node_modules"
+    - run:
+        name: yarn install
+        command: |
+          cd apps/client/assets
+          yarn
+    - save_cache:
+        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        paths:
+        - "apps/client/assets/node_modules"
+
+  mix_test:
+    working_directory: ~/code
+    docker:
+    - image: circleci/elixir:1.6
+    - image: circleci/postgres:10-alpine
+      environment:
+      - POSTGRES_USER: homepage
+    - image: circleci/redis
+    environment:
+    - MIX_ENV=test
+    steps:
+    - checkout
+    - restore_cache:
+        keys:
+        - v2-test-{{ checksum "mix.lock" }}
+        - v2-dev-{{ checksum "mix.lock" }}
+        paths:
+        - _build/dev
+        - _build/test
+        - deps
+    - run:
+        name: Setup hex
+        command: |
+          mix local.hex --force
+          mix local.rebar --force
+    - run: mix deps.get
+    - run:
+        name: Create DB
+        command: |
+          mix ecto.create
+          mix ecto.migrate
+    - run: mix test
+  yarn_lint:
+    working_directory: ~/code
+    docker:
+    - image: circleci/node:8
+    steps:
+    - checkout
+    - restore_cache:
+        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        paths: ["apps/client/assets/node_modules"]
+    - run:
+        name: yarn lint
+        command: |
+          cd apps/client/assets
+          yarn lint
+  mix_format:
+    working_directory: ~/code
+    docker:
+    - image: circleci/elixir:1.6
+    steps:
+    - checkout
+    - run: mix format --check-formatted
+
+
+  build_testimage:
+    working_directory: ~/repo
+    docker:
+    - image: docker:stable
+    environment: &ci_env
+      IMAGE: registry.jutonz.com/jutonz/homepage-ci-testimage
+      TAG: 16
+      DCTL_NOSUDO: yep
+      CI: yep
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: Authenticate to private registry
+        command: |
+          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin https://registry.jutonz.com
+    - run:
+        name: Pull latest tag
+        command: |
+          docker pull $IMAGE:latest || true
+    - run:
+        name: Build test image
+        command: |
+          docker build -f docker/ci/testimage/Dockerfile -t $IMAGE:$TAG --cache-from $IMAGE:latest .
+    - run:
+        name: Push testimage
+        command: |
+          docker tag $IMAGE:$TAG $IMAGE:latest
+          docker push $IMAGE:$TAG
+          docker push $IMAGE:latest
+
+  build_dev_app:
+    working_directory: ~/repo
+    environment:
+      <<: *ci_env
+      SERVICE: app
+    docker: &ci_image
+    - image: $IMAGE:$TAG
+      auth:
+        username: $PRIVATE_DOCKER_USERNAME
+        password: $PRIVATE_DOCKER_PASSWORD
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: build
+        command: |
+          dctl pull $SERVICE --version=latest || true
+          dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
+    - run:
+        name: Save image as tar
+        command: |
+          mkdir -p /caches
+          docker save -o /caches/$SERVICE.tar `dctl tag-for $SERVICE --version=latest`
+    - save_cache:
+        key: v1-{{ .Branch }}-{{ epoch }}
+        paths:
+        - /caches/$SERVICE.tar
+  build_dev_redis:
+    working_directory: ~/repo
+    environment:
+      <<: *ci_env
+      SERVICE: redis
+    docker: *ci_image
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: build
+        command: |
+          dctl pull $SERVICE --version=latest || true
+          dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
+    - run:
+        name: Save image as tar
+        command: |
+          mkdir -p /caches
+          docker save -o /caches/$SERVICE.tar `dctl tag-for $SERVICE --version=latest`
+    - save_cache:
+        key: v1-{{ .Branch }}-{{ epoch }}
+        paths:
+        - /caches/$SERVICE.tar
+  build_dev_psql:
+    working_directory: ~/repo
+    environment:
+      <<: *ci_env
+      SERVICE: psql
+    docker: *ci_image
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: build
+        command: |
+          dctl pull $SERVICE --version=latest || true
+          dctl build $SERVICE --cache-from=`dctl tag-for $SERVICE --version=latest`
+    - run:
+        name: Save image as tar
+        command: |
+          mkdir -p /caches
+          docker save -o /caches/$SERVICE.tar `dctl tag-for $SERVICE --version=latest`
+    - save_cache:
+        key: v1-{{ .Branch }}-{{ epoch }}
+        paths:
+        - /caches/$SERVICE.tar
+
+  build_prod_psql:
+    working_directory: ~/code
+    docker:
+    - image: circleci/ruby:2.5
+    environment:
+    - DCTL_ENV: prod
+    - DCTL_NOSUDO: yes
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: Pull last image
+        command: |
+          gem install dctl_rb
+          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin registry.jutonz.com
+          dctl pull psql
+          dctl build psql --cache-from-self
+  build_prod_redis:
+    working_directory: ~/code
+    docker:
+    - image: circleci/ruby:2.5
+    environment:
+    - DCTL_ENV: prod
+    - DCTL_NOSUDO: yes
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: Pull last image
+        command: |
+          gem install dctl_rb
+          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin registry.jutonz.com
+          dctl pull redis || true
+          dctl build redis --cache-from-self
+  build_prod_app:
+    working_directory: ~/code
+    docker:
+    - image: circleci/ruby:2.5
+    environment:
+    - DCTL_ENV: prod
+    - DCTL_NOSUDO: yes
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: Pull last image
+        command: |
+          gem install dctl_rb
+          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin registry.jutonz.com
+          dctl pull app || true
+          dctl build app --cache-from-self
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - build_test
+    - build_dev
+    - fetch_node_modules
+    - mix_test:
+        requires: ["build_test", "build_dev"]
+    - mix_format:
+        requires: ["build_test", "build_dev"]
+    - yarn_lint:
+        requires: ["fetch_node_modules"]
+    - build_prod_psql:
+        requires: ["mix_test", "mix_format", "yarn_lint"]
+    - build_prod_redis:
+        requires: ["mix_test", "mix_format", "yarn_lint"]
+    - build_prod_app:
+        requires: ["mix_test", "mix_format", "yarn_lint"]

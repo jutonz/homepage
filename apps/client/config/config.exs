@@ -10,7 +10,9 @@ config :client,
   namespace: Client,
   ecto_repos: [Client.Repo]
 
-secret_key_base = System.get_env("SECRET_KEY_BASE")
+secret_key_base =
+  System.get_env("SECRET_KEY_BASE") ||
+    "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
 
 config :client, ClientWeb.Endpoint,
   url: [host: "localhost"],
