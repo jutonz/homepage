@@ -1,5 +1,5 @@
 project: homepage
-org: registry.jutonz.com/jutonz
+org: jutonz
 custom_commands:
   dbsetup:
   - dctl create

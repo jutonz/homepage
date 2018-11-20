@@ -4,13 +4,13 @@ services:
   nginx:
     depends_on:
     - app
-    image: registry.jutonz.com/jutonz/homepage-prod-nginx:6
+    image: jutonz/homepage-prod-nginx:6
     links:
     - app
     ports:
     - 5000:80
   app:
-    image: registry.jutonz.com/jutonz/homepage-prod-app:113
+    image: jutonz/homepage-prod-app:114
     depends_on:
     - psql
     links:
@@ -26,9 +26,9 @@ services:
       PORT: '4000'
       REDIS_URL: redis
   redis:
-    image: registry.jutonz.com/jutonz/homepage-prod-redis:1
+    image: jutonz/homepage-prod-redis:1
   psql:
-    image: registry.jutonz.com/jutonz/homepage-prod-psql:10
+    image: jutonz/homepage-prod-psql:10
     environment:
       POSTGRES_USER: homepage
       POSTGRES_PASSWORD: homepage
