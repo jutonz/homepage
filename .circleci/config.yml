@@ -279,7 +279,7 @@ jobs:
           gem install dctl_rb
           echo `dctl tag-for app` > /tmp/tag.env
     - restore_cache:
-        keys: v1-{{ checksum /tmp/tag.env }}
+        keys: v1-{{ checksum "/tmp/tag.env" }}
     - run:
         name: Pull last image
         command: |
