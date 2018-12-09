@@ -278,38 +278,21 @@ jobs:
     - checkout
     - setup_remote_docker:
         docker_layer_caching: true
+    - run: gem install dctl_rb
     - run:
-        name: Get image tag
+        name: Pull cache image
         command: |
-          gem install dctl_rb
-          echo `dctl tag-for $SERVICE` > /tmp/tag.env
-    - restore_cache:
-        key: v2-{{ checksum "/tmp/tag.env" }}
-        paths: ["/tmp/app.tar"]
-    - run:
-        name: Load Docker image layer cache
-        command: |
-          set +o pipefail
-          docker load -i /tmp/app.tar | true
-    - run:
-        name: Build image
-        command: |
-          echo $APP_TAG
           dctl pull $SERVICE || true
-          dctl build $SERVICE --cache-from-self
     - run:
-        name: Save Docker image layer cache
+        name: Build service
         command: |
-          docker save -o /tmp/app.tar `dctl tag-for $SERVICE`
-    - save_cache:
-        key: v2-{{ checksum "/tmp/tag.env" }}
-        paths: ["/tmp/app.tar"]
+          dctl build $SERVICE --cache-from-self
 
 workflows:
   version: 2
   workflow:
     jobs:
-    - build_prod_psql
+    - build_prod_app
     #- build_test
     #- build_dev
     #- fetch_node_modules
