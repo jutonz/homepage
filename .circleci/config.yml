@@ -282,12 +282,17 @@ jobs:
     - run:
         name: Pull cache image
         command: |
-          dctl pull $SERVICE || true
-          docker pull `dctl tag-for $SERVICE --version=-1` || true
+          dctl pull $SERVICE
+          if [ $? -eq 0 ]; then
+            export CACHE_VERSION=`dctl tag-for $SERVICE`
+          else
+            export cache_VERSION=`dctl tag-for $SERVICE --version=1`
+            docker pull $CACHE_VERSION || true
+          fi
     - run:
         name: Build service
         command: |
-          dctl build $SERVICE --cache-from-self
+          dctl build $SERVICE --cache-from=$CACHE_VERSION
     - run:
         name: Push service
         command: |
