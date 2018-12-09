@@ -274,9 +274,16 @@ jobs:
     - setup_remote_docker:
         docker_layer_caching: true
     - run:
-        name: Pull last image
+        command: Get image tag
         command: |
           gem install dctl_rb
+          export APP_TAG=`dctl tag-for app`
+    - restore_cache:
+        keys: v1-{{ $APP_TAG }}
+    - run:
+        name: Pull last image
+        command: |
+          echo $APP_TAG
           dctl pull app || true
           dctl build app --cache-from-self
 
@@ -284,18 +291,19 @@ workflows:
   version: 2
   workflow:
     jobs:
-    - build_test
-    - build_dev
-    - fetch_node_modules
-    - mix_test:
-        requires: ["build_test", "build_dev"]
-    - mix_format:
-        requires: ["build_test", "build_dev"]
-    - yarn_lint:
-        requires: ["fetch_node_modules"]
-    - build_prod_psql:
-        requires: ["mix_test", "mix_format", "yarn_lint"]
-    - build_prod_redis:
-        requires: ["mix_test", "mix_format", "yarn_lint"]
-    - build_prod_app:
-        requires: ["mix_test", "mix_format", "yarn_lint"]
+    - build_prod_app
+    #- build_test
+    #- build_dev
+    #- fetch_node_modules
+    #- mix_test:
+        #requires: ["build_test", "build_dev"]
+    #- mix_format:
+        #requires: ["build_test", "build_dev"]
+    #- yarn_lint:
+        #requires: ["fetch_node_modules"]
+    #- build_prod_psql:
+        #requires: ["mix_test", "mix_format", "yarn_lint"]
+    #- build_prod_redis:
+        #requires: ["mix_test", "mix_format", "yarn_lint"]
+    #- build_prod_app:
+        #requires: ["mix_test", "mix_format", "yarn_lint"]
