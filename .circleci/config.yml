@@ -283,26 +283,26 @@ jobs:
         key: v1-{{ checksum "/tmp/tag.env" }}
         paths:
           - /caches/app.tar
-      - run:
-          name: Load Docker image layer cache
-          command: |
-            set +o pipefail
-            docker load -i /caches/app.tar | true
-      - run:
-          name: Pull last image
-          command: |
-            echo $APP_TAG
-            dctl pull $SERVICE || true
-            dctl build $SERVICE --cache-from-self
-      - run:
-          name: Save Docker image layer cache
-          command: |
-            mkdir -p /caches
-            docker save -o /caches/app.tar `dctl tag-for $SERVICE`
-      - save_cache:
-          key: v1-{{ checksum "/tmp/tag.env" }}
-          paths:
-            - /caches/app.tar
+    - run:
+        name: Load Docker image layer cache
+        command: |
+          set +o pipefail
+          docker load -i /caches/app.tar | true
+    - run:
+        name: Pull last image
+        command: |
+          echo $APP_TAG
+          dctl pull $SERVICE || true
+          dctl build $SERVICE --cache-from-self
+    - run:
+        name: Save Docker image layer cache
+        command: |
+          mkdir -p /caches
+          docker save -o /caches/app.tar `dctl tag-for $SERVICE`
+    - save_cache:
+        key: v1-{{ checksum "/tmp/tag.env" }}
+        paths:
+          - /caches/app.tar
 
 workflows:
   version: 2
