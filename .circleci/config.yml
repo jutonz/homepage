@@ -274,7 +274,7 @@ jobs:
     - setup_remote_docker:
         docker_layer_caching: true
     - run:
-        command: Get image tag
+        name: Get image tag
         command: |
           gem install dctl_rb
           export APP_TAG=`dctl tag-for app`
