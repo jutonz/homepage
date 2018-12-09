@@ -290,10 +290,12 @@ jobs:
             export CACHE_VERSION=`dctl tag-for $SERVICE --version=-1`
             docker pull $CACHE_VERSION || true
           fi
+
+          echo $CACHE_VERSION > /tmp/cache-version.txt
     - run:
         name: Build service
         command: |
-          dctl build $SERVICE --cache-from=$CACHE_VERSION
+          dctl build $SERVICE --cache-from=`cat /tmp/cache-version.txt`
     - run:
         name: Push service
         command: |
