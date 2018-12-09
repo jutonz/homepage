@@ -282,6 +282,7 @@ jobs:
     - run:
         name: Pull cache image
         command: |
+          set +e
           dctl pull $SERVICE
           if [ $? -eq 0 ]; then
             export CACHE_VERSION=`dctl tag-for $SERVICE`
