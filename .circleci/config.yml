@@ -299,16 +299,15 @@ jobs:
         name: Get image tag
         command: |
           gem install dctl_rb
-          echo `dctl tag-for app` > /tmp/tag.env
+          echo `dctl tag-for $SERVICE` > /tmp/tag.env
     - restore_cache:
-        key: v1-{{ checksum "/tmp/tag.env" }}
-        paths:
-          - /caches/app.tar
+        key: v2-{{ checksum "/tmp/tag.env" }}
+        paths: ["/tmp/app.tar"]
     - run:
         name: Load Docker image layer cache
         command: |
           set +o pipefail
-          docker load -i /caches/app.tar | true
+          docker load -i /tmp/app.tar | true
     - run:
         name: Pull last image
         command: |
@@ -318,12 +317,10 @@ jobs:
     - run:
         name: Save Docker image layer cache
         command: |
-          sudo mkdir -p /caches
-          docker save -o /caches/app.tar `dctl tag-for $SERVICE`
+          docker save -o /tmp/app.tar `dctl tag-for $SERVICE`
     - save_cache:
-        key: v1-{{ checksum "/tmp/tag.env" }}
-        paths:
-          - /caches/app.tar
+        key: v2-{{ checksum "/tmp/tag.env" }}
+        paths: ["/tmp/app.tar"]
 
 workflows:
   version: 2
