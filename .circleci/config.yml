@@ -257,6 +257,7 @@ jobs:
     - checkout
     - setup_remote_docker:
         docker_layer_caching: true
+    - run: gem install dctl_rb
     - run:
         name: Pull cache image
         command: |
