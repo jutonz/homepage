@@ -277,9 +277,9 @@ jobs:
         name: Get image tag
         command: |
           gem install dctl_rb
-          export APP_TAG=`dctl tag-for app`
+          echo `dctl tag-for app` > /tmp/tag.env
     - restore_cache:
-        keys: v1-{{ $APP_TAG }}
+        keys: v1-{{ checksum /tmp/tag.env }}
     - run:
         name: Pull last image
         command: |
