@@ -287,6 +287,10 @@ jobs:
         name: Build service
         command: |
           dctl build $SERVICE --cache-from-self
+    - run:
+        name: Push service
+        command: |
+          dctl push $SERVICE
 
 workflows:
   version: 2
