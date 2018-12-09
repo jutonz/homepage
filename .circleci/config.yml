@@ -283,6 +283,7 @@ jobs:
         name: Pull cache image
         command: |
           dctl pull $SERVICE || true
+          docker pull `dctl tag-for $SERVICE --version=-1` || true
     - run:
         name: Build service
         command: |
