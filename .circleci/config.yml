@@ -264,8 +264,7 @@ jobs:
           echo `dctl tag-for $SERVICE` > /tmp/tag.env
     - restore_cache:
         key: v1-{{ checksum "/tmp/tag.env" }}
-        paths:
-          - /caches/app.tar
+        paths: ["/caches/app.tar"]
     - run:
         name: Load Docker image layer cache
         command: |
@@ -280,12 +279,10 @@ jobs:
     - run:
         name: Save Docker image layer cache
         command: |
-          sudo mkdir -p /caches
-          docker save -o /caches/app.tar `dctl tag-for $SERVICE`
+          docker save -o /tmp/app.tar `dctl tag-for $SERVICE`
     - save_cache:
         key: v1-{{ checksum "/tmp/tag.env" }}
-        paths:
-          - /caches/app.tar
+        paths: ["/caches/app.tar"]
   build_prod_app:
     working_directory: ~/code
     docker:
