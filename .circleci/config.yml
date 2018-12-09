@@ -131,7 +131,7 @@ jobs:
     docker:
     - image: docker:stable
     environment: &ci_env
-      IMAGE: registry.jutonz.com/jutonz/homepage-ci-testimage
+      IMAGE: jutonz/homepage-ci-testimage
       TAG: 16
       DCTL_NOSUDO: yep
       CI: yep
@@ -139,10 +139,6 @@ jobs:
     - checkout
     - setup_remote_docker:
         docker_layer_caching: true
-    - run:
-        name: Authenticate to private registry
-        command: |
-          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin https://registry.jutonz.com
     - run:
         name: Pull latest tag
         command: |
@@ -165,9 +161,6 @@ jobs:
       SERVICE: app
     docker: &ci_image
     - image: $IMAGE:$TAG
-      auth:
-        username: $PRIVATE_DOCKER_USERNAME
-        password: $PRIVATE_DOCKER_PASSWORD
     steps:
     - checkout
     - setup_remote_docker:
@@ -250,7 +243,6 @@ jobs:
         name: Pull last image
         command: |
           gem install dctl_rb
-          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin registry.jutonz.com
           dctl pull psql
           dctl build psql --cache-from-self
   build_prod_redis:
@@ -268,7 +260,6 @@ jobs:
         name: Pull last image
         command: |
           gem install dctl_rb
-          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin registry.jutonz.com
           dctl pull redis || true
           dctl build redis --cache-from-self
   build_prod_app:
@@ -286,7 +277,6 @@ jobs:
         name: Pull last image
         command: |
           gem install dctl_rb
-          echo -n $PRIVATE_DOCKER_PASSWORD | docker login -u $PRIVATE_DOCKER_USERNAME --password-stdin registry.jutonz.com
           dctl pull app || true
           dctl build app --cache-from-self
 
