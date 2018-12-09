@@ -228,23 +228,6 @@ jobs:
         paths:
         - /caches/$SERVICE.tar
 
-  build_prod_psql:
-    working_directory: ~/code
-    docker:
-    - image: circleci/ruby:2.5
-    environment:
-    - DCTL_ENV: prod
-    - DCTL_NOSUDO: yes
-    steps:
-    - checkout
-    - setup_remote_docker:
-        docker_layer_caching: true
-    - run:
-        name: Pull last image
-        command: |
-          gem install dctl_rb
-          dctl pull psql
-          dctl build psql --cache-from-self
   build_prod_redis:
     working_directory: ~/code
     docker:
