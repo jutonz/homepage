@@ -326,7 +326,7 @@ workflows:
   version: 2
   workflow:
     jobs:
-    - build_prod_psql
+    - build_prod_app
     #- build_test
     #- build_dev
     #- fetch_node_modules
