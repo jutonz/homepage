@@ -269,7 +269,7 @@ jobs:
         name: Load Docker image layer cache
         command: |
           set +o pipefail
-          docker load -i /caches/app.tar | true
+          docker load -i /tmp/app.tar | true
     - run:
         name: Pull last image
         command: |
