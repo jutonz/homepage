@@ -299,6 +299,7 @@ jobs:
     - run:
         name: Push service
         command: |
+          echo $DOCKER_USERNAME | docker login -u $DOCKER_PASSWORD --password-stdin
           dctl push $SERVICE
 
 workflows:
