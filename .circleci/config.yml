@@ -328,7 +328,7 @@ jobs:
     - run:
         name: Push service
         command: |
-          echo $DOCKER_USERNAME | docker login -u $DOCKER_PASSWORD --password-stdin
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           dctl push $SERVICE
   push_prod_psql:
     working_directory: ~/code
@@ -353,7 +353,7 @@ jobs:
     - run:
         name: Push service
         command: |
-          echo $DOCKER_USERNAME | docker login -u $DOCKER_PASSWORD --password-stdin
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           dctl push $SERVICE
 
 workflows:
