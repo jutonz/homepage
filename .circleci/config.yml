@@ -297,8 +297,36 @@ jobs:
         command: |
           dctl build $SERVICE --cache-from=`cat /tmp/cache-version.txt`
     - run:
-        name: Push service
+        name: Cache build image
         command: |
+          mkdir caches
+          docker save -o caches/$SERVICE.tar
+    - persist_to_workspace:
+        root: caches
+        paths: ["*.tar"]
+  push_prod_app:
+    working_directory: ~/code
+    docker:
+    - image: circleci/ruby:2.5
+    environment:
+    - DCTL_ENV: prod
+    - DCTL_NOSUDO: yes
+    - SERVICE: app
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - attach_workspace:
+        at: /tmp/workspace/
+    - run: gem install dctl_rb
+    - run:
+        name: Inflate cached image
+        commands: |
+          docker load -i /tmp/$SERVICE.tar
+          docker images
+    - run:
+        name: Push service
+        commands: |
           echo $DOCKER_USERNAME | docker login -u $DOCKER_PASSWORD --password-stdin
           dctl push $SERVICE
 
@@ -307,6 +335,8 @@ workflows:
   workflow:
     jobs:
     - build_prod_app
+    - push_prod_app:
+        requires: ["build_prod_app"]
     #- build_test
     #- build_dev
     #- fetch_node_modules
