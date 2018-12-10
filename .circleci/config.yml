@@ -262,7 +262,7 @@ jobs:
         name: Cache build image
         command: |
           mkdir caches
-          docker save -o caches/$SERVICE.tar
+          docker save -o caches/$SERVICE.tar `dctl tag-for $SERVICE`
     - persist_to_workspace:
         root: caches
         paths: ["*.tar"]
@@ -300,7 +300,7 @@ jobs:
         name: Cache build image
         command: |
           mkdir caches
-          docker save -o caches/$SERVICE.tar
+          docker save -o caches/$SERVICE.tar `dctl tag-for $SERVICE`
     - persist_to_workspace:
         root: caches
         paths: ["*.tar"]
