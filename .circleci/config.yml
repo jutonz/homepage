@@ -347,12 +347,12 @@ jobs:
     - run: gem install dctl_rb
     - run:
         name: Inflate cached image
-        commands: |
+        command: |
           docker load -i /tmp/$SERVICE.tar
           docker images
     - run:
         name: Push service
-        commands: |
+        command: |
           echo $DOCKER_USERNAME | docker login -u $DOCKER_PASSWORD --password-stdin
           dctl push $SERVICE
 
