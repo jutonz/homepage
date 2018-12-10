@@ -423,24 +423,27 @@ workflows:
   version: 2
   workflow:
     jobs:
-    - build_prod_psql
-    - build_prod_redis
+    - build_test
+    - build_dev
+    - fetch_node_modules
+
+    - mix_test:
+        requires: ["build_test", "build_dev"]
+    - mix_format:
+        requires: ["build_test", "build_dev"]
+    - yarn_lint:
+        requires: ["fetch_node_modules"]
+
+    - build_prod_psql:
+        requires: ["mix_test", "mix_format", "yarn_lint"]
+    - build_prod_redis:
+        requires: ["mix_test", "mix_format", "yarn_lint"]
+    - build_prod_app:
+        requires: ["mix_test", "mix_format", "yarn_lint"]
+
+    - push_prod_app:
+        requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
     - push_prod_psql:
-        requires: ["build_prod_psql"]
+        requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
     - push_prod_redis:
-        requires: ["build_prod_redis"]
-    #- build_test
-    #- build_dev
-    #- fetch_node_modules
-    #- mix_test:
-        #requires: ["build_test", "build_dev"]
-    #- mix_format:
-        #requires: ["build_test", "build_dev"]
-    #- yarn_lint:
-        #requires: ["fetch_node_modules"]
-    #- build_prod_psql:
-        #requires: ["mix_test", "mix_format", "yarn_lint"]
-    #- build_prod_redis:
-        #requires: ["mix_test", "mix_format", "yarn_lint"]
-    #- build_prod_app:
-        #requires: ["mix_test", "mix_format", "yarn_lint"]
+        requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
