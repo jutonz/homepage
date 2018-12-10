@@ -228,44 +228,6 @@ jobs:
         paths:
         - /caches/$SERVICE.tar
 
-  build_prod_redis:
-    working_directory: ~/code
-    docker:
-    - image: circleci/ruby:2.5
-    environment:
-    - DCTL_ENV: prod
-    - DCTL_NOSUDO: yes
-    steps:
-    - checkout
-    - setup_remote_docker:
-        docker_layer_caching: true
-    - run:
-        name: Pull last image
-        command: |
-          gem install dctl_rb
-          dctl pull redis || true
-          dctl build redis --cache-from-self
-  build_prod_psql:
-    working_directory: ~/code
-    docker:
-    - image: circleci/ruby:2.5
-    environment:
-    - DCTL_ENV: prod
-    - DCTL_NOSUDO: yes
-    - SERVICE: psql
-    steps:
-    - checkout
-    - setup_remote_docker:
-        docker_layer_caching: true
-    - run: gem install dctl_rb
-    - run:
-        name: Pull cache image
-        command: |
-          dctl pull $SERVICE || true
-    - run:
-        name: Build service
-        command: |
-          dctl build $SERVICE --cache-from-self
   build_prod_app:
     working_directory: ~/code
     docker:
@@ -304,6 +266,45 @@ jobs:
     - persist_to_workspace:
         root: caches
         paths: ["*.tar"]
+  build_prod_psql:
+    working_directory: ~/code
+    docker:
+    - image: circleci/ruby:2.5
+    environment:
+    - DCTL_ENV: prod
+    - DCTL_NOSUDO: yes
+    - SERVICE: psql
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run: gem install dctl_rb
+    - run:
+        name: Pull cache image
+        command: |
+          set +e
+          dctl pull $SERVICE
+          if [ $? -eq 0 ]; then
+            export CACHE_VERSION=`dctl tag-for $SERVICE`
+          else
+            export CACHE_VERSION=`dctl tag-for $SERVICE --version=-1`
+            docker pull $CACHE_VERSION || true
+          fi
+
+          echo $CACHE_VERSION > /tmp/cache-version.txt
+    - run:
+        name: Build service
+        command: |
+          dctl build $SERVICE --cache-from=`cat /tmp/cache-version.txt`
+    - run:
+        name: Cache build image
+        command: |
+          mkdir caches
+          docker save -o caches/$SERVICE.tar
+    - persist_to_workspace:
+        root: caches
+        paths: ["*.tar"]
+
   push_prod_app:
     working_directory: ~/code
     docker:
@@ -329,14 +330,39 @@ jobs:
         commands: |
           echo $DOCKER_USERNAME | docker login -u $DOCKER_PASSWORD --password-stdin
           dctl push $SERVICE
+  push_prod_psql:
+    working_directory: ~/code
+    docker:
+    - image: circleci/ruby:2.5
+    environment:
+    - DCTL_ENV: prod
+    - DCTL_NOSUDO: yes
+    - SERVICE: psql
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - attach_workspace:
+        at: /tmp/workspace/
+    - run: gem install dctl_rb
+    - run:
+        name: Inflate cached image
+        commands: |
+          docker load -i /tmp/$SERVICE.tar
+          docker images
+    - run:
+        name: Push service
+        commands: |
+          echo $DOCKER_USERNAME | docker login -u $DOCKER_PASSWORD --password-stdin
+          dctl push $SERVICE
 
 workflows:
   version: 2
   workflow:
     jobs:
-    - build_prod_app
-    - push_prod_app:
-        requires: ["build_prod_app"]
+    - build_prod_psql
+    - push_prod_psql:
+        requires: ["build_prod_psql"]
     #- build_test
     #- build_dev
     #- fetch_node_modules
