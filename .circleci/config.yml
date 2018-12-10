@@ -322,12 +322,12 @@ jobs:
     - run: gem install dctl_rb
     - run:
         name: Inflate cached image
-        commands: |
-          docker load -i /tmp/$SERVICE.tar
+        command: |
+          docker load -i /tmp/workspace/$SERVICE.tar
           docker images
     - run:
         name: Push service
-        commands: |
+        command: |
           echo $DOCKER_USERNAME | docker login -u $DOCKER_PASSWORD --password-stdin
           dctl push $SERVICE
   push_prod_psql:
@@ -348,7 +348,7 @@ jobs:
     - run:
         name: Inflate cached image
         command: |
-          docker load -i /tmp/$SERVICE.tar
+          docker load -i /tmp/workspace/$SERVICE.tar
           docker images
     - run:
         name: Push service
