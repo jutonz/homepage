@@ -445,14 +445,14 @@ workflows:
         requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
         filters:
           branches:
-            only: ["feature/build-nice-prod"]
+            only: ["master"]
     - push_prod_psql:
         requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
         filters:
           branches:
-            only: ["feature/build-nice-prod"]
+            only: ["master"]
     - push_prod_redis:
         requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
         filters:
           branches:
-            only: ["feature/build-nice-prod"]
+            only: ["master"]
