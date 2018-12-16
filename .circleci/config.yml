@@ -347,8 +347,6 @@ jobs:
     working_directory: ~/code
     docker:
     - image: circleci/ruby:2.5
-    branches:
-      only: ["master"]
     environment:
     - DCTL_ENV: prod
     - DCTL_NOSUDO: yes
@@ -374,8 +372,6 @@ jobs:
     working_directory: ~/code
     docker:
     - image: circleci/ruby:2.5
-    branches:
-      only: ["master"]
     environment:
     - DCTL_ENV: prod
     - DCTL_NOSUDO: yes
@@ -401,8 +397,6 @@ jobs:
     working_directory: ~/code
     docker:
     - image: circleci/ruby:2.5
-    branches:
-      only: ["master"]
     environment:
     - DCTL_ENV: prod
     - DCTL_NOSUDO: yes
@@ -449,7 +443,16 @@ workflows:
 
     - push_prod_app:
         requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
+        filters:
+          branch:
+            only: ["feature/build-nice-prod"]
     - push_prod_psql:
         requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
+        filters:
+          branch:
+            only: ["feature/build-nice-prod"]
     - push_prod_redis:
         requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
+        filters:
+          branch:
+            only: ["feature/build-nice-prod"]
