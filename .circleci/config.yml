@@ -444,15 +444,15 @@ workflows:
     - push_prod_app:
         requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
         filters:
-          branch:
+          branches:
             only: ["feature/build-nice-prod"]
     - push_prod_psql:
         requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
         filters:
-          branch:
+          branches:
             only: ["feature/build-nice-prod"]
     - push_prod_redis:
         requires: ["build_prod_psql", "build_prod_app", "build_prod_redis"]
         filters:
-          branch:
+          branches:
             only: ["feature/build-nice-prod"]
