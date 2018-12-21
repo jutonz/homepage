@@ -26,7 +26,7 @@ config :logger, :console,
 
 config :absinthe, log: false
 
-db_host = System.get_env("DB_HOST")
+db_host = System.get_env("DATABASE_URL")
 db_port = System.get_env("DB_PORT")
 db_user = System.get_env("DB_USER")
 db_pass = System.get_env("DB_PASS")
