@@ -94,7 +94,7 @@ export class IjustEventInput extends React.Component<Props, State> {
 
   renderSearchResults = (
     props: SearchResultProps
-  ): Array<React.ReactElement<any>> => {
+  ): React.ReactElement<any> => {
     const rendered = (
       <div key={props.id} className={css(styles.searchResultContainer)}>
         <div>
@@ -109,7 +109,7 @@ export class IjustEventInput extends React.Component<Props, State> {
       </div>
     );
 
-    return [rendered];
+    return rendered;
   };
 
   renderNoResultsMessage = () => {
