@@ -1,0 +1,4 @@
+yarn
+yarn run bundle
+cd $phoenix_dir
+mix phx.digest
