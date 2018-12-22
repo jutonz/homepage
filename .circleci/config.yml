@@ -125,6 +125,46 @@ jobs:
     - checkout
     - run: mix format --check-formatted
 
+  build_prod:
+    working_directory: ~/code
+    docker:
+    - image: circleci/elixir:1.6
+    environment:
+    - MIX_ENV: prod
+    steps:
+    - checkout
+    - restore_cache:
+        key: v1-prod-{{ checksum "mix.lock" }}
+        paths:
+        - _build/prod
+        - deps
+    - run:
+        name: Setup hex
+        command: |
+          mix local.hex --force
+          mix local.rebar --force
+          mix deps.get
+          mix compile
+    - save_cache:
+        key: v1-prod-{{ checksum "mix.lock" }}
+        paths:
+        - _build/prod
+        - deps
+  yarn_bundle:
+    working_directory: ~/code
+    docker:
+    - image: circleci/node:8
+    steps:
+    - checkout
+    - restore_cache:
+        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        paths: ["apps/client/assets/node_modules"]
+    - run:
+        name: yarn bundle
+        command: |
+          cd apps/client/assets
+          yarn bundle
+
 workflows:
   version: 2
   workflow:
@@ -138,3 +178,7 @@ workflows:
         requires: ["build_test", "build_dev"]
     - yarn_lint:
         requires: ["fetch_node_modules"]
+    - build_prod:
+        requires: ["mix_test", "mix_format", "yarn_lint"]
+    - yarn_bundle:
+        requires: ["mix_test", "mix_format", "yarn_lint"]
