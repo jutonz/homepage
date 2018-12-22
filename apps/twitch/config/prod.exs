@@ -2,6 +2,7 @@ use Mix.Config
 
 db_url = System.get_env("DATABASE_URL")
 db_pool_size = System.get_env("POOL_SIZE") || "10" |> String.to_integer()
+
 config :twitch, Twitch.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: db_url,
