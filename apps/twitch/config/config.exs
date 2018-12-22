@@ -11,13 +11,4 @@ config :twitch,
     redirect_uri: System.get_env("TWITCH_REDIRECT_URI")
   }
 
-db_url = System.get_env("DATABASE_URL")
-db_pool_size = System.get_env("POOL_SIZE") || "10" |> String.to_integer()
-
-config :twitch, Twitch.Repo,
-adapter: Ecto.Adapters.Postgres,
-  url: db_url,
-  pool_size: db_pool_size,
-  ssl: true
-
 import_config "#{Mix.env()}.exs"

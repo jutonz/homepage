@@ -1,6 +1,7 @@
 use Mix.Config
 
 config :twitch, Twitch.Repo,
+  database: "homepage_twitch_dev",
   hostname: "localhost",
   username: "homepage",
   password: nil,

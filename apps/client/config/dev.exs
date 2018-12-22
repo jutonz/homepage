@@ -32,6 +32,8 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 config :client, Client.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "homepage_dev",
   hostname: "localhost",
   username: "homepage",
   password: nil,

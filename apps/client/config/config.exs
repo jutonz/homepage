@@ -26,16 +26,6 @@ config :logger, :console,
 
 config :absinthe, log: false
 
-db_url = System.get_env("DATABASE_URL")
-#db_name = "homepage_" <> to_string(Mix.env())
-db_pool_size = System.get_env("POOL_SIZE") || "10" |> String.to_integer()
-
-config :client, Client.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  url: db_url,
-  pool_size: db_pool_size,
-  ssl: true
-
 # Guardian exists within Auth domain, but config must be done globally here.
 
 # Import environment specific config. This must remain at the bottom of this
