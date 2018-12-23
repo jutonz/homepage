@@ -1,6 +1,7 @@
 {
   "name": "homepage",
   "scripts": {
+    "postdeploy": "mix do ecto.create, ecto.migrate"
   },
   "env": {
     "POOL_SIZE": {
