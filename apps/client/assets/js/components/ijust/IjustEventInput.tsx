@@ -92,9 +92,7 @@ export class IjustEventInput extends React.Component<Props, State> {
     this.setState({ searchResults: transformed });
   };
 
-  renderSearchResults = (
-    props: SearchResultProps
-  ): React.ReactElement<any> => {
+  renderSearchResults = (props: SearchResultProps): React.ReactElement<any> => {
     const rendered = (
       <div key={props.id} className={css(styles.searchResultContainer)}>
         <div>
