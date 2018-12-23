@@ -67,7 +67,7 @@
     "redux-logger": "^3.0.6",
     "style-loader": "^0.20.3",
     "ts-loader": "^4.2.0",
-    "typescript": "^2.8.3",
+    "typescript": "^3.2.0",
     "typescript-eslint-parser": "^18.0.0",
     "url-loader": "^0.6.2",
     "webpack": "^4.2.0",
