@@ -1,14 +1,9 @@
 {
   "name": "homepage",
   "scripts": {
+    "postdeploy": "mix ecto.migrate"
   },
   "env": {
-    "POOL_SIZE": {
-      "required": true
-    },
-    "REDIS_URL": {
-      "required": true
-    },
     "SECRET_KEY_BASE": {
       "required": true
     }
