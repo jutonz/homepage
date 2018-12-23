@@ -53,7 +53,7 @@
     "babel-preset-stage-1": "^6.24.1",
     "css-loader": "^0.28.11",
     "date-fns": "^1.29.0",
-    "eslint": "^4.19.1",
+    "eslint": "^5.11.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
