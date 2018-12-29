@@ -5,6 +5,9 @@
   "env": {
     "SECRET_KEY_BASE": {
       "required": true
+    },
+    "POOL_SIZE": {
+      "required": true
     }
   },
   "formation": {
