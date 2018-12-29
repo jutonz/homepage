@@ -171,6 +171,7 @@ workflows:
     jobs:
     - build_test
     - build_dev
+    - build_prod
     - fetch_node_modules
 
     - mix_test:
@@ -179,7 +180,5 @@ workflows:
         requires: ["build_dev"]
     - yarn_lint:
         requires: ["fetch_node_modules"]
-    - build_prod:
-        requires: ["mix_test"]
     - yarn_bundle:
         requires: ["yarn_lint"]
