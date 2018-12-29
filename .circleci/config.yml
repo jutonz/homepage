@@ -172,13 +172,14 @@ workflows:
     - build_test
     - build_dev
     - fetch_node_modules
+
     - mix_test:
-        requires: ["build_test", "build_dev"]
+        requires: ["build_test"]
     - mix_format:
-        requires: ["build_test", "build_dev"]
+        requires: ["build_dev"]
     - yarn_lint:
         requires: ["fetch_node_modules"]
     - build_prod:
-        requires: ["mix_test", "mix_format", "yarn_lint"]
+        requires: ["mix_test"]
     - yarn_bundle:
-        requires: ["mix_test", "mix_format", "yarn_lint"]
+        requires: ["yarn_lint"]
