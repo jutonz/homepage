@@ -181,4 +181,4 @@ workflows:
     - yarn_lint:
         requires: ["fetch_node_modules"]
     - yarn_bundle:
-        requires: ["yarn_lint"]
+        requires: ["fetch_node_modules"]
