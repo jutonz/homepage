@@ -1,2 +1,2 @@
 web: MIX_ENV=prod elixir --sname server -S mix phx.server
-release: mix ecto.migrate
+release: cd apps/client && mix ecto.migrate
