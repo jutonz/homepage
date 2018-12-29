@@ -1,7 +1,6 @@
 {
   "name": "homepage",
   "scripts": {
-    "postdeploy": "mix ecto.migrate"
   },
   "env": {
     "SECRET_KEY_BASE": {
