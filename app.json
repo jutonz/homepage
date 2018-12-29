@@ -5,6 +5,12 @@
   "env": {
     "SECRET_KEY_BASE": {
       "required": true
+    },
+    "POOL_SIZE": {
+      "required": true
+    },
+    "MIX_ENV": {
+      "required": true
     }
   },
   "formation": {
