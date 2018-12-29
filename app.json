@@ -8,6 +8,9 @@
     },
     "POOL_SIZE": {
       "required": true
+    },
+    "MIX_ENV": {
+      "required": true
     }
   },
   "formation": {
