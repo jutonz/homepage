@@ -48,7 +48,7 @@ defmodule Client.Mixfile do
       {:plug_cowboy, "~> 1.0"},
       {:absinthe_ecto, "~> 0.1"},
       {:absinthe_plug, "~> 1.4"},
-      {:cors_plug, "~> 1.5"},
+      {:cors_plug, "~> 2.0"},
       {:plug_static_index_html, "~> 1.0"},
       {:gen_stage, "~> 0.14.0"},
       {:auth, in_umbrella: true},
