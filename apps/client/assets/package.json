@@ -22,7 +22,7 @@
     "graphql": "^0.13.2",
     "graphql-tag": "^2.5.0",
     "history": "^4.7.2",
-    "immutable": "4.0.0-rc.9",
+    "immutable": "4.0.0-rc.12",
     "pdfjs-dist": "^2.0.205",
     "phoenix": "^1.4.0",
     "react": "^16.2.0",
