@@ -11,6 +11,9 @@
     },
     "MIX_ENV": {
       "required": true
+    },
+    "TEST_USER_PASSWORD": {
+      "required": true
     }
   },
   "formation": {
