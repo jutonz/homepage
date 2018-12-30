@@ -30,4 +30,4 @@ use Mix.Config
 #     import_config "#{Mix.env}.exs"
 
 config :redis,
-  redis_url: System.get_env("REDIS_URL") || "localhost"
+  redis_url: System.get_env("REDIS_URL") || "redis://localhost:6379"
