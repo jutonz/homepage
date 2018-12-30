@@ -13,7 +13,7 @@ defmodule Redis.Application do
     children = [
       # Starts a worker by calling: Redis.Worker.start_link(arg)
       # {Redis.Worker, arg},
-      {Redix, host: redis_url, name: :redix}
+      {Redix, redis_url}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html for other strategies and
