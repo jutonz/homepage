@@ -2786,9 +2786,10 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
 
-event-stream@^3.3.2:
+event-stream@3.3.4:
   version "3.3.4"
-  resolved "http://registry.npmjs.org/event-stream/-/event-stream-3.3.4.tgz#4ab4c9a0f5a54db9338b4c34d86bfce8f4b35571"
+  resolved "https://registry.yarnpkg.com/event-stream/-/event-stream-3.3.4.tgz#4ab4c9a0f5a54db9338b4c34d86bfce8f4b35571"
+  integrity sha1-SrTJoPWlTbkzi0w02Gv86PSzVXE=
   dependencies:
     duplexer "~0.1.1"
     from "~0"
@@ -6174,12 +6175,13 @@ react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
-react-stdio@^3.1.0:
-  version "3.4.6"
-  resolved "https://registry.yarnpkg.com/react-stdio/-/react-stdio-3.4.6.tgz#4edc614cdd4a935b2640e1b7c087ba3be528afdb"
+react-stdio@^3.4.8:
+  version "3.4.8"
+  resolved "https://registry.yarnpkg.com/react-stdio/-/react-stdio-3.4.8.tgz#a197a8f03bd909366e63cb4c7ea84dec3f5ef2e8"
+  integrity sha512-nt58wStXwb6NT1RW/UJZex0k+BgXe2+dJUgvIVgebpesfR+E7TaOkeroNRk1Kin+1jtlkU7orBN7pP1u/Fdocg==
   dependencies:
     JSONStream "^1.0.7"
-    event-stream "^3.3.2"
+    event-stream "3.3.4"
     invariant "^2.2.0"
     react "^16.2.0"
     react-dom "^16.2.0"
