@@ -64,6 +64,10 @@ defmodule ClientWeb.Router do
     plug(:fetch_session)
   end
 
+  if Mix.env() == :dev do
+    forward("/sent_emails", Bamboo.SentEmailViewerPlug)
+  end
+
   scope "/api", ClientWeb do
     pipe_through(:api)
 
