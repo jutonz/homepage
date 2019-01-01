@@ -3,8 +3,6 @@ defmodule ClientWeb.TwitchSocket do
 
   channel("twitch_channel:*", ClientWeb.TwitchChannel)
 
-  transport(:websocket, Phoenix.Transports.WebSocket)
-
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
   # verification, you can put default assigns into
