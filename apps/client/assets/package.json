@@ -12,7 +12,7 @@
     "compile:frontend": "yarn --link-duplicates && yarn run bundle"
   },
   "dependencies": {
-    "aphrodite": "^1.2.3",
+    "aphrodite": "^2.2.3",
     "apollo-client": "^2.4.8",
     "apollo-client-preset": "^1.0.3",
     "babel-preset-es2017": "^6.24.1",
