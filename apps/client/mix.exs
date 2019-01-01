@@ -25,7 +25,7 @@ defmodule Client.Mixfile do
   def application do
     [
       mod: {Client.Application, []},
-      extra_applications: [:logger, :runtime_tools, :redix]
+      extra_applications: [:bamboo, :logger, :runtime_tools, :redix]
     ]
   end
 
@@ -51,6 +51,7 @@ defmodule Client.Mixfile do
       {:cors_plug, "~> 2.0"},
       {:plug_static_index_html, "~> 1.0"},
       {:gen_stage, "~> 0.14.0"},
+      {:bamboo, "~> 1.1"},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
       {:twitch, in_umbrella: true},

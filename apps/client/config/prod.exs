@@ -22,6 +22,10 @@ config :client, ClientWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :client, Client.Mailer,
+  adapter: Bamboo.SendGridAdapter,
+  api_key: {:system, "SENDGRID_API_KEY"}
+
 db_url = System.get_env("DATABASE_URL")
 db_pool_size = System.get_env("POOL_SIZE") || "10" |> String.to_integer()
 

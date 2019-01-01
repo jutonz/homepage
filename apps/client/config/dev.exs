@@ -31,6 +31,8 @@ config :logger, :console, format: "[$level] $message\n"
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
 
+config :client, Client.Mailer, adapter: Bamboo.LocalAdapter
+
 config :client, Client.Repo,
   adapter: Ecto.Adapters.Postgres,
   database: "homepage_dev",
