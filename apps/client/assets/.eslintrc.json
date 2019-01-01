@@ -13,9 +13,7 @@
   },
   "parserOptions": {
     "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "jsx": true
   },
   "env": {
     "es6": true,
