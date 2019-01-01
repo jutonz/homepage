@@ -20,7 +20,7 @@
     "bluebird": "^3.5.1",
     "clipboard": "^1.7.1",
     "graphql": "^0.13.2",
-    "graphql-tag": "^2.5.0",
+    "graphql-tag": "^2.10.0",
     "history": "^4.7.2",
     "immutable": "4.0.0-rc.12",
     "pdfjs-dist": "^2.0.205",
