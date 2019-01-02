@@ -26,6 +26,8 @@ config :logger, :console,
 
 config :absinthe, log: false
 
+config :logger, debug: true
+
 config :client, Client.Scheduler,
   jobs: [
     {"0 * * * *", {Client.Emoncms, :send_digest, []}}
