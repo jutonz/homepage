@@ -28,7 +28,7 @@ config :absinthe, log: false
 
 config :client, Client.Scheduler,
   jobs: [
-    {"*/10 * * * *", {Client.Emoncms, :send_digest, []}}
+    {"40 * * * *", {Client.Emoncms, :send_digest, []}}
   ]
 
 # Import environment specific config. This must remain at the bottom of this
