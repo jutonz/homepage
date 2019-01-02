@@ -1,7 +1,7 @@
 defmodule Emoncms do
   @host Application.get_env(:emoncms, :host)
   @api_key Application.get_env(:emoncms, :api_key)
-  @timezone Timex.Timezone.get("America/New_York")
+  @timezone "America/New_York"
 
   def get_values(feed_id \\ "380936") do
     {:ok, raw_values} = values_from_emoncms(feed_id)
@@ -51,9 +51,10 @@ defmodule Emoncms do
   end
 
   def unix_milliseconds_to_datetime(unix) do
+    timezone = Timex.Timezone.get(@timezone)
     unix
     |> DateTime.from_unix!(:milliseconds)
-    |> Timex.Timezone.convert(@timezone)
+    |> Timex.Timezone.convert(timezone)
   end
 
   def headers do
