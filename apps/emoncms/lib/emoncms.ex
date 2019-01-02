@@ -6,12 +6,14 @@ defmodule Emoncms do
   def get_values(feed_id \\ "380936") do
     {:ok, raw_values} = values_from_emoncms(feed_id)
 
-    parsed = raw_values |> Enum.map(fn([timestamp, value]) ->
-      [
-        unix_milliseconds_to_datetime(timestamp),
-        value
-      ]
-    end)
+    parsed =
+      raw_values
+      |> Enum.map(fn [timestamp, value] ->
+        [
+          unix_milliseconds_to_datetime(timestamp),
+          value
+        ]
+      end)
 
     {:ok, parsed}
   end
@@ -19,6 +21,7 @@ defmodule Emoncms do
   def values_from_emoncms(feed_id) do
     url = @host <> "/feed/data.json"
     headers = Emoncms.headers() ++ [accept: "application/json"]
+
     query = [
       id: feed_id,
       interval: 3600,
