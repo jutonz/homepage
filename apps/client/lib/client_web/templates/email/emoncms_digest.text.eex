@@ -1,0 +1,12 @@
+Hey,
+
+In the past 24 hours you generated <%= Float.round(@generated_in_last_day, 4) %> kWh of energy. Nice!
+
+Here's the hour-by-hour breakdown:
+
+<%= @values |> Enum.map(fn([datetime, value]) -> %>
+<%= to_string(datetime) %>: <%= Float.round(value, 4) %>
+<% end) %>
+
+Thanks!
+Justin

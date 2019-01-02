@@ -55,7 +55,8 @@ defmodule Client.Mixfile do
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
       {:twitch, in_umbrella: true},
-      {:events, in_umbrella: true}
+      {:events, in_umbrella: true},
+      {:emoncms, in_umbrella: true}
     ]
   end
 
