@@ -17,6 +17,9 @@
     },
     "SENDGRID_API_KEY": {
       "required": true
+    },
+    "EMONCMS_API_KEY": {
+      "required": true
     }
   },
   "formation": {
