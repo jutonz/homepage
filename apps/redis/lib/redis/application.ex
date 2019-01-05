@@ -6,14 +6,12 @@ defmodule Redis.Application do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec
+    # import Supervisor.Spec
     # List all child processes to be supervised
     redis_url = Application.get_env(:redis, :redis_url)
 
     children = [
-      # Starts a worker by calling: Redis.Worker.start_link(arg)
-      # {Redis.Worker, arg},
-      {Redix, redis_url}
+      {Redix, {redis_url, [name: :redix]}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html for other strategies and
