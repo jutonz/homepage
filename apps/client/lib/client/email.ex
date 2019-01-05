@@ -18,6 +18,7 @@ defmodule Client.Email do
     new_email()
     |> to(recipient)
     |> from("jutonz42@gmail.com")
+    |> put_header("reply-to", "jutonz42@gmail.com")
     |> subject("Emoncms recap")
     |> render("emoncms_digest.text", values: values, generated_in_last_day: energy_generated)
   end
