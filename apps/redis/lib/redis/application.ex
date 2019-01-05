@@ -11,9 +11,7 @@ defmodule Redis.Application do
     redis_url = Application.get_env(:redis, :redis_url)
 
     children = [
-      # Starts a worker by calling: Redis.Worker.start_link(arg)
-      # {Redis.Worker, arg},
-      {Redix, redis_url}
+      {Redix, {redis_url, [name: :redix]}}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html for other strategies and
