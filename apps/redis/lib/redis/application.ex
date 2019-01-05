@@ -6,7 +6,7 @@ defmodule Redis.Application do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec
+    #import Supervisor.Spec
     # List all child processes to be supervised
     redis_url = Application.get_env(:redis, :redis_url)
 
