@@ -3,5 +3,4 @@
 set -ex
 
 cd apps/client
-mix ecto.migrate
-mix run priv/repo/seeds.exs
+mix do ecto.migrate, run priv/repo/seeds.exs
