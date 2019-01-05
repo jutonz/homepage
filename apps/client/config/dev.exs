@@ -36,8 +36,4 @@ config :client, Client.Mailer, adapter: Bamboo.LocalAdapter
 config :client, Client.Repo,
   adapter: Ecto.Adapters.Postgres,
   database: "homepage_dev",
-  hostname: "localhost",
-  username: "homepage",
-  password: nil,
-  port: 5432,
-  pool_size: 10
+  hostname: "localhost"
