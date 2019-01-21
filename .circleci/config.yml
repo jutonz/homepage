@@ -78,6 +78,7 @@ jobs:
     - image: circleci/postgres:10-alpine
       environment:
       - POSTGRES_USER: homepage
+      - POSTGRES_PASSWORD: nil
     - image: circleci/redis
     environment:
     - MIX_ENV=test
