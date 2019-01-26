@@ -1,5 +1,5 @@
+rm -fv $phoenix_dir/priv/static/index.?*.{js,js.map}
 yarn
 yarn run bundle
 cd $phoenix_dir
-rm priv/static/index.?*.{js,js.map}
 mix phx.digest
