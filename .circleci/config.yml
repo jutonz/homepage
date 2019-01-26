@@ -77,7 +77,9 @@ jobs:
     - image: circleci/elixir:1.7
     - image: circleci/postgres:10-alpine
       environment:
-      - POSTGRES_USER: homepage
+      - POSTGRES_USER: postgres
+      - POSTGRES_DB: homepage_test
+      - POSTGRES_PASSWORD:
     - image: circleci/redis
     environment:
     - MIX_ENV=test

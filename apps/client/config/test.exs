@@ -14,7 +14,5 @@ config :client, Client.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   database: "homepage_test",
   hostname: "localhost",
-  username: "homepage",
-  password: nil,
-  port: 5432,
-  pool_size: 10
+  username: "postgres",
+  password: nil
