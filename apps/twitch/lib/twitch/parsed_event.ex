@@ -18,7 +18,7 @@ defmodule Twitch.ParsedEvent do
             raw_event: nil
 
   def from_raw(raw_message) do
-    parsed = raw_message |> :binary.bin_to_list() |> ExIrc.Utils.parse()
+    parsed = raw_message |> :binary.bin_to_list() |> ExIRC.Utils.parse()
     raw = raw_message |> :binary.bin_to_list() |> to_string()
     to_parsed_event(parsed.cmd, parsed, raw)
   end
