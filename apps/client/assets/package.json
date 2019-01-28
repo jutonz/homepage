@@ -42,7 +42,7 @@
   "devDependencies": {
     "@types/react": "^16.7.20",
     "@types/react-dom": "^16.0.11",
-    "@types/react-redux": "^7.0.0",
+    "@types/react-redux": "^7.0.1",
     "@types/redux-saga": "^0.10.5",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
