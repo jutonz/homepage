@@ -4,7 +4,7 @@ defmodule Client.Email do
   def test do
     new_email()
     |> to("jutonz42@gmail.com")
-    |> from("jutonz42@gmail.com")
+    |> from("no-reply@jutonz.com")
     |> subject("Test")
     |> render("test.text", name: "Me!")
   end
@@ -17,8 +17,8 @@ defmodule Client.Email do
 
     new_email()
     |> to(recipient)
-    |> from("jutonz42@gmail.com")
-    |> put_header("reply-to", "jutonz42@gmail.com")
+    |> from("no-reply@jutonz.com")
+    |> put_header("reply-to", "no-reply@jutonz.com")
     |> subject("Emoncms recap")
     |> render("emoncms_digest.text", values: values, generated_in_last_day: energy_generated)
   end
