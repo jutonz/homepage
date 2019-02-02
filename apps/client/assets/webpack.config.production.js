@@ -75,7 +75,10 @@ const webpackConfig = {
       chunkFilename: "[id].css"
     }),
     new HtmlWebpackPlugin({
-      template: "static/index.html"
+      template: "static/index.ejs",
+      templateParameters: {
+        title: "jutonz.com"
+      }
     })
   ],
 
