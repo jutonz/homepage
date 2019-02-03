@@ -3,6 +3,8 @@ import { StyleSheet, css } from "aphrodite";
 import gql from "graphql-tag";
 import { Button, Header, Form, Message } from "semantic-ui-react";
 
+import { FormBox } from "@components/FormBox";
+
 const styles = StyleSheet.create({
   container: {
     maxWidth: 300,
@@ -31,52 +33,54 @@ export class _ChangePasswordForm extends React.Component {
   render() {
     return (
       <div className={css(styles.container)}>
-        <Form className={this.state.formState} onSubmit={this.submit}>
-          <Header>Change password</Header>
+        <FormBox>
+          <Form className={this.state.formState} onSubmit={this.submit}>
+            <Header>Change password</Header>
 
-          {this.renderStatusMessage()}
+            {this.renderStatusMessage()}
 
-          <Form.Field>
-            <Form.Input
-              name="current_password"
-              label="Current password"
-              type="password"
-              autoFocus={true}
-              onChange={this.oldPasswordChanged}
-            />
-          </Form.Field>
+            <Form.Field>
+              <Form.Input
+                name="current_password"
+                label="Current password"
+                type="password"
+                autoFocus={true}
+                onChange={this.oldPasswordChanged}
+              />
+            </Form.Field>
 
-          <Form.Field>
-            <Form.Input
-              label="New password"
-              type="password"
-              name="new_password"
-              error={this.state.confirmBad}
-              onChange={this.newPasswordChanged}
-            />
-          </Form.Field>
+            <Form.Field>
+              <Form.Input
+                label="New password"
+                type="password"
+                name="new_password"
+                error={this.state.confirmBad}
+                onChange={this.newPasswordChanged}
+              />
+            </Form.Field>
 
-          <Form.Field>
-            <Form.Input
-              type="password"
-              label="Confirm new password"
-              name="new_password_confirm"
-              error={this.state.confirmBad}
-              onChange={this.newPasswordConfirmChanged}
-            />
-          </Form.Field>
+            <Form.Field>
+              <Form.Input
+                type="password"
+                label="Confirm new password"
+                name="new_password_confirm"
+                error={this.state.confirmBad}
+                onChange={this.newPasswordConfirmChanged}
+              />
+            </Form.Field>
 
-          <Button
-            primary={true}
-            active={true}
-            fluid={true}
-            type="submit"
-            className={css(styles.submit)}
-            loading={this.state.loading}
-          >
-            Change password
-          </Button>
-        </Form>
+            <Button
+              primary={true}
+              active={true}
+              fluid={true}
+              type="submit"
+              className={css(styles.submit)}
+              loading={this.state.loading}
+            >
+              Change password
+            </Button>
+          </Form>
+        </FormBox>
       </div>
     );
   }

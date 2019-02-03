@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { withRouter } from "react-router";
 
+import { FormBox } from "@components/FormBox";
+
 const style = StyleSheet.create({
   container: {
     maxWidth: 300,
@@ -17,19 +19,21 @@ const style = StyleSheet.create({
 
 const _TeamJoinForm = ({ name, setName, join, isLoading, errors, history }) => (
   <div className={css(style.container)} onSubmit={() => join(name, history)}>
-    <Form error={!!errors}>
-      <Header>Join a team</Header>
-      <p>Become a member of an existing team</p>
-      <Message error>{errors}</Message>
-      <Form.Input
-        label="Name"
-        value={name}
-        onChange={(_ev, data) => setName(data.value)}
-      />
-      <Form.Button primary fluid disabled={!!!name} loading={!!isLoading}>
-        Join
-      </Form.Button>
-    </Form>
+    <FormBox>
+      <Form error={!!errors}>
+        <Header>Join a team</Header>
+        <p>Become a member of an existing team</p>
+        <Message error>{errors}</Message>
+        <Form.Input
+          label="Name"
+          value={name}
+          onChange={(_ev, data) => setName(data.value)}
+        />
+        <Form.Button primary fluid disabled={!!!name} loading={!!isLoading}>
+          Join
+        </Form.Button>
+      </Form>
+    </FormBox>
   </div>
 );
 
