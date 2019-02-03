@@ -53,7 +53,11 @@ export const IjustRecentEvents = ({ context }: Props) => (
 
 const renderRecentEvents = (recentEvents, context) => {
   if (!recentEvents) {
-    return;
+    return <></>;
+  }
+
+  if (recentEvents.length < 1) {
+    return renderEmptyState();
   }
 
   return (
@@ -100,4 +104,8 @@ const renderRecentEvent = (event, context) => (
       </Link>
     </Table.Cell>
   </Table.Row>
+);
+
+const renderEmptyState = () => (
+  <div>You haven't added any events. Get to it!</div>
 );
