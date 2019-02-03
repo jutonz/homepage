@@ -4,7 +4,9 @@ import { Header, Form, Loader } from "semantic-ui-react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+
 import { fetchTeams } from "@store";
+import { FormBox } from "@components/FormBox";
 
 const style = StyleSheet.create({
   container: {
@@ -33,12 +35,14 @@ class _TeamMembershipForm extends React.Component {
   render() {
     return (
       <div className={css(style.container)}>
-        <Form>
-          <Header>Team membership</Header>
-          <p>Change which teams you belong to</p>
+        <FormBox>
+          <Form>
+            <Header>Team membership</Header>
+            <p>Change which teams you belong to</p>
 
-          {this.renderTeams()}
-        </Form>
+            {this.renderTeams()}
+          </Form>
+        </FormBox>
       </div>
     );
   }

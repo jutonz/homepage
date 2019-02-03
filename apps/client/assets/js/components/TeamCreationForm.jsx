@@ -3,7 +3,9 @@ import { StyleSheet, css } from "aphrodite";
 import { Header, Form, Message } from "semantic-ui-react";
 import { compose } from "redux";
 import { connect } from "react-redux";
+
 import { fetchTeams, setNewTeamName, createTeam } from "@store";
+import { FormBox } from "@components/FormBox";
 
 const style = StyleSheet.create({
   container: {
@@ -27,24 +29,26 @@ class _TeamCreationForm extends React.Component {
     } = this.props;
     return (
       <div className={css(style.container)}>
-        <Form onSubmit={this.createTeam} error={!!createNewTeamError}>
-          <Header>Create a team</Header>
-          <Message error>{createNewTeamError}</Message>
-          <Form.Input
-            label="Name"
-            value={newTeamName}
-            onChange={this.nameChanged}
-          />
-          <Form.Button
-            primary
-            fluid
-            type="submit"
-            disabled={!newNameIsValid}
-            loading={creatingNewTeam}
-          >
-            Create
-          </Form.Button>
-        </Form>
+        <FormBox>
+          <Form onSubmit={this.createTeam} error={!!createNewTeamError}>
+            <Header>Create a team</Header>
+            <Message error>{createNewTeamError}</Message>
+            <Form.Input
+              label="Name"
+              value={newTeamName}
+              onChange={this.nameChanged}
+            />
+            <Form.Button
+              primary
+              fluid
+              type="submit"
+              disabled={!newNameIsValid}
+              loading={creatingNewTeam}
+            >
+              Create
+            </Form.Button>
+          </Form>
+        </FormBox>
       </div>
     );
   }

@@ -5,7 +5,9 @@ import Clipboard from "clipboard";
 import gql from "graphql-tag";
 import { connect } from "react-redux";
 import { compose } from "redux";
+
 import { showFlash } from "@store";
+import { FormBox } from "@components/FormBox";
 
 const style = StyleSheet.create({
   container: {
@@ -41,26 +43,28 @@ class _OneTimeLoginLink extends React.Component {
   render() {
     return (
       <div className={css(style.container)}>
-        <Form>
-          <Header>One-time login link</Header>
+        <FormBox>
+          <Form>
+            <Header>One-time login link</Header>
 
-          <p>
-            Generate a one-time login link for passwordless authentication. This
-            link is valid for only 24 hours.
-          </p>
+            <p>
+              Generate a one-time login link for passwordless authentication.
+              This link is valid for only 24 hours.
+            </p>
 
-          {this.renderGeneratedLink()}
+            {this.renderGeneratedLink()}
 
-          <Form.Button
-            type="button"
-            primary={true}
-            fluid={true}
-            onClick={this.generate}
-            loading={this.state.loading}
-          >
-            Generate
-          </Form.Button>
-        </Form>
+            <Form.Button
+              type="button"
+              primary={true}
+              fluid={true}
+              onClick={this.generate}
+              loading={this.state.loading}
+            >
+              Generate
+            </Form.Button>
+          </Form>
+        </FormBox>
       </div>
     );
   }
