@@ -68,7 +68,7 @@
     "typescript": "^3.2.4",
     "typescript-eslint-parser": "^22.0.0",
     "url-loader": "^1.1.2",
-    "webpack": "^4.29.0",
+    "webpack": "^4.29.1",
     "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14"
   },
