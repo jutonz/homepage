@@ -24,7 +24,7 @@
     "immutable": "4.0.0-rc.12",
     "pdfjs-dist": "^2.0.205",
     "phoenix": "^1.4.0",
-    "react": "^16.2.0",
+    "react": "^16.8.0",
     "react-apollo": "^2.4.1",
     "react-dom": "^16.2.0",
     "react-redux": "^6.0.0",
