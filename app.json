@@ -28,7 +28,14 @@
     }
   },
   "addons": [
-    "heroku-postgresql",
+    {
+      "plan": "heroku-postgresql",
+      "as": "DATABASE"
+    },
+    {
+      "plan": "heroku-postgresql",
+      "as": "TWITCH_DATABASE"
+    },
     "heroku-redis"
   ],
   "stack": "heroku-18",
