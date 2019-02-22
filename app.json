@@ -20,6 +20,15 @@
     },
     "EMONCMS_API_KEY": {
       "required": true
+    },
+    "TWITCH_CLIENT_ID": {
+      "required": true
+    },
+    "TWITCH_CLIENT_SECRET": {
+      "required": true
+    },
+    "TWITCH_REDIRECT_URI": {
+      "required": true
     }
   },
   "formation": {
@@ -28,7 +37,14 @@
     }
   },
   "addons": [
-    "heroku-postgresql",
+    {
+      "plan": "heroku-postgresql",
+      "as": "DATABASE"
+    },
+    {
+      "plan": "heroku-postgresql",
+      "as": "TWITCH_DATABASE"
+    },
     "heroku-redis"
   ],
   "stack": "heroku-18",
