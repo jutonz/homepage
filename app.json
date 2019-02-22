@@ -20,6 +20,15 @@
     },
     "EMONCMS_API_KEY": {
       "required": true
+    },
+    "TWITCH_CLIENT_ID": {
+      "required": true
+    },
+    "TWITCH_CLIENT_SECRET": {
+      "required": true
+    },
+    "TWITCH_REDIRECT_URI": {
+      "required": true
     }
   },
   "formation": {
