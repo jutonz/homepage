@@ -52,6 +52,7 @@ defmodule Client.Mixfile do
       {:plug_static_index_html, "~> 1.0"},
       {:gen_stage, "~> 0.14.0"},
       {:bamboo, "~> 1.1"},
+      {:sentry, "~> 6.4"},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
       {:twitch, in_umbrella: true},
