@@ -21,14 +21,26 @@ defmodule Twitch.ParsedEventTest do
   end
 
   test "#from_raw can parse PRIVMSG with ACTION prefix" do
-    # raw = ":takeitbot!takeitbot@takeitbot.tmi.twitch.tv PRIVMSG #comradenerdy :ACTION husky_potato lost 300 blyats in roulette and now has 1656 blyats! FeelsBadMan"
     raw =
-      ":takeitbot!takeitbot@takeitbot.tmi.twitch.tv PRIVMSG #comradenerdy :ACTION GoAkke went all in and lost every single one of their 215 blyats LUL"
+      ":takeitbot!takeitbot@takeitbot.tmi.twitch.tv PRIVMSG #comradenerdy :ACTION Lyovknight won 200 blyats in roulette and now has 16095 blyats! FeelsGoodMan"
 
     {:ok, parsed} = ParsedEvent.from_raw(raw)
 
     assert parsed.message ==
-             "ACTION GoAkke went all in and lost every single one of their 215 blyats LUL"
+             "ACTION Lyovknight won 200 blyats in roulette and now has 16095 blyats! FeelsGoodMan"
+  end
+
+  test "#from_raw parses ACTION escaped with \u0001" do
+    raw =
+      ":stay_hydrated_bot!stay_hydrated_bot@stay_hydrated_bot.tmi.twitch.tv PRIVMSG #comradenerdy :\u0001ACTION @comradenerdy stayhyBottle You've been live for just over 8 hours. By this point in your broadcast you should have consumed at least 32oz (960mL) of water to maintain optimum hydration.\u0001"
+
+    {:ok, parsed} = ParsedEvent.from_raw(raw)
+
+    assert parsed.irc_command == "ACTION"
+    assert parsed.channel == "#comradenerdy"
+
+    assert parsed.message ==
+             "@comradenerdy stayhyBottle You've been live for just over 8 hours. By this point in your broadcast you should have consumed at least 32oz (960mL) of water to maintain optimum hydration."
   end
 
   test "#from_raw can parse CLEARCHAT" do
