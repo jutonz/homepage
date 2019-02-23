@@ -16,7 +16,7 @@ port = System.get_env("PORT") || "4000" |> String.to_integer()
 
 config :client, ClientWeb.Endpoint,
   http: [port: port],
-  url: [host: "jutonz.com", scheme: "http"],
+  url: [host: "app.jutonz.com", scheme: "https"],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
