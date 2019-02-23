@@ -36,6 +36,19 @@ defmodule Twitch.ParsedEvent do
      }}
   end
 
+  def to_parsed_event("ACTION", parsed, raw) do
+    [channel | message] = parsed.args
+
+    {:ok,
+     %Twitch.ParsedEvent{
+       channel: channel,
+       message: Enum.at(message, 0),
+       irc_command: "ACTION",
+       display_name: parsed.nick,
+       raw_event: raw
+     }}
+  end
+
   def to_parsed_event("CLEARCHAT", parsed, raw) do
     [channel | user] = parsed.args
 

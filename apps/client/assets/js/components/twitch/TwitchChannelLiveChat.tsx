@@ -72,6 +72,7 @@ export class TwitchChannelLiveChat extends React.Component<Props, State> {
     const channel = socket.channel(channelName, {});
 
     channel.on("PRIVMSG", message => this.messageReceived(message));
+    channel.on("ACTION", message => this.messageReceived(message));
 
     channel
       .join()
