@@ -1,5 +1,7 @@
 defmodule ClientWeb.Router do
   use ClientWeb, :router
+  use Plug.ErrorHandler
+  use Sentry.Plug
 
   ##############################################################################
   # Browser requests
