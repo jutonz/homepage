@@ -6,8 +6,8 @@ defmodule Twitch.Gambling do
   @won_slots_regex ~r/@(?<name>\w*) you got .* and U VON (?<won>\d*) blyats .*/i
   @lost_slots_regex ~r/@(?<name>\w*) you got .* and i'm taking these (?<lost>\d*) blyats .*/i
 
-  def gambling?(%Twitch.ParsedEvent{display_name: "takeitbot", irc_command: "PRIVMSG"} = event) do
-    roulette?(event) or slots?(event)
+  def gambling?(%Twitch.ParsedEvent{display_name: "takeitbot"} = event) do
+    roulette?(event) || slots?(event)
   end
 
   def gambling?(_event), do: false
