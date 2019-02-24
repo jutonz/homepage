@@ -31,7 +31,17 @@ defmodule Twitch.EventPersister do
     events = Enum.concat(state, [cset])
 
     if length(events) >= @persist_after do
-      events |> Enum.each(&Twitch.Repo.insert(&1))
+      events
+      |> Enum.each(fn event ->
+        case event |> Twitch.Repo.insert() do
+          {:ok, ev} ->
+            Events.publish(ev, :twitch_event_created)
+
+          _ ->
+            nil
+        end
+      end)
+
       []
     else
       events

@@ -3,7 +3,7 @@ defmodule Twitch.GamblingTest do
   alias Twitch.Gambling
 
   test ".gambling? ignores messages not from takeitbot" do
-    event = %{
+    event = %Twitch.ParsedEvent{
       irc_command: "PRIVMSG",
       display_name: "not-takeitbot",
       message:
@@ -14,7 +14,7 @@ defmodule Twitch.GamblingTest do
   end
 
   test ".gambling? ignores events that are not PRIVMSG" do
-    event = %{
+    event = %Twitch.ParsedEvent{
       irc_command: "ACTION",
       display_name: "takeitbot",
       message:
@@ -25,7 +25,7 @@ defmodule Twitch.GamblingTest do
   end
 
   test ".roulette? is false for a non-roulette message" do
-    event = %{
+    event = %Twitch.ParsedEvent{
       irc_command: "PRIVMSG",
       display_name: "takeitbot",
       message: "Welcome back grantelmann! Loyal dungeon member for 12 months in a row  gachiGASM"
@@ -35,7 +35,7 @@ defmodule Twitch.GamblingTest do
   end
 
   test ".roulette? detects a losing roulette message" do
-    event = %{
+    event = %Twitch.ParsedEvent{
       irc_command: "PRIVMSG",
       display_name: "takeitbot",
       message:
@@ -46,7 +46,7 @@ defmodule Twitch.GamblingTest do
   end
 
   test ".roulette? detects a winning roulette message" do
-    event = %{
+    event = %Twitch.ParsedEvent{
       irc_command: "PRIVMSG",
       display_name: "takeitbot",
       message: "Nostraz won 566 blyats in roulette and now has 61132 blyats! FeelsGoodMan"
@@ -56,7 +56,7 @@ defmodule Twitch.GamblingTest do
   end
 
   test ".roulette? detects a losing all-in message" do
-    event = %{
+    event = %Twitch.ParsedEvent{
       irc_command: "PRIVMSG",
       display_name: "takeitbot",
       message: "Clixx went all in and lost every single one of their 10980 blyats LUL"
@@ -66,7 +66,7 @@ defmodule Twitch.GamblingTest do
   end
 
   test ".roulette? detects a winning all-in message" do
-    event = %{
+    event = %Twitch.ParsedEvent{
       irc_command: "PRIVMSG",
       display_name: "takeitbot",
       message:
@@ -77,7 +77,7 @@ defmodule Twitch.GamblingTest do
   end
 
   test ".gambling? detects a losing slots message" do
-    event = %{
+    event = %Twitch.ParsedEvent{
       irc_command: "PRIVMSG",
       display_name: "takeitbot",
       message:
@@ -88,7 +88,7 @@ defmodule Twitch.GamblingTest do
   end
 
   test ".gambling? detects a winning slots message" do
-    event = %{
+    event = %Twitch.ParsedEvent{
       irc_command: "PRIVMSG",
       display_name: "takeitbot",
       message:
