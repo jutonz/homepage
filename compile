@@ -1,4 +1,4 @@
-rm -fv $phoenix_dir/priv/static/index.?*.{js,js.gz,js.map,js.map.gz}
+rm -fv $phoenix_dir/priv/static/index.?*.{js,js.gz,js.map,js.map.gz,.map}
 rm -fv $phoenix_dir/priv/static/brand-icons-.?*.{eot,eot.gz,woff,svg,svg.gz,ttf,ttf.gz,woff2}
 yarn
 yarn run bundle
