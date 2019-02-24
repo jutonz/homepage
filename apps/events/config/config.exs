@@ -29,4 +29,4 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 
-config :event_bus, topics: [:chat_message]
+config :event_bus, topics: [:chat_message, :twitch_event_created]

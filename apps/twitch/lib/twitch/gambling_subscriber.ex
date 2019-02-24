@@ -8,7 +8,7 @@ defmodule Twitch.GamblingSubscriber do
   def init(_arg) do
     state = []
 
-    Events.subscribe({__MODULE__, ["chat_message"]})
+    Events.subscribe({__MODULE__, ["twitch_event_created"]})
 
     {:ok, state}
   end
@@ -19,11 +19,22 @@ defmodule Twitch.GamblingSubscriber do
 
   def handle_cast({_topic, _id} = event_shadow, state) do
     event = Events.fetch_event(event_shadow)
-    struct = event.data |> Map.from_struct()
+    {:ok, parsed} = parsed = event.data.raw_event |> Twitch.ParsedEvent.from_raw()
 
-    if res = Twitch.Gambling.gambling?(struct) do
-      IO.inspect(res)
+    if res = Twitch.Gambling.gambling?(parsed) do
+      {gamble_type, won, _ev} = res
+
+      %Twitch.GamblingEvent{
+        gamble_type: to_string(gamble_type),
+        won: won == :won,
+        twitch_event: event.data,
+        channel: event.data.channel
+      }
+      |> Twitch.GamblingEvent.changeset()
+      |> Twitch.Repo.insert()
     end
+
+    Events.mark_as_completed({__MODULE__, event_shadow})
 
     {:noreply, state}
   end
