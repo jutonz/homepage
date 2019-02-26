@@ -1,9 +1,9 @@
 rm -fv $phoenix_dir/priv/static/index.?*.{js,js.gz,js.map,js.map.gz,.map}
 rm -fv $phoenix_dir/priv/static/brand-icons-.?*.{eot,eot.gz,woff,svg,svg.gz,ttf,ttf.gz,woff2}
 
-echo $TWITCH_DB_CLIENT_CERT | base64 --decode > $phoenix_dir/apps/twitch/priv/client-cert.pem
-echo $TWITCH_DB_CLIENT_KEY | base64 --decode > $phoenix_dir/apps/twitch/priv/client-key.pem
-echo $TWITCH_DB_SERVER_CA | base64 --decode > $phoenis_dir/apps/twitch/priv/server-ca.pem
+echo $TWITCH_DB_CLIENT_CERT | base64 --decode > $phoenix_dir/../../apps/twitch/priv/client-cert.pem
+echo $TWITCH_DB_CLIENT_KEY | base64 --decode > $phoenix_dir/../../apps/twitch/priv/client-key.pem
+echo $TWITCH_DB_SERVER_CA | base64 --decode > $phoenix_dir/../../apps/twitch/priv/server-ca.pem
 
 yarn
 yarn run bundle
