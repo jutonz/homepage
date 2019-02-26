@@ -6,7 +6,7 @@ db_pool_size = System.get_env("POOL_SIZE") || "10" |> String.to_integer()
 ssl_opts =
   if System.get_env("TWITCH_DB_SERVER_CA") do
     [
-      cacertfile: "priv/server-ca.pem",
+      cacertfile: "/app/apps/twitch/priv/server-ca.pem",
       keyfile: "priv/client-key.pem",
       certfile: "priv/client-cert.pem"
     ]
