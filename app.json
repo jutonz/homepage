@@ -7,7 +7,7 @@
       "required": true
     },
     "POOL_SIZE": {
-      "required": true
+      "value": 18
     },
     "MIX_ENV": {
       "required": true
