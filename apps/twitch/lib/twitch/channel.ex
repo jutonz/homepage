@@ -60,7 +60,7 @@ defmodule Twitch.Channel do
     {:ok, channel}
   end
 
-  def get_by_user_id(twitch_user_id) do
+  def all_by_user_id(twitch_user_id) do
     channels =
       from(
         c in Twitch.Channel,
@@ -70,6 +70,20 @@ defmodule Twitch.Channel do
       |> Repo.all()
 
     {:ok, channels || []}
+  end
+
+  def get_by_user_id(twitch_user_id, channel_name) do
+    channel =
+      Twitch.Channel
+      |> Twitch.Repo.get_by(
+        user_id: twitch_user_id,
+        name: "#" <> channel_name
+      )
+
+    case channel do
+      %Twitch.Channel{} -> {:ok, channel}
+      nil -> {:error, "No matching channel"}
+    end
   end
 
   def process_name(channel_name, twitch_user) do

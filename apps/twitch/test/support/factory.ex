@@ -5,8 +5,8 @@ defmodule Twitch.Factory do
     %Twitch.User{
       email: "jutonz42@gmail.com",
       display_name: "syps_",
-      user_id: "123",
-      twitch_user_id: "456"
+      user_id: sequence("id"),
+      twitch_user_id: sequence("twitch_user_id")
     }
   end
 
