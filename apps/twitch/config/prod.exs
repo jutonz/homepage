@@ -7,8 +7,8 @@ ssl_opts =
   if System.get_env("TWITCH_DB_SERVER_CA") do
     [
       cacertfile: "/app/apps/twitch/priv/server-ca.pem",
-      keyfile: "priv/client-key.pem",
-      certfile: "priv/client-cert.pem"
+      keyfile: "/app/apps/twitch/priv/client-key.pem",
+      certfile: "/app/apps/twitch/priv/client-cert.pem"
     ]
   else
     []
