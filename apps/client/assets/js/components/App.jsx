@@ -19,6 +19,7 @@ import { SignupRoute } from "@routes/SignupRoute";
 import { TeamRoute } from "@routes/TeamRoute";
 import { TeamUserRoute } from "@routes/TeamUserRoute";
 import { TwitchRoute } from "@routes/TwitchRoute";
+import { TwitchChannelRoute } from "@routes/twitch/TwitchChannelRoute";
 
 const style = StyleSheet.create({
   flashContainer: {
@@ -50,6 +51,11 @@ const _App = ({ flashMessages }) => (
           path="/twitch"
           exact={true}
           component={TwitchRoute}
+        />
+        <AuthenticatedRoute
+          path="/twitch/channels/:channel_name"
+          exact={true}
+          component={TwitchChannelRoute}
         />
         <AuthenticatedRoute path="/settings" component={SettingsRoute} />
         <AuthenticatedRoute exact path="/teams/:id" component={TeamRoute} />

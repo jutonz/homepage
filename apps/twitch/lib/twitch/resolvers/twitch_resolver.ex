@@ -45,12 +45,25 @@ defmodule Twitch.TwitchResolver do
   def get_channels(_parent, _args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
          {:ok, twitch_user} <- user.id |> Twitch.User.get_by_user_id(),
-         {:ok, channels} <- twitch_user.id |> Twitch.Channel.get_by_user_id(),
+         {:ok, channels} <- twitch_user.id |> Twitch.Channel.all_by_user_id(),
          do: {:ok, channels},
          else:
            (
              {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to unsubscribe"}
+             _ -> {:error, "Failed to get channels"}
+           )
+  end
+
+  def get_channel(_parent, args, %{context: context}) do
+    with {:ok, channel_name} <- args |> Map.fetch(:channel_name),
+         {:ok, user} <- context |> Map.fetch(:current_user),
+         {:ok, twitch_user} <- user.id |> Twitch.User.get_by_user_id(),
+         {:ok, channel} <- twitch_user.id |> Twitch.Channel.get_by_user_id(channel_name),
+         do: {:ok, channel},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to get channel"}
            )
   end
 end

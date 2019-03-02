@@ -140,6 +140,11 @@ defmodule ClientWeb.Schema do
     field :get_twitch_channels, list_of(:twitch_channel) do
       resolve(&Twitch.TwitchResolver.get_channels/3)
     end
+
+    field :get_twitch_channel, :twitch_channel do
+      arg(:channel_name, non_null(:string))
+      resolve(&Twitch.TwitchResolver.get_channel/3)
+    end
   end
 
   mutation do
