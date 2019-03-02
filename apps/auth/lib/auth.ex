@@ -7,11 +7,11 @@ defmodule Auth do
   alias Auth.Guardian
 
   def hash_password(password) do
-    {:ok, Comeonin.Argon2.hashpwsalt(password)}
+    {:ok, Argon2.hash_pwd_salt(password)}
   end
 
   def check_password(password, hash) do
-    case Comeonin.Argon2.checkpw(password, hash) do
+    case Argon2.verify_pass(password, hash) do
       true -> {:ok, password}
       _ -> {:error, "Invalid password"}
     end
