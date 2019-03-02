@@ -53,6 +53,7 @@ defmodule Client.Mixfile do
       {:gen_stage, "~> 0.14.0"},
       {:bamboo, "~> 1.1"},
       {:sentry, "~> 7.0"},
+      {:jason, "~> 1.1"},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
       {:twitch, in_umbrella: true},
