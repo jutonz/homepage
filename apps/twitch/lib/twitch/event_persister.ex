@@ -8,7 +8,7 @@ defmodule Twitch.EventPersister do
   end
 
   def init(_arg) do
-    state = []
+    state = %{channels: %{}, events: []}
 
     Events.subscribe({__MODULE__, ["chat_message"]})
 
@@ -25,9 +25,42 @@ defmodule Twitch.EventPersister do
   def update_state(%{irc_command: "CAP"}, state), do: state
   def update_state(%{irc_command: "353"}, state), do: state
 
-  # Create changest and add to state
   def update_state(event_struct, state) do
-    events = add_event_struct_to_state(event_struct, state)
+    channels = update_channels(event_struct, state[:channels])
+    events = update_events(event_struct, state[:events], channels)
+
+    %{
+      events: events,
+      channels: channels
+    }
+  end
+
+  def update_channels(event_struct, channels) do
+    channel_name = event_struct[:channel]
+
+    {_, new_channels} =
+      channels
+      |> Map.get_and_update(channel_name, fn current_value ->
+        if is_nil(current_value) do
+          {current_value, channel_state_struct(channel_name)}
+        else
+          {current_value, current_value}
+        end
+      end)
+
+    new_channels
+  end
+
+  def channel_state_struct(channel_name) do
+    channel = Twitch.Channel |> Twitch.Repo.get_by(name: channel_name)
+
+    %{
+      persist: channel.persist
+    }
+  end
+
+  def update_events(event_struct, events, channels) do
+    events = add_event_struct_to_state(event_struct, events, channels)
 
     if length(events) >= @persist_after do
       events |> Enum.each(&persist_event/1)
@@ -37,17 +70,19 @@ defmodule Twitch.EventPersister do
     end
   end
 
-  def add_event_struct_to_state(event_struct, state) do
-    if should_persist_event?(event_struct) do
+  def add_event_struct_to_state(event_struct, events, channels) do
+    if should_persist_event?(event_struct, channels) do
       cset = %Twitch.TwitchEvent{} |> Twitch.TwitchEvent.changeset(event_struct)
-      Enum.concat(state, [cset])
+      Enum.concat(events, [cset])
     else
-      state
+      events
     end
   end
 
-  def should_persist_event?(event_struct) do
-    true
+  def should_persist_event?(event_struct, channels) do
+    channel_name = event_struct[:channel]
+    channel_struct = channels[channel_name]
+    Map.get(channel_struct, :persist, false)
   end
 
   def persist_event(event) do

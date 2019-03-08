@@ -7,6 +7,7 @@ defmodule Twitch.Channel do
 
   schema "channels" do
     field(:name, :string)
+    field(:persist, :boolean)
 
     belongs_to(:user, Twitch.User)
 
@@ -15,7 +16,7 @@ defmodule Twitch.Channel do
 
   def changeset(%Channel{} = channel, attrs \\ %{}) do
     channel
-    |> Ecto.Changeset.cast(attrs, ~w(name user_id)a)
+    |> Ecto.Changeset.cast(attrs, ~w(name user_id persist)a)
     |> Ecto.Changeset.validate_required(~w(name user_id)a)
     |> Ecto.Changeset.unique_constraint(:name)
   end
