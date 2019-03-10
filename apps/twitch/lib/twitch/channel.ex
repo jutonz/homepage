@@ -30,7 +30,7 @@ defmodule Twitch.Channel do
       })
       |> Repo.insert()
 
-    Twitch.ChannelSubscriptionSupervisor.subscribe_to_channel(channel.name, twitch_user)
+    Twitch.ChannelSubscriptionSupervisor.subscribe_to_channel(channel, twitch_user)
 
     {:ok, channel}
   end
