@@ -16,4 +16,14 @@ defmodule Twitch.Factory do
       user: build(:user)
     }
   end
+
+  def emote_factory do
+    %Twitch.Bttv.Emote{
+      channel: "cfusion",
+      code: "nepSmug",
+      id: "55da21e58b9916ef4b249f10",
+      image_type: "png",
+      regex: ~r/nepSmug/
+    }
+  end
 end

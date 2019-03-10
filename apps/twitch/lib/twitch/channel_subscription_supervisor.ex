@@ -34,6 +34,11 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
         {Twitch.ChannelSubscription, [channel, twitch_user.id, process_name]}
       )
 
+    DynamicSupervisor.start_child(
+      __MODULE__,
+      {Twitch.EmoteWatcher, [channel]}
+    )
+
     Logger.info("Starting twitch channel subscription for channel #{channel}: #{inspect(res)}")
 
     res
