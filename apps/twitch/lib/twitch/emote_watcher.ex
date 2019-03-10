@@ -5,7 +5,7 @@ defmodule Twitch.EmoteWatcher do
   @one_minute 60000
 
   def start_link([channel]) do
-    name = :"Twitch.EmoteWatcher:#{channel}"
+    name = Twitch.Channel.emote_watcher_name(channel)
     GenServer.start_link(__MODULE__, [name, channel], name: name)
   end
 
@@ -26,7 +26,7 @@ defmodule Twitch.EmoteWatcher do
     event = Events.fetch_event(event_shadow).data
 
     if event.channel && event.message do
-      name = :"Twitch.EmoteWatcher:#{event.channel}"
+      name = Twitch.Channel.emote_watcher_name(event.channel)
       GenServer.cast(name, event_shadow)
     end
   end

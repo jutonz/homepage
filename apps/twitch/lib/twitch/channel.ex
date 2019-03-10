@@ -30,12 +30,7 @@ defmodule Twitch.Channel do
       })
       |> Repo.insert()
 
-    process_name = Twitch.Channel.process_name(channel_name, twitch_user)
-
-    DynamicSupervisor.start_child(
-      Twitch.ChannelSubscriptionSupervisor,
-      {Twitch.ChannelSubscription, [channel_name, twitch_user.id, process_name]}
-    )
+    Twitch.ChannelSubscriptionSupervisor.subscribe_to_channel(channel.name, twitch_user)
 
     {:ok, channel}
   end
@@ -53,9 +48,11 @@ defmodule Twitch.Channel do
     case Process.whereis(process_name) do
       pid when is_pid(pid) ->
         Twitch.ChannelSubscriptionSupervisor |> DynamicSupervisor.terminate_child(pid)
+    end
 
-      _ ->
-        {:ok, "Not subscribed"}
+    case Process.whereis(emote_watcher_name(channel_name)) do
+      pid when is_pid(pid) ->
+        Twitch.ChannelSubscriptionSupervisor |> DynamicSupervisor.terminate_child(pid)
     end
 
     {:ok, channel}
@@ -89,5 +86,9 @@ defmodule Twitch.Channel do
 
   def process_name(channel_name, twitch_user) do
     :"TwitchChannelSubscription:#{channel_name}:#{twitch_user.twitch_user_id}"
+  end
+
+  def emote_watcher_name(channel_name) do
+    :"Twitch.EmoteWatcher:#{channel_name}"
   end
 end
