@@ -17,7 +17,7 @@ defmodule Twitch.Bttv.Emote do
       code: json["code"],
       id: json["id"],
       image_type: json["imageType"],
-      regex: Regex.compile!(json["code"])
+      regex: json["code"] |> Regex.escape() |> Regex.compile!()
     }
   end
 

@@ -6,4 +6,10 @@ defmodule Twitch.Bttv do
     |> Map.get("emotes")
     |> Enum.map(&Bttv.Emote.from_bttv_json/1)
   end
+
+  def global_emotes do
+    Bttv.Api.connection(:get, "emotes")
+    |> Map.get("emotes")
+    |> Enum.map(&Bttv.Emote.from_bttv_json/1)
+  end
 end
