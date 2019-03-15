@@ -27,7 +27,7 @@ defmodule Twitch.User do
 
   def login_from_twitch(user_id, access_token) do
     token = access_token["access_token"]
-    {:ok, from_twitch} = token |> Twitch.Auth.current_user()
+    {:ok, from_twitch} = token |> Twitch.Api.current_user()
 
     attrs = %{
       email: from_twitch["email"],

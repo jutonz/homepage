@@ -9,13 +9,16 @@ defmodule Twitch.EmoteWatcher do
     GenServer.start_link(__MODULE__, [name, channel], name: name)
   end
 
-  def init([name, "#" <> channel]) do
+  def init([name, "#" <> channel_name]) do
     Events.subscribe({__MODULE__, ["chat_message"]})
 
+    channel_id = Twitch.Api.channel(channel_name)["_id"]
+
     state = %{
-      bttv_channel_emotes: Twitch.Bttv.channel_emotes(channel),
+      bttv_channel_emotes: Twitch.Bttv.channel_emotes(channel_name),
       bttv_global_emotes: Twitch.Bttv.global_emotes(),
       ffz_global_emotes: Twitch.Bttv.global_ffz_emotes(),
+      ffz_channel_emotes: Twitch.Bttv.channel_ffz_emotes(channel_id),
       one_minute_window: %{},
       name: name
     }
@@ -37,6 +40,7 @@ defmodule Twitch.EmoteWatcher do
     |> Map.merge(Bttv.Emote.detect_many(state[:bttv_channel_emotes], message))
     |> Map.merge(Bttv.Emote.detect_many(state[:bttv_global_emotes], message))
     |> Map.merge(Bttv.Emote.detect_many(state[:ffz_global_emotes], message))
+    |> Map.merge(Bttv.Emote.detect_many(state[:ffz_channel_emotes], message))
   end
 
   def handle_cast({_topic, _id} = event_shadow, state) do
