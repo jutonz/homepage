@@ -11,10 +11,10 @@ interface _Props {
   csrfToken?: String;
 }
 
-type Props = _Props & Partial<RouteComponentProps<any>>
+type Props = _Props & Partial<RouteComponentProps<any>>;
 
 interface State {
-  activeItem: String
+  activeItem: String;
 }
 
 class _MainNav extends React.Component<Props, State> {
