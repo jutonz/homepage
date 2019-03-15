@@ -2,6 +2,7 @@ defmodule ClientWeb.TwitchSocket do
   use Phoenix.Socket
 
   channel("twitch_channel:*", ClientWeb.TwitchChannel)
+  channel("twitch_emote:*", ClientWeb.TwitchEmoteChannel)
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

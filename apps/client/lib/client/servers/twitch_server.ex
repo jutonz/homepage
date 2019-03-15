@@ -6,7 +6,7 @@ defmodule Client.TwitchServer do
   end
 
   def init(_arg) do
-    Events.subscribe({__MODULE__, ["chat_message"]})
+    Events.subscribe({__MODULE__, ["chat_message", "twitch_emote"]})
     {:ok, :no_state}
   end
 
@@ -14,7 +14,7 @@ defmodule Client.TwitchServer do
     GenServer.cast(__MODULE__, event)
   end
 
-  def handle_cast({_topic, _id} = event_shadow, state) do
+  def handle_cast({:chat_message, _id} = event_shadow, state) do
     event = Events.fetch_event(event_shadow).data
 
     ClientWeb.Endpoint.broadcast!(
@@ -22,6 +22,23 @@ defmodule Client.TwitchServer do
       event.irc_command,
       event
     )
+
+    {:noreply, state}
+  end
+
+  def handle_cast({:twitch_emote, _id} = event_shadow, state) do
+    event = Events.fetch_event(event_shadow).data
+
+    channel_name = event[:channel_name]
+    one_minute_window = event[:one_minute_window]
+
+    ClientWeb.Endpoint.broadcast!(
+      "twitch_emote:#{channel_name}",
+      "one_minute_window",
+      one_minute_window
+    )
+
+    Events.mark_as_completed({__MODULE__, event_shadow})
 
     {:noreply, state}
   end
