@@ -72,23 +72,6 @@ defmodule Twitch.Auth do
     response |> parse_response
   end
 
-  def current_user(access_token) do
-    with {:ok, json} <- Twitch.Auth.twitch_connection(access_token, :get, "/helix/users"),
-         do:
-           (
-             %{"data" => [user]} = json
-             {:ok, user}
-           ),
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to fetch user"}
-           )
-  end
-
-  def emotes(channel) do
-  end
-
   def parse_response(response) do
     case response do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -114,29 +97,5 @@ defmodule Twitch.Auth do
 
   def redirect_uri do
     Application.get_env(:twitch, :oauth)[:redirect_uri]
-  end
-
-  def base_url do
-    "https://api.twitch.tv/helix"
-  end
-
-  def twitch_connection(access_token, method, path, opts \\ []) do
-    default_opts = [body: "", headers: []]
-    options = Keyword.merge(opts, default_opts) |> Enum.into(%{})
-    %{body: body, headers: user_headers} = options
-
-    persistent_headers = [
-      {"Authorization", "Bearer #{access_token}"},
-      {"Accept", "application/json"}
-    ]
-
-    headers = user_headers ++ persistent_headers
-
-    url = Twitch.Auth.base_url() |> URI.merge(path) |> URI.to_string()
-
-    case method do
-      :get -> HTTPoison |> apply(method, [url, headers]) |> Twitch.Auth.parse_response()
-      _ -> HTTPoison |> apply(method, [url, body, headers]) |> Twitch.Auth.parse_response()
-    end
   end
 end
