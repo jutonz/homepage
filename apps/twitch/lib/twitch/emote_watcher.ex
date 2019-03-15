@@ -15,6 +15,7 @@ defmodule Twitch.EmoteWatcher do
     channel_id = Twitch.Api.channel(channel_name)["_id"]
 
     state = %{
+      channel_emotes: Twitch.Api.channel_emotes(channel_name),
       bttv_channel_emotes: Twitch.Bttv.channel_emotes(channel_name),
       bttv_global_emotes: Twitch.Bttv.global_emotes(),
       ffz_global_emotes: Twitch.Bttv.global_ffz_emotes(),
@@ -37,6 +38,7 @@ defmodule Twitch.EmoteWatcher do
 
   def emotes_in_message(message, state) do
     %{}
+    |> Map.merge(Twitch.Emote.detect_many(state[:channel_emotes], message))
     |> Map.merge(Bttv.Emote.detect_many(state[:bttv_channel_emotes], message))
     |> Map.merge(Bttv.Emote.detect_many(state[:bttv_global_emotes], message))
     |> Map.merge(Bttv.Emote.detect_many(state[:ffz_global_emotes], message))

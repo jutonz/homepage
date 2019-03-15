@@ -20,7 +20,6 @@ defmodule Twitch.ApiConnection do
   end
 
   def parse_response({:ok, response = %HTTPoison.Response{}}) do
-    IO.inspect response.body |> Poison.decode!()
     response.body |> Poison.decode()
   end
 

@@ -11,13 +11,12 @@ defmodule Twitch.Api.Kraken do
 
     persistent_headers =
       if access_token do
-       [{"Authorization", "Bearer #{access_token}"} | persistent_headers]
+        [{"Authorization", "Bearer #{access_token}"} | persistent_headers]
       else
         persistent_headers
       end
 
-    headers = persistent_headers ++ user_headers |> Map.new |> Enum.to_list
-    IO.inspect headers
+    headers = (persistent_headers ++ user_headers) |> Map.new() |> Enum.to_list()
 
     url = base_url() |> URI.merge(path) |> URI.to_string()
 
@@ -28,7 +27,6 @@ defmodule Twitch.Api.Kraken do
   end
 
   def parse_response(response = %HTTPoison.Response{}) do
-    IO.inspect response
     response.body |> Poison.decode!()
   end
 

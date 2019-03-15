@@ -13,43 +13,45 @@ defmodule Twitch.Api do
              {:error, reason} -> {:error, reason}
              _ -> {:error, "Failed to fetch user"}
            )
-    end
+  end
 
   def emotes(emote_set_ids \\ []) do
     path = "kraken/chat/emoticon_images"
-    params = emote_set_ids |> Enum.map(fn(id) -> {"emotesets[]", id} end)
+    emotesets = emote_set_ids |> Enum.join(",")
+    params = [{"emotesets", emotesets}]
     Api.Kraken.connection(:get, path, params: params)
   end
 
   def channel(channel_name) do
     path = "kraken/channels/#{channel_name}"
+
     Api.Kraken.connection(:get, path, [
       {:headers, [{"Accept", "application/vnd.twitchtv.v3+json"}]}
     ])
   end
 
-  def channel_emotes(channel_name) do
-    product_data = Twitch.Api.Kraken.connection(:get, "channels/#{channel_name}/product")
-    t3_plan = product_data["plans"] |> Enum.find(fn(plan) -> plan["plan"] == "3000" end)
-    t3_emote_sets = t3_plan["emoticon_set_ids"]
+  @spec channel_emotes(String.t(), Integer.t()) :: list(Twitch.Emote.t())
+  def channel_emotes(channel_name, tier \\ 3) do
+    path = "channels/#{channel_name}/product"
 
-    IO.inspect t3_emote_sets
+    product_data =
+      Twitch.Api.Kraken.connection(:get, path, [
+        {:headers, [{"Accept", "application/vnd.twitchtv.v3+json"}]}
+      ])
 
-    f = t3_emote_sets
-    |> Api.emotes()
-    #|> Map.get("emoticon_sets")
+    plan_code = tier |> to_string |> String.pad_trailing(4, "0")
 
-    IO.inspect f
+    plan_emote_sets =
+      product_data
+      |> Map.get("plans")
+      |> Enum.find(fn plan -> plan["plan"] == plan_code end)
+      |> Map.get("emoticon_set_ids")
 
-    f |> Enum.reduce([], fn({_emoticon_set_id, emotes}, result) ->
-      result ++ emotes
-    end)
-
-
-    #IO.inspect t3_emote_sets
-
-    #emote_sets = Api.emotes(t3_emote_sets)
-
-    #res |> Map.get("emoticon_sets") |> Enum.reduce([], fn({_set_id, emotes}, result) -> result ++ emotes end)
+    plan_emote_sets
+    |> Twitch.Api.emotes()
+    |> Map.get("emoticon_sets")
+    |> Map.values()
+    |> List.flatten()
+    |> Enum.map(&Twitch.Emote.from_twitch_json/1)
   end
 end
