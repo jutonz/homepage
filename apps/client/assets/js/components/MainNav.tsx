@@ -4,12 +4,14 @@ import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
-interface Props extends RouteComponentProps<{}> {
+interface _Props {
   activeItem: String;
-  destroySession: () => void;
-  sessionAuthenticated: Boolean;
-  csrfToken: String;
+  destroySession?: () => void;
+  sessionAuthenticated?: Boolean;
+  csrfToken?: String;
 }
+
+type Props = _Props & Partial<RouteComponentProps<any>>
 
 interface State {
   activeItem: String
@@ -113,7 +115,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export const MainNav = compose(
-  withRouter,
   connect(
     mapStateToProps,
     mapDispatchToProps
