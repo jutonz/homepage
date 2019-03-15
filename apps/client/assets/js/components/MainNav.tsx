@@ -1,10 +1,23 @@
-import React from "react";
+import * as React from "react";
 import { Menu } from "semantic-ui-react";
-import { Link, withRouter } from "react-router-dom";
-import { connect, Dispatch } from "react-redux";
+import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import { connect } from "react-redux";
 import { compose } from "redux";
-import { setSessionAction } from "@store";
-class _MainNav extends React.Component {
+
+interface _Props {
+  activeItem: String;
+  destroySession?: () => void;
+  sessionAuthenticated?: Boolean;
+  csrfToken?: String;
+}
+
+type Props = _Props & Partial<RouteComponentProps<any>>;
+
+interface State {
+  activeItem: String;
+}
+
+class _MainNav extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = { activeItem: props.activeItem };
@@ -102,7 +115,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export const MainNav = compose(
-  withRouter,
   connect(
     mapStateToProps,
     mapDispatchToProps
