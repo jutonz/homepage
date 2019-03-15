@@ -3,6 +3,7 @@ import { Button, Dropdown, Header, Icon } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
+import { Redirect, RouteComponentProps } from "react-router-dom";
 
 import { FormBox } from "@components/FormBox";
 import { TwitchChannelLiveChat } from "@components/twitch/TwitchChannelLiveChat";
@@ -55,12 +56,16 @@ const GET_TWITCH_CHANNELS = gql`
 
 enum ChatMode {
   Live,
-  Archive
+  Archive,
+  RedirectToChannelPage
 }
 
-interface Props {
+interface _Props {
   channel: any;
 }
+
+type Props = Partial<RouteComponentProps<any>> & _Props;
+
 interface State {
   chatMode: ChatMode;
 }
@@ -72,6 +77,19 @@ export class TwitchChannel extends React.Component<Props, State> {
 
   render() {
     const { channel } = this.props;
+    const { chatMode } = this.state;
+
+    if (chatMode == ChatMode.RedirectToChannelPage) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/twitch/channels/${this.props.channel.name.substr(1)}`,
+            state: { from: this.props.location }
+          }}
+        />
+      );
+    }
+
     return (
       <FormBox styles={style.container}>
         <div className={css(style.header)}>
@@ -99,6 +117,10 @@ export class TwitchChannel extends React.Component<Props, State> {
             active={chatMode === ChatMode.Archive}
             onClick={() => this.switchMode(ChatMode.Archive)}
             text="Chat archive"
+          />
+          <Dropdown.Item
+            onClick={() => this.switchMode(ChatMode.RedirectToChannelPage)}
+            text="Expand"
           />
         </Dropdown.Menu>
       </Dropdown>
