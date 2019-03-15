@@ -5,6 +5,7 @@ import { StyleSheet, css } from "aphrodite";
 
 import { MainNav } from "@components/MainNav";
 import { TwitchChannel } from "@components/twitch/TwitchChannel";
+import { TwitchEmoteWatcher } from "@components/twitch/TwitchEmoteWatcher";
 import { QueryLoader } from "@utils/QueryLoader";
 
 const GET_CHANNEL_QUERY = gql`
@@ -45,6 +46,7 @@ const renderChannel = channel => (
   <div>
     <Grid columns={2} relaxed stackable className={css(style.channelGrid)}>
       <TwitchChannel channel={channel} />
+      <TwitchEmoteWatcher channel={channel} />
     </Grid>
   </div>
 );
