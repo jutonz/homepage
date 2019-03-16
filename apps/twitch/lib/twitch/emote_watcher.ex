@@ -92,6 +92,8 @@ defmodule Twitch.EmoteWatcher do
 
     new_state = state |> Map.merge(%{bucket => new_bucket})
 
+    broadcast(new_state)
+
     {:noreply, new_state}
   end
 
