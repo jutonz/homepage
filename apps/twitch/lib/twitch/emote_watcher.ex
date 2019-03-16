@@ -21,8 +21,7 @@ defmodule Twitch.EmoteWatcher do
       ffz_global_emotes: Twitch.Bttv.global_ffz_emotes(),
       ffz_channel_emotes: Twitch.Bttv.channel_ffz_emotes(channel_id),
       one_minute_window: %{},
-      name: name,
-      channel_name: channel_name
+      name: name
     }
 
     {:ok, state}
@@ -69,12 +68,12 @@ defmodule Twitch.EmoteWatcher do
 
     new_state = state |> Map.merge(%{one_minute_window: new_one_minute_window})
 
-    broadcast(new_state)
-
+    IO.inspect(new_state[:one_minute_window])
     {:noreply, new_state}
   end
 
   def handle_info({:decrement, bucket, emote, amount}, state) do
+    # IO.puts "decrementing #{bucket}.#{emote} by #{amount}"
     {_, new_bucket} =
       state[bucket]
       |> Map.get_and_update(emote, fn current ->
@@ -88,6 +87,8 @@ defmodule Twitch.EmoteWatcher do
         new_bucket
       end
 
+    IO.inspect(new_bucket)
+
     new_state = state |> Map.merge(%{bucket => new_bucket})
 
     {:noreply, new_state}
@@ -99,14 +100,5 @@ defmodule Twitch.EmoteWatcher do
       {:decrement, bucket, emote, amount},
       after_ms
     )
-  end
-
-  def broadcast(state) do
-    event = %{
-      channel_name: state[:channel_name],
-      one_minute_window: state[:one_minute_window]
-    }
-
-    Events.publish(event, :twitch_emote)
   end
 end
