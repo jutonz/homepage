@@ -17,8 +17,15 @@ defmodule Twitch.Api do
 
   def emotes(emote_set_ids \\ []) do
     path = "kraken/chat/emoticon_images"
-    emotesets = emote_set_ids |> Enum.join(",")
-    params = [{"emotesets", emotesets}]
+
+    params =
+      if Enum.empty?(emote_set_ids) do
+        nil
+      else
+        emotesets = emote_set_ids |> Enum.join(",")
+        params = [{"emotesets", emotesets}]
+      end
+
     Api.Kraken.connection(:get, path, params: params)
   end
 
@@ -49,6 +56,14 @@ defmodule Twitch.Api do
 
     plan_emote_sets
     |> Twitch.Api.emotes()
+    |> Map.get("emoticon_sets")
+    |> Map.values()
+    |> List.flatten()
+    |> Enum.map(&Twitch.Emote.from_twitch_json/1)
+  end
+
+  def global_emotes() do
+    Twitch.Api.emotes(["0"])
     |> Map.get("emoticon_sets")
     |> Map.values()
     |> List.flatten()
