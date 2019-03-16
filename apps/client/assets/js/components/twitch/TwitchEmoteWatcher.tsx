@@ -88,6 +88,7 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
         labels: [],
         datasets: [
           {
+            label: "",
             data: [],
             backgroundColor: "rgba(255, 99, 132, 0.2)",
             borderWidth: 1
@@ -98,7 +99,23 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
         scales: {
           yAxes: [
             {
+              scaleLabel: {
+                display: false
+              },
               ticks: {
+                min: 0,
+                beginAtZero: true
+              }
+            }
+          ],
+          xAxes: [
+            {
+              scaleLabel: {
+                display: false
+              },
+              ticks: {
+                min: 0,
+                suggestedMax: 3,
                 beginAtZero: true
               }
             }
