@@ -11,8 +11,6 @@ const webpackConfig = {
     publicPath: "/"
   },
 
-  devtool: "source-map",
-
   module: {
     rules: [
       // Handle ts and tsx
