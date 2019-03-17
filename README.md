@@ -49,3 +49,22 @@ dctl up
 You should be able to visit [localhost:4001](localhost:4001) and see the app.
 
 Also be sure to checkout the [dctl_rb](https://github.com/jutonz/dctl_rb) gem for more documentation and general tips for using docker in a development environment.
+
+### Secret management
+
+Secrets are stored encrypted in the repo. To decrypt them, you need the secret
+key. It's stored as `Secret access key` in the `Homepage` 1password vault. Copy
+it to your clipboard, then run this:
+
+```bash
+  # Make sure you're in the app's root directory
+  pbpaste > config/master.key
+```
+
+#### Editing secrets
+
+You can edit the secret file by running `mix env.decrypt` and then opening
+`config/.env` with your editor.
+
+When you're done, run `mix env.encrypt` to regenerate `config/.env.enc` with
+your changes.

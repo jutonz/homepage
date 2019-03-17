@@ -23,3 +23,7 @@ erl_crash.dump
 yarn-error.log
 
 docker/ci/keys
+
+# Igore things for encrypted secrets
+/config/master.key
+/config/.env

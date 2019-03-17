@@ -54,6 +54,7 @@ defmodule Client.Mixfile do
       {:bamboo, "~> 1.1"},
       {:sentry, "~> 7.0"},
       {:jason, "~> 1.1"},
+      {:exenv, "~> 0.3"},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
       {:twitch, in_umbrella: true},
