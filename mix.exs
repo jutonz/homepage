@@ -6,7 +6,8 @@ defmodule HomepageUmbrella.Mixfile do
       apps_path: "apps",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      test_coverage: [tool: ExCoveralls]
+      test_coverage: [tool: ExCoveralls],
+      aliases: aliases()
     ]
   end
 
@@ -18,6 +19,13 @@ defmodule HomepageUmbrella.Mixfile do
   defp deps do
     [
       {:excoveralls, "~> 0.10.3"}
+    ]
+  end
+
+  def aliases do
+    [
+      "env.encrypt": "exenv.encrypt /config/master.key /config/.env",
+      "env.decrypt": "exenv.decrypt /config/master.key /config/.env.enc"
     ]
   end
 end
