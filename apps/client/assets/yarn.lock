@@ -77,10 +77,10 @@
     exenv "^1.2.2"
     prop-types "^15.6.2"
 
-"@types/chart.js@^2.7.48":
-  version "2.7.48"
-  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.48.tgz#db7b6d6ed33659f97ee49181f22c980bb0790a7b"
-  integrity sha512-U8paSPZGkW2WrHf8sgJj7s9MhfRgSz7wfU3CN73JVrcGJ13jGiqiXyr3Bg/4UFl4cbN3S8avHTsbtzYBrnWeVg==
+"@types/chart.js@^2.7.49":
+  version "2.7.49"
+  resolved "https://registry.yarnpkg.com/@types/chart.js/-/chart.js-2.7.49.tgz#5c0bfe0418ed020fcdc77df510dd68514ad93347"
+  integrity sha512-ylSZ1Qxz5LuGaatBMI/LlSr/bTa5itOkXucTsVKgTNsWNnX1yJaftQBLhJJTSFqXl3K/AHd1+p/RwYOdffnGNA==
 
 "@types/history@*":
   version "4.7.2"
