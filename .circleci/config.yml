@@ -74,7 +74,7 @@ jobs:
   mix_test:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.8
+    - image: circleci/elixir:1.8-node-browsers
     - image: circleci/postgres:10-alpine
       environment:
       - POSTGRES_USER: postgres
