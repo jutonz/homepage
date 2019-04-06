@@ -22,6 +22,12 @@ defmodule ClientWeb.Router do
     get("/login", SessionController, :exchange)
   end
 
+  scope "/twitch", ClientWeb.Twitch do
+    pipe_through(:browser)
+
+    get("/channels/:name", ChannelController, :show)
+  end
+
   ##############################################################################
   # Graphql API's
   ##############################################################################
