@@ -25,7 +25,7 @@ defmodule ClientWeb.Router do
   scope "/twitch", ClientWeb.Twitch do
     pipe_through(:browser)
 
-    get("/test", ChannelController, :test)
+    get("/channels/:name", ChannelController, :show)
   end
 
   ##############################################################################

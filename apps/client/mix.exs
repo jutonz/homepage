@@ -1,8 +1,7 @@
 defmodule Client.Mixfile do
   use Mix.Project
 
-  def project do
-    [
+  def project do [
       app: :client,
       version: "0.0.1",
       build_path: "../../_build",
