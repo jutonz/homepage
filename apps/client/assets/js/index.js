@@ -9,7 +9,7 @@ import { createStore, applyMiddleware } from "redux";
 import { routerMiddleware } from "react-router-redux";
 import React from "react";
 import ReactDOM from "react-dom";
-import createHistory from "history/createBrowserHistory";
+import { createBrowserHistory as createHistory } from "history";
 import createSagaMiddleware from "redux-saga";
 import thunk from "redux-thunk";
 
