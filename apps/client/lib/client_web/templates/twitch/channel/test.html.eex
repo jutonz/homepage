@@ -1,1 +1,3 @@
-Hey <%= @name %>
+<div class="channel">
+  Hey <%= @name %>
+</div>

@@ -1,7 +1,8 @@
 defmodule Client.Mixfile do
   use Mix.Project
 
-  def project do [
+  def project do
+    [
       app: :client,
       version: "0.0.1",
       build_path: "../../_build",
@@ -54,6 +55,7 @@ defmodule Client.Mixfile do
       {:sentry, "~> 7.0"},
       {:jason, "~> 1.1"},
       {:exenv, "~> 0.3"},
+      {:wallaby, "~> 0.22.0", [runtime: false, only: :test]},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
       {:twitch, in_umbrella: true},
