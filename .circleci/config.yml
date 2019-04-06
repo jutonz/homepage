@@ -6,7 +6,7 @@ jobs:
   build_test:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.7
+    - image: circleci/elixir:1.8
     environment:
     - MIX_ENV: test
     steps:
@@ -31,7 +31,7 @@ jobs:
   build_dev:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.7
+    - image: circleci/elixir:1.8
     steps:
     - checkout
     - restore_cache:
@@ -74,7 +74,7 @@ jobs:
   mix_test:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.7
+    - image: circleci/elixir:1.8
     - image: circleci/postgres:10-alpine
       environment:
       - POSTGRES_USER: postgres
@@ -122,7 +122,7 @@ jobs:
   mix_format:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.7
+    - image: circleci/elixir:1.8
     steps:
     - checkout
     - run: mix format --check-formatted
@@ -130,7 +130,7 @@ jobs:
   build_prod:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.7
+    - image: circleci/elixir:1.8
     environment:
     - MIX_ENV: prod
     steps:
