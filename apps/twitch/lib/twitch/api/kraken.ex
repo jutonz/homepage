@@ -35,10 +35,10 @@ defmodule Twitch.Api.Kraken do
   end
 
   def client_id do
-    Application.get_env(:twitch, :oauth)[:client_id]
+    System.get_env("TWITCH_CLIENT_ID")
   end
 
   def client_secret do
-    Application.get_env(:twitch, :oauth)[:client_secret]
+    System.get_env("TWITCH_CLIENT_SECRET")
   end
 end
