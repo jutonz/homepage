@@ -38,6 +38,7 @@ defmodule Twitch.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:poison, "~> 3.1"},
       {:diplomat, "~> 0.2"},
+      {:exenv, "~> 0.3"},
       {:ex_machina, "~> 2.2", only: :test},
       {:events, in_umbrella: true}
     ]
