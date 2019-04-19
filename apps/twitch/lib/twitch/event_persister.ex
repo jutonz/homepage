@@ -85,7 +85,9 @@ defmodule Twitch.EventPersister do
   end
 
   def persist_event(event) do
-    case event |> Twitch.Repo.insert() do
+    {:ok, parsed_event} = Twitch.ParsedEvent.from_raw(event.raw_event)
+
+    case parsed_event |> Twitch.Datastore.ChatEvent.persist_event() do
       {:ok, _key} ->
         ev = struct(Twitch.TwitchEvent, event)
         Events.publish(ev, :twitch_event_created)
