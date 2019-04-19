@@ -72,8 +72,7 @@ defmodule Twitch.EventPersister do
 
   def add_event_struct_to_state(event_struct, events, channels) do
     if should_persist_event?(event_struct, channels) do
-      cset = %Twitch.TwitchEvent{} |> Twitch.TwitchEvent.changeset(event_struct)
-      Enum.concat(events, [cset])
+      Enum.concat(events, [event_struct])
     else
       events
     end
@@ -87,7 +86,8 @@ defmodule Twitch.EventPersister do
 
   def persist_event(event) do
     case event |> Twitch.Repo.insert() do
-      {:ok, ev} ->
+      {:ok, _key} ->
+        ev = struct(Twitch.TwitchEvent, event)
         Events.publish(ev, :twitch_event_created)
 
       _ ->

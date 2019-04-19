@@ -15,8 +15,8 @@ config :exenv,
   adapters: [
     {Exenv.Adapters.Dotenv,
      [
-       file: "config/.env.enc",
-       encryption: [master_key: "config/master.key"]
+       file: "apps/twitch/config/.env.enc",
+       encryption: [master_key: "apps/twitch/config/master.key"]
      ]}
   ]
 

@@ -26,4 +26,23 @@ defmodule Twitch.Factory do
       regex: ~r/nepSmug/
     }
   end
+
+  def event_factory do
+    %Twitch.TwitchEvent{
+      channel: "#comradenerdy",
+      display_name: "syps_",
+      message: "TaBeRu",
+      raw_event: ":syps_!syps_@syps_.tmi.twitch.tv PRIVMSG #comradenerdy :TaBeRu"
+    }
+  end
+
+  def parsed_event_factory do
+    %Twitch.ParsedEvent{
+      id: sequence("id"),
+      channel: "#comradenerdy",
+      display_name: "syps_",
+      message: "TaBeRu",
+      raw_event: ":syps_!syps_@syps_.tmi.twitch.tv PRIVMSG #comradenerdy :TaBeRu"
+    }
+  end
 end
