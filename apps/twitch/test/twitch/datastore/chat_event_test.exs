@@ -29,7 +29,7 @@ defmodule Twitch.Datastore.ChatEventTest do
   test "event_to_entity/1 uses the right key" do
     event = build(:parsed_event)
     entity = Datastore.ChatEvent.event_to_entity(event)
-    expected_key = %Diplomat.Key{kind: "chat-event", name: event.id}
+    expected_key = %Diplomat.Key{kind: "chat-event-test", name: event.id}
     assert expected_key == entity.key
   end
 end
