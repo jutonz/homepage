@@ -19,7 +19,7 @@ defmodule Twitch.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:logger, :exenv],
       mod: {Twitch.Application, []}
     ]
   end
@@ -37,6 +37,7 @@ defmodule Twitch.MixProject do
       {:ecto, "~> 2.2"},
       {:postgrex, ">= 0.0.0"},
       {:poison, "~> 3.1"},
+      {:diplomat, "~> 0.2"},
       {:ex_machina, "~> 2.2", only: :test},
       {:events, in_umbrella: true}
     ]

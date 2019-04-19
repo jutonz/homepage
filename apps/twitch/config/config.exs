@@ -11,4 +11,6 @@ config :twitch,
     redirect_uri: System.get_env("TWITCH_REDIRECT_URI")
   }
 
+config :goth, config_module: Twitch.GothConfig
+
 import_config "#{Mix.env()}.exs"
