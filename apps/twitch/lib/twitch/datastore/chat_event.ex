@@ -19,7 +19,7 @@ defmodule Twitch.Datastore.ChatEvent do
 
     entity_name = event.id
 
-    Diplomat.Entity.new(entity_body, entity_kind, entity_name)
+    Diplomat.Entity.new(entity_body, entity_kind(), entity_name)
   end
 
   @spec entity_kind() :: String.t()
