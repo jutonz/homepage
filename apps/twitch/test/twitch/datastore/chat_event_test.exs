@@ -26,6 +26,18 @@ defmodule Twitch.Datastore.ChatEventTest do
     assert entity.properties["raw_event"].value == event.raw_event
   end
 
+  test "event_to_entity/1 stores inserted_at" do
+    event = build(:parsed_event)
+    entity = Datastore.ChatEvent.event_to_entity(event)
+    assert entity.properties["inserted_at"].value
+  end
+
+  test "event_to_entity/1 stores updated_at" do
+    event = build(:parsed_event)
+    entity = Datastore.ChatEvent.event_to_entity(event)
+    assert entity.properties["updated_at"].value
+  end
+
   test "event_to_entity/1 uses the right key" do
     event = build(:parsed_event)
     entity = Datastore.ChatEvent.event_to_entity(event)
