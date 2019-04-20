@@ -15,8 +15,8 @@ defmodule Twitch.Datastore.ChatEvent do
       "message" => event.message,
       "display_name" => event.display_name,
       "raw_event" => event.raw_event,
-      "inserted_at" => now_iso8601(),
-      "updated_at" => now_iso8601()
+      "inserted_at" => now_unix(),
+      "updated_at" => now_unix()
     }
 
     entity_name = event.id
@@ -32,7 +32,8 @@ defmodule Twitch.Datastore.ChatEvent do
     end
   end
 
-  def now_iso8601() do
-    DateTime.utc_now() |> DateTime.to_iso8601()
+  @spec now_unix() :: pos_integer()
+  def now_unix do
+    DateTime.utc_now() |> DateTime.to_unix()
   end
 end
