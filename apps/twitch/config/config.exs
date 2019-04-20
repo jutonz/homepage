@@ -11,4 +11,15 @@ config :twitch,
     redirect_uri: System.get_env("TWITCH_REDIRECT_URI")
   }
 
+config :exenv,
+  adapters: [
+    {Exenv.Adapters.Dotenv,
+     [
+       file: "apps/twitch/config/.env.enc",
+       encryption: [master_key: "apps/twitch/config/master.key"]
+     ]}
+  ]
+
+config :goth, config_module: Twitch.GothConfig
+
 import_config "#{Mix.env()}.exs"

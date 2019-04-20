@@ -94,6 +94,10 @@ jobs:
         - _build/test
         - deps
     - run:
+        name: Write twitch secret master key to file
+        command: |
+          echo -n $TWITCH_SECRET_MASTER_KEY > apps/twitch/config/master.key
+    - run:
         name: Setup hex
         command: |
           mix local.hex --force

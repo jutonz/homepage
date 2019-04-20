@@ -25,5 +25,5 @@ yarn-error.log
 docker/ci/keys
 
 # Igore things for encrypted secrets
-/config/master.key
-/config/.env
+apps/twitch/config/master.key
+apps/twitch/config/.env

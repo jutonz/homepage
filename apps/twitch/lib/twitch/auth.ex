@@ -88,14 +88,14 @@ defmodule Twitch.Auth do
   end
 
   def client_id do
-    Application.get_env(:twitch, :oauth)[:client_id]
+    System.get_env("TWITCH_CLIENT_ID")
   end
 
   def client_secret do
-    Application.get_env(:twitch, :oauth)[:client_secret]
+    System.get_env("TWITCH_CLIENT_SECRET")
   end
 
   def redirect_uri do
-    Application.get_env(:twitch, :oauth)[:redirect_uri]
+    System.get_env("TWITCH_REDIRECT_URI")
   end
 end

@@ -24,8 +24,8 @@ defmodule HomepageUmbrella.Mixfile do
 
   def aliases do
     [
-      "env.encrypt": "exenv.encrypt /config/master.key /config/.env",
-      "env.decrypt": "exenv.decrypt /config/master.key /config/.env.enc"
+      "env.encrypt": "exenv.encrypt /apps/twitch/config/master.key /apps/twitch/config/.env",
+      "env.decrypt": "exenv.decrypt /apps/twitch/config/master.key /apps/twitch/config/.env.enc"
     ]
   end
 end

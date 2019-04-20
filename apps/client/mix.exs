@@ -54,7 +54,6 @@ defmodule Client.Mixfile do
       {:bamboo, "~> 1.1"},
       {:sentry, "~> 7.0"},
       {:jason, "~> 1.1"},
-      {:exenv, "~> 0.3"},
       {:wallaby, "~> 0.22.0", [runtime: false, only: :test]},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},

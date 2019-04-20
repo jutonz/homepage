@@ -28,15 +28,6 @@ config :absinthe, log: false
 
 config :logger, debug: true
 
-config :exenv,
-  adapters: [
-    {Exenv.Adapters.Dotenv,
-     [
-       file: "config/.env.enc",
-       encryption: [master_key: "config/master.key"]
-     ]}
-  ]
-
 # Import environment specific config. This must remain at the bottom of this
 # file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
