@@ -25,7 +25,7 @@ defmodule Twitch.Datastore.ChatEvent do
   end
 
   @spec entity_kind() :: String.t()
-  def entity_kind do
+  defp entity_kind do
     "chat-event-#{Mix.env()}"
   end
 
