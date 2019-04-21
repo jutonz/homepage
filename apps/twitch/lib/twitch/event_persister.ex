@@ -24,6 +24,7 @@ defmodule Twitch.EventPersister do
   def update_state(%{irc_command: "GLOBALUSERSTATE"}, state), do: state
   def update_state(%{irc_command: "CAP"}, state), do: state
   def update_state(%{irc_command: "353"}, state), do: state
+  def update_state(%{irc_command: "JOIN"}, state), do: state
 
   def update_state(event_struct, state) do
     channels = update_channels(event_struct, state[:channels])
