@@ -9,8 +9,6 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
   def init(_arg) do
     # Resubscribe to disconnected channels
     spawn(fn ->
-      :timer.sleep(5000)
-
       Twitch.Channel
       |> Twitch.Repo.all()
       |> Twitch.Repo.preload(:user)
@@ -26,23 +24,34 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
   end
 
   def subscribe_to_channel(channel, twitch_user) do
+    res = subscribe_to_chat(channel, twitch_user)
+    subscribe_to_emotes(channel.name)
+    res
+  end
+
+  defp subscribe_to_chat(channel, twitch_user) do
     process_name = Twitch.Channel.process_name(channel.name, twitch_user)
 
     res =
       DynamicSupervisor.start_child(
         __MODULE__,
-        {Twitch.ChannelSubscription, [channel.name, twitch_user.id, process_name]}
+        {Twitch.ChannelSubscription,
+         [
+           channel.name,
+           twitch_user.id,
+           process_name
+         ]}
       )
 
-    Logger.info(
-      "Starting twitch channel subscription for channel #{channel.name}: #{inspect(res)}"
-    )
-
-    DynamicSupervisor.start_child(
-      __MODULE__,
-      {Twitch.EmoteWatcher, [channel.name]}
-    )
+    Logger.info("Starting twitch channel subscription for #{channel.name}: #{inspect(res)}")
 
     res
+  end
+
+  defp subscribe_to_emotes(channel_name) do
+    DynamicSupervisor.start_child(
+      __MODULE__,
+      {Twitch.EmoteWatcher, [channel_name]}
+    )
   end
 end
