@@ -44,4 +44,8 @@ defmodule Twitch.Datastore.ChatEventTest do
     expected_key = %Diplomat.Key{kind: "chat-event-test", name: event.id}
     assert expected_key == entity.key
   end
+
+  test "entity_kind/0 includes the mix env" do
+    assert Datastore.entity_kind() == "mix-env-test"
+  end
 end
