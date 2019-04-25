@@ -26,6 +26,7 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
   def subscribe_to_channel(channel, twitch_user) do
     res = subscribe_to_chat(channel, twitch_user)
     subscribe_to_emotes(channel.name)
+    subscribe_to_streamelements(twitch_user, channel.name)
     res
   end
 
@@ -52,6 +53,13 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
     DynamicSupervisor.start_child(
       __MODULE__,
       {Twitch.EmoteWatcher, [channel_name]}
+    )
+  end
+
+  def subscribe_to_streamelements(twitch_user, channel_name) do
+    DynamicSupervisor.start_child(
+      __MODULE__,
+      {Twitch.StreamelementsSubscription, [twitch_user, channel_name]}
     )
   end
 end
