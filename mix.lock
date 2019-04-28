@@ -7,7 +7,7 @@
   "base64url": {:hex, :base64url, "0.0.1", "36a90125f5948e3afd7be97662a1504b934dd5dac78451ca6e9abf85a10286be", [:rebar], [], "hexpm"},
   "certifi": {:hex, :certifi, "2.5.1", "867ce347f7c7d78563450a18a6a28a8090331e77fa02380b4a21962a65d36ee5", [:rebar3], [{:parse_trans, "~>3.3", [hex: :parse_trans, repo: "hexpm", optional: false]}], "hexpm"},
   "combine": {:hex, :combine, "0.10.0", "eff8224eeb56498a2af13011d142c5e7997a80c8f5b97c499f84c841032e429f", [:mix], [], "hexpm"},
-  "comeonin": {:hex, :comeonin, "5.1.1", "0abd6bae41acc01c369bb3eafe46399f301bf4e1bacebafdb89252bbb8a1a32d", [:mix], [], "hexpm"},
+  "comeonin": {:hex, :comeonin, "5.1.2", "fbbbbbfcf0f0e9900c0336d16c8d462edf838ba1759577e29cc5fbd7c28a4540", [:mix], [], "hexpm"},
   "connection": {:hex, :connection, "1.0.4", "a1cae72211f0eef17705aaededacac3eb30e6625b04a6117c1b2db6ace7d5976", [:mix], [], "hexpm"},
   "cors_plug": {:hex, :cors_plug, "2.0.0", "238ddb479f92b38f6dc1ae44b8d81f0387f9519101a6da442d543ab70ee0e482", [:mix], [{:plug, "~> 1.3 or ~> 1.4 or ~> 1.5", [hex: :plug, repo: "hexpm", optional: false]}], "hexpm"},
   "coveralls": {:hex, :coveralls, "1.4.1", "66fc850cdc77140305b945e738036b1b1ac2f340703861ea17f1e15ced85fd79", [:rebar3], [], "hexpm"},
