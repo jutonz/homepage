@@ -30,6 +30,9 @@
     "TWITCH_REDIRECT_URI": {
       "required": true
     },
+    "TWITCH_DATASTORE_DISABLED": {
+      "value": "true"
+    },
     "SENTRY_DSN": {
       "required": true
     }

@@ -1,10 +1,16 @@
 defmodule Twitch.Datastore.ChatEvent do
   @spec persist_event(Twitch.ParsedEvent.t()) :: {:ok, Diplomat.Key.t()} | {:error, String.t()}
   def persist_event(event = %Twitch.ParsedEvent{}) do
-    case event |> event_to_entity |> Diplomat.Entity.insert() do
-      [%Diplomat.Key{} = key] -> {:ok, key}
-      Diplomat.Client.Error -> {:error, "Failed to insert"}
-      _ -> {:error, "Something unknown"}
+    case System.get_env("TWITCH_DATASTORE_DISABLED") do
+      "true" ->
+        {:ok, :not_inserted}
+
+      _ ->
+        case event |> event_to_entity |> Diplomat.Entity.insert() do
+          [%Diplomat.Key{} = key] -> {:ok, key}
+          Diplomat.Client.Error -> {:error, "Failed to insert"}
+          _ -> {:error, "Something unknown"}
+        end
     end
   end
 
