@@ -3,7 +3,7 @@ defmodule Twitch.Datastore.ChatEvent do
   def persist_event(event = %Twitch.ParsedEvent{}) do
     case System.get_env("TWITCH_DATASTORE_DISABLED") do
       "true" ->
-        {:ok, :not_inserted}
+        {:ok, :datastore_disabled}
 
       _ ->
         case event |> event_to_entity |> Diplomat.Entity.insert() do
