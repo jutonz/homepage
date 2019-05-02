@@ -18,7 +18,7 @@ defmodule HomepageUmbrella.Mixfile do
   # Run "mix help deps" for examples and options.
   defp deps do
     [
-      {:excoveralls, "~> 0.10.3"}
+      {:excoveralls, "~> 0.11.0"}
     ]
   end
 
