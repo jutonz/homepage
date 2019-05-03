@@ -39,6 +39,7 @@ defmodule Twitch.Api do
 
   def extensions(auth_token, channel_id) do
     path = "v5/channels/#{channel_id}/extensions"
+
     Api.Kraken.connection(:get, path, [
       {:headers, [{"Authorization", "Bearer #{auth_token}"}]}
     ])

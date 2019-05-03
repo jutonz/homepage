@@ -20,10 +20,13 @@ defmodule Twitch.Api.Streamelements do
   @spec jwt(Twitch.User.t(), String.t()) :: String.t()
   def jwt(twitch_user, channel_name) do
     channel_id = Twitch.Api.channel(channel_name)["_id"]
-    extensions = Twitch.Api.extensions(
-      access_token_from_user(twitch_user),
-      channel_id
-    )
+
+    extensions =
+      Twitch.Api.extensions(
+        access_token_from_user(twitch_user),
+        channel_id
+      )
+
     extension = extension(twitch_user, channel_id, extensions)
     extension_id = extension["extension"]["id"]
 

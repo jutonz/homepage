@@ -23,7 +23,7 @@ defmodule Twitch.StreamelementsSubscription do
   end
 
   def handle_raw_message(message) do
-    IO.inspect message
+    IO.inspect(message)
   end
 
   def handle_frame({_type, msg}, state) do
