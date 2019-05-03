@@ -25,7 +25,7 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
 
   def subscribe_to_channel(channel, twitch_user) do
     res = subscribe_to_chat(channel, twitch_user)
-    subscribe_to_emotes(channel.name)
+    {:ok, _} = subscribe_to_emotes(channel.name)
     subscribe_to_streamelements(twitch_user, channel.name)
     res
   end

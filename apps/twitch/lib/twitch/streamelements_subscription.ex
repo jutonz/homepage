@@ -3,19 +3,26 @@ defmodule Twitch.StreamelementsSubscription do
   require Logger
 
   def start_link([twitch_user, channel_name]) do
-    jwt = Twitch.Api.Streamelements.jwt(twitch_user, channel_name)
+    channel_name = channel_name |> String.trim_leading("#")
 
-    state = %{
-      jwt: jwt,
-      server: "wss://extension.streamelements.com/ws?token=#{jwt}"
-    }
+    case Twitch.Api.Streamelements.jwt(twitch_user, channel_name) do
+      {:ok, :not_enabled} ->
+        :ignore
 
-    opts = [
-      debug: [:trace],
-      name: name(twitch_user, channel_name)
-    ]
+      {:ok, jwt} ->
+        state = %{
+          jwt: jwt,
+          server: "wss://extension.streamelements.com/ws?token=#{jwt}"
+        }
 
-    WebSockex.start_link(state.server, __MODULE__, state, opts)
+        opts = [
+          debug: [:trace],
+          name: name(twitch_user, channel_name)
+        ]
+
+        IO.inspect("CONNECTING FOR CHANNEL #{channel_name} WITH JWT #{jwt}")
+        WebSockex.start_link(state.server, __MODULE__, state, opts)
+    end
   end
 
   def handle_connect(_conn, state) do
