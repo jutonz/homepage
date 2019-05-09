@@ -24,7 +24,7 @@
     "history": "^4.9.0",
     "immutable": "4.0.0-rc.12",
     "pdfjs-dist": "^2.0.205",
-    "phoenix": "^1.4.3",
+    "phoenix": "^1.4.5",
     "react": "^16.8.6",
     "react-apollo": "^2.5.5",
     "react-dom": "^16.8.6",
