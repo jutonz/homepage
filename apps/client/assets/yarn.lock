@@ -4599,10 +4599,10 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-phoenix@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.4.3.tgz#d8f5820d2700da62f8f353c559513e9449235758"
-  integrity sha512-FU7Ms8SOAGqECRC0RLQMZnLTdrXWureefM0t9K6AqK9jo4hpvUTqjskN/RaGOBXcFGIvgM2F5AFcMop4PPwOSA==
+phoenix@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.4.5.tgz#a97878b917fff9365f5e13fb22fb176043752bf7"
+  integrity sha512-K+8gaFukouup96WItpJBfkoCaRhbs9+OlV3lrRmS/a7nx6hsFOiThmX1UFTtmwzAsExq/IxsThWf5hn22EJe7A==
 
 pify@^2.0.0:
   version "2.3.0"
