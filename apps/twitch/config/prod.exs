@@ -14,7 +14,7 @@ ssl_opts =
     []
   end
 
-config :twitch, Twitch.Repo,
+config :twitch, Twitch.GoogleRepo,
   adapter: Ecto.Adapters.Postgres,
   url: db_url,
   pool_size: db_pool_size,

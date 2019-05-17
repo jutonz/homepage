@@ -1,6 +1,6 @@
 defmodule Twitch.Channel do
   use Ecto.Schema
-  alias Twitch.{Repo, Channel}
+  alias Twitch.{GoogleRepo, Channel}
   import Ecto.Query, only: [from: 2]
 
   @type t :: %__MODULE__{}
@@ -28,7 +28,7 @@ defmodule Twitch.Channel do
         name: channel_name,
         user_id: twitch_user.id
       })
-      |> Repo.insert()
+      |> GoogleRepo.insert()
 
     Twitch.ChannelSubscriptionSupervisor.subscribe_to_channel(channel, twitch_user)
 
@@ -36,10 +36,10 @@ defmodule Twitch.Channel do
   end
 
   def unsubscribe(channel_name, twitch_user) do
-    channel = Channel |> Repo.get_by(name: channel_name, user_id: twitch_user.id)
+    channel = Channel |> GoogleRepo.get_by(name: channel_name, user_id: twitch_user.id)
 
     if channel do
-      channel |> Repo.delete()
+      channel |> GoogleRepo.delete()
     end
 
     process_name = Twitch.Channel.process_name(channel_name, twitch_user)
@@ -65,7 +65,7 @@ defmodule Twitch.Channel do
         where: c.user_id == ^twitch_user_id,
         limit: 100
       )
-      |> Repo.all()
+      |> GoogleRepo.all()
 
     {:ok, channels || []}
   end
@@ -73,7 +73,7 @@ defmodule Twitch.Channel do
   def get_by_user_id(twitch_user_id, channel_name) do
     channel =
       Twitch.Channel
-      |> Twitch.Repo.get_by(
+      |> Twitch.GoogleRepo.get_by(
         user_id: twitch_user_id,
         name: "#" <> channel_name
       )

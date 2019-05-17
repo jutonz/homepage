@@ -1,4 +1,4 @@
-defmodule Twitch.Repo.Migrations.CreateGamblingEvents do
+defmodule Twitch.GoogleRepo.Migrations.CreateGamblingEvents do
   use Ecto.Migration
 
   def change do

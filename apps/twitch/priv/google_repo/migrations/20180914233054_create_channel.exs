@@ -1,4 +1,4 @@
-defmodule Twitch.Repo.Migrations.CreateChannel do
+defmodule Twitch.GoogleRepo.Migrations.CreateChannel do
   use Ecto.Migration
 
   def change do

@@ -1,4 +1,4 @@
-defmodule Twitch.Repo.Migrations.AddPersistFlagToChannels do
+defmodule Twitch.GoogleRepo.Migrations.AddPersistFlagToChannels do
   use Ecto.Migration
 
   def change do

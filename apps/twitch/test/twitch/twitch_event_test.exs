@@ -12,6 +12,6 @@ defmodule Twitch.TwitchEventTest do
         raw_event: "fff"
       })
 
-    {:ok, ev} = cset |> Twitch.Repo.insert()
+    {:ok, _ev = %TwitchEvent{}} = cset |> Twitch.GoogleRepo.insert()
   end
 end
