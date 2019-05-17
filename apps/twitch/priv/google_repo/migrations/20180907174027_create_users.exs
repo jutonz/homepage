@@ -1,4 +1,4 @@
-defmodule Twitch.Repo.Migrations.CreateUsers do
+defmodule Twitch.GoogleRepo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do

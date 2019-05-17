@@ -1,9 +1,9 @@
 use Mix.Config
 
-config :twitch, Twitch.Repo,
+config :twitch, Twitch.GoogleRepo,
   adapter: Ecto.Adapters.Postgres,
   pool: Ecto.Adapters.SQL.Sandbox,
-  database: "homepage_twitch_test",
+  database: "homepage_twitch_google_test",
   hostname: "localhost",
   username: "postgres",
   password: nil

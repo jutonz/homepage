@@ -2,4 +2,4 @@
 
 ExUnit.start()
 
-Ecto.Adapters.SQL.Sandbox.mode(Twitch.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(Twitch.GoogleRepo, :manual)
