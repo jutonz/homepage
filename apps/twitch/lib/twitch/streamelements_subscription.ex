@@ -2,6 +2,8 @@ defmodule Twitch.StreamelementsSubscription do
   use WebSockex
   require Logger
 
+  @thity_seconds 30_000
+
   def start_link([twitch_user, channel_name]) do
     channel_name = channel_name |> String.trim_leading("#")
 
@@ -11,26 +13,47 @@ defmodule Twitch.StreamelementsSubscription do
 
       {:ok, jwt} ->
         state = %{
-          jwt: jwt,
           server: "wss://extension.streamelements.com/ws?token=#{jwt}"
         }
 
         opts = [
-          debug: [:trace],
+          # debug: [:trace],
           name: name(twitch_user, channel_name)
         ]
 
-        IO.inspect("CONNECTING FOR CHANNEL #{channel_name} WITH JWT #{jwt}")
         WebSockex.start_link(state.server, __MODULE__, state, opts)
     end
   end
 
+  def call(messages) when is_list(messages) do
+    pid = self()
+
+    spawn(fn ->
+      messages |> Enum.each(&WebSockex.send_frame(pid, {:text, &1}))
+    end)
+  end
+
+  def call(message), do: call([message])
+
+  def ping, do: call("{\"type\": \"PING\"}")
+
   def handle_connect(_conn, state) do
+    ping()
+    schedule_ping()
     {:ok, state}
   end
 
-  def handle_raw_message(message) do
-    IO.inspect(message)
+  def schedule_ping do
+    Process.send_after(self(), :ping, @thity_seconds)
+  end
+
+  def handle_info(:ping, state) do
+    ping()
+    schedule_ping()
+    {:ok, state}
+  end
+
+  def handle_raw_message(_message) do
   end
 
   def handle_frame({_type, msg}, state) do
