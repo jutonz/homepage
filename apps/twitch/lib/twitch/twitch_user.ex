@@ -1,6 +1,6 @@
 defmodule Twitch.User do
   use Ecto.Schema
-  alias Twitch.{GoogleRepo, User}
+  alias Twitch.{Repo, User}
 
   @type t :: %__MODULE__{}
 
@@ -37,34 +37,34 @@ defmodule Twitch.User do
       user_id: to_string(user_id)
     }
 
-    case User |> GoogleRepo.get_by(twitch_user_id: from_twitch["id"]) do
+    case User |> Repo.get_by(twitch_user_id: from_twitch["id"]) do
       user = %User{} ->
-        user |> User.changeset(attrs) |> GoogleRepo.update()
+        user |> User.changeset(attrs) |> Repo.update()
 
       _ ->
-        %User{} |> User.changeset(attrs) |> GoogleRepo.insert()
+        %User{} |> User.changeset(attrs) |> Repo.insert()
     end
   end
 
   @spec refresh_token(Number.t()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
   def refresh_token(twitch_user_id) do
-    %User{} = user = User |> GoogleRepo.get(twitch_user_id)
+    %User{} = user = User |> Repo.get(twitch_user_id)
     refresh_token = user.access_token["refresh_token"]
 
     {:ok, new_access_token} = Twitch.Auth.refresh(refresh_token)
 
     user
     |> User.changeset(%{access_token: new_access_token})
-    |> GoogleRepo.update()
+    |> Repo.update()
   end
 
   @spec delete_by_user_id(String.t()) :: {:ok, User.t()} | {:error, String.t()}
   def delete_by_user_id(user_id) do
-    User |> GoogleRepo.get_by(user_id: to_string(user_id)) |> GoogleRepo.delete()
+    User |> Repo.get_by(user_id: to_string(user_id)) |> Repo.delete()
   end
 
   def get_by_user_id(user_id) do
-    case Twitch.User |> Twitch.GoogleRepo.get_by(user_id: to_string(user_id)) do
+    case Twitch.User |> Twitch.Repo.get_by(user_id: to_string(user_id)) do
       user = %Twitch.User{} -> {:ok, user}
       _ -> {:error, "No twitch account for user #{user_id}"}
     end
@@ -72,7 +72,7 @@ defmodule Twitch.User do
 
   @spec get_by_id(Number.t()) :: {:ok, User.t()} | {:error, String.t()}
   def get_by_id(id) do
-    case User |> GoogleRepo.get(id) do
+    case User |> Repo.get(id) do
       user = %User{} -> {:ok, user}
       _ -> {:error, "No Twitch.User with ID #{id}"}
     end

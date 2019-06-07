@@ -10,8 +10,8 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
     # Resubscribe to disconnected channels
     spawn(fn ->
       Twitch.Channel
-      |> Twitch.GoogleRepo.all()
-      |> Twitch.GoogleRepo.preload(:user)
+      |> Twitch.Repo.all()
+      |> Twitch.Repo.preload(:user)
       |> Enum.each(fn channel ->
         Twitch.ChannelSubscriptionSupervisor.subscribe_to_channel(
           channel,
