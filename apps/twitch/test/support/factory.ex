@@ -1,5 +1,5 @@
 defmodule Twitch.Factory do
-  use ExMachina.Ecto, repo: Twitch.GoogleRepo
+  use ExMachina.Ecto, repo: Twitch.Repo
 
   def user_factory do
     %Twitch.User{
