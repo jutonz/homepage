@@ -6,13 +6,12 @@ defmodule Twitch.Application do
   use Application
 
   def start(_type, _args) do
-    import Supervisor.Spec
-
     # List all child processes to be supervised
     children = [
       # Starts a worker by calling: Twitch.Worker.start_link(arg)
       # {Twitch.Worker, arg},
-      supervisor(Twitch.GoogleRepo, []),
+      Twitch.GoogleRepo,
+      Twitch.Repo,
       Twitch.ChannelSubscriptionSupervisor,
       Twitch.EventPersister,
       Twitch.EventParseFailureLogger,
