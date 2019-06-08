@@ -30,8 +30,7 @@ defmodule Twitch.GamblingSubscriber do
         twitch_event: event.data,
         channel: event.data.channel
       }
-      |> Twitch.GamblingEvent.changeset()
-      |> Twitch.GoogleRepo.insert()
+      |> Twitch.Datastore.GamblingEvent.persist()
     end
 
     Events.mark_as_completed({__MODULE__, event_shadow})
