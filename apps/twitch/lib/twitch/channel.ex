@@ -43,16 +43,21 @@ defmodule Twitch.Channel do
     end
 
     process_name = Twitch.Channel.process_name(channel_name, twitch_user)
-    IO.puts(process_name)
 
     case Process.whereis(process_name) do
       pid when is_pid(pid) ->
         Twitch.ChannelSubscriptionSupervisor |> DynamicSupervisor.terminate_child(pid)
+
+      _ ->
+        nil
     end
 
     case Process.whereis(emote_watcher_name(channel_name)) do
       pid when is_pid(pid) ->
         Twitch.ChannelSubscriptionSupervisor |> DynamicSupervisor.terminate_child(pid)
+
+      _ ->
+        nil
     end
 
     {:ok, channel}
