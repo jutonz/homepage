@@ -1,9 +1,0 @@
-defmodule Twitch.GoogleRepo.Migrations.AddPersistFlagToChannels do
-  use Ecto.Migration
-
-  def change do
-    alter table("channels") do
-      add(:persist, :boolean, default: false)
-    end
-  end
-end

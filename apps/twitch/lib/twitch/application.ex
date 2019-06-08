@@ -10,7 +10,6 @@ defmodule Twitch.Application do
     children = [
       # Starts a worker by calling: Twitch.Worker.start_link(arg)
       # {Twitch.Worker, arg},
-      Twitch.GoogleRepo,
       Twitch.Repo,
       Twitch.ChannelSubscriptionSupervisor,
       Twitch.EventPersister,

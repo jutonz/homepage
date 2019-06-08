@@ -51,10 +51,6 @@
       "plan": "heroku-postgresql",
       "as": "TWITCH_DATABASE"
     },
-    {
-      "plan": "heroku-postgresql",
-      "as": "TWITCH_GOOGLE_DATABASE"
-    },
     "heroku-redis"
   ],
   "stack": "heroku-18",

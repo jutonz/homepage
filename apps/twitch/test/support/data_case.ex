@@ -17,7 +17,6 @@ defmodule Twitch.DataCase do
   using do
     quote do
       alias Twitch.Repo
-      alias Twitch.GoogleRepo
 
       import Ecto
       import Ecto.Changeset
@@ -30,11 +29,9 @@ defmodule Twitch.DataCase do
 
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Twitch.Repo)
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Twitch.GoogleRepo)
 
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Twitch.Repo, {:shared, self()})
-      Ecto.Adapters.SQL.Sandbox.mode(Twitch.GoogleRepo, {:shared, self()})
     end
 
     :ok
