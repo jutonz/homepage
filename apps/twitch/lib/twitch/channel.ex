@@ -90,7 +90,7 @@ defmodule Twitch.Channel do
   end
 
   def process_name(channel_name, twitch_user) do
-    :"TwitchChannelSubscription:#{channel_name}:#{twitch_user.twitch_user_id}"
+    :"TwitchChatSubscription:#{channel_name}:#{twitch_user.twitch_user_id}"
   end
 
   def emote_watcher_name(channel_name) do
