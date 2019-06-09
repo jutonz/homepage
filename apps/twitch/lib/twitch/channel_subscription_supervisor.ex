@@ -1,26 +1,37 @@
 defmodule Twitch.ChannelSubscriptionSupervisor do
   use DynamicSupervisor
   require Logger
+  alias Twitch.Queries.ChannelQuery
 
   def start_link(arg) do
     DynamicSupervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
 
   def init(_arg) do
-    # Resubscribe to disconnected channels
-    spawn(fn ->
-      Twitch.Channel
-      |> Twitch.Repo.all()
-      |> Twitch.Repo.preload(:user)
-      |> Enum.each(fn channel ->
-        Twitch.ChannelSubscriptionSupervisor.subscribe_to_channel(
-          channel,
-          channel.user
-        )
-      end)
-    end)
-
+    spawn(&resubscribe/0)
     DynamicSupervisor.init(strategy: :one_for_one)
+  end
+
+  def resubscribe do
+    resubscribe_chat_and_emotes()
+    resubscribe_streamelements()
+  end
+
+  def resubscribe_chat_and_emotes do
+    Twitch.Repo.transaction(fn ->
+      ChannelQuery.user_channels()
+      |> Twitch.Repo.stream()
+      |> Stream.each(&subscribe_to_emotes(&1.name))
+      |> Enum.each(&subscribe_to_chat(&1, &1.user))
+    end)
+  end
+
+  def resubscribe_streamelements do
+    Twitch.Repo.transaction(fn ->
+      ChannelQuery.user_channels()
+      |> Twitch.Repo.stream()
+      |> Enum.each(&subscribe_to_streamelements(&1.user, &1.name))
+    end)
   end
 
   def subscribe_to_channel(channel, twitch_user) do
