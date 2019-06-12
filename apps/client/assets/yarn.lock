@@ -4697,10 +4697,10 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-phoenix@^1.4.6:
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.4.6.tgz#bf5c1bccbe8f5f0875b3aa1e9e65a68e2273a2d2"
-  integrity sha512-jx6FPYbULh3n6d6tUfv5tX43+jBQ8uQMDN1lwHsvb1w91ryxDoibTPtN3oyhQv5/gmSY3xp3A/ZWYhTYRdkroA==
+phoenix@^1.4.7:
+  version "1.4.7"
+  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.4.7.tgz#b24964fb2e452c58a0ca92d24dd7fca0acf80e2e"
+  integrity sha512-lgpHKBjJtBnUfQ1xonFzD6/obe8lOPTlzgct6mc7i3W8lEEgS/3AQFbDYtM2EGwOEIaqlyMTxTji3TojHuPP8Q==
 
 picomatch@^2.0.5:
   version "2.0.6"
