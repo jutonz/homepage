@@ -7,4 +7,15 @@ defmodule Twitch.Queries.ChannelQuery do
       preload: [user: u]
     )
   end
+
+  def persist?(channel_name) do
+    query =
+      from(ch in Twitch.Channel,
+        select: count(ch.id),
+        where: ch.name == ^channel_name,
+        where: ch.persist == true
+      )
+
+    Twitch.Repo.one(query) > 0
+  end
 end

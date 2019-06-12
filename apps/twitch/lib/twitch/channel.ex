@@ -36,29 +36,14 @@ defmodule Twitch.Channel do
   end
 
   def unsubscribe(channel_name, twitch_user) do
-    channel = Channel |> Repo.get_by(name: channel_name, user_id: twitch_user.id)
+    channel =
+      Channel
+      |> Repo.get_by(
+        name: channel_name,
+        user_id: twitch_user.id
+      )
 
-    if channel do
-      channel |> Repo.delete()
-    end
-
-    process_name = Twitch.Channel.process_name(channel_name, twitch_user)
-
-    case Process.whereis(process_name) do
-      pid when is_pid(pid) ->
-        Twitch.ChannelSubscriptionSupervisor |> DynamicSupervisor.terminate_child(pid)
-
-      _ ->
-        nil
-    end
-
-    case Process.whereis(emote_watcher_name(channel_name)) do
-      pid when is_pid(pid) ->
-        Twitch.ChannelSubscriptionSupervisor |> DynamicSupervisor.terminate_child(pid)
-
-      _ ->
-        nil
-    end
+    if channel, do: Repo.delete(channel)
 
     {:ok, channel}
   end
@@ -89,8 +74,8 @@ defmodule Twitch.Channel do
     end
   end
 
-  def process_name(channel_name, twitch_user) do
-    :"TwitchChatSubscription:#{channel_name}:#{twitch_user.twitch_user_id}"
+  def chat_process_name(channel_name) do
+    :"TwitchChatSubscription:#{channel_name}"
   end
 
   def emote_watcher_name(channel_name) do

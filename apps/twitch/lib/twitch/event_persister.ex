@@ -53,10 +53,8 @@ defmodule Twitch.EventPersister do
   end
 
   def channel_state_struct(channel_name) do
-    channel = Twitch.Channel |> Twitch.Repo.get_by(name: channel_name)
-
     %{
-      persist: channel.persist
+      persist: Twitch.Queries.ChannelQuery.persist?(channel_name)
     }
   end
 
