@@ -1,4 +1,4 @@
-defmodule Twitch.ChannelSubscription do
+defmodule Twitch.ChatSubscription do
   use WebSockex
   require Logger
 

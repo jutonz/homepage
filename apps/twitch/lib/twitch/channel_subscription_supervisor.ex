@@ -47,7 +47,7 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
     res =
       DynamicSupervisor.start_child(
         __MODULE__,
-        {Twitch.ChannelSubscription,
+        {Twitch.ChatSubscription,
          [
            channel.name,
            twitch_user.id,
