@@ -17,12 +17,20 @@ config :client, ClientWeb.Endpoint,
 config :client, ClientWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+      ~r{priv/static/.*(static-js|js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/client_web/views/.*(ex)$},
       ~r{lib/client_web/templates/.*(eex)$}
     ]
-  ]
+  ],
+  watchers: [node: [
+    "node_modules/.bin/webpack",
+    "--watch",
+    "--color",
+    "--config=webpack-static.config.js",
+    cd: Path.expand("../assets", __DIR__)
+  ]]
+
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
