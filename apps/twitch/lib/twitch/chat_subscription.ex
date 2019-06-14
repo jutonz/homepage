@@ -2,20 +2,17 @@ defmodule Twitch.ChatSubscription do
   use WebSockex
   require Logger
 
-  def start_link([channel, twitch_user_id, name]) do
-    {:ok, twitch_user} = Twitch.User.refresh_token(twitch_user_id)
-    oauth_token = twitch_user.access_token["access_token"]
-
+  def start_link(channel_name) do
     state = %{
       server: "wss://irc-ws.chat.twitch.tv",
-      pass: "oauth:#{oauth_token}",
-      nick: twitch_user.display_name,
-      channel: channel
+      pass: "SCHMOOPIIE",
+      nick: random_name(),
+      channel: channel_name
     }
 
     opts = [
       # debug: [:trace],
-      name: name
+      name: Twitch.Channel.chat_process_name(channel_name)
     ]
 
     WebSockex.start_link(state.server, __MODULE__, state, opts)
@@ -74,4 +71,6 @@ defmodule Twitch.ChatSubscription do
     IO.puts("Sending #{type} frame with payload: #{msg}")
     {:reply, frame, state}
   end
+
+  defp random_name, do: "justinfan" <> to_string(:rand.uniform(9999))
 end

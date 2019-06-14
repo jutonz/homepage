@@ -22,7 +22,7 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
       ChannelQuery.user_channels()
       |> Twitch.Repo.stream()
       |> Stream.each(&subscribe_to_emotes(&1.name))
-      |> Enum.each(&subscribe_to_chat(&1, &1.user))
+      |> Enum.each(&subscribe_to_chat(&1.name))
     end)
   end
 
@@ -35,36 +35,40 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
   end
 
   def subscribe_to_channel(channel, twitch_user) do
-    res = subscribe_to_chat(channel, twitch_user)
+    res = subscribe_to_chat(channel.name)
     {:ok, _} = subscribe_to_emotes(channel.name)
     {:ok, _} = subscribe_to_streamelements(twitch_user, channel.name)
     res
   end
 
-  defp subscribe_to_chat(channel, twitch_user) do
-    process_name = Twitch.Channel.process_name(channel.name, twitch_user)
-
+  def subscribe_to_chat(channel_name) do
     res =
       DynamicSupervisor.start_child(
         __MODULE__,
-        {Twitch.ChatSubscription,
-         [
-           channel.name,
-           twitch_user.id,
-           process_name
-         ]}
+        {Twitch.ChatSubscription, channel_name}
       )
 
-    Logger.info("Starting twitch channel subscription for #{channel.name}: #{inspect(res)}")
+    Logger.info("Starting twitch channel subscription for #{channel_name}: #{inspect(res)}")
 
-    res
+    case res do
+      {:ok, pid} -> {:ok, pid}
+      {:error, {:already_started, pid}} -> {:ok, pid}
+      _ -> res
+    end
   end
 
-  defp subscribe_to_emotes(channel_name) do
-    DynamicSupervisor.start_child(
-      __MODULE__,
-      {Twitch.EmoteWatcher, [channel_name]}
-    )
+  def subscribe_to_emotes(channel_name) do
+    res =
+      DynamicSupervisor.start_child(
+        __MODULE__,
+        {Twitch.EmoteWatcher, [channel_name]}
+      )
+
+    case res do
+      {:ok, pid} -> {:ok, pid}
+      {:error, {:already_started, pid}} -> {:ok, pid}
+      _ -> res
+    end
   end
 
   def subscribe_to_streamelements(twitch_user, channel_name) do
