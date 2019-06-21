@@ -156,7 +156,7 @@ jobs:
         paths:
         - _build/prod
         - deps
-  yarn_bundle:
+  yarn_bundle_static:
     working_directory: ~/code
     docker:
     - image: circleci/node:10
@@ -166,10 +166,24 @@ jobs:
         key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
-        name: yarn bundle
+        name: yarn bundle:static
         command: |
           cd apps/client/assets
-          yarn bundle
+          yarn bundle:static
+  yarn_bundle_react:
+    working_directory: ~/code
+    docker:
+    - image: circleci/node:10
+    steps:
+    - checkout
+    - restore_cache:
+        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        paths: ["apps/client/assets/node_modules"]
+    - run:
+        name: yarn bundle:react
+        command: |
+          cd apps/client/assets
+          yarn bundle:react
 
 workflows:
   version: 2
@@ -186,5 +200,7 @@ workflows:
         requires: ["build_dev"]
     - yarn_lint:
         requires: ["fetch_node_modules"]
-    - yarn_bundle:
+    - yarn_bundle_react:
+        requires: ["fetch_node_modules"]
+    - yarn_bundle_static:
         requires: ["fetch_node_modules"]

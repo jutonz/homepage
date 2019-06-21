@@ -18,7 +18,6 @@ defmodule ClientWeb.Router do
   scope "/", ClientWeb do
     pipe_through(:browser)
 
-    # get("/", PageController, :index)
     get("/login", SessionController, :exchange)
   end
 
