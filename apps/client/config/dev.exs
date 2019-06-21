@@ -23,14 +23,15 @@ config :client, ClientWeb.Endpoint,
       ~r{lib/client_web/templates/.*(eex)$}
     ]
   ],
-  watchers: [node: [
-    "node_modules/.bin/webpack",
-    "--watch",
-    "--color",
-    "--config=webpack-static.config.js",
-    cd: Path.expand("../assets", __DIR__)
-  ]]
-
+  watchers: [
+    node: [
+      "node_modules/.bin/webpack",
+      "--watch",
+      "--color",
+      "--config=webpack-static.config.js",
+      cd: Path.expand("../assets", __DIR__)
+    ]
+  ]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
