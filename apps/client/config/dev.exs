@@ -17,7 +17,7 @@ config :client, ClientWeb.Endpoint,
 config :client, ClientWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r{priv/static/.*(static-js|js|css|png|jpeg|jpg|gif|svg)$},
+      ~r{priv/static/.*(static-js|static-css|js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/client_web/views/.*(ex)$},
       ~r{lib/client_web/templates/.*(eex)$}
