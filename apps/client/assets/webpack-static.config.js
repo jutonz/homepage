@@ -1,4 +1,5 @@
 const path = require("path");
+//const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const getMode = () => {
   switch (process.env.MIX_ENV) {
@@ -6,6 +7,10 @@ const getMode = () => {
     default: return "development"
   }
 }
+
+const mode = getMode();
+const isProd = mode === "production";
+const isDev = mode === "development";
 
 const config = {
   mode: getMode(),
@@ -21,13 +26,45 @@ const config = {
         test: /\.css$/,
         include: [path.resolve(__dirname, "static-css")],
         use: [
-          "style-loader",
-          "css-loader",
-          "postcss-loader"
+          {
+            loader: "style-loader",
+            options: { sourceMap: true }
+          },
+          //isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1
+            }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              ident: "postcss-loader"
+            }
+          }
         ]
       }
     ]
-  }
+  },
+
+  //plugins: [
+    //new MiniCssExtractPlugin({
+      //filename: isDev ? '[name].css' : '[name].[hash].css'
+    //})
+  //]
 };
+
+if (isProd) {
+  const TerserJSPlugin = require('terser-webpack-plugin');
+  const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+  config.optimization = {
+    minimizer: [
+      new TerserJSPlugin({}),
+      new OptimizeCSSAssetsPlugin({})
+    ]
+  }
+}
 
 module.exports = config;
