@@ -23,7 +23,7 @@ defmodule Twitch.Api do
         nil
       else
         emotesets = emote_set_ids |> Enum.join(",")
-        params = [{"emotesets", emotesets}]
+        [{"emotesets", emotesets}]
       end
 
     Api.Kraken.connection(:get, path, params: params)
