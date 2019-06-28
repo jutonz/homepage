@@ -1,19 +1,31 @@
 const path = require("path");
-//const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const getMode = () => {
+const getEnv = () => {
   switch (process.env.MIX_ENV) {
     case "prod": return "production";
     default: return "development"
   }
 }
 
-const mode = getMode();
-const isProd = mode === "production";
-const isDev = mode === "development";
+const env = getEnv();
+const isProd = env === "production";
+const isDev = env === "development";
+
+const postcssPlugins = () => {
+  let p = [
+    require("tailwindcss"),
+    require("autoprefixer"),
+  ];
+
+  if (isProd) {
+    p.push(require("cssnano"));
+  }
+
+  return p;
+};
 
 const config = {
-  mode: getMode(),
+  mode: env,
   entry: "./static-js/index.js",
   output: {
     path: path.resolve(__dirname, "../priv/static"),
@@ -30,7 +42,6 @@ const config = {
             loader: "style-loader",
             options: { sourceMap: true }
           },
-          //isDev ? "style-loader" : MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
             options: {
@@ -40,31 +51,14 @@ const config = {
           {
             loader: "postcss-loader",
             options: {
-              ident: "postcss-loader"
+              ident: "postcss-loader",
+              plugins: postcssPlugins()
             }
           }
         ]
       }
     ]
-  },
-
-  //plugins: [
-    //new MiniCssExtractPlugin({
-      //filename: isDev ? '[name].css' : '[name].[hash].css'
-    //})
-  //]
-};
-
-if (isProd) {
-  const TerserJSPlugin = require('terser-webpack-plugin');
-  const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-
-  config.optimization = {
-    minimizer: [
-      new TerserJSPlugin({}),
-      new OptimizeCSSAssetsPlugin({})
-    ]
   }
-}
+};
 
 module.exports = config;
