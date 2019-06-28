@@ -1,0 +1,7 @@
+<div class="channel m-4 flex flex-col justify-center">
+  <div class="mb-4">Hey <%= @name %></div>
+
+  <%= if get_in(@stream, ["stream", "stream_type"]) == "live" do %>
+    <div><%= @name %> is live!</div>
+  <% end %>
+</div>
