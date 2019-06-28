@@ -56,7 +56,7 @@ defmodule Twitch.EmoteWatcher do
     new_one_minute_window =
       state
       |> Map.get(:one_minute_window)
-      |> Enum.reduce(emotes_in_msg, fn {emote_code, count}, result ->
+      |> Enum.reduce(emotes_in_msg, fn {emote_code, _count}, result ->
         current_count = state[:one_minute_window][emote_code]
         seen_just_now = emotes_in_msg |> Map.get(emote_code, 0)
         new_count = current_count + seen_just_now
