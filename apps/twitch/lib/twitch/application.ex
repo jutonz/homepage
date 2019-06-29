@@ -14,7 +14,8 @@ defmodule Twitch.Application do
       Twitch.ChannelSubscriptionSupervisor,
       Twitch.EventPersister,
       Twitch.EventParseFailureLogger,
-      Twitch.GamblingSubscriber
+      Twitch.GamblingSubscriber,
+      Twitch.Api.Cache
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
