@@ -1,0 +1,24 @@
+<div class="channel m-4 flex flex-col justify-center">
+  <div class="mb-4">Hey <%= @name %></div>
+  <div class="mb-4"><%= @name %> is live!</div>
+
+  <div>
+    <div class="mb-1">
+      Status:
+      <%= get_in(@stream, ~w[channel status]) %>
+    </div>
+
+    <div class="mb-1">
+      Playing
+      <%= get_in(@stream, ~w[game]) %>
+      for
+      <%= get_in(@stream, ~w[viewers]) %>
+      viewers
+    </div>
+
+    <div>
+      Live for
+      <%= formatted_uptime(@stream) %>
+    </div>
+  </div>
+</div>

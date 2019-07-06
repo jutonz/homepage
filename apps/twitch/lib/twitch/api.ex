@@ -37,10 +37,11 @@ defmodule Twitch.Api do
     ])
   end
 
-  def streams(channel_id) do
+  @type stream_type :: :live | :playlist | :all
+  def streams(channel_id, stream_type \\ :live) do
     path = "kraken/streams/#{channel_id}"
 
-    Api.Kraken.connection(:get, path)
+    Api.Kraken.connection(:get, path, params: [{"stream_type", to_string(stream_type)}])
   end
 
   def extensions(auth_token, channel_id) do
