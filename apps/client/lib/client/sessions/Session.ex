@@ -15,7 +15,8 @@ defmodule Client.Session do
   end
 
   def exchange(conn, token) do
-    with {:ok, user, claims} <- Auth.resource_for_single_use_jwt(token),
+    with {:ok, user_id, claims} <- Auth.resource_for_single_use_jwt(token),
+         %User{} = user <- Repo.get(User, user_id),
          {:ok, conn} <- init_user_session(conn, user),
          {:ok, _resp} <- Auth.revoke_single_use_token(claims["jti"]),
          do: {:ok, user, conn},

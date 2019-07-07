@@ -57,9 +57,9 @@ defmodule Auth do
   already expired via +expire_single_use_token+
   """
   def resource_for_single_use_jwt(jwt) do
-    with {:ok, resource, claims} <- resource_for_jwt(jwt),
+    with {:ok, resource_id, claims} <- resource_for_jwt(jwt),
          {:ok, true} <- ensure_token_unrevoked(claims["jti"]),
-         do: {:ok, resource, claims},
+         do: {:ok, resource_id, claims},
          else:
            (
              {:error, reason} -> {:error, reason}
