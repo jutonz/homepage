@@ -76,7 +76,7 @@
     "typescript": "^3.5.3",
     "url-loader": "^2.0.1",
     "webpack": "^4.36.1",
-    "webpack-cli": "^3.3.5",
+    "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2"
   },
   "engines": {
