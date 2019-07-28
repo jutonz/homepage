@@ -43,7 +43,10 @@ defmodule Twitch.Channel do
         user_id: twitch_user.id
       )
 
-    if channel, do: Repo.delete(channel)
+    if channel do
+      Twitch.ChannelSubscriptionSupervisor.unsubscribe_from_channel(channel, twitch_user)
+      Repo.delete(channel)
+    end
 
     {:ok, channel}
   end
