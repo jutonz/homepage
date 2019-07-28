@@ -41,6 +41,19 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
     res
   end
 
+  def unsubscribe_from_channel(channel, twitch_user) do
+    se_pid =
+      twitch_user
+      |> Twitch.StreamelementsSubscription.name(String.trim_leading(channel.name, "#"))
+      |> Process.whereis()
+
+    if se_pid do
+      DynamicSupervisor.terminate_child(__MODULE__, se_pid)
+    else
+      :ok
+    end
+  end
+
   def subscribe_to_chat(channel_name) do
     res =
       DynamicSupervisor.start_child(
