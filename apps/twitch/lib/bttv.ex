@@ -20,8 +20,19 @@ defmodule Twitch.Bttv do
   end
 
   def channel_ffz_emotes(channel_id) do
-    Bttv.Api.connection(:get, "frankerfacez_emotes/channels/#{channel_id}")
-    |> Map.get("emotes")
-    |> Enum.map(&Bttv.Emote.from_bttv_json/1)
+    path = "frankerfacez_emotes/channels/#{channel_id}"
+    response = client().connection(:get, path)
+
+    case response["status"] do
+      404 ->
+        []
+
+      _ ->
+        response
+        |> Map.get("emotes")
+        |> Enum.map(&Bttv.Emote.from_bttv_json/1)
+    end
   end
+
+  def client, do: Application.get_env(:twitch, :bttv_api_client)
 end

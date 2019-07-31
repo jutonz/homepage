@@ -7,3 +7,5 @@ config :twitch, Twitch.Repo,
   hostname: "localhost",
   username: "postgres",
   password: nil
+
+config :twitch, bttv_api_client: Twitch.BttvApiMock
