@@ -1,5 +1,5 @@
 defmodule Twitch.Auth do
-  @scope "chat:read chat:edit channel:moderate user:read:email"
+  @scope "chat:read user:read:email user_subscriptions"
 
   def authorize_url do
     query =

@@ -2,6 +2,29 @@ defmodule Twitch.ParsedEventTest do
   use ExUnit.Case, async: true
   alias Twitch.ParsedEvent
 
+  describe "#parse_tags" do
+    test "is nil if passed nil" do
+      assert ParsedEvent.parse_tags(nil) == %{}
+    end
+
+    test "returns a map of tags" do
+      raw = "@badge-info=;badges=;color=#DAA520;display-name=gagin5;emotes=;flags=;id=d5ae0ce5-bb7e-4785-9a22-1bb6fb89cbdc;mod=0;room-id=26921830;subscriber=0;tmi-sent-ts=1564421499357;turbo=0;user-id=238338567;user-type="
+
+      parsed = ParsedEvent.parse_tags(raw)
+
+      assert parsed["color"] == "#DAA520"
+      assert parsed["user-id"] == "238338567"
+    end
+  end
+
+  test "#from_raw can pull out twitch tags" do
+    raw = ~s[@badge-info=;badges=;color=#DAA520;display-name=gagin5;emotes=;flags=;id=d5ae0ce5-bb7e-4785-9a22-1bb6fb89cbdc;mod=0;room-id=26921830;subscriber=0;tmi-sent-ts=1564421499357;turbo=0;user-id=238338567;user-type= :gagin5!gagin5@gagin5.tmi.twitch.tv PRIVMSG #elajjaz :@odduneven U are from russia?]
+
+    {:ok, parsed} = ParsedEvent.from_raw(raw)
+
+    assert parsed.tags["user-id"] == "238338567"
+  end
+
   test "#from_raw can parse PRIVMSG" do
     raw = ":syps_!syps_@syps_.tmi.twitch.tv PRIVMSG #comradenerdy :TaBeRu"
     {:ok, parsed} = ParsedEvent.from_raw(raw)

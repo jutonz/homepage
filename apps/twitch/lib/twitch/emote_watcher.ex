@@ -48,8 +48,22 @@ defmodule Twitch.EmoteWatcher do
     |> Map.merge(Bttv.Emote.detect_many(state[:ffz_channel_emotes], message))
   end
 
+  def add_extra_emotes(event, state) do
+    user_id = event.tags["user-id"]
+
+    if user_id do
+    end
+  end
+
   def handle_cast({_topic, _id} = event_shadow, state) do
     event = Events.fetch_event(event_shadow).data
+
+    state = add_extra_emotes(event, state)
+
+    # Get display name of user who sent it
+    # Get emotes for that user
+    # Ignore global emotes
+    # Add to list of emotes to detect
 
     emotes_in_msg = emotes_in_message(event.message, state)
 

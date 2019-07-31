@@ -32,7 +32,7 @@ defmodule Twitch.ChatSubscription do
     Logger.debug("Connected :)")
 
     call([
-      "CAP REQ :twitch.tv/commands twitch.tv/membership",
+      "CAP REQ :twitch.tv/commands twitch.tv/membership twitch.tv/tags",
       "PASS #{state.pass}",
       "NICK #{state.nick}",
       "USER #{state.nick} 8 * :#{state.nick}",
