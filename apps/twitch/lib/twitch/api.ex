@@ -61,20 +61,26 @@ defmodule Twitch.Api do
         {:headers, [{"Accept", "application/vnd.twitchtv.v3+json"}]}
       ])
 
-    plan_code = tier |> to_string |> String.pad_trailing(4, "0")
+    case product_data["status"] do
+      404 ->
+        []
 
-    plan_emote_sets =
-      product_data
-      |> Map.get("plans")
-      |> Enum.find(fn plan -> plan["plan"] == plan_code end)
-      |> Map.get("emoticon_set_ids")
+      _ ->
+        plan_code = tier |> to_string |> String.pad_trailing(4, "0")
 
-    plan_emote_sets
-    |> Twitch.Api.emotes()
-    |> Map.get("emoticon_sets")
-    |> Map.values()
-    |> List.flatten()
-    |> Enum.map(&Twitch.Emote.from_twitch_json/1)
+        plan_emote_sets =
+          product_data
+          |> Map.get("plans")
+          |> Enum.find(fn plan -> plan["plan"] == plan_code end)
+          |> Map.get("emoticon_set_ids")
+
+        plan_emote_sets
+        |> Twitch.Api.emotes()
+        |> Map.get("emoticon_sets")
+        |> Map.values()
+        |> List.flatten()
+        |> Enum.map(&Twitch.Emote.from_twitch_json/1)
+    end
   end
 
   def global_emotes() do
