@@ -15,15 +15,41 @@ defmodule Twitch.ParsedEvent do
             channel: nil,
             irc_name: nil,
             irc_command: nil,
-            raw_event: nil
+            raw_event: nil,
+            tags: nil
 
   def from_raw(raw_message) do
+    {tags, raw_message} = maybe_extract_tags(raw_message)
     parsed = raw_message |> :binary.bin_to_list() |> ExIRC.Utils.parse()
     raw = raw_message |> :binary.bin_to_list() |> to_string()
-    to_parsed_event(parsed.cmd, parsed, raw)
+    to_parsed_event(parsed.cmd, parsed, raw, tags)
   end
 
-  def to_parsed_event("PRIVMSG", parsed, raw) do
+  @tag_regex ~r/(?<tags>^@.*?\s)/
+  def maybe_extract_tags(raw_message) do
+    case Regex.named_captures(@tag_regex, raw_message) do
+      nil ->
+        {nil, raw_message}
+
+      match ->
+        tags = Map.get(match, "tags")
+        raw_without_tags = String.trim_leading(raw_message, tags)
+
+        {tags, raw_without_tags}
+    end
+  end
+
+  def parse_tags(nil), do: %{}
+
+  def parse_tags(tags) do
+    tags
+    |> String.trim_leading("@")
+    |> String.split(";")
+    |> Enum.map(&String.split(&1, "="))
+    |> Enum.into(%{}, fn [key, value] -> {key, value} end)
+  end
+
+  def to_parsed_event("PRIVMSG", parsed, raw, tags) do
     [channel | message] = parsed.args
 
     {:ok,
@@ -32,11 +58,12 @@ defmodule Twitch.ParsedEvent do
        message: Enum.at(message, 0),
        irc_command: parsed.cmd,
        display_name: parsed.nick,
-       raw_event: raw
+       raw_event: raw,
+       tags: parse_tags(tags)
      }}
   end
 
-  def to_parsed_event("ACTION", parsed, raw) do
+  def to_parsed_event("ACTION", parsed, raw, _tags) do
     [channel | message] = parsed.args
 
     {:ok,
@@ -49,7 +76,7 @@ defmodule Twitch.ParsedEvent do
      }}
   end
 
-  def to_parsed_event("CLEARCHAT", parsed, raw) do
+  def to_parsed_event("CLEARCHAT", parsed, raw, _tags) do
     [channel | user] = parsed.args
 
     {:ok,
@@ -61,7 +88,7 @@ defmodule Twitch.ParsedEvent do
      }}
   end
 
-  def to_parsed_event("HOSTTARGET", parsed, raw) do
+  def to_parsed_event("HOSTTARGET", parsed, raw, _tags) do
     [channel | target_channel] = parsed.args
 
     target_channel = target_channel |> Enum.at(0) |> String.trim_trailing(" -")
@@ -75,7 +102,7 @@ defmodule Twitch.ParsedEvent do
      }}
   end
 
-  def to_parsed_event("JOIN", parsed, raw) do
+  def to_parsed_event("JOIN", parsed, raw, _tags) do
     [channel | _rest] = parsed.args
 
     {:ok,
@@ -87,7 +114,7 @@ defmodule Twitch.ParsedEvent do
      }}
   end
 
-  def to_parsed_event("PART", parsed, raw) do
+  def to_parsed_event("PART", parsed, raw, _tags) do
     [channel | _rest] = parsed.args
 
     {:ok,
@@ -99,7 +126,7 @@ defmodule Twitch.ParsedEvent do
      }}
   end
 
-  def to_parsed_event("USERNOTICE", parsed, raw) do
+  def to_parsed_event("USERNOTICE", parsed, raw, _tags) do
     [channel | message] = parsed.args
 
     {:ok,
@@ -112,11 +139,11 @@ defmodule Twitch.ParsedEvent do
      }}
   end
 
-  def to_parsed_event("PING", parsed, _raw) do
+  def to_parsed_event("PING", parsed, _raw, _tags) do
     {:ok, %Twitch.ParsedEvent{irc_command: parsed.cmd}}
   end
 
-  def to_parsed_event("MODE", parsed, raw) do
+  def to_parsed_event("MODE", parsed, raw, _tags) do
     [channel | rest] = parsed.args
 
     # rest is an array like ["-o", "syps_"]
@@ -133,7 +160,7 @@ defmodule Twitch.ParsedEvent do
   end
 
   # NAMES list
-  def to_parsed_event("353", parsed, raw) do
+  def to_parsed_event("353", parsed, raw, _tags) do
     [display_name | [_ | [channel | rest]]] = parsed.args
 
     # rest is an array of a string of the users who joined, e,g.
@@ -150,11 +177,11 @@ defmodule Twitch.ParsedEvent do
      }}
   end
 
-  def to_parsed_event("GLOBALUSERSTATE", parsed, raw) do
+  def to_parsed_event("GLOBALUSERSTATE", parsed, raw, _tags) do
     {:ok, %Twitch.ParsedEvent{irc_command: parsed.cmd, raw_event: raw}}
   end
 
-  def to_parsed_event("CAP", parsed, raw) do
+  def to_parsed_event("CAP", parsed, raw, _tags) do
     # parsed.args looks like ["*", "ACK", "cap1 cap2 cap3"]
 
     {:ok,
@@ -165,7 +192,7 @@ defmodule Twitch.ParsedEvent do
      }}
   end
 
-  def to_parsed_event(command, _parsed, _raw) do
+  def to_parsed_event(command, _parsed, _raw, _tags) do
     {:error, "Unknown message type: #{command}"}
   end
 end

@@ -1,6 +1,6 @@
 defmodule Twitch.Api.Kraken do
   require Logger
-  alias Twitch.Api.Cache
+  alias Twitch.ApiCache
 
   def connection(method, path, opts \\ []) do
     default_opts = [body: "", headers: [], params: [], access_token: nil]
@@ -30,13 +30,13 @@ defmodule Twitch.Api.Kraken do
   end
 
   def cached_get(url, headers, params) do
-    cache_key = Cache.cache_key([url, headers, params])
+    cache_key = ApiCache.cache_key([url, headers, params])
 
-    case Cache.get(cache_key) do
+    case ApiCache.get(cache_key) do
       nil ->
         Logger.info("😿 cache miss #{cache_key} #{url}")
         response = HTTPoison.get!(url, headers, params: params)
-        Cache.set(cache_key, response)
+        ApiCache.set(cache_key, response)
         response
 
       response ->
