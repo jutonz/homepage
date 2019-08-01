@@ -8,7 +8,8 @@ defmodule Twitch.ParsedEventTest do
     end
 
     test "returns a map of tags" do
-      raw = "@badge-info=;badges=;color=#DAA520;display-name=gagin5;emotes=;flags=;id=d5ae0ce5-bb7e-4785-9a22-1bb6fb89cbdc;mod=0;room-id=26921830;subscriber=0;tmi-sent-ts=1564421499357;turbo=0;user-id=238338567;user-type="
+      raw =
+        "@badge-info=;badges=;color=#DAA520;display-name=gagin5;emotes=;flags=;id=d5ae0ce5-bb7e-4785-9a22-1bb6fb89cbdc;mod=0;room-id=26921830;subscriber=0;tmi-sent-ts=1564421499357;turbo=0;user-id=238338567;user-type="
 
       parsed = ParsedEvent.parse_tags(raw)
 
@@ -18,7 +19,8 @@ defmodule Twitch.ParsedEventTest do
   end
 
   test "#from_raw can pull out twitch tags" do
-    raw = ~s[@badge-info=;badges=;color=#DAA520;display-name=gagin5;emotes=;flags=;id=d5ae0ce5-bb7e-4785-9a22-1bb6fb89cbdc;mod=0;room-id=26921830;subscriber=0;tmi-sent-ts=1564421499357;turbo=0;user-id=238338567;user-type= :gagin5!gagin5@gagin5.tmi.twitch.tv PRIVMSG #elajjaz :@odduneven U are from russia?]
+    raw =
+      ~s[@badge-info=;badges=;color=#DAA520;display-name=gagin5;emotes=;flags=;id=d5ae0ce5-bb7e-4785-9a22-1bb6fb89cbdc;mod=0;room-id=26921830;subscriber=0;tmi-sent-ts=1564421499357;turbo=0;user-id=238338567;user-type= :gagin5!gagin5@gagin5.tmi.twitch.tv PRIVMSG #elajjaz :@odduneven U are from russia?]
 
     {:ok, parsed} = ParsedEvent.from_raw(raw)
 

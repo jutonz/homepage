@@ -2,6 +2,9 @@ defmodule Twitch.TwitchEmotes.Api do
   require Logger
   alias Twitch.ApiCache
 
+  @one_minute 60000
+  @one_hour @one_minute * 60
+
   def connection(method, path, opts \\ []) do
     default_opts = [body: "", headers: [], params: []]
     options = Keyword.merge(default_opts, opts) |> Enum.into(%{})
@@ -22,7 +25,7 @@ defmodule Twitch.TwitchEmotes.Api do
       nil ->
         Logger.info("😿 cache miss #{cache_key} #{url}")
         response = HTTPoison.get!(url, headers, params: params)
-        ApiCache.set(cache_key, response)
+        ApiCache.set(cache_key, response, @one_hour)
         response
 
       response ->

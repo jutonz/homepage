@@ -1,8 +1,11 @@
 defmodule Twitch.TwitchEmotes do
-  alias Twitch.TwitchEmotes
-
   @spec emote(String.t()) :: Twitch.Emote.t()
-  def emote(emote_id), do: [emote_id] |> emotes() |> hd()
+  def emote(emote_id) do
+    case emotes([emote_id]) do
+      [] -> nil
+      [emote] -> emote
+    end
+  end
 
   @spec emotes(list(String.t())) :: list(Twitch.Emote.t())
   def emotes(emote_ids) do
@@ -10,7 +13,9 @@ defmodule Twitch.TwitchEmotes do
     params = [{"id", Enum.join(emote_ids, ",")}]
 
     :get
-    |> TwitchEmotes.Api.connection(path, params: params)
+    |> client().connection(path, params: params)
     |> Enum.map(&Twitch.Emote.from_twitch_json/1)
   end
+
+  def client, do: Application.get_env(:twitch, :twitch_emotes_api_client)
 end

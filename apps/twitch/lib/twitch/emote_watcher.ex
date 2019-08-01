@@ -1,6 +1,7 @@
 defmodule Twitch.EmoteWatcher do
   use GenServer
   alias Twitch.Bttv
+  alias Twitch.EmoteWatcher.TwitchEmoteExtractor
 
   @one_minute 60000
 
@@ -15,7 +16,7 @@ defmodule Twitch.EmoteWatcher do
     channel_id = Twitch.Api.channel(channel_name)["_id"]
 
     state = %{
-      twitch_emotes: [],
+      twitch_emotes: MapSet.new(),
       bttv_channel_emotes: Twitch.Bttv.channel_emotes(channel_name),
       bttv_global_emotes: Twitch.Bttv.global_emotes(),
       ffz_global_emotes: Twitch.Bttv.global_ffz_emotes(),
@@ -39,7 +40,7 @@ defmodule Twitch.EmoteWatcher do
 
   def emotes_in_message(message, state) do
     %{}
-    |> Map.merge(Twitch.Emote.detect_many(state[:twitch_emotes], message))
+    |> Map.merge(Twitch.Emote.detect_many(MapSet.to_list(state[:twitch_emotes]), message))
     |> Map.merge(Bttv.Emote.detect_many(state[:bttv_channel_emotes], message))
     |> Map.merge(Bttv.Emote.detect_many(state[:bttv_global_emotes], message))
     |> Map.merge(Bttv.Emote.detect_many(state[:ffz_global_emotes], message))
@@ -47,21 +48,14 @@ defmodule Twitch.EmoteWatcher do
   end
 
   def lookup_twitch_emotes(event, state) do
-    case event.tags do
-      nil ->
-        state
+    emotes = TwitchEmoteExtractor.extract(event)
 
-      tags ->
-        emotes =
-          tags
-          |> Map.get("emotes")
-          |> String.split("/")
-          |> Enum.map(fn emote -> emote |> String.split(":") |> hd() end)
-          |> Twitch.TwitchEmotes.emotes()
+    new_emotes =
+      Enum.reduce(emotes, state[:twitch_emotes], fn emote, emotes ->
+        MapSet.put(emotes, emote)
+      end)
 
-        twitch_emotes = state[:twitch_emotes]
-        Map.put(state, :twitch_emotes, twitch_emotes ++ emotes)
-    end
+    Map.put(state, :twitch_emotes, new_emotes)
   end
 
   def handle_cast({_topic, _id} = event_shadow, state) do

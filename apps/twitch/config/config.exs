@@ -9,7 +9,8 @@ config :twitch,
     client_secret: System.get_env("TWITCH_CLIENT_SECRET"),
     redirect_uri: System.get_env("TWITCH_REDIRECT_URI")
   },
-  bttv_api_client: Twitch.Bttv.Api
+  bttv_api_client: Twitch.Bttv.Api,
+  twitch_emotes_api_client: Twitch.TwitchEmotes.Api
 
 config :exenv,
   adapters: [

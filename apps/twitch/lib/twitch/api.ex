@@ -52,16 +52,6 @@ defmodule Twitch.Api do
     ])
   end
 
-  def user_emotes(auth_token, user_id) do
-    path = "kraken/users/#{user_id}/emotes"
-    Api.Kraken.connection(:get, path, [
-      {:headers, [
-        {"Authorization", "OAuth #{auth_token}"},
-        {"Accept", "application/vnd.twitchtv.v5+json"}
-      ]}
-    ])
-  end
-
   @spec channel_emotes(String.t(), Integer.t()) :: list(Twitch.Emote.t())
   def channel_emotes(channel_name, tier \\ 3) do
     path = "channels/#{channel_name}/product"

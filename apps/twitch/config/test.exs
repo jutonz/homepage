@@ -8,4 +8,6 @@ config :twitch, Twitch.Repo,
   username: "postgres",
   password: nil
 
-config :twitch, bttv_api_client: Twitch.BttvApiMock
+config :twitch,
+  bttv_api_client: Twitch.BttvApiMock,
+  twitch_emotes_api_client: Twitch.TwitchEmotesApiMock

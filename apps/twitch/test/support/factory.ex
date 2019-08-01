@@ -42,7 +42,10 @@ defmodule Twitch.Factory do
       channel: "#comradenerdy",
       display_name: "syps_",
       message: "TaBeRu",
-      raw_event: ":syps_!syps_@syps_.tmi.twitch.tv PRIVMSG #comradenerdy :TaBeRu"
+      raw_event: ":syps_!syps_@syps_.tmi.twitch.tv PRIVMSG #comradenerdy :Kappa TaBeRu",
+      tags: %{
+        "emotes" => "25:0-4"
+      }
     }
   end
 
