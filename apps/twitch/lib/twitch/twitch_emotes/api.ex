@@ -1,4 +1,7 @@
 defmodule Twitch.TwitchEmotes.Api do
+  require Logger
+  alias Twitch.ApiCache
+
   def connection(method, path, opts \\ []) do
     default_opts = [body: "", headers: [], params: []]
     options = Keyword.merge(default_opts, opts) |> Enum.into(%{})
@@ -7,8 +10,24 @@ defmodule Twitch.TwitchEmotes.Api do
     url = api_base() |> URI.merge(path) |> URI.to_string()
 
     case method do
-      :get -> HTTPoison.get!(url, headers, params: params) |> parse_response()
+      :get -> cached_get(url, headers, params) |> parse_response()
       _ -> HTTPoison |> apply(method, [url, body, headers]) |> parse_response()
+    end
+  end
+
+  def cached_get(url, headers, params) do
+    cache_key = ApiCache.cache_key([url, headers, params])
+
+    case ApiCache.get(cache_key) do
+      nil ->
+        Logger.info("😿 cache miss #{cache_key} #{url}")
+        response = HTTPoison.get!(url, headers, params: params)
+        ApiCache.set(cache_key, response)
+        response
+
+      response ->
+        Logger.info("❗️ CACHE HIT #{cache_key} #{url}")
+        response
     end
   end
 

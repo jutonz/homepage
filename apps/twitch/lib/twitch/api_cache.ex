@@ -1,4 +1,4 @@
-defmodule Twitch.Api.Cache do
+defmodule Twitch.ApiCache do
   use GenServer
 
   @one_minute 60000
@@ -23,12 +23,12 @@ defmodule Twitch.Api.Cache do
     GenServer.call(__MODULE__, {:get, cache_key})
   end
 
-  def set(cache_key, response) do
-    GenServer.cast(__MODULE__, {:set, cache_key, response})
+  def set(cache_key, response, ttl \\ @one_minute) do
+    GenServer.cast(__MODULE__, {:set, cache_key, response, ttl})
   end
 
-  def schedule_unset(cache_key) do
-    Process.send_after(__MODULE__, {:unset, cache_key}, @one_minute)
+  def schedule_unset(cache_key, ttl) do
+    Process.send_after(__MODULE__, {:unset, cache_key}, ttl)
   end
 
   ##############################################################################
@@ -48,8 +48,8 @@ defmodule Twitch.Api.Cache do
     {:reply, cache[cache_key], cache}
   end
 
-  def handle_cast({:set, cache_key, value}, cache) do
-    schedule_unset(cache_key)
+  def handle_cast({:set, cache_key, value, ttl}, cache) do
+    schedule_unset(cache_key, ttl)
     {:noreply, Map.put(cache, cache_key, value)}
   end
 

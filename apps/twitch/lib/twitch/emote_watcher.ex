@@ -15,8 +15,7 @@ defmodule Twitch.EmoteWatcher do
     channel_id = Twitch.Api.channel(channel_name)["_id"]
 
     state = %{
-      channel_emotes: Twitch.Api.channel_emotes(channel_name),
-      global_emotes: Twitch.Api.global_emotes(),
+      twitch_emotes: [],
       bttv_channel_emotes: Twitch.Bttv.channel_emotes(channel_name),
       bttv_global_emotes: Twitch.Bttv.global_emotes(),
       ffz_global_emotes: Twitch.Bttv.global_ffz_emotes(),
@@ -40,30 +39,35 @@ defmodule Twitch.EmoteWatcher do
 
   def emotes_in_message(message, state) do
     %{}
-    |> Map.merge(Twitch.Emote.detect_many(state[:global_emotes], message))
-    |> Map.merge(Twitch.Emote.detect_many(state[:channel_emotes], message))
+    |> Map.merge(Twitch.Emote.detect_many(state[:twitch_emotes], message))
     |> Map.merge(Bttv.Emote.detect_many(state[:bttv_channel_emotes], message))
     |> Map.merge(Bttv.Emote.detect_many(state[:bttv_global_emotes], message))
     |> Map.merge(Bttv.Emote.detect_many(state[:ffz_global_emotes], message))
     |> Map.merge(Bttv.Emote.detect_many(state[:ffz_channel_emotes], message))
   end
 
-  def add_extra_emotes(event, state) do
-    user_id = event.tags["user-id"]
+  def lookup_twitch_emotes(event, state) do
+    case event.tags do
+      nil ->
+        state
 
-    if user_id do
+      tags ->
+        emotes =
+          tags
+          |> Map.get("emotes")
+          |> String.split("/")
+          |> Enum.map(fn emote -> emote |> String.split(":") |> hd() end)
+          |> Twitch.TwitchEmotes.emotes()
+
+        twitch_emotes = state[:twitch_emotes]
+        Map.put(state, :twitch_emotes, twitch_emotes ++ emotes)
     end
   end
 
   def handle_cast({_topic, _id} = event_shadow, state) do
     event = Events.fetch_event(event_shadow).data
 
-    state = add_extra_emotes(event, state)
-
-    # Get display name of user who sent it
-    # Get emotes for that user
-    # Ignore global emotes
-    # Add to list of emotes to detect
+    state = lookup_twitch_emotes(event, state)
 
     emotes_in_msg = emotes_in_message(event.message, state)
 
