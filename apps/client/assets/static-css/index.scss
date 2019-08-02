@@ -4,6 +4,8 @@
 
 @tailwind utilities;
 
+@import "./twitch/chat";
+
 body {
   background-color: black;
   color: white;

@@ -1,0 +1,17 @@
+.chat {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid white;
+  width: 500px;
+  height: 700px;
+  overflow-x: scroll;
+
+  &__messages {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  &__messages__message {
+    margin-top: 10px;
+  }
+}

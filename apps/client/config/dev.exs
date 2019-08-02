@@ -20,7 +20,8 @@ config :client, ClientWeb.Endpoint,
       ~r{priv/static/.*(static-js|static-css|js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/client_web/views/.*(ex)$},
-      ~r{lib/client_web/templates/.*(eex)$}
+      ~r{lib/client_web/templates/.*(eex)$},
+      ~r{lib/my_app_web/live/.*(ex)$}
     ]
   ],
   watchers: [
