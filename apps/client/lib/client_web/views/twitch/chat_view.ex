@@ -18,7 +18,7 @@ defmodule ClientWeb.Twitch.ChatView do
   def mount(%{channel_name: channel_name} = _session, socket) do
     topic = "chat_message:##{channel_name}"
     :ok = Phoenix.PubSub.subscribe(Client.PubSub, topic)
-    {:ok, assign(socket, events: [welcome_event])}
+    {:ok, assign(socket, events: [welcome_event()])}
   end
 
   def handle_info(%Twitch.ParsedEvent{} = event, socket) do
