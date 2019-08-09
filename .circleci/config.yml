@@ -51,6 +51,7 @@ jobs:
         paths:
         - _build/dev
         - deps
+
   fetch_node_modules:
     working_directory: ~/code
     docker:
@@ -58,9 +59,12 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        keys:
+        - v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        - v4-dev-{{ checksum "mix.lock" }}
         paths:
-        - "apps/client/assets/node_modules"
+        - apps/client/assets/node_modules
+        - deps
     - run:
         name: yarn install
         command: |
@@ -69,8 +73,7 @@ jobs:
     - save_cache:
         key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
-        - "apps/client/assets/node_modules"
-
+        - apps/client/assets/node_modules
   mix_test:
     working_directory: ~/code
     docker:
@@ -192,8 +195,9 @@ workflows:
     - build_test
     - build_dev
     - build_prod
-    - fetch_node_modules
 
+    - fetch_node_modules:
+        requires: ["build_dev"]
     - mix_test:
         requires: ["build_test"]
     - mix_format:
