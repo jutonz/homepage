@@ -21,7 +21,13 @@ jobs:
         command: |
           mix local.hex --force
           mix local.rebar --force
+    - run:
+        name: Install deps
+        command: |
           mix deps.get
+    - run:
+        name: Install deps
+        command: |
           mix compile --warnings-as-errors
     - save_cache:
         key: v4-test-{{ checksum "mix.lock" }}
