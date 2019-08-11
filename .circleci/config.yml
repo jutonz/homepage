@@ -56,7 +56,7 @@ jobs:
         command: |
           mix deps.get
     - run:
-        name: Install deps
+        name: Compile
         command: |
           mix compile --warnings-as-errors
     - save_cache:
