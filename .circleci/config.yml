@@ -41,8 +41,9 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v4-dev-{{ checksum "mix.lock" }}
+        key: v4-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
+        - apps/client/assets/node_modules
         - _build/dev
         - deps
     - run:
@@ -50,11 +51,18 @@ jobs:
         command: |
           mix local.hex --force
           mix local.rebar --force
+    - run:
+        name: Install deps
+        command: |
           mix deps.get
+    - run:
+        name: Install deps
+        command: |
           mix compile --warnings-as-errors
     - save_cache:
-        key: v4-dev-{{ checksum "mix.lock" }}
+        key: v4-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
+        - apps/client/assets/node_modules
         - _build/dev
         - deps
 
@@ -65,9 +73,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        keys:
-        - v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
-        - v4-dev-{{ checksum "mix.lock" }}
+        key: v4-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
         - apps/client/assets/node_modules
         - deps
@@ -79,7 +85,7 @@ jobs:
           ls /home/circleci/code/deps/ -alh
           yarn
     - save_cache:
-        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v4-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
         - apps/client/assets/node_modules
   mix_test:
