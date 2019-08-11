@@ -65,10 +65,12 @@ jobs:
         paths:
         - apps/client/assets/node_modules
         - deps
+        - _build/dev
     - run:
         name: yarn install
         command: |
           cd apps/client/assets
+          ls /home/circleci/code/deps/ -alh
           yarn
     - save_cache:
         key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
