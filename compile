@@ -1,7 +1,6 @@
 rm -rf $phoenix_dir/priv/static
 mkdir -p $phoenix_dir/priv/static
 
-yarn
 yarn run bundle:react
 yarn run bundle:static
 cd $phoenix_dir
