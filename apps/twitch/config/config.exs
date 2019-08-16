@@ -10,7 +10,8 @@ config :twitch,
     redirect_uri: System.get_env("TWITCH_REDIRECT_URI")
   },
   bttv_api_client: Twitch.Bttv.Api,
-  twitch_emotes_api_client: Twitch.TwitchEmotes.Api
+  twitch_emotes_api_client: Twitch.TwitchEmotes.Api,
+  api_cache_name: :api_cache
 
 config :exenv,
   adapters: [
