@@ -26,7 +26,7 @@ defmodule Auth.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:guardian, "~> 1.0"},
+      {:guardian, "~> 2.0"},
       {:comeonin, "~> 5.1"},
       {:argon2_elixir, "~> 2.0"}
     ]
