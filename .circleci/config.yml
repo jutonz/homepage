@@ -83,11 +83,12 @@ jobs:
         command: |
           cd apps/client/assets
           yarn install
-          cd -
     - save_cache:
-        key: v5-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
         - apps/client/assets/node_modules
+        - deps
+        - _build/dev
   mix_test:
     working_directory: ~/code
     docker:
@@ -133,7 +134,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v5-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn lint
@@ -181,7 +182,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v5-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn bundle:static
@@ -195,7 +196,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v5-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn bundle:react
