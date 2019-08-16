@@ -23,6 +23,7 @@ defmodule ClientWeb do
       import Plug.Conn
       import ClientWeb.Router.Helpers
       import ClientWeb.Gettext
+      import Phoenix.LiveView.Controller, only: [live_render: 3]
     end
   end
 
@@ -46,6 +47,7 @@ defmodule ClientWeb do
       import ClientWeb.Router.Helpers
       import ClientWeb.ErrorHelpers
       import ClientWeb.Gettext
+      import Phoenix.LiveView, only: [live_render: 2, live_render: 3, live_link: 1, live_link: 2]
     end
   end
 
@@ -54,6 +56,7 @@ defmodule ClientWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 

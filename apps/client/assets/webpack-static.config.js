@@ -35,7 +35,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.scss/,
         include: [path.resolve(__dirname, "static-css")],
         use: [
           {
@@ -54,6 +54,9 @@ const config = {
               ident: "postcss-loader",
               plugins: postcssPlugins()
             }
+          },
+          {
+            loader: "sass-loader"
           }
         ]
       }

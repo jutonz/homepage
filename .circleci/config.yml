@@ -21,7 +21,13 @@ jobs:
         command: |
           mix local.hex --force
           mix local.rebar --force
+    - run:
+        name: Install deps
+        command: |
           mix deps.get
+    - run:
+        name: Install deps
+        command: |
           mix compile --warnings-as-errors
     - save_cache:
         key: v4-test-{{ checksum "mix.lock" }}
@@ -35,8 +41,9 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v4-dev-{{ checksum "mix.lock" }}
+        key: v5-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
+        - apps/client/assets/node_modules
         - _build/dev
         - deps
     - run:
@@ -44,33 +51,44 @@ jobs:
         command: |
           mix local.hex --force
           mix local.rebar --force
+    - run:
+        name: Install deps
+        command: |
           mix deps.get
+    - run:
+        name: Compile
+        command: |
           mix compile --warnings-as-errors
     - save_cache:
-        key: v4-dev-{{ checksum "mix.lock" }}
+        key: v5-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
+        - apps/client/assets/node_modules
         - _build/dev
         - deps
-  fetch_node_modules:
+
+  yarn_install:
     working_directory: ~/code
     docker:
     - image: circleci/node:10
     steps:
     - checkout
     - restore_cache:
-        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v5-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
-        - "apps/client/assets/node_modules"
+        - apps/client/assets/node_modules
+        - deps
+        - _build/dev
     - run:
         name: yarn install
         command: |
           cd apps/client/assets
-          yarn
+          yarn install
     - save_cache:
-        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
-        - "apps/client/assets/node_modules"
-
+        - apps/client/assets/node_modules
+        - deps
+        - _build/dev
   mix_test:
     working_directory: ~/code
     docker:
@@ -88,7 +106,7 @@ jobs:
     - restore_cache:
         keys:
         - v4-test-{{ checksum "mix.lock" }}
-        - v4-dev-{{ checksum "mix.lock" }}
+        - v5-dev-{{ checksum "mix.lock" }}
         paths:
         - _build/dev
         - _build/test
@@ -116,12 +134,13 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn lint
         command: |
           cd apps/client/assets
+          ls -alh node_modules
           yarn lint
   mix_format:
     working_directory: ~/code
@@ -163,7 +182,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn bundle:static
@@ -177,7 +196,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn bundle:react
@@ -192,15 +211,16 @@ workflows:
     - build_test
     - build_dev
     - build_prod
-    - fetch_node_modules
 
+    - yarn_install:
+        requires: ["build_dev"]
     - mix_test:
         requires: ["build_test"]
     - mix_format:
         requires: ["build_dev"]
     - yarn_lint:
-        requires: ["fetch_node_modules"]
+        requires: ["yarn_install"]
     - yarn_bundle_react:
-        requires: ["fetch_node_modules"]
+        requires: ["yarn_install"]
     - yarn_bundle_static:
-        requires: ["fetch_node_modules"]
+        requires: ["yarn_install"]

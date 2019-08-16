@@ -17,6 +17,12 @@ defmodule Client.TwitchServer do
   def handle_cast({:chat_message, _id} = event_shadow, state) do
     event = Events.fetch_event(event_shadow).data
 
+    Phoenix.PubSub.broadcast(
+      Client.PubSub,
+      "chat_message:#{event.channel}",
+      event
+    )
+
     ClientWeb.Endpoint.broadcast!(
       "twitch_channel:#{event.channel}",
       event.irc_command,
