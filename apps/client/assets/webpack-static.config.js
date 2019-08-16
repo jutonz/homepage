@@ -39,8 +39,7 @@ const config = {
         include: [path.resolve(__dirname, "static-css")],
         use: [
           {
-            loader: "style-loader",
-            options: { sourceMap: true }
+            loader: "style-loader"
           },
           {
             loader: "css-loader",
