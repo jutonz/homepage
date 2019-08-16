@@ -8,7 +8,7 @@
     "watch": "node ./node_modules/.bin/webpack --watch-stdin --color",
     "start": "node ./node_modules/.bin/webpack-dev-server --config webpack.config.development.js",
     "s": "yarn start",
-    "lint": "node ./node_modules/.bin/eslint 'js/**/*.{js,jsx,ts,tsx}'",
+    "lint": "node ./node_modules/.bin/eslint '{static-js,js}/**/*.{js,jsx,ts,tsx}'",
     "compile:backend": "cd ../../.. && MIX_ENV=prod mix local.hex --force && MIX_ENV=prod mix local.rebar --force && MIX_ENV=prod mix deps.get && MIX_ENV=prod mix compile",
     "compile:frontend": "yarn --link-duplicates && yarn run bundle"
   },

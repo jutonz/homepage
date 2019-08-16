@@ -10,9 +10,9 @@ if (chatScrollPane) {
   const chatList = document.getElementsByClassName("chat__messages")[0];
   new MutationObserver((mutationsList, observer) => {
     for (let mutation of mutationsList) {
-      if (mutation.type === 'childList') {
+      if (mutation.type === "childList") {
         chatScrollPane.scrollTop = chatScrollPane.scrollHeight;
       }
     }
-  }).observe(chatList, { childList: true })
+  }).observe(chatList, { childList: true });
 }
