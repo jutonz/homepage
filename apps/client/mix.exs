@@ -54,7 +54,7 @@ defmodule Client.Mixfile do
       {:bamboo, "~> 1.1"},
       {:sentry, "~> 7.0"},
       {:jason, "~> 1.1"},
-      {:wallaby, "~> 0.22.0", [runtime: false, only: :test]},
+      {:wallaby, "~> 0.23.0", [runtime: false, only: :test]},
       {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
