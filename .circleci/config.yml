@@ -133,7 +133,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v4-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn lint
@@ -180,7 +180,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v4-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn bundle:static
@@ -194,7 +194,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-node-modules-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v4-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn bundle:react
