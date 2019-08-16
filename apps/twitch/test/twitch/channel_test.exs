@@ -27,4 +27,18 @@ defmodule Twitch.ChannelTest do
 
     {:error, "No matching channel"} = Channel.get_by_user_id(me.id, channel_name)
   end
+
+  describe ".with_irc_prefix" do
+    test "adds an # to the start of the name" do
+      assert Channel.with_irc_prefix("test") == "#test"
+    end
+
+    test "doesn't add extra # if one is already present" do
+      assert Channel.with_irc_prefix("#test") == "#test"
+    end
+
+    test "removes extra # if too many are present" do
+      assert Channel.with_irc_prefix("##test") == "#test"
+    end
+  end
 end

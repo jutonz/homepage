@@ -27,8 +27,13 @@ defmodule ClientWeb.Twitch.ChatView do
   end
 
   @history_size 50
+  @valid_irc_commands ~w[PRIVMSG ACTION]
   defp append_event(event, events) do
-    [event | Enum.take(events, @history_size - 1)]
+    if Enum.member?(@valid_irc_commands, event.irc_command) do
+      [event | Enum.take(events, @history_size - 1)]
+    else
+      events
+    end
   end
 
   defp welcome_event do

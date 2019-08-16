@@ -77,6 +77,16 @@ defmodule Twitch.Channel do
     end
   end
 
+  def with_irc_prefix(channel_name) do
+    without_prefix = String.replace_leading(channel_name, "#", "")
+
+    String.pad_leading(
+      without_prefix,
+      String.length(without_prefix) + 1,
+      "#"
+    )
+  end
+
   def chat_process_name(channel_name) do
     :"TwitchChatSubscription:#{channel_name}"
   end
