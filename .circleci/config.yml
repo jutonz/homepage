@@ -66,7 +66,7 @@ jobs:
         - _build/dev
         - deps
 
-  fetch_node_modules:
+  yarn_install:
     working_directory: ~/code
     docker:
     - image: circleci/node:10
@@ -82,8 +82,8 @@ jobs:
         name: yarn install
         command: |
           cd apps/client/assets
-          ls /home/circleci/code/deps/ -alh
-          yarn
+          yarn install
+          cd -
     - save_cache:
         key: v4-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
@@ -139,6 +139,7 @@ jobs:
         name: yarn lint
         command: |
           cd apps/client/assets
+          ls -alh node_modules
           yarn lint
   mix_format:
     working_directory: ~/code
@@ -210,15 +211,15 @@ workflows:
     - build_dev
     - build_prod
 
-    - fetch_node_modules:
+    - yarn_install:
         requires: ["build_dev"]
     - mix_test:
         requires: ["build_test"]
     - mix_format:
         requires: ["build_dev"]
     - yarn_lint:
-        requires: ["fetch_node_modules"]
+        requires: ["yarn_install"]
     - yarn_bundle_react:
-        requires: ["fetch_node_modules"]
+        requires: ["yarn_install"]
     - yarn_bundle_static:
-        requires: ["fetch_node_modules"]
+        requires: ["yarn_install"]
