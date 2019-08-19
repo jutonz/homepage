@@ -2,17 +2,12 @@ defmodule ClientWeb.Twitch.ChannelController do
   use ClientWeb, :controller
 
   def show(conn, %{"name" => name} = _params) do
-    case channel_stream(name) do
-      nil ->
-        render(conn, "show_notlive.html", name: name)
+    stream = channel_stream(name)
+    {:ok, _pid} = subscribe_to_chat(name)
 
-      stream ->
-        {:ok, _pid} =
-          name
-          |> Twitch.Channel.with_irc_prefix()
-          |> Twitch.ChannelSubscriptionSupervisor.subscribe_to_chat()
-
-        render(conn, "show_live.html", name: name, stream: stream)
+    case stream do
+      nil -> render(conn, "show_notlive.html", name: name)
+      stream -> render(conn, "show_live.html", name: name, stream: stream)
     end
   end
 
@@ -24,5 +19,11 @@ defmodule ClientWeb.Twitch.ChannelController do
     else
       _ -> nil
     end
+  end
+
+  defp subscribe_to_chat(channel_name) do
+    channel_name
+    |> Twitch.Channel.with_irc_prefix()
+    |> Twitch.ChannelSubscriptionSupervisor.subscribe_to_chat()
   end
 end
