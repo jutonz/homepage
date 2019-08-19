@@ -1,9 +1,6 @@
 defmodule Twitch.ApiCache do
   use GenServer
 
-  @one_minute 60000
-  @default_server Application.get_env(:twitch, :api_cache_name)
-
   ##############################################################################
   # Public API
   ##############################################################################
@@ -20,16 +17,17 @@ defmodule Twitch.ApiCache do
   @spec cache_key(any()) :: String.t()
   def cache_key(target), do: cache_key([target])
 
-  def get(server \\ @default_server, cache_key) do
-    GenServer.call(server, {:get, cache_key})
+  def get(pid_or_name, cache_key) do
+    GenServer.call(pid_or_name, {:get, cache_key})
   end
 
-  def set(server \\ @default_server, cache_key, response, ttl \\ @one_minute) do
-    GenServer.cast(server, {:set, cache_key, response, ttl})
+  @one_minute 60000
+  def set(pid_or_name, cache_key, response, ttl \\ @one_minute) do
+    GenServer.cast(pid_or_name, {:set, cache_key, response, ttl})
   end
 
-  def schedule_unset(server \\ @default_server, cache_key, ttl) do
-    Process.send_after(server, {:unset, cache_key}, ttl)
+  def schedule_unset(pid_or_name, cache_key, ttl) do
+    Process.send_after(pid_or_name, {:unset, cache_key}, ttl)
   end
 
   ##############################################################################
