@@ -17,5 +17,10 @@ defmodule Twitch.EmoteWatcher.TwitchEmoteExtractorTest do
       event = build(:parsed_event, tags: %{"emotes" => ""})
       assert TwitchEmoteExtractor.extract(event) == []
     end
+
+    test "doesn't include emotes for which TwitchEmotes returns nothing" do
+      event = build(:parsed_event, tags: %{"emotes" => "bad-id"})
+      assert TwitchEmoteExtractor.extract(event) == []
+    end
   end
 end
