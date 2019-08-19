@@ -29,14 +29,15 @@ defmodule Twitch.Api.Kraken do
     end
   end
 
+  @api_cache_server Application.get_env(:twitch, :api_cache_name)
   def cached_get(url, headers, params) do
     cache_key = ApiCache.cache_key([url, headers, params])
 
-    case ApiCache.get(cache_key) do
+    case ApiCache.get(@api_cache_server, cache_key) do
       nil ->
         Logger.info("😿 cache miss #{cache_key} #{url}")
         response = HTTPoison.get!(url, headers, params: params)
-        ApiCache.set(cache_key, response)
+        ApiCache.set(@api_cache_server, cache_key, response)
         response
 
       response ->
