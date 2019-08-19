@@ -1,5 +1,4 @@
 <div class="channel m-4 flex flex-col justify-center">
-  <div class="mb-4">Hey <%= @name %></div>
   <div class="mb-4"><%= @name %> is live!</div>
 
   <div>
