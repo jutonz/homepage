@@ -48,11 +48,11 @@ defmodule Twitch.EmoteWatcher do
   end
 
   def lookup_twitch_emotes(event, state) do
-    emotes = TwitchEmoteExtractor.extract(event)
+    emotes_in_msg = TwitchEmoteExtractor.extract(event)
 
     new_emotes =
-      Enum.reduce(emotes, state[:twitch_emotes], fn emote, emotes ->
-        MapSet.put(emotes, emote)
+      Enum.reduce(emotes_in_msg, state[:twitch_emotes], fn emote, new_emotes ->
+        MapSet.put(new_emotes, emote)
       end)
 
     Map.put(state, :twitch_emotes, new_emotes)

@@ -8,13 +8,17 @@ defmodule Twitch.EmoteWatcher.TwitchEmoteExtractor do
     emotes
     |> String.split("/")
     |> Stream.map(fn emote -> emote |> String.split(":") |> hd() end)
-    |> Enum.reduce([], fn emote, emotes ->
-      if emote do
-        [emote | emotes]
+    |> Stream.map(&Twitch.TwitchEmotes.emote/1)
+    |> reject_nil()
+  end
+
+  defp reject_nil(collection) do
+    Enum.reduce(collection, [], fn elem, acc ->
+      if elem do
+        [elem | acc]
       else
-        emotes
+        acc
       end
     end)
-    |> Enum.map(&Twitch.TwitchEmotes.emote/1)
   end
 end

@@ -1,4 +1,6 @@
 defmodule Twitch.TwitchEmotes do
+  def emote(nil), do: nil
+
   @spec emote(String.t()) :: Twitch.Emote.t()
   def emote(emote_id) do
     case emotes([emote_id]) do
