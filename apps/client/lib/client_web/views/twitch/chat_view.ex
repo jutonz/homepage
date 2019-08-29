@@ -18,7 +18,7 @@ defmodule ClientWeb.Twitch.ChatView do
   def mount(%{channel_name: channel_name} = _session, socket) do
     topic = "chat_message:##{channel_name}"
     :ok = Phoenix.PubSub.subscribe(Client.PubSub, topic)
-    {:ok, assign(socket, events: [welcome_event()])}
+    {:ok, assign(socket, events: [welcome_event(channel_name)])}
   end
 
   def handle_info(%Twitch.ParsedEvent{} = event, socket) do
@@ -36,7 +36,7 @@ defmodule ClientWeb.Twitch.ChatView do
     end
   end
 
-  defp welcome_event do
-    %Twitch.ParsedEvent{message: "Connected to chat"}
+  defp welcome_event(channel_name) do
+    %Twitch.ParsedEvent{message: "Connected to #{channel_name}"}
   end
 end

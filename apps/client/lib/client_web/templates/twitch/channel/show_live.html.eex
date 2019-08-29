@@ -32,5 +32,13 @@
       ClientWeb.Twitch.ChatView,
       session: %{channel_name: @name}
     ) %>
+
+    <%= for other <- @others do %>
+      <%= Phoenix.LiveView.live_render(
+        @conn,
+        ClientWeb.Twitch.ChatView,
+        session: %{channel_name: other}
+      ) %>
+    <% end %>
   </div>
 </div>
