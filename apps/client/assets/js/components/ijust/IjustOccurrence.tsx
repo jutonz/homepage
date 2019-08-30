@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, Table } from "semantic-ui-react";
 import { css, StyleSheet } from "aphrodite";
-import { format, distanceInWordsToNow } from "date-fns";
+import { format, formatDistanceToNow, parseISO } from "date-fns";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -36,9 +36,9 @@ interface Props {
 export const IjustOccurrence = ({ occurrence }: Props) => (
   <Table.Row>
     <Table.Cell>
-      {format(occurrence.insertedAt + "Z", Constants.dateTimeFormat)}
+      {format(parseISO(occurrence.insertedAt + "Z"), Constants.dateTimeFormat)}
       <span className={css(styles.relativeDateSpacer)}>
-        ({distanceInWordsToNow(occurrence.insertedAt + "Z")} ago)
+        ({formatDistanceToNow(parseISO(occurrence.insertedAt + "Z"))} ago)
       </span>
     </Table.Cell>
     <Table.Cell>{renderDeleteButton(occurrence)}</Table.Cell>
