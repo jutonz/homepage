@@ -16,10 +16,7 @@ defmodule ClientWeb.Twitch.ChannelController do
   end
 
   defp filter_others(nil = _other_channel_names), do: []
-
-  defp filter_others(other_channel_names) do
-    Enum.uniq(other_channel_names)
-  end
+  defp filter_others(other_channel_names), do: Enum.uniq(other_channel_names)
 
   defp channel_stream(channel_name) do
     with %{"_id" => channel_id} <- Twitch.Api.channel(channel_name),

@@ -72,5 +72,19 @@ defmodule Twitch.ChatSubscription do
     {:reply, frame, state}
   end
 
+  def alive?(channel_name) do
+    pid =
+      channel_name
+      |> Twitch.Channel.with_irc_prefix()
+      |> Twitch.Channel.chat_process_name()
+      |> Process.whereis()
+
+    if is_pid(pid) do
+      Process.alive?(pid)
+    else
+      false
+    end
+  end
+
   defp random_name, do: "justinfan" <> to_string(:rand.uniform(9999))
 end
