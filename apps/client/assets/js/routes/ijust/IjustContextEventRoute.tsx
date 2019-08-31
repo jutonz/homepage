@@ -2,7 +2,7 @@ import * as React from "react";
 import gql from "graphql-tag";
 import { Header, Table } from "semantic-ui-react";
 import { css, StyleSheet } from "aphrodite";
-import { format, distanceInWordsToNow } from "date-fns";
+import { format, formatDistanceToNow, parseISO } from "date-fns";
 
 import { MainNav } from "@components/MainNav";
 import { QueryLoader } from "@utils/QueryLoader";
@@ -67,18 +67,18 @@ const renderEvent = (event, context) => (
         <Table.Row>
           <Table.Cell>First occurred</Table.Cell>
           <Table.Cell>
-            {format(event.insertedAt + "Z", Constants.dateTimeFormat)}
+            {format(parseISO(event.insertedAt + "Z"), Constants.dateTimeFormat)}
             <span className={css(styles.relativeDateSpacer)}>
-              ({distanceInWordsToNow(event.insertedAt + "Z")} ago)
+              ({formatDistanceToNow(parseISO(event.insertedAt + "Z"))} ago)
             </span>
           </Table.Cell>
         </Table.Row>
         <Table.Row>
           <Table.Cell>Last occurred</Table.Cell>
           <Table.Cell>
-            {format(event.updatedAt + "Z", Constants.dateTimeFormat)}
+            {format(parseISO(event.updatedAt + "Z"), Constants.dateTimeFormat)}
             <span className={css(styles.relativeDateSpacer)}>
-              ({distanceInWordsToNow(event.updatedAt + "Z")} ago)
+              ({formatDistanceToNow(parseISO(event.updatedAt + "Z"))} ago)
             </span>
           </Table.Cell>
         </Table.Row>
