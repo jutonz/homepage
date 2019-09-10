@@ -13,5 +13,5 @@ interface Props {
   styles?: any;
 }
 export const FormBox = ({ children, styles }: Props) => (
-  <div className={css(style.formBox, ...styles)}>{children}</div>
+  <div className={css(style.formBox, styles)}>{children}</div>
 );
