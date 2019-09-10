@@ -1,5 +1,5 @@
-const dateFormat = "DD MMM YYYY";
-const timeFormat = "h:mm A";
+const dateFormat = "dd LLL yyyy";
+const timeFormat = "h:mm a";
 const dateTimeFormat = `${dateFormat} ${timeFormat}`;
 
 export const Constants = {
