@@ -22,7 +22,7 @@
     "clipboard": "^2.0.4",
     "graphql": "^14.5.0",
     "graphql-tag": "^2.10.1",
-    "history": "^4.9.0",
+    "history": "^4.10.1",
     "immutable": "4.0.0-rc.12",
     "pdfjs-dist": "^2.0.205",
     "phoenix": "file:./../../../deps/phoenix",
