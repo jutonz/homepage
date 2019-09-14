@@ -38,8 +38,12 @@ class _LoginRoute extends React.Component {
 
   onLogin = () => {
     this.props.initSession();
+    const query = new URLSearchParams(this.props.location.search);
+    const redirectTo = query.get("to");
 
-    if (this.props.location.state) {
+    if (redirectTo) {
+      window.location.replace(redirectTo);
+    } else if (this.props.location.state) {
       this.props.history.push(this.props.location.state);
     } else {
       this.props.history.push("/");

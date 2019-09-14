@@ -14,12 +14,15 @@ defmodule ClientWeb.Router do
     plug(Phoenix.LiveView.Flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug(ClientWeb.Plugs.BrowserAuthenticated)
   end
 
   scope "/", ClientWeb do
     pipe_through(:browser)
 
-    get("/login", SessionController, :exchange)
+    scope "/settings", Settings do
+      get("/api", ApiController, :index)
+    end
   end
 
   scope "/twitch", ClientWeb.Twitch do

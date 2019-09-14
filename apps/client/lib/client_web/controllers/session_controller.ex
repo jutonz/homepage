@@ -2,9 +2,6 @@ defmodule ClientWeb.SessionController do
   use ClientWeb, :controller
   alias Client.Session
 
-  @doc """
-  Login via username and password.
-  """
   def login(conn, %{"email" => email, "password" => password}) do
     case conn |> Session.login(email, password) do
       {:ok, _user, conn} ->
@@ -17,9 +14,6 @@ defmodule ClientWeb.SessionController do
     end
   end
 
-  @doc """
-  Login via token. Token is invalidated after use.
-  """
   def exchange(conn, %{"token" => token}) do
     case conn |> Session.exchange(token) do
       {:ok, _user, conn} ->
