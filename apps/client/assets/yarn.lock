@@ -5670,12 +5670,13 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-pdfjs-dist@^2.0.205:
-  version "2.0.466"
-  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-2.0.466.tgz#c9b6c438c79ea15df3df0b4f347d0ecf8e0aca74"
+pdfjs-dist@^2.1.266:
+  version "2.1.266"
+  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-2.1.266.tgz#cded02268b389559e807f410d2a729db62160026"
+  integrity sha512-Jy7o1wE3NezPxozexSbq4ltuLT0Z21ew/qrEiAEeUZzHxMHGk4DUV1D7RuCXg5vJDvHmjX1YssN+we9QfRRgXQ==
   dependencies:
     node-ensure "^0.0.0"
-    worker-loader "^1.1.1"
+    worker-loader "^2.0.0"
 
 performance-now@^2.1.0:
   version "2.1.0"
@@ -8163,9 +8164,10 @@ worker-farm@^1.7.0:
   dependencies:
     errno "~0.1.7"
 
-worker-loader@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-1.1.1.tgz#920d74ddac6816fc635392653ed8b4af1929fd92"
+worker-loader@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-2.0.0.tgz#45fda3ef76aca815771a89107399ee4119b430ac"
+  integrity sha512-tnvNp4K3KQOpfRnD20m8xltE3eWh89Ye+5oj7wXEEHKac1P4oZ6p9oTj8/8ExqoSBnk9nu5Pr4nKfQ1hn2APJw==
   dependencies:
     loader-utils "^1.0.0"
     schema-utils "^0.4.0"
