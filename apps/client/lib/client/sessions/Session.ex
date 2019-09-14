@@ -63,6 +63,13 @@ defmodule Client.Session do
     end
   end
 
+  def check_session(conn) do
+    case get_session(conn, :user_id) do
+      nil -> {:error, "Unauthenticated"}
+      user_id -> {:ok, user_id}
+    end
+  end
+
   @doc """
   Create an authenticated session for the given user. The user will be from
   this point on able to make authenticated API calls using this session.
