@@ -19,8 +19,8 @@ defmodule ClientWeb.Twitch.ChannelController do
   defp filter_others(other_channel_names), do: Enum.uniq(other_channel_names)
 
   defp channel_stream(channel_name) do
-    with %{"_id" => channel_id} <- Twitch.Api.channel(channel_name),
-         stream <- Twitch.Api.streams(channel_id),
+    with %{"_id" => user_id} <- Twitch.Api.user(channel_name),
+         stream <- Twitch.Api.streams(user_id),
          stream when is_map(stream) <- Map.get(stream, "stream") do
       stream
     else

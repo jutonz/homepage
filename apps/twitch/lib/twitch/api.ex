@@ -29,12 +29,17 @@ defmodule Twitch.Api do
     Api.Kraken.connection(:get, path, params: params)
   end
 
-  def channel(channel_name) do
-    path = "kraken/channels/#{channel_name}"
+  def user(username) do
+    response =
+      Api.Kraken.connection(:get, "kraken/users", [
+        {:headers, [{"Accept", "application/vnd.twitchtv.v5+json"}]},
+        {:params, [{"login", username}]}
+      ])
 
-    Api.Kraken.connection(:get, path, [
-      {:headers, [{"Accept", "application/vnd.twitchtv.v3+json"}]}
-    ])
+    case response do
+      %{"users" => [user]} -> user
+      _ -> nil
+    end
   end
 
   @type stream_type :: :live | :playlist | :all
