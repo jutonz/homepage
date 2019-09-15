@@ -1,12 +1,25 @@
 .chat {
-  margin-top: 20px;
-  padding: 20px;
-  border: 1px solid white;
-  width: 500px;
-  height: 700px;
-  overflow-x: scroll;
+  &__container {
+    border: 1px solid white;
+    width: 500px;
+    margin-top: 20px;
+  }
 
-  &__messages {
+  &__header {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 20px;
+    border-bottom: 1px solid white;
+    justify-content: space-between;
+  }
+
+  &__scroll-pane {
+    padding: 20px;
+    overflow-x: scroll;
+    height: 700px;
+  }
+
+  &__scroll-pane__messages {
     display: flex;
     flex-direction: column-reverse;
   }
