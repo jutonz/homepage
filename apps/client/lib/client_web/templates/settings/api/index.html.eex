@@ -1,1 +1,17 @@
-API Settings <%= @user.email %>
+<div class="m-4">
+  <div class="text-xl mb-2">API Settings</div>
+
+  <div>
+    <div class="text-lg mb-1">API Tokens</div>
+    <%= for api_token <- @api_tokens do %>
+      <div class="mb-1">
+        <%= api_token.description %>
+        <%= api_token.token %>
+      </div>
+    <% end %>
+
+    <%= if !Enum.any?(@api_tokens) do %>
+      No tokens
+    <% end %>
+  </div>
+</div>
