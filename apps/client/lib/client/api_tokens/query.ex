@@ -1,4 +1,4 @@
-defmodule Client.ApiToken.Query do
+defmodule Client.ApiTokens.Query do
   import Ecto.Query, only: [from: 2]
 
   def by_user_id(query, user_id) do

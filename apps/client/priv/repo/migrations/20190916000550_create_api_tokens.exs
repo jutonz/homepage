@@ -10,6 +10,8 @@ defmodule Client.Repo.Migrations.CreateApiTokens do
       timestamps()
     end
 
-    create(index(:api_tokens, :user_id, unique: true))
+    create(index(:api_tokens, :user_id))
+    create(index(:api_tokens, [:user_id, :description], unique: true))
+    create(index(:api_tokens, [:user_id, :token], unique: true))
   end
 end

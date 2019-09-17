@@ -20,8 +20,11 @@ defmodule ClientWeb.Router do
   scope "/", ClientWeb do
     pipe_through(:browser)
 
-    scope "/settings", Settings do
-      get("/api", ApiController, :index)
+    scope("/settings", Settings, as: :settings) do
+      scope("/api", Api, as: :api) do
+        get("/", Controller, :index)
+        resources("/tokens", TokenController, only: ~w[new create]a)
+      end
     end
   end
 

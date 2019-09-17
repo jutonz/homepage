@@ -1,6 +1,5 @@
 <div class="m-4">
   <div class="text-xl mb-2">API Settings</div>
-
   <div>
     <div class="text-lg mb-1">API Tokens</div>
     <%= for api_token <- @api_tokens do %>
@@ -9,9 +8,13 @@
         <%= api_token.token %>
       </div>
     <% end %>
-
     <%= if !Enum.any?(@api_tokens) do %>
       No tokens
     <% end %>
+    <%= link(
+      "New API token",
+      to: settings_api_token_path(ClientWeb.Endpoint, :new),
+      class: "button mt-4"
+    ) %>
   </div>
 </div>
