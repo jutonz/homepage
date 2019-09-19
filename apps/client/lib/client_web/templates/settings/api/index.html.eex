@@ -10,7 +10,7 @@
       <% end %>
 
       <%= for token <- @api_tokens do %>
-        <tr class="border-b border-solid hover:bg-gray-900">
+        <tr class="border-b border-solid hover:bg-gray-900 last:worder-b-0">
           <td class="p-2"><%= token.description %></td>
           <td class="p-2"><%= token.token %></td>
           <td class="p-2">
@@ -28,7 +28,7 @@
     <div class="mt-6">
       <%= link(
         "New token",
-        <%#to: settings_api_token_path(ClientWeb.Endpoint, :new),%>
+        to: settings_api_token_path(ClientWeb.Endpoint, :new),
         class: "button mt-4"
       ) %>
     </div>

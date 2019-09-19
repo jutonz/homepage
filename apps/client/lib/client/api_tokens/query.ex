@@ -4,4 +4,8 @@ defmodule Client.ApiTokens.Query do
   def by_user_id(query, user_id) do
     from(token in query, where: token.user_id == ^user_id)
   end
+
+  def by_description(query, description) do
+    from(token in query, where: token.description == ^description)
+  end
 end

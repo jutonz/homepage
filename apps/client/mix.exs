@@ -56,6 +56,7 @@ defmodule Client.Mixfile do
       {:jason, "~> 1.1"},
       {:wallaby, "~> 0.23.0", [runtime: false, only: :test]},
       {:phoenix_live_view, "~> 0.2"},
+      {:ex_machina, "~> 2.2", only: :test},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
       {:twitch, in_umbrella: true},

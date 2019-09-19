@@ -1,6 +1,6 @@
-defmodule Client.ApiToken do
+defmodule Client.ApiTokens.ApiToken do
   use Ecto.Schema
-  alias Client.ApiToken
+  alias Client.ApiTokens.ApiToken
 
   @primary_key {:id, :binary_id, autogenerate: true}
 

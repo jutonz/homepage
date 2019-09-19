@@ -21,7 +21,7 @@ defmodule ClientWeb.Router do
     pipe_through(:browser)
 
     scope("/settings", Settings, as: :settings) do
-      resources("/api", Api, as: :api, only: ~w[index]a) do
+      resources("/api", ApiController, singleton: true, only: ~w[show]a) do
         resources("/tokens", TokenController, only: ~w[new create delete]a)
       end
     end
