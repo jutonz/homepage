@@ -10,3 +10,15 @@ body {
   background-color: black;
   color: white;
 }
+
+input {
+  @apply text-black p-1 pl-2 pr-2;
+}
+
+button, .button {
+  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
+
+  &:hover {
+    @apply bg-blue-700;
+  }
+}

@@ -20,6 +20,7 @@ defmodule ClientWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import ClientWeb.Router.Helpers
+      import Client.Factory
 
       # The default endpoint for testing
       @endpoint ClientWeb.Endpoint

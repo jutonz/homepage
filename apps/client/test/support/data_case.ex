@@ -22,6 +22,7 @@ defmodule Client.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Client.DataCase
+      import Client.Factory
     end
   end
 

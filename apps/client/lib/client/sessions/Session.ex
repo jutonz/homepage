@@ -86,11 +86,12 @@ defmodule Client.Session do
     {:ok, conn}
   end
 
-  defp load_current_user(conn) do
-    user_id = conn |> get_session(:user_id)
+  def current_user_id(conn), do: get_session(conn, :user_id)
 
-    if user_id do
-      User |> Repo.get(user_id)
+  defp load_current_user(conn) do
+    case current_user_id(conn) do
+      nil -> nil
+      user_id -> Repo.get(User, user_id)
     end
   end
 end
