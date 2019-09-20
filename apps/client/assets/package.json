@@ -76,7 +76,7 @@
     "redux-logger": "^3.0.6",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
-    "ts-loader": "^6.0.4",
+    "ts-loader": "^6.1.1",
     "typescript": "^3.6.3",
     "url-loader": "^2.1.0",
     "webpack": "^4.39.3",
