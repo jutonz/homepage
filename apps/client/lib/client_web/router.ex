@@ -14,11 +14,15 @@ defmodule ClientWeb.Router do
     plug(Phoenix.LiveView.Flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+  end
+
+  pipeline :browser_authenticated do
     plug(ClientWeb.Plugs.BrowserAuthenticated)
   end
 
   scope "/", ClientWeb do
     pipe_through(:browser)
+    pipe_through(:browser_authenticated)
 
     scope("/settings", Settings, as: :settings) do
       resources("/api", ApiController, singleton: true, only: ~w[show]a) do
