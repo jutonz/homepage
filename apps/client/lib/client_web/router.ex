@@ -97,7 +97,9 @@ defmodule ClientWeb.Router do
 
     scope "/twitch", Twitch, as: :twitch do
       scope "/subscriptions", Subscriptions, as: :subscriptions do
+        get("/callback", CallbackController, :test)
         post("/callback", CallbackController, :callback)
+        get("/log", CallbackController, :log)
       end
     end
   end
