@@ -1,7 +1,7 @@
 defmodule InteractorTest do
-  use Client.DataCase, async: true
-  alias Client.Util.Interactor
-  alias Client.Util.Interactible
+  use Twitch.DataCase, async: true
+  alias Twitch.Util.Interactor
+  alias Twitch.Util.Interactible
 
   test "calls the first step with nil" do
     defmodule __MODULE__.FirstStepNil do

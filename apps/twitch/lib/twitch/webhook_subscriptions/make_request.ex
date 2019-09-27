@@ -1,5 +1,5 @@
 defmodule Twitch.WebhookSubscriptions.MakeRequest do
-  @behaviour Client.Util.Interactible
+  @behaviour Twitch.Util.Interactible
 
   require Logger
   alias Twitch.WebhookSubscriptions.SubscriptionRequest

@@ -1,5 +1,5 @@
 defmodule Twitch.WebhookSubscriptions.DeleteWebhook do
-  @behaviour Client.Util.Interactible
+  @behaviour Twitch.Util.Interactible
 
   alias Twitch.WebhookSubscriptions
   alias Twitch.WebhookSubscriptions.SubscriptionRequest

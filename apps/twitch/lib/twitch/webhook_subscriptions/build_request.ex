@@ -1,5 +1,5 @@
 defmodule Twitch.WebhookSubscriptions.BuildRequest do
-  @behaviour Client.Util.Interactible
+  @behaviour Twitch.Util.Interactible
 
   alias Twitch.WebhookSubscriptions.Subscription
   alias Twitch.WebhookSubscriptions.SubscriptionRequest

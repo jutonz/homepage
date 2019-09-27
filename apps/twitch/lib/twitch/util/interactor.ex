@@ -1,5 +1,5 @@
-defmodule Client.Util.Interactor do
-  alias Client.Util.Interactor.PerformedStep
+defmodule Twitch.Util.Interactor do
+  alias Twitch.Util.Interactor.PerformedStep
 
   def perform(interactibles) do
     interactibles

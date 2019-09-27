@@ -26,7 +26,7 @@ defmodule Twitch.WebhookSubscriptions do
   end
 
   def subscribe_to(%Twitch.Channel{} = channel) do
-    Client.Util.Interactor.perform([
+    Twitch.Util.Interactor.perform([
       {WebhookSubscriptions.BuildRequest, channel},
       WebhookSubscriptions.MakeRequest,
       WebhookSubscriptions.PersistWebhook
@@ -34,7 +34,7 @@ defmodule Twitch.WebhookSubscriptions do
   end
 
   def unsubscribe_from(%Twitch.Channel{} = channel) do
-    Client.Util.Interactor.perform([
+    Twitch.Util.Interactor.perform([
       {WebhookSubscriptions.BuildRequest, [channel, :unsubscribe]},
       WebhookSubscriptions.MakeRequest,
       WebhookSubscriptions.DeleteWebhook
