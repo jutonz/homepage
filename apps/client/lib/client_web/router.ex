@@ -94,6 +94,12 @@ defmodule ClientWeb.Router do
     post("/logout", SessionController, :logout)
 
     get("/whatismyip", ClientInfoController, :whatismyip)
+
+    scope "/twitch", Twitch, as: :twitch do
+      scope "/subscriptions", Subscriptions, as: :subscriptions do
+        post("/callback", CallbackController, :callback)
+      end
+    end
   end
 
   scope "/twitch", ClientWeb do

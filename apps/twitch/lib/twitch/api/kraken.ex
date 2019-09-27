@@ -24,8 +24,13 @@ defmodule Twitch.Api.Kraken do
     url = base_url() |> URI.merge(path) |> URI.to_string()
 
     case method do
-      :get -> cached_get(url, headers, params) |> parse_response()
-      _ -> HTTPoison |> apply(method, [url, body, headers]) |> parse_response()
+      :get ->
+        cached_get(url, headers, params) |> parse_response()
+
+      _ ->
+        with {:ok, response} <- apply(HTTPoison, method, [url, body, headers]) do
+          parse_response(response)
+        end
     end
   end
 
@@ -47,7 +52,10 @@ defmodule Twitch.Api.Kraken do
   end
 
   def parse_response(response = %HTTPoison.Response{}) do
-    response.body |> Poison.decode!()
+    case response.body do
+      "" -> ""
+      body -> Poison.decode!(body)
+    end
   end
 
   def base_url do
