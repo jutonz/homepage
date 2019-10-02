@@ -25,7 +25,7 @@ class _OneTimeLoginLink extends React.Component {
 
   componentDidMount() {
     const clipboard = new Clipboard("#link-cp-trigger", {
-      text: (_target) => {
+      text: _target => {
         const ele = document.getElementById("link-cp-target");
         return ele.value;
       }

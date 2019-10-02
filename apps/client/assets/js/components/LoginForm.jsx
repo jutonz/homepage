@@ -115,7 +115,7 @@ class _LoginForm extends React.Component {
       credentials: "same-origin",
       body: new FormData(event.target)
     })
-      .then((resp) => {
+      .then(resp => {
         this.setState({ loggingIn: false });
         if (resp.ok && resp.status === 200) {
           this.props.onLogin();
@@ -123,7 +123,7 @@ class _LoginForm extends React.Component {
           return resp.json();
         }
       })
-      .then((json) => {
+      .then(json => {
         if (json && json.error) {
           console.error(json.messages);
         }

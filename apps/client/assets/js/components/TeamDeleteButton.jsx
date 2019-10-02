@@ -46,7 +46,7 @@ class _TeamDeleteButton extends React.Component {
         this.setState({ isDeleting: false });
         this.props.onDelete();
       })
-      .catch((errors) => {
+      .catch(errors => {
         this.setState({ isDeleting: false, errors });
       });
   };
