@@ -9,7 +9,7 @@ import { Map } from "immutable";
 
 export const fetchTeam = id => {
   return (dispatch, getState) => {
-    const state: StoreState = getState();
+    const state = getState();
     const existing = state.teams.teams[id];
 
     if (existing) {
@@ -45,7 +45,7 @@ export const fetchTeam = id => {
           console.error(error);
           const graphQLErrors = error.graphQLErrors;
           const errors = graphQLErrors.map(error => error.message);
-          const team: Team = {
+          const team = {
             id,
             errors,
             fetchStatus: "failure"

@@ -86,7 +86,7 @@ const getTeam = (state, props) => {
   return teams[targetId];
 };
 
-const isStatus = (status, state, props): boolean => {
+const isStatus = (status, state, props) => {
   const teamId = props.match.params.id;
   const team = state.teams.teams[teamId];
   return team && team.fetchStatus === status;

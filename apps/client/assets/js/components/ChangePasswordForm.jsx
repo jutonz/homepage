@@ -157,11 +157,11 @@ export class _ChangePasswordForm extends React.Component {
       .mutate({
         mutation: mutation
       })
-      .then((_response: any) => {
+      .then(_response => {
         this.setState({ loading: false });
         this.onPasswordChangeSuccess();
       })
-      .catch((error: GraphqlError) => {
+      .catch(error => {
         this.setState({
           loading: false,
           formState: FormState.Error,
