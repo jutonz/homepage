@@ -66,7 +66,7 @@ export default class _BgGrid {
     this.renderer.render(this.scene, this.camera);
   }
 
-  animatePlane(ts?: any) {
+  animatePlane(ts) {
     if (this.running) {
       requestAnimationFrame(ts => this.animatePlane(ts));
       this.updateWave(ts);
@@ -74,7 +74,7 @@ export default class _BgGrid {
     }
   }
 
-  updateWave(ts: any) {
+  updateWave(ts) {
     for (let i = 0; i < this.mesh.geometry.vertices.length; i++) {
       let vertice = this.mesh.geometry.vertices[i];
       let distance = new THREE.Vector2(vertice.x, vertice.y).sub(

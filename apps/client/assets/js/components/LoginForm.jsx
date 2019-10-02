@@ -53,7 +53,7 @@ class _LoginForm extends React.Component {
 
   usernameChanged = (_event, data) => {
     let username = data.value;
-    let newState: State = {
+    let newState = {
       username: username,
       canSubmit: this.validateInputs(username, this.state.password)
     };
@@ -67,7 +67,7 @@ class _LoginForm extends React.Component {
 
   passwordChanged = (_event, data) => {
     let password = data.value;
-    let newState: State = {
+    let newState = {
       password: password,
       canSubmit: this.validateInputs(this.state.username, password)
     };
@@ -115,7 +115,7 @@ class _LoginForm extends React.Component {
       credentials: "same-origin",
       body: new FormData(event.target)
     })
-      .then((resp: Response) => {
+      .then((resp) => {
         this.setState({ loggingIn: false });
         if (resp.ok && resp.status === 200) {
           this.props.onLogin();
@@ -123,7 +123,7 @@ class _LoginForm extends React.Component {
           return resp.json();
         }
       })
-      .then((json: ErrorResponse) => {
+      .then((json) => {
         if (json && json.error) {
           console.error(json.messages);
         }
