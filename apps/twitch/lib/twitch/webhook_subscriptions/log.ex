@@ -44,7 +44,7 @@ defmodule Twitch.WebhookSubscriptions.Log do
     {:noreply, new_state}
   end
 
-  def handle_call(:get_log, state) do
+  def handle_call(:get_log, _from, state) do
     {:reply, state[:messages], state}
   end
 end
