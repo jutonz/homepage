@@ -10,7 +10,7 @@ defmodule Twitch.WebhookSubscriptions.Subscription do
     field(:secret, :string)
     field(:expires_at, :naive_datetime)
     field(:user_id, :integer)
-    #field(:resubscribe, :boolean)
+    # field(:resubscribe, :boolean)
     timestamps()
   end
 
@@ -33,10 +33,13 @@ defmodule Twitch.WebhookSubscriptions.Subscription do
 
   def callback do
     # lt -s dank -p 4000
-    #"https://dank.localtunnel.me/api/twitch/subscriptions/callback"
+    # "https://dank.localtunnel.me/api/twitch/subscriptions/callback"
 
-    ClientWeb.Router.Helpers.twitch_subscriptions_callback_url(
-      ClientWeb.Endpoint,
+    route_helpers = Application.get_env(:twitch, :route_helpers)
+    endpoint = Application.get_env(:twitch, :endpoint)
+
+    route_helpers.twitch_subscriptions_callback_url(
+      endpoint,
       :callback
     )
   end

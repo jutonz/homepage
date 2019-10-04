@@ -11,10 +11,12 @@ defmodule Twitch.Repo.Migrations.CreateWebhookSubscriptions do
       timestamps()
     end
 
-    create(index(
-      :webhook_subscriptions,
-      [:user_id, :topic],
-      unique: true
-    ))
+    create(
+      index(
+        :webhook_subscriptions,
+        [:user_id, :topic],
+        unique: true
+      )
+    )
   end
 end

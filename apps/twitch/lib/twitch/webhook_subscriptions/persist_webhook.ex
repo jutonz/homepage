@@ -20,7 +20,6 @@ defmodule Twitch.WebhookSubscriptions.PersistWebhook do
       nil -> {:ok, request}
       sub -> WebhookSubscriptions.delete(sub)
     end
-
   end
 
   @buffer 30

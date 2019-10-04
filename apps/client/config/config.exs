@@ -39,6 +39,16 @@ config :absinthe, log: false
 
 config :logger, debug: true
 
+config :twitch,
+  route_helpers: ClientWeb.Router.Helpers,
+  endpoint: ClientWeb.Endpoint
+
+# config :twitch,
+# webhook_callback_url: ClientWeb.Router.Helpers.twitch_subscriptions_callback_url(
+# ClientWeb.Endpoint,
+# :callback
+# )
+
 # Import environment specific config. This must remain at the bottom of this
 # file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

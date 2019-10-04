@@ -27,6 +27,7 @@ defmodule Twitch.Util.Interactor do
           result: result,
           actualized_arg: actualized_arg
         }
+
         perform(rest, [perfomed_step | performed])
 
       {:error, reason} ->
@@ -53,9 +54,9 @@ defmodule Twitch.Util.Interactor do
     rollback(rest)
   end
 
-
   defp expand_input({interactible, arg}) when is_list(arg),
     do: {interactible, arg}
+
   defp expand_input({interactible, arg}), do: {interactible, [arg]}
   defp expand_input(interactible), do: {interactible, :curry}
 

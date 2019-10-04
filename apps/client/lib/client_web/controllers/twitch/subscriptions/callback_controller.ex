@@ -1,7 +1,7 @@
 defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
   use ClientWeb, :controller
 
-  def test(conn, params) do
+  def test(conn, _params) do
     send_resp(conn, 200, "")
   end
 

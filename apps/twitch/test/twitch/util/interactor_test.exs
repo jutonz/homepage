@@ -10,6 +10,7 @@ defmodule InteractorTest do
         assert data == nil
         {:ok, data}
       end
+
       def down(data), do: {:ok, data}
     end
 
@@ -23,6 +24,7 @@ defmodule InteractorTest do
         assert data == "woah"
         {:ok, data}
       end
+
       def down(data), do: {:ok, data}
     end
 
@@ -43,6 +45,7 @@ defmodule InteractorTest do
     defmodule __MODULE__.FirstStepGood do
       @behaviour Interactible
       def up(_data), do: {:ok, "result of first step"}
+
       def down(data) do
         assert data == "result of first step"
         {:ok, data}
@@ -55,10 +58,11 @@ defmodule InteractorTest do
       def down(data), do: {:ok, data}
     end
 
-    result = Interactor.perform([
-      __MODULE__.FirstStepGood,
-      __MODULE__.SecondStepBad
-    ])
+    result =
+      Interactor.perform([
+        __MODULE__.FirstStepGood,
+        __MODULE__.SecondStepBad
+      ])
 
     assert {:error, "sad arg"} = result
   end
@@ -67,6 +71,7 @@ defmodule InteractorTest do
     defmodule __MODULE__.OneGood do
       @behaviour Interactible
       def up(_data), do: {:ok, "result from step 1"}
+
       def down(data) do
         assert data == "result from step 1"
         {:ok, data}
@@ -76,6 +81,7 @@ defmodule InteractorTest do
     defmodule __MODULE__.TwoGood do
       @behaviour Interactible
       def up("result from step 1"), do: {:ok, "result from step 2"}
+
       def down(data) do
         assert data == "result from step 2"
         {:ok, data}
@@ -95,4 +101,3 @@ defmodule InteractorTest do
     ])
   end
 end
-

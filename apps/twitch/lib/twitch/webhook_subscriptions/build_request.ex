@@ -9,7 +9,7 @@ defmodule Twitch.WebhookSubscriptions.BuildRequest do
     request = %SubscriptionRequest{
       mode: mode,
       topic: Topic.topic(channel),
-      lease_seconds: 864000,
+      lease_seconds: 864_000,
       secret: Subscription.gen_secret(),
       callback: Subscription.callback(),
       user_id: channel.user_id
