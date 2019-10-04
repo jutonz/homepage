@@ -1,7 +1,8 @@
 defmodule Twitch.Channel do
   use Ecto.Schema
-  alias Twitch.{Repo, Channel}
   import Ecto.Query, only: [from: 2]
+  alias Twitch.Channel
+  alias Twitch.Repo
 
   @type t :: %__MODULE__{}
 
@@ -78,13 +79,17 @@ defmodule Twitch.Channel do
   end
 
   def with_irc_prefix(channel_name) do
-    without_prefix = String.replace_leading(channel_name, "#", "")
+    without_prefix = without_irc_prefix(channel_name)
 
     String.pad_leading(
       without_prefix,
       String.length(without_prefix) + 1,
       "#"
     )
+  end
+
+  def without_irc_prefix(channel_name) do
+    String.replace_leading(channel_name, "#", "")
   end
 
   def chat_process_name(channel_name) do

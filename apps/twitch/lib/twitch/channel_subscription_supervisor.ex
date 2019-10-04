@@ -2,6 +2,7 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
   use DynamicSupervisor
   require Logger
   alias Twitch.Queries.ChannelQuery
+  alias Twitch.WebhookSubscriptions
 
   def start_link(arg) do
     DynamicSupervisor.start_link(__MODULE__, arg, name: __MODULE__)
@@ -38,6 +39,7 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
     res = subscribe_to_chat(channel.name)
     {:ok, _} = subscribe_to_emotes(channel.name)
     {:ok, _} = subscribe_to_streamelements(twitch_user, channel.name)
+    {:ok, _} = create_webhook_subscription(channel)
     res
   end
 
@@ -95,6 +97,13 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
       {:ok, _} -> {:ok, :connected}
       :ignore -> {:ok, :not_enabled}
       _ -> {:error, res}
+    end
+  end
+
+  def create_webhook_subscription(channel) do
+    case WebhookSubscriptions.get_by_channel(channel) do
+      nil -> WebhookSubscriptions.subscribe_to(channel)
+      sub -> {:ok, sub}
     end
   end
 end

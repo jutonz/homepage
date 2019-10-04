@@ -49,6 +49,20 @@ defmodule Twitch.Api do
     Api.Kraken.connection(:get, path, params: [{"stream_type", to_string(stream_type)}])
   end
 
+  def game(game_id) do
+    :get
+    |> Api.Kraken.connection("helix/games", params: [id: game_id])
+    |> Map.get("data")
+    |> hd()
+  end
+
+  def markers(user, video_id) do
+    Api.Kraken.connection(:get, "helix/streams/markers", [
+      {:params, [{"video_id", video_id}]},
+      access_token: user.access_token["access_token"]
+    ])
+  end
+
   def extensions(auth_token, channel_id) do
     path = "v5/channels/#{channel_id}/extensions"
 
