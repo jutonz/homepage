@@ -24,6 +24,12 @@ import isValidPassword from "@utils/isValidPassword";
 
 import BgGrid from "./BgGrid";
 
+const wee = document.getElementById("wee");
+const isHttps = wee.getAttribute("data-https");
+if (isHttps == "true" && window.location.protocol !== "https:") {
+  window.location.protocol = "https:";
+}
+
 window.Utils = {
   BgGrid,
   isValidEmail,

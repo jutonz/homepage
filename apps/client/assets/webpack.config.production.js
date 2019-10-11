@@ -75,7 +75,8 @@ const webpackConfig = {
     new HtmlWebpackPlugin({
       template: "static/index.ejs",
       templateParameters: {
-        title: "jutonz.com"
+        title: "jutonz.com",
+        isHttps: true
       }
     })
   ],
