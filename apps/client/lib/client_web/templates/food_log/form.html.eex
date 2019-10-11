@@ -1,0 +1,24 @@
+<%= form_for(
+  @changeset,
+  food_log_path(ClientWeb.Endpoint, @action),
+  [class: "flex flex-col"],
+fn form -> %>
+  <div class="flex flex-1 flex-col">
+    <%= label(form, :name, "Name") %>
+    <%= text_input(form, :name, class: "mt-2", autofocus: true) %>
+    <div class="text-red-600 mt-1">
+      <%= error_tag(form, :name) %>
+    </div>
+
+    <%= label(form, :description, "Description") %>
+    <%= text_input(form, :description, class: "mt-2") %>
+    <div class="text-red-600 mt-1">
+      <%= error_tag(form, :description) %>
+    </div>
+  </div>
+
+  <%= submit(
+    @action |> to_string |> String.capitalize(),
+    class: "w-32 mt-4"
+  ) %>
+<% end) %>

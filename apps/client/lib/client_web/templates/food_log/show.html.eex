@@ -1,0 +1,12 @@
+<div class="m-4">
+  <div class="text-xl mb-4">
+    <%= @log.name %>
+
+    <%= link(
+      "Delete",
+      to: food_log_path(ClientWeb.Endpoint, :delete, @log.id),
+      method: :delete,
+      data: [confirm: "Are you sure"]
+    ) %>
+  </div>
+</div>
