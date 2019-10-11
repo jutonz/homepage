@@ -26,8 +26,9 @@ import BgGrid from "./BgGrid";
 
 const wee = document.getElementById("wee");
 const isHttps = wee.getAttribute("data-https");
-if (isHttps == "true" && window.location.protocol !== "https:") {
-  window.location.protocol = "https:";
+if (isHttps == "true" && window.location.protocol === "http:") {
+  const httpsUrl = window.location.href.replace("http:", "https:");
+  window.location.replace(httpsUrl);
 }
 
 window.Utils = {
