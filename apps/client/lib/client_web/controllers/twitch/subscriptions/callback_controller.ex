@@ -1,8 +1,17 @@
 defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
   use ClientWeb, :controller
+  alias Twitch.WebhookSubscriptions
 
-  def test(conn, _params) do
-    send_resp(conn, 200, "")
+  def test(conn, %{"hub.topic" => topic} = _params) do
+    case WebhookSubscriptions.get_by_topic(topic) do
+      nil ->
+        send_resp(conn, 404, "")
+
+      sub ->
+        {:ok, _updated} = WebhookSubscriptions.confirm(sub)
+        send_resp(conn, 200, "")
+    end
+
   end
 
   def callback(conn, params) do

@@ -10,13 +10,14 @@ defmodule Twitch.WebhookSubscriptions.Subscription do
     field(:secret, :string)
     field(:expires_at, :naive_datetime)
     field(:user_id, :integer)
+    field(:confirmed, :boolean)
     # field(:resubscribe, :boolean)
     timestamps()
   end
 
   def changeset(%Subscription{} = sub, attrs \\ %{}) do
     sub
-    |> cast(attrs, required_attrs())
+    |> cast(attrs, optional_attrs() ++ required_attrs())
     |> maybe_gen_secret()
     |> validate_required(required_attrs())
     |> unique_constraint(:topic, name: :webhook_subscriptions_user_id_topic_index)
@@ -44,7 +45,6 @@ defmodule Twitch.WebhookSubscriptions.Subscription do
     )
   end
 
-  def required_attrs do
-    ~w[topic secret expires_at user_id]a
-  end
+  def required_attrs, do: ~w[topic secret expires_at user_id]a
+  def optional_attrs, do: ~w[confirmed]a
 end
