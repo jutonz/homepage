@@ -41,7 +41,7 @@ defmodule Twitch.WebhookSubscriptions.Subscription do
 
     route_helpers.twitch_subscriptions_callback_url(
       endpoint,
-      :show,
+      :callback,
       user_id
     )
   end
