@@ -1,7 +1,7 @@
 defmodule Twitch.WebhookSubscriptions.Subscription do
-  use Ecto.Schema
-  import Ecto.Changeset
   alias Twitch.WebhookSubscriptions.Subscription
+  import Ecto.Changeset
+  use Ecto.Schema
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
@@ -10,13 +10,14 @@ defmodule Twitch.WebhookSubscriptions.Subscription do
     field(:secret, :string)
     field(:expires_at, :naive_datetime)
     field(:user_id, :integer)
+    field(:confirmed, :boolean)
     # field(:resubscribe, :boolean)
     timestamps()
   end
 
   def changeset(%Subscription{} = sub, attrs \\ %{}) do
     sub
-    |> cast(attrs, required_attrs())
+    |> cast(attrs, optional_attrs() ++ required_attrs())
     |> maybe_gen_secret()
     |> validate_required(required_attrs())
     |> unique_constraint(:topic, name: :webhook_subscriptions_user_id_topic_index)
@@ -31,7 +32,7 @@ defmodule Twitch.WebhookSubscriptions.Subscription do
 
   def gen_secret, do: Ecto.UUID.generate()
 
-  def callback do
+  def callback(user_id) do
     # lt -s dank -p 4000
     # "https://dank.localtunnel.me/api/twitch/subscriptions/callback"
 
@@ -40,11 +41,11 @@ defmodule Twitch.WebhookSubscriptions.Subscription do
 
     route_helpers.twitch_subscriptions_callback_url(
       endpoint,
-      :callback
+      :callback,
+      user_id
     )
   end
 
-  def required_attrs do
-    ~w[topic secret expires_at user_id]a
-  end
+  def required_attrs, do: ~w[topic secret expires_at user_id]a
+  def optional_attrs, do: ~w[confirmed]a
 end

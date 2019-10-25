@@ -4,8 +4,10 @@ defmodule Twitch.WebhookSubscriptions do
   alias Twitch.WebhookSubscriptions.Query
   alias Twitch.WebhookSubscriptions.Topic
 
+  defdelegate changeset(subscription, params), to: Subscription
+
   def new_changeset(params \\ %{}) do
-    Subscription.changeset(%Subscription{}, params)
+    changeset(%Subscription{}, params)
   end
 
   def create(params) do
@@ -13,6 +15,8 @@ defmodule Twitch.WebhookSubscriptions do
     |> new_changeset()
     |> Twitch.Repo.insert()
   end
+
+  def get(id), do: Twitch.Repo.get(Subscription, id)
 
   def get_by_topic(user_id, topic) do
     Subscription
@@ -29,7 +33,8 @@ defmodule Twitch.WebhookSubscriptions do
     Twitch.Util.Interactor.perform([
       {WebhookSubscriptions.BuildRequest, channel},
       WebhookSubscriptions.MakeRequest,
-      WebhookSubscriptions.PersistWebhook
+      WebhookSubscriptions.PersistWebhook,
+      WebhookSubscriptions.ScheduleCheckin
     ])
   end
 
@@ -41,7 +46,11 @@ defmodule Twitch.WebhookSubscriptions do
     ])
   end
 
-  def delete(%Subscription{} = sub) do
-    Twitch.Repo.delete(sub)
+  def update(%Subscription{} = sub, params) do
+    sub |> changeset(params) |> Twitch.Repo.update()
   end
+
+  def confirm(%Subscription{} = sub), do: update(sub, %{confirmed: true})
+
+  def delete(%Subscription{} = sub), do: Twitch.Repo.delete(sub)
 end

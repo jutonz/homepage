@@ -11,7 +11,7 @@ defmodule Twitch.WebhookSubscriptions.BuildRequest do
       topic: Topic.topic(channel),
       lease_seconds: 864_000,
       secret: Subscription.gen_secret(),
-      callback: Subscription.callback(),
+      callback: Subscription.callback(channel.user_id),
       user_id: channel.user_id
     }
 

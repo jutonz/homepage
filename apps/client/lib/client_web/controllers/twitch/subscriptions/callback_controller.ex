@@ -1,11 +1,28 @@
 defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
   use ClientWeb, :controller
+  alias Twitch.WebhookSubscriptions
 
-  def test(conn, _params) do
-    send_resp(conn, 200, "")
+  # Called to verify the intent of the subscriber
+  # https://www.w3.org/TR/websub/#x5-3-hub-verifies-intent-of-the-subscriber
+  def show(conn, params) do
+    %{
+      "hub.topic" => topic,
+      "hub.challenge" => challenge,
+      "id" => user_id
+    } = params
+
+    case WebhookSubscriptions.get_by_topic(user_id, topic) do
+      nil ->
+        send_resp(conn, 404, "")
+
+      sub ->
+        {:ok, _updated} = WebhookSubscriptions.confirm(sub)
+        send_resp(conn, 200, challenge)
+    end
   end
 
-  def callback(conn, params) do
+  # Called with a webhook event
+  def create(conn, params) do
     {:ok, body, conn} = read_body(conn)
     signature = get_req_header(conn, "X-Hub-Signature")
     signing_secret = Application.get_env(:twitch, :webhook_secret)
