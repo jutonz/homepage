@@ -4,7 +4,7 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
 
   # Called to verify the intent of the subscriber
   # https://www.w3.org/TR/websub/#x5-3-hub-verifies-intent-of-the-subscriber
-  def show(conn, params) do
+  def confirm(conn, params) do
     %{
       "hub.topic" => topic,
       "hub.challenge" => challenge,
@@ -21,8 +21,7 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
     end
   end
 
-  # Called with a webhook event
-  def create(conn, params) do
+  def callback(conn, params) do
     {:ok, body, conn} = read_body(conn)
     signature = get_req_header(conn, "X-Hub-Signature")
     signing_secret = Application.get_env(:twitch, :webhook_secret)
