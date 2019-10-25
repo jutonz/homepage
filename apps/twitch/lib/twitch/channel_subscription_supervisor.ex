@@ -54,6 +54,8 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
       |> Twitch.StreamelementsSubscription.name(String.trim_leading(channel.name, "#"))
       |> Process.whereis()
 
+    maybe_delete_webhook_subscription(channel)
+
     if se_pid do
       DynamicSupervisor.terminate_child(__MODULE__, se_pid)
     else
@@ -109,6 +111,14 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
     case WebhookSubscriptions.get_by_channel(channel) do
       nil -> WebhookSubscriptions.subscribe_to(channel)
       sub -> {:ok, sub}
+    end
+  end
+
+  def maybe_delete_webhook_subscription(channel) do
+    subs = WebhookSubscriptions.list_by_channel(channel)
+
+    if length(subs) == 1 do
+      subs |> hd() |> WebhookSubscriptions.delete()
     end
   end
 

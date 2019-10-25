@@ -29,6 +29,12 @@ defmodule Twitch.WebhookSubscriptions do
     get_by_topic(channel.user_id, Topic.topic(channel))
   end
 
+  def list_by_channel(channel) do
+    Subscription
+    |> Query.by_topic(Topic.topic(channel))
+    |> Twitch.Repo.all()
+  end
+
   def subscribe_to(%Twitch.Channel{} = channel) do
     Twitch.Util.Interactor.perform([
       {WebhookSubscriptions.BuildRequest, channel},
