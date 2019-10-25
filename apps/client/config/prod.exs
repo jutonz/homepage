@@ -23,7 +23,7 @@ host =
 
 config :client, ClientWeb.Endpoint,
   http: [port: port],
-  url: [host: host, scheme: "https"],
+  url: [scheme: "https", port: 443, host: host],
   cache_static_manifest: "priv/static/cache_manifest.json",
   force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto]]
 
