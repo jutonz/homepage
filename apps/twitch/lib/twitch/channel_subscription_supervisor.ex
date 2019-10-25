@@ -9,7 +9,12 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
   end
 
   def init(_arg) do
-    spawn(&resubscribe/0)
+    if console?() do
+      IO.puts("[❗️] CONSOLE is set. Skipping subscription setup.")
+    else
+      spawn(&resubscribe/0)
+    end
+
     DynamicSupervisor.init(strategy: :one_for_one)
   end
 
@@ -106,4 +111,6 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
       sub -> {:ok, sub}
     end
   end
+
+  def console?, do: !!System.get_env("CONSOLE")
 end
