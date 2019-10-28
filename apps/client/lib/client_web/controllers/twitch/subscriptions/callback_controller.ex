@@ -23,9 +23,14 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
 
   def callback(conn, params) do
     {:ok, body, conn} = read_body(conn)
+    IO.inspect(conn)
     signature = get_req_header(conn, "X-Hub-Signature")
     signing_secret = Application.get_env(:twitch, :webhook_secret)
-    calc_sig = :crypto.hash(:sha256, [signing_secret, body])
+
+    calc_sig =
+      :sha256
+      |> :crypto.hash([signing_secret, body])
+      |> Base.encode64()
 
     Twitch.WebhookSubscriptions.Log.log(%{
       actual_signature: signature,
