@@ -38,6 +38,7 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
 
   def log(conn, _params) do
     messages = Twitch.WebhookSubscriptions.Log.get_log()
+    IO.inspect(messages)
     json = Poison.encode!(%{messages: messages})
 
     conn

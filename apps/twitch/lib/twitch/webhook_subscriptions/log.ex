@@ -45,6 +45,7 @@ defmodule Twitch.WebhookSubscriptions.Log do
   end
 
   def handle_call(:get_log, _from, state) do
+    IO.inspect(state)
     {:reply, state[:messages], state}
   end
 end
