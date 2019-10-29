@@ -2,6 +2,7 @@ defmodule Twitch.WebhookSubscriptions do
   alias Twitch.WebhookSubscriptions
   alias Twitch.WebhookSubscriptions.Subscription
   alias Twitch.WebhookSubscriptions.Query
+  alias Twitch.WebhookSubscriptions.Signing
   alias Twitch.WebhookSubscriptions.Topic
 
   defdelegate changeset(subscription, params), to: Subscription
@@ -57,6 +58,8 @@ defmodule Twitch.WebhookSubscriptions do
   end
 
   def confirm(%Subscription{} = sub), do: update(sub, %{confirmed: true})
+
+  def calculate_signature(body), do: Signing.signature(body)
 
   def delete(%Subscription{} = sub), do: Twitch.Repo.delete(sub)
 end
