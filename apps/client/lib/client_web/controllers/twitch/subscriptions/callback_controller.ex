@@ -22,7 +22,7 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
   end
 
   def callback(conn, _params) do
-    raw_body = conn.assigns[:raw_body]
+    raw_body = conn.assigns[:raw_body] |> hd()
     IO.inspect(raw_body)
     signature = conn |> get_req_header("x-hub-signature") |> hd()
     calc_sig = WebhookSubscriptions.calculate_signature(raw_body)
