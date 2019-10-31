@@ -18,19 +18,19 @@ defmodule Twitch.WebhookSubscriptions.Subscription do
   def changeset(%Subscription{} = sub, attrs \\ %{}) do
     sub
     |> cast(attrs, optional_attrs() ++ required_attrs())
-    |> maybe_gen_secret()
+    |> maybe_add_secret()
     |> validate_required(required_attrs())
     |> unique_constraint(:topic, name: :webhook_subscriptions_user_id_topic_index)
   end
 
-  def maybe_gen_secret(changeset) do
+  def maybe_add_secret(changeset) do
     case get_field(changeset, :secret) do
-      nil -> put_change(changeset, :secret, gen_secret())
+      nil -> put_change(changeset, :secret, secret())
       _ -> changeset
     end
   end
 
-  def gen_secret, do: Ecto.UUID.generate()
+  def secret, do: Application.get_env(:twitch, :webhook_secret)
 
   def callback(user_id) do
     # lt -s dank -p 4000

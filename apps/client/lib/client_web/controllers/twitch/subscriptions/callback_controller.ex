@@ -31,7 +31,7 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
       actual_signature: signature,
       calculated_signature: calc_sig,
       raw_body: raw_body,
-      body_byte_size: byte_size(body),
+      body_byte_size: byte_size(raw_body),
       content_length: conn |> get_req_header("content-length") |> hd()
     })
 
