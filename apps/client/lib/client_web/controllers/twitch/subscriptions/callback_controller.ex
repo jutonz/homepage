@@ -22,16 +22,15 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
   end
 
   def callback(conn, _params) do
-    {:ok, body, conn} = read_body(conn)
-    # body = conn.body_params |> Jason.encode!()
-    IO.inspect(body)
+    raw_body = conn.assigns[:raw_body]
+    IO.inspect(raw_body)
     signature = conn |> get_req_header("x-hub-signature") |> hd()
-    calc_sig = WebhookSubscriptions.calculate_signature(body)
+    calc_sig = WebhookSubscriptions.calculate_signature(raw_body)
 
     Twitch.WebhookSubscriptions.Log.log(%{
       actual_signature: signature,
       calculated_signature: calc_sig,
-      body: body
+      raw_body: raw_body
     })
 
     send_resp(conn, 202, "")
