@@ -30,7 +30,9 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
     Twitch.WebhookSubscriptions.Log.log(%{
       actual_signature: signature,
       calculated_signature: calc_sig,
-      raw_body: raw_body
+      raw_body: raw_body,
+      body_byte_size: byte_size(body),
+      content_length: conn |> get_req_header("content-length") |> hd()
     })
 
     send_resp(conn, 202, "")

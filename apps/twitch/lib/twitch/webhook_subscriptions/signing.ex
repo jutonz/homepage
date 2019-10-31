@@ -4,6 +4,7 @@ defmodule Twitch.WebhookSubscriptions.Signing do
       :sha256
       |> :crypto.hmac(secret(), body)
       |> Base.encode16()
+      |> String.downcase()
 
     "sha256=" <> signature
   end
