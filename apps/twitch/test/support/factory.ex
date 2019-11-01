@@ -66,4 +66,42 @@ defmodule Twitch.Factory do
       twitch_event: event
     }
   end
+
+  def webhook_subscription_factory do
+    %Twitch.WebhookSubscriptions.Subscription{
+      user_id: insert(:user).id,
+      topic: "https://api.twitch.tv/helix/streams?user_id=26921830",
+      secret: "abc123",
+      expires_at: DateTime.add(DateTime.utc_now(), 10_000, :second),
+      confirmed: true
+    }
+  end
+
+  def webhook_subscription_callback_factory do
+    body = %{
+      "data" => [
+        %{
+          "game_id" => "15825",
+          "id" => "114544609",
+          "language" => "en",
+          "started_at" => "2019-10-31T14:55:14Z",
+          "tag_ids" => ["6ea6bca4-4712-4ab9-a906-e3336a9d8039"],
+          "thumbnail_url" =>
+            "https://static-cdn.jtvnw.net/previews-ttv/live_user_elajjaz-{width}x{height}.jpg",
+          "title" => "W.o.r.m.s against chat 👻    @Elajjaz Twitter/Instagram",
+          "type" => "live",
+          "user_id" => "26921830",
+          "user_name" => "Elajjaz",
+          "viewer_count" => 4560
+        }
+      ]
+    }
+
+    %Twitch.WebhookSubscriptions.Callbacks.Callback{
+      subscription_id: insert(:webhook_subscription).id,
+      user_id: get_in(body, ~w[data user_id]),
+      game_id: get_in(body, ~w[data game_id]),
+      body: body
+    }
+  end
 end

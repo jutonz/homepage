@@ -1,5 +1,6 @@
 defmodule Twitch.WebhookSubscriptions do
   alias Twitch.WebhookSubscriptions
+  alias Twitch.WebhookSubscriptions.Callbacks
   alias Twitch.WebhookSubscriptions.Subscription
   alias Twitch.WebhookSubscriptions.Query
   alias Twitch.WebhookSubscriptions.Signing
@@ -15,6 +16,10 @@ defmodule Twitch.WebhookSubscriptions do
     params
     |> new_changeset()
     |> Twitch.Repo.insert()
+  end
+
+  def create_callback(%Subscription{id: sub_id}, params) do
+    Callbacks.create(sub_id, params)
   end
 
   def get(id), do: Twitch.Repo.get(Subscription, id)
@@ -59,7 +64,14 @@ defmodule Twitch.WebhookSubscriptions do
 
   def confirm(%Subscription{} = sub), do: update(sub, %{confirmed: true})
 
-  def calculate_signature(body), do: Signing.signature(body)
+  @spec verify_signature(String.t(), String.t()) :: :ok | :invalid_signature
+  def verify_signature(raw_body, signature) do
+    if Signing.signature(raw_body) == signature do
+      :ok
+    else
+      :invalid_signature
+    end
+  end
 
   def delete(%Subscription{} = sub), do: Twitch.Repo.delete(sub)
 end

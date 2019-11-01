@@ -21,21 +21,28 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
     end
   end
 
-  def callback(conn, _params) do
+  def callback(conn, %{"id" => sub_id}) do
     raw_body = conn.assigns[:raw_body] |> hd()
-    IO.inspect(raw_body)
     signature = conn |> get_req_header("x-hub-signature") |> hd()
-    calc_sig = WebhookSubscriptions.calculate_signature(raw_body)
 
-    Twitch.WebhookSubscriptions.Log.log(%{
-      actual_signature: signature,
-      calculated_signature: calc_sig,
-      raw_body: raw_body,
-      body_byte_size: byte_size(raw_body),
-      content_length: conn |> get_req_header("content-length") |> hd()
-    })
+    with :ok <- WebhookSubscriptions.verify_signature(raw_body, signature),
+         sub when is_map(sub) <- WebhookSubscriptions.get(sub_id),
+         {:ok, _callback} <- WebhookSubscriptions.create_callback(sub, conn.body_params) do
+      send_resp(conn, 202, "")
+    else
+      :invalid_signature ->
+        Twitch.WebhookSubscriptions.Log.log(%{
+          actual_signature: signature,
+          raw_body: raw_body,
+          body_byte_size: byte_size(raw_body),
+          content_length: conn |> get_req_header("content-length") |> hd() |> String.to_integer()
+        })
 
-    send_resp(conn, 202, "")
+        send_resp(conn, 400, "")
+
+      _ ->
+        send_resp(conn, 400, "")
+    end
   end
 
   def log(conn, _params) do
