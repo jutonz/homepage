@@ -1,4 +1,4 @@
-defmodule HomepageUmbrella.Mixfile do
+defmodule Homepage.Mixfile do
   use Mix.Project
 
   def project do

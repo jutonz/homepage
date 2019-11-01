@@ -23,6 +23,12 @@ defmodule Client.TwitchServer do
       event
     )
 
+    Phoenix.PubSub.broadcast(
+      TwitchWeb.PubSub,
+      "chat_message:#{event.channel}",
+      event
+    )
+
     ClientWeb.Endpoint.broadcast!(
       "twitch_channel:#{event.channel}",
       event.irc_command,

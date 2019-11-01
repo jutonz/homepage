@@ -34,7 +34,7 @@ defmodule Twitch.MixProject do
       {:gen_stage, "~> 0.14.0"},
       {:websockex, "~> 0.4.1"},
       {:exirc, "~> 1.0"},
-      {:ecto, "~> 2.2"},
+      {:ecto_sql, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
       {:poison, "~> 3.1"},
       {:diplomat, "~> 0.2"},

@@ -3,7 +3,7 @@
 
   <%= Phoenix.LiveView.live_render(
     @conn,
-    ClientWeb.Twitch.ChatView,
+    TwitchWeb.ChatView,
     session: %{channel_name: @name}
   ) %>
 </div>

@@ -1,5 +1,5 @@
-defmodule ClientWeb.Twitch.ChannelView do
-  use ClientWeb, :view
+defmodule TwitchWeb.ChannelView do
+  use TwitchWeb, :view
 
   @one_minute_seconds 60
   @one_hour_seconds @one_minute_seconds * 60

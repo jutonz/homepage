@@ -23,15 +23,6 @@ config :client, ClientWeb.Endpoint,
       ~r{lib/client_web/templates/.*(eex)$},
       ~r{lib/my_app_web/live/.*(ex)$}
     ]
-  ],
-  watchers: [
-    node: [
-      "node_modules/.bin/webpack",
-      "--watch",
-      "--color",
-      "--config=webpack-static.config.js",
-      cd: Path.expand("../assets", __DIR__)
-    ]
   ]
 
 # Do not include metadata nor timestamps in development logs

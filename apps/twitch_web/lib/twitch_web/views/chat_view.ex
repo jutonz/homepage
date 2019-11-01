@@ -1,13 +1,13 @@
-defmodule ClientWeb.Twitch.ChatView do
+defmodule TwitchWeb.ChatView do
   use Phoenix.LiveView
 
   def render(assigns) do
-    ClientWeb.Twitch.ChannelView.render("chat.html", assigns)
+    TwitchWeb.ChannelView.render("chat.html", assigns)
   end
 
   def mount(%{channel_name: channel_name} = _session, socket) do
     topic = "chat_message:##{channel_name}"
-    :ok = Phoenix.PubSub.subscribe(Client.PubSub, topic)
+    :ok = Phoenix.PubSub.subscribe(TwitchWeb.PubSub, topic)
 
     socket =
       socket
@@ -21,6 +21,7 @@ defmodule ClientWeb.Twitch.ChatView do
   end
 
   def handle_info(%Twitch.ParsedEvent{} = event, socket) do
+    IO.inspect(event)
     new_events = append_event(event, socket.assigns.events)
     {:noreply, assign(socket, :events, new_events)}
   end

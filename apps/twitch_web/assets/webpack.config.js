@@ -26,7 +26,7 @@ const postcssPlugins = () => {
 
 const config = {
   mode: env,
-  entry: "./static-js/index.js",
+  entry: "./js/index.js",
   output: {
     path: path.resolve(__dirname, "../priv/static"),
     filename: "js/app.js"
@@ -36,7 +36,7 @@ const config = {
     rules: [
       {
         test: /\.scss/,
-        include: [path.resolve(__dirname, "static-css")],
+        include: [path.resolve(__dirname, "css")],
         use: [
           {
             loader: "style-loader"

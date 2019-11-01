@@ -40,7 +40,7 @@ defmodule Client.Mixfile do
     [
       {:phoenix, "~> 1.4.0"},
       {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 3.2"},
+      {:phoenix_ecto, "~> 4.0"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
@@ -60,6 +60,7 @@ defmodule Client.Mixfile do
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
       {:twitch, in_umbrella: true},
+      {:twitch_web, in_umbrella: true},
       {:events, in_umbrella: true},
       {:emoncms, in_umbrella: true}
     ]

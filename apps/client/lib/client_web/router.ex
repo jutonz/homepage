@@ -20,6 +20,8 @@ defmodule ClientWeb.Router do
     plug(ClientWeb.Plugs.BrowserAuthenticated)
   end
 
+  forward("/twitch", TwitchWeb.Router)
+
   scope "/", ClientWeb do
     pipe_through(:browser)
     pipe_through(:browser_authenticated)
@@ -31,11 +33,11 @@ defmodule ClientWeb.Router do
     end
   end
 
-  scope "/twitch", ClientWeb.Twitch do
-    pipe_through(:browser)
+  # scope "/twitch", ClientWeb.Twitch do
+  # pipe_through(:browser)
 
-    get("/channels/:name", ChannelController, :show)
-  end
+  # get("/channels/:name", ChannelController, :show)
+  # end
 
   ##############################################################################
   # Graphql API's
@@ -95,19 +97,20 @@ defmodule ClientWeb.Router do
 
     get("/whatismyip", ClientInfoController, :whatismyip)
 
-    scope "/twitch", Twitch, as: :twitch do
-      scope "/subscriptions", Subscriptions, as: :subscriptions do
-        get("/log", CallbackController, :log, as: :log)
-        get("/:id", CallbackController, :confirm)
-        post("/:id", CallbackController, :callback)
-      end
-    end
+    # forward("/twitch", TwitchWeb.ApiRouter, [], [as: :api])
+    # scope "/twitch", Twitch, as: :twitch do
+    # scope "/subscriptions", Subscriptions, as: :subscriptions do
+    # get("/log", CallbackController, :log, as: :log)
+    # get("/:id", CallbackController, :confirm)
+    # post("/:id", CallbackController, :callback)
+    # end
+    # end
   end
 
-  scope "/twitch", ClientWeb do
-    get("/login", TwitchController, :login)
-    get("/oauth", TwitchController, :exchange)
+  # scope "/twitch", ClientWeb do
+  # get("/login", TwitchController, :login)
+  # get("/oauth", TwitchController, :exchange)
 
-    get("/failurelog", TwitchController, :failurelog)
-  end
+  # get("/failurelog", TwitchController, :failurelog)
+  # end
 end
