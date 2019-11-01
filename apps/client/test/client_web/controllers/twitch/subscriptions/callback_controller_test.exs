@@ -3,7 +3,7 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackControllerTest do
 
   describe "POST /api/twitch/subscriptions/:id" do
     test "creates a callback event with the provided data", %{conn: conn} do
-      sub = insert(:webhook_subscription)
+      sub = Twitch.Factory.insert(:webhook_subscription)
       params = %{
         "data" => [
           %{
@@ -13,12 +13,11 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackControllerTest do
         ]
       }
 
-      require IEx; IEx.pry()
-
       conn
-      #|> post(twitch_subscriptions_callback_path(conn, :callback), params)
-      #|> json_response()
-      #|> IO.inspect()
+      |> Plug.Conn.put_req_header("x-hub-signature", "123")
+      |> Plug.Conn.put_req_header("content-type", "application/json")
+      |> post(twitch_subscriptions_callback_path(conn, :callback, sub.id), params)
+      |> IO.inspect()
     end
   end
 end

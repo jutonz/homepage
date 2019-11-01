@@ -12,7 +12,8 @@ defmodule Twitch.MixProject do
       elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases()
     ]
   end
 
@@ -41,6 +42,12 @@ defmodule Twitch.MixProject do
       {:exenv, "~> 0.3"},
       {:ex_machina, "~> 2.2", only: :test},
       {:events, in_umbrella: true}
+    ]
+  end
+
+  defp aliases do
+    [
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end

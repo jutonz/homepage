@@ -6,7 +6,7 @@ defmodule Twitch.Factory do
       email: "jutonz42@gmail.com",
       display_name: "syps_",
       user_id: sequence("id"),
-      twitch_user_id: sequence("twitch_user_id")
+      twitch_user_id: sequence("twitch_user_id", fn _ -> Ecto.UUID.generate() end)
     }
   end
 
