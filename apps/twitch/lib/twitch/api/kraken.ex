@@ -3,9 +3,16 @@ defmodule Twitch.Api.Kraken do
   alias Twitch.ApiCache
 
   def connection(method, path, opts \\ []) do
-    default_opts = [body: "", headers: [], params: [], access_token: nil]
+    default_opts = [body: "", headers: [], params: [], access_token: nil, cache: true]
     options = Keyword.merge(default_opts, opts) |> Enum.into(%{})
-    %{body: body, headers: user_headers, params: params, access_token: access_token} = options
+
+    %{
+      body: body,
+      headers: user_headers,
+      params: params,
+      access_token: access_token,
+      cache: cache
+    } = options
 
     persistent_headers = [
       {"Client-ID", client_id()},
@@ -25,7 +32,11 @@ defmodule Twitch.Api.Kraken do
 
     case method do
       :get ->
-        cached_get(url, headers, params) |> parse_response()
+        if cache do
+          cached_get(url, headers, params) |> parse_response()
+        else
+          HTTPoison.get!(url, headers, params: params) |> parse_response()
+        end
 
       _ ->
         with {:ok, response} <- apply(HTTPoison, method, [url, body, headers]) do

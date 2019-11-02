@@ -43,10 +43,14 @@ defmodule Twitch.Api do
   end
 
   @type stream_type :: :live | :playlist | :all
-  def streams(channel_id, stream_type \\ :live) do
+  def streams(channel_id, stream_type \\ :live, opts \\ []) do
     path = "kraken/streams/#{channel_id}"
 
-    Api.Kraken.connection(:get, path, params: [{"stream_type", to_string(stream_type)}])
+    req_opts = [
+      params: [{"stream_type", to_string(stream_type)}]
+    ]
+
+    Api.Kraken.connection(:get, path, Keyword.merge(opts, req_opts))
   end
 
   def game(game_id) do
