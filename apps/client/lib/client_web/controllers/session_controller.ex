@@ -29,4 +29,21 @@ defmodule ClientWeb.SessionController do
   def logout(conn, _params) do
     with {:ok, conn} <- Session.logout(conn), do: redirect(conn, to: "/")
   end
+
+  def token_test(conn, _params) do
+    api_token = conn.assigns[:api_token]
+    current_user = Client.Repo.get(Client.User, api_token.user_id)
+    response = %{
+      current_user: %{
+        email: current_user.email
+      },
+      token: %{
+        description: api_token.description
+      }
+    }
+
+    conn
+    |> put_resp_header("content-type", "application/json")
+    |> send_resp(200, Jason.encode!(response))
+  end
 end
