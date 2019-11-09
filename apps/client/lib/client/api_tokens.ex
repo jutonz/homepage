@@ -17,6 +17,12 @@ defmodule Client.ApiTokens do
     |> Client.Repo.one()
   end
 
+  def get_by_token(token) do
+    ApiToken
+    |> Query.by_token(token)
+    |> Client.Repo.one()
+  end
+
   def list(user_id) do
     ApiToken
     |> Query.by_user_id(user_id)

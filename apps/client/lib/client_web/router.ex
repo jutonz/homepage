@@ -76,9 +76,13 @@ defmodule ClientWeb.Router do
   # Non Graphql API's
   ##############################################################################
 
-  pipeline :api do
+  pipeline(:api) do
     plug(:accepts, ["json"])
     plug(:fetch_session)
+  end
+
+  pipeline(:authenticated_api) do
+    plug(ClientWeb.Plugs.ApiAuthenticated)
   end
 
   if Mix.env() == :dev do
@@ -102,6 +106,10 @@ defmodule ClientWeb.Router do
         post("/:id", CallbackController, :callback)
       end
     end
+
+    pipe_through(:authenticated_api)
+
+    get("/tokentest", SessionController, :token_test)
   end
 
   scope "/twitch", ClientWeb do
