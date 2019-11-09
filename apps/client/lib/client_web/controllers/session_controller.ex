@@ -33,6 +33,7 @@ defmodule ClientWeb.SessionController do
   def token_test(conn, _params) do
     api_token = conn.assigns[:api_token]
     current_user = Client.Repo.get(Client.User, api_token.user_id)
+
     response = %{
       current_user: %{
         email: current_user.email

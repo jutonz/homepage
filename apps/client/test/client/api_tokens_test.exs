@@ -28,6 +28,17 @@ defmodule Client.ApiTokensTest do
     end
   end
 
+  describe "get_by_token/1" do
+    test "returns a token" do
+      api_token = insert(:api_token)
+      token = api_token.token
+
+      actual = ApiTokens.get_by_token(token)
+
+      assert %ApiToken{token: token} = actual
+    end
+  end
+
   describe "list/1" do
     test "returns all tokens for a user" do
       user = insert(:user)

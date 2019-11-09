@@ -11,8 +11,16 @@ defmodule ClientWeb.Plugs.ApiAuthenticated do
       |> Plug.Conn.assign(:current_user_id, api_token.user_id)
       |> Plug.Conn.assign(:api_token, api_token)
     else
-      {:error, reason} -> Plug.Conn.send_resp(conn, 401, reason)
-      _ -> Plug.Conn.send_resp(conn, 401, "Unauthorized")
+      error ->
+        error_reason =
+          case error do
+            {:error, reason} -> reason
+            _ -> "Unauthorized"
+          end
+
+        conn
+        |> Plug.Conn.send_resp(401, error_reason)
+        |> Plug.Conn.halt()
     end
   end
 
