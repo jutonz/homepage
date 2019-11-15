@@ -72,7 +72,7 @@
     "node-sass": "^4.13.0",
     "postcss-loader": "^3.0.0",
     "prettier": "^1.18.2",
-    "react-hot-loader": "^4.12.15",
+    "react-hot-loader": "^4.12.17",
     "redux-logger": "^3.0.6",
     "sass-loader": "^8.0.0",
     "style-loader": "^1.0.0",
