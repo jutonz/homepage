@@ -114,9 +114,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch({ type: "SET_SESSION_ESTABLISHED", established: false })
 });
 
-export const MainNav = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(_MainNav);
+export const MainNav = compose(connect(mapStateToProps, mapDispatchToProps))(
+  _MainNav
+);

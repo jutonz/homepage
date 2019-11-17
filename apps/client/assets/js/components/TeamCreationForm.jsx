@@ -77,8 +77,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export const TeamCreationForm = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(_TeamCreationForm);
