@@ -62,8 +62,5 @@ const mapDispatchToProps = dispatch => ({
 
 export const LoginRoute = compose(
   withRouter,
-  connect(
-    mapStoreToProps,
-    mapDispatchToProps
-  )
+  connect(mapStoreToProps, mapDispatchToProps)
 )(_LoginRoute);
