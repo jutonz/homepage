@@ -36,7 +36,7 @@ defmodule ClientWeb.FoodLogController do
   end
 
   def show(conn, %{"id" => id}) do
-    log = FoodLogs.get_with_recent_days(id)
+    log = FoodLogs.get(id)
     render(conn, "show.html", log: log)
   end
 

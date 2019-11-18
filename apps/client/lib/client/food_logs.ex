@@ -15,11 +15,6 @@ defmodule Client.FoodLogs do
 
   def get(id), do: Repo.get(FoodLog, id)
 
-  def get_with_recent_days(id) do
-    # TODO: figure out preloads!
-    id |> get() |> Repo.preload(:wat?)
-  end
-
   def by_owner_id(owner_id) do
     FoodLog
     |> Query.by_owner_id(owner_id)

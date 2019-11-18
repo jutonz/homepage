@@ -5,7 +5,7 @@
     You haven't made any logs yet. Do it!
   <% end %>
 
-  </div>
+  <div>
     <%= for log <- @logs do %>
       <div>
         <%= link(
