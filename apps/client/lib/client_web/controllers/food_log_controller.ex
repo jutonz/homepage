@@ -6,7 +6,7 @@ defmodule ClientWeb.FoodLogController do
     logs =
       conn
       |> Client.Session.current_user_id()
-      |> FoodLogs.by_owner_id()
+      |> FoodLogs.list_by_owner_id()
 
     render(conn, "index.html", logs: logs)
   end

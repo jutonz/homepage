@@ -15,7 +15,7 @@ defmodule Client.FoodLogs do
 
   def get(id), do: Repo.get(FoodLog, id)
 
-  def by_owner_id(owner_id) do
+  def list_by_owner_id(owner_id) do
     FoodLog
     |> Query.by_owner_id(owner_id)
     |> Repo.all()
