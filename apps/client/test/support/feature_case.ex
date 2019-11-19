@@ -12,6 +12,8 @@ defmodule ClientWeb.FeatureCase do
 
       import ClientWeb.Router.Helpers
 
+      import ClientWeb.FeatureHelpers
+
       Application.put_env(:wallaby, :base_url, ClientWeb.Endpoint.url())
     end
   end

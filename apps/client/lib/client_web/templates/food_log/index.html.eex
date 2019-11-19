@@ -20,7 +20,8 @@
     <%= link(
       "New log",
       to: food_log_path(ClientWeb.Endpoint, :new),
-      class: "button mt-4"
+      class: "button mt-4",
+      data: [role: "new-food-log"]
     ) %>
   </div>
 </div>

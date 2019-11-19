@@ -5,13 +5,24 @@
 fn form -> %>
   <div class="flex flex-1 flex-col">
     <%= label(form, :name, "Name") %>
-    <%= text_input(form, :name, class: "mt-2", autofocus: true) %>
+    <%= text_input(
+      form,
+      :name,
+      class: "mt-2",
+      autofocus: true,
+      data: [role: "food-log-name-input"]
+    ) %>
     <div class="text-red-600 mt-1">
       <%= error_tag(form, :name) %>
     </div>
 
     <%= label(form, :description, "Description") %>
-    <%= text_input(form, :description, class: "mt-2") %>
+    <%= text_input(
+      form,
+      :description,
+      class: "mt-2",
+      data: [role: "food-log-desc-input"]
+    ) %>
     <div class="text-red-600 mt-1">
       <%= error_tag(form, :description) %>
     </div>
@@ -19,6 +30,7 @@ fn form -> %>
 
   <%= submit(
     @action |> to_string |> String.capitalize(),
-    class: "w-32 mt-4"
+    class: "w-32 mt-4",
+    data: [role: "#{to_string(@action)}-food-log"]
   ) %>
 <% end) %>
