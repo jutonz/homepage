@@ -5,6 +5,7 @@ defmodule ClientWeb.Plugs.BrowserAuthenticated do
     case Client.Session.check_session(conn) do
       {:error, _reason} ->
         path = conn.request_path
+
         conn
         |> Phoenix.Controller.redirect(to: "/#/login?to=#{path}")
         |> Plug.Conn.halt()

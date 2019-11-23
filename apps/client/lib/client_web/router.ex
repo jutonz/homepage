@@ -14,6 +14,10 @@ defmodule ClientWeb.Router do
     plug(Phoenix.LiveView.Flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+
+    if Mix.env() == :test do
+      plug(ClientWeb.Plugs.TestAuthHelper)
+    end
   end
 
   pipeline :browser_authenticated do
