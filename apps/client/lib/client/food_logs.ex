@@ -3,9 +3,11 @@ defmodule Client.FoodLogs do
   alias Client.FoodLogs.Query
   alias Client.Repo
 
-  def new_changeset do
-    FoodLog.changeset(%FoodLog{})
-  end
+  def changeset(log, params \\ %{}),
+    do: FoodLog.changeset(log, params)
+
+  def new_changeset,
+    do: FoodLog.changeset(%FoodLog{})
 
   def create(params) do
     %FoodLog{}

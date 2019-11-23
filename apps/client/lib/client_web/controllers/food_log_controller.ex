@@ -35,9 +35,12 @@ defmodule ClientWeb.FoodLogController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    log = FoodLogs.get(id)
-    render(conn, "show.html", log: log)
+  def show(conn, %{"id" => id}),
+    do: render(conn, "show.html", log: FoodLogs.get(id))
+
+  def edit(conn, %{"id" => id}) do
+    cs = id |> FoodLogs.get() |> FoodLogs.changeset()
+    render(conn, "edit.html", changeset: cs)
   end
 
   def delete(conn, %{"id" => id}) do
