@@ -1,6 +1,6 @@
 defmodule Twitch.WebhookSubscriptions.SigningTest do
   use Twitch.DataCase, async: true
-  alias Twitch.WebhookSubscriptions.Signing
+  # alias Twitch.WebhookSubscriptions.Signing
 
   # test "calculates the correct signature" do
   # actual = """
