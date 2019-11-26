@@ -1,0 +1,5 @@
+<div class="m-4">
+  <div class="mb-2 text-xl">New Log</div>
+
+  <%= render("form.html", changeset: @changeset, action: :create) %>
+</div>

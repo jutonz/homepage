@@ -6,11 +6,13 @@ defmodule ClientWeb.FeatureCase do
       use Wallaby.DSL
 
       alias Client.Repo
+
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-
+      import Client.Factory
       import ClientWeb.Router.Helpers
+      import ClientWeb.FeatureHelpers
 
       Application.put_env(:wallaby, :base_url, ClientWeb.Endpoint.url())
     end

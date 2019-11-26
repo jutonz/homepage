@@ -1,0 +1,27 @@
+<div class="m-4">
+  <div class="text-xl mb-4">Logs</div>
+
+  <%= if !Enum.any?(@logs) do %>
+    You haven't made any logs yet. Do it!
+  <% end %>
+
+  <div>
+    <%= for log <- @logs do %>
+      <div>
+        <%= link(
+          log.name,
+          to: food_log_path(ClientWeb.Endpoint, :show, log.id)
+        ) %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-6">
+    <%= link(
+      "New log",
+      to: food_log_path(ClientWeb.Endpoint, :new),
+      class: "button mt-4",
+      data: [role: "new-food-log"]
+    ) %>
+  </div>
+</div>

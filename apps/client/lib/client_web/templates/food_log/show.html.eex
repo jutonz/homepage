@@ -1,0 +1,15 @@
+<div class="m-4">
+  <div class="text-xl mb-4" data-role="food-log-title">
+    <%= @log.name %>
+  </div>
+
+  <div class="mt-6">
+    <%= link(
+      "Delete",
+      to: food_log_path(ClientWeb.Endpoint, :delete, @log.id),
+      method: :delete,
+      data: [confirm: "Are you sure"],
+      class: "button mt-4"
+    ) %>
+  </div>
+</div>

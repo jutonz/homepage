@@ -14,6 +14,10 @@ defmodule ClientWeb.Router do
     plug(Phoenix.LiveView.Flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+
+    if Mix.env() == :test do
+      plug(ClientWeb.Plugs.TestAuthHelper)
+    end
   end
 
   pipeline :browser_authenticated do
@@ -23,6 +27,8 @@ defmodule ClientWeb.Router do
   scope "/", ClientWeb do
     pipe_through(:browser)
     pipe_through(:browser_authenticated)
+
+    resources("/food-logs", FoodLogController, only: ~w[index new create show delete]a)
 
     scope("/settings", Settings, as: :settings) do
       resources("/api", ApiController, singleton: true, only: ~w[show]a) do

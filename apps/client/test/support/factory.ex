@@ -21,4 +21,13 @@ defmodule Client.Factory do
       user_id: insert(:user).id
     }
   end
+
+  def food_log_factory do
+    %Client.FoodLogs.FoodLog{
+      name: sequence(:food_log, &"food-log-#{&1}"),
+      owner_id: integer()
+    }
+  end
+
+  defp integer, do: System.unique_integer([:positive])
 end
