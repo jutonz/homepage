@@ -29,5 +29,14 @@ defmodule Client.Factory do
     }
   end
 
+  def food_log_entry_factory do
+    %Client.FoodLogs.Entry{
+      description: "A food item!",
+      user_id: integer(),
+      food_log_id: uuid()
+    }
+  end
+
   defp integer, do: System.unique_integer([:positive])
+  defp uuid, do: Ecto.UUID.generate()
 end

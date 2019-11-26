@@ -126,7 +126,13 @@ jobs:
         command: |
           mix ecto.create
           mix ecto.migrate
-    - run: mix test
+    - run:
+        name: mix test
+        command: |
+          cd apps/client/assets && yarn && yarn bundle:static && cd - && mix test
+    - store_artifacts:
+        path: /tmp/homepage-screenshots
+        destination: acceptance-screenshots
   yarn_lint:
     working_directory: ~/code
     docker:

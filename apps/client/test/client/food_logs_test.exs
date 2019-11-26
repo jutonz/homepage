@@ -24,6 +24,14 @@ defmodule Client.FoodLogsTest do
     end
   end
 
+  describe "create_entry/1" do
+    test "it creates an entry" do
+      params = params_for(:food_log_entry)
+
+      assert {:ok, _entry} = FoodLogs.create_entry(params)
+    end
+  end
+
   describe "get/1" do
     test "returns a food log if it exists" do
       log_id = insert(:food_log).id
@@ -43,6 +51,18 @@ defmodule Client.FoodLogsTest do
       _other_log = insert(:food_log)
 
       assert FoodLogs.list_by_owner_id(my_id) == [my_log]
+    end
+  end
+
+  describe "list_entries/1" do
+    test "returns entries for the given log" do
+      log = insert(:food_log)
+      entry = insert(:food_log_entry, food_log_id: log.id)
+
+      other_log = insert(:food_log)
+      _other_entry = insert(:food_log_entry, food_log_id: other_log.id)
+
+      assert FoodLogs.list_entries(log.id) == [entry]
     end
   end
 
