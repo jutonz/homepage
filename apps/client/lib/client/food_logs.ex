@@ -23,6 +23,9 @@ defmodule Client.FoodLogs do
     |> Repo.all()
   end
 
+  def update(log, params),
+    do: log |> changeset(params) |> Repo.update()
+
   def delete(id) do
     id |> get() |> Repo.delete()
   end

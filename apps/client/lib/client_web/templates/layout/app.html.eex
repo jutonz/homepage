@@ -8,6 +8,10 @@
     <meta name="author" content="">
 
     <title>jutonz.com</title>
+    <style>
+      body { background-color: black; }
+      body * { visibility: hidden; }
+    </style>
   </head>
 
   <body>
