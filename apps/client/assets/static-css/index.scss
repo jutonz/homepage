@@ -11,6 +11,10 @@ body {
   color: white;
 }
 
+body * {
+  visibility: initial;
+}
+
 input {
   @apply text-black p-1 pl-2 pr-2;
 }

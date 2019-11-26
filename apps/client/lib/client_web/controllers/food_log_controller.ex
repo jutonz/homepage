@@ -40,6 +40,17 @@ defmodule ClientWeb.FoodLogController do
     render(conn, "show.html", log: log)
   end
 
+  def edit(conn, %{"id" => id}) do
+    cs = id |> FoodLogs.get() |> FoodLogs.changeset()
+    render(conn, "edit.html", changeset: cs)
+  end
+
+  def update(conn, %{"id" => id, "food_log" => log_params}) do
+    with {:ok, log} <- id |> FoodLogs.get() |> FoodLogs.update(log_params) do
+      redirect(conn, to: food_log_path(ClientWeb.Endpoint, :show, log.id))
+    end
+  end
+
   def delete(conn, %{"id" => id}) do
     case FoodLogs.delete(id) do
       {:ok, _log} ->

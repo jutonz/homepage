@@ -8,6 +8,12 @@
     <meta name="author" content="">
 
     <title>jutonz.com</title>
+    <%= unless Mix.env() == :test do %>
+      <style>
+        body { background-color: black; }
+        body * { visibility: hidden; }
+      </style>
+    <% end %>
   </head>
 
   <body>
