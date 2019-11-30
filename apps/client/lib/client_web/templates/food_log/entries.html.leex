@@ -1,0 +1,22 @@
+<div class="mb-4">
+  Entries
+</div>
+
+<%= for entry <- @entries do %>
+  <div data-role="food-log-entry">
+    <%= entry.description %>
+  </div>
+<% end %>
+
+<%= if @show_add do %>
+  <%= form_for @entry_changeset, "#", [phx_submit: "add_entry"], fn f -> %>
+    <div>
+      <%= text_input(f, :description, data: [role: "entry-desc-input"]) %>
+      <%= error_tag(f, :description) %>
+    </div>
+
+    <%= submit("Add", data: [role: "entry-submit"]) %>
+  <% end %>
+<% else %>
+  <button phx-click="show_add_entry" data-role="entry-add">+ Add entry</button>
+<% end %>

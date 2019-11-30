@@ -17,5 +17,36 @@ config :client, Client.Repo,
   username: "postgres",
   password: nil
 
+# Default capabilities copied from here:
+# https://github.com/elixir-wallaby/wallaby/blob/master/lib/wallaby/experimental/chrome.ex#L74
 config :wallaby,
-  driver: Wallaby.Experimental.Chrome
+  max_wait_time: 250,
+  screenshot_on_failure: true,
+  screenshot_dir: "/tmp/homepage-screenshots",
+  driver: Wallaby.Experimental.Chrome,
+  chromedriver: [
+    capabilities: %{
+      javascriptEnabled: true,
+      loadImages: false,
+      version: "",
+      rotatable: false,
+      takesScreenshot: true,
+      cssSelectorsEnabled: true,
+      nativeEvents: false,
+      platform: "ANY",
+      unhandledPromptBehavior: "accept",
+      loggingPrefs: %{
+        browser: "DEBUG"
+      },
+      chromeOptions: %{
+        args: [
+          "--no-sandbox",
+          "window-size=1280,800",
+          "--disable-gpu",
+          "--headless",
+          "--fullscreen",
+          "--user-agent=Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
+        ]
+      }
+    }
+  ]

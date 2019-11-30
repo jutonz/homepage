@@ -3,6 +3,18 @@
     <%= @log.name %>
   </div>
 
+  <div>
+    <%= Phoenix.LiveView.live_render(
+      @conn,
+      ClientWeb.FoodLog.EntryView,
+      session: %{
+        log: @log,
+        current_user_id: Client.Session.current_user_id(@conn)
+      }
+    ) %>
+  </div>
+
+
   <div class="mt-6">
     <%= link(
       "Edit",
