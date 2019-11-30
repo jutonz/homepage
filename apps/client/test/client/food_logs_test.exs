@@ -54,15 +54,31 @@ defmodule Client.FoodLogsTest do
     end
   end
 
-  describe "list_entries/1" do
+  describe "list_entries_by_day/1" do
+    test "returns entries grouped by day" do
+      log = insert(:food_log)
+      today_entry = insert(:food_log_entry, food_log_id: log.id)
+      yesterday = DateTime.add(DateTime.utc_now(), 60 * 60 * 24, :second)
+      yesterday_entry = insert(:food_log_entry, food_log_id: log.id, occurred_at: yesterday)
+
+      entries = FoodLogs.list_entries_by_day(log.id)
+
+      assert entries[Ecto.Date.cast!(today_entry.occurred_at)] == [today_entry.description]
+
+      assert entries[Ecto.Date.cast!(yesterday_entry.occurred_at)] == [
+               yesterday_entry.description
+             ]
+    end
+
     test "returns entries for the given log" do
       log = insert(:food_log)
       entry = insert(:food_log_entry, food_log_id: log.id)
-
       other_log = insert(:food_log)
       _other_entry = insert(:food_log_entry, food_log_id: other_log.id)
 
-      assert FoodLogs.list_entries(log.id) == [entry]
+      entries = FoodLogs.list_entries_by_day(log.id)
+
+      assert entries[Ecto.Date.cast!(entry.occurred_at)] == [entry.description]
     end
   end
 

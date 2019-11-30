@@ -25,8 +25,8 @@ defmodule Client.FoodLogs do
   def list_by_owner_id(owner_id),
     do: FoodLog |> Query.by_owner_id(owner_id) |> Repo.all()
 
-  def list_entries(log_id),
-    do: Entry |> Entry.Query.by_log(log_id) |> Repo.all()
+  def list_entries_by_day(log_id),
+    do: Entry.Query.grouped_by_day(log_id)
 
   def update(log, params),
     do: log |> changeset(params) |> Repo.update()

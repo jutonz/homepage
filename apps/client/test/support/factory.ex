@@ -31,9 +31,10 @@ defmodule Client.Factory do
 
   def food_log_entry_factory do
     %Client.FoodLogs.Entry{
-      description: "A food item!",
+      description: sequence(:description, &"food-item-#{&1}"),
       user_id: integer(),
-      food_log_id: uuid()
+      food_log_id: uuid(),
+      occurred_at: DateTime.utc_now()
     }
   end
 
