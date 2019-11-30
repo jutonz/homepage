@@ -111,6 +111,9 @@ jobs:
         - _build/dev
         - _build/test
         - deps
+    - restore_cache:
+        key: v1-prod-static-assets-{{ .Revision }}
+        path: apps/client/priv/static/js
     - run:
         name: Write twitch secret master key to file
         command: |
@@ -123,13 +126,10 @@ jobs:
     - run: mix deps.get
     - run:
         name: Create DB
-        command: |
-          mix ecto.create
-          mix ecto.migrate
+        command: mix do ecto.create, ecto.migrate
     - run:
         name: mix test
-        command: |
-          cd apps/client/assets && yarn && yarn bundle:static && cd - && mix test
+        command: mix test
     - store_artifacts:
         path: /tmp/homepage-screenshots
         destination: acceptance-screenshots
@@ -195,6 +195,9 @@ jobs:
         command: |
           cd apps/client/assets
           yarn bundle:static
+    - save_cache:
+        key: v1-prod-static-assets-{{ .Revision }}
+        path: apps/client/priv/static/js
   yarn_bundle_react:
     working_directory: ~/code
     docker:
@@ -220,8 +223,6 @@ workflows:
 
     - yarn_install:
         requires: ["build_dev"]
-    - mix_test:
-        requires: ["build_test"]
     - mix_format:
         requires: ["build_dev"]
     - yarn_lint:
@@ -230,3 +231,5 @@ workflows:
         requires: ["yarn_install"]
     - yarn_bundle_static:
         requires: ["yarn_install"]
+    - mix_test:
+        requires: ["build_test", "yarn_bundle_static"]
