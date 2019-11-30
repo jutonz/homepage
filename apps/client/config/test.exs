@@ -20,7 +20,7 @@ config :client, Client.Repo,
 # Default capabilities copied from here:
 # https://github.com/elixir-wallaby/wallaby/blob/master/lib/wallaby/experimental/chrome.ex#L74
 config :wallaby,
-  max_wait_time: 5000,
+  max_wait_time: 250,
   screenshot_on_failure: true,
   screenshot_dir: "/tmp/homepage-screenshots",
   driver: Wallaby.Experimental.Chrome,

@@ -197,7 +197,8 @@ jobs:
           yarn bundle:static
     - save_cache:
         key: v1-prod-static-assets-{{ .Revision }}
-        path: apps/client/priv/static/js
+        paths:
+        - apps/client/priv/static/js
   yarn_bundle_react:
     working_directory: ~/code
     docker:
