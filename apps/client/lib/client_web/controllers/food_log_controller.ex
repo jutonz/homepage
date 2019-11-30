@@ -8,7 +8,9 @@ defmodule ClientWeb.FoodLogController do
       |> Client.Session.current_user_id()
       |> FoodLogs.list_by_owner_id()
 
-    render(conn, "index.html", logs: logs)
+    conn
+    |> assign(:title, "Food Logs")
+    |> render("index.html", logs: logs)
   end
 
   def new(conn, _params) do
@@ -37,7 +39,10 @@ defmodule ClientWeb.FoodLogController do
 
   def show(conn, %{"id" => id}) do
     log = FoodLogs.get(id)
-    render(conn, "show.html", log: log)
+
+    conn
+    |> assign(:title, log.name)
+    |> render("show.html", log: log)
   end
 
   def edit(conn, %{"id" => id}) do

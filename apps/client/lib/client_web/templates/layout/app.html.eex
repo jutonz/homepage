@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>jutonz.com</title>
+    <title><%= @conn.assigns[:title] || "jutonz.com" %></title>
     <%= unless Mix.env() == :test do %>
       <style>
         body { background-color: black; }
