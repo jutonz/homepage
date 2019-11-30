@@ -1,6 +1,12 @@
 <div class="m-4">
-  <div class="text-xl mb-4" data-role="food-log-title">
-    <%= @log.name %>
+  <div class="text-xl mb-4">
+    <span class="text-gray-300" data-role="food-log-bc-to-index">
+      <%= link("Logs", to: food_log_path(@conn, :index)) %>
+    </span>
+    <span class="text-gray-700">
+      >
+    </span>
+    <span data-role="food-log-title"><%= @log.name %></span>
   </div>
 
   <div>
