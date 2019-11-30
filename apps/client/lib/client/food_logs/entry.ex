@@ -7,6 +7,7 @@ defmodule Client.FoodLogs.Entry do
     field(:description, :string)
     field(:food_log_id, Ecto.UUID)
     field(:user_id, :integer)
+    field(:occurred_at, :naive_datetime)
     timestamps()
   end
 
@@ -17,5 +18,5 @@ defmodule Client.FoodLogs.Entry do
   end
 
   defp optional_attrs, do: []
-  defp required_attrs, do: ~w[description food_log_id user_id]a
+  defp required_attrs, do: ~w[description food_log_id user_id occurred_at]a
 end

@@ -13,7 +13,7 @@ defmodule ClientWeb.FoodLog.EntryView do
       |> assign(:log, session[:log])
       |> assign(:current_user_id, session[:current_user_id])
       |> assign(:show_add, false)
-      |> assign(:entries, FoodLogs.list_entries(session[:log].id))
+      |> assign(:entries, FoodLogs.list_entries_by_day(session[:log].id))
 
     {:ok, socket}
   end
@@ -32,7 +32,8 @@ defmodule ClientWeb.FoodLog.EntryView do
   def handle_event("add_entry", %{"entry" => entry_params}, socket) do
     req_params = %{
       "food_log_id" => socket.assigns[:log].id,
-      "user_id" => socket.assigns[:current_user_id]
+      "user_id" => socket.assigns[:current_user_id],
+      "occurred_at" => DateTime.utc_now()
     }
 
     entry_params = Map.merge(entry_params, req_params)
@@ -56,5 +57,5 @@ defmodule ClientWeb.FoodLog.EntryView do
   end
 
   defp list_entries(socket),
-    do: FoodLogs.list_entries(socket.assigns[:log].id)
+    do: FoodLogs.list_entries_by_day(socket.assigns[:log].id)
 end

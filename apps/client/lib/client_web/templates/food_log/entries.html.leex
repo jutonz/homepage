@@ -2,10 +2,16 @@
   Entries
 </div>
 
-<%= for entry <- @entries do %>
-  <div data-role="food-log-entry">
-    <%= entry.description %>
+<%= for day <- Map.keys(@entries) do %>
+  <div>
+    <%= day %>
   </div>
+  <%= for entry_description <- @entries[day] do %>
+    <div data-role="food-log-entry">
+      <%= entry_description %>
+    </div>
+  <% end %>
+
 <% end %>
 
 <%= if @show_add do %>
