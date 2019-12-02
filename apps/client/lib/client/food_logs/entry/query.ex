@@ -11,7 +11,7 @@ defmodule Client.FoodLogs.Entry.Query do
   FROM
     (
       SELECT
-        '~s'::date + sequential_dates.date
+        '~s'::date - sequential_dates.date
       AS date
       FROM
         generate_series(0, ~B)
@@ -27,8 +27,8 @@ defmodule Client.FoodLogs.Entry.Query do
     food_log_entries.occurred_at
   """
   def grouped_by_day(food_log_id) do
-    {:ok, now_est} = DateTime.now("EST")
-    start_date = now_est |> DateTime.to_date() |> to_string()
+    {:ok, now} = DateTime.now(timezone())
+    start_date = now |> DateTime.to_date() |> to_string()
     num_days = 30
 
     {:ok, result} =
@@ -42,4 +42,7 @@ defmodule Client.FoodLogs.Entry.Query do
       fn [_date, description] -> description end
     )
   end
+
+  defp timezone,
+    do: Application.get_env(:client, :default_timezone)
 end
