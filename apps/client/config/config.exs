@@ -5,6 +5,8 @@
 # this project.
 use Mix.Config
 
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+
 # General application configuration
 config :client,
   namespace: Client,
@@ -31,10 +33,7 @@ config :client, ClientWeb.Endpoint,
     name: Client.PubSub
   ]
 
-config :logger, :console,
-  format: "$time $metadata[$level] $message\n",
-  metadata: [:request_id]
-
+config :logger, :console, format: "$time $metadata[$level] $message\n", metadata: [:request_id]
 config :absinthe, log: false
 
 config :logger, debug: true

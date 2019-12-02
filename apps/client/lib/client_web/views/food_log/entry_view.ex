@@ -8,25 +8,16 @@ defmodule ClientWeb.FoodLog.EntryView do
   end
 
   def mount(session, socket) do
-    socket =
-      socket
-      |> assign(:log, session[:log])
-      |> assign(:current_user_id, session[:current_user_id])
-      |> assign(:show_add, false)
-      |> assign(:entries, FoodLogs.list_entries_by_day(session[:log].id))
-
-    {:ok, socket}
-  end
-
-  def handle_event("show_add_entry", _value, socket) do
     entry_cs = FoodLogs.entry_changeset(%Entry{}, %{})
 
     socket =
       socket
-      |> assign(:show_add, true)
+      |> assign(:log, session[:log])
+      |> assign(:current_user_id, session[:current_user_id])
       |> assign(:entry_changeset, entry_cs)
+      |> assign(:entries, FoodLogs.list_entries_by_day(session[:log].id))
 
-    {:noreply, socket}
+    {:ok, socket}
   end
 
   def handle_event("add_entry", %{"entry" => entry_params}, socket) do
@@ -40,19 +31,17 @@ defmodule ClientWeb.FoodLog.EntryView do
 
     case FoodLogs.create_entry(entry_params) do
       {:ok, _entry} ->
+        entry_cs = FoodLogs.entry_changeset(%Entry{}, %{})
+
         socket =
           socket
           |> assign(:entries, list_entries(socket))
-          |> assign(:show_add, false)
+          |> assign(:entry_changeset, entry_cs)
 
         {:noreply, socket}
 
       {:error, changeset} ->
-        socket =
-          socket
-          |> assign(:entry_changeset, changeset)
-
-        {:noreply, socket}
+        {:noreply, assign(socket, :entry_changeset, changeset)}
     end
   end
 

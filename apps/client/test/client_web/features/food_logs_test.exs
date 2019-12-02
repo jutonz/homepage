@@ -45,7 +45,6 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
 
     session
     |> visit(food_log_path(@endpoint, :show, log.id, as: user.id))
-    |> click(role("entry-add"))
     |> fill_in(role("entry-desc-input"), with: desc)
     |> click(role("entry-submit"))
     |> assert_has(role("food-log-entry", text: desc))
