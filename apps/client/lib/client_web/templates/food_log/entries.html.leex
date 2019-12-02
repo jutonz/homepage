@@ -1,7 +1,3 @@
-<div class="mb-4">
-  Entries
-</div>
-
 <%= for day <- Map.keys(@entries) do %>
   <div>
     <%= day %>
@@ -11,18 +7,21 @@
       <%= entry_description %>
     </div>
   <% end %>
-
 <% end %>
 
-<%= if @show_add do %>
-  <%= form_for @entry_changeset, "#", [phx_submit: "add_entry"], fn f -> %>
+<%= form_for @entry_changeset, "#", [phx_submit: "add_entry"], fn f -> %>
+  <div class="flex flex-row items-center">
     <div>
-      <%= text_input(f, :description, data: [role: "entry-desc-input"]) %>
+      <%= text_input(
+        f,
+        :description,
+        id: "food-log-entry-input",
+        phx_hook: "FoodLogEntryInput",
+        data: [role: "entry-desc-input"]
+      ) %>
       <%= error_tag(f, :description) %>
     </div>
 
-    <%= submit("Add", data: [role: "entry-submit"]) %>
-  <% end %>
-<% else %>
-  <button phx-click="show_add_entry" data-role="entry-add">+ Add entry</button>
+    <%= submit("Add entry", data: [role: "entry-submit"], class: "ml-4") %>
+  </div>
 <% end %>
