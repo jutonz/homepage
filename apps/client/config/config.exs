@@ -10,7 +10,8 @@ config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 # General application configuration
 config :client,
   namespace: Client,
-  ecto_repos: [Client.Repo]
+  ecto_repos: [Client.Repo],
+  default_timezone: "EST"
 
 config :phoenix,
   template_engines: [leex: Phoenix.LiveView.Engine]
