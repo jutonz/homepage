@@ -1,11 +1,31 @@
 <%= for day <- Map.keys(@entries) do %>
-  <div>
+  <div class="mt-4">
     <%= day %>
   </div>
-  <%= for entry_description <- @entries[day] do %>
-    <div data-role="food-log-entry">
-      <%= entry_description %>
-    </div>
+  <%= for entry <- @entries[day] do %>
+    <%= if @editing_id == entry[:id] do %>
+      <%= form_for @editing_changeset, "#", [phx_submit: "update_entry"], fn f -> %>
+        <div class="flex flex-row items-center">
+          <div>
+            <%= text_input(
+              f,
+              :description,
+              id: "food-log-entry-update-input-#{@editing_id}",
+              phx_hook: "FoodLogEntryUpdateInput",
+              data: [role: "entry-desc-update-input"]
+            ) %>
+            <%= error_tag(f, :description) %>
+          </div>
+
+          <%= submit("Save", data: [role: "entry-update-submit"], class: "ml-4") %>
+          <div class="button" phx-click="cancel_edit_entry">Cancel</div>
+        </div>
+      <% end %>
+    <% else %>
+      <div data-role="food-log-entry" class="ml-2 mb-2 mt-2" phx-click="edit_entry" phx-value-id="<%= entry[:id] %>">
+        <%= entry[:description] %>
+      </div>
+    <% end %>
   <% end %>
 <% end %>
 

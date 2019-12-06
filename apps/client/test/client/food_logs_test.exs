@@ -64,10 +64,18 @@ defmodule Client.FoodLogsTest do
 
       entries = FoodLogs.list_entries_by_day(log.id)
 
-      assert entries[occurred_at(today_entry)] == [today_entry.description]
+      assert entries[occurred_at(today_entry)] == [
+               %{
+                 id: today_entry.id,
+                 description: today_entry.description
+               }
+             ]
 
       assert entries[occurred_at(yesterday_entry)] == [
-               yesterday_entry.description
+               %{
+                 id: yesterday_entry.id,
+                 description: yesterday_entry.description
+               }
              ]
     end
 
@@ -79,7 +87,23 @@ defmodule Client.FoodLogsTest do
 
       entries = FoodLogs.list_entries_by_day(log.id)
 
-      assert entries[Ecto.Date.cast!(entry.occurred_at)] == [entry.description]
+      assert entries[Ecto.Date.cast!(entry.occurred_at)] == [
+               %{
+                 description: entry.description,
+                 id: entry.id
+               }
+             ]
+    end
+  end
+
+  describe "update_entry/2" do
+    test "updates the entry" do
+      entry = insert(:food_log_entry)
+      new_desc = "wee"
+
+      {:ok, updated_entry} = FoodLogs.update_entry(entry, %{description: new_desc})
+
+      assert updated_entry.description == new_desc
     end
   end
 

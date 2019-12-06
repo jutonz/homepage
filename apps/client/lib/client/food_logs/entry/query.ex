@@ -7,7 +7,8 @@ defmodule Client.FoodLogs.Entry.Query do
   @by_day_fragment """
   SELECT
     sequential_dates.date,
-    food_log_entries.description
+    food_log_entries.description,
+    food_log_entries.id
   FROM
     (
       SELECT
@@ -38,8 +39,8 @@ defmodule Client.FoodLogs.Entry.Query do
 
     Enum.group_by(
       result.rows,
-      fn [date, _description] -> Ecto.Date.cast!(date) end,
-      fn [_date, description] -> description end
+      fn [date, _description, _id] -> Ecto.Date.cast!(date) end,
+      fn [_date, description, id] -> %{description: description, id: Ecto.UUID.cast!(id)} end
     )
   end
 

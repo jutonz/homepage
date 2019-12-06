@@ -1,5 +1,6 @@
 defmodule ClientWeb.FoodLogs.AddEntryTest do
   use ClientWeb.FeatureCase
+  import Wallaby.Query, only: [css: 1]
 
   test "it allows creating food logs", %{session: session} do
     user = insert(:user)
@@ -48,5 +49,19 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
     |> fill_in(role("entry-desc-input"), with: desc)
     |> click(role("entry-submit"))
     |> assert_has(role("food-log-entry", text: desc))
+  end
+
+  test "it allows editing entries", %{session: session} do
+    user = insert(:user)
+    log = insert(:food_log, owner_id: user.id)
+    entry = insert(:food_log_entry, food_log_id: log.id, user_id: user.id)
+    new_desc = "wee"
+
+    session
+    |> visit(food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> click(css(~s([data-role="food-log-entry"][phx-value-id="#{entry.id}"])))
+    |> fill_in(role("entry-desc-update-input"), with: new_desc)
+    |> click(role("entry-update-submit"))
+    |> assert_has(role("food-log-entry", text: new_desc))
   end
 end

@@ -22,6 +22,9 @@ defmodule Client.FoodLogs do
   def get(id),
     do: Repo.get(FoodLog, id)
 
+  def get_entry(id),
+    do: Repo.get(Entry, id)
+
   def list_by_owner_id(owner_id),
     do: FoodLog |> Query.by_owner_id(owner_id) |> Repo.all()
 
@@ -30,6 +33,9 @@ defmodule Client.FoodLogs do
 
   def update(log, params),
     do: log |> changeset(params) |> Repo.update()
+
+  def update_entry(entry, params),
+    do: entry |> entry_changeset(params) |> Repo.update()
 
   def delete(id),
     do: id |> get() |> Repo.delete()
