@@ -85,6 +85,18 @@ defmodule ClientWeb.FoodLog.EntryView do
     end
   end
 
+  def handle_event("delete_entry", _value, socket) do
+    {:ok, _entry} = FoodLogs.delete_entry(socket.assigns[:editing_id])
+
+    socket =
+      socket
+      |> assign(:entries, list_entries(socket))
+      |> assign(:editing_id, nil)
+      |> assign(:editing_changeset, nil)
+
+    {:noreply, socket}
+  end
+
   defp list_entries(socket),
     do: FoodLogs.list_entries_by_day(socket.assigns[:log].id)
 end

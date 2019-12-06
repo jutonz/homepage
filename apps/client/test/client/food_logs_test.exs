@@ -116,6 +116,15 @@ defmodule Client.FoodLogsTest do
     end
   end
 
+  describe "delete_entry/1" do
+    test "deletes the entry by its id" do
+      entry = insert(:food_log_entry)
+
+      assert {:ok, entry} = FoodLogs.delete_entry(entry.id)
+      refute Client.Repo.get(FoodLogs.Entry, entry.id)
+    end
+  end
+
   defp occurred_at(log_entry),
     do: Ecto.Date.cast!(log_entry.occurred_at)
 end

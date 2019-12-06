@@ -19,6 +19,7 @@
 
           <%= submit("Save", data: [role: "entry-update-submit"], class: "ml-4") %>
           <div class="button" phx-click="cancel_edit_entry">Cancel</div>
+          <div class="button" data-role="delete-log-entry" phx-click="delete_entry" data-confirm="Are you sure?">Delete</div>
         </div>
       <% end %>
     <% else %>

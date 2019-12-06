@@ -59,9 +59,27 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
 
     session
     |> visit(food_log_path(@endpoint, :show, log.id, as: user.id))
-    |> click(css(~s([data-role="food-log-entry"][phx-value-id="#{entry.id}"])))
+    |> click(entry_selector(entry.id))
     |> fill_in(role("entry-desc-update-input"), with: new_desc)
     |> click(role("entry-update-submit"))
     |> assert_has(role("food-log-entry", text: new_desc))
   end
+
+  test "it allows deleting entries", %{session: session} do
+    user = insert(:user)
+    log = insert(:food_log, owner_id: user.id)
+    entry = insert(:food_log_entry, food_log_id: log.id, user_id: user.id)
+
+    session
+    |> visit(food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> click(entry_selector(entry.id))
+    |> accept_confirm(fn session ->
+      click(session, role("delete-log-entry"))
+    end)
+
+    refute_has(session, entry_selector(entry.id))
+  end
+
+  defp entry_selector(entry_id),
+    do: css(~s([data-role="food-log-entry"][phx-value-id="#{entry_id}"]))
 end
