@@ -1,22 +1,13 @@
 defmodule ClientWeb.FoodLog.EntryView do
-  use Phoenix.LiveView
-  alias Client.FoodLogs
-  alias Client.FoodLogs.Entry
+  use Phoenix.LiveComponent
+  alias ClientWeb.FoodLogs
 
   def render(assigns) do
-    Phoenix.View.render(ClientWeb.FoodLogView, "entries.html", assigns)
+    Phoenix.View.render(ClientWeb.FoodLogView, "entry.html", assigns) |> IO.inspect()
   end
 
-  def mount(session, socket) do
-    entry_cs = FoodLogs.entry_changeset(%Entry{}, %{})
-
-    socket =
-      socket
-      |> assign(:log, session[:log])
-      |> assign(:current_user_id, session[:current_user_id])
-      |> assign(:entry_changeset, entry_cs)
-      |> assign(:entries, FoodLogs.list_entries_by_day(session[:log].id))
-      |> assign(:editing_id, nil)
+  def mount(assigns, socket) do
+    IO.inspect(assigns)
 
     {:ok, socket}
   end
@@ -69,7 +60,6 @@ defmodule ClientWeb.FoodLog.EntryView do
     }
 
     entry_params = Map.merge(entry_params, req_params)
-
     entry = FoodLogs.get_entry(socket.assigns[:editing_id])
 
     case FoodLogs.update_entry(entry, entry_params) do
