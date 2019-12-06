@@ -16,6 +16,7 @@ defmodule ClientWeb.FoodLog.EntryView do
       |> assign(:current_user_id, session[:current_user_id])
       |> assign(:entry_changeset, entry_cs)
       |> assign(:entries, FoodLogs.list_entries_by_day(session[:log].id))
+      |> assign(:editing_id, nil)
 
     {:ok, socket}
   end
@@ -37,6 +38,45 @@ defmodule ClientWeb.FoodLog.EntryView do
           socket
           |> assign(:entries, list_entries(socket))
           |> assign(:entry_changeset, entry_cs)
+
+        {:noreply, socket}
+
+      {:error, changeset} ->
+        {:noreply, assign(socket, :entry_changeset, changeset)}
+    end
+  end
+
+  def handle_event("edit_entry", %{"id" => id}, socket) do
+    cs = id |> FoodLogs.get_entry() |> FoodLogs.entry_changeset()
+
+    socket =
+      socket
+      |> assign(:editing_id, id)
+      |> assign(:editing_changeset, cs)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("cancel_edit_entry", _value, socket),
+    do: {:noreply, assign(socket, :editing_id, nil)}
+
+  def handle_event("update_entry", %{"entry" => entry_params}, socket) do
+    req_params = %{
+      "food_log_id" => socket.assigns[:log].id,
+      "user_id" => socket.assigns[:current_user_id]
+    }
+
+    entry_params = Map.merge(entry_params, req_params)
+
+    entry = FoodLogs.get_entry(socket.assigns[:editing_id])
+
+    case FoodLogs.update_entry(entry, entry_params) do
+      {:ok, _entry} ->
+        socket =
+          socket
+          |> assign(:entries, list_entries(socket))
+          |> assign(:editing_id, nil)
+          |> assign(:editing_changeset, nil)
 
         {:noreply, socket}
 
