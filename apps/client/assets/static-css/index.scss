@@ -26,3 +26,7 @@ button, .button {
     @apply bg-blue-700;
   }
 }
+
+[phx-click] {
+  cursor: pointer;
+}
