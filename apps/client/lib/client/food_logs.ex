@@ -39,4 +39,7 @@ defmodule Client.FoodLogs do
 
   def delete(id),
     do: id |> get() |> Repo.delete()
+
+  def delete_entry(id),
+    do: id |> get_entry() |> Repo.delete()
 end
