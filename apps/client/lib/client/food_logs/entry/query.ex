@@ -29,8 +29,9 @@ defmodule Client.FoodLogs.Entry.Query do
   """
   def grouped_by_day(food_log_id) do
     {:ok, now} = DateTime.now(timezone())
-    start_date = now |> DateTime.to_date() |> to_string()
-    num_days = 30
+    yesterday = now |> DateTime.add(60 * 60 * 24, :second)
+    start_date = yesterday |> DateTime.to_date() |> to_string()
+    num_days = 31
 
     {:ok, result} =
       @by_day_fragment
