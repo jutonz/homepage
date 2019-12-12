@@ -22,10 +22,12 @@ defmodule ClientWeb.FoodLog.EntryView do
   end
 
   def handle_event("add_entry", %{"entry" => entry_params}, socket) do
+    {:ok, now} = DateTime.now(timezone())
+
     req_params = %{
       "food_log_id" => socket.assigns[:log].id,
       "user_id" => socket.assigns[:current_user_id],
-      "occurred_at" => DateTime.utc_now()
+      "occurred_at" => now
     }
 
     entry_params = Map.merge(entry_params, req_params)
@@ -99,4 +101,7 @@ defmodule ClientWeb.FoodLog.EntryView do
 
   defp list_entries(socket),
     do: FoodLogs.list_entries_by_day(socket.assigns[:log].id)
+
+  defp timezone,
+    do: Application.get_env(:client, :default_timezone)
 end
