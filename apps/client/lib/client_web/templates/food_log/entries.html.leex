@@ -3,18 +3,7 @@
     <%= day %>
   </div>
   <%= for entry <- @entries[day] do %>
-    <%= if @editing.id == entry[:id] do %>
-      <%= live_component(
-        @socket,
-        ClientWeb.FoodLog.EntryView,
-        id: :wee,
-        entry: @editing
-      ) %>
-    <% else %>
-      <div data-role="food-log-entry" class="ml-2 mb-2 mt-2" phx-click="edit_entry" phx-value-id="<%= entry[:id] %>">
-        <%= entry[:description] %>
-      </div>
-    <% end %>
+    <%= live_component(@socket, ClientWeb.FoodLog.EntryView, id: :wee, entry: entry) %>
   <% end %>
 <% end %>
 

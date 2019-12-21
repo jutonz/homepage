@@ -1,15 +1,27 @@
 defmodule ClientWeb.FoodLog.EntryView do
   use Phoenix.LiveComponent
-  alias ClientWeb.FoodLogs
+  alias Client.FoodLogs
+  alias Client.FoodLogs.Entry
 
   def render(assigns) do
-    Phoenix.View.render(ClientWeb.FoodLogView, "entry.html", assigns) |> IO.inspect()
+    Phoenix.View.render(ClientWeb.FoodLogView, "entry.html", assigns)
   end
 
-  def mount(assigns, socket) do
-    IO.inspect(assigns)
+  def mount(socket) do
+    IO.inspect(socket)
+    raise socket.assigns
+    #entry = assigns[:entry]
+    #assigns = %{
+      #entry: entry,
+      #changeset: FoodLogs.entry_changeset(entry)
+    #}
+    #
+    assigns = %{}
 
-    {:ok, socket}
+    #raise assigns
+    #IO.inspect(assigns)
+
+    {:ok, assign(socket, assigns)}
   end
 
   def handle_event("add_entry", %{"entry" => entry_params}, socket) do

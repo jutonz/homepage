@@ -16,7 +16,6 @@ defmodule ClientWeb.FoodLog.EntriesView do
       |> assign(:current_user_id, session[:current_user_id])
       |> assign(:entry_changeset, entry_cs)
       |> assign(:entries, FoodLogs.list_entries_by_day(session[:log].id))
-      |> assign(:editing, empty_entry())
 
     {:ok, socket}
   end
