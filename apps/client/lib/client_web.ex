@@ -4,7 +4,8 @@ defmodule ClientWeb do
   as controllers, views, channels and so on.
 
   This can be used in your application as:
-use ClientWeb, :controller
+
+      use ClientWeb, :controller
       use ClientWeb, :view
 
   The definitions below will be executed for every view,
@@ -46,15 +47,17 @@ use ClientWeb, :controller
       import ClientWeb.Router.Helpers
       import ClientWeb.ErrorHelpers
       import ClientWeb.Gettext
-      import Phoenix.LiveView, only: [
-        live_render: 2,
-        live_render: 3,
-        live_link: 1,
-        live_link: 2,
-        live_component: 2,
-        live_component: 3,
-        live_component: 4
-      ]
+
+      import Phoenix.LiveView,
+        only: [
+          live_render: 2,
+          live_render: 3,
+          live_link: 1,
+          live_link: 2,
+          live_component: 2,
+          live_component: 3,
+          live_component: 4
+        ]
     end
   end
 

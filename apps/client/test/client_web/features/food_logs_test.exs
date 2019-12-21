@@ -81,5 +81,5 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
   end
 
   defp entry_selector(entry_id),
-    do: css(~s([data-role="food-log-entry"][phx-value-id="#{entry_id}"]))
+    do: css(~s([data-role="food-log-entry"][data-entry-id="#{entry_id}"]))
 end

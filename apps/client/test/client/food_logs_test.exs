@@ -1,6 +1,7 @@
 defmodule Client.FoodLogsTest do
   use Client.DataCase, async: true
   alias Client.FoodLogs
+  alias Client.FoodLogs.Entry
   alias Client.FoodLogs.FoodLog
 
   describe "new_changeset/1" do
@@ -41,6 +42,31 @@ defmodule Client.FoodLogsTest do
 
     test "returns nil if the food log doesn't exist" do
       assert nil == FoodLogs.get(Ecto.UUID.generate())
+    end
+  end
+
+  describe "get_entry/1" do
+    test "returns an entry if it exists" do
+      entry_id = insert(:food_log_entry).id
+
+      assert %Entry{id: log_id} = FoodLogs.get_entry(entry_id)
+    end
+
+    test "returns nil if the food log doesn't exist" do
+      assert nil == FoodLogs.get(Ecto.UUID.generate())
+    end
+  end
+
+  describe "get_entries/1" do
+    test "returns entries with the given ids" do
+      [one, two, three] = insert_list(3, :food_log_entry)
+
+      entries = FoodLogs.get_entries([one.id, two.id])
+      ids = Enum.map(entries, & &1.id)
+
+      assert one.id in ids
+      assert two.id in ids
+      refute three.id in ids
     end
   end
 

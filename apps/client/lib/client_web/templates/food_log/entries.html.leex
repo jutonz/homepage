@@ -3,7 +3,7 @@
     <%= day %>
   </div>
   <%= for entry <- @entries[day] do %>
-    <%= live_component(@socket, ClientWeb.FoodLog.EntryView, id: :wee, entry: entry) %>
+    <%= live_component(@socket, ClientWeb.FoodLog.EntryView, id: entry[:id]) %>
   <% end %>
 <% end %>
 

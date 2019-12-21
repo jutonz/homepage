@@ -1,18 +1,24 @@
-<%= form_for @changeset, "#", [phx_submit: "update_entry"], fn f -> %>
-  <div class="flex flex-row items-center">
-    <div>
-      <%= text_input(
-        f,
-        :description,
-        id: "food-log-entry-update-input-#{@entry.id}",
-        phx_hook: "FoodLogEntryUpdateInput",
-        data: [role: "entry-desc-update-input"]
-      ) %>
-      <%= error_tag(f, :description) %>
-    </div>
+<%= if @changeset do %>
+  <%= form_for @changeset, "#", [phx_submit: "update_entry"], fn f -> %>
+    <div class="flex flex-row items-center">
+      <div>
+        <%= text_input(
+          f,
+          :description,
+          id: "food-log-entry-update-input-#{@entry.id}",
+          phx_hook: "FoodLogEntryUpdateInput",
+          data: [role: "entry-desc-update-input"]
+        ) %>
+        <%= error_tag(f, :description) %>
+      </div>
 
-    <%= submit("Save", data: [role: "entry-update-submit"], class: "ml-4") %>
-    <div class="button" phx-click="cancel_edit_entry">Cancel</div>
-    <div class="button" data-role="delete-log-entry" phx-click="delete_entry" data-confirm="Are you sure?">Delete</div>
+      <%= submit("Save", data: [role: "entry-update-submit"], class: "ml-4") %>
+      <div class="button" phx-click="cancel_edit_entry">Cancel</div>
+      <div class="button" data-role="delete-log-entry" phx-click="delete_entry" data-confirm="Are you sure?">Delete</div>
+    </div>
+  <% end %>
+<% else %>
+  <div data-role="food-log-entry" data-entry-id="<%= @entry.id %>" class="ml-2 mb-2 mt-2" phx-click="edit_entry">
+    <%= @entry.description %>
   </div>
 <% end %>
