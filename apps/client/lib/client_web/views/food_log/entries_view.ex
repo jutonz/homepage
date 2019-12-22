@@ -33,18 +33,20 @@ defmodule ClientWeb.FoodLog.EntriesView do
 
     case FoodLogs.create_entry(entry_params) do
       {:ok, _entry} ->
-        entry_cs = FoodLogs.entry_changeset(%Entry{}, %{})
+        assigns = [
+          entries: list_entries(socket),
+          entry_changeset: FoodLogs.entry_changeset(%Entry{}, %{})
+        ]
 
-        socket =
-          socket
-          |> assign(:entries, list_entries(socket))
-          |> assign(:entry_changeset, entry_cs)
-
-        {:noreply, socket}
+        {:noreply, assign(socket, assigns)}
 
       {:error, changeset} ->
         {:noreply, assign(socket, :entry_changeset, changeset)}
     end
+  end
+
+  def handle_info({:entry_deleted, entry}, socket) do
+    {:noreply, assign(socket, :entries, list_entries(socket))}
   end
 
   defp list_entries(socket),
