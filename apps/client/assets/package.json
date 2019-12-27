@@ -45,7 +45,7 @@
     "three": "^0.111.0"
   },
   "devDependencies": {
-    "@types/chart.js": "^2.9.5",
+    "@types/chart.js": "^2.9.7",
     "@types/react": "^16.9.17",
     "@types/react-dom": "^16.9.4",
     "@types/react-redux": "^7.1.5",
