@@ -47,7 +47,17 @@ defmodule ClientWeb do
       import ClientWeb.Router.Helpers
       import ClientWeb.ErrorHelpers
       import ClientWeb.Gettext
-      import Phoenix.LiveView, only: [live_render: 2, live_render: 3, live_link: 1, live_link: 2]
+
+      import Phoenix.LiveView,
+        only: [
+          live_render: 2,
+          live_render: 3,
+          live_link: 1,
+          live_link: 2,
+          live_component: 2,
+          live_component: 3,
+          live_component: 4
+        ]
     end
   end
 

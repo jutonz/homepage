@@ -1,4 +1,5 @@
 defmodule ClientWeb.FoodLogs.AddEntryTest do
+  alias Client.FoodLogs
   use ClientWeb.FeatureCase
   import Wallaby.Query, only: [css: 1]
 
@@ -78,8 +79,9 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
     end)
 
     refute_has(session, entry_selector(entry.id))
+    refute FoodLogs.get_entry(entry.id)
   end
 
   defp entry_selector(entry_id),
-    do: css(~s([data-role="food-log-entry"][phx-value-id="#{entry_id}"]))
+    do: css(~s([data-role="food-log-entry"][data-entry-id="#{entry_id}"]))
 end

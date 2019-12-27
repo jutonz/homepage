@@ -25,6 +25,9 @@ defmodule Client.FoodLogs do
   def get_entry(id),
     do: Repo.get(Entry, id)
 
+  def get_entries(ids),
+    do: Entry |> Entry.Query.by_ids(ids) |> Repo.all()
+
   def list_by_owner_id(owner_id),
     do: FoodLog |> Query.by_owner_id(owner_id) |> Repo.all()
 
