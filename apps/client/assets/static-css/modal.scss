@@ -1,0 +1,35 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 998;
+  background-color: rgba(0, 0, 0, 0.7);
+
+  &__content {
+    padding: 10px;
+    position: relative;
+    z-index: 999;
+    border: 1px solid white;
+    background-color: rgba(0, 0, 0, 1);
+  }
+
+  &__content__header {
+    padding: 10px 5px;
+  }
+
+  &__content__body {
+    padding: 10px 5px;
+  }
+
+  &__content__footer {
+    padding: 10px 5px;
+    display: flex;
+    flex-direction: row;
+  }
+}
