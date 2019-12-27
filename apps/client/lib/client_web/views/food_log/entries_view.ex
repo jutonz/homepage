@@ -45,7 +45,7 @@ defmodule ClientWeb.FoodLog.EntriesView do
     end
   end
 
-  def handle_info({:entry_deleted, entry}, socket) do
+  def handle_info({:entry_deleted, _entry}, socket) do
     {:noreply, assign(socket, :entries, list_entries(socket))}
   end
 
