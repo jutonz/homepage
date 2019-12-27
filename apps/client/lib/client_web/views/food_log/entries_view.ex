@@ -14,19 +14,18 @@ defmodule ClientWeb.FoodLog.EntriesView do
       log: session[:log],
       current_user_id: session[:current_user_id],
       entry_changeset: entry_cs,
-      entries: FoodLogs.list_entries_by_day(session[:log].id)
+      entries: list_entries(session),
+      today: today()
     ]
 
     {:ok, assign(socket, assigns)}
   end
 
   def handle_event("add_entry", %{"entry" => entry_params}, socket) do
-    {:ok, now} = DateTime.now(timezone())
-
     req_params = %{
       "food_log_id" => socket.assigns[:log].id,
       "user_id" => socket.assigns[:current_user_id],
-      "occurred_at" => now
+      "occurred_at" => now()
     }
 
     entry_params = Map.merge(entry_params, req_params)
@@ -49,9 +48,27 @@ defmodule ClientWeb.FoodLog.EntriesView do
     {:noreply, assign(socket, :entries, list_entries(socket))}
   end
 
-  defp list_entries(socket),
-    do: FoodLogs.list_entries_by_day(socket.assigns[:log].id)
+  defp list_entries(%Phoenix.LiveView.Socket{} = socket),
+    do: list_entries(socket.assigns[:log].id)
+
+  defp list_entries(session) when is_map(session),
+    do: list_entries(session[:log].id)
+
+  defp list_entries(log_id) when is_binary(log_id),
+    do: log_id |> FoodLogs.list_entries_by_day() |> maybe_add_today()
 
   defp timezone,
     do: Application.get_env(:client, :default_timezone)
+
+  defp maybe_add_today(entries),
+    do: Map.put_new(entries, today(), [])
+
+  defp now do
+    with {:ok, now} <- DateTime.now(timezone()) do
+      now
+    end
+  end
+
+  defp today,
+    do: Ecto.Date.cast!(now())
 end
