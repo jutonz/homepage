@@ -1,4 +1,4 @@
-<%= for day <- @entries |> Map.keys() |> Enum.reverse() do %>
+<%= for day <- ordered_days(@entries) do %>
   <div class="mt-4">
     <%= day %>
   </div>
