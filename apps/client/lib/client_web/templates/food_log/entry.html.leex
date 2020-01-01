@@ -7,19 +7,35 @@
           <div class="text-xl absolute top-0 right-0 mr-2" phx-click="cancel_edit_entry">x</div>
         </div>
         <div class="modal__content__body">
-            <div class="flex flex-row items-center">
-              <div>
-                <%= text_input(
-                  f,
-                  :description,
-                  id: "food-log-entry-update-input-#{@entry.id}",
-                  phx_hook: "FoodLogEntryUpdateInput",
-                  data: [role: "entry-desc-update-input"]
-                ) %>
-                <%= error_tag(f, :description) %>
-              </div>
-
+          <div class="flex flex-col items-start">
+            <div>
+              <%= text_input(
+                f,
+                :description,
+                id: "food-log-entry-update-input-#{@entry.id}",
+                phx_hook: "FoodLogEntryUpdateInput",
+                data: [role: "entry-desc-update-input"]
+              ) %>
+              <%= error_tag(f, :description) %>
             </div>
+            <div class="mt-4 flex flex-col">
+              <%= label(f, :occurred_at, class: "mb-2") %>
+              <%= date_input(
+                f,
+                :occurred_at_date,
+                data: [role: "entry-occurred-at-date-update-input"],
+                value: Ecto.Date.cast!(@entry.occurred_at)
+              ) %>
+              <%= time_input(
+                f,
+                :occurred_at_time,
+                data: [role: "entry-occurred-at-time-update-input"],
+                value: @entry.occurred_at |> Ecto.Time.cast!() |> Ecto.Time.to_iso8601() |> String.split(".") |> hd(),
+                class: "mt-2"
+              ) %>
+              <%= error_tag(f, :occurred_at) %>
+            </div>
+          </div>
         </div>
         <div class="modal__content__footer flex justify-between">
           <%= submit("Save", data: [role: "entry-update-submit"]) %>

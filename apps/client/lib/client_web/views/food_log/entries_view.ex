@@ -44,9 +44,11 @@ defmodule ClientWeb.FoodLog.EntriesView do
     end
   end
 
-  def handle_info({:entry_deleted, _entry}, socket) do
-    {:noreply, assign(socket, :entries, list_entries(socket))}
-  end
+  def handle_info({:entry_deleted, _entry}, socket),
+    do: {:noreply, assign(socket, :entries, list_entries(socket))}
+
+  def handle_info({:entry_updated, _entry}, socket),
+    do: {:noreply, assign(socket, :entries, list_entries(socket))}
 
   defp list_entries(%Phoenix.LiveView.Socket{} = socket),
     do: list_entries(socket.assigns[:log].id)

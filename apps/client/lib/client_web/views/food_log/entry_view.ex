@@ -47,10 +47,14 @@ defmodule ClientWeb.FoodLog.EntryView do
       "user_id" => entry.user_id
     }
 
-    entry_params = Map.merge(entry_params, req_params)
+    entry_params =
+      entry_params
+      |> Map.merge(req_params)
+      |> combine_date_and_time()
 
     case FoodLogs.update_entry(entry, entry_params) do
       {:ok, entry} ->
+        send(self(), {:entry_updated, entry})
         assigns = [changeset: nil, entry: entry]
         {:noreply, assign(socket, assigns)}
 
@@ -64,5 +68,19 @@ defmodule ClientWeb.FoodLog.EntryView do
     {:ok, entry} = FoodLogs.delete_entry(socket.assigns[:entry].id)
     send(self(), {:entry_deleted, entry})
     {:noreply, assign(socket, :changeset, nil)}
+  end
+
+  defp combine_date_and_time(entry_params) do
+    date = Ecto.Date.cast!(entry_params["occurred_at_date"])
+    time = Ecto.Time.cast!(entry_params["occurred_at_time"])
+
+    occurred_at =
+      date
+      |> Ecto.DateTime.from_date_and_time(time)
+      |> Ecto.DateTime.to_iso8601()
+
+    entry_params
+    |> Map.drop(~w[occurred_at_date occurred_at_time])
+    |> Map.put("occurred_at", occurred_at)
   end
 end
