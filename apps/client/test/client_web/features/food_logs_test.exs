@@ -66,6 +66,37 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
     |> assert_has(role("food-log-entry", text: new_desc))
   end
 
+  test "it allows editing occurred at", %{session: session} do
+    user = insert(:user)
+    log = insert(:food_log, owner_id: user.id)
+    entry = insert(:food_log_entry, food_log_id: log.id, user_id: user.id)
+    date = "2020-01-01"
+    time = "13:00:00"
+    {:ok, iso_time, _offset} = DateTime.from_iso8601("2020-01-01T13:00:00-05:00")
+    iso_time = iso_time |> to_string() |> String.replace(" ", "T")
+
+    session
+    |> visit(food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> click(entry_selector(entry.id))
+    |> find(css("#entry_occurred_at_date"))
+    |> execute_script("document.getElementById('entry_occurred_at_date').value = '#{date}'")
+    |> execute_script("document.getElementById('entry_occurred_at_time').value = '#{time}'")
+
+    session
+    |> click(role("entry-update-submit"))
+    |> take_screenshot()
+
+    updated_entry = FoodLogs.get_entry(entry.id)
+
+    updated_occurred_at =
+      updated_entry.occurred_at
+      |> NaiveDateTime.add(5 * 60 * 60, :second)
+      |> NaiveDateTime.to_iso8601()
+      |> String.replace(~r/\.\d*$/, "Z")
+
+    assert iso_time == updated_occurred_at
+  end
+
   test "it allows deleting entries", %{session: session} do
     user = insert(:user)
     log = insert(:food_log, owner_id: user.id)

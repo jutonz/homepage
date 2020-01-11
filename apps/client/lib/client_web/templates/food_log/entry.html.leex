@@ -31,7 +31,8 @@
                 :occurred_at_time,
                 data: [role: "entry-occurred-at-time-update-input"],
                 value: @entry.occurred_at |> Ecto.Time.cast!() |> Ecto.Time.to_iso8601() |> String.split(".") |> hd(),
-                class: "mt-2"
+                class: "mt-2",
+                step: 1
               ) %>
               <%= error_tag(f, :occurred_at) %>
             </div>
