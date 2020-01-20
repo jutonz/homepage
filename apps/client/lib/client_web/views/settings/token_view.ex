@@ -1,3 +1,3 @@
-defmodule ClientWeb.Settings.Api.TokenView do
+defmodule ClientWeb.Settings.TokenView do
   use ClientWeb, :view
 end
