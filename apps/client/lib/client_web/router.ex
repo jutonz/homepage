@@ -29,6 +29,7 @@ defmodule ClientWeb.Router do
     pipe_through(:browser_authenticated)
 
     resources("/food-logs", FoodLogController)
+    resources("/water-logs", WaterLogController, only: ~w[index new create show]a)
 
     scope("/settings", Settings, as: :settings) do
       resources("/api", ApiController, singleton: true, only: ~w[show]a) do
@@ -116,6 +117,12 @@ defmodule ClientWeb.Router do
     pipe_through(:authenticated_api)
 
     get("/tokentest", SessionController, :token_test)
+
+    scope "/", Api, as: :api do
+      resources "/water-logs", WaterLog, only: [] do
+        resources("/entries", WaterLogEntryController, as: :entry, only: ~w[create]a)
+      end
+    end
   end
 
   scope "/twitch", ClientWeb do

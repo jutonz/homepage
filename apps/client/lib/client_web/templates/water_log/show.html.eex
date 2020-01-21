@@ -1,0 +1,23 @@
+<div class="m-4">
+  <div class="text-xl mb-4">
+    <span class="text-gray-300" data-role="water-log-bc-to-index">
+      <%= link("Water Logs", to: water_log_path(@conn, :index)) %>
+    </span>
+    <span class="text-gray-700">
+      >
+    </span>
+    <span data-role="water-log-title"><%= @log.name %></span>
+  </div>
+
+  <%= if !Enum.any?(@entries) do %>
+    This log doesn't have any entries yet. Use the API to add some.
+  <% end %>
+
+  <%= for entry <- @entries do %>
+    <div class="mb-2">
+      <%= entry.inserted_at %>
+      =>
+      <%= entry.ml %> ML
+    </div>
+  <% end %>
+</div>

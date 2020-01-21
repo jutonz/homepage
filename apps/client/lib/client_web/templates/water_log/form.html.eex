@@ -1,0 +1,25 @@
+<%= form_for(
+  @changeset,
+  @submit_path,
+  [class: "flex flex-col"],
+fn form -> %>
+  <div class="flex flex-1 flex-col">
+    <%= label(form, :name, "Name") %>
+    <%= text_input(
+      form,
+      :name,
+      class: "mt-2",
+      autofocus: true,
+      data: [role: "water-log-name-input"]
+    ) %>
+    <div class="text-red-600 mt-1">
+      <%= error_tag(form, :name) %>
+    </div>
+  </div>
+
+  <%= submit(
+    @action |> to_string |> String.capitalize(),
+    class: "w-32 mt-4",
+    data: [role: "#{to_string(@action)}-water-log"]
+  ) %>
+<% end) %>
