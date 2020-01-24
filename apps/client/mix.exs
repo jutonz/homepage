@@ -57,7 +57,7 @@ defmodule Client.Mixfile do
       # TODO: Switch back to a tag once 0.24 is released
       # (we need custom capabilities to enable javascript on CI)
       {:wallaby, [git: "git@github.com:elixir-wallaby/wallaby.git", ref: "a0753fb", runtime: false, only: :test]},
-      {:phoenix_live_view, "~> 0.2"},
+      {:phoenix_live_view, "~> 0.6"},
       {:ex_machina, "~> 2.2", only: :test},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
