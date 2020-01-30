@@ -9,15 +9,25 @@
     <span data-role="water-log-title"><%= @log.name %></span>
   </div>
 
-  <%= if !Enum.any?(@entries) do %>
-    This log doesn't have any entries yet. Use the API to add some.
-  <% end %>
+  <table>
+    <thead>
+      <tr>
+        <td>Time</td>
+        <td>Amount (ML)</td>
+      </tr>
+    </thead>
 
-  <%= for entry <- @entries do %>
-    <div class="mb-2">
-      <%= entry.inserted_at %>
-      =>
-      <%= entry.ml %> ML
-    </div>
-  <% end %>
+    <%= if !Enum.any?(@entries) do %>
+      This log doesn't have any entries yet. Use the API to add some.
+    <% end %>
+
+    <tbody>
+      <%= for entry <- @entries do %>
+        <tr>
+          <td class="pt-1 pb-1 pr-4"><%= formatted_date(entry.inserted_at) %></td>
+          <td class="pt-1 pb-1"><%= entry.ml %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
