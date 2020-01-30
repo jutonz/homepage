@@ -1,7 +1,7 @@
 <div class="channel m-4 flex flex-col justify-center">
   <div><%= @name %> isn't live right now.</div>
 
-  <%= Phoenix.LiveView.live_render(
+  <%= live_render(
     @conn,
     ClientWeb.Twitch.ChatView,
     session: %{channel_name: @name}

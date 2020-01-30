@@ -5,7 +5,16 @@ import "phoenix_html";
 
 import Hooks from "./hooks";
 
-let liveSocket = new LiveSocket("/live", Socket, { hooks: Hooks });
+const csrfToken = document
+  .querySelector("meta[name='csrf-token']")
+  .getAttribute("content");
+const socketOpts = {
+  hooks: Hooks,
+  params: {
+    _csrf_token: csrfToken
+  }
+};
+const liveSocket = new LiveSocket("/live", Socket, socketOpts);
 liveSocket.connect();
 
 import "./chat-autoscroll";

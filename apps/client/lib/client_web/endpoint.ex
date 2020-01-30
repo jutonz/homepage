@@ -1,9 +1,20 @@
 defmodule ClientWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :client
 
+  @session_opts [
+    store: :cookie,
+    key: "_homepage_key",
+    signing_salt: "bj3dUFRB"
+  ]
+
   socket("/socket", ClientWeb.UserSocket)
   socket("/twitchsocket", ClientWeb.TwitchSocket)
-  socket("/live", Phoenix.LiveView.Socket)
+
+  socket(
+    "/live",
+    Phoenix.LiveView.Socket,
+    websocket: [connect_info: [session: @session_opts]]
+  )
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -44,12 +55,7 @@ defmodule ClientWeb.Endpoint do
   # The session will be stored in the cookie and signed, this means its
   # contents can be read but not tampered with.  Set :encryption_salt if you
   # would also like to encrypt it.
-  plug(
-    Plug.Session,
-    store: :cookie,
-    key: "_homepage_key",
-    signing_salt: "bj3dUFRB"
-  )
+  plug(Plug.Session, @session_opts)
 
   plug(ClientWeb.Router)
 end
