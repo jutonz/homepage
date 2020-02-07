@@ -41,20 +41,20 @@ defmodule Emoncms do
     Timex.now()
     |> Timex.shift(days: -1)
     |> Timex.to_datetime()
-    |> DateTime.to_unix(:milliseconds)
+    |> DateTime.to_unix(:millisecond)
   end
 
   def end_time do
     Timex.now()
     |> Timex.to_datetime()
-    |> DateTime.to_unix(:milliseconds)
+    |> DateTime.to_unix(:millisecond)
   end
 
   def unix_milliseconds_to_datetime(unix) do
     timezone = Timex.Timezone.get(@timezone)
 
     unix
-    |> DateTime.from_unix!(:milliseconds)
+    |> DateTime.from_unix!(:millisecond)
     |> Timex.Timezone.convert(timezone)
   end
 

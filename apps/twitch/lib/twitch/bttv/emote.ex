@@ -10,7 +10,7 @@ defmodule Twitch.Bttv.Emote do
           regex: Regex.t()
         }
 
-  @spec from_bttv_json(Map.t()) :: Bttv.Emote.t()
+  @spec from_bttv_json(map) :: Bttv.Emote.t()
   def from_bttv_json(json) do
     %Bttv.Emote{
       channel: json["channel"],

@@ -8,7 +8,7 @@ defmodule Twitch.Datastore.ChatEvent do
       _ ->
         case event |> event_to_entity |> Diplomat.Entity.insert() do
           [%Diplomat.Key{} = key] -> {:ok, key}
-          Diplomat.Client.Error -> {:error, "Failed to insert"}
+          {:error, _status} -> {:error, "Failed to insert"}
           _ -> {:error, "Something unknown"}
         end
     end
