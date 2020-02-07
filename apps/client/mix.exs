@@ -16,12 +16,6 @@ defmodule Client.Mixfile do
       aliases: aliases(),
       deps: deps(),
       test_coverage: [tool: ExCoveralls],
-      dialyzer: [
-        plt_add_apps: [:mix],
-        plt_add_deps: :transitive,
-        plt_core_path: "_plts",
-        plt_file: {:no_warn, "_plts/homepage.plt"}
-      ]
     ]
   end
 
@@ -44,7 +38,6 @@ defmodule Client.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false},
       {:phoenix, "~> 1.4.0"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
@@ -83,8 +76,7 @@ defmodule Client.Mixfile do
   defp aliases do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
-      dialyzer: ["dialyzer_pre", "dialyzer"]
+      "ecto.reset": ["ecto.drop", "ecto.setup"]
     ]
   end
 end
