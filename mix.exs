@@ -9,7 +9,7 @@ defmodule HomepageUmbrella.Mixfile do
       test_coverage: [tool: ExCoveralls],
       aliases: aliases(),
       dialyzer: [
-        plt_add_apps: [:mix],
+        plt_add_apps: ~w[mix]a,
         plt_add_deps: :transitive,
         plt_core_path: "_plts",
         plt_file: {:no_warn, "_plts/homepage.plt"}
