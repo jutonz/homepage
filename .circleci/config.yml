@@ -47,7 +47,7 @@ jobs:
         - _build/dev
         - deps
     - restore_cache:
-        key: v1-plts-{{ checksum ".tool-versions" }}
+        key: v2-plts-{{ checksum ".tool-versions" }}
         path: _plts
     - run:
         name: Setup hex
@@ -76,7 +76,7 @@ jobs:
         - _build/dev
         - deps
     - save_cache:
-        key: v1-plts-{{ checksum ".tool-versions" }}
+        key: v2-plts-{{ checksum ".tool-versions" }}
         paths:
         - _plts
 
@@ -129,7 +129,7 @@ jobs:
         key: v1-prod-static-assets-{{ .Revision }}
         path: apps/client/priv/static/js
     - restore_cache:
-        key: v1-plts-{{ checksum ".tool-versions" }}
+        key: v2-plts-{{ checksum ".tool-versions" }}
         path: _plts
     - run:
         name: Write twitch secret master key to file
