@@ -3,10 +3,10 @@ defmodule Twitch.GamblingEvent do
   alias Twitch.GamblingEvent
 
   @type t :: %__MODULE__{
-    channel: String.t(),
-    gamble_type: String.t(),
-    won: boolean
-  }
+          channel: String.t(),
+          gamble_type: String.t(),
+          won: boolean
+        }
 
   schema "gambling_events" do
     field(:channel, :string)

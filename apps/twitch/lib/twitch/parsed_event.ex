@@ -18,27 +18,26 @@ defmodule Twitch.ParsedEvent do
             raw_event: nil,
             tags: nil
 
-
   @type t :: %__MODULE__{
-    badges: map | nil,
-    color: String.t() | nil,
-    emotes: nil,
-    id: String.t() | nil,
-    room_id: String.t() | nil,
-    subscriber: nil,
-    tmi_sent_ts: String.t() | nil,
-    turbo: String.t() | nil,
-    user_id: String.t() | nil,
-    username: String.t() | nil,
-    display_name: String.t() | nil,
-    message_type: String.t() | nil,
-    message: String.t() | nil,
-    channel: String.t() | nil,
-    irc_name: String.t() | nil,
-    irc_command: String.t() | nil,
-    raw_event: String.t() | nil,
-    tags: map
-  }
+          badges: map | nil,
+          color: String.t() | nil,
+          emotes: nil,
+          id: String.t() | nil,
+          room_id: String.t() | nil,
+          subscriber: nil,
+          tmi_sent_ts: String.t() | nil,
+          turbo: String.t() | nil,
+          user_id: String.t() | nil,
+          username: String.t() | nil,
+          display_name: String.t() | nil,
+          message_type: String.t() | nil,
+          message: String.t() | nil,
+          channel: String.t() | nil,
+          irc_name: String.t() | nil,
+          irc_command: String.t() | nil,
+          raw_event: String.t() | nil,
+          tags: map
+        }
 
   def from_raw(raw_message) do
     {tags, raw_message} = maybe_extract_tags(raw_message)
