@@ -42,7 +42,7 @@ defmodule ClientWeb.Plugs.ApiAuthenticatedTest do
       |> ApiAuthenticated.call(%{})
 
     assert conn.status == 401
-    assert conn.resp_body == "Unauthorized"
+    assert conn.resp_body == "The authorization header contains an invalid token"
   end
 
   defp authorize(conn, api_token) do
