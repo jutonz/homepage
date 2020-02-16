@@ -50,7 +50,7 @@ defmodule Client.Mixfile do
       {:absinthe_plug, "~> 1.4"},
       {:cors_plug, "~> 2.0"},
       {:plug_static_index_html, "~> 1.0"},
-      {:gen_stage, "~> 0.14.0"},
+      {:gen_stage, "~> 1.0.0"},
       {:bamboo, "~> 1.1"},
       {:sentry, "~> 7.0"},
       {:jason, "~> 1.1"},
