@@ -3,10 +3,10 @@ defmodule Client.ApiTokens.ApiToken do
   alias Client.ApiTokens.ApiToken
 
   @type t :: %__MODULE__{
-    token: String.t(),
-    description: String.t() | nil,
-    user_id: integer
-  }
+          token: String.t(),
+          description: String.t() | nil,
+          user_id: integer
+        }
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
