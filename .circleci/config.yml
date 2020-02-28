@@ -48,7 +48,6 @@ jobs:
         - deps
     - restore_cache:
         key: v2-plts-{{ checksum ".tool-versions" }}
-        path: _plts
     - run:
         name: Setup hex
         command: |
@@ -119,8 +118,8 @@ jobs:
     - checkout
     - restore_cache:
         keys:
-        - v4-test-{{ checksum "mix.lock" }}
         - v5-dev-{{ checksum "mix.lock" }}
+        - v4-test-{{ checksum "mix.lock" }}
         paths:
         - _build/dev
         - _build/test
