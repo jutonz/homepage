@@ -5,7 +5,8 @@ defmodule Twitch.ApiCache do
   # Public API
   ##############################################################################
 
-  @spec cache_key(list(any)) :: String.t()
+  @spec cache_key(any | list(any)) :: String.t()
+
   def cache_key(targets) when is_list(targets) do
     targets
     |> Enum.map(&thing_to_string/1)
@@ -14,7 +15,6 @@ defmodule Twitch.ApiCache do
     |> Base.encode64()
   end
 
-  @spec cache_key(any()) :: String.t()
   def cache_key(target), do: cache_key([target])
 
   def get(pid_or_name, cache_key) do

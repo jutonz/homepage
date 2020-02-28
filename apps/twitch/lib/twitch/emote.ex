@@ -7,7 +7,7 @@ defmodule Twitch.Emote do
           regex: Regex.t()
         }
 
-  @spec from_twitch_json(Map.t()) :: Twitch.Emote.t()
+  @spec from_twitch_json(map) :: Twitch.Emote.t()
   def from_twitch_json(json) do
     %Twitch.Emote{
       id: json["id"],

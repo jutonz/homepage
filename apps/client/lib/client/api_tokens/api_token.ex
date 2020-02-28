@@ -2,6 +2,12 @@ defmodule Client.ApiTokens.ApiToken do
   use Ecto.Schema
   alias Client.ApiTokens.ApiToken
 
+  @type t :: %__MODULE__{
+          token: String.t(),
+          description: String.t() | nil,
+          user_id: integer
+        }
+
   @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "api_tokens" do

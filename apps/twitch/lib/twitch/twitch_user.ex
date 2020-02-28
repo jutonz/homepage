@@ -46,7 +46,7 @@ defmodule Twitch.User do
     end
   end
 
-  @spec refresh_token(Number.t()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
+  @spec refresh_token(integer) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
   def refresh_token(twitch_user_id) do
     %User{} = user = User |> Repo.get(twitch_user_id)
     refresh_token = user.access_token["refresh_token"]
@@ -70,7 +70,7 @@ defmodule Twitch.User do
     end
   end
 
-  @spec get_by_id(Number.t()) :: {:ok, User.t()} | {:error, String.t()}
+  @spec get_by_id(integer) :: {:ok, User.t()} | {:error, String.t()}
   def get_by_id(id) do
     case User |> Repo.get(id) do
       user = %User{} -> {:ok, user}

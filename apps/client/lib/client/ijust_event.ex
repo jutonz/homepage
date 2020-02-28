@@ -130,7 +130,7 @@ defmodule Client.IjustEvent do
     event |> changeset(%{count: event.count + 1})
   end
 
-  @spec new_occurrence_changeset(String.t()) :: Ecto.Changeset.t()
+  @spec new_occurrence_changeset(integer) :: Ecto.Changeset.t()
   def new_occurrence_changeset(event_id) when is_integer(event_id) do
     %IjustOccurrence{}
     |> IjustOccurrence.changeset(%{ijust_event_id: event_id})

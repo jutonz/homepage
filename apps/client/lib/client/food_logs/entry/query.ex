@@ -39,6 +39,7 @@ defmodule Client.FoodLogs.Entry.Query do
     {:ok, result} =
       @by_day_fragment
       |> :io_lib.format([start_date, num_days, food_log_id])
+      |> to_string()
       |> Client.Repo.query()
 
     Enum.group_by(

@@ -75,7 +75,7 @@ defmodule Twitch.Api do
     ])
   end
 
-  @spec channel_emotes(String.t(), Integer.t()) :: list(Twitch.Emote.t())
+  @spec channel_emotes(String.t(), integer) :: list(Twitch.Emote.t())
   def channel_emotes(channel_name, tier \\ 3) do
     path = "channels/#{channel_name}/product"
 
