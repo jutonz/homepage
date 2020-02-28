@@ -47,7 +47,10 @@ jobs:
         - _build/dev
         - deps
     - restore_cache:
-        key: v2-plts-{{ checksum ".tool-versions" }}
+        name: Restore PLT's
+        keys:
+        - v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        - v2-plts-{{ checksum ".tool-versions" }}-
     - run:
         name: Setup hex
         command: |
@@ -75,7 +78,7 @@ jobs:
         - _build/dev
         - deps
     - save_cache:
-        key: v2-plts-{{ checksum ".tool-versions" }}
+        key: v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
         - _plts
 
@@ -117,19 +120,17 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        keys:
-        - v5-dev-{{ checksum "mix.lock" }}
-        - v4-test-{{ checksum "mix.lock" }}
-        paths:
-        - _build/dev
-        - _build/test
-        - deps
+        key: v5-dev-{{ checksum "mix.lock" }}
+        name: Restore dev deps
+    - restore_cache:
+        key: v4-test-{{ checksum "mix.lock" }}
+        name: Restore test deps
     - restore_cache:
         key: v1-prod-static-assets-{{ .Revision }}
-        path: apps/client/priv/static/js
+        name: Restore static assets
     - restore_cache:
-        key: v2-plts-{{ checksum ".tool-versions" }}
-        path: _plts
+        key: v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        name: Restore PLT's
     - run:
         name: Write twitch secret master key to file
         command: |
@@ -145,7 +146,7 @@ jobs:
         command: mix do ecto.create, ecto.migrate
     - run:
         name: mix dialyzer
-        command: mix dialyzer
+        command: MIX_ENV=dev mix dialyzer
     - run:
         name: mix test
         command: mix test
