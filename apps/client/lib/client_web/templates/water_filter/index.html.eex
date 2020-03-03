@@ -1,0 +1,60 @@
+<div class="m-4">
+  <div class="text-xl mb-4">
+    <span class="text-gray-300" data-role="water-log-bc-to-index">
+      <%= link("Water Logs", to: water_log_path(@conn, :index)) %>
+    </span>
+    <span class="text-gray-700">
+      >
+    </span>
+    <span data-role="water-log-title">
+      <%= link(@log.name, to: water_log_path(@conn, :show, @log.id)) %>
+    </span>
+    <span class="text-gray-700">
+      >
+    </span>
+    <span>Filters</span>
+  </div>
+
+  <div class="mt-4 mb-4">
+    <%= link(
+      "Replace filter",
+      to: water_log_filters_path(@conn, :create, @log.id),
+      method: :post,
+      class: "button",
+      data: [role: "create-filter-button"]
+    ) %>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <td class="pr-4">Filter</td>
+        <td>Installation date</td>
+        <td></td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= if !Enum.any?(@filters) do %>
+        <tr data-role="filter-empty-state">
+          <td colspan=3>You haven't yet recorded a filter change.</td>
+        <tr>
+      <% end %>
+
+      <%= for {filter, i} <- Enum.with_index(@filters) do %>
+        <tr data-role="water-filter-row-<%= filter.id %>">
+          <td class="pt-1 pb-1 pr-4"><%= i + 1 %></td>
+          <td class="pt-1 pb-1 pr-4"><%= formatted_date(filter.inserted_at) %></td>
+          <td class="pt-1 pb-1 pr-4">
+            <%= link(
+              "Delete",
+              to: water_log_filters_path(@conn, :delete, @log.id, filter.id),
+              data: [confirm: "Are you sure?", role: "delete-filter-button"],
+              method: :delete
+            ) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

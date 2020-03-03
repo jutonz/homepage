@@ -29,7 +29,10 @@ defmodule ClientWeb.Router do
     pipe_through(:browser_authenticated)
 
     resources("/food-logs", FoodLogController)
-    resources("/water-logs", WaterLogController, only: ~w[index new create show]a)
+
+    resources("/water-logs", WaterLogController, only: ~w[index new create show]a) do
+      resources("/filters", WaterFilterController, only: ~w[index create delete]a, as: :filters)
+    end
 
     scope("/settings", Settings, as: :settings) do
       resources("/api", ApiController, singleton: true, only: ~w[show]a) do
