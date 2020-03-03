@@ -38,6 +38,19 @@ defmodule Client.Factory do
     }
   end
 
+  def water_log_factory do
+    %Client.WaterLogs.WaterLog{
+      name: sequence(:name, &"water log #{&1}"),
+      user_id: integer()
+    }
+  end
+
+  def water_log_filter_factory do
+    %Client.WaterLogs.Filter{
+      water_log_id: insert(:water_log).id
+    }
+  end
+
   defp integer, do: System.unique_integer([:positive])
   defp uuid, do: Ecto.UUID.generate()
 end

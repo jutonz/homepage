@@ -7,6 +7,15 @@
       >
     </span>
     <span data-role="water-log-title"><%= @log.name %></span>
+
+    <div class="mt-4 mb-4">
+      <%= link(
+        "View filters",
+        to: water_log_filters_path(@conn, :index, @log.id),
+        class: "button",
+        data: [role: "view-filters-button"]
+      ) %>
+    </div>
   </div>
 
   <table>
