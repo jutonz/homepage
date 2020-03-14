@@ -172,7 +172,6 @@ jobs:
         name: yarn lint
         command: |
           cd apps/client/assets
-          ls -alh node_modules
           yarn lint
   mix_format:
     working_directory: ~/code
