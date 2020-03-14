@@ -5,7 +5,7 @@ defmodule ClientWeb.Twitch.ChatView do
     ClientWeb.Twitch.ChannelView.render("chat.html", assigns)
   end
 
-  def mount(%{channel_name: channel_name} = _session, socket) do
+  def mount(_params, %{"channel_name" => channel_name} = _session, socket) do
     topic = "chat_message:##{channel_name}"
     :ok = Phoenix.PubSub.subscribe(Client.PubSub, topic)
 

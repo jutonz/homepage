@@ -7,7 +7,7 @@ defmodule ClientWeb.FoodLog.EntriesView do
     Phoenix.View.render(ClientWeb.FoodLogView, "entries.html", assigns)
   end
 
-  def mount(session, socket) do
+  def mount(_params, session, socket) do
     entry_cs = FoodLogs.entry_changeset(%Entry{}, %{})
 
     assigns = [
