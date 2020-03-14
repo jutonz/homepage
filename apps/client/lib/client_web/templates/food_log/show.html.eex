@@ -10,12 +10,12 @@
   </div>
 
   <div>
-    <%= Phoenix.LiveView.live_render(
+    <%= live_render(
       @conn,
       ClientWeb.FoodLog.EntriesView,
       session: %{
-        log: @log,
-        current_user_id: Client.Session.current_user_id(@conn)
+        "log" => @log,
+        "current_user_id" => Client.Session.current_user_id(@conn)
       }
     ) %>
   </div>
