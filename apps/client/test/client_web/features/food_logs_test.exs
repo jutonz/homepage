@@ -81,7 +81,10 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
     |> find(css("#entry_occurred_at_date"))
     |> execute_script("document.getElementById('entry_occurred_at_date').value = '#{date}'")
     |> execute_script("document.getElementById('entry_occurred_at_time').value = '#{time}'")
+
+    session
     |> click(role("entry-update-submit"))
+    |> take_screenshot()
 
     updated_entry = FoodLogs.get_entry(entry.id)
 
