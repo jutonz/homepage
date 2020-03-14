@@ -89,22 +89,28 @@ jobs:
     steps:
     - checkout
     - restore_cache:
+        name: Restore dev cache
         key: v5-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
-        paths:
-        - apps/client/assets/node_modules
-        - deps
-        - _build/dev
+    - restore_cache:
+        name: Restore yarn cache
+        key: v1-yarn-{{ checksum "apps/client/assets/yarn.lock" }}
     - run:
         name: yarn install
         command: |
           cd apps/client/assets
           yarn install
     - save_cache:
+        name: Save dev cache
         key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
         - apps/client/assets/node_modules
         - deps
         - _build/dev
+    - save_cache:
+        name: Save yarn cache
+        key: v1-yarn-{{ checksum "apps/client/assets/yarn.lock" }}
+        paths:
+        - ~/.cache/yarn
   mix_test:
     working_directory: ~/code
     docker:
