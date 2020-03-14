@@ -10,9 +10,7 @@ const csrfToken = document
   .getAttribute("content");
 const socketOpts = {
   hooks: Hooks,
-  params: {
-    _csrf_token: csrfToken
-  }
+  params: { _csrf_token: csrfToken }
 };
 const liveSocket = new LiveSocket("/live", Socket, socketOpts);
 liveSocket.connect();
