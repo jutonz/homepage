@@ -155,7 +155,9 @@ jobs:
         command: MIX_ENV=dev mix dialyzer
     - run:
         name: mix test
-        command: mix test
+        command: |
+          mix do clean, deps.clean --all, deps.get, deps.compile, compile
+          mix test
     - store_artifacts:
         path: /tmp/homepage-screenshots
         destination: acceptance-screenshots
