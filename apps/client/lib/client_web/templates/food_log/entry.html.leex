@@ -47,6 +47,6 @@
   </div>
 <% end %>
 
-<div data-role="food-log-entry" data-entry-id="<%= @entry.id %>" class="ml-2 mb-2 mt-2" phx-click="edit_entry">
+<div data-role="food-log-entry" data-entry-id="<%= @entry.id %>" class="ml-2 mb-2 mt-2" phx-click="edit_entry" phx-target=<%= "[data-entry-id='#{@entry.id}']" %>>
   <%= @entry.description %>
 </div>
