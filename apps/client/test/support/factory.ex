@@ -45,6 +45,14 @@ defmodule Client.Factory do
     }
   end
 
+  def water_log_entry_factory do
+    %Client.WaterLogs.Entry{
+      ml: integer(),
+      user_id: integer(),
+      water_log_id: uuid()
+    }
+  end
+
   def water_log_filter_factory do
     %Client.WaterLogs.Filter{
       water_log_id: insert(:water_log).id
