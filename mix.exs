@@ -10,7 +10,6 @@ defmodule HomepageUmbrella.Mixfile do
       aliases: aliases(),
       dialyzer: [
         plt_add_apps: ~w[mix]a,
-        plt_add_deps: :transitive,
         plt_core_path: "_plts",
         plt_file: {:no_warn, "_plts/homepage.plt"}
       ]
