@@ -47,7 +47,7 @@
   "devDependencies": {
     "@types/chart.js": "^2.9.18",
     "@types/react": "^16.9.32",
-    "@types/react-dom": "^16.9.5",
+    "@types/react-dom": "^16.9.6",
     "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.4",
     "@types/redux-saga": "^0.10.5",
