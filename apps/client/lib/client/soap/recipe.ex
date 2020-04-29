@@ -4,7 +4,7 @@ defmodule Client.Soap.Recipe do
 
   schema "soap_recipes" do
     belongs_to(:user, Client.User)
-    #has_many(:ingredients, Client.Soap.Ingredient)
+    # has_many(:ingredients, Client.Soap.Ingredient)
     field(:name, :string)
     timestamps()
   end

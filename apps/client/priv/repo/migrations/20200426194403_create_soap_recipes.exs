@@ -21,7 +21,7 @@ defmodule Client.Repo.Migrations.CreateSoapRecipes do
       timestamps()
     end
 
-    create index(:soap_recipes, :user_id)
+    create(index(:soap_recipes, :user_id))
 
     create table(:soap_recipe_ingredients) do
       add(:recipe_id, references(:soap_recipes), null: false)

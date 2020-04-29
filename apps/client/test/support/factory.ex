@@ -62,7 +62,7 @@ defmodule Client.Factory do
   def soap_recipe_factory do
     %Client.Soap.Recipe{
       name: sequence(:name, &"water log #{&1}"),
-      user_id: integer(),
+      user_id: integer()
     }
   end
 
