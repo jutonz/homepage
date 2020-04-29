@@ -1,0 +1,11 @@
+<div class="m-5">
+  <div class="text-xl mb-5" data-role="soap-recipe-name">
+    <%= @recipe.name %>
+  </div>
+
+  <%= link(
+    "Edit",
+    to: soap_recipe_path(@conn, :edit, @recipe.id),
+    class: "button"
+  ) %>
+</div>
