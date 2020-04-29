@@ -3,7 +3,13 @@
 
   <div class="flex flex-col mb-4">
     <%= for recipe <- @recipes do %>
-      <%= recipe.name %>
+      <div class="mt-5 mb-5">
+        <%= link(
+          recipe.name,
+          to: soap_recipe_path(@conn, :show, recipe.id),
+          data: [role: "soap-recipe-name"]
+        ) %>
+      </div>
     <% end %>
   </div>
 

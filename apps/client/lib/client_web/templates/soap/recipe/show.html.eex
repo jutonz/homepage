@@ -8,4 +8,12 @@
     to: soap_recipe_path(@conn, :edit, @recipe.id),
     class: "button"
   ) %>
+
+  <%= link(
+    "Delete",
+    to: soap_recipe_path(@conn, :delete, @recipe.id),
+    class: "button",
+    method: :delete,
+    data: [confirm: "Are you sure", role: "soap-recipe-delete"]
+  ) %>
 </div>

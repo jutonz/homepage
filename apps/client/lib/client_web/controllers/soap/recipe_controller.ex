@@ -4,7 +4,7 @@ defmodule ClientWeb.Soap.RecipeController do
   alias Client.Soap
 
   def index(conn, _params) do
-    recipes = Soap.list_recipes()
+    recipes = conn |> Session.current_user_id() |> Soap.list_recipes()
     render(conn, "index.html", recipes: recipes)
   end
 
@@ -62,6 +62,20 @@ defmodule ClientWeb.Soap.RecipeController do
 
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset)
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    user_id = Session.current_user_id(conn)
+
+    case Soap.delete_recipe(user_id, id) do
+      {:ok, _log} ->
+        redirect(conn, to: soap_recipe_path(conn, :index))
+
+      {:error, _changeset} ->
+        conn
+        |> put_flash(:danger, "Failed to delete")
+        |> redirect(to: soap_recipe_path(conn, :index))
     end
   end
 end

@@ -3,8 +3,9 @@ defmodule Client.Soap do
   alias Client.Repo
   alias Client.Soap.Recipe
 
-  def list_recipes() do
-    []
+  def list_recipes(user_id) do
+    query = from(r in Recipe, where: r.user_id == ^user_id)
+    Repo.all(query)
   end
 
   def new_recipe_changeset(attrs \\ %{}),
@@ -28,4 +29,7 @@ defmodule Client.Soap do
 
   def update_recipe(recipe, params),
     do: recipe |> recipe_changeset(params) |> Repo.update()
+
+  def delete_recipe(user_id, id),
+    do: user_id |> get_recipe(id) |> Repo.delete()
 end
