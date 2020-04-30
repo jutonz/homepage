@@ -5,6 +5,7 @@ defmodule Client.Repo.Migrations.CreateSoapRecipes do
     create table(:soap_orders) do
       add(:name, :string, null: false)
       add(:shipping_cost, :integer, null: false)
+      add(:user_id, references(:users), null: false)
       timestamps()
     end
 

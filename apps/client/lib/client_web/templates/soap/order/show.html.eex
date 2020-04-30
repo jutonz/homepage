@@ -1,0 +1,25 @@
+<div class="m-5">
+  <div class="text-xl mb-5" data-role="soap-order-name">
+    <%= @order.name %>
+  </div>
+
+  <div class="mb-6">
+    <div>
+      Shipping cost: $<%= @order.shipping_cost / 100 %>
+    </div>
+  </div>
+
+  <%= link(
+    "Edit",
+    to: soap_order_path(@conn, :edit, @order.id),
+    class: "button"
+  ) %>
+
+  <%= link(
+    "Delete",
+    to: soap_order_path(@conn, :delete, @order.id),
+    class: "button",
+    method: :delete,
+    data: [confirm: "Are you sure", role: "soap-order-delete"]
+  ) %>
+</div>

@@ -1,0 +1,36 @@
+<%= form_for(
+  @changeset,
+  @submit_path,
+fn form -> %>
+  <div class="flex flex-1 flex-col mb-6">
+    <div>
+      <%= label(form, :name, "Name", class: "mr-4") %>
+      <%= text_input(
+        form,
+        :name,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "soap-order-name-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :name) %>
+      </div>
+    </div>
+
+    <div>
+      <%= label(form, :shipping_cost, "Shipping cost", class: "mr-4") %>
+      <%= text_input(
+        form,
+        :shipping_cost,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "soap-order-shipping-cost-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :shipping_cost) %>
+      </div>
+    </div>
+  </div>
+
+  <%= submit(@action, data: [role: "soap-order-submit"]) %>
+<% end) %>

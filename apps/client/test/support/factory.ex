@@ -66,6 +66,14 @@ defmodule Client.Factory do
     }
   end
 
+  def soap_order_factory do
+    %Client.Soap.Order{
+      name: sequence(:name, &"water log #{&1}"),
+      shipping_cost: 1000,
+      user_id: integer()
+    }
+  end
+
   defp integer, do: System.unique_integer([:positive])
   defp uuid, do: Ecto.UUID.generate()
 end

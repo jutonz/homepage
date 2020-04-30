@@ -42,6 +42,7 @@ defmodule ClientWeb.Router do
 
     scope("/soap", Soap, as: :soap) do
       resources("/recipes", RecipeController)
+      resources("/orders", OrderController)
     end
   end
 
