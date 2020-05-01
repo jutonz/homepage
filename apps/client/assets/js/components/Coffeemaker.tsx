@@ -5,12 +5,12 @@ import { StyleSheet, css } from "aphrodite";
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
 
   spacer: {
-    margin: "0 10px"
-  }
+    margin: "0 10px",
+  },
 });
 
 interface Props {}
@@ -25,7 +25,7 @@ export class Coffeemaker extends React.Component<Props, State> {
     this.state = {
       floz: 0,
       grams: 0,
-      focusedInput: "left"
+      focusedInput: "left",
     };
   }
 
@@ -76,14 +76,14 @@ export class Coffeemaker extends React.Component<Props, State> {
 const FLOZ_PER_CUP = 6.0;
 const GRAMS_PER_CUP = 10.0;
 
-const round = a => Math.round(a * 100) / 100;
+const round = (a) => Math.round(a * 100) / 100;
 
-const flozForGrams = grams => {
+const flozForGrams = (grams) => {
   const floz = (grams / GRAMS_PER_CUP) * FLOZ_PER_CUP;
   return round(floz);
 };
 
-const gramsForWater = floz => {
+const gramsForWater = (floz) => {
   const cups = floz / FLOZ_PER_CUP;
   const grams = cups * GRAMS_PER_CUP;
   return round(grams);

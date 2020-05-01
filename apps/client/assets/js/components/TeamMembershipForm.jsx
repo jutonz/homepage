@@ -14,17 +14,17 @@ const style = StyleSheet.create({
     marginTop: 30,
     display: "flex",
     flexDirection: "column",
-    flexGrow: 1
+    flexGrow: 1,
   },
 
   loaderContainer: {
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 
   fetchError: {
-    color: "red"
-  }
+    color: "red",
+  },
 });
 
 class _TeamMembershipForm extends React.Component {
@@ -66,7 +66,7 @@ class _TeamMembershipForm extends React.Component {
     ) {
       return (
         <div>
-          {Object.keys(this.props.teams).map(id => (
+          {Object.keys(this.props.teams).map((id) => (
             <div key={id}>
               <Link to={`teams/${id}`}>{this.props.teams[id].name}</Link>
             </div>
@@ -83,14 +83,14 @@ class _TeamMembershipForm extends React.Component {
   };
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isLoading: state.teams.loadingAllTeams,
   teams: state.teams.teams,
-  teamsFetchError: state.teams.teamsFetchError
+  teamsFetchError: state.teams.teamsFetchError,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchTeams: () => dispatch(fetchTeams())
+const mapDispatchToProps = (dispatch) => ({
+  fetchTeams: () => dispatch(fetchTeams()),
 });
 
 export const TeamMembershipForm = compose(

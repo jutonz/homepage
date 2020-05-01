@@ -4,13 +4,13 @@ import { Loader } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 
 const style = StyleSheet.create({
-  errors: { color: "red" }
+  errors: { color: "red" },
 });
 
 export const fetchAndRenderRecord = ({
   record,
   fetchRecord,
-  renderRecord
+  renderRecord,
 }): ReactNode => {
   if (!record) {
     fetchRecord();

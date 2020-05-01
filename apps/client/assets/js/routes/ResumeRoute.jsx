@@ -10,19 +10,19 @@ const style = StyleSheet.create({
   resumeContainer: {
     display: "flex",
     justifyContent: "center",
-    height: "80vh"
+    height: "80vh",
   },
 
   actionsContainer: {
     display: "flex",
     alignItems: "center",
-    flexDirection: "column"
+    flexDirection: "column",
   },
 
   actions: {
     display: "flex",
-    marginTop: "1rem"
-  }
+    marginTop: "1rem",
+  },
 });
 
 export const ResumeRoute = () => (
@@ -45,7 +45,7 @@ export const ResumeRoute = () => (
 const openPdf = () => openFile(pdfPath);
 const openDoc = () => openFile(docPath);
 
-const openFile = file => {
+const openFile = (file) => {
   const link = document.createElement("a");
   link.download = "Resume of Justin Toniazzo";
   link.href = file;

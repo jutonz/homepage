@@ -18,12 +18,12 @@ const GET_CHANNEL_QUERY = gql`
 
 const style = StyleSheet.create({
   routeContainer: {
-    margin: "0 30px"
+    margin: "0 30px",
   },
   channelGrid: {
     marginLeft: 0,
-    marginRight: 0
-  }
+    marginRight: 0,
+  },
 });
 
 export const TwitchChannelRoute = ({ match }) => (
@@ -42,7 +42,7 @@ export const TwitchChannelRoute = ({ match }) => (
   </div>
 );
 
-const renderChannel = channel => (
+const renderChannel = (channel) => (
   <div>
     <Grid columns={2} relaxed stackable className={css(style.channelGrid)}>
       <TwitchChannel channel={channel} />

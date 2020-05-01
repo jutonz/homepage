@@ -14,28 +14,28 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "calc(50% - 150px)",
     right: "calc(50% - 150px)",
-    background: "black"
+    background: "black",
   },
 
   header: {
     fontSize: "1.1rem",
-    marginBottom: "40px"
+    marginBottom: "40px",
   },
 
   inputLast: {
-    marginTop: "20px"
+    marginTop: "20px",
   },
 
   submit: {
-    marginTop: "40px"
+    marginTop: "40px",
   },
 
   signup: {
     fontSize: "0.875rem",
     display: "flex",
     justifyContent: "center",
-    marginTop: "20px"
-  }
+    marginTop: "20px",
+  },
 });
 
 class _LoginForm extends React.Component {
@@ -47,7 +47,7 @@ class _LoginForm extends React.Component {
       usernameIsInvalid: false,
       passwordIsInvalid: false,
       canSubmit: false,
-      loggingIn: false
+      loggingIn: false,
     };
   }
 
@@ -55,7 +55,7 @@ class _LoginForm extends React.Component {
     let username = data.value;
     let newState = {
       username: username,
-      canSubmit: this.validateInputs(username, this.state.password)
+      canSubmit: this.validateInputs(username, this.state.password),
     };
 
     if (this.state.usernameIsInvalid && window.Utils.isValidEmail(username)) {
@@ -69,7 +69,7 @@ class _LoginForm extends React.Component {
     let password = data.value;
     let newState = {
       password: password,
-      canSubmit: this.validateInputs(this.state.username, password)
+      canSubmit: this.validateInputs(this.state.username, password),
     };
 
     if (
@@ -89,7 +89,7 @@ class _LoginForm extends React.Component {
     );
   };
 
-  submit = event => {
+  submit = (event) => {
     event.preventDefault();
 
     let isValid = true;
@@ -113,9 +113,9 @@ class _LoginForm extends React.Component {
     fetch("/api/login", {
       method: "POST",
       credentials: "same-origin",
-      body: new FormData(event.target)
+      body: new FormData(event.target),
     })
-      .then(resp => {
+      .then((resp) => {
         this.setState({ loggingIn: false });
         if (resp.ok && resp.status === 200) {
           this.props.onLogin();
@@ -123,7 +123,7 @@ class _LoginForm extends React.Component {
           return resp.json();
         }
       })
-      .then(json => {
+      .then((json) => {
         if (json && json.error) {
           console.error(json.messages);
         }
@@ -177,8 +177,8 @@ class _LoginForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  csrfToken: state.csrfToken
+const mapStateToProps = (state) => ({
+  csrfToken: state.csrfToken,
 });
 
 export const LoginForm = compose(

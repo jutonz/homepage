@@ -10,8 +10,8 @@ const style = StyleSheet.create({
     maxWidth: 300,
     minWidth: 300,
     marginTop: 30,
-    marginRight: 30
-  }
+    marginRight: 30,
+  },
 });
 
 const _TeamLeaveForm = ({ team, leaveTeam, isLoading, errors, history }) => (
@@ -29,12 +29,12 @@ const _TeamLeaveForm = ({ team, leaveTeam, isLoading, errors, history }) => (
 
 export const TeamLeaveForm = compose(
   connect(
-    state => ({
+    (state) => ({
       isLoading: state.teams.leavingTeam,
-      errors: state.teams.leavingTeamErrors
+      errors: state.teams.leavingTeamErrors,
     }),
-    dispatch => ({
-      leaveTeam: (id, history) => dispatch({ type: "LEAVE_TEAM", id, history })
+    (dispatch) => ({
+      leaveTeam: (id, history) => dispatch({ type: "LEAVE_TEAM", id, history }),
     })
   ),
   withRouter

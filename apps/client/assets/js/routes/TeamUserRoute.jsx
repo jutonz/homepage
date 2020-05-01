@@ -6,8 +6,8 @@ import { MainNav } from "@components/MainNav";
 
 const style = StyleSheet.create({
   routeContainer: {
-    margin: "30px"
-  }
+    margin: "30px",
+  },
 });
 
 const _TeamUserRoute = ({ user, fetchUser, match }) => {
@@ -24,13 +24,13 @@ const _TeamUserRoute = ({ user, fetchUser, match }) => {
       <div className={css(style.routeContainer)}>
         {user && renderUser(user)}
         {fetchErrors &&
-          fetchErrors.map(error => <div key={error}>{error}</div>)}
+          fetchErrors.map((error) => <div key={error}>{error}</div>)}
       </div>
     </div>
   );
 };
 
-const renderUser = user => <div>{user.email}</div>;
+const renderUser = (user) => <div>{user.email}</div>;
 
 const getUserFromState = (state, props) => {
   const userId = props.match.params.user_id;
@@ -39,10 +39,10 @@ const getUserFromState = (state, props) => {
 
 export const TeamUserRoute = connect(
   (state, props) => ({
-    user: getUserFromState(state, props)
+    user: getUserFromState(state, props),
   }),
-  dispatch => ({
+  (dispatch) => ({
     fetchUser: (teamId, userId) =>
-      dispatch({ type: "FETCH_TEAM_USER", teamId, userId })
+      dispatch({ type: "FETCH_TEAM_USER", teamId, userId }),
   })
 )(_TeamUserRoute);

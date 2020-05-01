@@ -8,8 +8,8 @@ const style = StyleSheet.create({
     maxWidth: 300,
     minWidth: 300,
     marginTop: 30,
-    marginRight: 30
-  }
+    marginRight: 30,
+  },
 });
 
 class _TeamDeleteButton extends React.Component {
@@ -38,7 +38,7 @@ class _TeamDeleteButton extends React.Component {
     );
   }
 
-  deleteTeam = id => {
+  deleteTeam = (id) => {
     this.setState({ isDeleting: true, errors: null });
     this.props
       .deleteTeam(id)
@@ -46,19 +46,19 @@ class _TeamDeleteButton extends React.Component {
         this.setState({ isDeleting: false });
         this.props.onDelete();
       })
-      .catch(errors => {
+      .catch((errors) => {
         this.setState({ isDeleting: false, errors });
       });
   };
 }
 
-const mapDispatchToProps = dispatch => ({
-  deleteTeam: id => {
+const mapDispatchToProps = (dispatch) => ({
+  deleteTeam: (id) => {
     // antipattern but worth it?
     return new Promise((resolve, reject) => {
       dispatch({ type: "DELETE_TEAM", id, resolve, reject });
     });
-  }
+  },
 });
 
 export const TeamDeleteButton = connect(

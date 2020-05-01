@@ -4,7 +4,7 @@ export const Context = Record({
   name: null,
   id: null,
   eventIds: List(),
-  recentEventIds: List()
+  recentEventIds: List(),
 });
 
 const Event = Record({
@@ -13,7 +13,7 @@ const Event = Record({
   count: null,
   insertedAt: null,
   updatedAt: null,
-  ijustContextId: null
+  ijustContextId: null,
 });
 
 const initialState = fromJS({});
@@ -25,7 +25,7 @@ export const ijust = (state = initialState, action) => {
     }
 
     case "IJUST_FETCH_DEFAULT_CONTEXT_REQUEST": {
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state
           .delete("fetchDefualtContextErrors")
           .set("isFetchingDefaultContext", true);
@@ -34,7 +34,7 @@ export const ijust = (state = initialState, action) => {
 
     case "IJUST_FETCH_DEFAULT_CONTEXT_SUCCESS": {
       const { context } = action;
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state
           .delete("isFetchingDefaultContext")
           .set("defaultContextId", context.id);
@@ -43,7 +43,7 @@ export const ijust = (state = initialState, action) => {
 
     case "IJUST_FETCH_DEFAULT_CONTEXT_FAILURE": {
       const { errors } = action;
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state
           .delete("isFetchingDefaultContext")
           .set("fetchDefaultContextErrors", errors);
@@ -57,7 +57,7 @@ export const ijust = (state = initialState, action) => {
 
     case "IJUST_FETCH_CONTEXT_SUCCESS": {
       const { context } = action;
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state.deleteIn(["contexts", context.id, "isFetching"]);
         //state.delete("fetchingContext").set("context", context);
       });
@@ -65,7 +65,7 @@ export const ijust = (state = initialState, action) => {
 
     case "IJUST_FETCH_CONTEXT_FAILURE": {
       const { errors, id } = action;
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state
           .deleteIn(["contexts", id, "isFetching"])
           .setIn(["contexts", id, "fetchErrors"], errors);
@@ -79,8 +79,8 @@ export const ijust = (state = initialState, action) => {
 
     case "IJUST_STORE_EVENTS": {
       const { events } = action;
-      return state.withMutations(state => {
-        events.forEach(ev => {
+      return state.withMutations((state) => {
+        events.forEach((ev) => {
           const record = new Event(ev);
           state.setIn(["events", ev.id], record);
 
@@ -94,14 +94,14 @@ export const ijust = (state = initialState, action) => {
 
     case "IJUST_FETCH_CONTEXT_EVENT_REQUEST": {
       const { eventId } = action;
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state.setIn(["events", eventId, "isLoading"], true);
       });
     }
 
     case "IJUST_FETCH_CONTEXT_EVENT_FAILURE": {
       const { eventId, errors } = action;
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state
           .deleteIn(["events", eventId, "isLoading"])
           .setIn(["events", eventId, "fetchErrors"], errors);
@@ -109,27 +109,27 @@ export const ijust = (state = initialState, action) => {
     }
 
     case "IJUST_CREATE_EVENT_REQUEST": {
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state.set("creatingEvent", true).delete("createErrors");
       });
     }
 
     case "IJUST_CREATE_EVENT_SUCCESS": {
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state.delete("creatingEvent");
       });
     }
 
     case "IJUST_CREATE_EVENT_FAILURE": {
       const { errors } = action;
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state.delete("creatingEvent").set("createErrors", errors);
       });
     }
 
     case "IJUST_FETCH_RECENT_EVENTS_REQUEST": {
       const { contextId } = action;
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state
           .delete("loadRecentEventsErrors")
           .deleteIn(["contexts", contextId, "recentEventIds"])
@@ -139,7 +139,7 @@ export const ijust = (state = initialState, action) => {
 
     case "IJUST_FETCH_RECENT_EVENTS_SUCCESS": {
       const { contextId, eventIds } = action;
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state
           .delete("isLoadingRecentEvents")
           .setIn(["contexts", contextId, "recentEventIds"], eventIds);
@@ -148,7 +148,7 @@ export const ijust = (state = initialState, action) => {
 
     case "IJUST_FETCH_RECENT_EVENTS_FAILURE": {
       const { errors } = action;
-      return state.withMutations(state => {
+      return state.withMutations((state) => {
         state
           .delete("isLoadingRecentEvents")
           .set("loadRecentEventsErrors", errors);

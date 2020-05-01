@@ -14,6 +14,6 @@ function* showFlash({ message, tone, duration = 3000 }: ShowFlashAction) {
   yield put({ type: "FLASH_REMOVE", id });
 }
 
-export default function*() {
+export default function* () {
   yield takeEvery("SHOW_FLASH", showFlash);
 }

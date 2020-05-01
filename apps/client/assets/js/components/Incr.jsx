@@ -14,13 +14,13 @@ class _Incr extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  count: state.count.count
+const mapStateToProps = (state) => ({
+  count: state.count.count,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   incCount: () => dispatch({ type: "INC" }),
-  decCount: () => dispatch({ type: "DEC" })
+  decCount: () => dispatch({ type: "DEC" }),
 });
 
 export const Incr = connect(mapStateToProps, mapDispatchToProps)(_Incr);

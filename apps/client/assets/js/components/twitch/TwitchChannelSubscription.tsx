@@ -30,11 +30,11 @@ const style = StyleSheet.create({
     maxWidth: 300,
     minWidth: 300,
     marginTop: 30,
-    marginRight: 30
+    marginRight: 30,
   },
   button: {
-    marginTop: "15px"
-  }
+    marginTop: "15px",
+  },
 });
 
 interface Props {
@@ -67,7 +67,7 @@ class SubscribeForm extends React.Component<Props, State> {
             mutation={CHANNEL_SUBSCRIBE_MUTATION}
             update={(cache, { data }) => {
               const { getTwitchChannels: existingChannels } = cache.readQuery({
-                query: GET_TWITCH_CHANNELS
+                query: GET_TWITCH_CHANNELS,
               });
 
               const newChannel = data.twitchChannelSubscribe;
@@ -75,8 +75,8 @@ class SubscribeForm extends React.Component<Props, State> {
               cache.writeQuery({
                 query: GET_TWITCH_CHANNELS,
                 data: {
-                  getTwitchChannels: existingChannels.concat([newChannel])
-                }
+                  getTwitchChannels: existingChannels.concat([newChannel]),
+                },
               });
             }}
           >
@@ -99,7 +99,7 @@ class SubscribeForm extends React.Component<Props, State> {
                   onClick={() => {
                     const { channelName } = this.state;
                     subscribe({
-                      variables: { channel: channelName }
+                      variables: { channel: channelName },
                     }).then(() => {
                       this.setState({ channelName: "" });
                     });

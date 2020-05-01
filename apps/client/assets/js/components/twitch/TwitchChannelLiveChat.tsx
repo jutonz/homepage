@@ -8,8 +8,8 @@ const HISTORY_BUFFER = 50;
 const style = StyleSheet.create({
   list: {
     overflow: "auto",
-    maxHeight: 391
-  }
+    maxHeight: 391,
+  },
 });
 
 interface Props {
@@ -48,7 +48,7 @@ export class TwitchChannelLiveChat extends React.Component<Props, State> {
         className={css(style.list)}
         data-channel-name={this.props.channel.name}
       >
-        {messages.map(message => (
+        {messages.map((message) => (
           <p key={message.id} data-message-id={message.id}>
             {message.display_name}: {message.message}
           </p>
@@ -63,7 +63,7 @@ export class TwitchChannelLiveChat extends React.Component<Props, State> {
 
   subscribe() {
     const socket = new Socket("/twitchsocket", {
-      params: { twitch_user_id: this.props.channel.user_id }
+      params: { twitch_user_id: this.props.channel.user_id },
     });
     socket.connect();
 
@@ -71,13 +71,13 @@ export class TwitchChannelLiveChat extends React.Component<Props, State> {
     const channelName = `twitch_channel:${name}`;
     const channel = socket.channel(channelName, {});
 
-    channel.on("PRIVMSG", message => this.messageReceived(message));
-    channel.on("ACTION", message => this.messageReceived(message));
+    channel.on("PRIVMSG", (message) => this.messageReceived(message));
+    channel.on("ACTION", (message) => this.messageReceived(message));
 
     channel
       .join()
       .receive("ok", () => console.log(`Joined ${channelName}!`))
-      .receive("error", resp => console.log("Error joining :(", resp));
+      .receive("error", (resp) => console.log("Error joining :(", resp));
 
     return { socket, channel };
   }

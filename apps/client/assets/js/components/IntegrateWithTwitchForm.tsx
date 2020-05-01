@@ -30,8 +30,8 @@ const style = StyleSheet.create({
     maxWidth: 300,
     minWidth: 300,
     marginTop: 30,
-    marginRight: 30
-  }
+    marginRight: 30,
+  },
 });
 
 export const IntegrateWithTwitchForm = () => (
@@ -59,7 +59,7 @@ const renderTwitchUser = (twitchUser: any) => {
           update={(cache, { data }) => {
             cache.writeQuery({
               query: GET_CURRENT_USER_QUERY,
-              data: { getTwitchUser: null }
+              data: { getTwitchUser: null },
             });
           }}
         >

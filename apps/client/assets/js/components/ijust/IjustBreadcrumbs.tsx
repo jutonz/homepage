@@ -12,14 +12,14 @@ interface Props {
 const style = StyleSheet.create({
   breadcrumb: {
     fontSize: "1.3rem",
-    display: "flex"
+    display: "flex",
   },
   sep: {
     fontSize: "0.9rem",
     display: "flex",
     alignItems: "center",
-    margin: "0 10px 2px 10px"
-  }
+    margin: "0 10px 2px 10px",
+  },
 });
 
 export const IjustBreadcrumbs = ({ context, event, viewing }: Props) => (
@@ -40,7 +40,7 @@ export const IjustBreadcrumbs = ({ context, event, viewing }: Props) => (
   </Breadcrumb>
 );
 
-const contextsLinkOrNot = viewing => {
+const contextsLinkOrNot = (viewing) => {
   if (viewing === "contexts") {
     return "Contexts";
   } else {

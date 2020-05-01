@@ -10,9 +10,9 @@ import { QueryLoader } from "@utils/QueryLoader";
 const style = StyleSheet.create({
   routeContainer: {
     margin: "30px auto",
-    maxWidth: "700px"
+    maxWidth: "700px",
   },
-  errors: { color: "red" }
+  errors: { color: "red" },
 });
 
 const QUERY = gql`
@@ -39,7 +39,7 @@ export const IjustContextRoute = ({ match }) => (
   </div>
 );
 
-const renderContext = context => (
+const renderContext = (context) => (
   <div>
     <div className={css(style.routeContainer)}>
       <IjustContext context={context} />

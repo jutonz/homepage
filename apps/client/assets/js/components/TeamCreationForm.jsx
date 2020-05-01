@@ -11,12 +11,12 @@ const style = StyleSheet.create({
   container: {
     maxWidth: 300,
     minWidth: 300,
-    marginTop: 30
+    marginTop: 30,
   },
 
   fetchError: {
-    color: "red"
-  }
+    color: "red",
+  },
 });
 
 class _TeamCreationForm extends React.Component {
@@ -25,7 +25,7 @@ class _TeamCreationForm extends React.Component {
       newTeamName,
       newNameIsValid,
       creatingNewTeam,
-      createNewTeamError
+      createNewTeamError,
     } = this.props;
     return (
       <div className={css(style.container)}>
@@ -63,17 +63,17 @@ class _TeamCreationForm extends React.Component {
   };
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   newTeamName: state.teams.createTeam.newTeamName,
   newNameIsValid: state.teams.createTeam.newTeamNameIsValid,
   creatingNewTeam: state.teams.createTeam.creating,
-  createNewTeamError: state.teams.createTeam.error
+  createNewTeamError: state.teams.createTeam.error,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchTeams: () => dispatch(fetchTeams()),
-  setNewTeamName: newName => dispatch(setNewTeamName(newName)),
-  createTeam: name => dispatch(createTeam(name))
+  setNewTeamName: (newName) => dispatch(setNewTeamName(newName)),
+  createTeam: (name) => dispatch(createTeam(name)),
 });
 
 export const TeamCreationForm = compose(

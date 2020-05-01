@@ -44,7 +44,7 @@ export class IjustEventTypeahead {
   setupSubject = () => {
     const subj = new Subject<any>().pipe(
       debounceTime(500),
-      filter(n => n.length && n.length >= 2),
+      filter((n) => n.length && n.length >= 2),
       switchMap(this.queryRemote)
     );
 
@@ -60,7 +60,7 @@ export class IjustEventTypeahead {
       const { ijustContextId } = this;
       GraphqlClient.query({
         query: SEARCH_EVENTS,
-        variables: { eventName, ijustContextId }
+        variables: { eventName, ijustContextId },
       }).then((data: any) => {
         const results = data.data.ijustEventsSearch;
         resolve(results);

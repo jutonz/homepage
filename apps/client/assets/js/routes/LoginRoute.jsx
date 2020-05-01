@@ -51,13 +51,13 @@ class _LoginRoute extends React.Component {
   };
 }
 
-const mapStoreToProps = store => ({
-  sessionAuthenticated: store.session.established
+const mapStoreToProps = (store) => ({
+  sessionAuthenticated: store.session.established,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   initSession: () =>
-    dispatch({ type: "SET_SESSION_ESTABLISHED", established: true })
+    dispatch({ type: "SET_SESSION_ESTABLISHED", established: true }),
 });
 
 export const LoginRoute = compose(

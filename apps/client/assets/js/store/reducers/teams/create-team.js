@@ -5,13 +5,13 @@ import gql from "graphql-tag";
 // Public action creators
 ////////////////////////////////////////////////////////////////////////////////
 
-export const setNewTeamName = newName => ({
+export const setNewTeamName = (newName) => ({
   type: "SET_NEW_TEAM_NAME",
-  newName
+  newName,
 });
 
-export const createTeam = name => {
-  return dispatch => {
+export const createTeam = (name) => {
+  return (dispatch) => {
     dispatch(createTeamRequest());
 
     const mutation = gql`mutation {
@@ -20,13 +20,13 @@ export const createTeam = name => {
 
     window.grapqlClient
       .mutate({ mutation })
-      .then(response => {
+      .then((response) => {
         const { name, id } = response.data.createTeam;
         const team = { name, id, fetchStatus: "success" };
         dispatch(createTeamSuccess(team));
         dispatch(storeTeam(team));
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         const message = error.message.replace("GraphQL error: ", "");
         dispatch(createTeamFailure(message));
@@ -39,19 +39,19 @@ export const createTeam = name => {
 ////////////////////////////////////////////////////////////////////////////////
 
 const createTeamRequest = () => ({
-  type: "CREATE_TEAM_REQUEST"
+  type: "CREATE_TEAM_REQUEST",
 });
 
-const createTeamSuccess = team => ({
+const createTeamSuccess = (team) => ({
   type: "CREATE_TEAM_RECEIVE",
   status: "success",
-  team
+  team,
 });
 
-const createTeamFailure = error => ({
+const createTeamFailure = (error) => ({
   type: "CREATE_TEAM_RECEIVE",
   status: "failure",
-  error
+  error,
 });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,4 +95,4 @@ export const createTeamReducer = (state = initialState, action) => {
 // Helpers
 ////////////////////////////////////////////////////////////////////////////////
 
-const isNewTeamNameValid = newName => newName && newName !== "";
+const isNewTeamNameValid = (newName) => newName && newName !== "";

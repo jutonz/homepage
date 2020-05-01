@@ -14,13 +14,13 @@ import { fetchTeam, showFlash } from "@store";
 
 const style = StyleSheet.create({
   routeContainer: {
-    margin: "30px"
+    margin: "30px",
   },
   components: {
     display: "flex",
     flexWrap: "wrap",
-    flexDirection: "column"
-  }
+    flexDirection: "column",
+  },
 });
 
 class _TeamRoute extends React.Component {
@@ -94,12 +94,12 @@ const isStatus = (status, state, props) => {
 
 const mapStoreToProps = (store, props) => ({
   team: getTeam(store, props),
-  isLoading: isStatus("in_progress", store, props)
+  isLoading: isStatus("in_progress", store, props),
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchTeam: id => dispatch(fetchTeam(id)),
-  showFlash: (message, tone) => dispatch(showFlash(message, tone))
+const mapDispatchToProps = (dispatch) => ({
+  fetchTeam: (id) => dispatch(fetchTeam(id)),
+  showFlash: (message, tone) => dispatch(showFlash(message, tone)),
 });
 
 export const TeamRoute = compose(connect(mapStoreToProps, mapDispatchToProps))(

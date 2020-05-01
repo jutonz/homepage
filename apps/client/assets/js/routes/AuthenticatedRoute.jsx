@@ -20,14 +20,14 @@ class _AuthenticatedRoute extends React.Component {
     }
   }
 
-  redirectToLogin = props => {
+  redirectToLogin = (props) => {
     const location = { pathname: "/login", state: props.location };
     return <Redirect to={location} />;
   };
 }
 
-const mapStoreToProps = store => ({
-  sessionEstablished: store.session.established
+const mapStoreToProps = (store) => ({
+  sessionEstablished: store.session.established,
 });
 
 export const AuthenticatedRoute = compose(

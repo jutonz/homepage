@@ -15,24 +15,24 @@ const style = StyleSheet.create({
     maxHeight: 500,
     marginRight: 30,
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   header: {
     flexGrow: 0,
     flexShrink: 0,
     flexBasis: "auto",
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   body: {
     flexGrow: 1,
     maxHeight: "100%",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   canvas: {
     width: 278,
-    height: 457
-  }
+    height: 457,
+  },
 });
 
 interface Props {
@@ -51,7 +51,7 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
     this.state = {
       chartId: "chart",
       socket,
-      channel
+      channel,
     };
   }
 
@@ -91,37 +91,37 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
             label: "",
             data: [],
             backgroundColor: "rgba(255, 99, 132, 0.2)",
-            borderWidth: 1
-          }
-        ]
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         scales: {
           yAxes: [
             {
               scaleLabel: {
-                display: false
+                display: false,
               },
               ticks: {
                 min: 0,
-                beginAtZero: true
-              }
-            }
+                beginAtZero: true,
+              },
+            },
           ],
           xAxes: [
             {
               scaleLabel: {
-                display: false
+                display: false,
               },
               ticks: {
                 min: 0,
                 suggestedMax: 3,
-                beginAtZero: true
-              }
-            }
-          ]
-        }
-      }
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
+      },
     });
     this.setState({ chart });
   }
@@ -138,14 +138,14 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
     const channelName = `twitch_emote:${name}`;
     const channel = socket.channel(channelName, {});
 
-    channel.on("one_minute_window", message =>
+    channel.on("one_minute_window", (message) =>
       this.oneMinuteWindowUpdate(message)
     );
 
     channel
       .join()
       .receive("ok", () => console.log(`Joined ${channelName}!`))
-      .receive("error", resp => console.log("Error joining :(", resp));
+      .receive("error", (resp) => console.log("Error joining :(", resp));
 
     return { socket, channel };
   }
@@ -158,7 +158,7 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
   }
 
   oneMinuteWindowUpdate(emotes) {
-    const entries = Object.keys(emotes).map(key => [key, emotes[key]]);
+    const entries = Object.keys(emotes).map((key) => [key, emotes[key]]);
     const sortedEntries = entries.sort((a, b) => {
       const [aEmote, aCount] = a;
       const [bEmote, bCount] = b;
@@ -174,8 +174,8 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
       return 0;
     });
 
-    const sortedKeys = sortedEntries.map(entry => entry[0]);
-    const sortedValues = sortedEntries.map(entry => entry[1]);
+    const sortedKeys = sortedEntries.map((entry) => entry[0]);
+    const sortedValues = sortedEntries.map((entry) => entry[1]);
 
     const { chart } = this.state;
 

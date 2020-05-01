@@ -5,5 +5,5 @@ const dateTimeFormat = `${dateFormat} ${timeFormat}`;
 export const Constants = {
   dateFormat,
   timeFormat,
-  dateTimeFormat
+  dateTimeFormat,
 };

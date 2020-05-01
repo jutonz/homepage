@@ -21,7 +21,7 @@ interface Props {
 }
 export const IjustAddOccurrenceToEventButton = ({
   eventId,
-  updateQuery
+  updateQuery,
 }: Props) => (
   <div>
     <Mutation
@@ -30,14 +30,14 @@ export const IjustAddOccurrenceToEventButton = ({
         const newOccurrence = data.ijustAddOccurrenceToEvent;
         const { getIjustEventOccurrences } = cache.readQuery({
           query: updateQuery,
-          variables: { eventId, offset: 0 }
+          variables: { eventId, offset: 0 },
         });
 
         const newOccurrences = [newOccurrence, ...getIjustEventOccurrences];
         cache.writeQuery({
           query: updateQuery,
           variables: { eventId, offset: 0 },
-          data: { getIjustEventOccurrences: newOccurrences }
+          data: { getIjustEventOccurrences: newOccurrences },
         });
       }}
     >
@@ -49,7 +49,7 @@ export const IjustAddOccurrenceToEventButton = ({
               loading={loading}
               onClick={() =>
                 addOccurrence({
-                  variables: { ijustEventId: eventId }
+                  variables: { ijustEventId: eventId },
                 })
               }
             >

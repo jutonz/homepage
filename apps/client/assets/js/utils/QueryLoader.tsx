@@ -8,12 +8,12 @@ import { StyleGlobals } from "@app/style-globals";
 
 const styles = StyleSheet.create({
   error: {
-    color: StyleGlobals.errorColor
+    color: StyleGlobals.errorColor,
   },
   loaderContainer: {
     display: "flex",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 });
 
 interface Props {
@@ -24,11 +24,11 @@ interface Props {
 export const QueryLoader = ({
   query,
   variables,
-  component: Component
+  component: Component,
 }: Props) => (
   <div>
     <Query query={query} variables={variables}>
-      {result => {
+      {(result) => {
         const { loading, error } = result;
         if (loading) {
           return (

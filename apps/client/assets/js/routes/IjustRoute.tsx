@@ -25,7 +25,7 @@ export const IjustRoute = () => (
         return (
           <Redirect
             to={{
-              pathname: `ijust/contexts/${contextId}`
+              pathname: `ijust/contexts/${contextId}`,
             }}
           />
         );

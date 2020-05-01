@@ -5,7 +5,7 @@ import {
   Form,
   Input,
   Search,
-  SearchResultProps
+  SearchResultProps,
 } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
@@ -30,31 +30,31 @@ const CREATE_EVENT = gql`
 
 const styles = StyleSheet.create({
   container: {
-    margin: "30 0"
+    margin: "30 0",
   },
   form: {
     minWidth: 300,
-    maxWidth: 300
+    maxWidth: 300,
   },
   input: {
-    width: "100%"
+    width: "100%",
   },
   button: {
-    marginLeft: "10px"
+    marginLeft: "10px",
   },
   searchResultTitle: {
-    fontFace: "bold"
+    fontFace: "bold",
   },
   searchResultDescription: {
-    color: "#ccc"
+    color: "#ccc",
   },
   searchResultContainer: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   searchResultRight: {
-    alignItems: "center"
-  }
+    alignItems: "center",
+  },
 });
 
 interface Props {
@@ -79,13 +79,13 @@ export class IjustEventInput extends React.Component<Props, State> {
   }
 
   onTypeheadResult = (rawResults: Array<any>) => {
-    const transformed = rawResults.map(raw => {
+    const transformed = rawResults.map((raw) => {
       return {
         id: raw.id,
         title: raw.name,
         description: `${raw.count} existing occurrence${
           raw.count !== 1 ? "s" : ""
-        }`
+        }`,
       };
     });
     console.dir(transformed);
@@ -132,7 +132,7 @@ export class IjustEventInput extends React.Component<Props, State> {
       return (
         <Redirect
           to={{
-            pathname: `/ijust/contexts/${ijustContextId}/events/${selectedEventId}`
+            pathname: `/ijust/contexts/${ijustContextId}/events/${selectedEventId}`,
           }}
         />
       );
@@ -147,7 +147,7 @@ export class IjustEventInput extends React.Component<Props, State> {
                 const { ijustContextId } = this.props;
                 const eventName = this.state.typeahead.getLatestSearch();
                 createEvent({
-                  variables: { eventName, ijustContextId }
+                  variables: { eventName, ijustContextId },
                 }).then((data: any) => {
                   const newEventId = data.data.createIjustEvent.id;
                   this.setState({ selectedEventId: newEventId });

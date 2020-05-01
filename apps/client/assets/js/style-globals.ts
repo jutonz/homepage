@@ -4,7 +4,7 @@ const Globals = {
   brandPrimaryHover: "#B63FCB",
   borderColor: "#ccc",
   fontColor: "#ccc",
-  errorColor: "#E81667"
+  errorColor: "#E81667",
 };
 
 export const StyleGlobals = Globals;
