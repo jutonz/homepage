@@ -2,7 +2,7 @@ import { GraphQLError } from "graphql";
 
 import { dig } from "@utils/Dig";
 
-export default function(error) {
+export default function (error) {
   if (!!!error) {
     return "";
   }
@@ -11,10 +11,10 @@ export default function(error) {
   let errors;
   if (dig(error, ["networkError", "result", "errors", "length"]) > 0) {
     errors = dig(error, ["networkError", "result", "errors"]).map(
-      e => e.message
+      (e) => e.message
     );
   } else if (graphQLErrors && graphQLErrors.length > 0) {
-    errors = graphQLErrors.map(error => error.message);
+    errors = graphQLErrors.map((error) => error.message);
   } else if (error.message) {
     errors = [error.message];
   } else {

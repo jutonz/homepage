@@ -7,7 +7,7 @@ class _PdfViewer extends React.Component {
     super(props);
 
     this.state = {
-      canvasId: `the-canvas-${Math.random()}-${Math.random()}`
+      canvasId: `the-canvas-${Math.random()}-${Math.random()}`,
     };
 
     PDFJS.workerSrc = workerPath;
@@ -17,8 +17,8 @@ class _PdfViewer extends React.Component {
     );
   }
 
-  onRenderSuccess = pdf => {
-    pdf.getPage(1).then(page => {
+  onRenderSuccess = (pdf) => {
+    pdf.getPage(1).then((page) => {
       this.renderPage(page);
     });
   };
@@ -51,7 +51,7 @@ class _PdfViewer extends React.Component {
     // Render PDF page into canvas context
     const renderContext = {
       canvasContext: context,
-      viewport: viewport
+      viewport: viewport,
     };
 
     const renderTask = page.render(renderContext);
@@ -62,7 +62,7 @@ class _PdfViewer extends React.Component {
     return canvas.clientHeight / page.getViewport(1.0).height;
   }
 
-  onRenderFailure = reason => {
+  onRenderFailure = (reason) => {
     console.error(reason);
   };
 

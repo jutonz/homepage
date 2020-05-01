@@ -13,28 +13,28 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "calc(50% - 150px)",
     right: "calc(50% - 150px)",
-    background: "black"
+    background: "black",
   },
 
   header: {
     fontSize: "1.1rem",
-    marginBottom: "20px"
+    marginBottom: "20px",
   },
 
   inputLast: {
-    marginTop: "20px"
+    marginTop: "20px",
   },
 
   submit: {
-    marginTop: "30px"
+    marginTop: "30px",
   },
 
   signup: {
     fontSize: "0.875rem",
     display: "flex",
     justifyContent: "center",
-    marginTop: "20px"
-  }
+    marginTop: "20px",
+  },
 });
 
 class _SignupForm extends React.Component {
@@ -44,7 +44,7 @@ class _SignupForm extends React.Component {
       password: "",
       username: "",
       canSubmit: false,
-      signingUp: false
+      signingUp: false,
     };
   }
 
@@ -52,7 +52,7 @@ class _SignupForm extends React.Component {
     let username = data.value;
     this.setState({
       username: username,
-      canSubmit: this.validateInputs(username, this.state.password)
+      canSubmit: this.validateInputs(username, this.state.password),
     });
   };
 
@@ -60,7 +60,7 @@ class _SignupForm extends React.Component {
     let password = data.value;
     this.setState({
       password: password,
-      canSubmit: this.validateInputs(this.state.username, password)
+      canSubmit: this.validateInputs(this.state.username, password),
     });
   };
 
@@ -84,9 +84,9 @@ class _SignupForm extends React.Component {
     fetch("/api/signup", {
       method: "POST",
       credentials: "same-origin",
-      body: new FormData(event.target)
+      body: new FormData(event.target),
     })
-      .then(resp => {
+      .then((resp) => {
         if (resp.ok && resp.status === 200) {
           window.location.hash = "#/";
           //this.props.history.push("/");
@@ -94,13 +94,13 @@ class _SignupForm extends React.Component {
           return resp.json();
         }
       })
-      .then(json => {
+      .then((json) => {
         if (json && json.error) {
           console.error(json.messages);
         }
         this.setState({ signingUp: false });
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         this.setState({ signingUp: false });
       });
@@ -149,8 +149,8 @@ class _SignupForm extends React.Component {
   }
 }
 
-const mapStoreToProps = store => ({
-  csrfToken: store.csrfToken
+const mapStoreToProps = (store) => ({
+  csrfToken: store.csrfToken,
 });
 
 export const SignupForm = compose(

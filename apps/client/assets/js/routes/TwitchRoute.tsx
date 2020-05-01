@@ -29,12 +29,12 @@ const GET_CHANNELS_QUERY = gql`
 
 const style = StyleSheet.create({
   routeContainer: {
-    margin: "0 30px"
+    margin: "0 30px",
   },
   channelGrid: {
     marginLeft: 0,
-    marginRight: 0
-  }
+    marginRight: 0,
+  },
 });
 
 export const TwitchRoute = () => (
@@ -87,7 +87,7 @@ const renderTwitchChannels = () => (
             className={css(style.channelGrid)}
           >
             {channels &&
-              channels.map(channel => (
+              channels.map((channel) => (
                 <TwitchChannel key={channel.id} channel={channel} />
               ))}
           </Grid>

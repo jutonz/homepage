@@ -9,8 +9,8 @@ import { Constants } from "@utils/Constants";
 
 const styles = StyleSheet.create({
   relativeDateSpacer: {
-    marginLeft: "10px"
-  }
+    marginLeft: "10px",
+  },
 });
 
 const DELETE_OCCURRENCE = gql`
@@ -51,12 +51,12 @@ const renderDeleteButton = (occurrence: any) => (
     update={(cache, { data }) => {
       const deleted = {
         ...data.ijustDeleteOccurrence,
-        isDeleted: true
+        isDeleted: true,
       };
       cache.writeQuery({
         query: GET_OCCURRENCE,
         variables: { occurrenceId: deleted.id },
-        data: { getIjustEventOccurrence: deleted }
+        data: { getIjustEventOccurrence: deleted },
       });
     }}
   >

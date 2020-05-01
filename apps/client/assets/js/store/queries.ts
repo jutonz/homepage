@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 import collectGraphqlErrors from "@utils/collectGraphqlErrors";
 import { GraphqlClient } from "@app/index";
 
-export const fetchTeamUserQuery = variables => {
+export const fetchTeamUserQuery = (variables) => {
   const query = gql`
     query GetTeamUserQuery($userId: ID!, $teamId: ID!) {
       getTeamUser(userId: $userId, teamId: $teamId) {
@@ -17,7 +17,7 @@ export const fetchTeamUserQuery = variables => {
   });
 };
 
-export const fetchUserQuery = variables => {
+export const fetchUserQuery = (variables) => {
   const query = gql`
     query GetUserQuery($id: ID!) {
       getUser(id: $id) {
@@ -48,14 +48,14 @@ export const getIjustDefaultContextQuery = (variables = {}) => {
       .then((response: any) => {
         resolve(response.data.getIjustDefaultContext);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         reject(collectGraphqlErrors(error));
       });
   });
 };
 
-export const getIjustContextQuery = variables => {
+export const getIjustContextQuery = (variables) => {
   const query = gql`
     query FetchIjustContextQuery($id: ID!) {
       getIjustContext(id: $id) {
@@ -71,14 +71,14 @@ export const getIjustContextQuery = variables => {
       .then((response: any) => {
         resolve(response.data.getIjustContext);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         reject(collectGraphqlErrors(error));
       });
   });
 };
 
-export const getIjustRecentEventsQuery = variables => {
+export const getIjustRecentEventsQuery = (variables) => {
   const query = gql`
     query FetchIjustRecentEventsQuery($contextId: ID!) {
       getIjustRecentEvents(contextId: $contextId) {
@@ -97,7 +97,7 @@ export const getIjustRecentEventsQuery = variables => {
       .then((response: any) => {
         resolve(response.data.getIjustRecentEvents);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         reject(collectGraphqlErrors(error));
       });
@@ -126,7 +126,7 @@ export const getIjustContextEventQuery = (variables: {
       .then((response: any) => {
         resolve(response.data.getIjustContextEvent);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         reject(collectGraphqlErrors(error));
       });

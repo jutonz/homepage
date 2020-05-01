@@ -6,8 +6,8 @@ const style = StyleSheet.create({
   message: {
     minWidth: "300px",
     margin: "5px 0",
-    width: "auto"
-  }
+    width: "auto",
+  },
 });
 
 export const Flash = ({ message: { message, tone } }) => (
@@ -18,7 +18,7 @@ export const Flash = ({ message: { message, tone } }) => (
   />
 );
 
-const styleForTone = tone => {
+const styleForTone = (tone) => {
   switch (tone) {
     case "warning":
       return { icon: "warning circle", warning: true };

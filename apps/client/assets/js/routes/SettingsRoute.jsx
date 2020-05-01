@@ -11,8 +11,8 @@ import { IntegrateWithTwitchForm } from "@components/IntegrateWithTwitchForm";
 
 const style = StyleSheet.create({
   routeContainer: {
-    margin: "0 30px"
-  }
+    margin: "0 30px",
+  },
 });
 
 export const SettingsRoute = () => (

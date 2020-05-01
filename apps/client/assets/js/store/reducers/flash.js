@@ -11,7 +11,7 @@ export const showFlash = (message, tone = "info", duration = 3000) => {
 const Flash = Record({
   message: null,
   tone: null,
-  duration: null
+  duration: null,
 });
 
 ////////////////////////////////////////////////////////////////////////////////

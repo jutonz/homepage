@@ -5,7 +5,7 @@ import {
   deleteTeamMutation,
   renameTeamMutation,
   joinTeamMutation,
-  leaveTeamMutation
+  leaveTeamMutation,
 } from "@store/mutations";
 
 function* deleteTeam({ id, resolve, reject }) {

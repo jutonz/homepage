@@ -7,7 +7,7 @@ import { Map } from "immutable";
 // Public action creators
 ////////////////////////////////////////////////////////////////////////////////
 
-export const fetchTeam = id => {
+export const fetchTeam = (id) => {
   return (dispatch, getState) => {
     const state = getState();
     const existing = state.teams.teams[id];
@@ -32,23 +32,23 @@ export const fetchTeam = id => {
       return window.grapqlClient
         .query({
           query,
-          variables
+          variables,
         })
-        .then(response => {
+        .then((response) => {
           const team = {
             ...response.data.getTeam,
-            ...{ fetchStatus: "success" }
+            ...{ fetchStatus: "success" },
           };
           return dispatch(teamFetchAction("success", team));
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
           const graphQLErrors = error.graphQLErrors;
-          const errors = graphQLErrors.map(error => error.message);
+          const errors = graphQLErrors.map((error) => error.message);
           const team = {
             id,
             errors,
-            fetchStatus: "failure"
+            fetchStatus: "failure",
           };
           return dispatch(teamFetchAction("failure", team));
         });
@@ -57,7 +57,7 @@ export const fetchTeam = id => {
 };
 
 export const fetchTeams = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(requestTeams());
 
     const query = gql`
@@ -71,17 +71,17 @@ export const fetchTeams = () => {
 
     window.grapqlClient
       .query({ query })
-      .then(response => {
+      .then((response) => {
         const rawTeams = response.data.getTeams;
         const teams = {};
-        rawTeams.forEach(raw => {
+        rawTeams.forEach((raw) => {
           const { id, name } = raw;
           const team = { id, name, fetchStatus: "success" };
           teams[id] = team;
         });
         dispatch(receiveTeamsSuccess(teams));
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         const message = error.message.replace("GraphQL error: ", "");
         dispatch(receiveTeamsError(message));
@@ -89,9 +89,9 @@ export const fetchTeams = () => {
   };
 };
 
-export const storeTeam = team => ({
+export const storeTeam = (team) => ({
   type: "STORE_TEAM",
-  team
+  team,
 });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -101,23 +101,23 @@ export const storeTeam = team => ({
 const teamFetchAction = (status, team) => ({
   type: "TEAM_FETCH",
   status,
-  team
+  team,
 });
 
 const requestTeams = () => ({
-  type: "TEAMS_REQUEST"
+  type: "TEAMS_REQUEST",
 });
 
-const receiveTeamsSuccess = teams => ({
+const receiveTeamsSuccess = (teams) => ({
   type: "TEAMS_RECEIVE",
   status: "success",
-  teams
+  teams,
 });
 
-const receiveTeamsError = error => ({
+const receiveTeamsError = (error) => ({
   type: "TEAMS_RECEIVE",
   status: "error",
-  error
+  error,
 });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -163,7 +163,7 @@ export const teams = (state = initialState, action) => {
       const team = normalizeTeam({
         ...original,
         deleting: true,
-        deleteErrors: undefined
+        deleteErrors: undefined,
       });
       newState = { teams: { ...state.teams, ...team } };
       break;
@@ -173,7 +173,7 @@ export const teams = (state = initialState, action) => {
       const original = state.teams[parseInt(id)];
       const team = normalizeTeam({
         ...original,
-        deleting: false
+        deleting: false,
       });
       newState = { teams: { ...state.teams, ...team } };
       break;
@@ -184,7 +184,7 @@ export const teams = (state = initialState, action) => {
       const withError = normalizeTeam({
         ...team,
         deleteErrors: errors,
-        deleting: false
+        deleting: false,
       });
       newState = { teams: { ...state.teams, ...withError } };
       break;
@@ -303,7 +303,7 @@ const handleTeamFetchAction = (state, action) => {
       const team = { ...action.team, ...{ errors: null, fetchStatus } };
       const normaliedTeam = normalizeTeam(team);
       newState = {
-        teams: { ...state.teams, ...normaliedTeam }
+        teams: { ...state.teams, ...normaliedTeam },
       };
       break;
     }
@@ -311,7 +311,7 @@ const handleTeamFetchAction = (state, action) => {
       const fetchStatus = "success";
       const newTeam = normalizeTeam({
         ...action.team,
-        ...{ fetchStatus }
+        ...{ fetchStatus },
       });
       const teams = { ...state.teams, ...newTeam };
       newState = { teams };
@@ -333,7 +333,7 @@ const handleTeamFetchAction = (state, action) => {
   return newState;
 };
 
-const normalizeTeam = team => {
+const normalizeTeam = (team) => {
   let normalized = {};
   normalized[team.id] = team;
   return normalized;

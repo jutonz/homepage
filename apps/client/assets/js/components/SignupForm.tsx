@@ -20,20 +20,20 @@ const styles = StyleSheet.create({
     width: "300px",
     position: "absolute",
     top: "calc(50% - 150px)",
-    right: "calc(50% - 150px)"
+    right: "calc(50% - 150px)",
   },
 
   header: {
-    marginBottom: 30
+    marginBottom: 30,
   },
 
   inputLast: {
-    marginTop: "20px"
+    marginTop: "20px",
   },
 
   submit: {
-    marginTop: 30
-  }
+    marginTop: 30,
+  },
 });
 
 interface State {
@@ -53,7 +53,7 @@ export class SignupForm extends React.Component<Props, State> {
       password: "",
       emailIsValid: false,
       passwordIsValid: false,
-      formIsValid: false
+      formIsValid: false,
     };
   }
 
@@ -89,7 +89,7 @@ export class SignupForm extends React.Component<Props, State> {
                 className={css(styles.submit)}
                 onClick={() => {
                   signup({
-                    variables: { email, password }
+                    variables: { email, password },
                   }).then((response: any) => {
                     const redirectLink = response.data.signup;
                     window.location.href = redirectLink;

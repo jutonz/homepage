@@ -2,7 +2,7 @@ export default {
   FoodLogEntryInput: {
     mounted() {
       this.el.focus();
-    }
+    },
   },
 
   FoodLogEntryUpdateInput: {
@@ -11,6 +11,6 @@ export default {
 
       let value = this.el.value;
       this.el.setSelectionRange(value.length, value.length);
-    }
-  }
+    },
+  },
 };

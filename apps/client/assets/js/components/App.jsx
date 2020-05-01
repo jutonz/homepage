@@ -29,8 +29,8 @@ const style = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    flexDirection: "column"
-  }
+    flexDirection: "column",
+  },
 });
 
 const _App = ({ flashMessages }) => (
@@ -84,7 +84,7 @@ const _App = ({ flashMessages }) => (
   </div>
 );
 
-const renderFlash = messages => {
+const renderFlash = (messages) => {
   let comps = [];
 
   messages.mapEntries(([id, message]) => {
@@ -94,8 +94,8 @@ const renderFlash = messages => {
   return comps;
 };
 
-const mapStoreToProps = state => ({
-  flashMessages: state.flash.get("messages")
+const mapStoreToProps = (state) => ({
+  flashMessages: state.flash.get("messages"),
 });
 
 export const App = compose(connect(mapStoreToProps, null))(_App);

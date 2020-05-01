@@ -13,8 +13,8 @@ const style = StyleSheet.create({
   container: {
     maxWidth: 300,
     minWidth: 300,
-    marginTop: 30
-  }
+    marginTop: 30,
+  },
 });
 
 class _OneTimeLoginLink extends React.Component {
@@ -25,10 +25,10 @@ class _OneTimeLoginLink extends React.Component {
 
   componentDidMount() {
     const clipboard = new Clipboard("#link-cp-trigger", {
-      text: _target => {
+      text: (_target) => {
         const ele = document.getElementById("link-cp-target");
         return ele.value;
-      }
+      },
     });
 
     clipboard.on("success", () => {
@@ -96,7 +96,7 @@ class _OneTimeLoginLink extends React.Component {
 
     window.grapqlClient
       .query({ query: query })
-      .then(response => {
+      .then((response) => {
         const link = response.data.getOneTimeLoginLink;
         this.setState({ link: link, loading: false });
       })
@@ -114,8 +114,8 @@ class _OneTimeLoginLink extends React.Component {
 }
 
 //const mapStoreToProps = () => {};
-const mapDispatchToProps = dispatch => ({
-  showFlash: (message, tone = "info") => dispatch(showFlash(message, tone))
+const mapDispatchToProps = (dispatch) => ({
+  showFlash: (message, tone = "info") => dispatch(showFlash(message, tone)),
 });
 
 export const OneTimeLoginLink = compose(connect(null, mapDispatchToProps))(

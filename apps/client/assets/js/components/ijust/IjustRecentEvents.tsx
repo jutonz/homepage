@@ -12,13 +12,13 @@ const styles = StyleSheet.create({
   recentEvent: {
     ":hover": {
       color: StyleGlobals.brandPrimary,
-      cursor: "pointer"
+      cursor: "pointer",
     },
     ":hover a": {
-      color: StyleGlobals.brandPrimary
-    }
+      color: StyleGlobals.brandPrimary,
+    },
   },
-  eventLink: { display: "flex" }
+  eventLink: { display: "flex" },
 });
 
 const GET_RECENT_EVENTS = gql`
@@ -71,7 +71,7 @@ const renderRecentEvents = (recentEvents, context) => {
       </Table.Header>
 
       <Table.Body>
-        {recentEvents.map(ev => renderRecentEvent(ev, context))}
+        {recentEvents.map((ev) => renderRecentEvent(ev, context))}
       </Table.Body>
     </Table>
   );

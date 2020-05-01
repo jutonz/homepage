@@ -32,7 +32,7 @@ function* storeUser({ user }) {
   yield put({ type: "STORE_USERS", users: [user] });
 }
 
-export default function*() {
+export default function* () {
   yield takeEvery("FETCH_USER", fetchUser);
   yield takeEvery("STORE_USER", storeUser);
   yield takeEvery("FETCH_TEAM_USER", fetchTeamUser);

@@ -9,8 +9,8 @@ const style = StyleSheet.create({
     minWidth: 300,
     marginTop: 30,
     marginRight: 30,
-    marginBottom: 0
-  }
+    marginBottom: 0,
+  },
 });
 
 const _TeamRenameForm = ({ team, setNewName, renameTeam }) => (
@@ -34,17 +34,17 @@ const _TeamRenameForm = ({ team, setNewName, renameTeam }) => (
   </Form>
 );
 
-const newNameIsValid = name => !!name;
+const newNameIsValid = (name) => !!name;
 
 const getRenameErrors = (state, props) => {
   const team = state.teams.teams[parseInt(props.team.id)];
   return team.renameErrors;
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   setNewName: (id, name) =>
     dispatch({ type: "SET_TEAM_RENAME_NAME", id, name }),
-  renameTeam: (id, name) => dispatch({ type: "RENAME_TEAM", id, name })
+  renameTeam: (id, name) => dispatch({ type: "RENAME_TEAM", id, name }),
 });
 
 export const TeamRenameForm = connect(

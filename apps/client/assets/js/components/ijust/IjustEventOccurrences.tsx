@@ -50,7 +50,7 @@ export class IjustEventOccurrences extends React.Component<Props, State> {
                   <Table.Body>
                     {occurrences &&
                       occurrences
-                        .filter(o => !o.isDeleted)
+                        .filter((o) => !o.isDeleted)
                         .map(this.renderOccurrence)}
                   </Table.Body>
                 </Table>
@@ -65,10 +65,10 @@ export class IjustEventOccurrences extends React.Component<Props, State> {
                         return Object.assign({}, prev, {
                           getIjustEventOccurrences: [
                             ...prev.getIjustEventOccurrences,
-                            ...fetchMoreResult.getIjustEventOccurrences
-                          ]
+                            ...fetchMoreResult.getIjustEventOccurrences,
+                          ],
                         });
-                      }
+                      },
                     });
                   }}
                 >

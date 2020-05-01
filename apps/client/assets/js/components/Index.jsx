@@ -28,9 +28,9 @@ class _Index extends React.Component {
           {
             check_session
           }
-        `
+        `,
       })
-      .then(response => {
+      .then((response) => {
         const established = response.data.check_session || false;
         this.props.setSessionEstablished(established);
         this.setState({ checkedSession: true });
@@ -38,9 +38,9 @@ class _Index extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  setSessionEstablished: established =>
-    dispatch({ type: "SET_SESSION_ESTABLISHED", established })
+const mapDispatchToProps = (dispatch) => ({
+  setSessionEstablished: (established) =>
+    dispatch({ type: "SET_SESSION_ESTABLISHED", established }),
 });
 
 export const Index = connect(null, mapDispatchToProps)(_Index);

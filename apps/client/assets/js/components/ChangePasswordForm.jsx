@@ -9,12 +9,12 @@ const styles = StyleSheet.create({
   container: {
     maxWidth: 300,
     minWidth: 300,
-    marginTop: 30
+    marginTop: 30,
   },
 
   submit: {
-    marginTop: 30
-  }
+    marginTop: 30,
+  },
 });
 
 export class _ChangePasswordForm extends React.Component {
@@ -26,7 +26,7 @@ export class _ChangePasswordForm extends React.Component {
       oldPassword: "",
       newPassword: "",
       newPasswordConfirm: "",
-      formState: "pending"
+      formState: "pending",
     };
   }
 
@@ -126,20 +126,20 @@ export class _ChangePasswordForm extends React.Component {
       return;
     } else if (newPassword !== newPasswordConfirm) {
       this.setState({
-        confirmBad: true
+        confirmBad: true,
       });
     } else {
       this.setState({
-        confirmBad: undefined
+        confirmBad: undefined,
       });
     }
   }
 
-  submit = event => {
+  submit = (event) => {
     event.preventDefault();
     this.setState({
       errorMessage: null,
-      formState: FormState.Pending
+      formState: FormState.Pending,
     });
 
     const { oldPassword, newPassword } = this.state;
@@ -155,17 +155,17 @@ export class _ChangePasswordForm extends React.Component {
 
     window.grapqlClient
       .mutate({
-        mutation: mutation
+        mutation: mutation,
       })
-      .then(_response => {
+      .then((_response) => {
         this.setState({ loading: false });
         this.onPasswordChangeSuccess();
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
           loading: false,
           formState: FormState.Error,
-          errorMessage: error.message || "Failed to update password"
+          errorMessage: error.message || "Failed to update password",
         });
       });
   };
@@ -175,7 +175,7 @@ export class _ChangePasswordForm extends React.Component {
       oldPassword: "",
       newPassword: "",
       newPasswordConfirm: "",
-      formState: FormState.Success
+      formState: FormState.Success,
     });
   };
 }

@@ -19,23 +19,23 @@ const style = StyleSheet.create({
     maxHeight: 500,
     marginRight: 30,
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   header: {
     flexGrow: 0,
     flexShrink: 0,
     flexBasis: "auto",
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   body: {
     flexGrow: 1,
     maxHeight: "100%",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   unsubButtonContainer: {
-    marginTop: 20
-  }
+    marginTop: 20,
+  },
 });
 
 const CHANNEL_UNSUBSCRIBE_MUTATION = gql`
@@ -57,7 +57,7 @@ const GET_TWITCH_CHANNELS = gql`
 enum ChatMode {
   Live,
   Archive,
-  RedirectToChannelPage
+  RedirectToChannelPage,
 }
 
 interface _Props {
@@ -84,7 +84,7 @@ export class TwitchChannel extends React.Component<Props, State> {
         <Redirect
           to={{
             pathname: `/twitch/channels/${this.props.channel.name.substr(1)}`,
-            state: { from: this.props.location }
+            state: { from: this.props.location },
           }}
         />
       );
@@ -144,22 +144,22 @@ export class TwitchChannel extends React.Component<Props, State> {
   }
 }
 
-const renderUnsubscribeButton = channel => (
+const renderUnsubscribeButton = (channel) => (
   <Mutation
     mutation={CHANNEL_UNSUBSCRIBE_MUTATION}
     update={(cache, { data }) => {
       const idToRemove = data.twitchChannelUnsubscribe.id;
       const { getTwitchChannels: existingChannels } = cache.readQuery({
-        query: GET_TWITCH_CHANNELS
+        query: GET_TWITCH_CHANNELS,
       });
 
       const newChannelList = existingChannels.filter(
-        ch => ch.id !== channel.id
+        (ch) => ch.id !== channel.id
       );
 
       cache.writeQuery({
         query: GET_TWITCH_CHANNELS,
-        data: { getTwitchChannels: newChannelList }
+        data: { getTwitchChannels: newChannelList },
       });
     }}
   >

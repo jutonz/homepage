@@ -34,7 +34,7 @@ if (isHttps == "true" && window.location.protocol === "http:") {
 window.Utils = {
   BgGrid,
   isValidEmail,
-  isValidPassword
+  isValidPassword,
 };
 
 let graphqlEndpoint;
@@ -47,10 +47,10 @@ if (window.location.port === "4000") {
 const graphqlClient = new ApolloClient({
   link: new HttpLink({
     uri: graphqlEndpoint,
-    credentials: "include" // TODO use same-origin in dev
+    credentials: "include", // TODO use same-origin in dev
     //credentials: "same-origin"
   }),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 window.grapqlClient = graphqlClient;
 export const GraphqlClient = graphqlClient;

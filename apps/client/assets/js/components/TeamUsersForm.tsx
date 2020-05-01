@@ -12,8 +12,8 @@ const style = StyleSheet.create({
     maxWidth: 300,
     minWidth: 300,
     marginTop: 30,
-    marginRight: 30
-  }
+    marginRight: 30,
+  },
 });
 
 const GET_TEAM_USERS = gql`
@@ -39,7 +39,7 @@ export const TeamUsersForm = ({ team, onDelete }) => (
         } else {
           return (
             <div>
-              {users.map(user => (
+              {users.map((user) => (
                 <div key={user.id}>
                   <Link to={`/teams/${team.id}/users/${user.id}`}>
                     {user.email}

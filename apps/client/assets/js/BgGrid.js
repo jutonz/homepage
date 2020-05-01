@@ -51,7 +51,7 @@ export default class _BgGrid {
     );
     this.material = new THREE.MeshBasicMaterial({
       wireframe: true,
-      color: Globals.brandPrimary
+      color: Globals.brandPrimary,
     });
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);
@@ -68,7 +68,7 @@ export default class _BgGrid {
 
   animatePlane(ts) {
     if (this.running) {
-      requestAnimationFrame(ts => this.animatePlane(ts));
+      requestAnimationFrame((ts) => this.animatePlane(ts));
       this.updateWave(ts);
       this.renderer.render(this.scene, this.camera);
     }

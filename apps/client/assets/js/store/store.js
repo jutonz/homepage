@@ -37,5 +37,5 @@ export const appStore = combineReducers({
   count,
   session,
   flash,
-  ijust
+  ijust,
 });

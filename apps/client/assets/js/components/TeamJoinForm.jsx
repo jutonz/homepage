@@ -13,8 +13,8 @@ const style = StyleSheet.create({
     marginTop: 30,
     display: "flex",
     flexDirection: "column",
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 });
 
 const _TeamJoinForm = ({ name, setName, join, isLoading, errors, history }) => (
@@ -39,14 +39,14 @@ const _TeamJoinForm = ({ name, setName, join, isLoading, errors, history }) => (
 
 export const TeamJoinForm = compose(
   connect(
-    state => ({
+    (state) => ({
       name: state.teams.joinTeamName || "",
       isLoading: state.teams.joiningTeam,
-      errors: state.teams.joinTeamErrors
+      errors: state.teams.joinTeamErrors,
     }),
-    dispatch => ({
-      setName: name => dispatch({ type: "SET_JOIN_TEAM_NAME", name }),
-      join: (name, history) => dispatch({ type: "JOIN_TEAM", name, history })
+    (dispatch) => ({
+      setName: (name) => dispatch({ type: "SET_JOIN_TEAM_NAME", name }),
+      join: (name, history) => dispatch({ type: "JOIN_TEAM", name, history }),
     })
   ),
   withRouter

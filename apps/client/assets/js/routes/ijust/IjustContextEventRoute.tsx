@@ -26,11 +26,11 @@ const QUERY = gql`
 const styles = StyleSheet.create({
   routeContainer: {
     margin: "30px auto",
-    maxWidth: "700px"
+    maxWidth: "700px",
   },
   relativeDateSpacer: {
-    marginLeft: "10px"
-  }
+    marginLeft: "10px",
+  },
 });
 
 export const IjustContextEventRoute = ({ match }) => {

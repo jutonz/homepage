@@ -82,9 +82,9 @@ class _MainNav extends React.Component<Props, State> {
   logout = () => {
     fetch("/api/logout", {
       method: "POST",
-      credentials: "same-origin"
+      credentials: "same-origin",
     })
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           this.props.destroySession();
           this.props.history.push("/login");
@@ -92,7 +92,7 @@ class _MainNav extends React.Component<Props, State> {
           return response.json();
         }
       })
-      .then(response => {
+      .then((response) => {
         if (response && response.messages) {
           console.error(response.messages);
         }
@@ -104,14 +104,14 @@ class _MainNav extends React.Component<Props, State> {
   };
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   csrfToken: state.csrfToken,
-  sessionAuthenticated: state.session.established
+  sessionAuthenticated: state.session.established,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   destroySession: () =>
-    dispatch({ type: "SET_SESSION_ESTABLISHED", established: false })
+    dispatch({ type: "SET_SESSION_ESTABLISHED", established: false }),
 });
 
 export const MainNav = compose(connect(mapStateToProps, mapDispatchToProps))(
