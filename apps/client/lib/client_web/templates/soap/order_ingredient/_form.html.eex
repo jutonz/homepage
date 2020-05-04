@@ -1,0 +1,64 @@
+<%= form_for(
+  @changeset,
+  @submit_path,
+fn form -> %>
+  <div class="flex flex-1 flex-col mb-6">
+    <div>
+      <%= label(form, :name, "Name", class: "mr-4") %>
+      <%= text_input(
+        form,
+        :name,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "soap-order-ingredient-name-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :name) %>
+      </div>
+    </div>
+
+    <div>
+      <%= label(form, :cost, "Cost", class: "mr-4") %>
+      <%= text_input(
+        form,
+        :cost,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "soap-order-ingredient-cost-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :cost) %>
+      </div>
+    </div>
+
+    <div>
+      <%= label(form, :quantity, "Quantity", class: "mr-4") %>
+      <%= text_input(
+        form,
+        :quantity,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "soap-order-ingredient-quantity-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :quantity) %>
+      </div>
+    </div>
+
+    <div>
+      <%= label(form, :unit, "Unit", class: "mr-4") %>
+      <%= text_input(
+        form,
+        :unit,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "soap-order-ingredient-unit-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :unit) %>
+      </div>
+    </div>
+  </div>
+
+  <%= submit(@action, data: [role: "soap-order-ingredient-submit"]) %>
+<% end) %>

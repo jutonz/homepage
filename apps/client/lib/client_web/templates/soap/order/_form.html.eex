@@ -30,6 +30,20 @@ fn form -> %>
         <%= error_tag(form, :shipping_cost) %>
       </div>
     </div>
+
+    <div>
+      <%= label(form, :tax, "Tax", class: "mr-4") %>
+      <%= text_input(
+        form,
+        :tax,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "soap-order-tax-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :tax) %>
+      </div>
+    </div>
   </div>
 
   <%= submit(@action, data: [role: "soap-order-submit"]) %>

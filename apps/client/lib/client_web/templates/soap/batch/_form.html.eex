@@ -9,12 +9,12 @@ fn form -> %>
       :name,
       class: "mt-2",
       autofocus: true,
-      data: [role: "soap-recipe-name-input"]
+      data: [role: "soap-batch-name-input"]
     ) %>
     <div class="text-red-600 mt-1">
       <%= error_tag(form, :name) %>
     </div>
   </div>
 
-  <%= submit(@action, data: [role: "soap-recipe-submit"]) %>
+  <%= submit(@action, data: [role: "soap-batch-submit"]) %>
 <% end) %>

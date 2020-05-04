@@ -1,0 +1,22 @@
+<div class="m-4">
+  <div class="text-xl">Batches</div>
+
+  <div class="flex flex-col mb-4">
+    <%= for batch <- @batches do %>
+      <div class="mt-5 mb-5">
+        <%= link(
+          batch.name,
+          to: soap_batch_path(@conn, :show, batch.id),
+          data: [role: "soap-batch-name"]
+        ) %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link(
+    "Create batch",
+    to: soap_batch_path(@conn, :new),
+    class: "mt-4 button",
+    data: [role: "create-soap-batch"]
+  ) %>
+</div>

@@ -1,27 +1,27 @@
-defmodule ClientWeb.Soap.RecipeController do
+defmodule ClientWeb.Soap.BatchController do
   use ClientWeb, :controller
   alias Client.Session
   alias Client.Soap
 
   def index(conn, _params) do
-    recipes = conn |> Session.current_user_id() |> Soap.list_recipes()
-    render(conn, "index.html", recipes: recipes)
+    batches = conn |> Session.current_user_id() |> Soap.list_batches()
+    render(conn, "index.html", batches: batches)
   end
 
   def new(conn, _params) do
-    changeset = Soap.new_recipe_changeset()
+    changeset = Soap.new_batch_changeset()
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"recipe" => recipe_params} = _params) do
+  def create(conn, %{"batch" => batch_params} = _params) do
     insert_result =
-      recipe_params
+      batch_params
       |> Map.put("user_id", Session.current_user_id(conn))
-      |> Soap.create_recipe()
+      |> Soap.create_batch()
 
     case insert_result do
-      {:ok, recipe} ->
-        redirect(conn, to: soap_recipe_path(conn, :show, recipe.id))
+      {:ok, batch} ->
+        redirect(conn, to: soap_batch_path(conn, :show, batch.id))
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -29,36 +29,36 @@ defmodule ClientWeb.Soap.RecipeController do
   end
 
   def show(conn, %{"id" => id} = _params) do
-    recipe =
+    batch =
       conn
       |> Session.current_user_id()
-      |> Soap.get_recipe(id)
+      |> Soap.get_batch_with_ingredients(id)
 
-    render(conn, "show.html", recipe: recipe)
+    render(conn, "show.html", batch: batch)
   end
 
   def edit(conn, %{"id" => id} = _params) do
     changeset =
       conn
       |> Session.current_user_id()
-      |> Soap.get_recipe(id)
-      |> Soap.recipe_changeset()
+      |> Soap.get_batch(id)
+      |> Soap.batch_changeset()
 
     render(conn, "edit.html", changeset: changeset)
   end
 
-  def update(conn, %{"recipe" => recipe_params, "id" => id} = _params) do
+  def update(conn, %{"batch" => batch_params, "id" => id} = _params) do
     user_id = Session.current_user_id(conn)
-    recipe_params = Map.put(recipe_params, "user_id", user_id)
+    batch_params = Map.put(batch_params, "user_id", user_id)
 
     insert_result =
       user_id
-      |> Soap.get_recipe(id)
-      |> Soap.update_recipe(recipe_params)
+      |> Soap.get_batch(id)
+      |> Soap.update_batch(batch_params)
 
     case insert_result do
-      {:ok, recipe} ->
-        redirect(conn, to: soap_recipe_path(conn, :show, recipe.id))
+      {:ok, batch} ->
+        redirect(conn, to: soap_batch_path(conn, :show, batch.id))
 
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset)
@@ -68,14 +68,14 @@ defmodule ClientWeb.Soap.RecipeController do
   def delete(conn, %{"id" => id}) do
     user_id = Session.current_user_id(conn)
 
-    case Soap.delete_recipe(user_id, id) do
+    case Soap.delete_batch(user_id, id) do
       {:ok, _log} ->
-        redirect(conn, to: soap_recipe_path(conn, :index))
+        redirect(conn, to: soap_batch_path(conn, :index))
 
       {:error, _changeset} ->
         conn
         |> put_flash(:danger, "Failed to delete")
-        |> redirect(to: soap_recipe_path(conn, :index))
+        |> redirect(to: soap_batch_path(conn, :index))
     end
   end
 end

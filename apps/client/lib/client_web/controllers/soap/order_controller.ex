@@ -32,9 +32,17 @@ defmodule ClientWeb.Soap.OrderController do
     order =
       conn
       |> Session.current_user_id()
-      |> Soap.get_order(id)
+      |> Soap.get_order_with_ingredients(id)
 
-    render(conn, "show.html", order: order)
+    case order do
+      nil ->
+        conn
+        |> put_flash(:warning, "No such order")
+        |> redirect(to: soap_order_path(conn, :index))
+
+      order ->
+        render(conn, "show.html", order: order)
+    end
   end
 
   def edit(conn, %{"id" => id} = _params) do

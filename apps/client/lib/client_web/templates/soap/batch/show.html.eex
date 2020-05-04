@@ -1,0 +1,23 @@
+<div class="m-5">
+  <div class="text-xl mb-5" data-role="soap-batch-name">
+    <%= @batch.name %>
+  </div>
+
+  <% for ingredient <- @batch.ingredients do %>
+    <%= ingredient.name %>
+  <% end %>
+
+  <%= link(
+    "Edit",
+    to: soap_batch_path(@conn, :edit, @batch.id),
+    class: "button"
+  ) %>
+
+  <%= link(
+    "Delete",
+    to: soap_batch_path(@conn, :delete, @batch.id),
+    class: "button",
+    method: :delete,
+    data: [confirm: "Are you sure", role: "soap-batch-delete"]
+  ) %>
+</div>

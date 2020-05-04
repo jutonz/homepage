@@ -5,27 +5,32 @@ defmodule Client.Repo.Migrations.CreateSoapRecipes do
     create table(:soap_orders) do
       add(:name, :string, null: false)
       add(:shipping_cost, :integer, null: false)
+      add(:tax, :integer, null: false)
       add(:user_id, references(:users), null: false)
       timestamps()
     end
+
+    create(index(:soap_orders, :user_id))
 
     create table(:soap_ingredients) do
       add(:name, :string, null: false)
       add(:cost, :integer, null: false)
+      add(:quantity, :integer, null: false)
+      add(:unit, :string, null: false)
       add(:order_id, references(:soap_orders), null: false)
       timestamps()
     end
 
-    create table(:soap_recipes) do
+    create table(:soap_batches) do
       add(:name, :string, null: false)
       add(:user_id, references(:users), null: false)
       timestamps()
     end
 
-    create(index(:soap_recipes, :user_id))
+    create(index(:soap_batches, :user_id))
 
-    create table(:soap_recipe_ingredients) do
-      add(:recipe_id, references(:soap_recipes), null: false)
+    create table(:soap_batch_ingredients) do
+      add(:batch_id, references(:soap_batches), null: false)
       add(:ingredient_id, references(:soap_ingredients), null: false)
     end
   end

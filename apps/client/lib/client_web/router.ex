@@ -41,8 +41,15 @@ defmodule ClientWeb.Router do
     end
 
     scope("/soap", Soap, as: :soap) do
-      resources("/recipes", RecipeController)
-      resources("/orders", OrderController)
+      resources("/batches", BatchController)
+      resources("/orders", OrderController) do
+        resources(
+          "/ingredients",
+          OrderIngredientController,
+          as: :ingredient,
+          only: ~w[new create edit update]a
+        )
+      end
     end
   end
 

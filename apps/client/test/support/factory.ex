@@ -61,16 +61,25 @@ defmodule Client.Factory do
 
   def soap_recipe_factory do
     %Client.Soap.Recipe{
-      name: sequence(:name, &"water log #{&1}"),
+      name: sequence(:name, &"soap recipe #{&1}"),
       user_id: integer()
     }
   end
 
   def soap_order_factory do
     %Client.Soap.Order{
-      name: sequence(:name, &"water log #{&1}"),
-      shipping_cost: 1000,
+      name: sequence(:name, &"soap order #{&1}"),
+      shipping_cost: Money.new(1500),
+      tax: Money.new(300),
       user_id: integer()
+    }
+  end
+
+  def soap_ingredient_factory do
+    %Client.Soap.Ingredient{
+      name: sequence(:name, &"soap ingredient #{&1}"),
+      cost: 2000,
+      order_id: integer()
     }
   end
 
