@@ -44,20 +44,6 @@ fn form -> %>
         <%= error_tag(form, :quantity) %>
       </div>
     </div>
-
-    <div>
-      <%= label(form, :unit, "Unit", class: "mr-4") %>
-      <%= text_input(
-        form,
-        :unit,
-        class: "mt-2",
-        autofocus: true,
-        data: [role: "soap-order-ingredient-unit-input"]
-      ) %>
-      <div class="text-red-600 mt-1">
-        <%= error_tag(form, :unit) %>
-      </div>
-    </div>
   </div>
 
   <%= submit(@action, data: [role: "soap-order-ingredient-submit"]) %>

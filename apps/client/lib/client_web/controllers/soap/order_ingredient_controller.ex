@@ -3,11 +3,6 @@ defmodule ClientWeb.Soap.OrderIngredientController do
   alias Client.Session
   alias Client.Soap
 
-  #def index(conn, _params) do
-    #orders = conn |> Session.current_user_id() |> Soap.list_orders()
-    #render(conn, "index.html", orders: orders)
-  #end
-
   def new(conn, %{"order_id" => order_id}) do
     changeset = Soap.new_ingredient_changeset()
     render(conn, "new.html", changeset: changeset, order_id: order_id)
@@ -29,15 +24,6 @@ defmodule ClientWeb.Soap.OrderIngredientController do
         render(conn, "new.html", changeset: changeset, order_id: order_id)
     end
   end
-
-  #def show(conn, %{"id" => id} = _params) do
-    #order =
-      #conn
-      #|> Session.current_user_id()
-      #|> Soap.get_order(id)
-
-    #render(conn, "show.html", order: order)
-  #end
 
   def edit(conn, params) do
     order_id = Map.fetch!(params, "order_id")
@@ -75,18 +61,4 @@ defmodule ClientWeb.Soap.OrderIngredientController do
         render(conn, "edit.html", changeset: changeset)
     end
   end
-
-  #def delete(conn, %{"id" => id}) do
-    #user_id = Session.current_user_id(conn)
-
-    #case Soap.delete_order(user_id, id) do
-      #{:ok, _log} ->
-        #redirect(conn, to: soap_order_path(conn, :index))
-
-      #{:error, _changeset} ->
-        #conn
-        #|> put_flash(:danger, "Failed to delete")
-        #|> redirect(to: soap_order_path(conn, :index))
-    #end
-  #end
 end

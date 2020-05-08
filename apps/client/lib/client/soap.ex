@@ -2,6 +2,7 @@ defmodule Client.Soap do
   import Ecto.Query, only: [from: 2]
   alias Client.Repo
   alias Client.Soap.{
+    BatchIngredient,
     Ingredient,
     Order,
     Batch
@@ -43,6 +44,9 @@ defmodule Client.Soap do
   def ingredient_changeset(ingredient, attrs \\ %{}),
     do: Ingredient.changeset(ingredient, attrs)
 
+  def new_batch_ingredient_changeset(attrs \\ %{}),
+    do: BatchIngredient.changeset(%{}, attrs)
+
   ##############################################################################
   # Create
   ##############################################################################
@@ -55,6 +59,9 @@ defmodule Client.Soap do
 
   def create_ingredient(attrs),
     do: attrs |> new_ingredient_changeset() |> Repo.insert()
+
+  def create_batch_ingredient(attrs),
+    do: attrs |> new_batch_ingredient_changeset() |> BatchIngredient.insert()
 
   ##############################################################################
   # Get
@@ -72,6 +79,20 @@ defmodule Client.Soap do
 
   def get_batch_with_ingredients(user_id, id),
     do: user_id |> get_batch(id) |> Repo.preload(:ingredients)
+
+  def get_batch_ingredient(user_id, batch_id, ingredient_id) do
+    query =
+      from(
+        sbi in "soap_batch_ingredients",
+        where: sbi.batch_id == ^batch_id,
+        where: sbi.ingredient_id == ^ingredient_id,
+        join: b in Batch,
+        on: b.user_id == ^user_id,
+        where: b.id == sbi.batch_id
+      )
+
+    Repo.one(query)
+  end
 
   def get_order(user_id, id) do
     query =
@@ -112,6 +133,10 @@ defmodule Client.Soap do
 
   def update_ingredient(ingredient, params),
     do: ingredient |> ingredient_changeset(params) |> Repo.update()
+
+  def add_ingredient_to_batch(user_id, ingredient_id, batch_id) do
+    BatchIngredient.create(user_id, ingredient_id, batch_id)
+  end
 
   ##############################################################################
   # Delete

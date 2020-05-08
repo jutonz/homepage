@@ -78,7 +78,7 @@
           </td>
           <td class="p-2">
             <%= link(
-              "#{ingredient.quantity} #{ingredient.unit}",
+              "#{ingredient.quantity} g",
               to: soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-quantity"]

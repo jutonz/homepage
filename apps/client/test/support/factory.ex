@@ -59,9 +59,9 @@ defmodule Client.Factory do
     }
   end
 
-  def soap_recipe_factory do
-    %Client.Soap.Recipe{
-      name: sequence(:name, &"soap recipe #{&1}"),
+  def soap_batch_factory do
+    %Client.Soap.Batch{
+      name: sequence(:name, &"soap batch #{&1}"),
       user_id: integer()
     }
   end
@@ -79,7 +79,9 @@ defmodule Client.Factory do
     %Client.Soap.Ingredient{
       name: sequence(:name, &"soap ingredient #{&1}"),
       cost: 2000,
-      order_id: integer()
+      order_id: integer(),
+      quantity: 200,
+      unit: "g"
     }
   end
 

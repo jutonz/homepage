@@ -3,10 +3,6 @@
     <%= @batch.name %>
   </div>
 
-  <% for ingredient <- @batch.ingredients do %>
-    <%= ingredient.name %>
-  <% end %>
-
   <%= link(
     "Edit",
     to: soap_batch_path(@conn, :edit, @batch.id),
@@ -19,5 +15,23 @@
     class: "button",
     method: :delete,
     data: [confirm: "Are you sure", role: "soap-batch-delete"]
+  ) %>
+
+  <hr class="my-5">
+
+  <div class="text-l mb-5">Ingredients</div>
+
+  <div class="d-flex">
+    <%= for ingredient <- @batch.ingredients do %>
+      <div class="mb-4">
+        <%= ingredient.name %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link(
+    "Add ingredient",
+    to: soap_batch_ingredient_path(@conn, :new, @batch.id),
+    class: "button"
   ) %>
 </div>
