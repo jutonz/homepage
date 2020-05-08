@@ -10,6 +10,7 @@ defmodule ClientWeb.Soap.OrderIngredientController do
 
   def create(conn, params) do
     order_id = Map.fetch!(params, "order_id")
+
     insert_result =
       params
       |> Map.get("ingredient")

@@ -10,6 +10,7 @@ defmodule ClientWeb.Soap.BatchIngredientController do
 
   def create(conn, %{"ingredient" => ingredient} = params) do
     batch_id = Map.fetch!(params, "batch_id")
+
     attrs = %{
       batch_id: batch_id,
       ingredient_id: Map.fetch!(ingredient, "ingredient_id"),

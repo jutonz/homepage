@@ -49,6 +49,7 @@ defmodule ClientWeb.Router do
           only: ~w[new create edit update]a
         )
       end
+
       resources("/orders", OrderController) do
         resources(
           "/ingredients",

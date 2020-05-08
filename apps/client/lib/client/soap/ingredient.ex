@@ -4,17 +4,19 @@ defmodule Client.Soap.Ingredient do
   alias Client.Soap.Ingredient
 
   @type t :: %__MODULE__{
-    name: String.t() | nil
-  }
+          name: String.t() | nil
+        }
 
   schema "soap_ingredients" do
     belongs_to(:order, Client.Soap.Order)
+
     many_to_many(
       :batches,
       Client.Soap.Batch,
       join_through: "soap_batch_ingredients",
       on_replace: :delete
     )
+
     field(:name, :string)
     field(:cost, Money.Ecto.Amount.Type)
     field(:quantity, :integer)

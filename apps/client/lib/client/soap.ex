@@ -1,6 +1,7 @@
 defmodule Client.Soap do
   import Ecto.Query, only: [from: 2]
   alias Client.Repo
+
   alias Client.Soap.{
     BatchIngredient,
     Ingredient,

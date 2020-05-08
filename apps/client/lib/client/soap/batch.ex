@@ -3,17 +3,19 @@ defmodule Client.Soap.Batch do
   import Ecto.Changeset
 
   @type t :: %__MODULE__{
-    name: String.t() | nil
-  }
+          name: String.t() | nil
+        }
 
   schema "soap_batches" do
     belongs_to(:user, Client.User)
+
     many_to_many(
       :ingredients,
       Client.Soap.Ingredient,
       join_through: "soap_batch_ingredients",
       on_replace: :delete
     )
+
     field(:name, :string)
     timestamps()
   end

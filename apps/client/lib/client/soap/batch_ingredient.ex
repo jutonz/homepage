@@ -1,6 +1,7 @@
 defmodule Client.Soap.BatchIngredient do
   import Ecto.Query, only: [from: 2]
   import Ecto.Changeset
+
   alias Client.{
     Repo,
     Soap,
@@ -30,10 +31,10 @@ defmodule Client.Soap.BatchIngredient do
 
   def insert(changeset) do
     case create(
-      get_field(changeset, :user_id),
-      get_field(changeset, :ingredient_id),
-      get_field(changeset, :batch_id)
-    ) do
+           get_field(changeset, :user_id),
+           get_field(changeset, :ingredient_id),
+           get_field(changeset, :batch_id)
+         ) do
       {:ok, ingredient} ->
         {:ok, ingredient}
 
@@ -66,13 +67,14 @@ defmodule Client.Soap.BatchIngredient do
 
   @spec get_ingredient(number(), number()) :: {:ok, Ingredient.t()} | {:error, String.t()}
   defp get_ingredient(user_id, ingredient_id) do
-    query = from(
-      i in Ingredient,
-      join: o in Order,
-      on: o.id == i.order_id,
-      where: o.user_id == ^user_id,
-      where: i.id == ^ingredient_id
-    )
+    query =
+      from(
+        i in Ingredient,
+        join: o in Order,
+        on: o.id == i.order_id,
+        where: o.user_id == ^user_id,
+        where: i.id == ^ingredient_id
+      )
 
     case Repo.one(query) do
       nil -> {:error, "No such ingredient"}
@@ -80,7 +82,8 @@ defmodule Client.Soap.BatchIngredient do
     end
   end
 
-  @spec add_ingredient_to_batch(Ingredient.t(), Batch.t()) :: {:ok, Batch.t()} | {:error, Ecto.Changeset.t()}
+  @spec add_ingredient_to_batch(Ingredient.t(), Batch.t()) ::
+          {:ok, Batch.t()} | {:error, Ecto.Changeset.t()}
   defp add_ingredient_to_batch(ingredient, batch_with_ingredients) do
     batch_with_ingredients
     |> Batch.changeset_add_ingredient(ingredient)

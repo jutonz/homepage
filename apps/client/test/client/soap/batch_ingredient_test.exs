@@ -1,5 +1,6 @@
 defmodule Client.Soap.BatchIngredientTest do
   use Client.DataCase, async: true
+
   alias Client.{
     Repo,
     Soap.BatchIngredient,
@@ -13,11 +14,12 @@ defmodule Client.Soap.BatchIngredientTest do
       order = insert(:soap_order, user_id: user.id)
       ingredient = insert(:soap_ingredient, order_id: order.id)
 
-      {:ok, %Ingredient{}} = BatchIngredient.create(
-        user.id,
-        ingredient.id,
-        batch.id
-      )
+      {:ok, %Ingredient{}} =
+        BatchIngredient.create(
+          user.id,
+          ingredient.id,
+          batch.id
+        )
 
       ingredient_batch_ids =
         Ingredient
@@ -36,11 +38,12 @@ defmodule Client.Soap.BatchIngredientTest do
       other_order = insert(:soap_order, user_id: other_user.id)
       other_ingredient = insert(:soap_ingredient, order_id: other_order.id)
 
-      result = BatchIngredient.create(
-        user.id,
-        other_ingredient.id,
-        batch.id
-      )
+      result =
+        BatchIngredient.create(
+          user.id,
+          other_ingredient.id,
+          batch.id
+        )
 
       assert result == {:error, "No such ingredient"}
     end
@@ -52,14 +55,14 @@ defmodule Client.Soap.BatchIngredientTest do
       order = insert(:soap_order, user_id: user.id)
       ingredient = insert(:soap_ingredient, order_id: order.id)
 
-      result = BatchIngredient.create(
-        user.id,
-        ingredient.id,
-        other_batch.id
-      )
+      result =
+        BatchIngredient.create(
+          user.id,
+          ingredient.id,
+          other_batch.id
+        )
 
       assert result == {:error, "No such batch"}
     end
   end
 end
-
