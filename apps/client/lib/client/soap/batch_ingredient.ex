@@ -1,4 +1,5 @@
 defmodule Client.Soap.BatchIngredient do
+  use Ecto.Schema
   import Ecto.Query, only: [from: 2]
   import Ecto.Changeset
 
@@ -6,34 +7,61 @@ defmodule Client.Soap.BatchIngredient do
     Repo,
     Soap,
     Soap.Batch,
+    Soap.BatchIngredient,
     Soap.Ingredient,
     Soap.Order
   }
 
-  @schema %{
-    batch_id: :integer,
-    ingredient_id: :integer,
-    user_id: :integer,
-    amount_used: :integer
+  @primary_key false
+
+  @type t :: %__MODULE__{
+    amount_used: integer() | nil
   }
 
-  @spec changeset(map(), map()) :: Ecto.Changeset.t()
+  schema "soap_batch_ingredients" do
+    belongs_to(:ingredient, Soap.Ingredient)
+    belongs_to(:batch, Soap.Batch)
+    field(:amount_used, :integer)
+
+    field(:user_id, :integer, virtual: true)
+  end
+
   def changeset(batch_ingredient, attrs \\ %{}) do
-    {batch_ingredient, @schema}
+    batch_ingredient
     |> cast(attrs, ~w[batch_id ingredient_id user_id amount_used]a)
     |> validate_required(~w[batch_id ingredient_id user_id amount_used]a)
   end
 
-  def insert(%Ecto.Changeset{valid?: false} = changeset) do
-    changeset = Map.put(changeset, :action, :insert)
-    {:error, changeset}
-  end
+  #@schema %{
+    #batch_id: :integer,
+    #ingredient_id: :integer,
+    #user_id: :integer,
+    #amount_used: :integer
+  #}
+  
+
+  #@spec changeset(map(), map()) :: Ecto.Changeset.t()
+  #def changeset(batch_ingredient, attrs \\ %{}) do
+    #{batch_ingredient, @schema}
+    #|> cast(attrs, ~w[batch_id ingredient_id user_id amount_used]a)
+    #|> validate_required(~w[batch_id ingredient_id user_id amount_used]a)
+  #end
+
+  #def insert(%Ecto.Changeset{valid?: false} = changeset) do
+    #changeset = Map.put(changeset, :action, :insert)
+    #{:error, changeset}
+  #end
 
   def insert(changeset) do
+    attrs = %{
+      amount_used: get_field(changeset, :amount_used)
+    }
+
     case create(
            get_field(changeset, :user_id),
            get_field(changeset, :ingredient_id),
-           get_field(changeset, :batch_id)
+           get_field(changeset, :batch_id),
+           attrs
          ) do
       {:ok, ingredient} ->
         {:ok, ingredient}
@@ -48,11 +76,11 @@ defmodule Client.Soap.BatchIngredient do
     end
   end
 
-  @spec create(number(), number(), number()) :: {:ok, Ingredient.t()} | {:error, String.t()}
-  defp create(user_id, ingredient_id, batch_id) do
+  @spec create(number(), number(), number(), map()) :: {:ok, Ingredient.t()} | {:error, String.t()}
+  def create(user_id, ingredient_id, batch_id, attrs) do
     with {:ok, batch} <- get_batch_with_ingredients(user_id, batch_id),
          {:ok, ingredient} <- get_ingredient(user_id, ingredient_id),
-         {:ok, ingredient} <- add_ingredient_to_batch(ingredient, batch) do
+         {:ok, ingredient} <- add_ingredient_to_batch(ingredient, batch, attrs) do
       {:ok, ingredient}
     end
   end
@@ -82,12 +110,14 @@ defmodule Client.Soap.BatchIngredient do
     end
   end
 
-  @spec add_ingredient_to_batch(Ingredient.t(), Batch.t()) ::
+  @spec add_ingredient_to_batch(Ingredient.t(), Batch.t(), map()) ::
           {:ok, Batch.t()} | {:error, Ecto.Changeset.t()}
-  defp add_ingredient_to_batch(ingredient, batch_with_ingredients) do
-    batch_with_ingredients
-    |> Batch.changeset_add_ingredient(ingredient)
-    |> Repo.update()
+  defp add_ingredient_to_batch(ingredient, batch_with_ingredients, attrs) do
+    %BatchIngredient{}
+    |> cast(attrs, ~w[amount_used]a)
+    |> put_assoc(:batch, batch_with_ingredients)
+    |> put_assoc(:ingredient, ingredient)
+    |> Repo.insert()
     |> case do
       {:ok, _batch} -> {:ok, ingredient}
       {:error, changeset} -> {:error, Client.Util.errors_to_sentence(changeset)}

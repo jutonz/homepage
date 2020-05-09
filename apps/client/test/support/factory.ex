@@ -80,8 +80,7 @@ defmodule Client.Factory do
       name: sequence(:name, &"soap ingredient #{&1}"),
       cost: 2000,
       order_id: integer(),
-      quantity: 200,
-      unit: "g"
+      quantity: 200
     }
   end
 

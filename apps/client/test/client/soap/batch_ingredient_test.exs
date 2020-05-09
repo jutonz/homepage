@@ -13,12 +13,14 @@ defmodule Client.Soap.BatchIngredientTest do
       batch = insert(:soap_batch, user_id: user.id)
       order = insert(:soap_order, user_id: user.id)
       ingredient = insert(:soap_ingredient, order_id: order.id)
+      attrs = %{amount_used: 123}
 
       {:ok, %Ingredient{}} =
         BatchIngredient.create(
           user.id,
           ingredient.id,
-          batch.id
+          batch.id,
+          attrs
         )
 
       ingredient_batch_ids =
@@ -37,12 +39,14 @@ defmodule Client.Soap.BatchIngredientTest do
       other_user = insert(:user)
       other_order = insert(:soap_order, user_id: other_user.id)
       other_ingredient = insert(:soap_ingredient, order_id: other_order.id)
+      attrs = %{amount_used: 123}
 
       result =
         BatchIngredient.create(
           user.id,
           other_ingredient.id,
-          batch.id
+          batch.id,
+          attrs
         )
 
       assert result == {:error, "No such ingredient"}
@@ -54,12 +58,14 @@ defmodule Client.Soap.BatchIngredientTest do
       other_batch = insert(:soap_batch, user_id: other_user.id)
       order = insert(:soap_order, user_id: user.id)
       ingredient = insert(:soap_ingredient, order_id: order.id)
+      attrs = %{amount_used: 123}
 
       result =
         BatchIngredient.create(
           user.id,
           ingredient.id,
-          other_batch.id
+          other_batch.id,
+          attrs
         )
 
       assert result == {:error, "No such batch"}
