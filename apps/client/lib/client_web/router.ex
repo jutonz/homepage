@@ -41,6 +41,8 @@ defmodule ClientWeb.Router do
     end
 
     scope("/soap", Soap, as: :soap) do
+      get("/", SoapController, :index)
+
       resources("/batches", BatchController) do
         resources(
           "/ingredients",

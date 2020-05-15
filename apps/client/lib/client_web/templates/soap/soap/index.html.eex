@@ -1,0 +1,13 @@
+<div class="m-4">
+  <div class="text-xl">Soap</div>
+
+  <div class="flex mt-6 flex-col">
+    <div class="mb-6">
+      <%= link("View Orders", to: soap_order_path(@conn, :index), class: "button") %>
+    </div>
+
+    <div>
+      <%= link("View Batches", to: soap_batch_path(@conn, :index), class: "button") %>
+    </div>
+  </div>
+</div>
