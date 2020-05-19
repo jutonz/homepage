@@ -8,14 +8,7 @@ defmodule Client.Soap.Batch do
 
   schema "soap_batches" do
     belongs_to(:user, Client.User)
-
-    many_to_many(
-      :ingredients,
-      Client.Soap.Ingredient,
-      join_through: "soap_batch_ingredients",
-      on_replace: :delete
-    )
-
+    has_many(:batch_ingredients, Client.Soap.BatchIngredient)
     field(:name, :string)
     timestamps()
   end

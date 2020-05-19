@@ -4,20 +4,19 @@ defmodule ClientWeb.Soap.BatchIngredientController do
   alias Client.Soap
 
   def new(conn, %{"batch_id" => batch_id}) do
-    changeset = Soap.BatchIngredient.changeset(%{}, %{batch_id: batch_id})
+    changeset = Soap.new_batch_ingredient_changeset(%{batch_id: batch_id})
     render(conn, "new.html", changeset: changeset, batch_id: batch_id)
   end
 
   def create(conn, %{"ingredient" => ingredient} = params) do
     batch_id = Map.fetch!(params, "batch_id")
 
-    attrs = %{
-      batch_id: batch_id,
-      ingredient_id: Map.fetch!(ingredient, "ingredient_id"),
-      user_id: Session.current_user_id(conn)
-    }
+    attrs =
+      ingredient
+      |> Map.put("batch_id", batch_id)
+      |> Map.put("user_id", Session.current_user_id(conn))
 
-    case Soap.create_batch_ingredient(attrs) |> IO.inspect() do
+    case Soap.create_batch_ingredient(attrs) do
       {:ok, _ingredient} ->
         redirect(conn, to: soap_batch_path(conn, :show, batch_id))
 

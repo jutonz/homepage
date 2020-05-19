@@ -46,7 +46,7 @@ defmodule Client.Soap do
     do: Ingredient.changeset(ingredient, attrs)
 
   def new_batch_ingredient_changeset(attrs \\ %{}),
-    do: BatchIngredient.changeset(%{}, attrs)
+    do: BatchIngredient.changeset(%BatchIngredient{}, attrs)
 
   ##############################################################################
   # Create
@@ -78,8 +78,71 @@ defmodule Client.Soap do
     Repo.one(query)
   end
 
-  def get_batch_with_ingredients(user_id, id),
-    do: user_id |> get_batch(id) |> Repo.preload(:ingredients)
+  def get_batch_with_ingredients(user_id, id) do
+    user_id
+    |> get_batch(id)
+    |> Map.put(
+      :batch_ingredients,
+      id |> String.to_integer() |> get_batch_ingredients()
+    )
+  end
+
+  def get_batch_ingredients(batch_id) do
+    query =
+      from(
+        sbi in "soap_batch_ingredients",
+        where: sbi.batch_id == ^batch_id,
+        join: i in Ingredient,
+        on: i.id == sbi.ingredient_id,
+        join: o in Order,
+        on: o.id == i.order_id,
+        join: oi in Ingredient,
+        on: oi.order_id == o.id,
+        select: %{
+          name: i.name,
+          amount_used: sbi.amount_used,
+          batch_id: sbi.batch_id,
+          ingredient: %{
+            id: i.id,
+            quantity: i.quantity,
+            cost: i.cost
+          },
+          order: %{
+            tax: o.tax,
+            shipping_cost: o.shipping_cost,
+            num_ingredients: count(oi.id)
+          }
+        }
+      )
+
+    query
+    |> Repo.all()
+    |> IO.inspect()
+    |> Enum.map(fn sbi ->
+      material_cost = BatchIngredient.material_cost(sbi)
+
+      order_overhead = Money.add(sbi.order.tax, sbi.order.shipping_cost)
+      overhead_cost =
+        order_overhead
+        |> Money.to_decimal()
+        |> Decimal.div(sbi.order.num_ingredients)
+        |> Decimal.mult(100)
+        |> Decimal.round()
+        |> Decimal.to_integer()
+        |> Money.new()
+
+      map =
+        sbi
+        |> Map.put(:material_cost, material_cost)
+        |> Map.put(:overhead_cost, overhead_cost)
+        |> Map.put(:total_cost, Money.add(material_cost, overhead_cost))
+        |> Map.put(:ingredient_id, sbi.ingredient.id)
+        |> Map.delete(:ingredient)
+        |> Map.delete(:order)
+
+      struct!(BatchIngredient, map)
+    end)
+  end
 
   def get_batch_ingredient(user_id, batch_id, ingredient_id) do
     query =
@@ -135,9 +198,9 @@ defmodule Client.Soap do
   def update_ingredient(ingredient, params),
     do: ingredient |> ingredient_changeset(params) |> Repo.update()
 
-  def add_ingredient_to_batch(user_id, ingredient_id, batch_id) do
-    BatchIngredient.create(user_id, ingredient_id, batch_id)
-  end
+  #def add_ingredient_to_batch(user_id, ingredient_id, batch_id) do
+    #BatchIngredient.create(user_id, ingredient_id, batch_id)
+  #end
 
   ##############################################################################
   # Delete

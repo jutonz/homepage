@@ -18,8 +18,6 @@ fn form -> %>
       </div>
     </div>
 
-    <div>TODO: Add this to batch_ingredient and somehow merge ingredient and batch_ingredient params?</div>
-
     <div>
       <%= label(form, :amount_used, "Amount used", class: "mr-4") %>
       <%= text_input(

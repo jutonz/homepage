@@ -15,7 +15,8 @@ defmodule Client.Soap.BatchIngredient do
   @primary_key false
 
   @type t :: %__MODULE__{
-    amount_used: integer() | nil
+    amount_used: integer() | nil,
+    user_id: integer() | nil
   }
 
   schema "soap_batch_ingredients" do
@@ -24,6 +25,10 @@ defmodule Client.Soap.BatchIngredient do
     field(:amount_used, :integer)
 
     field(:user_id, :integer, virtual: true)
+    field(:name, :string, virtual: true)
+    field(:material_cost, Money.Ecto.Amount.Type, virtual: true)
+    field(:overhead_cost, Money.Ecto.Amount.Type, virtual: true)
+    field(:total_cost, Money.Ecto.Amount.Type, virtual: true)
   end
 
   def changeset(batch_ingredient, attrs \\ %{}) do
@@ -32,25 +37,28 @@ defmodule Client.Soap.BatchIngredient do
     |> validate_required(~w[batch_id ingredient_id user_id amount_used]a)
   end
 
-  #@schema %{
-    #batch_id: :integer,
-    #ingredient_id: :integer,
-    #user_id: :integer,
-    #amount_used: :integer
-  #}
-  
+  def material_cost(batch_ingredient) do
+    total_amount = batch_ingredient.ingredient.quantity
+    total_cost = batch_ingredient.ingredient.cost
+    amount_used = batch_ingredient.amount_used
 
-  #@spec changeset(map(), map()) :: Ecto.Changeset.t()
-  #def changeset(batch_ingredient, attrs \\ %{}) do
-    #{batch_ingredient, @schema}
-    #|> cast(attrs, ~w[batch_id ingredient_id user_id amount_used]a)
-    #|> validate_required(~w[batch_id ingredient_id user_id amount_used]a)
-  #end
+    cost_per_gram =
+      total_cost
+      |> Money.to_decimal()
+      |> Decimal.div(total_amount)
 
-  #def insert(%Ecto.Changeset{valid?: false} = changeset) do
-    #changeset = Map.put(changeset, :action, :insert)
-    #{:error, changeset}
-  #end
+    cost_per_gram
+    |> Decimal.mult(amount_used)
+    |> Decimal.mult(100)
+    |> Decimal.round()
+    |> Decimal.to_integer()
+    |> Money.new()
+  end
+
+  def insert(%Ecto.Changeset{valid?: false} = changeset) do
+    changeset = Map.put(changeset, :action, :insert)
+    {:error, changeset}
+  end
 
   def insert(changeset) do
     attrs = %{
