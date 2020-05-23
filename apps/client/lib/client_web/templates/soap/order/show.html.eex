@@ -6,7 +6,7 @@
   <table class="mb-5">
     <tr data-role="order-ingredients-cost">
       <td class="p-1 pl-0 pr-3">Cost of ingredients</td>
-      <td><%= cost_of_ingredients(@order) %></td>
+      <td><%= material_cost_of_ingredients(@order) %></td>
     </tr>
     <tr data-role="order-shipping-cost">
       <td class="p-1 pl-0 pr-3">Shipping cost</td>
@@ -70,7 +70,7 @@
           </td>
           <td class="p-2">
             <%= link(
-              ingredient.cost,
+              ingredient.material_cost,
               to: soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-cost"]

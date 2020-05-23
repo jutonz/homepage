@@ -10,12 +10,14 @@ defmodule ClientWeb.Soap.OrderIngredientController do
 
   def create(conn, params) do
     order_id = Map.fetch!(params, "order_id")
+    user_id = Session.current_user_id(conn)
 
     insert_result =
       params
       |> Map.get("ingredient")
       |> Map.put("order_id", order_id)
-      |> Soap.create_ingredient()
+      |> Soap.create_ingredient(user_id)
+      |> IO.inspect()
 
     case insert_result do
       {:ok, _ingredient} ->

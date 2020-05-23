@@ -15,9 +15,9 @@ defmodule Client.Soap.BatchIngredient do
   @primary_key false
 
   @type t :: %__MODULE__{
-    amount_used: integer() | nil,
-    user_id: integer() | nil
-  }
+          amount_used: integer() | nil,
+          user_id: integer() | nil
+        }
 
   schema "soap_batch_ingredients" do
     belongs_to(:ingredient, Soap.Ingredient)
@@ -84,7 +84,8 @@ defmodule Client.Soap.BatchIngredient do
     end
   end
 
-  @spec create(number(), number(), number(), map()) :: {:ok, Ingredient.t()} | {:error, String.t()}
+  @spec create(number(), number(), number(), map()) ::
+          {:ok, Ingredient.t()} | {:error, String.t()}
   def create(user_id, ingredient_id, batch_id, attrs) do
     with {:ok, batch} <- get_batch_with_ingredients(user_id, batch_id),
          {:ok, ingredient} <- get_ingredient(user_id, ingredient_id),

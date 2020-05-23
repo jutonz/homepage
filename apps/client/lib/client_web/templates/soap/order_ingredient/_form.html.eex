@@ -18,16 +18,16 @@ fn form -> %>
     </div>
 
     <div>
-      <%= label(form, :cost, "Cost", class: "mr-4") %>
+      <%= label(form, :material_cost, "Cost", class: "mr-4") %>
       <%= text_input(
         form,
-        :cost,
+        :material_cost,
         class: "mt-2",
         autofocus: true,
         data: [role: "soap-order-ingredient-cost-input"]
       ) %>
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :cost) %>
+        <%= error_tag(form, :material_cost) %>
       </div>
     </div>
 

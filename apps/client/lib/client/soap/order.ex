@@ -16,4 +16,7 @@ defmodule Client.Soap.Order do
     |> cast(attrs, ~w[name shipping_cost tax user_id]a)
     |> validate_required(~w[name shipping_cost tax user_id]a)
   end
+
+  def total_overhead(order),
+    do: Money.add(order.tax, order.shipping_cost)
 end

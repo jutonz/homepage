@@ -14,7 +14,9 @@ defmodule Client.Repo.Migrations.CreateSoapRecipes do
 
     create table(:soap_ingredients) do
       add(:name, :string, null: false)
-      add(:cost, :integer, null: false)
+      add(:material_cost, :integer, null: false)
+      add(:overhead_cost, :integer, null: false)
+      add(:total_cost, :integer, null: false)
       add(:quantity, :integer, null: false)
       add(:order_id, references(:soap_orders), null: false)
       timestamps()
