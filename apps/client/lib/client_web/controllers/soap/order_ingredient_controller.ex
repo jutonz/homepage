@@ -17,7 +17,6 @@ defmodule ClientWeb.Soap.OrderIngredientController do
       |> Map.get("ingredient")
       |> Map.put("order_id", order_id)
       |> Soap.create_ingredient(user_id)
-      |> IO.inspect()
 
     case insert_result do
       {:ok, _ingredient} ->

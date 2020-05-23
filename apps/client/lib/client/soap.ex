@@ -80,12 +80,10 @@ defmodule Client.Soap do
   end
 
   def get_batch_with_ingredients(user_id, id) do
-    user_id
-    |> get_batch(id)
-    |> Map.put(
-      :batch_ingredients,
-      id |> String.to_integer() |> get_batch_ingredients()
-    )
+    case get_batch(user_id, id) do
+      nil -> nil
+      batch -> Map.put(batch, :batch_ingredients, get_batch_ingredients(id))
+    end
   end
 
   def get_batch_ingredients(batch_id) do

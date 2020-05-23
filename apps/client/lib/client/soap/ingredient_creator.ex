@@ -37,7 +37,7 @@ defmodule Client.Soap.IngredientCreator do
   defp create_new_ingredient_changeset(attrs, overheads) do
     [overhead | overheads] = overheads
 
-    material_cost = attrs |> Map.get("material_cost") |> String.to_integer() |> Money.new()
+    material_cost = attrs |> Map.get("material_cost") |> Money.parse!()
 
     new_ingredient_changeset =
       attrs

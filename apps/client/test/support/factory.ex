@@ -78,7 +78,9 @@ defmodule Client.Factory do
   def soap_ingredient_factory do
     %Client.Soap.Ingredient{
       name: sequence(:name, &"soap ingredient #{&1}"),
-      cost: 2000,
+      material_cost: 2000,
+      overhead_cost: 500,
+      total_cost: 2500,
       order_id: integer(),
       quantity: 200
     }

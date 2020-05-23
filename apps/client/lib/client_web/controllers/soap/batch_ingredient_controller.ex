@@ -21,7 +21,6 @@ defmodule ClientWeb.Soap.BatchIngredientController do
         redirect(conn, to: soap_batch_path(conn, :show, batch_id))
 
       {:error, changeset} ->
-        IO.inspect(changeset)
         render(conn, "new.html", changeset: changeset, batch_id: batch_id)
     end
   end

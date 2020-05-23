@@ -32,7 +32,7 @@ defmodule ClientWeb.Soap.BatchController do
     batch =
       conn
       |> Session.current_user_id()
-      |> Soap.get_batch_with_ingredients(id)
+      |> Soap.get_batch_with_ingredients(String.to_integer(id))
 
     render(conn, "show.html", batch: batch)
   end

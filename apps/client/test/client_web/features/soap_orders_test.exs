@@ -60,6 +60,7 @@ defmodule ClientWeb.SoapOrdersFeatureTests do
     |> click(role("order-add-ingredient"))
     |> fill_in(role("soap-order-ingredient-name-input"), with: "HEC")
     |> fill_in(role("soap-order-ingredient-cost-input"), with: "10.00")
+    |> fill_in(role("soap-order-ingredient-quantity-input"), with: "452")
     |> click(role("soap-order-ingredient-submit"))
     |> assert_has(role("ingredient-name", text: "HEC"))
     |> assert_has(role("ingredient-cost", text: "$10.00"))
@@ -68,7 +69,7 @@ defmodule ClientWeb.SoapOrdersFeatureTests do
   test "can edit an ingredient", %{session: session} do
     user = insert(:user)
     order = insert(:soap_order, user_id: user.id)
-    insert(:soap_ingredient, order_id: order.id, name: "wee", cost: Money.new(100))
+    insert(:soap_ingredient, order_id: order.id, name: "wee", material_cost: Money.new(100))
 
     session
     |> visit(soap_order_path(@endpoint, :show, order.id, as: user.id))

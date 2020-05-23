@@ -7,7 +7,7 @@ defmodule Client.Soap.BatchIngredientTest do
     Soap.Ingredient
   }
 
-  describe "create/3" do
+  describe "create/4" do
     test "adds an ingredient to the batch" do
       user = insert(:user)
       batch = insert(:soap_batch, user_id: user.id)
