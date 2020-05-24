@@ -1,5 +1,5 @@
 defmodule Client.Util do
-  @spec errors_to_sentence(Ecto.Changeset.t()) :: String.t()
+  @spec errors_to_sentence(Ecto.Changeset.t()) :: %{required(atom()) => list(String.t())}
   def errors_to_sentence(changeset) do
     Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
       Enum.reduce(opts, msg, fn {key, value}, acc ->
