@@ -120,7 +120,7 @@ defmodule Client.Soap.BatchIngredient do
   end
 
   @spec add_ingredient_to_batch(Ingredient.t(), Batch.t(), map()) ::
-          {:ok, Batch.t()} | {:error, Ecto.Changeset.t()}
+          {:ok, Ingredient.t()} | {:error, String.t()}
   defp add_ingredient_to_batch(ingredient, batch_with_ingredients, attrs) do
     %BatchIngredient{}
     |> cast(attrs, ~w[amount_used]a)
@@ -128,7 +128,7 @@ defmodule Client.Soap.BatchIngredient do
     |> put_assoc(:ingredient, ingredient)
     |> Repo.insert()
     |> case do
-      {:ok, _batch} -> {:ok, ingredient}
+      {:ok, _batch_ingredient} -> {:ok, ingredient}
       {:error, changeset} -> {:error, Client.Util.errors_to_sentence(changeset)}
     end
   end

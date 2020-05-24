@@ -4,7 +4,7 @@ defmodule ClientWeb.Api.FallbackController do
   def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
     conn
     |> put_status(400)
-    |> json(%{"error" => Client.Util.errors_to_sentence(changeset)})
+    |> json(%{"error" => Client.Util.attribute_errors(changeset)})
   end
 
   def call(conn, {:error, reason}) do
