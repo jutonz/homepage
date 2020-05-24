@@ -56,8 +56,4 @@ defmodule Client.Soap.Ingredient do
       changeset
     end
   end
-
-  # def cost_per_quantity(%Ingredient{cost: cost, quantity: quantity}) do
-  # cost |> Money.to_decimal() |> Decimal.div(quantity)
-  # end
 end
