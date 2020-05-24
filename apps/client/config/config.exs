@@ -39,6 +39,9 @@ config :absinthe, log: false
 
 config :logger, debug: true
 
+config :money,
+  default_currency: :USD
+
 config :twitch,
   route_helpers: ClientWeb.Router.Helpers,
   endpoint: ClientWeb.Endpoint

@@ -1,0 +1,22 @@
+<div class="m-4">
+  <div class="text-xl">Orders</div>
+
+  <div class="flex flex-col mb-4">
+    <%= for order <- @orders do %>
+      <div class="mt-5 mb-5">
+        <%= link(
+          order.name,
+          to: soap_order_path(@conn, :show, order.id),
+          data: [role: "soap-order-name"]
+        ) %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link(
+    "Create order",
+    to: soap_order_path(@conn, :new),
+    class: "mt-4 button",
+    data: [role: "create-soap-order"]
+  ) %>
+</div>

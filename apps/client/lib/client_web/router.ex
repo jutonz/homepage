@@ -39,6 +39,28 @@ defmodule ClientWeb.Router do
         resources("/tokens", TokenController, only: ~w[new create delete]a)
       end
     end
+
+    scope("/soap", Soap, as: :soap) do
+      get("/", SoapController, :index)
+
+      resources("/batches", BatchController) do
+        resources(
+          "/ingredients",
+          BatchIngredientController,
+          as: :ingredient,
+          only: ~w[new create edit update]a
+        )
+      end
+
+      resources("/orders", OrderController) do
+        resources(
+          "/ingredients",
+          OrderIngredientController,
+          as: :ingredient,
+          only: ~w[new create edit update]a
+        )
+      end
+    end
   end
 
   scope "/twitch", ClientWeb.Twitch do

@@ -1,0 +1,100 @@
+<div class="m-5">
+  <div class="text-xl mb-5" data-role="soap-order-name">
+    <%= @order.name %>
+  </div>
+
+  <table class="mb-5">
+    <tr data-role="order-ingredients-cost">
+      <td class="p-1 pl-0 pr-3">Cost of ingredients</td>
+      <td><%= material_cost_of_ingredients(@order) %></td>
+    </tr>
+    <tr data-role="order-shipping-cost">
+      <td class="p-1 pl-0 pr-3">Shipping cost</td>
+      <td><%= @order.shipping_cost %></td>
+    </tr>
+    <tr data-role="order-tax">
+      <td class="p-1 pl-0 pr-3">Tax</td>
+      <td><%= @order.tax %></td>
+    </tr>
+    <tr class="font-bold" data-role="order-total-cost">
+      <td class="p-1 pl-0 pr-3">Total cost</td>
+      <td><%= total_cost(@order) %></td>
+    </tr>
+  </table>
+
+    <%= link(
+      "Edit order",
+      to: soap_order_path(@conn, :edit, @order.id),
+      class: "button"
+    ) %>
+
+    <%= link(
+      "Delete order",
+      to: soap_order_path(@conn, :delete, @order.id),
+      class: "button",
+      method: :delete,
+      data: [confirm: "Are you sure", role: "soap-order-delete"]
+    ) %>
+
+  <hr class="my-5">
+
+  <table class="mb-6">
+    <thead>
+      <tr>
+        <th class="p-2 pl-0">Ingredient</th>
+        <th class="p-2">Label</th>
+        <th class="p-2">Cost</th>
+        <th class="p-2">Quantity</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= for ingredient <- @order.ingredients do %>
+        <tr class="hover:bg-gray-800">
+          <td class="p-2 pl-0">
+            <%= link(
+              ingredient.name,
+              to: soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
+              class: "block",
+              data: [role: "ingredient-name"]
+            ) %>
+          </td>
+          <td class="p-2">
+            <%= link(
+              ingredient.id,
+              to: soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
+              class: "block",
+              data: [role: "ingredient-label"]
+            ) %>
+          </td>
+          <td class="p-2">
+            <%= link(
+              ingredient.material_cost,
+              to: soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
+              class: "block",
+              data: [role: "ingredient-cost"]
+            ) %>
+          </td>
+          <td class="p-2">
+            <%= link(
+              "#{ingredient.quantity} g",
+              to: soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
+              class: "block",
+              data: [role: "ingredient-quantity"]
+            ) %>
+          </td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link(
+    "Add Ingredient",
+    to: soap_order_ingredient_path(@conn, :new, @order.id),
+    class: "button",
+    data: [role: "order-add-ingredient"]
+  ) %>
+
+</div>

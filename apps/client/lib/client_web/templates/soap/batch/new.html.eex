@@ -1,0 +1,9 @@
+<div class="m-4">
+  <div class="text-xl mb-5">New batch</div>
+  <%= render(
+    "_form.html",
+    changeset: @changeset,
+    submit_path: soap_batch_path(@conn, :create),
+    action: "Create"
+  ) %>
+</div>

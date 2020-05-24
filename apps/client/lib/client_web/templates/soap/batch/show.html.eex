@@ -1,0 +1,66 @@
+<div class="m-5">
+  <div class="text-xl mb-5" data-role="soap-batch-name">
+    <%= @batch.name %>
+  </div>
+
+  <table class="mb-5">
+    <tr>
+      <td class="p-1 pl-0 pr-3">Created at</td>
+      <td><%= formatted_date(@batch.inserted_at) %></td>
+    </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3">Label number</td>
+      <td><%= @batch.id %></td>
+    </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3">Cost of ingredients</td>
+      <td><%= cost_of_ingredients(@batch) %></td>
+    </tr>
+  </table>
+
+  <%= link(
+    "Edit batch",
+    to: soap_batch_path(@conn, :edit, @batch.id),
+    class: "button"
+  ) %>
+
+  <%= link(
+    "Delete batch",
+    to: soap_batch_path(@conn, :delete, @batch.id),
+    class: "button",
+    method: :delete,
+    data: [confirm: "Are you sure", role: "soap-batch-delete"]
+  ) %>
+
+  <hr class="my-5">
+
+  <div class="text-l mb-5">Ingredients</div>
+
+  <table class="mb-5">
+    <th>
+      <tr>
+        <td class="p-2 pl-0">Name</td>
+        <td class="p-2">Amount</td>
+        <td class="p-2">Material Cost</td>
+        <td class="p-2">Overhead Cost</td>
+        <td class="p-2">Total Cost</td>
+      </tr>
+    </th>
+
+    <%= for batch_ingredient <- @batch.batch_ingredients do %>
+      <tr>
+        <td class="p-2 pl-0"><%= batch_ingredient.name %></td>
+        <td class="p-2"><%= batch_ingredient.amount_used %> g</td>
+        <td class="p-2"><%= batch_ingredient.material_cost %></td>
+        <td class="p-2"><%= batch_ingredient.overhead_cost %></td>
+        <td class="p-2"><%= batch_ingredient.total_cost %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= link(
+    "Add ingredient",
+    to: soap_batch_ingredient_path(@conn, :new, @batch.id),
+    class: "button"
+  ) %>
+</div>

@@ -59,6 +59,7 @@ defmodule Client.Mixfile do
       {:wallaby, [git: "git@github.com:elixir-wallaby/wallaby.git", ref: "a0753fb", runtime: false, only: :test]},
       {:phoenix_live_view, "~> 0.2"},
       {:ex_machina, "~> 2.2", only: :test},
+      {:money, "~> 1.7"},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
       {:twitch, in_umbrella: true},

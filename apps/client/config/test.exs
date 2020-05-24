@@ -17,7 +17,8 @@ config :client, Client.Repo,
   database: "homepage_test",
   hostname: "localhost",
   username: "postgres",
-  password: nil
+  password: nil,
+  ownership_timeout: :infinity
 
 # Default capabilities copied from here:
 # https://github.com/elixir-wallaby/wallaby/blob/master/lib/wallaby/experimental/chrome.ex#L74

@@ -59,6 +59,33 @@ defmodule Client.Factory do
     }
   end
 
+  def soap_batch_factory do
+    %Client.Soap.Batch{
+      name: sequence(:name, &"soap batch #{&1}"),
+      user_id: integer()
+    }
+  end
+
+  def soap_order_factory do
+    %Client.Soap.Order{
+      name: sequence(:name, &"soap order #{&1}"),
+      shipping_cost: Money.new(1500),
+      tax: Money.new(300),
+      user_id: integer()
+    }
+  end
+
+  def soap_ingredient_factory do
+    %Client.Soap.Ingredient{
+      name: sequence(:name, &"soap ingredient #{&1}"),
+      material_cost: 2000,
+      overhead_cost: 500,
+      total_cost: 2500,
+      order_id: integer(),
+      quantity: 200
+    }
+  end
+
   defp integer, do: System.unique_integer([:positive])
   defp uuid, do: Ecto.UUID.generate()
 end
