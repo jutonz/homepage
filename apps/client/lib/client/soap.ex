@@ -99,6 +99,7 @@ defmodule Client.Soap do
           name: i.name,
           amount_used: sbi.amount_used,
           batch_id: sbi.batch_id,
+          material_cost: sbi.material_cost,
           ingredient: %{
             id: i.id,
             quantity: i.quantity,
@@ -112,14 +113,17 @@ defmodule Client.Soap do
     query
     |> Repo.all()
     |> Enum.map(fn sbi ->
+      material_cost = Money.new(sbi.material_cost)
+      overhead_cost = sbi.ingredient.overhead_cost
+      total_cost = Money.add(material_cost, overhead_cost)
+
       map =
         sbi
-        |> Map.put(:material_cost, sbi.ingredient.material_cost)
-        |> Map.put(:overhead_cost, sbi.ingredient.overhead_cost)
-        |> Map.put(:total_cost, sbi.ingredient.total_cost)
+        |> Map.put(:material_cost, material_cost)
+        |> Map.put(:overhead_cost, overhead_cost)
+        |> Map.put(:total_cost, total_cost)
         |> Map.put(:ingredient_id, sbi.ingredient.id)
         |> Map.delete(:ingredient)
-        |> Map.delete(:order)
 
       struct!(BatchIngredient, map)
     end)
