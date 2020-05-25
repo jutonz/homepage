@@ -50,6 +50,7 @@
     <th>
       <tr>
         <td class="p-2 pl-0">Name</td>
+        <td class="p-2">Label #</td>
         <td class="p-2">Amount</td>
         <td class="p-2">Material Cost</td>
         <td class="p-2">Overhead Cost</td>
@@ -60,6 +61,7 @@
     <%= for batch_ingredient <- @batch.batch_ingredients do %>
       <tr>
         <td class="p-2 pl-0"><%= batch_ingredient.name %></td>
+        <td class="p-2"><%= batch_ingredient.ingredient_id %></td>
         <td class="p-2"><%= batch_ingredient.amount_used %> g</td>
         <td class="p-2"><%= batch_ingredient.material_cost %></td>
         <td class="p-2"><%= batch_ingredient.overhead_cost %></td>
