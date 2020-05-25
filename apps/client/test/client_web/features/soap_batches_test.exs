@@ -8,8 +8,10 @@ defmodule ClientWeb.SoapBatchesFeatureTests do
     |> visit(soap_batch_path(@endpoint, :index, as: user.id))
     |> click(role("create-soap-batch"))
     |> fill_in(role("soap-batch-name-input"), with: "fff")
+    |> fill_in(role("soap-batch-amount-produced-input"), with: "1000")
     |> click(role("soap-batch-submit"))
-    |> find(role("soap-batch-name", text: "fff"))
+    |> assert_has(role("soap-batch-name", text: "fff"))
+    |> assert_has(role("batch-amount-produced", text: "1000g"))
 
     session
     |> visit(soap_batch_path(@endpoint, :index))

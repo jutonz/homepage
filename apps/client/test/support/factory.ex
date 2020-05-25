@@ -62,7 +62,8 @@ defmodule Client.Factory do
   def soap_batch_factory do
     %Client.Soap.Batch{
       name: sequence(:name, &"soap batch #{&1}"),
-      user_id: integer()
+      user_id: integer(),
+      amount_produced: 1000
     }
   end
 

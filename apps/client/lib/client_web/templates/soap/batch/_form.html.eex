@@ -3,16 +3,31 @@
   @submit_path,
 fn form -> %>
   <div class="flex flex-1 flex-col mb-6">
-    <%= label(form, :name, "Name") %>
-    <%= text_input(
-      form,
-      :name,
-      class: "mt-2",
-      autofocus: true,
-      data: [role: "soap-batch-name-input"]
-    ) %>
-    <div class="text-red-600 mt-1">
-      <%= error_tag(form, :name) %>
+    <div>
+      <%= label(form, :name, "Name") %>
+      <%= text_input(
+        form,
+        :name,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "soap-batch-name-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :name) %>
+      </div>
+    </div>
+
+    <div>
+      <%= label(form, :amount_produced, "Amount Produced (optional)") %>
+      <%= text_input(
+        form,
+        :amount_produced,
+        class: "mt-2",
+        data: [role: "soap-batch-amount-produced-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :amount_produced) %>
+      </div>
     </div>
   </div>
 
