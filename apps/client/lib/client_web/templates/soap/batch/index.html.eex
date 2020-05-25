@@ -1,5 +1,11 @@
-<div class="m-4">
-  <div class="text-xl">Batches</div>
+<div class="m-5">
+  <div class="flex align-center text-xl">
+    <div class="mr-2 text-gray-500">
+      <%= link("Soap", to: soap_soap_path(@conn, :index)) %>
+    </div>
+    >
+    <div class="ml-2">Batches</div>
+  </div>
 
   <div class="flex flex-col mb-4">
     <%= for batch <- @batches do %>
