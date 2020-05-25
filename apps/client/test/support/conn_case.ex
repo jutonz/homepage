@@ -21,6 +21,7 @@ defmodule ClientWeb.ConnCase do
       use Phoenix.ConnTest
       import ClientWeb.Router.Helpers
       import Client.Factory
+      import ClientWeb.HtmlHelpers
 
       # The default endpoint for testing
       @endpoint ClientWeb.Endpoint

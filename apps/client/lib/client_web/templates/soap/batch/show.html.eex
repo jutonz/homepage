@@ -1,6 +1,16 @@
 <div class="m-5">
-  <div class="text-xl mb-5" data-role="soap-batch-name">
-    <%= @batch.name %>
+  <div class="flex align-center text-xl mb-5">
+    <div class="mr-2 text-gray-500">
+      <%= link("Soap", to: soap_soap_path(@conn, :index)) %>
+    </div>
+    >
+    <div class="ml-2 mr-2 text-gray-500">
+      <%= link("Batches", to: soap_batch_path(@conn, :index)) %>
+    </div>
+    >
+    <div class="ml-2" data-role="soap-batch-name">
+      <%= @batch.name %>
+    </div>
   </div>
 
   <table class="mb-5">
