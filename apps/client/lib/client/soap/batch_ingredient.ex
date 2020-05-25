@@ -12,8 +12,6 @@ defmodule Client.Soap.BatchIngredient do
     Soap.Order
   }
 
-  @primary_key false
-
   @type t :: %__MODULE__{
           amount_used: integer() | nil,
           user_id: integer() | nil
@@ -23,25 +21,21 @@ defmodule Client.Soap.BatchIngredient do
     belongs_to(:ingredient, Soap.Ingredient)
     belongs_to(:batch, Soap.Batch)
     field(:amount_used, :integer)
+    field(:material_cost, Money.Ecto.Amount.Type)
 
     field(:user_id, :integer, virtual: true)
     field(:name, :string, virtual: true)
-    field(:material_cost, Money.Ecto.Amount.Type, virtual: true)
     field(:overhead_cost, Money.Ecto.Amount.Type, virtual: true)
     field(:total_cost, Money.Ecto.Amount.Type, virtual: true)
   end
 
   def changeset(batch_ingredient, attrs \\ %{}) do
     batch_ingredient
-    |> cast(attrs, ~w[batch_id ingredient_id user_id amount_used]a)
+    |> cast(attrs, ~w[batch_id ingredient_id user_id amount_used material_cost]a)
     |> validate_required(~w[batch_id ingredient_id user_id amount_used]a)
   end
 
-  def material_cost(batch_ingredient) do
-    total_amount = batch_ingredient.ingredient.quantity
-    total_cost = batch_ingredient.ingredient.cost
-    amount_used = batch_ingredient.amount_used
-
+  def material_cost(total_amount, total_cost, amount_used) do
     cost_per_gram =
       total_cost
       |> Money.to_decimal()
@@ -126,10 +120,22 @@ defmodule Client.Soap.BatchIngredient do
     |> cast(attrs, ~w[amount_used]a)
     |> put_assoc(:batch, batch_with_ingredients)
     |> put_assoc(:ingredient, ingredient)
+    |> recalculate_material_cost(ingredient)
     |> Repo.insert()
     |> case do
       {:ok, _batch_ingredient} -> {:ok, ingredient}
       {:error, changeset} -> {:error, Client.Util.errors_to_sentence(changeset)}
     end
+  end
+
+  defp recalculate_material_cost(changeset, ingredient) do
+    material_cost =
+      material_cost(
+        ingredient.quantity,
+        ingredient.material_cost,
+        get_field(changeset, :amount_used)
+      )
+
+    put_change(changeset, :material_cost, material_cost)
   end
 end

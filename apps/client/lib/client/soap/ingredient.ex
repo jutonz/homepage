@@ -8,6 +8,7 @@ defmodule Client.Soap.Ingredient do
 
   schema "soap_ingredients" do
     belongs_to(:order, Client.Soap.Order)
+    has_many(:batch_ingredients, Client.Soap.BatchIngredient)
 
     many_to_many(
       :batches,

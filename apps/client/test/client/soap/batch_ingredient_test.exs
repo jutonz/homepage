@@ -70,5 +70,35 @@ defmodule Client.Soap.BatchIngredientTest do
 
       assert result == {:error, "No such batch"}
     end
+
+    test "inserts the material cost" do
+      user = insert(:user)
+      order = insert(:soap_order, user_id: user.id)
+      batch = insert(:soap_batch, user_id: user.id)
+
+      ingredient =
+        insert(:soap_ingredient,
+          order_id: order.id,
+          material_cost: Money.new(10_00),
+          overhead_cost: Money.new(3_00),
+          total_cost: Money.new(13_00),
+          quantity: 100
+        )
+
+      attrs = %{amount_used: 10}
+
+      {:ok, ingredient} =
+        BatchIngredient.create(
+          user.id,
+          ingredient.id,
+          batch.id,
+          attrs
+        )
+
+      ingredient = Repo.preload(ingredient, :batch_ingredients)
+      bi = hd(ingredient.batch_ingredients)
+
+      assert bi.material_cost == Money.new(1_00)
+    end
   end
 end
