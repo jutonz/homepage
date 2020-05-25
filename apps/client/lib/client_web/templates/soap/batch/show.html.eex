@@ -26,6 +26,14 @@
       <td class="p-1 pl-0 pr-3">Cost of ingredients</td>
       <td><%= cost_of_ingredients(@batch) %></td>
     </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3">Amount produced</td>
+      <td data-role="batch-amount-produced"><%= amount_produced(@batch) %></td>
+    </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3">Cost of 32oz</td>
+      <td><%= cost_of_32oz(@batch) %></td>
+    </tr>
   </table>
 
   <%= link(

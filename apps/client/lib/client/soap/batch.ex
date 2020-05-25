@@ -10,12 +10,13 @@ defmodule Client.Soap.Batch do
     belongs_to(:user, Client.User)
     has_many(:batch_ingredients, Client.Soap.BatchIngredient)
     field(:name, :string)
+    field(:amount_produced, :integer)
     timestamps()
   end
 
   def changeset(batch, attrs \\ %{}) do
     batch
-    |> cast(attrs, required_fields())
+    |> cast(attrs, optional_fields() ++ required_fields())
     |> validate_required(required_fields())
   end
 
@@ -26,6 +27,9 @@ defmodule Client.Soap.Batch do
     |> change()
     |> put_assoc(:ingredients, ingredients)
   end
+
+  defp optional_fields,
+    do: ~w[amount_produced]a
 
   defp required_fields,
     do: ~w[name user_id]a
