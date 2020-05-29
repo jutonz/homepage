@@ -48,7 +48,7 @@
     "@types/chart.js": "^2.9.21",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
-    "@types/react-redux": "^7.1.8",
+    "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "@types/redux-saga": "^0.10.5",
     "@typescript-eslint/typescript-estree": "^2.33.0",
