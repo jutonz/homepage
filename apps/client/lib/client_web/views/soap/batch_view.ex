@@ -30,7 +30,7 @@ defmodule ClientWeb.Soap.BatchView do
   @grams_per_floz "29.5735296875"
   def cost_of_32oz(%{amount_produced: amount_produced_in_grams} = batch) do
     {:ok, grams_per_floz} = Decimal.parse(@grams_per_floz)
-    amount_produced_in_floz = Decimal.mult(amount_produced_in_grams, grams_per_floz)
+    amount_produced_in_floz = Decimal.div(amount_produced_in_grams, grams_per_floz)
 
     total_cost = batch |> cost_of_ingredients() |> Money.to_decimal()
     cost_per_floz = Decimal.div(total_cost, amount_produced_in_floz)
