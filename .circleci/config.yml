@@ -85,7 +85,7 @@ jobs:
   yarn_install:
     working_directory: ~/code
     docker:
-    - image: circleci/node:10
+    - image: circleci/node:12
     steps:
     - checkout
     - restore_cache:
@@ -162,7 +162,7 @@ jobs:
   yarn_lint:
     working_directory: ~/code
     docker:
-    - image: circleci/node:10
+    - image: circleci/node:12
     steps:
     - checkout
     - restore_cache:
@@ -209,7 +209,7 @@ jobs:
   yarn_bundle_static:
     working_directory: ~/code
     docker:
-    - image: circleci/node:10
+    - image: circleci/node:12
     steps:
     - checkout
     - restore_cache:
@@ -227,7 +227,7 @@ jobs:
   yarn_bundle_react:
     working_directory: ~/code
     docker:
-    - image: circleci/node:10
+    - image: circleci/node:12
     steps:
     - checkout
     - restore_cache:
