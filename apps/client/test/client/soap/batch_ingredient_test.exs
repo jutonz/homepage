@@ -101,4 +101,20 @@ defmodule Client.Soap.BatchIngredientTest do
       assert bi.material_cost == Money.new(1_00)
     end
   end
+
+  describe "overhead_cost/2" do
+    test "divides the overhead cost by the amount used" do
+      total_overhead = Money.new(10_00)
+      amount_used = 10
+      expected_overhead = Money.new(1_00)
+
+      actual_overhead =
+        BatchIngredient.overhead_cost(
+          total_overhead,
+          amount_used
+        )
+
+      assert expected_overhead == actual_overhead
+    end
+  end
 end
