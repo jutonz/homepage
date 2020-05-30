@@ -46,4 +46,19 @@ defmodule ClientWeb.SoapBatchesFeatureTests do
     refute_has(session, role("soap-batch-name", text: batch.name))
     assert current_path(session) == soap_batch_path(@endpoint, :index)
   end
+
+  test "can add an ingredient", %{session: session} do
+    user = insert(:user)
+    batch = insert(:soap_batch, user_id: user.id)
+    order = insert(:soap_order, user_id: user.id)
+    ingredient = insert(:soap_ingredient, order_id: order.id)
+
+    session
+    |> visit(soap_batch_path(@endpoint, :show, batch.id, as: user.id))
+    |> click(role("batch-add-ingredient"))
+    |> fill_in(role("ingredient-label-number-input"), with: ingredient.id)
+    |> fill_in(role("ingredient-amount-used-input"), with: "123")
+    |> click(role("ingredient-submit"))
+    |> assert_has(role("batch-ingredient", text: to_string(ingredient.id)))
+  end
 end

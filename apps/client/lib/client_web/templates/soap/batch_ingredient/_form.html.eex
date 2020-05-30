@@ -17,7 +17,21 @@ fn form -> %>
         <%= error_tag(form, :ingredient_id) %>
       </div>
     </div>
+
+    <div>
+      <%= label(form, :amount_used, "Amount used", class: "mr-4") %>
+      <%= text_input(
+        form,
+        :amount_used,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "ingredient-amount-used-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :amount_used) %>
+      </div>
+    </div>
   </div>
 
-  <%= submit(@action, data: [role: "soap-order-label-number-submit"]) %>
+  <%= submit(@action, data: [role: "ingredient-submit"]) %>
 <% end) %>
