@@ -1,4 +1,5 @@
 const path = require("path");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const getEnv = () => {
   switch (process.env.MIX_ENV) {
@@ -32,15 +33,32 @@ const config = {
     filename: "js/app.js"
   },
 
+  // Tell mini-extract-css to generate just a single css file
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          test: /\.scss$/,
+          chunks: 'all',
+          name: "app"
+        }
+      }
+    }
+  },
+
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: isProd ? "[name].[hash].css" : "[name].css"
+    })
+  ],
+
   module: {
     rules: [
       {
         test: /\.scss/,
         include: [path.resolve(__dirname, "static-css")],
         use: [
-          {
-            loader: "style-loader"
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
             options: {
