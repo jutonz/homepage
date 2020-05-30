@@ -48,7 +48,7 @@ const config = {
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: isProd ? "[name].[hash].css" : "[name].css"
+      filename: "[name].css"
     })
   ],
 
