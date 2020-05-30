@@ -1,4 +1,5 @@
 const path = require("path");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const getEnv = () => {
   switch (process.env.MIX_ENV) {
@@ -32,15 +33,19 @@ const config = {
     filename: "js/app.js"
   },
 
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "app.css"
+    })
+  ],
+
   module: {
     rules: [
       {
         test: /\.scss/,
         include: [path.resolve(__dirname, "static-css")],
         use: [
-          {
-            loader: "style-loader"
-          },
+          MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
             options: {

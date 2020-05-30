@@ -8,12 +8,8 @@
     <meta name="author" content="">
 
     <title><%= @conn.assigns[:title] || "jutonz.com" %></title>
-    <%= unless Mix.env() == :test do %>
-      <style>
-        body { background-color: black; }
-        body * { visibility: hidden; }
-      </style>
-    <% end %>
+
+    <link rel="stylesheet" href="<%= static_path(@conn, "/app.css") %>">
   </head>
 
   <body onclick="">
