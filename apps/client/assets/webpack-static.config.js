@@ -33,19 +33,6 @@ const config = {
     filename: "js/app.js"
   },
 
-  // Tell mini-extract-css to generate just a single css file
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        styles: {
-          test: /\.scss$/,
-          chunks: 'all',
-          name: "app"
-        }
-      }
-    }
-  },
-
   plugins: [
     new MiniCssExtractPlugin({
       filename: "[name].css"
