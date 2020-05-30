@@ -163,13 +163,13 @@ const renderUnsubscribeButton = (channel) => (
       });
     }}
   >
-    {(unsubscribe, { loading, error }) => (
+    {(unsubscribe, result) => (
       <div className={css(style.unsubButtonContainer)}>
-        {error && collectGraphqlErrors(error)}
+        {result.error && collectGraphqlErrors(result.error)}
         <Button
           primary
           fluid
-          loading={loading}
+          loading={result.loading}
           onClick={() => {
             unsubscribe({ variables: { name: channel.name } });
           }}

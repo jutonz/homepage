@@ -63,10 +63,12 @@ export class SignupForm extends React.Component<Props, State> {
     return (
       <div className={css(styles.container)}>
         <Mutation mutation={SIGNUP}>
-          {(signup, { loading, error }) => (
+          {(signup, result) => (
             <FormBox>
               <Header className={css(styles.header)}>Signup</Header>
-              {error && <Message error>{collectGraphqlErrors(error)}</Message>}
+              {result.error && (
+                <Message error>{collectGraphqlErrors(result.error)}</Message>
+              )}
               <Input
                 fluid
                 label="email"
@@ -85,7 +87,7 @@ export class SignupForm extends React.Component<Props, State> {
                 primary
                 fluid
                 disabled={!formIsValid}
-                loading={loading}
+                loading={result.loading}
                 className={css(styles.submit)}
                 onClick={() => {
                   signup({

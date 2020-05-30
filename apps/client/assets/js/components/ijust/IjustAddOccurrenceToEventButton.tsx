@@ -41,12 +41,12 @@ export const IjustAddOccurrenceToEventButton = ({
         });
       }}
     >
-      {(addOccurrence, { loading, error }) => {
+      {(addOccurrence, result) => {
         return (
           <div>
-            {error && collectGraphqlErrors(error)}
+            {result.error && collectGraphqlErrors(result.error)}
             <Button
-              loading={loading}
+              loading={result.loading}
               onClick={() =>
                 addOccurrence({
                   variables: { ijustEventId: eventId },

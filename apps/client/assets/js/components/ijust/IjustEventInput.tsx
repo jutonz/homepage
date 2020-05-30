@@ -140,7 +140,7 @@ export class IjustEventInput extends React.Component<Props, State> {
 
     return (
       <Mutation mutation={CREATE_EVENT}>
-        {(createEvent, { loading, error }) => (
+        {(createEvent, result) => (
           <div className={css(styles.container)}>
             <Form
               onSubmit={() => {
@@ -168,7 +168,9 @@ export class IjustEventInput extends React.Component<Props, State> {
                 resultRenderer={this.renderSearchResults}
                 noResultsMessage={this.renderNoResultsMessage()}
               />
-              {error && <Message error>{collectGraphqlErrors(error)}</Message>}
+              {result.error && (
+                <Message error>{collectGraphqlErrors(result.error)}</Message>
+              )}
             </Form>
           </div>
         )}
