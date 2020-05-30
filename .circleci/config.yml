@@ -85,7 +85,7 @@ jobs:
   yarn_install:
     working_directory: ~/code
     docker:
-    - image: circleci/node:10
+    - image: circleci/node:12
     steps:
     - checkout
     - restore_cache:
@@ -101,7 +101,7 @@ jobs:
           yarn install
     - save_cache:
         name: Save dev cache
-        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
         - apps/client/assets/node_modules
         - deps
@@ -162,11 +162,11 @@ jobs:
   yarn_lint:
     working_directory: ~/code
     docker:
-    - image: circleci/node:10
+    - image: circleci/node:12
     steps:
     - checkout
     - restore_cache:
-        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn lint
@@ -209,11 +209,11 @@ jobs:
   yarn_bundle_static:
     working_directory: ~/code
     docker:
-    - image: circleci/node:10
+    - image: circleci/node:12
     steps:
     - checkout
     - restore_cache:
-        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn bundle:static
@@ -227,11 +227,11 @@ jobs:
   yarn_bundle_react:
     working_directory: ~/code
     docker:
-    - image: circleci/node:10
+    - image: circleci/node:12
     steps:
     - checkout
     - restore_cache:
-        key: v5-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn bundle:react
