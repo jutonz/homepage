@@ -5799,13 +5799,13 @@ performance-now@^2.1.0:
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
 "phoenix@file:../../../deps/phoenix":
-  version "1.4.9"
+  version "1.4.17"
 
 "phoenix_html@file:../../../deps/phoenix_html":
-  version "2.13.3"
+  version "2.13.4"
 
 "phoenix_live_view@file:../../../deps/phoenix_live_view":
-  version "0.1.0-dev"
+  version "0.4.1"
 
 picomatch@^2.0.5:
   version "2.0.6"
@@ -7631,14 +7631,6 @@ strip-json-comments@^3.0.1:
 strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
-
-style-loader@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-1.2.1.tgz#c5cbbfbf1170d076cfdd86e0109c5bba114baa1a"
-  integrity sha512-ByHSTQvHLkWE9Ir5+lGbVOXhxX10fbprhLvdg96wedFZb4NDekDPxVKv5Fwmio+QcMlkkNfuK+5W1peQ5CUhZg==
-  dependencies:
-    loader-utils "^2.0.0"
-    schema-utils "^2.6.6"
 
 stylehacks@^4.0.0:
   version "4.0.3"
