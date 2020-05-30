@@ -10,7 +10,6 @@ const getEnv = () => {
 
 const env = getEnv();
 const isProd = env === "production";
-const isDev = env === "development";
 
 const postcssPlugins = () => {
   let p = [
