@@ -168,7 +168,9 @@ export class IjustEventInput extends React.Component<Props, State> {
                 resultRenderer={this.renderSearchResults}
                 noResultsMessage={this.renderNoResultsMessage()}
               />
-              {result.error && <Message error>{collectGraphqlErrors(result.error)}</Message>}
+              {result.error && (
+                <Message error>{collectGraphqlErrors(result.error)}</Message>
+              )}
             </Form>
           </div>
         )}

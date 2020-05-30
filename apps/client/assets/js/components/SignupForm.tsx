@@ -66,7 +66,9 @@ export class SignupForm extends React.Component<Props, State> {
           {(signup, result) => (
             <FormBox>
               <Header className={css(styles.header)}>Signup</Header>
-              {result.error && <Message error>{collectGraphqlErrors(result.error)}</Message>}
+              {result.error && (
+                <Message error>{collectGraphqlErrors(result.error)}</Message>
+              )}
               <Input
                 fluid
                 label="email"
