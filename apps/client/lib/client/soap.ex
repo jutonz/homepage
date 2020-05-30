@@ -114,7 +114,13 @@ defmodule Client.Soap do
     |> Repo.all()
     |> Enum.map(fn sbi ->
       material_cost = Money.new(sbi.material_cost)
-      overhead_cost = sbi.ingredient.overhead_cost
+
+      overhead_cost =
+        BatchIngredient.overhead_cost(
+          sbi.ingredient.overhead_cost,
+          sbi.amount_used
+        )
+
       total_cost = Money.add(material_cost, overhead_cost)
 
       map =

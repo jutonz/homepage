@@ -49,6 +49,16 @@ defmodule Client.Soap.BatchIngredient do
     |> Money.new()
   end
 
+  def overhead_cost(total_overhead_cost, amount_used) do
+    total_overhead_cost
+    |> Money.to_decimal()
+    |> Decimal.div(amount_used)
+    |> Decimal.mult(100)
+    |> Decimal.round()
+    |> Decimal.to_integer()
+    |> Money.new()
+  end
+
   def insert(%Ecto.Changeset{valid?: false} = changeset) do
     changeset = Map.put(changeset, :action, :insert)
     {:error, changeset}
