@@ -60,7 +60,7 @@ const renderDeleteButton = (occurrence: any) => (
       });
     }}
   >
-    {(deleteMutation, { loading, error }) => (
+    {(deleteMutation, { loading }) => (
       <Button
         onClick={() =>
           deleteMutation({ variables: { occurrenceId: occurrence.id } })

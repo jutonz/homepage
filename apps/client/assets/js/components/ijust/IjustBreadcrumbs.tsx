@@ -26,7 +26,7 @@ export const IjustBreadcrumbs = ({ context, event, viewing }: Props) => (
   <Breadcrumb className={css(style.breadcrumb)}>
     <Breadcrumb.Section>{contextsLinkOrNot(viewing)}</Breadcrumb.Section>
     {context && (
-      <Breadcrumb.Divider className={css(style.sep)}>></Breadcrumb.Divider>
+      <Breadcrumb.Divider className={css(style.sep)}>&gt</Breadcrumb.Divider>
     )}
     {context && (
       <Breadcrumb.Section>
@@ -34,7 +34,7 @@ export const IjustBreadcrumbs = ({ context, event, viewing }: Props) => (
       </Breadcrumb.Section>
     )}
     {event && (
-      <Breadcrumb.Divider className={css(style.sep)}>></Breadcrumb.Divider>
+      <Breadcrumb.Divider className={css(style.sep)}>&gt</Breadcrumb.Divider>
     )}
     {event && <Breadcrumb.Section>{event.name}</Breadcrumb.Section>}
   </Breadcrumb>

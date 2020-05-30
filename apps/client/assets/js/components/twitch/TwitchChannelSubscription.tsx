@@ -80,9 +80,9 @@ class SubscribeForm extends React.Component<Props, State> {
               });
             }}
           >
-            {(subscribe, { loading, error }) => (
+            {(subscribe, result) => (
               <div>
-                {error && collectGraphqlErrors(error)}
+                {result.error && collectGraphqlErrors(result.error)}
                 <Input
                   fluid
                   label="Channel name"
@@ -94,7 +94,7 @@ class SubscribeForm extends React.Component<Props, State> {
                 <Button
                   primary
                   fluid
-                  loading={loading}
+                  loading={result.loading}
                   className={css(style.button)}
                   onClick={() => {
                     const { channelName } = this.state;
