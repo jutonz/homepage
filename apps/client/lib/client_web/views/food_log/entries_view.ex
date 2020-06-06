@@ -11,8 +11,8 @@ defmodule ClientWeb.FoodLog.EntriesView do
     entry_cs = FoodLogs.entry_changeset(%Entry{}, %{})
 
     assigns = [
-      log: session[:log],
-      current_user_id: session[:current_user_id],
+      log: session["log"],
+      current_user_id: session["current_user_id"],
       entry_changeset: entry_cs,
       entries: list_entries(session),
       today: today()
@@ -54,7 +54,7 @@ defmodule ClientWeb.FoodLog.EntriesView do
     do: list_entries(socket.assigns[:log].id)
 
   defp list_entries(session) when is_map(session),
-    do: list_entries(session[:log].id)
+    do: list_entries(session["log"].id)
 
   defp list_entries(log_id) when is_binary(log_id),
     do: log_id |> FoodLogs.list_entries_by_day() |> maybe_add_today()

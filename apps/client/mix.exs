@@ -38,7 +38,7 @@ defmodule Client.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.0"},
+      {:phoenix, "1.4.14"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:postgrex, ">= 0.0.0"},
@@ -57,7 +57,7 @@ defmodule Client.Mixfile do
       # TODO: Switch back to a tag once 0.24 is released
       # (we need custom capabilities to enable javascript on CI)
       {:wallaby, [git: "git@github.com:elixir-wallaby/wallaby.git", ref: "a0753fb", runtime: false, only: :test]},
-      {:phoenix_live_view, "~> 0.2"},
+      {:phoenix_live_view, "~> 0.5.0"},
       {:ex_machina, "~> 2.2", only: :test},
       {:money, "~> 1.7"},
       {:floki, "~> 0.26.0", only: :test},

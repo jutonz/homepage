@@ -1,7 +1,7 @@
 <%= if @changeset do %>
   <div class="modal">
     <div class="modal__content">
-      <%= form_for @changeset, "#", [phx_submit: "update_entry"], fn f -> %>
+      <%= form_for @changeset, "#", [phx_submit: "update_entry", phx_target: "#entry-#{@entry.id}"], fn f -> %>
         <div class="modal__content__header">
           <div class="text-xl">Edit entry</div>
           <div class="text-xl absolute top-0 right-0 mr-2" phx-click="cancel_edit_entry">x</div>
@@ -40,13 +40,21 @@
         </div>
         <div class="modal__content__footer flex justify-between">
           <%= submit("Save", data: [role: "entry-update-submit"]) %>
-          <div class="button" data-role="delete-log-entry" phx-click="delete_entry" data-confirm="Are you sure?">Delete</div>
+          <div
+            class="button"
+            data-role="delete-log-entry"
+            phx-click="delete_entry"
+            phx-target="#entry-<%= @entry.id %>"
+            data-confirm="Are you sure?"
+          >
+            Delete
+          </div>
         </div>
       </div>
     <% end %>
   </div>
 <% end %>
 
-<div data-role="food-log-entry" data-entry-id="<%= @entry.id %>" class="ml-2 mb-2 mt-2" phx-click="edit_entry">
+<div id="entry-<%= @entry.id %>" data-role="food-log-entry" data-entry-id="<%= @entry.id %>" class="ml-2 mb-2 mt-2" phx-click="edit_entry" phx-target="#entry-<%= @entry.id %>">
   <%= @entry.description %>
 </div>
