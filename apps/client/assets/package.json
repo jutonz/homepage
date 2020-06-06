@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "bundle:static": "MIX_ENV=prod NODE_ENV=production node ./node_modules/.bin/webpack -p --config ./webpack-static.config.js",
-    "bundle:react": "NODE_ENV=production node --optimize_for_size --max_old_space_size=460 ./node_modules/.bin/webpack -p --config webpack.config.production.js",
+    "bundle:react": "NODE_ENV=production node --optimize_for_size --max_old_space_size=2048 ./node_modules/.bin/webpack -p --config webpack.config.production.js",
     "build": "node ./node_modules/.bin/webpack --color",
     "watch": "node ./node_modules/.bin/webpack --watch-stdin --color",
     "start": "node ./node_modules/.bin/webpack-dev-server --config webpack.config.development.js",
