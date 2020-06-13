@@ -7,7 +7,7 @@ defmodule ClientWeb.Api.WaterLogEntryControllerTest do
       user = Factory.insert(:user)
       api_token = Factory.insert(:api_token, user_id: user.id)
       log = Factory.insert(:water_log, user_id: user.id)
-      path = api_water_log_entry_path(conn, :create, log.id)
+      path = Routes.api_water_log_entry_path(conn, :create, log.id)
 
       params =
         Factory.params_for(:water_log_entry, user_id: user.id, water_log_id: log.id, ml: 100)
@@ -27,7 +27,7 @@ defmodule ClientWeb.Api.WaterLogEntryControllerTest do
       user = Factory.insert(:user)
       api_token = Factory.insert(:api_token, user_id: user.id)
       log = Factory.insert(:water_log, user_id: user.id)
-      path = api_water_log_entry_path(conn, :create, log.id)
+      path = Routes.api_water_log_entry_path(conn, :create, log.id)
 
       params =
         Factory.params_for(:water_log_entry, user_id: user.id, water_log_id: log.id, ml: nil)
