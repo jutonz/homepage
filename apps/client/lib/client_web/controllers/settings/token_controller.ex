@@ -17,7 +17,7 @@ defmodule ClientWeb.Settings.TokenController do
       {:ok, _token} ->
         conn
         |> put_flash(:success, "Created!")
-        |> redirect(to: settings_api_path(ClientWeb.Endpoint, :show))
+        |> redirect(to: Routes.settings_api_path(ClientWeb.Endpoint, :show))
 
       {:error, changeset} ->
         conn
@@ -29,12 +29,12 @@ defmodule ClientWeb.Settings.TokenController do
   def delete(conn, %{"id" => id}) do
     case ApiTokens.delete(id) do
       {:ok, _token} ->
-        redirect(conn, to: settings_api_path(ClientWeb.Endpoint, :show))
+        redirect(conn, to: Routes.settings_api_path(ClientWeb.Endpoint, :show))
 
       {:error, _changeset} ->
         conn
         |> put_flash(:danger, "Failed to delete")
-        |> redirect(to: settings_api_path(ClientWeb.Endpoint, :show))
+        |> redirect(to: Routes.settings_api_path(ClientWeb.Endpoint, :show))
     end
   end
 end

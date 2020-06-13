@@ -8,7 +8,7 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
     name = "name"
 
     session
-    |> visit(food_log_path(@endpoint, :index, as: user.id))
+    |> visit(Routes.food_log_path(@endpoint, :index, as: user.id))
     |> click(role("new-food-log"))
     |> fill_in(role("food-log-name-input"), with: name)
     |> click(role("create-food-log"))
@@ -20,10 +20,10 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
     log = insert(:food_log, owner_id: user.id)
 
     session
-    |> visit(food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
     |> click(role("food-log-bc-to-index"))
 
-    index_path = food_log_path(@endpoint, :index)
+    index_path = Routes.food_log_path(@endpoint, :index)
     assert current_path(session) == index_path
   end
 
@@ -33,7 +33,7 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
     new_name = "new name!"
 
     session
-    |> visit(food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
     |> click(role("edit-food-log"))
     |> fill_in(role("food-log-name-input"), with: new_name)
     |> click(role("update-food-log"))
@@ -46,7 +46,7 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
     desc = "food!"
 
     session
-    |> visit(food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
     |> fill_in(role("entry-desc-input"), with: desc)
     |> click(role("entry-submit"))
     |> assert_has(role("food-log-entry", text: desc))
@@ -59,7 +59,7 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
     new_desc = "wee"
 
     session
-    |> visit(food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
     |> click(entry_selector(entry.id))
     |> fill_in(role("entry-desc-update-input"), with: new_desc)
     |> click(role("entry-update-submit"))
@@ -76,7 +76,7 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
     iso_time = iso_time |> to_string() |> String.replace(" ", "T")
 
     session
-    |> visit(food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
     |> click(entry_selector(entry.id))
     |> find(css("#entry_occurred_at_date"))
     |> execute_script("document.getElementById('entry_occurred_at_date').value = '#{date}'")
@@ -103,7 +103,7 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
     entry = insert(:food_log_entry, food_log_id: log.id, user_id: user.id)
 
     session
-    |> visit(food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
     |> click(entry_selector(entry.id))
     |> accept_confirm(fn session ->
       click(session, role("delete-log-entry"))

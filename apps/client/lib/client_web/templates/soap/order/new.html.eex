@@ -3,7 +3,7 @@
   <%= render(
     "_form.html",
     changeset: @changeset,
-    submit_path: soap_order_path(@conn, :create),
+    submit_path: Routes.soap_order_path(@conn, :create),
     action: "Create"
   ) %>
 </div>

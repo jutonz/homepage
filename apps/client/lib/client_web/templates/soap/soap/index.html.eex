@@ -3,11 +3,11 @@
 
   <div class="flex mt-6 flex-col">
     <div class="mb-6">
-      <%= link("View Orders", to: soap_order_path(@conn, :index), class: "button") %>
+      <%= link("View Orders", to: Routes.soap_order_path(@conn, :index), class: "button") %>
     </div>
 
     <div>
-      <%= link("View Batches", to: soap_batch_path(@conn, :index), class: "button") %>
+      <%= link("View Batches", to: Routes.soap_batch_path(@conn, :index), class: "button") %>
     </div>
   </div>
 </div>

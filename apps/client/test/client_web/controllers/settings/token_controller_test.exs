@@ -10,7 +10,7 @@ defmodule ClientWeb.Settings.TokenControllerTest do
       html =
         conn
         |> login_as(user)
-        |> post(settings_api_token_path(conn, :create), params)
+        |> post(Routes.settings_api_token_path(conn, :create), params)
         |> assert_status(302)
         |> follow_redirect()
         |> html_response(200)
@@ -25,7 +25,7 @@ defmodule ClientWeb.Settings.TokenControllerTest do
 
       conn
       |> login_as(user)
-      |> post(settings_api_token_path(conn, :create), params)
+      |> post(Routes.settings_api_token_path(conn, :create), params)
       |> assert_status(302)
 
       assert ApiTokens.get_by_description(user.id, token_params[:description])
@@ -36,7 +36,7 @@ defmodule ClientWeb.Settings.TokenControllerTest do
     login_params = %{"email" => user.email, "password" => user.password}
 
     conn
-    |> post(session_path(conn, :login), login_params)
+    |> post(Routes.session_path(conn, :login), login_params)
     |> recycle()
   end
 

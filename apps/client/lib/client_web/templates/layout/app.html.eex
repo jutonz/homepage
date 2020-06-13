@@ -9,7 +9,7 @@
 
     <title><%= @conn.assigns[:title] || "jutonz.com" %></title>
 
-    <link rel="stylesheet" href="<%= static_path(@conn, "/app.css") %>">
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/app.css") %>">
   </head>
 
   <body onclick="">
@@ -24,6 +24,6 @@
     </div>
 
     <%= csrf_meta_tag() %>
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

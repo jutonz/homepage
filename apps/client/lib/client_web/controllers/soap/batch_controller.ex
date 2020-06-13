@@ -21,7 +21,7 @@ defmodule ClientWeb.Soap.BatchController do
 
     case insert_result do
       {:ok, batch} ->
-        redirect(conn, to: soap_batch_path(conn, :show, batch.id))
+        redirect(conn, to: Routes.soap_batch_path(conn, :show, batch.id))
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -58,7 +58,7 @@ defmodule ClientWeb.Soap.BatchController do
 
     case insert_result do
       {:ok, batch} ->
-        redirect(conn, to: soap_batch_path(conn, :show, batch.id))
+        redirect(conn, to: Routes.soap_batch_path(conn, :show, batch.id))
 
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset)
@@ -70,12 +70,12 @@ defmodule ClientWeb.Soap.BatchController do
 
     case Soap.delete_batch(user_id, id) do
       {:ok, _log} ->
-        redirect(conn, to: soap_batch_path(conn, :index))
+        redirect(conn, to: Routes.soap_batch_path(conn, :index))
 
       {:error, _changeset} ->
         conn
         |> put_flash(:danger, "Failed to delete")
-        |> redirect(to: soap_batch_path(conn, :index))
+        |> redirect(to: Routes.soap_batch_path(conn, :index))
     end
   end
 end

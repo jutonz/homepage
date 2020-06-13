@@ -3,7 +3,7 @@
   <%= render(
     "_form.html",
     changeset: @changeset,
-    submit_path: soap_order_ingredient_path(
+    submit_path: Routes.soap_order_ingredient_path(
       @conn,
       :update,
       Ecto.Changeset.get_field(@changeset, :order_id),

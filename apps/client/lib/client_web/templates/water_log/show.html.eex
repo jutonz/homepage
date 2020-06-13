@@ -1,7 +1,7 @@
 <div class="m-4">
   <div class="text-xl mb-4">
     <span class="text-gray-300" data-role="water-log-bc-to-index">
-      <%= link("Water Logs", to: water_log_path(@conn, :index)) %>
+      <%= link("Water Logs", to: Routes.water_log_path(@conn, :index)) %>
     </span>
     <span class="text-gray-700">
       >
@@ -11,7 +11,7 @@
     <div class="mt-4 mb-4">
       <%= link(
         "View filters",
-        to: water_log_filters_path(@conn, :index, @log.id),
+        to: Routes.water_log_filters_path(@conn, :index, @log.id),
         class: "button",
         data: [role: "view-filters-button"]
       ) %>

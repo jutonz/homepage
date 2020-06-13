@@ -5,7 +5,7 @@ defmodule ClientWeb.SoapOrdersFeatureTests do
     user = insert(:user)
 
     session
-    |> visit(soap_order_path(@endpoint, :index, as: user.id))
+    |> visit(Routes.soap_order_path(@endpoint, :index, as: user.id))
     |> click(role("create-soap-order"))
     |> fill_in(role("soap-order-name-input"), with: "fff")
     |> fill_in(role("soap-order-shipping-cost-input"), with: "15.00")
@@ -18,7 +18,7 @@ defmodule ClientWeb.SoapOrdersFeatureTests do
     |> assert_has(role("order-total-cost", text: "$18.00"))
 
     session
-    |> visit(soap_order_path(@endpoint, :index))
+    |> visit(Routes.soap_order_path(@endpoint, :index))
     |> assert_has(role("soap-order-name", text: "fff"))
   end
 
@@ -27,13 +27,13 @@ defmodule ClientWeb.SoapOrdersFeatureTests do
     order = insert(:soap_order, user_id: user.id)
 
     session
-    |> visit(soap_order_path(@endpoint, :edit, order.id, as: user.id))
+    |> visit(Routes.soap_order_path(@endpoint, :edit, order.id, as: user.id))
     |> fill_in(role("soap-order-name-input"), with: "fff")
     |> click(role("soap-order-submit"))
     |> find(role("soap-order-name", text: "fff"))
 
     session
-    |> visit(soap_order_path(@endpoint, :index))
+    |> visit(Routes.soap_order_path(@endpoint, :index))
     |> find(role("soap-order-name", text: "fff"))
   end
 
@@ -42,13 +42,13 @@ defmodule ClientWeb.SoapOrdersFeatureTests do
     order = insert(:soap_order, user_id: user.id)
 
     session
-    |> visit(soap_order_path(@endpoint, :show, order.id, as: user.id))
+    |> visit(Routes.soap_order_path(@endpoint, :show, order.id, as: user.id))
     |> accept_confirm(fn session ->
       click(session, role("soap-order-delete"))
     end)
 
     refute_has(session, role("soap-order-name", text: order.name))
-    assert current_path(session) == soap_order_path(@endpoint, :index)
+    assert current_path(session) == Routes.soap_order_path(@endpoint, :index)
   end
 
   test "can add an ingredient", %{session: session} do
@@ -56,7 +56,7 @@ defmodule ClientWeb.SoapOrdersFeatureTests do
     order = insert(:soap_order, user_id: user.id)
 
     session
-    |> visit(soap_order_path(@endpoint, :show, order.id, as: user.id))
+    |> visit(Routes.soap_order_path(@endpoint, :show, order.id, as: user.id))
     |> click(role("order-add-ingredient"))
     |> fill_in(role("soap-order-ingredient-name-input"), with: "HEC")
     |> fill_in(role("soap-order-ingredient-cost-input"), with: "10.00")
@@ -72,7 +72,7 @@ defmodule ClientWeb.SoapOrdersFeatureTests do
     insert(:soap_ingredient, order_id: order.id, name: "wee", material_cost: Money.new(100))
 
     session
-    |> visit(soap_order_path(@endpoint, :show, order.id, as: user.id))
+    |> visit(Routes.soap_order_path(@endpoint, :show, order.id, as: user.id))
     |> click(role("ingredient-name", text: "wee"))
     |> fill_in(role("soap-order-ingredient-name-input"), with: "wee2")
     |> fill_in(role("soap-order-ingredient-cost-input"), with: "2")

@@ -18,7 +18,7 @@ defmodule ClientWeb.Soap.BatchIngredientController do
 
     case Soap.create_batch_ingredient(attrs) do
       {:ok, _ingredient} ->
-        redirect(conn, to: soap_batch_path(conn, :show, batch_id))
+        redirect(conn, to: Routes.soap_batch_path(conn, :show, batch_id))
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset, batch_id: batch_id)
@@ -55,7 +55,7 @@ defmodule ClientWeb.Soap.BatchIngredientController do
 
     case insert_result do
       {:ok, ingredient} ->
-        redirect(conn, to: soap_batch_path(conn, :show, ingredient.batch_id))
+        redirect(conn, to: Routes.soap_batch_path(conn, :show, ingredient.batch_id))
 
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset)

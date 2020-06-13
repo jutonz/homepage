@@ -20,7 +20,7 @@ defmodule ClientWeb.Soap.OrderIngredientController do
 
     case insert_result do
       {:ok, _ingredient} ->
-        redirect(conn, to: soap_order_path(conn, :show, order_id))
+        redirect(conn, to: Routes.soap_order_path(conn, :show, order_id))
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset, order_id: order_id)
@@ -57,7 +57,7 @@ defmodule ClientWeb.Soap.OrderIngredientController do
 
     case insert_result do
       {:ok, ingredient} ->
-        redirect(conn, to: soap_order_path(conn, :show, ingredient.order_id))
+        redirect(conn, to: Routes.soap_order_path(conn, :show, ingredient.order_id))
 
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset)

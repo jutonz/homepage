@@ -1,11 +1,11 @@
 <div class="m-5">
   <div class="flex align-center text-xl mb-5">
     <div class="mr-2 text-gray-500">
-      <%= link("Soap", to: soap_soap_path(@conn, :index)) %>
+      <%= link("Soap", to: Routes.soap_soap_path(@conn, :index)) %>
     </div>
     >
     <div class="ml-2 mr-2 text-gray-500">
-      <%= link("Orders", to: soap_order_path(@conn, :index)) %>
+      <%= link("Orders", to: Routes.soap_order_path(@conn, :index)) %>
     </div>
     >
     <div class="ml-2" data-role="soap-order-name">
@@ -34,13 +34,13 @@
 
     <%= link(
       "Edit order",
-      to: soap_order_path(@conn, :edit, @order.id),
+      to: Routes.soap_order_path(@conn, :edit, @order.id),
       class: "button"
     ) %>
 
     <%= link(
       "Delete order",
-      to: soap_order_path(@conn, :delete, @order.id),
+      to: Routes.soap_order_path(@conn, :delete, @order.id),
       class: "button",
       method: :delete,
       data: [confirm: "Are you sure", role: "soap-order-delete"]
@@ -65,7 +65,7 @@
           <td class="p-2 pl-0">
             <%= link(
               ingredient.name,
-              to: soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
+              to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-name"]
             ) %>
@@ -73,7 +73,7 @@
           <td class="p-2">
             <%= link(
               ingredient.id,
-              to: soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
+              to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-label"]
             ) %>
@@ -81,7 +81,7 @@
           <td class="p-2">
             <%= link(
               ingredient.material_cost,
-              to: soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
+              to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-cost"]
             ) %>
@@ -89,7 +89,7 @@
           <td class="p-2">
             <%= link(
               "#{ingredient.quantity} g",
-              to: soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
+              to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-quantity"]
             ) %>
@@ -102,7 +102,7 @@
 
   <%= link(
     "Add Ingredient",
-    to: soap_order_ingredient_path(@conn, :new, @order.id),
+    to: Routes.soap_order_ingredient_path(@conn, :new, @order.id),
     class: "button",
     data: [role: "order-add-ingredient"]
   ) %>

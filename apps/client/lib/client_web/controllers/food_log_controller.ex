@@ -28,7 +28,7 @@ defmodule ClientWeb.FoodLogController do
       {:ok, log} ->
         conn
         |> put_flash(:success, "Created!")
-        |> redirect(to: food_log_path(ClientWeb.Endpoint, :show, log.id))
+        |> redirect(to: Routes.food_log_path(ClientWeb.Endpoint, :show, log.id))
 
       {:error, changeset} ->
         conn
@@ -52,19 +52,19 @@ defmodule ClientWeb.FoodLogController do
 
   def update(conn, %{"id" => id, "food_log" => log_params}) do
     with {:ok, log} <- id |> FoodLogs.get() |> FoodLogs.update(log_params) do
-      redirect(conn, to: food_log_path(ClientWeb.Endpoint, :show, log.id))
+      redirect(conn, to: Routes.food_log_path(ClientWeb.Endpoint, :show, log.id))
     end
   end
 
   def delete(conn, %{"id" => id}) do
     case FoodLogs.delete(id) do
       {:ok, _log} ->
-        redirect(conn, to: food_log_path(ClientWeb.Endpoint, :index))
+        redirect(conn, to: Routes.food_log_path(ClientWeb.Endpoint, :index))
 
       {:error, _changeset} ->
         conn
         |> put_flash(:danger, "Failed to delete")
-        |> redirect(to: settings_api_path(ClientWeb.Endpoint, :show))
+        |> redirect(to: Routes.settings_api_path(ClientWeb.Endpoint, :show))
     end
   end
 end

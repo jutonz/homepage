@@ -1,7 +1,7 @@
 <div class="m-5">
   <div class="flex align-center text-xl">
     <div class="mr-2 text-gray-500">
-      <%= link("Soap", to: soap_soap_path(@conn, :index)) %>
+      <%= link("Soap", to: Routes.soap_soap_path(@conn, :index)) %>
     </div>
     >
     <div class="ml-2">Batches</div>
@@ -12,7 +12,7 @@
       <div class="mt-5 mb-5">
         <%= link(
           batch.name,
-          to: soap_batch_path(@conn, :show, batch.id),
+          to: Routes.soap_batch_path(@conn, :show, batch.id),
           data: [role: "soap-batch-name"]
         ) %>
       </div>
@@ -21,7 +21,7 @@
 
   <%= link(
     "Create batch",
-    to: soap_batch_path(@conn, :new),
+    to: Routes.soap_batch_path(@conn, :new),
     class: "mt-4 button",
     data: [role: "create-soap-batch"]
   ) %>

@@ -1,7 +1,7 @@
 <div class="m-4">
   <div class="text-xl mb-4">
     <span class="text-gray-300" data-role="food-log-bc-to-index">
-      <%= link("Logs", to: food_log_path(@conn, :index)) %>
+      <%= link("Logs", to: Routes.food_log_path(@conn, :index)) %>
     </span>
     <span class="text-gray-700">
       >
@@ -23,13 +23,13 @@
   <div class="mt-6">
     <%= link(
       "Edit",
-      to: food_log_path(ClientWeb.Endpoint, :edit, @log.id),
+      to: Routes.food_log_path(ClientWeb.Endpoint, :edit, @log.id),
       class: "button mt-4 mr-4",
       data: [role: "edit-food-log"]
     ) %>
     <%= link(
       "Delete",
-      to: food_log_path(ClientWeb.Endpoint, :delete, @log.id),
+      to: Routes.food_log_path(ClientWeb.Endpoint, :delete, @log.id),
       method: :delete,
       data: [confirm: "Are you sure"],
       class: "button mt-4"

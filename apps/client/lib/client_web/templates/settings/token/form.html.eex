@@ -1,6 +1,6 @@
 <%= form_for(
   @changeset,
-  settings_api_token_path(ClientWeb.Endpoint, @action),
+  Routes.settings_api_token_path(ClientWeb.Endpoint, @action),
   [class: "flex flex-col"],
 fn form -> %>
   <div class="flex flex-1 flex-col">

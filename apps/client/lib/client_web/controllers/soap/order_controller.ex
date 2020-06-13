@@ -21,7 +21,7 @@ defmodule ClientWeb.Soap.OrderController do
 
     case insert_result do
       {:ok, order} ->
-        redirect(conn, to: soap_order_path(conn, :show, order.id))
+        redirect(conn, to: Routes.soap_order_path(conn, :show, order.id))
 
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -38,7 +38,7 @@ defmodule ClientWeb.Soap.OrderController do
       nil ->
         conn
         |> put_flash(:warning, "No such order")
-        |> redirect(to: soap_order_path(conn, :index))
+        |> redirect(to: Routes.soap_order_path(conn, :index))
 
       order ->
         render(conn, "show.html", order: order)
@@ -66,7 +66,7 @@ defmodule ClientWeb.Soap.OrderController do
 
     case insert_result do
       {:ok, order} ->
-        redirect(conn, to: soap_order_path(conn, :show, order.id))
+        redirect(conn, to: Routes.soap_order_path(conn, :show, order.id))
 
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset)
@@ -78,12 +78,12 @@ defmodule ClientWeb.Soap.OrderController do
 
     case Soap.delete_order(user_id, id) do
       {:ok, _log} ->
-        redirect(conn, to: soap_order_path(conn, :index))
+        redirect(conn, to: Routes.soap_order_path(conn, :index))
 
       {:error, _changeset} ->
         conn
         |> put_flash(:danger, "Failed to delete")
-        |> redirect(to: soap_order_path(conn, :index))
+        |> redirect(to: Routes.soap_order_path(conn, :index))
     end
   end
 end
