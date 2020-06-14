@@ -19,7 +19,7 @@ defmodule ClientWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
-      import ClientWeb.Router.Helpers
+      alias ClientWeb.Router.Helpers, as: Routes
       import Client.Factory
       import ClientWeb.HtmlHelpers
 

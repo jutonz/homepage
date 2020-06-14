@@ -1,7 +1,7 @@
 <div class="m-4">
   <div class="flex align-center text-xl">
     <div class="mr-2 text-gray-500">
-      <%= link("Soap", to: soap_soap_path(@conn, :index)) %>
+      <%= link("Soap", to: Routes.soap_soap_path(@conn, :index)) %>
     </div>
     >
     <div class="ml-2">Orders</div>
@@ -13,7 +13,7 @@
       <div class="mt-5 mb-5">
         <%= link(
           order.name,
-          to: soap_order_path(@conn, :show, order.id),
+          to: Routes.soap_order_path(@conn, :show, order.id),
           data: [role: "soap-order-name"]
         ) %>
       </div>
@@ -22,7 +22,7 @@
 
   <%= link(
     "Create order",
-    to: soap_order_path(@conn, :new),
+    to: Routes.soap_order_path(@conn, :new),
     class: "mt-4 button",
     data: [role: "create-soap-order"]
   ) %>

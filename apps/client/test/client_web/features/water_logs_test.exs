@@ -9,7 +9,7 @@ defmodule ClientWeb.WaterLogsFeatureTests do
     assert [] = WaterLogs.list_filters_by_log_id(log.id)
 
     session
-    |> visit(water_log_path(@endpoint, :show, log.id, as: user.id))
+    |> visit(Routes.water_log_path(@endpoint, :show, log.id, as: user.id))
     |> click(role("view-filters-button"))
     |> click(role("create-filter-button"))
 
@@ -26,7 +26,7 @@ defmodule ClientWeb.WaterLogsFeatureTests do
     insert(:water_log_filter, water_log_id: log.id)
 
     session
-    |> visit(water_log_filters_path(@endpoint, :index, log.id, as: user.id))
+    |> visit(Routes.water_log_filters_path(@endpoint, :index, log.id, as: user.id))
     |> accept_confirm(fn session ->
       click(session, role("delete-filter-button"))
     end)

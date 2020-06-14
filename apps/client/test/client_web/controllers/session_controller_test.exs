@@ -3,7 +3,7 @@ defmodule ClientWeb.SessionControllerTest do
 
   describe "GET /api/tokentest" do
     test "responds 401 if the token is missing", %{conn: conn} do
-      conn = get(conn, session_path(conn, :token_test))
+      conn = get(conn, Routes.session_path(conn, :token_test))
       assert conn.status == 401
     end
 
@@ -14,7 +14,7 @@ defmodule ClientWeb.SessionControllerTest do
       {response, conn} =
         conn
         |> put_req_header("authorization", "Bearer #{api_token.token}")
-        |> get(session_path(conn, :token_test))
+        |> get(Routes.session_path(conn, :token_test))
         |> json_response()
 
       assert conn.status == 200

@@ -21,9 +21,9 @@ defmodule ClientWeb do
     quote do
       use Phoenix.Controller, namespace: ClientWeb
       import Plug.Conn
-      import ClientWeb.Router.Helpers
       import ClientWeb.Gettext
       import Phoenix.LiveView.Controller, only: [live_render: 3]
+      alias ClientWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -44,7 +44,6 @@ defmodule ClientWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import ClientWeb.Router.Helpers
       import ClientWeb.ErrorHelpers
       import ClientWeb.Gettext
 
@@ -56,6 +55,8 @@ defmodule ClientWeb do
           live_component: 3,
           live_component: 4
         ]
+
+      alias ClientWeb.Router.Helpers, as: Routes
     end
   end
 

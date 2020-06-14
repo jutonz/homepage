@@ -16,7 +16,7 @@
           <td class="p-2">
             <%= link(
               "Delete",
-              to: settings_api_token_path(ClientWeb.Endpoint, :delete, token.id),
+              to: Routes.settings_api_token_path(ClientWeb.Endpoint, :delete, token.id),
               method: :delete,
               data: [confirm: "Are you sure"]
             ) %>
@@ -28,7 +28,7 @@
     <div class="mt-6">
       <%= link(
         "New token",
-        to: settings_api_token_path(ClientWeb.Endpoint, :new),
+        to: Routes.settings_api_token_path(ClientWeb.Endpoint, :new),
         class: "button mt-4"
       ) %>
     </div>

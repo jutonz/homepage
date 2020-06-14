@@ -4,6 +4,6 @@
   <%= live_render(
     @conn,
     ClientWeb.Twitch.ChatView,
-    session: %{channel_name: @name}
+    session: %{"channel_name" => @name}
   ) %>
 </div>

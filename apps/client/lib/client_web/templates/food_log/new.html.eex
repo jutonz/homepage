@@ -5,6 +5,6 @@
     "form.html",
     changeset: @changeset,
     action: :create,
-    submit_path: food_log_path(ClientWeb.Endpoint, :create)
+    submit_path: Routes.food_log_path(ClientWeb.Endpoint, :create)
   ) %>
 </div>

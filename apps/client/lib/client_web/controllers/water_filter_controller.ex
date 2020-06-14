@@ -9,7 +9,7 @@ defmodule ClientWeb.WaterFilterController do
   end
 
   def create(conn, %{"water_log_id" => log_id} = params) do
-    index_path = water_log_filters_path(conn, :index, log_id)
+    index_path = Routes.water_log_filters_path(conn, :index, log_id)
 
     case WaterLogs.create_filter(params) do
       {:ok, _filter} ->
@@ -22,7 +22,7 @@ defmodule ClientWeb.WaterFilterController do
   end
 
   def delete(conn, %{"id" => id, "water_log_id" => log_id}) do
-    index_path = water_log_filters_path(conn, :index, log_id)
+    index_path = Routes.water_log_filters_path(conn, :index, log_id)
 
     case WaterLogs.delete_filter(id) do
       {:ok, _filter} ->

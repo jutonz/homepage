@@ -28,7 +28,7 @@ defmodule ClientWeb.WaterLogController do
       {:ok, log} ->
         conn
         |> put_flash(:success, "Created!")
-        |> redirect(to: water_log_path(ClientWeb.Endpoint, :show, log.id))
+        |> redirect(to: Routes.water_log_path(ClientWeb.Endpoint, :show, log.id))
 
       {:error, changeset} ->
         IO.inspect(changeset)
