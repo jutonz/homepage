@@ -244,6 +244,21 @@ jobs:
         command: |
           cd apps/client/assets
           yarn bundle:react
+    - persist_to_workspace:
+        root: apps/client/priv/static
+        paths:
+          - index.*.js
+  s3_upload:
+    working_directory: ~/code
+    docker:
+    - image: circleci/aws-cli:1
+    steps:
+    - attach_workspace:
+        at: /tmp/stuff
+    - restore_cache:
+        key: v6-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        paths: ["apps/client/assets/node_modules"]
+
 
 workflows:
   version: 2
