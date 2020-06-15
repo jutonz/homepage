@@ -1,27 +1,29 @@
-<%= for day <- ordered_days(@entries) do %>
-  <div class="mt-4">
-    <%= day %>
-  </div>
-  <%= for entry <- @entries[day] do %>
-    <%= live_component(@socket, ClientWeb.FoodLog.EntryView, id: entry[:id]) %>
-  <% end %>
+<div>
+  <%= for day <- ordered_days(@entries) do %>
+    <div class="mt-4">
+      <%= day %>
+    </div>
+    <%= for entry <- @entries[day] do %>
+      <%= live_component(@socket, ClientWeb.FoodLog.EntryView, id: entry[:id]) %>
+    <% end %>
 
-  <%= if day == @today do %>
-    <%= form_for @entry_changeset, "#", [phx_submit: "add_entry"], fn f -> %>
-      <div class="flex flex-row items-center">
-        <div>
-          <%= text_input(
-            f,
-            :description,
-            id: "food-log-entry-input",
-            phx_hook: "FoodLogEntryInput",
-            data: [role: "entry-desc-input"]
-          ) %>
-          <%= error_tag(f, :description) %>
+    <%= if day == @today do %>
+      <%= form_for @entry_changeset, "#", [phx_submit: "add_entry"], fn f -> %>
+        <div class="flex flex-row items-center">
+          <div>
+            <%= text_input(
+              f,
+              :description,
+              id: "food-log-entry-input",
+              phx_hook: "FoodLogEntryInput",
+              data: [role: "entry-desc-input"]
+            ) %>
+            <%= error_tag(f, :description) %>
+          </div>
+
+          <%= submit("Add entry", data: [role: "entry-submit"], class: "ml-4") %>
         </div>
-
-        <%= submit("Add entry", data: [role: "entry-submit"], class: "ml-4") %>
-      </div>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
+</div>

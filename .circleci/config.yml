@@ -154,6 +154,12 @@ jobs:
         name: mix dialyzer
         command: MIX_ENV=dev mix dialyzer
     - run:
+        name: yarn install
+        command: |
+          cd apps/client/assets
+          yarn install
+          cd -
+    - run:
         name: mix test
         command: mix test
     - store_artifacts:
