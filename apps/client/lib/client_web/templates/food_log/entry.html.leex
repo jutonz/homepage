@@ -1,60 +1,62 @@
-<%= if @changeset do %>
-  <div class="modal">
-    <div class="modal__content">
-      <%= form_for @changeset, "#", [phx_submit: "update_entry", phx_target: "#entry-#{@entry.id}"], fn f -> %>
-        <div class="modal__content__header">
-          <div class="text-xl">Edit entry</div>
-          <div class="text-xl absolute top-0 right-0 mr-2" phx-click="cancel_edit_entry">x</div>
-        </div>
-        <div class="modal__content__body">
-          <div class="flex flex-col items-start">
-            <div>
-              <%= text_input(
-                f,
-                :description,
-                id: "food-log-entry-update-input-#{@entry.id}",
-                phx_hook: "FoodLogEntryUpdateInput",
-                data: [role: "entry-desc-update-input"]
-              ) %>
-              <%= error_tag(f, :description) %>
+<div>
+  <%= if @changeset do %>
+    <div class="modal">
+      <div class="modal__content">
+        <%= form_for @changeset, "#", [phx_submit: "update_entry", phx_target: @myself], fn f -> %>
+          <div class="modal__content__header">
+            <div class="text-xl">Edit entry</div>
+            <div class="text-xl absolute top-0 right-0 mr-2" phx-click="cancel_edit_entry">x</div>
+          </div>
+          <div class="modal__content__body">
+            <div class="flex flex-col items-start">
+              <div>
+                <%= text_input(
+                  f,
+                  :description,
+                  id: "food-log-entry-update-input-#{@entry.id}",
+                  phx_hook: "FoodLogEntryUpdateInput",
+                  data: [role: "entry-desc-update-input"]
+                ) %>
+                <%= error_tag(f, :description) %>
+              </div>
+              <div class="mt-4 flex flex-col">
+                <%= label(f, :occurred_at, class: "mb-2") %>
+                <%= date_input(
+                  f,
+                  :occurred_at_date,
+                  data: [role: "entry-occurred-at-date-update-input"],
+                  value: Ecto.Date.cast!(@entry.occurred_at)
+                ) %>
+                <%= time_input(
+                  f,
+                  :occurred_at_time,
+                  data: [role: "entry-occurred-at-time-update-input"],
+                  value: @entry.occurred_at |> Ecto.Time.cast!() |> Ecto.Time.to_iso8601() |> String.split(".") |> hd(),
+                  class: "mt-2",
+                  step: 1
+                ) %>
+                <%= error_tag(f, :occurred_at) %>
+              </div>
             </div>
-            <div class="mt-4 flex flex-col">
-              <%= label(f, :occurred_at, class: "mb-2") %>
-              <%= date_input(
-                f,
-                :occurred_at_date,
-                data: [role: "entry-occurred-at-date-update-input"],
-                value: Ecto.Date.cast!(@entry.occurred_at)
-              ) %>
-              <%= time_input(
-                f,
-                :occurred_at_time,
-                data: [role: "entry-occurred-at-time-update-input"],
-                value: @entry.occurred_at |> Ecto.Time.cast!() |> Ecto.Time.to_iso8601() |> String.split(".") |> hd(),
-                class: "mt-2",
-                step: 1
-              ) %>
-              <%= error_tag(f, :occurred_at) %>
+          </div>
+          <div class="modal__content__footer flex justify-between">
+            <%= submit("Save", data: [role: "entry-update-submit"]) %>
+            <div
+              class="button"
+              data-role="delete-log-entry"
+              phx-click="delete_entry"
+              phx-target="<%= @myself %>"
+              data-confirm="Are you sure?"
+            >
+              Delete
             </div>
           </div>
         </div>
-        <div class="modal__content__footer flex justify-between">
-          <%= submit("Save", data: [role: "entry-update-submit"]) %>
-          <div
-            class="button"
-            data-role="delete-log-entry"
-            phx-click="delete_entry"
-            phx-target="#entry-<%= @entry.id %>"
-            data-confirm="Are you sure?"
-          >
-            Delete
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-<% end %>
+      <% end %>
+    </div>
+  <% end %>
 
-<div id="entry-<%= @entry.id %>" data-role="food-log-entry" data-entry-id="<%= @entry.id %>" class="ml-2 mb-2 mt-2" phx-click="edit_entry" phx-target="#entry-<%= @entry.id %>">
-  <%= @entry.description %>
+  <div id="entry-<%= @entry.id %>" data-role="food-log-entry" data-entry-id="<%= @entry.id %>" class="ml-2 mb-2 mt-2" phx-click="edit_entry" phx-target="<%= @myself %>">
+    <%= @entry.description %>
+  </div>
 </div>
