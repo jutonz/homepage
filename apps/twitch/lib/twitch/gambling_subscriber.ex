@@ -19,7 +19,7 @@ defmodule Twitch.GamblingSubscriber do
 
   def handle_cast({_topic, _id} = event_shadow, state) do
     event = Events.fetch_event(event_shadow)
-    {:ok, parsed} = parsed = event.data.raw_event |> Twitch.ParsedEvent.from_raw()
+    {:ok, parsed} = event.data.raw_event |> Twitch.ParsedEvent.from_raw()
 
     if res = Twitch.Gambling.gambling?(parsed) do
       {gamble_type, won, _ev} = res
