@@ -12,7 +12,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v5-test-{{ checksum "mix.lock" }}
+        key: v5-test-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
         - _build/test
         - deps
@@ -30,7 +30,7 @@ jobs:
         command: |
           mix compile --warnings-as-errors
     - save_cache:
-        key: v5-test-{{ checksum "mix.lock" }}
+        key: v5-test-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
         - _build/test
         - deps
@@ -41,7 +41,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v6-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
         - apps/client/assets/node_modules
         - _build/dev
@@ -72,7 +72,7 @@ jobs:
           mix dialyzer.build
           ls -alh _plts
     - save_cache:
-        key: v6-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
         - apps/client/assets/node_modules
         - _build/dev
@@ -90,10 +90,10 @@ jobs:
     - checkout
     - restore_cache:
         name: Restore dev cache
-        key: v6-dev-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
     - restore_cache:
         name: Restore yarn cache
-        key: v1-yarn-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v1-yarn-{{ checksum ".tool-versions" }}-{{ checksum "apps/client/assets/yarn.lock" }}
     - run:
         name: yarn install
         command: |
@@ -101,14 +101,14 @@ jobs:
           yarn install
     - save_cache:
         name: Save dev cache
-        key: v6-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-{{ checksum ".tool-versions" }}-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
         - apps/client/assets/node_modules
         - deps
         - _build/dev
     - save_cache:
         name: Save yarn cache
-        key: v1-yarn-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v1-yarn-{{ checksum ".tool-versions" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
         - ~/.cache/yarn
   mix_test:
@@ -126,10 +126,10 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v6-dev-{{ checksum "mix.lock" }}
+        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         name: Restore dev deps
     - restore_cache:
-        key: v5-test-{{ checksum "mix.lock" }}
+        key: v5-test-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         name: Restore test deps
     - restore_cache:
         key: v1-prod-static-assets-{{ .Revision }}
@@ -172,7 +172,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v6-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-{{ checksum ".tool-versions" }}-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn lint
@@ -219,7 +219,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v6-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-{{ checksum ".tool-versions" }}-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn bundle:static
@@ -237,7 +237,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v6-dev-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-{{ checksum ".tool-versions" }}-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths: ["apps/client/assets/node_modules"]
     - run:
         name: yarn bundle:react
