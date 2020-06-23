@@ -251,7 +251,7 @@ jobs:
   s3_upload:
     working_directory: ~/code
     docker:
-    - image: circleci/aws-cli:1
+    - image: amazon/aws-cli:2.0.19
     steps:
     - attach_workspace:
         at: /tmp/stuff
