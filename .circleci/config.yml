@@ -275,5 +275,7 @@ workflows:
         requires: ["yarn_install"]
     - yarn_bundle_static:
         requires: ["yarn_install"]
+    - s3_upload:
+        requires: ["yarn_bundle_static"]
     - mix_test:
         requires: ["build_test", "yarn_bundle_static"]
