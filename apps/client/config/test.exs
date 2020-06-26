@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :client, default_timezone: "Etc/UTC"
 

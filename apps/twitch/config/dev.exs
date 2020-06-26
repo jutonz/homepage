@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :twitch, Twitch.Repo,
   adapter: Ecto.Adapters.Postgres,
