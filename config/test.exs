@@ -1,5 +1,9 @@
 import Config
 
+################################################################################
+# Client config
+################################################################################
+
 config :client, default_timezone: "Etc/UTC"
 
 # We don't run a server during test. If one is required, you can enable the
@@ -53,3 +57,19 @@ config :wallaby,
       }
     }
   ]
+
+################################################################################
+# Twitch config
+################################################################################
+
+config :twitch, Twitch.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  pool: Ecto.Adapters.SQL.Sandbox,
+  database: "homepage_twitch_test",
+  hostname: "localhost",
+  username: "postgres",
+  password: nil
+
+config :twitch,
+  bttv_api_client: Twitch.BttvApiMock,
+  twitch_emotes_api_client: Twitch.TwitchEmotesApiMock
