@@ -1,5 +1,9 @@
 import Config
 
+################################################################################
+# Client config
+################################################################################
+
 # For development, we disable any cache and enable debugging and code
 # reloading.
 #
@@ -30,7 +34,7 @@ config :client, ClientWeb.Endpoint,
       "--watch",
       "--color",
       "--config=webpack-static.config.js",
-      cd: Path.expand("../assets", __DIR__)
+      cd: Path.expand("../apps/client/assets", __DIR__)
     ]
   ]
 
@@ -46,4 +50,13 @@ config :client, Client.Mailer, adapter: Bamboo.LocalAdapter
 config :client, Client.Repo,
   adapter: Ecto.Adapters.Postgres,
   database: "homepage_dev",
+  hostname: "localhost"
+
+################################################################################
+# Twitch config
+################################################################################
+
+config :twitch, Twitch.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "homepage_twitch_dev",
   hostname: "localhost"
