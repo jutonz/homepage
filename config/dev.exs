@@ -48,7 +48,6 @@ config :phoenix, :stacktrace_depth, 20
 config :client, Client.Mailer, adapter: Bamboo.LocalAdapter
 
 config :client, Client.Repo,
-  adapter: Ecto.Adapters.Postgres,
   database: "homepage_dev",
   hostname: "localhost"
 
@@ -57,6 +56,5 @@ config :client, Client.Repo,
 ################################################################################
 
 config :twitch, Twitch.Repo,
-  adapter: Ecto.Adapters.Postgres,
   database: "homepage_twitch_dev",
   hostname: "localhost"
