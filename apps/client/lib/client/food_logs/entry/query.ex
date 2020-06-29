@@ -44,7 +44,7 @@ defmodule Client.FoodLogs.Entry.Query do
 
     Enum.group_by(
       result.rows,
-      fn [date, _description, _id] -> Ecto.Date.cast!(date) end,
+      fn [date, _description, _id] -> date end,
       fn [_date, description, id] -> %{description: description, id: Ecto.UUID.cast!(id)} end
     )
   end

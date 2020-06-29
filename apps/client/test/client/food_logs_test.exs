@@ -113,7 +113,7 @@ defmodule Client.FoodLogsTest do
 
       entries = FoodLogs.list_entries_by_day(log.id)
 
-      assert entries[Ecto.Date.cast!(entry.occurred_at)] == [
+      assert entries[occurred_at(entry)] == [
                %{
                  description: entry.description,
                  id: entry.id
@@ -152,5 +152,5 @@ defmodule Client.FoodLogsTest do
   end
 
   defp occurred_at(log_entry),
-    do: Ecto.Date.cast!(log_entry.occurred_at)
+    do: NaiveDateTime.to_date(log_entry.occurred_at)
 end

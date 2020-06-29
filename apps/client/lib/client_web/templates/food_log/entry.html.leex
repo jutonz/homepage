@@ -25,13 +25,13 @@
                   f,
                   :occurred_at_date,
                   data: [role: "entry-occurred-at-date-update-input"],
-                  value: Ecto.Date.cast!(@entry.occurred_at)
+                  value: NaiveDateTime.to_date(@entry.occurred_at)
                 ) %>
                 <%= time_input(
                   f,
                   :occurred_at_time,
                   data: [role: "entry-occurred-at-time-update-input"],
-                  value: @entry.occurred_at |> Ecto.Time.cast!() |> Ecto.Time.to_iso8601() |> String.split(".") |> hd(),
+                  value: @entry.occurred_at |> NaiveDateTime.to_time() |> Time.to_iso8601(),
                   class: "mt-2",
                   step: 1
                 ) %>

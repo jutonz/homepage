@@ -71,16 +71,12 @@ defmodule ClientWeb.FoodLog.EntryView do
   end
 
   defp combine_date_and_time(entry_params) do
-    date = Ecto.Date.cast!(entry_params["occurred_at_date"])
-    time = Ecto.Time.cast!(entry_params["occurred_at_time"])
-
-    occurred_at =
-      date
-      |> Ecto.DateTime.from_date_and_time(time)
-      |> Ecto.DateTime.to_iso8601()
+    date = entry_params["occurred_at_date"]
+    time = entry_params["occurred_at_time"]
+    iso8601_occurred_at = "#{date}T#{time}Z"
 
     entry_params
     |> Map.drop(~w[occurred_at_date occurred_at_time])
-    |> Map.put("occurred_at", occurred_at)
+    |> Map.put("occurred_at", iso8601_occurred_at)
   end
 end

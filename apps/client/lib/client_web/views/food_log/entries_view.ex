@@ -72,5 +72,5 @@ defmodule ClientWeb.FoodLog.EntriesView do
   end
 
   defp today,
-    do: Ecto.Date.cast!(now())
+    do: DateTime.to_date(now())
 end
