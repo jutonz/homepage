@@ -57,7 +57,7 @@ defmodule Client.IjustEvent do
     {:ok, %{ijust_event: event}} =
       Ecto.Multi.new()
       |> Ecto.Multi.insert(:ijust_event, cset)
-      |> Ecto.Multi.run(:ijust_occurrence, fn %{ijust_event: event} ->
+      |> Ecto.Multi.run(:ijust_occurrence, fn _repo, %{ijust_event: event} ->
         event.id |> new_occurrence_changeset |> Repo.insert()
       end)
       |> Repo.transaction()

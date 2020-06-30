@@ -24,20 +24,16 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
   end
 
   def resubscribe_chat_and_emotes do
-    Twitch.Repo.transaction(fn ->
-      ChannelQuery.user_channels()
-      |> Twitch.Repo.stream()
-      |> Stream.each(&subscribe_to_emotes(&1.name))
-      |> Enum.each(&subscribe_to_chat(&1.name))
-    end)
+    ChannelQuery.user_channels()
+    |> Twitch.Repo.all()
+    |> Stream.each(&subscribe_to_emotes(&1.name))
+    |> Enum.each(&subscribe_to_chat(&1.name))
   end
 
   def resubscribe_streamelements do
-    Twitch.Repo.transaction(fn ->
-      ChannelQuery.user_channels()
-      |> Twitch.Repo.stream()
-      |> Enum.each(&subscribe_to_streamelements(&1.user, &1.name))
-    end)
+    ChannelQuery.user_channels()
+    |> Twitch.Repo.all()
+    |> Enum.each(&subscribe_to_streamelements(&1.user, &1.name))
   end
 
   def subscribe_to_channel(channel, twitch_user) do
