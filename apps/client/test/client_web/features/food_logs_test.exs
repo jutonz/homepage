@@ -92,9 +92,8 @@ defmodule ClientWeb.FoodLogs.AddEntryTest do
       updated_entry.occurred_at
       |> NaiveDateTime.add(5 * 60 * 60, :second)
       |> NaiveDateTime.to_iso8601()
-      |> String.replace(~r/\.\d*$/, "Z")
 
-    assert iso_time == updated_occurred_at
+    assert iso_time == "#{updated_occurred_at}Z"
   end
 
   test "it allows deleting entries", %{session: session} do
