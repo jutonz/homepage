@@ -72,9 +72,8 @@ jobs:
           mix dialyzer.build
           ls -alh _plts
     - save_cache:
-        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
-        - apps/client/assets/node_modules
         - _build/dev
         - deps
     - save_cache:
@@ -133,9 +132,6 @@ jobs:
         key: v1-prod-static-assets-{{ .Revision }}
         name: Restore static assets
     - restore_cache:
-        key: v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
-        name: Restore PLT's
-    - restore_cache:
         name: Restore node_modules cache
         key: v1-npm-{{ checksum ".tool-versions" }}-{{ checksum "apps/client/assets/yarn.lock" }}
     - run:
@@ -151,15 +147,6 @@ jobs:
     - run:
         name: Create DB
         command: mix do ecto.create, ecto.migrate
-    - run:
-        name: mix dialyzer
-        command: MIX_ENV=dev mix dialyzer
-    - run:
-        name: yarn install
-        command: |
-          cd apps/client/assets
-          yarn install
-          cd -
     - run:
         name: mix test
         command: mix test
@@ -187,6 +174,25 @@ jobs:
     steps:
     - checkout
     - run: mix format --check-formatted
+  mix_dialyzer:
+    working_directory: ~/code
+    docker:
+    - image: circleci/elixir:1.10
+    steps:
+    - checkout
+    - restore_cache:
+        name: Restore PLT's
+        keys:
+        - v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        - v2-plts-{{ checksum ".tool-versions" }}-
+    - restore_cache:
+        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+    - run:
+        name: Setup hex
+        command: |
+          mix local.hex --force
+          mix local.rebar --force
+    - run: mix dialyzer
 
   build_prod:
     working_directory: ~/code
@@ -255,6 +261,8 @@ workflows:
     - build_prod
     - yarn_install
     - mix_format:
+        requires: ["build_dev"]
+    - mix_dialyzer:
         requires: ["build_dev"]
     - yarn_lint:
         requires: ["yarn_install"]
