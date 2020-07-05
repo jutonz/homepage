@@ -27,7 +27,7 @@ config :client, Client.Mailer,
   api_key: {:system, "SENDGRID_API_KEY"}
 
 db_url = System.get_env("DATABASE_URL")
-db_pool_size = System.get_env("POOL_SIZE") || "10" |> String.to_integer()
+db_pool_size = (System.get_env("POOL_SIZE") || "10") |> String.to_integer()
 
 config :client, Client.Repo,
   adapter: Ecto.Adapters.Postgres,
@@ -50,7 +50,7 @@ config :sentry,
 ################################################################################
 
 db_url = System.get_env("TWITCH_DATABASE_URL")
-db_pool_size = System.get_env("POOL_SIZE") || "10" |> String.to_integer()
+db_pool_size = (System.get_env("POOL_SIZE") || "10") |> String.to_integer()
 
 config :twitch, Twitch.Repo,
   adapter: Ecto.Adapters.Postgres,
