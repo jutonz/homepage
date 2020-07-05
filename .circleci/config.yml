@@ -89,8 +89,8 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        name: Restore dev cache
-        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        name: Restore node_modules cache
+        key: v1-npm-{{ checksum ".tool-versions" }}-{{ checksum "apps/client/assets/yarn.lock" }}
     - restore_cache:
         name: Restore yarn cache
         key: v1-yarn-{{ checksum ".tool-versions" }}-{{ checksum "apps/client/assets/yarn.lock" }}
@@ -100,12 +100,10 @@ jobs:
           cd apps/client/assets
           yarn install
     - save_cache:
-        name: Save dev cache
-        key: v6-dev-{{ checksum ".tool-versions" }}-w-node-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
+        name: Save node_modules cache
+        key: v1-npm-{{ checksum ".tool-versions" }}-{{ checksum "apps/client/assets/yarn.lock" }}
         paths:
-        - apps/client/assets/node_modules
-        - deps
-        - _build/dev
+        - apps/clients/assets/node_modules
     - save_cache:
         name: Save yarn cache
         key: v1-yarn-{{ checksum ".tool-versions" }}-{{ checksum "apps/client/assets/yarn.lock" }}
@@ -137,6 +135,9 @@ jobs:
     - restore_cache:
         key: v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         name: Restore PLT's
+    - restore_cache:
+        name: Restore node_modules cache
+        key: v1-npm-{{ checksum ".tool-versions" }}-{{ checksum "apps/client/assets/yarn.lock" }}
     - run:
         name: Write twitch secret master key to file
         command: |
