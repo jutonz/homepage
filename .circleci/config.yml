@@ -252,9 +252,7 @@ workflows:
     - build_test
     - build_dev
     - build_prod
-
-    - yarn_install:
-        requires: ["build_dev"]
+    - yarn_install
     - mix_format:
         requires: ["build_dev"]
     - yarn_lint:
