@@ -53,11 +53,11 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}-{{ checksum "apps/client/assets/yarn.lock" }}
-        paths:
-        - apps/client/assets/node_modules
-        - _build/dev
-        - deps
+        name: Restore mix deps
+        key: v1-mix-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+    - restore_cache:
+        name: Restore compiled deps
+        key: v7-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
     - restore_cache:
         name: Restore PLT's
         keys:
@@ -68,14 +68,8 @@ jobs:
         command: |
           mix local.hex --force
           mix local.rebar --force
-    - run:
-        name: Install deps
-        command: |
-          mix deps.get
-    - run:
-        name: Compile
-        command: |
-          mix compile --warnings-as-errors
+    - run: mix deps.compile
+    - run: mix compile --warnings-as-errors
     - run:
         name: Build PLT's
         command: |
@@ -84,10 +78,9 @@ jobs:
           mix dialyzer.build
           ls -alh _plts
     - save_cache:
-        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        key: v7-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
         - _build/dev
-        - deps
     - save_cache:
         key: v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
@@ -135,7 +128,7 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        key: v7-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         name: Restore dev deps
     - restore_cache:
         key: v6-test-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
@@ -197,7 +190,11 @@ jobs:
         - v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         - v2-plts-{{ checksum ".tool-versions" }}-
     - restore_cache:
-        key: v6-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        name: Restore mix deps
+        key: v1-mix-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+    - restore_cache:
+        name: Restore compiled deps
+        key: v7-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
     - run:
         name: Setup hex
         command: |
@@ -265,7 +262,8 @@ workflows:
     - mix_deps_get
     - build_test:
         requires: ["mix_deps_get"]
-    - build_dev
+    - build_dev:
+        requires: ["mix_deps_get"]
     - build_prod
     - yarn_install
     - mix_format:
