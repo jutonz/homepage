@@ -211,19 +211,22 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-prod-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        name: Restore mix deps
+        key: v1-mix-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+    - restore_cache:
+        name: Restore compiled deps
+        key: v2-prod-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
     - run:
         name: Setup hex
         command: |
           mix local.hex --force
           mix local.rebar --force
-    - run: mix deps.get --only $MIX_ENV
+    - run: mix deps.compile
     - run: mix compile --warnings-as-errors
     - save_cache:
-        key: v1-prod-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        key: v2-prod-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
         - _build/prod
-        - deps
   yarn_bundle_static:
     working_directory: ~/code
     docker:
@@ -264,7 +267,8 @@ workflows:
         requires: ["mix_deps_get"]
     - build_dev:
         requires: ["mix_deps_get"]
-    - build_prod
+    - build_prod:
+        requires: ["mix_deps_get"]
     - yarn_install
     - mix_format:
         requires: ["build_dev"]
