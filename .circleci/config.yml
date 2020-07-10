@@ -68,6 +68,7 @@ jobs:
         command: |
           mix local.hex --force
           mix local.rebar --force
+    - run: ls -alh _build/dev/lib
     - run: mix deps.compile
     - run: mix compile --warnings-as-errors
     - run:
