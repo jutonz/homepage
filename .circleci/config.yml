@@ -13,22 +13,13 @@ jobs:
     - checkout
     - restore_cache:
         key: v5-test-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
-        paths:
-        - _build/test
-        - deps
     - run:
         name: Setup hex
         command: |
           mix local.hex --force
           mix local.rebar --force
-    - run:
-        name: Install deps
-        command: |
-          mix deps.get
-    - run:
-        name: Install deps
-        command: |
-          mix compile --warnings-as-errors
+    - run: mix depx.get --only $MIX_ENV
+    - run: mix compile --warnings-as-errors
     - save_cache:
         key: v5-test-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
@@ -202,19 +193,16 @@ jobs:
     steps:
     - checkout
     - restore_cache:
-        key: v1-prod-{{ checksum "mix.lock" }}
-        paths:
-        - _build/prod
-        - deps
+        key: v1-prod-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
     - run:
         name: Setup hex
         command: |
           mix local.hex --force
           mix local.rebar --force
-          mix deps.get
-          mix compile --warnings-as-errors
+    - run: mix deps.get --only $MIX_ENV
+    - run: mix compile --warnings-as-errors
     - save_cache:
-        key: v1-prod-{{ checksum "mix.lock" }}
+        key: v1-prod-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
         - _build/prod
         - deps
