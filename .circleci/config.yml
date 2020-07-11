@@ -57,7 +57,7 @@ jobs:
         key: v1-mix-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
     - restore_cache:
         name: Restore compiled deps
-        key: v7-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        key: v8-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
     - restore_cache:
         name: Restore PLT's
         keys:
@@ -68,7 +68,6 @@ jobs:
         command: |
           mix local.hex --force
           mix local.rebar --force
-    - run: find _build/ -type f -exec touch {} +
     - run: mix deps.compile
     - run: mix compile --warnings-as-errors
     - run:
@@ -79,9 +78,10 @@ jobs:
           mix dialyzer.build
           ls -alh _plts
     - save_cache:
-        key: v7-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        key: v8-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
         - _build/dev
+        - deps
     - save_cache:
         key: v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
@@ -191,11 +191,8 @@ jobs:
         - v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         - v2-plts-{{ checksum ".tool-versions" }}-
     - restore_cache:
-        name: Restore mix deps
-        key: v1-mix-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
-    - restore_cache:
         name: Restore compiled deps
-        key: v7-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        key: v8-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
     - run:
         name: Setup hex
         command: |
