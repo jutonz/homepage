@@ -24,6 +24,18 @@ defmodule Client.Soap do
     Repo.all(query)
   end
 
+  def list_ingredients(user_id) do
+    query =
+      from(
+        i in Ingredient,
+        join: o in Order,
+        on: i.order_id == o.id,
+        where: o.user_id == ^user_id
+      )
+
+    Repo.all(query)
+  end
+
   ##############################################################################
   # Changesets
   ##############################################################################
