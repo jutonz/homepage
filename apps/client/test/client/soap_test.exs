@@ -35,4 +35,27 @@ defmodule Client.SoapTest do
       assert is_nil(actual)
     end
   end
+
+  describe "list_ingredients/1" do
+    test "lists a user's ingredients" do
+      me = insert(:user)
+      my_order = insert(:soap_order, user_id: me.id)
+      my_ingredient = insert(:soap_ingredient, order_id: my_order.id)
+
+      actual = Soap.list_ingredients(me.id)
+
+      assert actual == [my_ingredient]
+    end
+
+    test "doesn't list someone else's ingredients" do
+      me = insert(:user)
+      another_user = insert(:user)
+      another_order = insert(:soap_order, user_id: another_user.id)
+      _another_ingredient = insert(:soap_ingredient, order_id: another_order.id)
+
+      actual = Soap.list_ingredients(me.id)
+
+      assert actual == []
+    end
+  end
 end
