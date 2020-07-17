@@ -43,8 +43,8 @@ jobs:
     - run:
         name: Touch files
         command: |
-          find _build/** -type f -exec touch {} +
-          find deps/** -type f -exec touch {} +
+          find _build/** -type f -exec touch {} + || true
+          find deps/** -type f -exec touch {} + || true
     - run: mix deps.compile
     - run: mix compile --warnings-as-errors
     - save_cache:
@@ -77,8 +77,8 @@ jobs:
     - run:
         name: Touch files
         command: |
-          find _build/** -type f -exec touch {} +
-          find deps/** -type f -exec touch {} +
+          find _build/** -type f -exec touch {} + || true
+          find deps/** -type f -exec touch {} + || true
     - run: mix deps.compile
     - run: mix compile --warnings-as-errors
     - run:
@@ -230,8 +230,8 @@ jobs:
     - run:
         name: Touch files
         command: |
-          find _build/** -type f -exec touch {} +
-          find deps/** -type f -exec touch {} +
+          find _build/** -type f -exec touch {} + || true
+          find deps/** -type f -exec touch {} + || true
     - run: mix deps.compile
     - run: mix compile --warnings-as-errors
     - save_cache:
