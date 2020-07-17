@@ -22,7 +22,8 @@ config :client, Client.Repo,
   hostname: "localhost",
   username: "postgres",
   password: nil,
-  ownership_timeout: :infinity
+  ownership_timeout: :infinity,
+  pool_size: 20
 
 # Default capabilities copied from here:
 # https://github.com/elixir-wallaby/wallaby/blob/master/lib/wallaby/experimental/chrome.ex#L74
@@ -68,7 +69,8 @@ config :twitch, Twitch.Repo,
   database: "homepage_twitch_test",
   hostname: "localhost",
   username: "postgres",
-  password: nil
+  password: nil,
+  pool_size: 20
 
 config :twitch,
   bttv_api_client: Twitch.BttvApiMock,
