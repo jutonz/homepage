@@ -28,6 +28,7 @@ config :client,
   default_timezone: "EST"
 
 config :phoenix,
+  json_library: Jason,
   template_engines: [leex: Phoenix.LiveView.Engine]
 
 secret_key_base =
@@ -38,14 +39,9 @@ config :client, ClientWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: secret_key_base,
   render_errors: [view: ClientWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: Client.PubSub, adapter: Phoenix.PubSub.PG2],
+  pubsub_server: Client.PubSub,
   live_view: [
     signing_salt: "GakYThHq3i8b2wE+W12iNNKrwEzMkq6d"
-  ],
-  pubsub: [
-    adapter: Phoenix.PubSub.PG2,
-    pool_size: 1,
-    name: Client.PubSub
   ]
 
 config :logger, :console, format: "$time $metadata[$level] $message\n", metadata: [:request_id]
