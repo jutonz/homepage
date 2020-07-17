@@ -40,6 +40,11 @@ jobs:
         command: |
           mix local.hex --force
           mix local.rebar --force
+    - run:
+        name: Touch files
+        command: |
+          find _build/** -type f -exec touch {} +
+          find deps/** -type f -exec touch {} +
     - run: mix deps.compile
     - run: mix compile --warnings-as-errors
     - save_cache:
@@ -69,6 +74,11 @@ jobs:
         command: |
           mix local.hex --force
           mix local.rebar --force
+    - run:
+        name: Touch files
+        command: |
+          find _build/** -type f -exec touch {} +
+          find deps/** -type f -exec touch {} +
     - run: mix deps.compile
     - run: mix compile --warnings-as-errors
     - run:
@@ -211,18 +221,24 @@ jobs:
         key: v1-mix-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
     - restore_cache:
         name: Restore compiled deps
-        key: v2-prod-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        key: v3-prod-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
     - run:
         name: Setup hex
         command: |
           mix local.hex --force
           mix local.rebar --force
+    - run:
+        name: Touch files
+        command: |
+          find _build/** -type f -exec touch {} +
+          find deps/** -type f -exec touch {} +
     - run: mix deps.compile
     - run: mix compile --warnings-as-errors
     - save_cache:
-        key: v2-prod-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        key: v3-prod-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
         - _build/prod
+        - deps
   yarn_bundle_static:
     working_directory: ~/code
     docker:
