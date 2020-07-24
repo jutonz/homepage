@@ -32,7 +32,7 @@ defmodule Twitch.MixProject do
       {:httpoison, "~> 1.3"},
       {:gen_stage, "~> 1.0.0"},
       {:websockex, "~> 0.4.1"},
-      {:exirc, "~> 1.0"},
+      {:exirc, "~> 2.0"},
       {:ecto_sql, "~> 3.0"},
       {:postgrex, "~> 0.14"},
       {:poison, "~> 3.1"},
