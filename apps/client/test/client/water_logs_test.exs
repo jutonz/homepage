@@ -32,6 +32,22 @@ defmodule Client.WaterLogsTest do
     end
   end
 
+  describe "get_by_user_id/2" do
+    test "retuns my log" do
+      me = insert(:user)
+      my_log = insert(:water_log, user_id: me.id)
+
+      assert WaterLogs.get_by_user_id(me.id, my_log.id).id == my_log.id
+    end
+
+    test "doesn't return someone else's log" do
+      me = insert(:user)
+      not_my_log = insert(:water_log)
+
+      assert WaterLogs.get_by_user_id(me.id, not_my_log.id) == nil
+    end
+  end
+
   describe "list_filters_by_log_id/1" do
     test "is empty if there are no filters" do
       assert [] = WaterLogs.list_filters_by_log_id(Ecto.UUID.generate())

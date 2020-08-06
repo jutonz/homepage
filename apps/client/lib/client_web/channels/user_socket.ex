@@ -1,8 +1,11 @@
 defmodule ClientWeb.UserSocket do
   use Phoenix.Socket
+  alias Client.ApiTokens
 
   ## Channels
   # channel "room:*", ClientWeb.RoomChannel
+
+  channel("water_log:*", ClientWeb.WaterLogChannel)
 
   ## Transports
   # transport(:websocket, Phoenix.Transports.WebSocket)
@@ -19,8 +22,18 @@ defmodule ClientWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    {:ok, socket}
+  def connect(%{"token" => token} = _params, socket) do
+    case ApiTokens.get_by_token(token) do
+      nil ->
+        :error
+
+      api_token ->
+        assigns = %{
+          api_token: api_token.token,
+          user_id: api_token.user_id
+        }
+        {:ok, assign(socket, assigns)}
+    end
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
