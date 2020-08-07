@@ -31,8 +31,20 @@ defmodule ClientWeb.WaterLogChannel do
       water_log_id: socket.assigns[:water_log_id]
     }
 
+    Phoenix.PubSub.broadcast!(
+      Client.PubSub,
+      "water_log_internal:#{socket.assigns[:water_log_id]}",
+      {:saving, %{"ml" => ml}}
+    )
+
     case WaterLogs.create_entry(entry_params) |> IO.inspect() do
       {:ok, _entry} ->
+        Phoenix.PubSub.broadcast!(
+          Client.PubSub,
+          "water_log_internal:#{socket.assigns[:water_log_id]}",
+          :saved
+        )
+
         {:noreply, assign(socket, :ml, 0)}
 
       {:error, changeset} ->
