@@ -9,6 +9,7 @@ defmodule Client.Application do
     children = [
       supervisor(Client.Repo, []),
       supervisor(ClientWeb.Endpoint, []),
+      {Phoenix.PubSub, name: Client.PubSub},
       worker(Client.UserServer, [[name: :user_server]]),
       Client.TwitchServer
     ]

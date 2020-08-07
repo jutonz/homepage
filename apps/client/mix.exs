@@ -37,15 +37,15 @@ defmodule Client.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "1.4.17"},
-      {:phoenix_pubsub, "~> 1.0"},
+      {:phoenix, "1.5.3"},
+      {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},
       {:postgrex, "~> 0.14"},
       {:ecto_sql, "~> 3.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
-      {:plug_cowboy, "~> 2.0"},
+      {:plug_cowboy, "~> 2.1"},
       {:absinthe_ecto, "~> 0.1"},
       {:absinthe_plug, "~> 1.4"},
       {:cors_plug, "~> 2.0"},
