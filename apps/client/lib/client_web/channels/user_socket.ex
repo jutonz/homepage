@@ -32,6 +32,7 @@ defmodule ClientWeb.UserSocket do
           api_token: api_token.token,
           user_id: api_token.user_id
         }
+
         {:ok, assign(socket, assigns)}
     end
   end

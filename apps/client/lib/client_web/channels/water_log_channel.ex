@@ -5,6 +5,7 @@ defmodule ClientWeb.WaterLogChannel do
 
   def join("water_log:" <> water_log_id, _msg, socket) do
     user_id = socket.assigns[:user_id]
+
     case WaterLogs.get_by_user_id(user_id, water_log_id) do
       nil -> {:error, %{"reason" => "no such water log"}}
       _log -> {:ok, assign(socket, :water_log_id, water_log_id)}
@@ -13,11 +14,13 @@ defmodule ClientWeb.WaterLogChannel do
 
   def handle_in("set_ml", %{"ml" => ml}, socket) do
     Logger.info("Setting ml to #{ml} #{inspect(socket.assigns)}")
+
     Phoenix.PubSub.broadcast!(
       Client.PubSub,
       "water_log_internal:#{socket.assigns[:water_log_id]}",
       {:set_ml, %{"ml" => ml}}
     )
+
     {:noreply, assign(socket, :ml, ml)}
   end
 
@@ -36,6 +39,7 @@ defmodule ClientWeb.WaterLogChannel do
         error = %{
           "error" => Client.Util.errors_to_sentence(changeset)
         }
+
         {:reply, {:error, error}, socket}
     end
   end
