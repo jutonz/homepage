@@ -15,6 +15,7 @@ defmodule ClientWeb.Router do
     plug(:fetch_live_flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug(:put_root_layout, {ClientWeb.LayoutView, :app})
 
     if Mix.env() == :test do
       plug(ClientWeb.Plugs.TestAuthHelper)
@@ -33,6 +34,7 @@ defmodule ClientWeb.Router do
 
     resources("/water-logs", WaterLogController, only: ~w[index new create show]a) do
       resources("/filters", WaterFilterController, only: ~w[index create delete]a, as: :filters)
+      live("/kiosk", WaterLogKioskLive)
     end
 
     scope("/settings", Settings, as: :settings) do

@@ -12,7 +12,12 @@ defmodule ClientWeb.WaterLogChannel do
   end
 
   def handle_in("set_ml", %{"ml" => ml}, socket) do
-    Logger.info("Setting ml to #{ml}")
+    Logger.info("Setting ml to #{ml} #{inspect(socket.assigns)}")
+    Phoenix.PubSub.broadcast!(
+      Client.PubSub,
+      "water_log_internal:#{socket.assigns[:water_log_id]}",
+      {:set_ml, %{"ml" => ml}}
+    )
     {:noreply, assign(socket, :ml, ml)}
   end
 
