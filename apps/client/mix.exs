@@ -52,7 +52,7 @@ defmodule Client.Mixfile do
       {:plug_static_index_html, "~> 1.0"},
       {:gen_stage, "~> 1.0.0"},
       {:bamboo, "~> 1.1"},
-      {:sentry, "~> 7.0"},
+      {:sentry, "~> 8.0"},
       {:jason, "~> 1.1"},
       # TODO: Switch back to a tag once 0.24 is released
       # (we need custom capabilities to enable javascript on CI)
