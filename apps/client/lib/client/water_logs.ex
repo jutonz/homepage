@@ -39,6 +39,20 @@ defmodule Client.WaterLogs do
   def get_filter(id),
     do: Repo.get(Filter, id)
 
+  def get_amount_dispensed(id) do
+    query =
+      from(
+        entry in Entry,
+        where: entry.water_log_id == ^id,
+        select: sum(entry.ml)
+      )
+
+    case Repo.one(query) do
+      nil -> 0
+      amount -> amount
+    end
+  end
+
   def list_by_user_id(user_id) do
     query = from(log in WaterLog, where: log.user_id == ^user_id)
     Repo.all(query)
