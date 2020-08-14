@@ -14,14 +14,12 @@ defmodule ClientWeb.WaterLogKioskLive do
           Waiting for activity
         <% else %>
           Dispensed <%= @ml %> ml
+          <%= if @saving do %>
+            (Saving...)
+          <% end %>
         <% end %>
       </div>
 
-      <%= if @saving do %>
-        <div class="mt-3 text-xl">
-          Saving...
-        </div>
-      <% end %>
 
       <div class="mt-5 text-xl">
         Total dispensed: <%= Util.format_number(@total_ml) %> ml
