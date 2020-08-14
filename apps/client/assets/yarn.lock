@@ -5406,10 +5406,10 @@ pdfjs-dist@^2.0.205:
     node-ensure "^0.0.0"
     worker-loader "^1.1.1"
 
-phoenix@1.5.3:
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.5.3.tgz#994487b67adc8ca683f76c41dca3271e476184bd"
-  integrity sha512-wcyHTac54uxpyycKsdXfSpN+5YuYwaXQnkLahxseznDn+V5K3mIEJg+d6QhLBdrn5/0pWIPE7bBC6SBswnIvOg==
+phoenix@1.5.4:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.5.4.tgz#d42bb537f03f55076b4e7a6757fe29318a8439f0"
+  integrity sha512-mTxseCKWDgrBQRIriqzvxL+QH5xruu6KQPqFdDx0jrdu/nqWCo914MLihVksn7SV2Bol3T+e/VtovJgC5UZT+w==
 
 phoenix_html@2.14.2:
   version "2.14.2"
