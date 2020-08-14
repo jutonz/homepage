@@ -1,22 +1,29 @@
 defmodule ClientWeb.WaterLogKioskLive do
   require Logger
   use Phoenix.LiveView
+  alias Client.WaterLogs
 
   def render(assigns) do
     ~L"""
-    <h3 class="m-4">
-      <%= if @ml == 0 do %>
-        Waiting for activity
-      <% else %>
-        Dispensed <%= @ml %> ml
-      <% end %>
-    </h3>
+    <div class="m-4">
+      <div class="text-3xl">
+        <%= if @ml == 0 do %>
+          Waiting for activity
+        <% else %>
+          Dispensed <%= @ml %> ml
+        <% end %>
+      </div>
 
-    <%= if @saving do %>
-      <h3 class="mt-3">
-        Saving...
-      </h3>
-    <% end %>
+      <%= if @saving do %>
+        <div class="mt-3 text-xl">
+          Saving...
+        </div>
+      <% end %>
+
+      <div class="mt-5 text-xl">
+        Total dispensed: <%= @total_ml %> ml
+      </div>
+    </div>
     """
   end
 
@@ -27,7 +34,12 @@ defmodule ClientWeb.WaterLogKioskLive do
       :ok = Phoenix.PubSub.subscribe(Client.PubSub, topic, link: true)
     end
 
-    assigns = %{ml: 0, saving: false}
+    assigns = %{
+      ml: 0,
+      saving: false,
+      total_ml: WaterLogs.get_amount_dispensed(log_id)
+    }
+
     {:ok, assign(socket, assigns)}
   end
 
