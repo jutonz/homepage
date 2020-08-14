@@ -37,6 +37,7 @@ defmodule ClientWeb.WaterLogKioskLive do
     assigns = %{
       ml: 0,
       saving: false,
+      log_id: log_id,
       total_ml: WaterLogs.get_amount_dispensed(log_id)
     }
 
@@ -52,6 +53,12 @@ defmodule ClientWeb.WaterLogKioskLive do
   end
 
   def handle_info(:saved, socket) do
-    {:noreply, assign(socket, %{saving: false, ml: 0})}
+    assigns = %{
+      saving: false,
+      ml: 0,
+      total_ml: WaterLogs.get_amount_dispensed(socket.assigns[:log_id])
+    }
+
+    {:noreply, assign(socket, assigns)}
   end
 end
