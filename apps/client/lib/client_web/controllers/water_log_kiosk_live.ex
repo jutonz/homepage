@@ -1,7 +1,10 @@
 defmodule ClientWeb.WaterLogKioskLive do
   require Logger
   use Phoenix.LiveView
-  alias Client.WaterLogs
+  alias Client.{
+    Util,
+    WaterLogs
+  }
 
   def render(assigns) do
     ~L"""
@@ -21,7 +24,7 @@ defmodule ClientWeb.WaterLogKioskLive do
       <% end %>
 
       <div class="mt-5 text-xl">
-        Total dispensed: <%= @total_ml %> ml
+        Total dispensed: <%= Util.format_number(@total_ml) %> ml
       </div>
     </div>
     """
