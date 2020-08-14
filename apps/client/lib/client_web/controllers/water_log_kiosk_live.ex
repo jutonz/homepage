@@ -1,6 +1,7 @@
 defmodule ClientWeb.WaterLogKioskLive do
   require Logger
   use Phoenix.LiveView
+
   alias Client.{
     Util,
     WaterLogs

@@ -72,15 +72,15 @@ defmodule Client.UtilTest do
     end
 
     test "returns 300000 as 300,000" do
-      assert Util.format_number(300000) == "300,000"
+      assert Util.format_number(300_000) == "300,000"
     end
 
     test "returns 3000000 as 3,000,000" do
-      assert Util.format_number(3000000) == "3,000,000"
+      assert Util.format_number(3_000_000) == "3,000,000"
     end
 
     test "returns 3000000000 as 3,000,000,000" do
-      assert Util.format_number(3000000000) == "3,000,000,000"
+      assert Util.format_number(3_000_000_000) == "3,000,000,000"
     end
 
     test "formats a negative number" do
