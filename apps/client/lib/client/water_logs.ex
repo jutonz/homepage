@@ -32,6 +32,10 @@ defmodule Client.WaterLogs do
   def get(id),
     do: Repo.get(WaterLog, id)
 
+  def get_by_user_id(user_id, id) do
+    Repo.get_by(WaterLog, id: id, user_id: user_id)
+  end
+
   def get_filter(id),
     do: Repo.get(Filter, id)
 
