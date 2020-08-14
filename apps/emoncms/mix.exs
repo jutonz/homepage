@@ -27,7 +27,7 @@ defmodule Emoncms.MixProject do
     [
       {:httpoison, "~> 1.5"},
       {:timex, "~> 3.1"},
-      {:poison, "~> 3.0"}
+      {:poison, "~> 4.0"}
     ]
   end
 end
