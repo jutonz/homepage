@@ -17,4 +17,15 @@ defmodule Client.Util do
     end)
     |> Enum.join(", ")
   end
+
+  @spec format_number(number()) :: String.t()
+  def format_number(number) do
+    number
+    |> Integer.to_string()
+    |> String.graphemes()
+    |> Enum.reverse()
+    |> Stream.chunk_every(3)
+    |> Enum.join(",")
+    |> String.reverse()
+  end
 end

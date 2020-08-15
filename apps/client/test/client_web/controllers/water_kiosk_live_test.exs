@@ -66,9 +66,9 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
     {:ok, view, html} = live(conn, path)
     assert html =~ "Total dispensed: 0 ml"
 
-    insert(:water_log_entry, water_log_id: log.id, ml: 123)
+    insert(:water_log_entry, water_log_id: log.id, ml: 3000)
     publish_event(log.id, :saved)
-    assert render(view) =~ "Total dispensed: 123 ml"
+    assert render(view) =~ "Total dispensed: 3,000 ml"
   end
 
   defp publish_event(log_id, event) do

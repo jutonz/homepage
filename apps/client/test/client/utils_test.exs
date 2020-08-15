@@ -53,4 +53,38 @@ defmodule Client.UtilTest do
       assert errors == "blah should be 3 character(s)"
     end
   end
+
+  describe "format_number/1" do
+    test "returns 3 unformatted" do
+      assert Util.format_number(3) == "3"
+    end
+
+    test "returns 30 unformatted" do
+      assert Util.format_number(30) == "30"
+    end
+
+    test "returns 300 unformatted" do
+      assert Util.format_number(300) == "300"
+    end
+
+    test "returns 3000 as 3,000" do
+      assert Util.format_number(3000) == "3,000"
+    end
+
+    test "returns 300000 as 300,000" do
+      assert Util.format_number(300_000) == "300,000"
+    end
+
+    test "returns 3000000 as 3,000,000" do
+      assert Util.format_number(3_000_000) == "3,000,000"
+    end
+
+    test "returns 3000000000 as 3,000,000,000" do
+      assert Util.format_number(3_000_000_000) == "3,000,000,000"
+    end
+
+    test "formats a negative number" do
+      assert Util.format_number(-1000) == "-1,000"
+    end
+  end
 end
