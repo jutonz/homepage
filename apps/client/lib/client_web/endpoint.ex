@@ -1,4 +1,5 @@
 defmodule ClientWeb.Endpoint do
+  use Sentry.PlugCapture
   use Phoenix.Endpoint, otp_app: :client
 
   @session_opts [
@@ -47,6 +48,8 @@ defmodule ClientWeb.Endpoint do
     json_decoder: Poison,
     body_reader: {ClientWeb.CacheBodyReader, :read_body, []}
   )
+
+  plug(Sentry.PlugContext)
 
   plug(CORSPlug, origin: ["http://localhost:4001"])
   plug(Plug.MethodOverride)
