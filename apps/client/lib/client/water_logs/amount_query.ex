@@ -9,17 +9,28 @@ defmodule Client.WaterLogs.AmountQuery do
   alias Client.WaterLogs.Entry
 
   @type opts :: [start_at: DateTime.t(), end_at: DateTime.t() | nil]
-
   @spec get_amount_dispensed(String.t(), opts()) :: non_neg_integer()
   def get_amount_dispensed(log_id, opts) do
-    now = :client |> Application.fetch_env!(:default_timezone) |> DateTime.now!()
-    start_at = opts |> Keyword.fetch!(:start_at) |> DateTime.shift_zone!("Etc/UTC")
-    end_at = opts |> Keyword.get(:end_at, now) |> DateTime.shift_zone!("Etc/UTC")
+    now =
+      :client
+      |> Application.fetch_env!(:default_timezone)
+      |> DateTime.now!()
+
+    start_at =
+      opts
+      |> Keyword.fetch!(:start_at)
+      |> DateTime.shift_zone!("Etc/UTC")
+
+    end_at =
+      opts
+      |> Keyword.get(:end_at, now)
+      |> DateTime.shift_zone!("Etc/UTC")
 
     get_amount_dispensed(log_id, start_at, end_at)
   end
 
-  @spec get_amount_dispensed(String.t(), DateTime.t(), DateTime.t()) :: non_neg_integer()
+  @spec get_amount_dispensed(String.t(), DateTime.t(), DateTime.t()) ::
+          non_neg_integer()
   defp get_amount_dispensed(log_id, start_at, end_at) do
     query =
       from(
@@ -35,10 +46,4 @@ defmodule Client.WaterLogs.AmountQuery do
       amount -> amount
     end
   end
-
-  # def now do
-  # :client
-  # |> Application.fetch_env!(:default_timezone)
-  # |> DateTime.now!()
-  # end
 end
