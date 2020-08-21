@@ -23,7 +23,12 @@ defmodule ClientWeb.WaterLogKioskLive do
 
 
       <div class="mt-5 text-xl">
-        Total dispensed: <%= Util.format_number(@total_ml) %> ml
+        <div>
+          Dispensed today: <%= Util.format_number(@today_ml) %> ml
+        </div>
+        <div class="mt-3">
+          Total dispensed: <%= Util.format_number(@total_ml) %> ml
+        </div>
       </div>
     </div>
     """
@@ -36,11 +41,15 @@ defmodule ClientWeb.WaterLogKioskLive do
       :ok = Phoenix.PubSub.subscribe(Client.PubSub, topic, link: true)
     end
 
+    log = WaterLogs.get(log_id)
+
     assigns = %{
       ml: 0,
       saving: false,
       log_id: log_id,
-      total_ml: WaterLogs.get_amount_dispensed(log_id)
+      log: log,
+      today_ml: amount_dispensed_today(log),
+      total_ml: total_amount_dispensed(log)
     }
 
     {:ok, assign(socket, assigns)}
@@ -58,9 +67,30 @@ defmodule ClientWeb.WaterLogKioskLive do
     assigns = %{
       saving: false,
       ml: 0,
-      total_ml: WaterLogs.get_amount_dispensed(socket.assigns[:log_id])
+      total_ml: total_amount_dispensed(socket.assigns[:log]),
+      today_ml: amount_dispensed_today(socket.assigns[:log])
     }
 
     {:noreply, assign(socket, assigns)}
+  end
+
+  defp amount_dispensed_today(log) do
+    beginning_of_today = now() |> beginning_of_day()
+    WaterLogs.get_amount_dispensed(log.id, start_at: beginning_of_today)
+  end
+
+  def total_amount_dispensed(log) do
+    start_at = DateTime.from_naive!(log.inserted_at, "Etc/UTC")
+    WaterLogs.get_amount_dispensed(log.id, start_at: start_at)
+  end
+
+  defp now do
+    :client
+    |> Application.fetch_env!(:default_timezone)
+    |> DateTime.now!()
+  end
+
+  defp beginning_of_day(datetime) do
+    %{datetime | hour: 0, minute: 0, second: 0, microsecond: {0, 0}}
   end
 end
