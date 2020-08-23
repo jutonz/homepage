@@ -25,7 +25,7 @@ config :auth, Auth.Guardian,
 config :client,
   namespace: Client,
   ecto_repos: [Client.Repo],
-  default_timezone: "EST"
+  default_timezone: "America/New_York"
 
 config :phoenix,
   json_library: Jason,
