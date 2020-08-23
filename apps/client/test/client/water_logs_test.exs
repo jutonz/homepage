@@ -48,22 +48,6 @@ defmodule Client.WaterLogsTest do
     end
   end
 
-  describe "get_amount_dispensed/1" do
-    test "returns 0 if the log has no entries" do
-      log = insert(:water_log)
-
-      assert WaterLogs.get_amount_dispensed(log.id) == 0
-    end
-
-    test "returns sum of all entries" do
-      log = insert(:water_log)
-      insert(:water_log_entry, water_log_id: log.id, ml: 1)
-      insert(:water_log_entry, water_log_id: log.id, ml: 2)
-
-      assert WaterLogs.get_amount_dispensed(log.id) == 3
-    end
-  end
-
   describe "list_filters_by_log_id/1" do
     test "is empty if there are no filters" do
       assert [] = WaterLogs.list_filters_by_log_id(Ecto.UUID.generate())
