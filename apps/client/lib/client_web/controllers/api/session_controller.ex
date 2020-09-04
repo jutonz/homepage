@@ -1,4 +1,4 @@
-defmodule ClientWeb.SessionController do
+defmodule ClientWeb.Api.SessionController do
   use ClientWeb, :controller
   alias Client.Session
 
