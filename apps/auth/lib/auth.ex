@@ -49,7 +49,10 @@ defmodule Auth do
   end
 
   def resource_for_jwt(jwt) do
-    Guardian.resource_from_token(jwt)
+    case Guardian.resource_from_token(jwt) do
+      {:error, %ArgumentError{}} -> {:error, "Invalid JWT"}
+      resource -> resource
+    end
   end
 
   @doc """

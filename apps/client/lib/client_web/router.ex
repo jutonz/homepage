@@ -130,9 +130,6 @@ defmodule ClientWeb.Router do
 
     get("/healthz", HealthController, :check)
 
-    post("/login", SessionController, :login)
-    post("/logout", SessionController, :logout)
-
     get("/whatismyip", ClientInfoController, :whatismyip)
 
     scope "/twitch", Twitch, as: :twitch do
@@ -143,11 +140,15 @@ defmodule ClientWeb.Router do
       end
     end
 
-    pipe_through(:authenticated_api)
-
-    get("/tokentest", SessionController, :token_test)
-
     scope "/", Api, as: :api do
+      post("/login", SessionController, :login)
+      get("/exchange", SessionController, :exchange)
+
+      pipe_through(:authenticated_api)
+      post("/logout", SessionController, :logout)
+      get("/tokentest", SessionController, :token_test)
+      post("/one-time-login-link", SessionController, :one_time_login_link)
+
       resources "/water-logs", WaterLog, only: [] do
         resources("/entries", WaterLogEntryController, as: :entry, only: ~w[create]a)
       end

@@ -1,4 +1,4 @@
-defmodule ClientWeb.SessionController do
+defmodule ClientWeb.Api.SessionController do
   use ClientWeb, :controller
   alias Client.Session
 
@@ -14,10 +14,11 @@ defmodule ClientWeb.SessionController do
     end
   end
 
-  def exchange(conn, %{"token" => token}) do
+  def exchange(conn, %{"token" => token} = params) do
     case conn |> Session.exchange(token) do
       {:ok, _user, conn} ->
-        conn |> redirect(to: "/#/")
+        path = params["to"] || "/#/"
+        redirect(conn, to: path)
 
       {:error, reason} ->
         conn
@@ -43,8 +44,23 @@ defmodule ClientWeb.SessionController do
       }
     }
 
-    conn
-    |> put_resp_header("content-type", "application/json")
-    |> send_resp(200, Jason.encode!(response))
+    json(conn, response)
+  end
+
+  def one_time_login_link(conn, params) do
+    with user_id <- conn.assigns[:current_user_id],
+         {:ok, jwt, _claims} <- Auth.single_use_jwt(user_id) do
+      url = "#{ClientWeb.Endpoint.url()}/api/exchange?token=#{jwt}"
+
+      url =
+        if params["to"] do
+          url <> "&to=#{params["to"]}"
+        else
+          url
+        end
+
+      response = %{url: url}
+      json(conn, response)
+    end
   end
 end
