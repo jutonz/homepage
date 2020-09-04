@@ -86,7 +86,8 @@ defmodule Client.Session do
     {:ok, conn}
   end
 
-  def current_user_id(conn), do: get_session(conn, :user_id)
+  def current_user_id(conn),
+    do: get_session(conn, :user_id)
 
   defp load_current_user(conn) do
     case current_user_id(conn) do
