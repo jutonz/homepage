@@ -51,12 +51,11 @@ defmodule ClientWeb.Soap.BatchIngredientController do
     update_result =
       user_id
       |> Soap.get_batch_ingredient(batch_id, id)
-      |> IO.inspect()
       |> Soap.update_batch_ingredient(batch_ingredient_params)
 
     case update_result do
-      {:ok, ingredient} ->
-        redirect(conn, to: Routes.soap_batch_path(conn, :show, ingredient.batch_id))
+      {:ok, _ingredient} ->
+        redirect(conn, to: Routes.soap_batch_path(conn, :show, batch_id))
 
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset)

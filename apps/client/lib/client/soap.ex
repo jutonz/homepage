@@ -206,7 +206,7 @@ defmodule Client.Soap do
     do: ingredient |> ingredient_changeset(params) |> Repo.update()
 
   def update_batch_ingredient(batch_ingredient, params),
-    do: batch_ingredient |> batch_ingredient_changeset(params) |> Repo.update()
+    do: batch_ingredient |> batch_ingredient_changeset(params) |> BatchIngredient.update()
 
   ##############################################################################
   # Delete

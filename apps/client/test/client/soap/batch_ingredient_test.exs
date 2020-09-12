@@ -102,6 +102,70 @@ defmodule Client.Soap.BatchIngredientTest do
     end
   end
 
+  describe "update/1" do
+    test "returns the changeset if it's invalid" do
+      changeset = %Ecto.Changeset{valid?: false, data: "wee"}
+
+      result = BatchIngredient.update(changeset)
+
+      assert result == {:error, changeset}
+    end
+
+    test "updates the batch ingredient" do
+      user = insert(:user)
+      batch = insert(:soap_batch, user_id: user.id)
+      order = insert(:soap_order, user_id: user.id)
+      ingredient = insert(:soap_ingredient, order_id: order.id)
+      new_ingredient = insert(:soap_ingredient, order_id: order.id)
+
+      ba =
+        insert(:soap_batch_ingredient,
+          amount_used: 10,
+          batch_id: batch.id,
+          ingredient_id: ingredient.id
+        )
+
+      changes = %{
+        amount_used: 20,
+        user_id: user.id,
+        ingredient_id: new_ingredient.id
+      }
+
+      changeset = BatchIngredient.changeset(ba, changes)
+
+      {:ok, updated} = BatchIngredient.update(changeset)
+
+      assert updated.amount_used == 20
+      assert updated.ingredient_id == new_ingredient.id
+    end
+
+    test "recalculates the material cost" do
+      user = insert(:user)
+      batch = insert(:soap_batch, user_id: user.id)
+      order = insert(:soap_order, user_id: user.id)
+      ingredient = insert(:soap_ingredient, order_id: order.id)
+
+      ba =
+        insert(:soap_batch_ingredient,
+          amount_used: 10,
+          material_cost: Money.new(100),
+          batch_id: batch.id,
+          ingredient_id: ingredient.id
+        )
+
+      changes = %{
+        amount_used: 20,
+        user_id: user.id
+      }
+
+      changeset = BatchIngredient.changeset(ba, changes)
+
+      {:ok, updated} = BatchIngredient.update(changeset)
+
+      assert updated.material_cost == Money.new(200)
+    end
+  end
+
   describe "overhead_cost/2" do
     test "divides the overhead cost by the amount used" do
       total_overhead = Money.new(10_00)

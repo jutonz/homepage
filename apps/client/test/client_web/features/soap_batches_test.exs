@@ -1,5 +1,6 @@
 defmodule ClientWeb.SoapBatchesFeatureTests do
   use ClientWeb.FeatureCase
+  alias Client.Soap
 
   test "can create a batch", %{session: session} do
     user = insert(:user)
@@ -67,11 +68,13 @@ defmodule ClientWeb.SoapBatchesFeatureTests do
     batch = insert(:soap_batch, user_id: user.id)
     order = insert(:soap_order, user_id: user.id)
     ingredient = insert(:soap_ingredient, order_id: order.id)
-    batch_ingredient = insert(:soap_batch_ingredient, [
-      amount_used: 1,
-      ingredient_id: ingredient.id,
-      batch_id: batch.id
-    ])
+
+    batch_ingredient =
+      insert(:soap_batch_ingredient,
+        amount_used: 1,
+        ingredient_id: ingredient.id,
+        batch_id: batch.id
+      )
 
     session
     |> visit(Routes.soap_batch_path(@endpoint, :show, batch.id, as: user.id))
