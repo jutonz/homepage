@@ -33,7 +33,7 @@ defmodule ClientWeb.Soap.BatchIngredientController do
       conn
       |> Session.current_user_id()
       |> Soap.get_batch_ingredient(batch_id, id)
-      |> Soap.ingredient_changeset()
+      |> Soap.batch_ingredient_changeset()
 
     render(conn, "edit.html", changeset: changeset)
   end
@@ -43,17 +43,18 @@ defmodule ClientWeb.Soap.BatchIngredientController do
     id = Map.fetch!(params, "id")
     user_id = Session.current_user_id(conn)
 
-    ingredient_params =
+    batch_ingredient_params =
       params
       |> Map.fetch!("ingredient")
       |> Map.put("user_id", user_id)
 
-    insert_result =
+    update_result =
       user_id
       |> Soap.get_batch_ingredient(batch_id, id)
-      |> Soap.update_ingredient(ingredient_params)
+      |> IO.inspect()
+      |> Soap.update_batch_ingredient(batch_ingredient_params)
 
-    case insert_result do
+    case update_result do
       {:ok, ingredient} ->
         redirect(conn, to: Routes.soap_batch_path(conn, :show, ingredient.batch_id))
 

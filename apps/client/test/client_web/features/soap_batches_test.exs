@@ -61,4 +61,26 @@ defmodule ClientWeb.SoapBatchesFeatureTests do
     |> click(role("ingredient-submit"))
     |> assert_has(role("batch-ingredient", text: to_string(ingredient.id)))
   end
+
+  test "can edit an ingredient", %{session: session} do
+    user = insert(:user)
+    batch = insert(:soap_batch, user_id: user.id)
+    order = insert(:soap_order, user_id: user.id)
+    ingredient = insert(:soap_ingredient, order_id: order.id)
+    batch_ingredient = insert(:soap_batch_ingredient, [
+      amount_used: 1,
+      ingredient_id: ingredient.id,
+      batch_id: batch.id
+    ])
+
+    session
+    |> visit(Routes.soap_batch_path(@endpoint, :show, batch.id, as: user.id))
+    |> click(role("batch-ingredient-#{batch_ingredient.id}"))
+    |> fill_in(role("ingredient-amount-used-input"), with: "2")
+    |> click(role("ingredient-submit"))
+    |> assert_has(role("batch-ingredient", text: to_string(ingredient.id)))
+
+    bi = Soap.get_batch_ingredient(user.id, batch.id, batch_ingredient.id)
+    assert bi.amount_used == 2
+  end
 end

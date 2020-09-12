@@ -52,7 +52,7 @@ defmodule ClientWeb.Router do
           "/ingredients",
           BatchIngredientController,
           as: :ingredient,
-          only: ~w[new create edit update]a
+          only: ~w[new create edit update delete]a
         )
       end
 

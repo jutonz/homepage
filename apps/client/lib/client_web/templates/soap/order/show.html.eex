@@ -41,7 +41,7 @@
     <%= link(
       "Delete order",
       to: Routes.soap_order_path(@conn, :delete, @order.id),
-      class: "button",
+      class: "button button--danger",
       method: :delete,
       data: [confirm: "Are you sure", role: "soap-order-delete"]
     ) %>

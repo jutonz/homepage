@@ -61,6 +61,9 @@ defmodule Client.Soap do
   def new_batch_ingredient_changeset(attrs \\ %{}),
     do: BatchIngredient.changeset(%BatchIngredient{}, attrs)
 
+  def batch_ingredient_changeset(batch_ingredient, attrs \\ %{}),
+    do: BatchIngredient.changeset(batch_ingredient, attrs)
+
   ##############################################################################
   # Create
   ##############################################################################
@@ -108,6 +111,7 @@ defmodule Client.Soap do
         join: o in Order,
         on: o.id == i.order_id,
         select: %{
+          id: sbi.id,
           name: i.name,
           amount_used: sbi.amount_used,
           batch_id: sbi.batch_id,
@@ -147,15 +151,15 @@ defmodule Client.Soap do
     end)
   end
 
-  def get_batch_ingredient(user_id, batch_id, ingredient_id) do
+  def get_batch_ingredient(user_id, batch_id, batch_ingredient_id) do
     query =
       from(
-        sbi in "soap_batch_ingredients",
-        where: sbi.batch_id == ^batch_id,
-        where: sbi.ingredient_id == ^ingredient_id,
+        bi in BatchIngredient,
+        where: bi.batch_id == ^batch_id,
+        where: bi.id == ^batch_ingredient_id,
         join: b in Batch,
-        on: b.user_id == ^user_id,
-        where: b.id == sbi.batch_id
+        on: b.id == bi.batch_id,
+        where: b.user_id == ^user_id
       )
 
     Repo.one(query)
@@ -200,6 +204,9 @@ defmodule Client.Soap do
 
   def update_ingredient(ingredient, params),
     do: ingredient |> ingredient_changeset(params) |> Repo.update()
+
+  def update_batch_ingredient(batch_ingredient, params),
+    do: batch_ingredient |> batch_ingredient_changeset(params) |> Repo.update()
 
   ##############################################################################
   # Delete
