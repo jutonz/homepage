@@ -59,6 +59,25 @@ defmodule Client.Soap.BatchIngredient do
     |> Money.new()
   end
 
+  @spec update(Ecto.Changeset.t()) ::
+          {:ok, BatchIngredient.t()} | {:error, Ecto.Changeset.t()} | {:error, String.t()}
+  def update(%Ecto.Changeset{valid?: false} = changeset) do
+    {:error, changeset}
+  end
+
+  def update(changeset) do
+    user_id = get_field(changeset, :user_id)
+    ingredient_id = get_field(changeset, :ingredient_id)
+
+    with {:ok, ingredient} <- get_ingredient(user_id, ingredient_id) do
+      changeset
+      |> recalculate_material_cost(ingredient)
+      |> Repo.update()
+    end
+  end
+
+  @spec insert(Ecto.Changeset.t()) ::
+          {:ok, Ingredient.t()} | {:error, String.t()} | {:error, Ecto.Changeset.t()}
   def insert(%Ecto.Changeset{valid?: false} = changeset) do
     changeset = Map.put(changeset, :action, :insert)
     {:error, changeset}
@@ -131,7 +150,7 @@ defmodule Client.Soap.BatchIngredient do
     |> put_assoc(:batch, batch_with_ingredients)
     |> put_assoc(:ingredient, ingredient)
     |> recalculate_material_cost(ingredient)
-    |> Repo.insert()
+    |> Repo.insert_or_update()
     |> case do
       {:ok, _batch_ingredient} -> {:ok, ingredient}
       {:error, changeset} -> {:error, Client.Util.errors_to_sentence(changeset)}

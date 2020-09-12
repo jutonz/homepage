@@ -65,8 +65,14 @@
     </th>
 
     <%= for batch_ingredient <- @batch.batch_ingredients do %>
-      <tr data-role="batch-ingredient">
-        <td class="p-2 pl-0"><%= batch_ingredient.name %></td>
+      <tr class="hover:bg-gray-800 cursor-pointer" data-role="batch-ingredient">
+        <td class="p-2 pl-0">
+          <%= link(
+            batch_ingredient.name,
+            to: Routes.soap_batch_ingredient_path(@conn, :edit, @batch.id, batch_ingredient.id),
+            data: [role: "batch-ingredient-#{batch_ingredient.id}"]
+          ) %>
+        </td>
         <td class="p-2"><%= batch_ingredient.ingredient_id %></td>
         <td class="p-2"><%= batch_ingredient.amount_used %> g</td>
         <td class="p-2"><%= batch_ingredient.material_cost %></td>
