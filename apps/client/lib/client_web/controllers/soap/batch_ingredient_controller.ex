@@ -61,4 +61,19 @@ defmodule ClientWeb.Soap.BatchIngredientController do
         render(conn, "edit.html", changeset: changeset)
     end
   end
+
+  def delete(conn, params) do
+    id = Map.fetch!(params, "id")
+    batch_id = Map.fetch!(params, "batch_id")
+    user_id = Session.current_user_id(conn)
+
+    case Soap.delete_batch_ingredient(user_id, batch_id, id) do
+      {:ok, batch_ingredient} ->
+        batch_id = batch_ingredient.batch_id
+        redirect(conn, to: Routes.soap_batch_path(conn, :show, batch_id))
+
+      {:error, changeset} ->
+        render(conn, "edit.html", changeset: changeset)
+    end
+  end
 end

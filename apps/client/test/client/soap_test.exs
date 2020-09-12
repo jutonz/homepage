@@ -58,4 +58,23 @@ defmodule Client.SoapTest do
       assert actual == []
     end
   end
+
+  describe "delete_batch_ingredient/1" do
+    test "deletes a batch ingredient" do
+      user = insert(:user)
+      batch = insert(:soap_batch, user_id: user.id)
+      order = insert(:soap_order, user_id: user.id)
+      ingredient = insert(:soap_ingredient, order_id: order.id)
+
+      ba =
+        insert(:soap_batch_ingredient,
+          batch_id: batch.id,
+          ingredient_id: ingredient.id
+        )
+
+      response = Soap.delete_batch_ingredient(user.id, batch.id, ba.id)
+
+      assert {:ok, ba} = response
+    end
+  end
 end

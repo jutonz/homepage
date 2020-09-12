@@ -86,4 +86,35 @@ defmodule ClientWeb.SoapBatchesFeatureTests do
     bi = Soap.get_batch_ingredient(user.id, batch.id, batch_ingredient.id)
     assert bi.amount_used == 2
   end
+
+  test "can delete an ingredient", %{session: session} do
+    user = insert(:user)
+    batch = insert(:soap_batch, user_id: user.id)
+    order = insert(:soap_order, user_id: user.id)
+    ingredient = insert(:soap_ingredient, order_id: order.id)
+
+    batch_ingredient =
+      insert(:soap_batch_ingredient,
+        amount_used: 1,
+        ingredient_id: ingredient.id,
+        batch_id: batch.id
+      )
+
+    edit_path =
+      Routes.soap_batch_ingredient_path(
+        @endpoint,
+        :edit,
+        batch.id,
+        batch_ingredient.id,
+        as: user.id
+      )
+
+    session
+    |> visit(edit_path)
+    |> accept_confirm(fn session ->
+      click(session, role("ingredient-delete-button"))
+    end)
+
+    refute_has(session, role("batch-ingredient-#{batch_ingredient.id}"))
+  end
 end

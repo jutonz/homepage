@@ -217,4 +217,10 @@ defmodule Client.Soap do
 
   def delete_order(user_id, id),
     do: user_id |> get_order(id) |> Repo.delete()
+
+  def delete_batch_ingredient(user_id, batch_id, id) do
+    user_id
+    |> get_batch_ingredient(batch_id, id)
+    |> Repo.delete()
+  end
 end

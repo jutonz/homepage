@@ -47,7 +47,7 @@ fn form -> %>
         ),
         method: :delete,
         class: "button button--danger ml-6",
-        data: [confirm: "Are you sure?"]
+        data: [confirm: "Are you sure?", role: "ingredient-delete-button"]
       ) %>
     <% end %>
   </div>
