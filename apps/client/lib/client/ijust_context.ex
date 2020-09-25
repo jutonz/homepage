@@ -58,7 +58,7 @@ defmodule Client.IjustContext do
   end
 
   @spec recent_events(context_id :: number, limit :: number) :: {:ok, list(IjustEvent.t())}
-  def recent_events(context_id, limit \\ 5) do
+  def recent_events(context_id, limit \\ 100) do
     query =
       from(
         ev in IjustEvent,
