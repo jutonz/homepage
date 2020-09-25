@@ -1,6 +1,5 @@
 defmodule ClientWeb.Router do
   use ClientWeb, :router
-  use Plug.ErrorHandler # TODO: Try removing this
   import Phoenix.LiveView.Router
 
   ##############################################################################
