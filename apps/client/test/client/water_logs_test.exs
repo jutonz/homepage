@@ -9,10 +9,10 @@ defmodule Client.WaterLogsTest do
   describe "create_filter/1" do
     test "creates a filter" do
       log_id = Ecto.UUID.generate()
-      params = %{"water_log_id" => log_id}
+      params = %{"water_log_id" => log_id, "lifespan" => 2000}
 
       assert {:ok, %Filter{} = filter} = WaterLogs.create_filter(params)
-      assert %Filter{water_log_id: log_id} = filter
+      assert %Filter{water_log_id: log_id, lifespan: 2000} = filter
     end
 
     test "returns a changeset on error" do

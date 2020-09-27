@@ -1,5 +1,6 @@
 defmodule ClientWeb.WaterLogs.Usage do
   use Phoenix.LiveComponent
+
   alias Client.{
     Util,
     WaterLogs

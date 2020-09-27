@@ -18,6 +18,9 @@ defmodule Client.WaterLogs do
   def filter_changeset(filter, params \\ %{}),
     do: Filter.changeset(filter, params)
 
+  def new_filter_changeset(),
+    do: Filter.changeset(%Filter{}, %{})
+
   def new_changeset,
     do: changeset(%WaterLog{})
 
