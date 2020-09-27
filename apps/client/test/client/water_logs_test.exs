@@ -9,10 +9,10 @@ defmodule Client.WaterLogsTest do
   describe "create_filter/1" do
     test "creates a filter" do
       log_id = Ecto.UUID.generate()
-      params = %{"water_log_id" => log_id}
+      params = %{"water_log_id" => log_id, "lifespan" => 2000}
 
       assert {:ok, %Filter{} = filter} = WaterLogs.create_filter(params)
-      assert %Filter{water_log_id: log_id} = filter
+      assert %Filter{water_log_id: log_id, lifespan: 2000} = filter
     end
 
     test "returns a changeset on error" do
@@ -29,6 +29,17 @@ defmodule Client.WaterLogsTest do
 
     test "returns nil if no filter matches" do
       assert is_nil(WaterLogs.get_filter(Ecto.UUID.generate()))
+    end
+  end
+
+  describe "get_current_filter/1" do
+    test "returns the latest filter" do
+      log = insert(:water_log)
+      yesterday = Timex.now() |> Timex.shift(days: -1)
+      _old_log = insert(:water_log_filter, water_log_id: log.id, inserted_at: yesterday)
+      new_log = insert(:water_log_filter, water_log_id: log.id)
+
+      assert WaterLogs.get_current_filter(log.id) == new_log
     end
   end
 

@@ -30,7 +30,11 @@ defmodule ClientWeb.Router do
     resources("/food-logs", FoodLogController)
 
     resources("/water-logs", WaterLogController, only: ~w[index new create show]a) do
-      resources("/filters", WaterFilterController, only: ~w[index create delete]a, as: :filters)
+      resources("/filters", WaterFilterController,
+        only: ~w[index new create edit update delete]a,
+        as: :filters
+      )
+
       live("/kiosk", WaterLogKioskLive, layout: {ClientWeb.LayoutView, :app})
     end
 
