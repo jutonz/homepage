@@ -13,7 +13,7 @@ defmodule ClientWeb.WaterLogs.Usage do
       assigns
       |> Map.put(:total_ml, total_amount_dispensed(log))
       |> Map.put(:today_ml, amount_dispensed_today(log))
-      |> Map.put(:life_remaining, get_life_remaining(log))
+      |> Map.put(:life_remaining, life_remaining(log))
 
     {:ok, assign(socket, assigns)}
   end
@@ -55,7 +55,7 @@ defmodule ClientWeb.WaterLogs.Usage do
     |> DateTime.now!()
   end
 
-  defp get_life_remaining(log) do
+  defp life_remaining(log) do
     current_filter = WaterLogs.get_current_filter(log.id)
 
     if current_filter && current_filter.lifespan do
