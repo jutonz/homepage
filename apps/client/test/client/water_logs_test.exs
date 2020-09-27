@@ -32,6 +32,17 @@ defmodule Client.WaterLogsTest do
     end
   end
 
+  describe "get_current_filter/1" do
+    test "returns the latest filter" do
+      log = insert(:water_log)
+      yesterday = Timex.now() |> Timex.shift(days: -1)
+      _old_log = insert(:water_log_filter, water_log_id: log.id, inserted_at: yesterday)
+      new_log = insert(:water_log_filter, water_log_id: log.id)
+
+      assert WaterLogs.get_current_filter(log.id) == new_log
+    end
+  end
+
   describe "get_by_user_id/2" do
     test "retuns my log" do
       me = insert(:user)

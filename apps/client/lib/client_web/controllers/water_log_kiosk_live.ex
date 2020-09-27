@@ -19,7 +19,7 @@ defmodule ClientWeb.WaterLogKioskLive do
       </div>
 
       <div class="mt-5 text-xl">
-        <%= live_component(@socket, Usage, usage_state(@socket)) %>
+        <%= live_component(@socket, Usage, id: :usage, log: @log) %>
       </div>
     </div>
     """
@@ -53,13 +53,9 @@ defmodule ClientWeb.WaterLogKioskLive do
   end
 
   def handle_info(:saved, socket) do
-    send_update(Usage, usage_state(socket))
+    send_update(Usage, id: :usage, log: socket.assigns[:log])
 
     assigns = %{saving: false, ml: 0}
     {:noreply, assign(socket, assigns)}
-  end
-
-  defp usage_state(socket) do
-    [id: :usage, log: socket.assigns[:log]]
   end
 end

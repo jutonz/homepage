@@ -43,6 +43,18 @@ defmodule Client.WaterLogs do
   def get_filter(id),
     do: Repo.get(Filter, id)
 
+  def get_current_filter(log_id) do
+    query =
+      from(
+        filter in Filter,
+        where: filter.water_log_id == ^log_id,
+        order_by: [desc: filter.inserted_at],
+        limit: 1
+      )
+
+    Repo.one(query)
+  end
+
   def get_amount_dispensed(id, opts \\ []),
     do: AmountQuery.get_amount_dispensed(id, opts)
 
