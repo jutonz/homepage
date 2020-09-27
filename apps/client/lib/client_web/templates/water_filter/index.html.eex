@@ -48,6 +48,12 @@
           <td class="pt-1 pb-1 pr-4"><%= formatted_lifespan(filter.lifespan) %></td>
           <td class="pt-1 pb-1 pr-4 pl-3">
             <%= link(
+              "Edit",
+              to: Routes.water_log_filters_path(@conn, :edit, @log.id, filter.id),
+              class: "button mr-3",
+              data: [role: "edit-filter-button"]
+            ) %>
+            <%= link(
               "Delete",
               to: Routes.water_log_filters_path(@conn, :delete, @log.id, filter.id),
               class: "button button--danger",

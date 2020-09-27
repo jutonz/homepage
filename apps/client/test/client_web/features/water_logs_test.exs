@@ -23,6 +23,23 @@ defmodule ClientWeb.WaterLogsFeatureTests do
     |> assert_has(role("water-filter-row-#{filter.id}"))
   end
 
+  test "allows updating a filter", %{session: session} do
+    user = insert(:user)
+    log = insert(:water_log, user_id: user.id)
+    filter = insert(:water_log_filter, water_log_id: log.id, lifespan: 1000)
+
+    session
+    |> visit(Routes.water_log_filters_path(@endpoint, :index, log.id, as: user.id))
+    |> click(role("edit-filter-button"))
+    |> fill_in(role("water-filter-lifespan-input"), with: "2000")
+    |> click(role("update-water-filter"))
+    |> assert_has(role("water-filter-row-#{filter.id}", text: "2000"))
+
+    assert [filter] = WaterLogs.list_filters_by_log_id(log.id)
+    assert filter.water_log_id == log.id
+    assert filter.lifespan == 2000
+  end
+
   test "allows deleting a filter", %{session: session} do
     user = insert(:user)
     log = insert(:water_log, user_id: user.id)

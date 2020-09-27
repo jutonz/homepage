@@ -72,6 +72,10 @@ defmodule Client.WaterLogs do
     )
   end
 
+  def update_filter(filter, params) do
+    filter |> filter_changeset(params) |> Repo.update()
+  end
+
   def delete_filter(id),
     do: id |> get_filter() |> Repo.delete()
 end
