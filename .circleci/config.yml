@@ -98,7 +98,7 @@ jobs:
         paths:
         - _plts
 
-  yarn_install:
+  yarn_install_and_lint:
     working_directory: ~/code
     docker:
     - image: circleci/node:12
@@ -113,8 +113,13 @@ jobs:
     - run:
         name: yarn install
         command: |
-          cd apps/client/assets
+          cd ~/code/apps/client/assets
           yarn install
+    - run:
+        name: yarn lint
+        command: |
+          cd ~/code/apps/client/assets
+          yarn lint
     - save_cache:
         name: Save node_modules cache
         key: v2-npm-{{ checksum ".tool-versions" }}-{{ checksum "apps/client/assets/yarn.lock" }}
@@ -167,19 +172,6 @@ jobs:
     - store_artifacts:
         path: /tmp/homepage-screenshots
         destination: acceptance-screenshots
-  yarn_lint:
-    working_directory: ~/code
-    docker:
-    - image: circleci/node:12
-    steps:
-    - checkout
-    - restore_cache:
-        key: v2-npm-{{ checksum ".tool-versions" }}-{{ checksum "apps/client/assets/yarn.lock" }}
-    - run:
-        name: yarn lint
-        command: |
-          cd apps/client/assets
-          yarn lint
   mix_format:
     working_directory: ~/code
     docker:
@@ -281,16 +273,14 @@ workflows:
         requires: ["mix_deps_get"]
     - build_prod:
         requires: ["mix_deps_get"]
-    - yarn_install
+    - yarn_install_and_lint
     - mix_format:
         requires: ["build_dev"]
     - mix_dialyzer:
         requires: ["build_dev"]
-    - yarn_lint:
-        requires: ["yarn_install"]
     - yarn_bundle_react:
-        requires: ["yarn_install"]
+        requires: ["yarn_install_and_lint"]
     - yarn_bundle_static:
-        requires: ["yarn_install"]
+        requires: ["yarn_install_and_lint"]
     - mix_test:
         requires: ["build_test", "yarn_bundle_static"]
