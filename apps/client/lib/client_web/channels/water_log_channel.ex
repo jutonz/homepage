@@ -42,6 +42,11 @@ defmodule ClientWeb.WaterLogChannel do
     end
   end
 
+  def handle_in("weight", %{"g" => g}, %{assigns: assigns} = socket) do
+    publish_event(assigns[:water_log_id], {:weight, g})
+    {:noreply, socket}
+  end
+
   defp publish_event(log_id, event) do
     Phoenix.PubSub.broadcast!(
       Client.PubSub,
