@@ -25,7 +25,7 @@ defmodule Redis.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:redix, "~> 0.6"}
+      {:redix, "~> 1.0"}
     ]
   end
 end
