@@ -21,6 +21,10 @@ defmodule ClientWeb.WaterLogKioskLive do
       <div class="mt-5 text-xl">
         <%= live_component(@socket, Usage, id: :usage, log: @log) %>
       </div>
+
+      <div class="mt-5 text-xl">
+        Current weight: <%= @current_weight %> g
+      </div>
     </div>
     """
   end
@@ -38,7 +42,8 @@ defmodule ClientWeb.WaterLogKioskLive do
       ml: 0,
       saving: false,
       log_id: log_id,
-      log: log
+      log: log,
+      current_weight: 0
     }
 
     {:ok, assign(socket, assigns)}
@@ -57,5 +62,9 @@ defmodule ClientWeb.WaterLogKioskLive do
 
     assigns = %{saving: false, ml: 0}
     {:noreply, assign(socket, assigns)}
+  end
+
+  def handle_info({:weight, g}, socket) do
+    {:noreply, assign(socket, :current_weight, g)}
   end
 end

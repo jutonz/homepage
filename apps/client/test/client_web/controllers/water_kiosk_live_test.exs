@@ -93,6 +93,18 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
     assert render(view) =~ "Filter life remaining: 1999 L"
   end
 
+  test "shows and updates the current weight", %{conn: conn} do
+    user = insert(:user)
+    log = insert(:water_log, user_id: user.id)
+    path = Routes.water_log_live_path(conn, @controller, log.id, as: user.id)
+
+    {:ok, view, html} = live(conn, path)
+    assert html =~ "Current weight: 0 g"
+
+    publish_event(log.id, {:weight, 100})
+    assert render(view) =~ "Current weight: 100 g"
+  end
+
   defp publish_event(log_id, event) do
     Phoenix.PubSub.broadcast!(
       Client.PubSub,
