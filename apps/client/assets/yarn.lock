@@ -5534,10 +5534,10 @@ phoenix_html@2.14.2:
   resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-2.14.2.tgz#b251bca54f054396cac94c6a393a179a9b0d1d38"
   integrity sha512-Ethq57+1Vhwj8i6RrFbkZIxOps+4yZV2hZsmMplSVgyvLbFBWN5D6KI5Y76ub7Q4d3nKdF+rQD8vPCuLAhtQsA==
 
-phoenix_live_view@0.14.6:
-  version "0.14.6"
-  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.14.6.tgz#d9c033e797e652b73b6cef6615e2267248bd4147"
-  integrity sha512-ALFaG90EXN+3ebwtNHioJbQWKHZJ/bJLjfrf3UlUB+IWwblmKlGeszwFKSfWedIqZKKi2mDElegOwm9L5/7g7Q==
+phoenix_live_view@0.14.7:
+  version "0.14.7"
+  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.14.7.tgz#c1e2a726690f47875ba7845e3b67517f5edcd66c"
+  integrity sha512-kb5td5u8XzCwnaNBKUWC3RUx+Bp3ey9g/usnBOX/Og5npbal+L9URba6+L+jzABqxQmZTEGxCufOuAS0mzGTUw==
 
 picomatch@^2.0.4, picomatch@^2.2.1:
   version "2.2.2"
