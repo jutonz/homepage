@@ -25,6 +25,11 @@ defmodule ClientWeb.WaterLogKioskLive do
       <div class="mt-5 text-xl">
         Current weight: <%= @current_weight %> g
       </div>
+
+      <div class="mt-3">
+        <button class="button" phx-click="tare">Tare</button>
+      </div>
+
     </div>
     """
   end
@@ -47,6 +52,16 @@ defmodule ClientWeb.WaterLogKioskLive do
     }
 
     {:ok, assign(socket, assigns)}
+  end
+
+  def handle_event("tare", _value, socket) do
+    ClientWeb.Endpoint.broadcast!(
+      "water_log:#{socket.assigns[:water_log_id]}",
+      "tare",
+      %{}
+    )
+
+    {:noreply, socket}
   end
 
   def handle_info({:set_ml, %{"ml" => ml}}, socket) do
