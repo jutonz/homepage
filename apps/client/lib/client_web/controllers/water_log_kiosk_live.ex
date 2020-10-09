@@ -55,8 +55,10 @@ defmodule ClientWeb.WaterLogKioskLive do
   end
 
   def handle_event("tare", _value, socket) do
+    Logger.info("clicked tare button water_log:#{socket.assigns[:log_id]}")
+
     ClientWeb.Endpoint.broadcast!(
-      "water_log:#{socket.assigns[:water_log_id]}",
+      "water_log:#{socket.assigns[:log_id]}",
       "tare",
       %{}
     )
