@@ -61,7 +61,7 @@ defmodule Client.Mixfile do
       {:phoenix_live_view, "~> 0.14.0"},
       {:ex_machina, "~> 2.2", only: :test},
       {:money, "~> 1.7"},
-      {:floki, "~> 0.28.0", only: :test},
+      {:floki, "~> 0.29.0", only: :test},
       {:auth, in_umbrella: true},
       {:redis, in_umbrella: true},
       {:twitch, in_umbrella: true},
