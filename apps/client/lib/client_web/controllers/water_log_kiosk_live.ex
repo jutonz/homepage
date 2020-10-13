@@ -39,6 +39,7 @@ defmodule ClientWeb.WaterLogKioskLive do
       topic = "water_log_internal:#{log_id}"
       Logger.info("liveview subscribed to #{topic}")
       :ok = Phoenix.PubSub.subscribe(Client.PubSub, topic, link: true)
+      schedule_refresh()
     end
 
     log = WaterLogs.get(log_id)
@@ -83,5 +84,18 @@ defmodule ClientWeb.WaterLogKioskLive do
 
   def handle_info({:weight, g}, socket) do
     {:noreply, assign(socket, :current_weight, g)}
+  end
+
+  def handle_info(:refresh_usage, socket) do
+    send_update(Usage, id: :usage, log: socket.assigns[:log])
+    Logger.info("refresh usage")
+    schedule_refresh()
+    {:noreply, socket}
+  end
+
+  # one hour
+  @refresh_after 1000 * 60 * 60
+  defp schedule_refresh do
+    Process.send_after(self(), :refresh_usage, @refresh_after)
   end
 end

@@ -6,14 +6,14 @@ defmodule ClientWeb.WaterLogs.Usage do
     WaterLogs
   }
 
-  def update(assigns, socket) do
-    log = assigns[:log]
+  def update(%{log: log} = assigns, socket) do
+    new_assigns = %{
+      total_ml: total_amount_dispensed(log),
+      today_ml: amount_dispensed_today(log),
+      life_remaining: life_remaining(log)
+    }
 
-    assigns =
-      assigns
-      |> Map.put(:total_ml, total_amount_dispensed(log))
-      |> Map.put(:today_ml, amount_dispensed_today(log))
-      |> Map.put(:life_remaining, life_remaining(log))
+    assigns = Map.merge(assigns, new_assigns)
 
     {:ok, assign(socket, assigns)}
   end
