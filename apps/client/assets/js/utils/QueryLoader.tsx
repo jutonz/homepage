@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Query } from "react-apollo";
+import { useQuery } from "@apollo/react-hooks";
 import { Loader } from "semantic-ui-react";
 import { css, StyleSheet } from "aphrodite";
 
@@ -21,30 +21,26 @@ interface Props {
   variables?: any;
   component: any;
 }
+
 export const QueryLoader = ({
   query,
   variables,
   component: Component,
-}: Props) => (
-  <div>
-    <Query query={query} variables={variables}>
-      {(result) => {
-        const { loading, error } = result;
-        if (loading) {
-          return (
-            <div className={css(styles.loaderContainer)}>
-              <Loader active inline />
-            </div>
-          );
-        }
+}: Props) => {
+  const { loading, data, error } = useQuery(query, { variables });
 
-        if (error) {
-          const errors = collectGraphqlErrors(error);
-          return <div className={css(styles.error)}>{errors}</div>;
-        }
+  if (loading) {
+    return (
+      <div className={css(styles.loaderContainer)}>
+        <Loader active inline />
+      </div>
+    );
+  }
 
-        return <Component {...result} />;
-      }}
-    </Query>
-  </div>
-);
+  if (error) {
+    const errors = collectGraphqlErrors(error);
+    return <div className={css(styles.error)}>{errors}</div>;
+  }
+
+  return <Component {...{ loading, data, error }} />;
+};

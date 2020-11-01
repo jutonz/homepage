@@ -95,7 +95,7 @@ const webpackConfig = {
       "@static": path.resolve(__dirname, "static/"),
       "@app": path.resolve(__dirname, "js/")
     },
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],
     modules: ["./", "./node_modules/"]
   }
 };
