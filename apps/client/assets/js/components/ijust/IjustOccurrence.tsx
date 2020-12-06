@@ -1,11 +1,13 @@
 import * as React from "react";
+import { useState } from "react";
 import { Button, Table } from "semantic-ui-react";
 import { css, StyleSheet } from "aphrodite";
 import { format, formatDistanceToNow, parseISO } from "date-fns";
-import { Mutation } from "react-apollo";
+import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 import { Constants } from "@utils/Constants";
+import { Confirm } from "@components/Confirm";
 
 const styles = StyleSheet.create({
   relativeDateSpacer: {
@@ -33,42 +35,60 @@ export const GET_OCCURRENCE = gql`
 interface Props {
   occurrence: any;
 }
-export const IjustOccurrence = ({ occurrence }: Props) => (
-  <Table.Row>
-    <Table.Cell>
-      {format(parseISO(occurrence.insertedAt + "Z"), Constants.dateTimeFormat)}
-      <span className={css(styles.relativeDateSpacer)}>
-        ({formatDistanceToNow(parseISO(occurrence.insertedAt + "Z"))} ago)
-      </span>
-    </Table.Cell>
-    <Table.Cell>{renderDeleteButton(occurrence)}</Table.Cell>
-  </Table.Row>
-);
+export const IjustOccurrence = ({ occurrence }: Props) => {
+  return (
+    <Table.Row>
+      <Table.Cell>
+        {format(
+          parseISO(occurrence.insertedAt + "Z"),
+          Constants.dateTimeFormat
+        )}
+        <span className={css(styles.relativeDateSpacer)}>
+          ({formatDistanceToNow(parseISO(occurrence.insertedAt + "Z"))} ago)
+        </span>
+      </Table.Cell>
+      <Table.Cell>{renderDeleteButton(occurrence)}</Table.Cell>
+    </Table.Row>
+  );
+};
 
-const renderDeleteButton = (occurrence: any) => (
-  <Mutation
-    mutation={DELETE_OCCURRENCE}
-    update={(cache, { data }) => {
-      const deleted = {
-        ...data.ijustDeleteOccurrence,
-        isDeleted: true,
-      };
-      cache.writeQuery({
-        query: GET_OCCURRENCE,
-        variables: { occurrenceId: deleted.id },
-        data: { getIjustEventOccurrence: deleted },
-      });
-    }}
-  >
-    {(deleteMutation, { loading }) => (
+const renderDeleteButton = (occurrence: any) => {
+  const [_deleteOccurrence, deletionResult] = useMutation(DELETE_OCCURRENCE);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const deleteOccurrence = () => {
+    return _deleteOccurrence({
+      variables: { occurrenceId: occurrence.id },
+      update: updateCacheAfterDelete,
+    });
+  };
+
+  return (
+    <>
       <Button
-        onClick={() =>
-          deleteMutation({ variables: { occurrenceId: occurrence.id } })
-        }
-        loading={loading}
+        onClick={() => setShowConfirm(true)}
+        loading={deletionResult.loading}
       >
         Delete
       </Button>
-    )}
-  </Mutation>
-);
+      <Confirm
+        open={showConfirm}
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={() => deleteOccurrence()}
+        loading={deletionResult.loading}
+      />
+    </>
+  );
+};
+
+const updateCacheAfterDelete = (cache: any, { data }) => {
+  const deleted = {
+    ...data.ijustDeleteOccurrence,
+    isDeleted: true,
+  };
+  cache.writeQuery({
+    query: GET_OCCURRENCE,
+    variables: { occurrenceId: deleted.id },
+    data: { getIjustEventOccurrence: deleted },
+  });
+};
