@@ -1,7 +1,6 @@
 import * as React from "react";
 import gql from "graphql-tag";
-import { Header, Table } from "semantic-ui-react";
-import { css, StyleSheet } from "aphrodite";
+import { Table } from "semantic-ui-react";
 import { format, formatDistanceToNow, parseISO } from "date-fns";
 
 import { MainNav } from "@components/MainNav";
@@ -23,23 +22,13 @@ const QUERY = gql`
   }
 `;
 
-const styles = StyleSheet.create({
-  routeContainer: {
-    margin: "30px auto",
-    maxWidth: "700px",
-  },
-  relativeDateSpacer: {
-    marginLeft: "10px",
-  },
-});
-
 export const IjustContextEventRoute = ({ match }) => {
   const { contextId, eventId } = match.params;
 
   return (
     <div>
       <MainNav activeItem="ijust" />
-      <div className={css(styles.routeContainer)}>
+      <div className="m-4 max-w-3xl lg:mx-auto">
         <QueryLoader
           query={QUERY}
           variables={{ contextId, eventId }}
@@ -68,7 +57,7 @@ const renderEvent = (event, context) => (
           <Table.Cell>First occurred</Table.Cell>
           <Table.Cell>
             {format(parseISO(event.insertedAt + "Z"), Constants.dateTimeFormat)}
-            <span className={css(styles.relativeDateSpacer)}>
+            <span className="ml-3">
               ({formatDistanceToNow(parseISO(event.insertedAt + "Z"))} ago)
             </span>
           </Table.Cell>
@@ -77,7 +66,7 @@ const renderEvent = (event, context) => (
           <Table.Cell>Last occurred</Table.Cell>
           <Table.Cell>
             {format(parseISO(event.updatedAt + "Z"), Constants.dateTimeFormat)}
-            <span className={css(styles.relativeDateSpacer)}>
+            <span className="ml-3">
               ({formatDistanceToNow(parseISO(event.updatedAt + "Z"))} ago)
             </span>
           </Table.Cell>
