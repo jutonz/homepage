@@ -6,8 +6,10 @@ const port = process.env.PORT || 4001;
 
 const getEnv = () => {
   switch (process.env.MIX_ENV) {
-    case "prod": return "production";
-    default: return "development"
+    case "prod":
+      return "production";
+    default:
+      return "development";
   }
 };
 
@@ -15,10 +17,7 @@ const env = getEnv();
 const isProd = env === "production";
 
 const postcssPlugins = () => {
-  let p = [
-    require("tailwindcss"),
-    require("autoprefixer"),
-  ];
+  let p = [require("tailwindcss"), require("autoprefixer")];
 
   if (isProd) {
     p.push(require("cssnano"));
@@ -32,7 +31,7 @@ const webpackConfig = {
   entry: "./../assets/js/index.js",
   output: {
     filename: "js/index.js",
-    path: path.resolve(__dirname, "../priv/static")
+    path: path.resolve(__dirname, "../priv/static"),
   },
 
   devtool: "inline-source-map",
@@ -45,13 +44,13 @@ const webpackConfig = {
       "/": {
         target: "http://localhost:4000",
         secure: false,
-        changeOrigin: true
+        changeOrigin: true,
       },
       "/twitchsocket": {
         target: "ws://localhost:4000",
-        ws: true
-      }
-    }
+        ws: true,
+      },
+    },
   },
 
   module: {
@@ -61,7 +60,7 @@ const webpackConfig = {
         test: /\.(ts|tsx|js|jsx)$/,
         use: ["babel-loader", "ts-loader"],
         include: path.resolve(__dirname, "js"),
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       // Handle js and jsx
       //{
@@ -77,9 +76,9 @@ const webpackConfig = {
         options: {
           name: "[name].[ext]?[hash]",
           outputPath: "fonts/",
-          publicPath: "../"
+          publicPath: "../",
         },
-        include: [path.resolve(__dirname, "node_modules/semantic-ui-less")]
+        include: [path.resolve(__dirname, "node_modules/semantic-ui-less")],
       },
       // Handle semantic-ui fonts
       {
@@ -87,14 +86,14 @@ const webpackConfig = {
         loader: "file-loader",
         options: {
           name: "[name].[ext]?[hash]",
-          publicPath: "../"
+          publicPath: "../",
         },
         include: [
           path.resolve(
             __dirname,
             "node_modules/semantic-ui-less/themes/default/assets/fonts"
-          )
-        ]
+          ),
+        ],
       },
       // Handle static files
       {
