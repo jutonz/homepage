@@ -1,25 +1,10 @@
 import * as React from "react";
 import { Table } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { StyleSheet, css } from "aphrodite";
 import gql from "graphql-tag";
-import { formatDistanceToNow, format, parseISO } from "date-fns";
+import { formatDistanceToNow, parseISO } from "date-fns";
 
-import { StyleGlobals } from "@app/style-globals";
 import { QueryLoader } from "@utils/QueryLoader";
-
-const styles = StyleSheet.create({
-  recentEvent: {
-    ":hover": {
-      color: StyleGlobals.brandPrimary,
-      cursor: "pointer",
-    },
-    ":hover a": {
-      color: StyleGlobals.brandPrimary,
-    },
-  },
-  eventLink: { display: "flex" },
-});
 
 const GET_RECENT_EVENTS = gql`
   query FetchIjustRecentEventsQuery($contextId: ID!) {
@@ -78,11 +63,11 @@ const renderRecentEvents = (recentEvents, context) => {
 };
 
 const renderRecentEvent = (event, context) => (
-  <Table.Row key={event.id} className={css(styles.recentEvent)}>
+  <Table.Row key={event.id} className="cursor-pointer hover:text-primary">
     <Table.Cell>
       <Link
         to={`/ijust/contexts/${context.id}/events/${event.id}`}
-        className={css(styles.eventLink)}
+        className="flex"
       >
         {event.name}
       </Link>
@@ -90,7 +75,7 @@ const renderRecentEvent = (event, context) => (
     <Table.Cell>
       <Link
         to={`/ijust/contexts/${context.id}/events/${event.id}`}
-        className={css(styles.eventLink)}
+        className="flex"
       >
         {event.count}
       </Link>
@@ -98,7 +83,7 @@ const renderRecentEvent = (event, context) => (
     <Table.Cell>
       <Link
         to={`/ijust/contexts/${context.id}/events/${event.id}`}
-        className={css(styles.eventLink)}
+        className="flex"
       >
         {formatDistanceToNow(parseISO(event.updatedAt + "Z"))} ago
       </Link>

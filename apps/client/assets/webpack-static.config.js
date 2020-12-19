@@ -6,7 +6,7 @@ const getEnv = () => {
     case "prod": return "production";
     default: return "development"
   }
-}
+};
 
 const env = getEnv();
 const isProd = env === "production";
