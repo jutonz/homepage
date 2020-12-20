@@ -2,13 +2,35 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
+const getEnv = () => {
+  switch (process.env.MIX_ENV) {
+    case "prod":
+      return "production";
+    default:
+      return "development";
+  }
+};
+
+const env = getEnv();
+const isProd = env === "production";
+
+const postcssPlugins = () => {
+  let p = [require("tailwindcss"), require("autoprefixer")];
+
+  if (isProd) {
+    p.push(require("cssnano"));
+  }
+
+  return p;
+};
+
 const webpackConfig = {
   mode: "production",
   entry: "./../assets/js/index.js",
   output: {
     filename: "index.[hash].js",
     path: path.resolve(__dirname, "../priv/static"),
-    publicPath: "/"
+    publicPath: "/",
   },
 
   module: {
@@ -18,7 +40,7 @@ const webpackConfig = {
         test: /\.(ts|tsx|js|jsx)$/,
         use: ["babel-loader", "ts-loader"],
         include: path.resolve(__dirname, "js"),
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.ttf$|\.eot$|\.svg$/,
@@ -26,9 +48,9 @@ const webpackConfig = {
         options: {
           name: "[name].[ext]?[hash]",
           outputPath: "fonts/",
-          publicPath: "../"
+          publicPath: "../",
         },
-        include: [path.resolve(__dirname, "node_modules/semantic-ui-less")]
+        include: [path.resolve(__dirname, "node_modules/semantic-ui-less")],
       },
       // Handle semantic-ui fonts
       {
@@ -36,23 +58,23 @@ const webpackConfig = {
         loader: "file-loader",
         options: {
           name: "[name].[ext]?[hash]",
-          publicPath: "../"
+          publicPath: "../",
         },
         include: [
           path.resolve(
             __dirname,
             "node_modules/semantic-ui-less/themes/default/assets/fonts"
-          )
-        ]
+          ),
+        ],
       },
       // Handle static files
       {
         test: /\.(pdf|docx)$/,
         loader: "file-loader",
         options: {
-          name: "[name].[ext]?[hash]"
+          name: "[name].[ext]?[hash]",
         },
-        include: path.resolve(__dirname, "static/files")
+        include: path.resolve(__dirname, "static/files"),
       },
       // Handle less (semantic-ui + ours)
       {
@@ -60,25 +82,40 @@ const webpackConfig = {
         use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"],
         include: [
           path.resolve(__dirname, "css"),
-          path.resolve(__dirname, "node_modules/semantic-ui-less")
-        ]
-      }
-    ]
+          path.resolve(__dirname, "node_modules/semantic-ui-less"),
+        ],
+      },
+      // Tailwind
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              ident: "postcss-loader",
+              plugins: postcssPlugins(),
+            },
+          },
+        ],
+      },
+    ],
   },
 
   plugins: [
     // Handles bundled css output
     new MiniCssExtractPlugin({
       filename: "css/app.css",
-      chunkFilename: "[id].css"
+      chunkFilename: "[id].css",
     }),
     new HtmlWebpackPlugin({
       template: "static/index.ejs",
       templateParameters: {
         title: "jutonz.com",
-        isHttps: true
-      }
-    })
+        isHttps: true,
+      },
+    }),
   ],
 
   resolve: {
@@ -93,11 +130,11 @@ const webpackConfig = {
       "@components": path.resolve(__dirname, "js/components/"),
       "@routes": path.resolve(__dirname, "js/routes/"),
       "@static": path.resolve(__dirname, "static/"),
-      "@app": path.resolve(__dirname, "js/")
+      "@app": path.resolve(__dirname, "js/"),
     },
     extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],
-    modules: ["./", "./node_modules/"]
-  }
+    modules: ["./", "./node_modules/"],
+  },
 };
 
 module.exports = webpackConfig;

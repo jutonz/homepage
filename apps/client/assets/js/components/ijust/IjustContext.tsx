@@ -6,7 +6,7 @@ import { IjustRecentEvents } from "@components/ijust/IjustRecentEvents";
 import { IjustBreadcrumbs } from "@components/ijust/IjustBreadcrumbs";
 
 export const IjustContext = ({ context }) => (
-  <div>
+  <div className="m-5">
     <IjustBreadcrumbs context={context} viewing={context} />
     <IjustEventInput ijustContextId={context.id} />
     <Divider hidden />

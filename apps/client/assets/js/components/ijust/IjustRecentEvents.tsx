@@ -1,25 +1,9 @@
 import * as React from "react";
-import { Table } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { StyleSheet, css } from "aphrodite";
 import gql from "graphql-tag";
-import { formatDistanceToNow, format, parseISO } from "date-fns";
+import { formatDistanceToNow, parseISO } from "date-fns";
 
-import { StyleGlobals } from "@app/style-globals";
 import { QueryLoader } from "@utils/QueryLoader";
-
-const styles = StyleSheet.create({
-  recentEvent: {
-    ":hover": {
-      color: StyleGlobals.brandPrimary,
-      cursor: "pointer",
-    },
-    ":hover a": {
-      color: StyleGlobals.brandPrimary,
-    },
-  },
-  eventLink: { display: "flex" },
-});
 
 const GET_RECENT_EVENTS = gql`
   query FetchIjustRecentEventsQuery($contextId: ID!) {
@@ -60,50 +44,21 @@ const renderRecentEvents = (recentEvents, context) => {
     return renderEmptyState();
   }
 
-  return (
-    <Table basic="very">
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>Event</Table.HeaderCell>
-          <Table.HeaderCell>Count</Table.HeaderCell>
-          <Table.HeaderCell>Last occurrence</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-
-      <Table.Body>
-        {recentEvents.map((ev) => renderRecentEvent(ev, context))}
-      </Table.Body>
-    </Table>
-  );
+  return <div>{recentEvents.map((ev) => renderRecentEvent(ev, context))}</div>;
 };
 
 const renderRecentEvent = (event, context) => (
-  <Table.Row key={event.id} className={css(styles.recentEvent)}>
-    <Table.Cell>
-      <Link
-        to={`/ijust/contexts/${context.id}/events/${event.id}`}
-        className={css(styles.eventLink)}
-      >
-        {event.name}
-      </Link>
-    </Table.Cell>
-    <Table.Cell>
-      <Link
-        to={`/ijust/contexts/${context.id}/events/${event.id}`}
-        className={css(styles.eventLink)}
-      >
-        {event.count}
-      </Link>
-    </Table.Cell>
-    <Table.Cell>
-      <Link
-        to={`/ijust/contexts/${context.id}/events/${event.id}`}
-        className={css(styles.eventLink)}
-      >
-        {formatDistanceToNow(parseISO(event.updatedAt + "Z"))} ago
-      </Link>
-    </Table.Cell>
-  </Table.Row>
+  <Link
+    to={`/ijust/contexts/${context.id}/events/${event.id}`}
+    className="flex flex-col px-2 py-5 border-b last:border-none"
+    key={event.id}
+  >
+    <div className="flex text-lg">{event.name}</div>
+    <div className="flex justify-between">
+      <div className="pl-1">x {event.count}</div>
+      <div>{formatDistanceToNow(parseISO(event.updatedAt + "Z"))} ago</div>
+    </div>
+  </Link>
 );
 
 const renderEmptyState = () => (

@@ -1,21 +1,20 @@
 const path = require("path");
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const getEnv = () => {
   switch (process.env.MIX_ENV) {
-    case "prod": return "production";
-    default: return "development"
+    case "prod":
+      return "production";
+    default:
+      return "development";
   }
-}
+};
 
 const env = getEnv();
 const isProd = env === "production";
 
 const postcssPlugins = () => {
-  let p = [
-    require("tailwindcss"),
-    require("autoprefixer"),
-  ];
+  let p = [require("tailwindcss"), require("autoprefixer")];
 
   if (isProd) {
     p.push(require("cssnano"));
@@ -29,13 +28,13 @@ const config = {
   entry: "./static-js/index.js",
   output: {
     path: path.resolve(__dirname, "../priv/static"),
-    filename: "js/app.js"
+    filename: "js/app.js",
   },
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "app.css"
-    })
+      filename: "app.css",
+    }),
   ],
 
   module: {
@@ -48,23 +47,23 @@ const config = {
           {
             loader: "css-loader",
             options: {
-              importLoaders: 1
-            }
+              importLoaders: 1,
+            },
           },
           {
             loader: "postcss-loader",
             options: {
               ident: "postcss-loader",
-              plugins: postcssPlugins()
-            }
+              plugins: postcssPlugins(),
+            },
           },
           {
-            loader: "sass-loader"
-          }
-        ]
-      }
-    ]
-  }
+            loader: "sass-loader",
+          },
+        ],
+      },
+    ],
+  },
 };
 
 module.exports = config;
