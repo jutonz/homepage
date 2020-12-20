@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Menu } from "semantic-ui-react";
-import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
@@ -27,7 +27,7 @@ class _MainNav extends React.Component<Props, State> {
     const { activeItem } = this.state;
 
     return (
-      <Menu>
+      <Menu stackable>
         <Menu.Menu position="left">
           <Link to="/">
             <Menu.Item name={"home"} active={activeItem === "home"} />
