@@ -73,15 +73,12 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
     assert render(view) =~ "Total dispensed: 3,000 ml"
   end
 
-  test "shows and updates filter life if applicable", %{conn: conn} do
+  test "shows filter life if applicable", %{conn: conn} do
     user = insert(:user)
     yesterday = Timex.now() |> Timex.shift(days: -1)
     log = insert(:water_log, user_id: user.id, inserted_at: yesterday)
     insert(:water_log_filter, water_log_id: log.id, lifespan: 2000, inserted_at: yesterday)
     path = Routes.water_log_live_path(conn, @controller, log.id, as: user.id)
-
-    {:ok, view, html} = live(conn, path)
-    assert html =~ "Filter life remaining: 2000 L"
 
     insert(:water_log_entry,
       water_log_id: log.id,
@@ -89,8 +86,8 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
       inserted_at: Timex.shift(yesterday, hours: 1)
     )
 
-    publish_event(log.id, :saved)
-    assert render(view) =~ "Filter life remaining: 1999 L"
+    {:ok, view, html} = live(conn, path)
+    assert html =~ "Filter life remaining: 1999 L"
   end
 
   test "shows and updates the current weight", %{conn: conn} do
