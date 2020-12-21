@@ -86,7 +86,7 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
       inserted_at: Timex.shift(yesterday, hours: 1)
     )
 
-    {:ok, view, html} = live(conn, path)
+    {:ok, _view, html} = live(conn, path)
     assert html =~ "Filter life remaining: 1999 L"
   end
 
