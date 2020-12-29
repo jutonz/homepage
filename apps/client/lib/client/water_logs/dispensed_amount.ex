@@ -12,14 +12,14 @@ defmodule Client.WaterLogs.DispensedAmount do
   @spec by_day(String.t(), DateTime.t(), DateTime.t()) :: list(__MODULE__.t())
   @by_day_fragment """
   SELECT
-    (series.date AT TIME ZONE $1)::date AS date,
+    series.date::date,
     COALESCE(SUM(entry.ml), 0) AS amount
   FROM
-    GENERATE_SERIES($2, $3, '1 day'::interval) AS series(date)
+    GENERATE_SERIES(($2)::date, ($3)::date, '1 day'::interval) AS series(date)
   LEFT JOIN
     water_log_entries entry
   ON
-    ((entry.inserted_at AT TIME ZONE 'Z') AT TIME ZONE $1)::date = series.date
+    ((entry.inserted_at AT TIME ZONE 'Z') AT TIME ZONE $1)::date = (series.date)::date
     AND
     entry.water_log_id = $4
   GROUP BY
@@ -29,8 +29,8 @@ defmodule Client.WaterLogs.DispensedAmount do
   """
   def by_day(log_id, start_at, end_at) do
     zone = start_at.time_zone
-    start_at = DateTime.shift_zone!(start_at, "Etc/UTC")
-    end_at = DateTime.shift_zone!(end_at, "Etc/UTC")
+    start_at = DateTime.to_date(start_at)
+    end_at = DateTime.to_date(end_at)
     {:ok, uuid} = Ecto.UUID.dump(log_id)
 
     response =
