@@ -1,5 +1,9 @@
 module.exports = {
-  purge: ["./../lib/client_web/templates/**/*.eex", "./js/**/*.tsx"],
+  purge: [
+    "./../lib/client_web/templates/**/*.eex",
+    "./../lib/client_web/controllers/**/*_live.ex",
+    "./js/**/*.tsx"
+  ],
   theme: {
     extend: {
       colors: {
