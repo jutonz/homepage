@@ -60,9 +60,11 @@ defmodule Client.WaterLogs.AmountQueryTest do
     end
   end
 
-  defp timezone,
-    do: Application.fetch_env!(:client, :default_timezone)
+  defp timezone do
+    Application.fetch_env!(:client, :default_timezone)
+  end
 
-  defp now,
-    do: DateTime.now!(timezone())
+  defp now do
+    timezone() |> DateTime.now!() |> DateTime.shift_zone!("Etc/UTC")
+  end
 end

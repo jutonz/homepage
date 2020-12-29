@@ -4,7 +4,8 @@ import Config
 # Client config
 ################################################################################
 
-config :client, default_timezone: "Etc/UTC"
+config :client,
+  default_timezone: "America/New_York"
 
 # We don't run a server during test. If one is required, you can enable the
 # server option below.

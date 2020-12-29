@@ -58,6 +58,10 @@ defmodule Client.WaterLogs do
   def get_amount_dispensed(id, opts \\ []),
     do: AmountQuery.get_amount_dispensed(id, opts)
 
+  def get_amount_dispensed_by_day(id, start_at, end_at) do
+    __MODULE__.DispensedAmount.by_day(id, start_at, end_at)
+  end
+
   def list_by_user_id(user_id) do
     query = from(log in WaterLog, where: log.user_id == ^user_id)
     Repo.all(query)

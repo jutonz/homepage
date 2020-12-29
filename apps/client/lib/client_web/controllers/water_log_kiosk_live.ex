@@ -1,35 +1,56 @@
 defmodule ClientWeb.WaterLogKioskLive do
   require Logger
   use Phoenix.LiveView
-  alias Client.WaterLogs
-  alias ClientWeb.WaterLogs.Usage
+
+  alias Client.{
+    Util,
+    WaterLogs
+  }
 
   def render(assigns) do
     ~L"""
-    <div class="m-4">
-      <div class="text-3xl">
-        <%= if @ml == 0 do %>
-          Waiting for activity
-        <% else %>
-          Dispensed <%= @ml %> ml
-          <%= if @saving do %>
-            (Saving...)
+    <div class="m-4 flex flex-col justify-center w-full h-screen">
+      <table class="max-h-32">
+        <tr>
+          <%= for datum <- @data do %>
+            <td class="pr-3 h-64 align-bottom">
+              <div class="h-full flex flex-col justify-end items-center">
+                <span><%= datum.amount %></span>
+                <div style="height: <%= datum.percentage %>%;" class="bg-white w-20"></div>
+              </div>
+            </td>
           <% end %>
-        <% end %>
-      </div>
+        </tr>
 
-      <div class="mt-5 text-xl">
-        <%= live_component(@socket, Usage, id: :usage, log: @log) %>
-      </div>
+        <tr>
+          <%= for datum <- @data do %>
+            <td class="pr-3 text-center"><%= day_name(datum.date) %></td>
+          <% end %>
+        </tr>
+      </table>
 
-      <div class="mt-5 text-xl">
-        Current weight: <%= @current_weight %> g
-      </div>
+      <div class="mt-6 mx-4 text-xl flex justify-between">
+        <div>
+          <div>
+            Total dispensed: <%= Util.format_number(@total_l) %> L
+          </div>
+          <%= if @filter_life_remaining do %>
+            <div>
+              Filter life remaining: <%= @filter_life_remaining %> L
+            </div>
+          <% end %>
+        </div>
 
-      <div class="mt-3">
-        <button class="button" phx-click="tare">Tare</button>
+        <div>
+          <div>
+            Dispensed now: <%= Util.format_number(@dispensed_now) %> ml
+          </div>
+          <div>
+            Weight: <%= Util.format_number(@weight) %> g
+          </div>
+          <button class="button" phx-click="tare">Tare</button>
+        </div>
       </div>
-
     </div>
     """
   end
@@ -45,11 +66,13 @@ defmodule ClientWeb.WaterLogKioskLive do
     log = WaterLogs.get(log_id)
 
     assigns = %{
-      ml: 0,
-      saving: false,
-      log_id: log_id,
       log: log,
-      current_weight: 0
+      log_id: log_id,
+      data: data(log_id),
+      total_l: total_amount_dispensed(log),
+      filter_life_remaining: filter_life_remaining(log_id),
+      dispensed_now: 0,
+      weight: 0
     }
 
     {:ok, assign(socket, assigns)}
@@ -68,29 +91,83 @@ defmodule ClientWeb.WaterLogKioskLive do
   end
 
   def handle_info({:set_ml, %{"ml" => ml}}, socket) do
-    {:noreply, assign(socket, :ml, ml)}
-  end
+    data = socket.assigns[:data]
+    today_amount = List.last(data)
+    dispensed_now = socket.assigns[:dispensed_now]
+    new_amount = %{today_amount | amount: dispensed_now + ml}
+    new_data = List.replace_at(data, -1, new_amount)
 
-  def handle_info({:saving, %{"ml" => ml}}, socket) do
-    {:noreply, assign(socket, %{saving: true, ml: ml})}
+    assigns = %{
+      dispensed_now: ml,
+      data: new_data
+    }
+
+    {:noreply, assign(socket, assigns)}
   end
 
   def handle_info(:saved, socket) do
-    send_update(Usage, id: :usage, log: socket.assigns[:log])
+    send(self(), :refresh_usage)
+    assigns = %{dispensed_now: 0}
+    {:noreply, assign(socket, assigns)}
+  end
 
-    assigns = %{saving: false, ml: 0}
+  def handle_info(:refresh_usage, socket) do
+    log = WaterLogs.get(socket.assigns[:log_id])
+
+    assigns = %{
+      log: log,
+      data: data(log.id),
+      total_l: total_amount_dispensed(log),
+      filter_life_remaining: filter_life_remaining(log.id)
+    }
+
+    schedule_refresh()
     {:noreply, assign(socket, assigns)}
   end
 
   def handle_info({:weight, g}, socket) do
-    {:noreply, assign(socket, :current_weight, g)}
+    {:noreply, assign(socket, :weight, g)}
   end
 
-  def handle_info(:refresh_usage, socket) do
-    send_update(Usage, id: :usage, log: socket.assigns[:log])
-    Logger.info("refresh usage")
-    schedule_refresh()
-    {:noreply, socket}
+  defp data(log_id) do
+    beginning_of_day = timezone() |> DateTime.now!() |> Timex.beginning_of_day()
+
+    WaterLogs.get_amount_dispensed_by_day(
+      log_id,
+      beginning_of_day |> Timex.shift(days: -7),
+      beginning_of_day |> Timex.end_of_day()
+    )
+  end
+
+  defp timezone do
+    Application.fetch_env!(:client, :default_timezone)
+  end
+
+  defp day_name(datetime) do
+    if Timex.day(datetime) == Timex.day(Timex.now()) do
+      "Today"
+    else
+      Timex.Format.DateTime.Formatters.Strftime.format!(datetime, "%a")
+    end
+  end
+
+  defp filter_life_remaining(log_id) do
+    current_filter = WaterLogs.get_current_filter(log_id)
+
+    if current_filter && current_filter.lifespan do
+      lifespan = current_filter.lifespan
+      inserted_at = DateTime.from_naive!(current_filter.inserted_at, "Etc/UTC")
+      usage_ml = WaterLogs.get_amount_dispensed(log_id, start_at: inserted_at)
+      usage_l = floor(usage_ml / 1000)
+      lifespan - usage_l
+    else
+      nil
+    end
+  end
+
+  defp total_amount_dispensed(log) do
+    start_at = DateTime.from_naive!(log.inserted_at, "Etc/UTC")
+    trunc(WaterLogs.get_amount_dispensed(log.id, start_at: start_at) / 1000)
   end
 
   # one hour
