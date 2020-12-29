@@ -53,12 +53,12 @@ Also be sure to checkout the [dctl_rb](https://github.com/jutonz/dctl_rb) gem fo
 ### Secret management
 
 Secrets are stored encrypted in the repo. To decrypt them, you need the secret
-key. It's stored as `Secret access key [twitch]` in the `Homepage` 1password vault. Copy
-it to your clipboard, then run this:
+key. It's stored as `Secret access key [twitch]` in the `Homepage` 1password
+vault. Fill in the secret by running this:
 
 ```bash
   # Make sure you're in the app's root directory
-  pbpaste > apps/twitch/config/master.key
+  echo -n "[secret-key]" > apps/twitch/config/master.key
 ```
 
 #### Editing secrets
