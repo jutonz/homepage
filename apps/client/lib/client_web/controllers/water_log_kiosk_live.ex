@@ -15,7 +15,9 @@ defmodule ClientWeb.WaterLogKioskLive do
           <%= for datum <- @data do %>
             <td class="pr-3 h-64 align-bottom">
               <div class="h-full flex flex-col justify-end items-center">
-                <span><%= datum.amount %></span>
+                <span data-role="<%= "usage-for-#{day_name(datum.date)}" %>">
+                  <%= datum.amount %>
+                </span>
                 <div style="height: <%= datum.percentage %>%;" class="bg-white w-20"></div>
               </div>
             </td>
@@ -93,12 +95,13 @@ defmodule ClientWeb.WaterLogKioskLive do
   def handle_info({:set_ml, %{"ml" => ml}}, socket) do
     data = socket.assigns[:data]
     today_amount = List.last(data)
-    dispensed_now = socket.assigns[:dispensed_now]
-    new_amount = %{today_amount | amount: dispensed_now + ml}
+    previous_dispensed_today = socket.assigns[:previous_dispensed_today] || today_amount.amount
+    new_amount = %{today_amount | amount: previous_dispensed_today + ml}
     new_data = List.replace_at(data, -1, new_amount)
 
     assigns = %{
       dispensed_now: ml,
+      previous_dispensed_today: previous_dispensed_today,
       data: new_data
     }
 
@@ -111,7 +114,7 @@ defmodule ClientWeb.WaterLogKioskLive do
 
   def handle_info(:saved, socket) do
     send(self(), :refresh_usage)
-    assigns = %{dispensed_now: 0}
+    assigns = %{dispensed_now: 0, previous_dispensed_today: nil}
     {:noreply, assign(socket, assigns)}
   end
 

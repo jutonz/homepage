@@ -17,27 +17,37 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
     user = insert(:user)
     log = insert(:water_log, user_id: user.id)
     path = Routes.water_log_live_path(conn, @controller, log.id, as: user.id)
+    insert(:water_log_entry, water_log_id: log.id, ml: 1000)
 
     {:ok, view, html} = live(conn, path)
     assert html =~ "Dispensed now: 0 ml"
+    assert today_usage(html) == "1000"
 
-    publish_event(log.id, {:set_ml, %{"ml" => 123}})
-    assert render(view) =~ "Dispensed now: 123 ml"
+    publish_event(log.id, {:set_ml, %{"ml" => 234}})
+    html = render(view)
+    assert html =~ "Dispensed now: 234 ml"
+    assert today_usage(html) == "1234"
   end
 
   test "resets usage after an entry is added", %{conn: conn} do
     user = insert(:user)
     log = insert(:water_log, user_id: user.id)
     path = Routes.water_log_live_path(conn, @controller, log.id, as: user.id)
+    insert(:water_log_entry, water_log_id: log.id, ml: 1000)
 
     {:ok, view, html} = live(conn, path)
     assert html =~ "Dispensed now: 0 ml"
+    assert today_usage(html) == "1000"
 
-    publish_event(log.id, {:set_ml, %{"ml" => 123}})
-    assert render(view) =~ "Dispensed now: 123 ml"
+    publish_event(log.id, {:set_ml, %{"ml" => 234}})
+    html = render(view)
+    assert today_usage(html) == "1234"
+    assert html =~ "Dispensed now: 234 ml"
 
-    insert(:water_log_entry, water_log_id: log.id, ml: 3000)
+    insert(:water_log_entry, water_log_id: log.id, ml: 234)
     publish_event(log.id, :saved)
+    html = render(view)
+    assert today_usage(html) == "1234"
     assert html =~ "Dispensed now: 0 ml"
   end
 
@@ -76,5 +86,13 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
       "water_log_internal:#{log_id}",
       event
     )
+  end
+
+  defp today_usage(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("[data-role='usage-for-Today']")
+    |> Floki.text()
+    |> String.trim()
   end
 end
