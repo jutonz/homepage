@@ -2,7 +2,7 @@ module.exports = {
   purge: [
     "./../lib/client_web/templates/**/*.eex",
     "./../lib/client_web/controllers/**/*_live.ex",
-    "./js/**/*.tsx"
+    "./js/**/*.tsx",
   ],
   theme: {
     extend: {

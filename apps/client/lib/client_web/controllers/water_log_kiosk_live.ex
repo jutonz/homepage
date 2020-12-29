@@ -105,6 +105,10 @@ defmodule ClientWeb.WaterLogKioskLive do
     {:noreply, assign(socket, assigns)}
   end
 
+  def handle_info({:saving, %{"ml" => _ml}}, socket) do
+    {:noreply, socket}
+  end
+
   def handle_info(:saved, socket) do
     send(self(), :refresh_usage)
     assigns = %{dispensed_now: 0}
