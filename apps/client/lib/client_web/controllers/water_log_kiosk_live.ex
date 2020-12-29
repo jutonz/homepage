@@ -97,12 +97,26 @@ defmodule ClientWeb.WaterLogKioskLive do
     today_amount = List.last(data)
     previous_dispensed_today = socket.assigns[:previous_dispensed_today] || today_amount.amount
     new_amount = %{today_amount | amount: previous_dispensed_today + ml}
-    new_data = List.replace_at(data, -1, new_amount)
+    data = List.replace_at(data, -1, new_amount)
+
+    max_amount = data |> Enum.map(& &1.amount) |> Enum.max()
+
+    data =
+      Enum.map(data, fn amount ->
+        percentage =
+          if amount.amount == 0 do
+            0
+          else
+            amount.amount / max_amount * 100
+          end
+
+        Map.put(amount, :percentage, percentage)
+      end)
 
     assigns = %{
       dispensed_now: ml,
       previous_dispensed_today: previous_dispensed_today,
-      data: new_data
+      data: data
     }
 
     {:noreply, assign(socket, assigns)}
