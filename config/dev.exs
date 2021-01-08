@@ -4,6 +4,10 @@ import Config
 # Client config
 ################################################################################
 
+config :client,
+  admin_username: "admin",
+  admin_password: "admin"
+
 # For development, we disable any cache and enable debugging and code
 # reloading.
 #

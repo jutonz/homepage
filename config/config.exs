@@ -25,7 +25,9 @@ config :auth, Auth.Guardian,
 config :client,
   namespace: Client,
   ecto_repos: [Client.Repo],
-  default_timezone: "America/New_York"
+  default_timezone: "America/New_York",
+  admin_username: System.get_env("ADMIN_USERNAME")  || "admin",
+  admin_password: System.get_env("ADMIN_PASSWORD") || :crypto.strong_rand_bytes(124) |> Base.encode64()
 
 config :phoenix,
   json_library: Jason,
