@@ -52,7 +52,7 @@ defmodule Client.Mixfile do
       {:hackney, "~> 1.8"},
       {:jason, "~> 1.1"},
       {:money, "~> 1.7"},
-      {:phoenix, "1.5.6"},
+      {:phoenix, "1.5.7"},
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
