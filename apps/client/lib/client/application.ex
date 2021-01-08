@@ -11,7 +11,8 @@ defmodule Client.Application do
       supervisor(ClientWeb.Endpoint, []),
       {Phoenix.PubSub, name: Client.PubSub},
       worker(Client.UserServer, [[name: :user_server]]),
-      Client.TwitchServer
+      Client.TwitchServer,
+      ClientWeb.Telemetry
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html for other strategies and

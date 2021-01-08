@@ -24,7 +24,7 @@ defmodule Client.Mixfile do
   def application do
     [
       mod: {Client.Application, []},
-      extra_applications: [:bamboo, :logger, :runtime_tools, :redix]
+      extra_applications: [:bamboo, :logger, :runtime_tools, :redix, :os_mon]
     ]
   end
 
@@ -37,36 +37,42 @@ defmodule Client.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "1.5.6"},
-      {:phoenix_pubsub, "~> 2.0"},
-      {:phoenix_ecto, "~> 4.0"},
-      {:postgrex, "~> 0.14"},
-      {:ecto_sql, "~> 3.0"},
-      {:hackney, "~> 1.8"},
-      {:phoenix_html, "~> 2.10"},
-      {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:gettext, "~> 0.11"},
-      {:plug_cowboy, "~> 2.3"},
       {:absinthe_ecto, "~> 0.1"},
       {:absinthe_plug, "~> 1.4"},
-      {:cors_plug, "~> 2.0"},
-      {:plug_static_index_html, "~> 1.0"},
-      {:gen_stage, "~> 1.0.0"},
-      {:bamboo, "~> 1.1"},
-      {:sentry, "~> 8.0"},
-      {:jason, "~> 1.1"},
-      # TODO: Switch back to a tag once 0.24 is released
-      # (we need custom capabilities to enable javascript on CI)
-      {:wallaby, [git: "git@github.com:elixir-wallaby/wallaby.git", ref: "a0753fb", runtime: false, only: :test]},
-      {:phoenix_live_view, "~> 0.14.0"},
-      {:ex_machina, "~> 2.2", only: :test},
-      {:money, "~> 1.7"},
-      {:floki, "~> 0.29.0", only: :test},
       {:auth, in_umbrella: true},
-      {:redis, in_umbrella: true},
-      {:twitch, in_umbrella: true},
+      {:bamboo, "~> 1.1"},
+      {:cors_plug, "~> 2.0"},
+      {:ecto_sql, "~> 3.0"},
+      {:emoncms, in_umbrella: true},
       {:events, in_umbrella: true},
-      {:emoncms, in_umbrella: true}
+      {:ex_machina, "~> 2.2", only: :test},
+      {:floki, "~> 0.29.0", only: :test},
+      {:gen_stage, "~> 1.0.0"},
+      {:gettext, "~> 0.11"},
+      {:hackney, "~> 1.8"},
+      {:jason, "~> 1.1"},
+      {:money, "~> 1.7"},
+      {:phoenix, "1.5.6"},
+      {:phoenix_ecto, "~> 4.0"},
+      {:phoenix_html, "~> 2.10"},
+      {:phoenix_live_reload, "~> 1.0", only: :dev},
+      {:phoenix_live_view, "~> 0.14.0"},
+      {:phoenix_pubsub, "~> 2.0"},
+      {:plug_cowboy, "~> 2.3"},
+      {:plug_static_index_html, "~> 1.0"},
+      {:postgrex, "~> 0.14"},
+      {:redis, in_umbrella: true},
+      {:sentry, "~> 8.0"},
+      {:twitch, in_umbrella: true},
+      # (we need custom capabilities to enable javascript on CI)
+      # TODO: Switch back to a tag once 0.24 is released
+      {:wallaby, [git: "git@github.com:elixir-wallaby/wallaby.git", ref: "a0753fb", runtime: false, only: :test]},
+
+      # Live dashboard
+      {:phoenix_live_dashboard, "~> 0.1"},
+      {:ecto_psql_extras, "~> 0.2"},
+      {:telemetry_poller, "~> 0.4"},
+      {:telemetry_metrics, "~> 0.4"}
     ]
   end
 

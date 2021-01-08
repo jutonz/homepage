@@ -1,6 +1,8 @@
 defmodule ClientWeb.Router do
   use ClientWeb, :router
+  import Plug.BasicAuth
   import Phoenix.LiveView.Router
+  import Phoenix.LiveDashboard.Router
 
   ##############################################################################
   # Browser requests
@@ -21,6 +23,14 @@ defmodule ClientWeb.Router do
 
   pipeline :browser_authenticated do
     plug(ClientWeb.Plugs.BrowserAuthenticated)
+  end
+
+  pipeline :browser_admin do
+    plug(
+      :basic_auth,
+      username: Application.fetch_env!(:client, :admin_username),
+      password: Application.fetch_env!(:client, :admin_password)
+    )
   end
 
   scope "/", ClientWeb do
@@ -67,6 +77,16 @@ defmodule ClientWeb.Router do
         )
       end
     end
+  end
+
+  scope "/admin", ClientWeb do
+    pipe_through(:browser_admin)
+
+    live_dashboard(
+      "/dashboard",
+      ecto_repos: [Client.Repo, Twitch.Repo],
+      metrics: ClientWeb.Telemetry
+    )
   end
 
   scope "/twitch", ClientWeb.Twitch do

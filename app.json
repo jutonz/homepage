@@ -3,6 +3,12 @@
   "scripts": {
   },
   "env": {
+    "ADMIN_USERNAME": {
+      "required": true
+    },
+    "ADMIN_PASSWORD": {
+      "required": true
+    },
     "HEROKU_APP_NAME": {
       "required": true
     },
