@@ -52,11 +52,11 @@ defmodule Client.Mixfile do
       {:hackney, "~> 1.8"},
       {:jason, "~> 1.1"},
       {:money, "~> 1.7"},
-      {:phoenix, "1.5.6"},
+      {:phoenix, "1.5.7"},
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:phoenix_live_view, "~> 0.14.0"},
+      {:phoenix_live_view, "~> 0.15.3"},
       {:phoenix_pubsub, "~> 2.0"},
       {:plug_cowboy, "~> 2.3"},
       {:plug_static_index_html, "~> 1.0"},
@@ -69,7 +69,7 @@ defmodule Client.Mixfile do
       {:wallaby, [git: "git@github.com:elixir-wallaby/wallaby.git", ref: "a0753fb", runtime: false, only: :test]},
 
       # Live dashboard
-      {:phoenix_live_dashboard, "~> 0.1"},
+      {:phoenix_live_dashboard, "~> 0.4"},
       {:ecto_psql_extras, "~> 0.2"},
       {:telemetry_poller, "~> 0.4"},
       {:telemetry_metrics, "~> 0.4"}
