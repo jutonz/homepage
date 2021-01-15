@@ -133,7 +133,7 @@ jobs:
   mix_test:
     working_directory: ~/code
     docker:
-    - image: cimg/elixir:1.10-node-browsers
+    - image: cimg/elixir:1.10-browsers
     - image: circleci/postgres:12-alpine
       environment:
       - POSTGRES_USER: postgres
