@@ -6,7 +6,7 @@ jobs:
   mix_deps_get:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     steps:
     - checkout
     - restore_cache:
@@ -24,7 +24,7 @@ jobs:
   build_test:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     environment:
     - MIX_ENV: test
     steps:
@@ -55,7 +55,7 @@ jobs:
   build_dev:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     steps:
     - checkout
     - restore_cache:
@@ -101,7 +101,7 @@ jobs:
   yarn_install_and_lint:
     working_directory: ~/code
     docker:
-    - image: circleci/node:12
+    - image: cimg/node:12
     steps:
     - checkout
     - restore_cache:
@@ -133,7 +133,7 @@ jobs:
   mix_test:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10-node-browsers
+    - image: cimg/elixir:1.10-node-browsers
     - image: circleci/postgres:12-alpine
       environment:
       - POSTGRES_USER: postgres
@@ -175,14 +175,14 @@ jobs:
   mix_format:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     steps:
     - checkout
     - run: mix format --check-formatted
   mix_dialyzer:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     steps:
     - checkout
     - restore_cache:
@@ -203,7 +203,7 @@ jobs:
   build_prod:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     environment:
     - MIX_ENV: prod
     steps:
@@ -234,7 +234,7 @@ jobs:
   yarn_bundle_static:
     working_directory: ~/code
     docker:
-    - image: circleci/node:12
+    - image: cimg/node:12
     steps:
     - checkout
     - restore_cache:
@@ -251,7 +251,7 @@ jobs:
   yarn_bundle_react:
     working_directory: ~/code
     docker:
-    - image: circleci/node:12
+    - image: cimg/node:12
     steps:
     - checkout
     - restore_cache:
