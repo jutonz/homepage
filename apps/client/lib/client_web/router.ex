@@ -25,7 +25,7 @@ defmodule ClientWeb.Router do
     plug(ClientWeb.Plugs.BrowserAuthenticated)
   end
 
-  pipeline :browser_admin do
+  pipeline :admin do
     plug(
       :basic_auth,
       username: Application.fetch_env!(:client, :admin_username),
@@ -80,7 +80,8 @@ defmodule ClientWeb.Router do
   end
 
   scope "/admin", ClientWeb do
-    pipe_through(:browser_admin)
+    pipe_through(:browser)
+    pipe_through(:admin)
 
     live_dashboard(
       "/dashboard",
