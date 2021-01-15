@@ -67,8 +67,8 @@ jobs:
     - restore_cache:
         name: Restore PLT's
         keys:
-        - v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
-        - v2-plts-{{ checksum ".tool-versions" }}-
+        - v3-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        - v3-plts-{{ checksum ".tool-versions" }}-
     - run:
         name: Setup hex
         command: |
@@ -94,7 +94,7 @@ jobs:
         - _build/dev
         - deps
     - save_cache:
-        key: v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        key: v3-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
         - _plts
 
@@ -188,8 +188,8 @@ jobs:
     - restore_cache:
         name: Restore PLT's
         keys:
-        - v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
-        - v2-plts-{{ checksum ".tool-versions" }}-
+        - v3-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        - v3-plts-{{ checksum ".tool-versions" }}-
     - restore_cache:
         name: Restore compiled deps
         key: v9-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
