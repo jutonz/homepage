@@ -1,7 +1,9 @@
 # Elixir CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-elixir/ for more details
-version: 2
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1
 jobs:
   mix_deps_get:
     working_directory: ~/code
@@ -133,7 +135,7 @@ jobs:
   mix_test:
     working_directory: ~/code
     docker:
-    - image: cimg/elixir:1.10-browsers
+    - image: cimg/elixir:1.10
     - image: circleci/postgres:12-alpine
       environment:
       - POSTGRES_USER: postgres
@@ -143,6 +145,8 @@ jobs:
     environment:
     - MIX_ENV=test
     steps:
+    - browser-tools/install-chrome
+    - browser-tools/install-chromedriver
     - checkout
     - restore_cache:
         key: v7-test-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
