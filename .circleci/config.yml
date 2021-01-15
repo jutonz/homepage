@@ -1,12 +1,14 @@
 # Elixir CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-elixir/ for more details
-version: 2
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1
 jobs:
   mix_deps_get:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     steps:
     - checkout
     - restore_cache:
@@ -24,7 +26,7 @@ jobs:
   build_test:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     environment:
     - MIX_ENV: test
     steps:
@@ -55,7 +57,7 @@ jobs:
   build_dev:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     steps:
     - checkout
     - restore_cache:
@@ -67,8 +69,8 @@ jobs:
     - restore_cache:
         name: Restore PLT's
         keys:
-        - v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
-        - v2-plts-{{ checksum ".tool-versions" }}-
+        - v3-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        - v3-plts-{{ checksum ".tool-versions" }}-
     - run:
         name: Setup hex
         command: |
@@ -94,14 +96,14 @@ jobs:
         - _build/dev
         - deps
     - save_cache:
-        key: v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        key: v3-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
         paths:
         - _plts
 
   yarn_install_and_lint:
     working_directory: ~/code
     docker:
-    - image: circleci/node:12
+    - image: cimg/node:12.20
     steps:
     - checkout
     - restore_cache:
@@ -133,7 +135,7 @@ jobs:
   mix_test:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10-node-browsers
+    - image: cimg/elixir:1.10
     - image: circleci/postgres:12-alpine
       environment:
       - POSTGRES_USER: postgres
@@ -143,6 +145,8 @@ jobs:
     environment:
     - MIX_ENV=test
     steps:
+    - browser-tools/install-chrome
+    - browser-tools/install-chromedriver
     - checkout
     - restore_cache:
         key: v7-test-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
@@ -175,21 +179,21 @@ jobs:
   mix_format:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     steps:
     - checkout
     - run: mix format --check-formatted
   mix_dialyzer:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     steps:
     - checkout
     - restore_cache:
         name: Restore PLT's
         keys:
-        - v2-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
-        - v2-plts-{{ checksum ".tool-versions" }}-
+        - v3-plts-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
+        - v3-plts-{{ checksum ".tool-versions" }}-
     - restore_cache:
         name: Restore compiled deps
         key: v9-dev-{{ checksum ".tool-versions" }}-{{ checksum "mix.lock" }}
@@ -203,7 +207,7 @@ jobs:
   build_prod:
     working_directory: ~/code
     docker:
-    - image: circleci/elixir:1.10
+    - image: cimg/elixir:1.10
     environment:
     - MIX_ENV: prod
     steps:
@@ -234,7 +238,7 @@ jobs:
   yarn_bundle_static:
     working_directory: ~/code
     docker:
-    - image: circleci/node:12
+    - image: cimg/node:12.20
     steps:
     - checkout
     - restore_cache:
@@ -251,7 +255,7 @@ jobs:
   yarn_bundle_react:
     working_directory: ~/code
     docker:
-    - image: circleci/node:12
+    - image: cimg/node:12.20
     steps:
     - checkout
     - restore_cache:
