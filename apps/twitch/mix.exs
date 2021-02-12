@@ -30,7 +30,7 @@ defmodule Twitch.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.3"},
-      {:gen_stage, "~> 1.0.0"},
+      {:gen_stage, "~> 1.1.0"},
       {:websockex, "~> 0.4.1"},
       {:exirc, "~> 2.0"},
       {:ecto_sql, "~> 3.0"},
