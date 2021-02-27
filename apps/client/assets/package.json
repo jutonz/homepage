@@ -43,7 +43,7 @@
     "semantic-ui-less": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "tailwindcss": "^1.9.6",
-    "three": "^0.125.2"
+    "three": "^0.126.0"
   },
   "devDependencies": {
     "@types/chart.js": "^2.9.30",
@@ -52,7 +52,7 @@
     "@types/react-redux": "^7.1.11",
     "@types/react-router-dom": "^5.1.7",
     "@types/redux-saga": "^0.10.5",
-    "@typescript-eslint/typescript-estree": "^4.14.2",
+    "@typescript-eslint/typescript-estree": "^4.15.2",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-semantic-ui-react-imports": "^1.4.1",
