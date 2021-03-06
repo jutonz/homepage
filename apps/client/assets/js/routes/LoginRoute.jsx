@@ -3,11 +3,12 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { LoginForm } from "@components/LoginForm";
+import { BgGrid } from "./../BgGrid";
 
 class _LoginRoute extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { bgGrid: new window.Utils.BgGrid() };
+    this.state = { bgGrid: new BgGrid() };
   }
 
   componentDidMount() {
