@@ -2,11 +2,10 @@
   "parser": "@typescript-eslint/typescript-estree",
   "extends": [
     "prettier",
-    "prettier/react"
+    "plugin:prettier/recommended"
   ],
   "plugins": [
-    "prettier",
-    "react"
+    "prettier"
   ],
   "rules": {
     "prettier/prettier": "error"
