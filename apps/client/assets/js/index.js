@@ -23,8 +23,6 @@ import { rootSaga } from "@store/sagas/root";
 import isValidEmail from "@utils/isValidEmail";
 import isValidPassword from "@utils/isValidPassword";
 
-import BgGrid from "./BgGrid";
-
 const wee = document.getElementById("wee");
 const isHttps = wee.getAttribute("data-https");
 if (isHttps == "true" && window.location.protocol === "http:") {
@@ -33,7 +31,6 @@ if (isHttps == "true" && window.location.protocol === "http:") {
 }
 
 window.Utils = {
-  BgGrid,
   isValidEmail,
   isValidPassword,
 };
