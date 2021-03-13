@@ -1,5 +1,5 @@
 defmodule Client.IjustContextTest do
-  use Client.DataCase, async: true
+  use Client.DataCase, async: false
   alias Client.{IjustEvent, IjustContext, Repo, TestUtils}
 
   describe ".create_default_context" do
