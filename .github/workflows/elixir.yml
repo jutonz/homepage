@@ -169,6 +169,10 @@ jobs:
           POSTGRES_PASSWORD:
         ports:
         - 5432:5432
+      redis:
+        image: circleci/redis
+        ports:
+        - 6379:6379
     steps:
     - uses: actions/checkout@v2
     - name: Set up Elixir
