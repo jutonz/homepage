@@ -156,6 +156,9 @@ jobs:
     name: mix test
     needs: [build_dev, build_static]
     runs-on: ubuntu-latest
+    env:
+      TWITCH_SECRET_MASTER_KEY: ${{ secrets.TWITCH_SECRET_MASTER_KEY }}
+      DATASTORE_CREDENTIALS_JSON: ${{ secrets.DATASTORE_CREDENTIALS_JSON }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up Elixir
@@ -184,5 +187,7 @@ jobs:
         restore-keys: |
           v1-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v1-test-${{ hashFiles('.tool-versions') }}-
+    - name: Write twitch secret master key to file
+      run: echo -n $TWITCH_SECRET_MASTER_KEY > apps/twitch/config/master.key
     - run: MIX_ENV=test mix compile --warnings-as-errors
     - run: mix test
