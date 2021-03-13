@@ -1,6 +1,10 @@
 defmodule ClientWeb.Api.SessionControllerTest do
   use ClientWeb.ConnCase, async: true
-  alias Client.Factory
+
+  alias Client.{
+    Factory,
+    Session
+  }
 
   describe "exchange" do
     test "renders 401 for an invalid jwt", %{conn: conn} do
@@ -110,6 +114,23 @@ defmodule ClientWeb.Api.SessionControllerTest do
       |> recycle()
       |> get(response["url"])
       |> assert_redirected_to(redirect_path)
+    end
+  end
+
+  describe "logout" do
+    test "drops the session", %{conn: conn} do
+      {:ok, conn} =
+        conn
+        |> Plug.Test.init_test_session(%{})
+        |> fetch_session()
+        |> Session.init_user_session(Factory.insert(:user))
+
+      conn =
+        conn
+        |> post(Routes.api_session_path(conn, :logout))
+
+      assert redirected_to(conn) == "/"
+      assert Session.current_user_id(conn) == nil
     end
   end
 

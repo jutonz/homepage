@@ -166,9 +166,9 @@ defmodule ClientWeb.Router do
     scope "/", Api, as: :api do
       post("/login", SessionController, :login)
       get("/exchange", SessionController, :exchange)
+      post("/logout", SessionController, :logout)
 
       pipe_through(:authenticated_api)
-      post("/logout", SessionController, :logout)
       get("/tokentest", SessionController, :token_test)
       post("/one-time-login-link", SessionController, :one_time_login_link)
 

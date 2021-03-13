@@ -50,8 +50,8 @@ defmodule Client.Session do
   def logout(conn) do
     conn =
       conn
-      |> put_session(:user_id, nil)
-      |> assign(:current_user, nil)
+      |> clear_session()
+      |> configure_session(drop: true)
 
     {:ok, conn}
   end
