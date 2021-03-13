@@ -154,7 +154,7 @@ jobs:
 
   mix_test:
     name: mix test
-    needs: [get_deps, build_static]
+    needs: [build_dev, build_static]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
