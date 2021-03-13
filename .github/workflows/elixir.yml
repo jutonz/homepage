@@ -8,7 +8,7 @@ on:
 
 jobs:
   get_deps:
-    name: mix deps.get
+    name: mix deps.get and format
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -25,6 +25,7 @@ jobs:
         restore-keys: |
           v1-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v1-mix-${{ hashFiles('.tool-versions') }}-
+    - run: mix format --check-formatted
     - run: mix deps.get
 
   build_dev:
@@ -151,9 +152,9 @@ jobs:
       working-directory: apps/client/assets
       run: yarn bundle:react
 
-  build:
-    name: mix format
-    needs: get_deps
+  mix_test:
+    name: mix test
+    needs: [get_deps, build_static]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -166,6 +167,14 @@ jobs:
       uses: actions/cache@v2
       with:
         path: deps
-        key: v1-mix-${{ hashFiles('mix.lock') }}
-        restore-keys: v1-mix-
-    - run: mix format --check-formatted
+        key: v1-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+        restore-keys: |
+          v1-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+          v1-mix-${{ hashFiles('.tool-versions') }}-
+    - name: Restore static asset cache
+      uses: actions/cache@v2
+      with:
+        path: apps/client/priv/static/js
+        key: v1-static-assets-${{ github.ref }}
+    - run: MIX_ENV=test mix compile --warnings-as-errors
+    - run: mix test
