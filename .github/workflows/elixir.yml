@@ -159,6 +159,16 @@ jobs:
     env:
       TWITCH_SECRET_MASTER_KEY: ${{ secrets.TWITCH_SECRET_MASTER_KEY }}
       DATASTORE_CREDENTIALS_JSON: ${{ secrets.DATASTORE_CREDENTIALS_JSON }}
+      MIX_ENV: test
+    services:
+      postgres:
+        image: circleci/postgres:12-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: homepage_test
+          POSTGRES_PASSWORD:
+        ports:
+        - 5432:5432
     steps:
     - uses: actions/checkout@v2
     - name: Set up Elixir
@@ -189,5 +199,6 @@ jobs:
           v1-test-${{ hashFiles('.tool-versions') }}-
     - name: Write twitch secret master key to file
       run: echo -n $TWITCH_SECRET_MASTER_KEY > apps/twitch/config/master.key
-    - run: MIX_ENV=test mix compile --warnings-as-errors
+    - run: mix compile --warnings-as-errors
+    - run: mix do ecto.create, ecto.migrate
     - run: mix test
