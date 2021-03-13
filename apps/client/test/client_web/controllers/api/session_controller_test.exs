@@ -122,12 +122,9 @@ defmodule ClientWeb.Api.SessionControllerTest do
       {:ok, conn} =
         conn
         |> Plug.Test.init_test_session(%{})
-        |> fetch_session()
         |> Session.init_user_session(Factory.insert(:user))
 
-      conn =
-        conn
-        |> post(Routes.api_session_path(conn, :logout))
+      conn = post(conn, Routes.api_session_path(conn, :logout))
 
       assert redirected_to(conn) == "/"
       assert Session.current_user_id(conn) == nil
