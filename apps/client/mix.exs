@@ -64,10 +64,7 @@ defmodule Client.Mixfile do
       {:redis, in_umbrella: true},
       {:sentry, "~> 8.0"},
       {:twitch, in_umbrella: true},
-      # (we need custom capabilities to enable javascript on CI)
-      # TODO: Switch back to a tag once 0.24 is released
-      {:wallaby, [git: "git@github.com:elixir-wallaby/wallaby.git", ref: "a0753fb", runtime: false, only: :test]},
-
+      {:wallaby, "~> 0.24.0"},
       # Live dashboard
       {:phoenix_live_dashboard, "~> 0.4"},
       {:ecto_psql_extras, "~> 0.2"},
