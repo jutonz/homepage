@@ -154,7 +154,7 @@ jobs:
 
   mix_test:
     name: mix test
-    needs: [build_dev, build_static]
+    needs: [get_deps, build_static]
     runs-on: ubuntu-latest
     env:
       TWITCH_SECRET_MASTER_KEY: ${{ secrets.TWITCH_SECRET_MASTER_KEY }}
