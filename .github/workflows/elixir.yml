@@ -25,6 +25,26 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - run: mix deps.get
 
+
+  yarn_install:
+    name: yarn install
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.17
+    - name: Restore node_modules cache
+      uses: actions/cache@v2
+      with:
+        path: deps
+        key: ${{ runner.os }}-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        restore-keys: ${{ runner.os }}-node-modules-
+    - name: yarn install
+      working-directory: apps/client/assets
+      run: yarn install
+
   build:
     name: mix format
     needs: get_deps
