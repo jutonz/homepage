@@ -21,7 +21,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: deps
-        key: ${{ runner.os }}-mix-${{ hashFiles('mix.lock') }}
+        key: v1-mix-${{ hashFiles('mix.lock') }}
         restore-keys: ${{ runner.os }}-mix-
     - run: mix deps.get
 
@@ -39,8 +39,11 @@ jobs:
       uses: actions/cache@v2
       with:
         path: deps
-        key: ${{ runner.os }}-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-        restore-keys: ${{ runner.os }}-node-modules-
+        key: v1-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        restore-keys: |
+          v1-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+          v1-node-modules-${{ hashFiles('.tool-versions') }}
+          v1-node-modules-
     - name: yarn install
       working-directory: apps/client/assets
       run: yarn install
@@ -60,6 +63,6 @@ jobs:
       uses: actions/cache@v2
       with:
         path: deps
-        key: ${{ runner.os }}-mix-${{ hashFiles('mix.lock') }}
-        restore-keys: ${{ runner.os }}-mix-
+        key: v1-mix-${{ hashFiles('mix.lock') }}
+        restore-keys: v1-mix-
     - run: mix format --check-formatted
