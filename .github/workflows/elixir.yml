@@ -203,10 +203,6 @@ jobs:
           v1-test-${{ hashFiles('.tool-versions') }}-
     - name: Write twitch secret master key to file
       run: echo -n $TWITCH_SECRET_MASTER_KEY > apps/twitch/config/master.key
-    - name: Touch files
-      run: |
-        find _build/** -type f -exec touch {} + || true
-        find deps/** -type f -exec touch {} + || true
     - run: mix compile --warnings-as-errors
     - run: mix do ecto.create, ecto.migrate
     - run: mix test
