@@ -176,5 +176,13 @@ jobs:
       with:
         path: apps/client/priv/static/js
         key: v1-static-assets-${{ github.ref }}
+    - name: Restore test cache
+      uses: actions/cache@v2
+      with:
+        path: _build/test
+        key: v1-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+        restore-keys: |
+          v1-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+          v1-test-${{ hashFiles('.tool-versions') }}-
     - run: MIX_ENV=test mix compile --warnings-as-errors
     - run: mix test
