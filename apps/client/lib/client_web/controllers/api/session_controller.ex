@@ -28,7 +28,9 @@ defmodule ClientWeb.Api.SessionController do
   end
 
   def logout(conn, _params) do
-    with {:ok, conn} <- Session.logout(conn), do: redirect(conn, to: "/")
+    with {:ok, conn} <- Session.logout(conn) do
+      redirect(conn, to: "/")
+    end
   end
 
   def token_test(conn, _params) do

@@ -20,10 +20,6 @@ class _LoginRoute extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    this.state.bgGrid.stop();
-  }
-
   render() {
     return (
       <div>
