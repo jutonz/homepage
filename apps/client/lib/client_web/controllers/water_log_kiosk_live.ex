@@ -165,7 +165,7 @@ defmodule ClientWeb.WaterLogKioskLive do
   end
 
   defp day_name(datetime) do
-    if Timex.day(datetime) == Timex.day(Timex.now()) do
+    if Timex.day(datetime) == Timex.day(Timex.now(timezone())) do
       "Today"
     else
       Timex.Format.DateTime.Formatters.Strftime.format!(datetime, "%a")
