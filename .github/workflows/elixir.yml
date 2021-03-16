@@ -196,11 +196,13 @@ jobs:
     - name: Restore test cache
       uses: actions/cache@v2
       with:
-        path: _build/test
-        key: v1-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+        path: |
+          deps
+          _build/test
+        key: v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
         restore-keys: |
-          v1-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
-          v1-test-${{ hashFiles('.tool-versions') }}-
+          v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+          v2-test-${{ hashFiles('.tool-versions') }}-
     - name: Write twitch secret master key to file
       run: echo -n $TWITCH_SECRET_MASTER_KEY > apps/twitch/config/master.key
     - run: mix compile --warnings-as-errors
