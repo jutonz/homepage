@@ -205,6 +205,9 @@ jobs:
           v2-test-${{ hashFiles('.tool-versions') }}-
     - name: Write twitch secret master key to file
       run: echo -n $TWITCH_SECRET_MASTER_KEY > apps/twitch/config/master.key
-    - run: mix compile --warnings-as-errors
+    - name: mix compile
+      run: |
+        mix deps.compile argon2_elixir --force
+        mix compile --warnings-as-errors
     - run: mix do ecto.create, ecto.migrate
     - run: mix test
