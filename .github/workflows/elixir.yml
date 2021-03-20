@@ -20,13 +20,15 @@ jobs:
     - name: Restore dependencies cache
       uses: actions/cache@v2
       with:
-        path: deps
+        path: _deps_cache
         key: v1-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
         restore-keys: |
           v1-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v1-mix-${{ hashFiles('.tool-versions') }}-
     - run: mix format --check-formatted
+    - run: mv _deps_cache deps
     - run: mix deps.get
+    - run: mv deps _deps_cache
 
   build_dev:
     name: mix compile and dialyzer
@@ -42,7 +44,7 @@ jobs:
     - name: Restore dependencies cache
       uses: actions/cache@v2
       with:
-        path: deps
+        path: _deps_cache
         key: v1-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
         restore-keys: |
           v1-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
@@ -64,6 +66,7 @@ jobs:
           v1-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v1-plts-${{ hashFiles('.tool-versions') }}-
           v1-plts-
+    - run: cp -vr _deps_cache/ deps/
     - run: mix compile --warnings-as-errors
     - run: mix dialyzer
 
