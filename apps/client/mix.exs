@@ -40,7 +40,7 @@ defmodule Client.Mixfile do
       {:absinthe_ecto, "~> 0.1"},
       {:absinthe_plug, "~> 1.4"},
       {:auth, in_umbrella: true},
-      {:bamboo, "~> 1.1"},
+      {:bamboo, "~> 2.0"},
       {:cors_plug, "~> 2.0"},
       {:ecto_sql, "~> 3.0"},
       {:emoncms, in_umbrella: true},
