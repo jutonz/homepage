@@ -180,14 +180,6 @@ jobs:
       with:
         elixir-version: '1.10.3'
         otp-version: '23.0'
-    - name: Restore dependencies cache
-      uses: actions/cache@v2
-      with:
-        path: deps
-        key: v1-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
-        restore-keys: |
-          v1-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
-          v1-mix-${{ hashFiles('.tool-versions') }}-
     - name: Restore static asset cache
       uses: actions/cache@v2
       with:
@@ -205,6 +197,7 @@ jobs:
           v2-test-${{ hashFiles('.tool-versions') }}-
     - name: Write twitch secret master key to file
       run: echo -n $TWITCH_SECRET_MASTER_KEY > apps/twitch/config/master.key
+    - run: mix deps.get
     - run: mix compile --warnings-as-errors
     - run: mix do ecto.create, ecto.migrate
     - run: mix test
