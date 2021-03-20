@@ -64,7 +64,7 @@ defmodule Client.Mixfile do
       {:redis, in_umbrella: true},
       {:sentry, "~> 8.0"},
       {:twitch, in_umbrella: true},
-      {:wallaby, "~> 0.24.0", only: :test},
+      {:wallaby, "~> 0.28.0", only: :test},
       # Live dashboard
       {:phoenix_live_dashboard, "~> 0.4"},
       {:ecto_psql_extras, "~> 0.2"},
