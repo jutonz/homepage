@@ -8,6 +8,10 @@ defmodule ClientWeb.Endpoint do
     signing_salt: "bj3dUFRB"
   ]
 
+  if sandbox = Application.get_env(:client, :sql_sandbox) do
+    plug Phoenix.Ecto.SQL.Sandbox, sandbox: sandbox
+  end
+
   socket("/socket", ClientWeb.UserSocket)
   socket("/twitchsocket", ClientWeb.TwitchSocket)
 

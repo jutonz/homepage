@@ -1,7 +1,7 @@
 defmodule ClientWeb.FoodLogs.AddEntryTest do
-  alias Client.FoodLogs
-  use ClientWeb.FeatureCase
+  use ClientWeb.FeatureCase, async: true
   import Wallaby.Query, only: [css: 1]
+  alias Client.FoodLogs
 
   test "it allows creating food logs", %{session: session} do
     user = insert(:user)

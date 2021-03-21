@@ -1,5 +1,5 @@
 defmodule ClientWeb.WaterLogsFeatureTests do
-  use ClientWeb.FeatureCase
+  use ClientWeb.FeatureCase, async: true
   alias Client.WaterLogs
 
   test "allows adding a filter", %{session: session} do
