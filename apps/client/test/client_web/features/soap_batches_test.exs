@@ -1,5 +1,5 @@
 defmodule ClientWeb.SoapBatchesFeatureTests do
-  use ClientWeb.FeatureCase
+  use ClientWeb.FeatureCase, async: true
   alias Client.Soap
 
   test "can create a batch", %{session: session} do

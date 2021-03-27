@@ -1,5 +1,5 @@
 defmodule ClientWeb.SoapOrdersFeatureTests do
-  use ClientWeb.FeatureCase
+  use ClientWeb.FeatureCase, async: true
 
   test "can create a order", %{session: session} do
     user = insert(:user)

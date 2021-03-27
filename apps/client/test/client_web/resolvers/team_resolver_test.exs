@@ -1,21 +1,22 @@
 defmodule ClientWeb.TeamResolverTest do
   use ClientWeb.ConnCase, async: true
-  alias Client.{TestUtils, Team, Repo, Session, User}
+  alias Client.{TestUtils, Team, Repo, Session}
 
   describe "create_team" do
     test "can create an team", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
+      name = rand_string()
 
       query = """
         mutation {
-          createTeam(name: "hello") { name id }
+          createTeam(name: "#{name}") { name id }
         }
       """
 
       res = conn |> post("/graphql", %{query: query}) |> json_response(200)
 
-      %{"data" => %{"createTeam" => %{"name" => name}}} = res
-      assert name == "hello"
+      %{"data" => %{"createTeam" => %{"name" => actual_name}}} = res
+      assert actual_name == name
     end
 
     test "adds a user association for the current user", %{conn: conn} do
@@ -23,7 +24,7 @@ defmodule ClientWeb.TeamResolverTest do
 
       query = """
         mutation {
-          createTeam(name: "hello") { name id }
+          createTeam(name: "#{rand_string()}") { name id }
         }
       """
 
@@ -42,7 +43,7 @@ defmodule ClientWeb.TeamResolverTest do
 
       query = """
         mutation {
-          createTeam(name: "hello") { name id }
+          createTeam(name: "#{rand_string()}") { name id }
         }
       """
 
@@ -65,7 +66,7 @@ defmodule ClientWeb.TeamResolverTest do
       {:ok, user} = conn |> Session.current_user()
 
       {:ok, team} =
-        %Team{name: "hello"}
+        %Team{name: rand_string()}
         |> Team.changeset()
         |> Ecto.Changeset.put_assoc(:users, [user])
         |> Repo.insert()
@@ -91,7 +92,7 @@ defmodule ClientWeb.TeamResolverTest do
       {:ok, user} = conn |> Session.current_user()
 
       {:ok, team} =
-        %Team{name: "hello"}
+        %Team{name: rand_string()}
         |> Team.changeset()
         |> Ecto.Changeset.put_assoc(:users, [user])
         |> Repo.insert()
@@ -116,7 +117,7 @@ defmodule ClientWeb.TeamResolverTest do
       {:ok, user} = conn |> Session.current_user()
 
       {:ok, team} =
-        %Team{name: "hi"}
+        %Team{name: rand_string()}
         |> Team.changeset()
         |> Ecto.Changeset.put_assoc(:users, [user])
         |> Repo.insert()
@@ -138,7 +139,7 @@ defmodule ClientWeb.TeamResolverTest do
       {:ok, user} = conn |> Session.current_user()
 
       {:ok, team} =
-        %Team{name: "hi"}
+        %Team{name: rand_string()}
         |> Team.changeset()
         |> Repo.insert()
 
@@ -160,15 +161,11 @@ defmodule ClientWeb.TeamResolverTest do
     test "it adds a user to an team", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
       {:ok, user} = conn |> Session.current_user()
-
-      {:ok, team_creator} =
-        %User{}
-        |> User.changeset(%{email: "wee@mail.com", password: "password123"})
-        |> Repo.insert()
+      team_creator = insert(:user)
 
       {:ok, team} =
         %Team{}
-        |> Team.changeset(%{name: "hi"})
+        |> Team.changeset(params_for(:team))
         |> Ecto.Changeset.put_assoc(:users, [team_creator])
         |> Repo.insert()
 
@@ -182,7 +179,9 @@ defmodule ClientWeb.TeamResolverTest do
       %{"data" => %{"joinTeam" => %{"id" => id}}} = json
       db_team = Team |> Repo.get(id) |> Repo.preload(:users)
 
-      assert db_team.users |> Enum.member?(user) == true
+      assert Enum.find(db_team.users, fn db_user ->
+        db_user.email == user.email
+      end)
     end
   end
 
@@ -190,15 +189,11 @@ defmodule ClientWeb.TeamResolverTest do
     test "it removes a user from an team", %{conn: conn} do
       conn = conn |> TestUtils.setup_current_user()
       {:ok, user} = conn |> Session.current_user()
-
-      {:ok, team_creator} =
-        %User{}
-        |> User.changeset(%{email: "wee@mail.com", password: "password123"})
-        |> Repo.insert()
+      team_creator = insert(:user)
 
       {:ok, team} =
         %Team{}
-        |> Team.changeset(%{name: "hi"})
+        |> Team.changeset(params_for(:team))
         |> Ecto.Changeset.put_assoc(:users, [team_creator, user])
         |> Repo.insert()
 

@@ -4,6 +4,7 @@ defmodule ClientWeb.FeatureCase do
   using do
     quote do
       use Wallaby.DSL
+      import Wallaby.Feature
 
       alias Client.Repo
       alias ClientWeb.Router.Helpers, as: Routes
@@ -14,19 +15,11 @@ defmodule ClientWeb.FeatureCase do
       import Client.Factory
       import ClientWeb.FeatureHelpers
 
-      Application.put_env(:wallaby, :base_url, ClientWeb.Endpoint.url())
-
       @endpoint ClientWeb.Endpoint
     end
   end
 
-  setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Client.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Client.Repo, {:shared, self()})
-    end
-
+  setup _context do
     metadata = Phoenix.Ecto.SQL.Sandbox.metadata_for(Client.Repo, self())
     {:ok, session} = Wallaby.start_session(metadata: metadata)
     {:ok, session: session}

@@ -1,10 +1,10 @@
 defmodule Client.IjustEventTest do
   use Client.DataCase, async: true
 
-  alias Client.{IjustEvent, IjustContext, Repo, TestUtils}
+  alias Client.{IjustEvent, IjustContext, Repo}
 
   test "#get_for_context returns an event for a context" do
-    user = TestUtils.create_user()
+    user = insert(:user)
     {:ok, context} = user.id |> IjustContext.get_default_context()
 
     {:ok, event} =
@@ -14,7 +14,7 @@ defmodule Client.IjustEventTest do
   end
 
   test "#get_for_context does not return an event belonging to another context" do
-    user = TestUtils.create_user()
+    user = insert(:user)
     {:ok, correct_context} = user.id |> IjustContext.get_default_context()
 
     {:ok, incorrect_context} =
@@ -32,14 +32,14 @@ defmodule Client.IjustEventTest do
   end
 
   test "#search_by_name returns an empty array when no matches" do
-    user = TestUtils.create_user()
+    user = insert(:user)
     {:ok, context} = IjustContext.get_default_context(user.id)
 
     {:ok, []} = IjustEvent.search_by_name(context.id, "doesn't exist")
   end
 
   test "#search_by_name returns matching events" do
-    user = TestUtils.create_user()
+    user = insert(:user)
     {:ok, context} = IjustContext.get_default_context(user.id)
 
     {:ok, event} =

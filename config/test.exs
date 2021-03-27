@@ -26,38 +26,18 @@ config :client, Client.Repo,
   ownership_timeout: :infinity,
   pool_size: 20
 
+config :client, sql_sandbox: Client.Sandbox
+
 # Default capabilities copied from here:
 # https://github.com/elixir-wallaby/wallaby/blob/master/lib/wallaby/experimental/chrome.ex#L74
 config :wallaby,
+  otp_app: :client,
   max_wait_time: 3_000,
   screenshot_on_failure: true,
   screenshot_dir: "/tmp/homepage-screenshots",
-  driver: Wallaby.Experimental.Chrome,
+  driver: Wallaby.Chrome,
   chromedriver: [
-    capabilities: %{
-      javascriptEnabled: true,
-      loadImages: false,
-      version: "",
-      rotatable: false,
-      takesScreenshot: true,
-      cssSelectorsEnabled: true,
-      nativeEvents: false,
-      platform: "ANY",
-      unhandledPromptBehavior: "accept",
-      loggingPrefs: %{
-        browser: "DEBUG"
-      },
-      chromeOptions: %{
-        args: [
-          "--no-sandbox",
-          "window-size=1280,800",
-          "--disable-gpu",
-          "--headless",
-          "--fullscreen",
-          "--user-agent=Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
-        ]
-      }
-    }
+    headless: true
   ]
 
 ################################################################################

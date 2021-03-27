@@ -1,8 +1,10 @@
 defmodule Client.FoodLogsTest do
   use Client.DataCase, async: true
-  alias Client.FoodLogs
-  alias Client.FoodLogs.Entry
-  alias Client.FoodLogs.FoodLog
+  alias Client.{
+    FoodLogs,
+    FoodLogs.Entry,
+    FoodLogs.FoodLog
+  }
 
   describe "new_changeset/1" do
     test "returns an empty changeset" do
@@ -16,11 +18,7 @@ defmodule Client.FoodLogsTest do
 
   describe "create/1" do
     test "it creates a food log" do
-      params = %{
-        name: "test",
-        owner_id: "123"
-      }
-
+      params = params_for(:food_log)
       assert {:ok, log} = FoodLogs.create(params)
     end
   end
@@ -72,11 +70,16 @@ defmodule Client.FoodLogsTest do
 
   describe "list_by_owner_id/1" do
     test "returns logs by the owner" do
-      my_id = "123"
+      my_id = rand_int()
       my_log = insert(:food_log, owner_id: my_id)
       _other_log = insert(:food_log)
 
-      assert FoodLogs.list_by_owner_id(my_id) == [my_log]
+      actual =
+        my_id
+        |> FoodLogs.list_by_owner_id()
+        |> Enum.map(&(&1.id))
+
+      assert actual == [my_log.id]
     end
   end
 
