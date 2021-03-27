@@ -30,7 +30,7 @@ defmodule ClientWeb.IjustResolverTest do
 
   test "#search_events does not return events if I cannot view the context", %{conn: conn} do
     conn = conn |> TestUtils.setup_current_user()
-    another_user = TestUtils.create_user(%{email: "wee@mail.com", password: "password123"})
+    another_user = insert(:user)
     {:ok, not_my_context} = another_user.id |> IjustContext.get_default_context()
 
     {:ok, _not_my_event} =
