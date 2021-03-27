@@ -170,4 +170,5 @@ jobs:
       run: echo -n $TWITCH_SECRET_MASTER_KEY > apps/twitch/config/master.key
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
+    - run: mix do ecto.create, ecto.migrate
     - run: mix test
