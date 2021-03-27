@@ -30,15 +30,15 @@ defmodule Client.Factory do
 
   def food_log_factory do
     %Client.FoodLogs.FoodLog{
-      name: sequence(:food_log, &"food-log-#{&1}"),
-      owner_id: integer()
+      name: "food-log-#{rand_string()}",
+      owner_id: rand_int()
     }
   end
 
   def food_log_entry_factory do
     %Client.FoodLogs.Entry{
       description: sequence(:description, &"food-item-#{&1}"),
-      user_id: integer(),
+      user_id: rand_int(),
       food_log_id: uuid(),
       occurred_at: DateTime.utc_now()
     }
@@ -47,14 +47,14 @@ defmodule Client.Factory do
   def water_log_factory do
     %Client.WaterLogs.WaterLog{
       name: sequence(:name, &"water log #{&1}"),
-      user_id: integer()
+      user_id: rand_int()
     }
   end
 
   def water_log_entry_factory do
     %Client.WaterLogs.Entry{
-      ml: integer(),
-      user_id: integer(),
+      ml: rand_int(),
+      user_id: rand_int(),
       water_log_id: uuid()
     }
   end
@@ -68,7 +68,7 @@ defmodule Client.Factory do
   def soap_batch_factory do
     %Client.Soap.Batch{
       name: sequence(:name, &"soap batch #{&1}"),
-      user_id: integer(),
+      user_id: rand_int(),
       amount_produced: 1000
     }
   end
@@ -78,7 +78,7 @@ defmodule Client.Factory do
       name: sequence(:name, &"soap order #{&1}"),
       shipping_cost: Money.new(1500),
       tax: Money.new(300),
-      user_id: integer()
+      user_id: rand_int()
     }
   end
 
@@ -88,7 +88,7 @@ defmodule Client.Factory do
       material_cost: 2000,
       overhead_cost: 500,
       total_cost: 2500,
-      order_id: integer(),
+      order_id: rand_int(),
       quantity: 200
     }
   end
@@ -107,6 +107,6 @@ defmodule Client.Factory do
     |> Base.url_encode64()
   end
 
-  defp integer, do: System.unique_integer([:positive])
+  def rand_int, do: System.unique_integer([:positive])
   defp uuid, do: Ecto.UUID.generate()
 end
