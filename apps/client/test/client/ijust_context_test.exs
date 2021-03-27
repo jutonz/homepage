@@ -1,10 +1,10 @@
 defmodule Client.IjustContextTest do
-  use Client.DataCase, async: false
-  alias Client.{IjustEvent, IjustContext, Repo, TestUtils}
+  use Client.DataCase, async: true
+  alias Client.{IjustEvent, IjustContext, Repo}
 
   describe ".create_default_context" do
     test "makes a default context for the given user_id" do
-      user = TestUtils.create_user()
+      user = insert(:user)
 
       {:ok, context} = user.id |> IjustContext.create_default_context()
 
@@ -15,7 +15,7 @@ defmodule Client.IjustContextTest do
 
   describe ".get_default_context" do
     test "returns an existing default context" do
-      user = TestUtils.create_user()
+      user = insert(:user)
       {:ok, expected} = user.id |> IjustContext.create_default_context()
 
       {:ok, actual} = IjustContext.get_default_context(user.id)
@@ -24,7 +24,7 @@ defmodule Client.IjustContextTest do
     end
 
     test "creates a new default context if one does not exist already" do
-      user = TestUtils.create_user()
+      user = insert(:user)
       context = IjustContext |> Repo.get_by(name: "default", user_id: user.id)
       assert context == nil
 
@@ -37,12 +37,12 @@ defmodule Client.IjustContextTest do
 
   describe ".get_for_user" do
     test "returns an error if no contexts match" do
-      user = TestUtils.create_user()
+      user = insert(:user)
       {:error, "No matching context"} = IjustContext.get_for_user(123, user.id)
     end
 
     test "returns an existing context" do
-      user = TestUtils.create_user()
+      user = insert(:user)
       {:ok, expected} = IjustContext.create_default_context(user.id)
 
       {:ok, actual} = IjustContext.get_for_user(expected.id, user.id)
@@ -53,7 +53,7 @@ defmodule Client.IjustContextTest do
 
   describe ".recent_events" do
     test "returns recent events" do
-      user = TestUtils.create_user()
+      user = insert(:user)
       {:ok, context} = user.id |> IjustContext.create_default_context()
       event_args = %{ijust_context_id: context.id, name: "hello"}
       {:ok, event} = IjustEvent.create_with_occurrence(user, event_args)
@@ -64,7 +64,7 @@ defmodule Client.IjustContextTest do
     end
 
     test "does not return events from other contexts" do
-      user = TestUtils.create_user()
+      user = insert(:user)
 
       {:ok, context1} =
         %IjustContext{}
