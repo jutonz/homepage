@@ -3,7 +3,8 @@ defmodule ClientWeb.FeatureCase do
 
   using do
     quote do
-      use Wallaby.Feature
+      use Wallaby.DSL
+      import Wallaby.Feature
 
       alias Client.Repo
       alias ClientWeb.Router.Helpers, as: Routes
@@ -16,5 +17,11 @@ defmodule ClientWeb.FeatureCase do
 
       @endpoint ClientWeb.Endpoint
     end
+  end
+
+  setup _context do
+    metadata = Phoenix.Ecto.SQL.Sandbox.metadata_for(Client.Repo, self())
+    {:ok, session} = Wallaby.start_session(metadata: metadata)
+    {:ok, session: session}
   end
 end
