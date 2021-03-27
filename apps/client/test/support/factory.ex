@@ -6,12 +6,18 @@ defmodule Client.Factory do
     {:ok, pw_hash} = Auth.hash_password(pw)
 
     user = %Client.User{
-      email: sequence(:email, &"email-#{&1}@t.co"),
+      email: "email-#{rand_string()}@t.co",
       password: pw,
       password_hash: pw_hash
     }
 
     merge_attributes(user, attrs)
+  end
+
+  def team_factory do
+    %Client.Team{
+      name: "team-#{rand_string()}"
+    }
   end
 
   def api_token_factory do
@@ -93,6 +99,12 @@ defmodule Client.Factory do
       amount_used: 100,
       material_cost: Money.new(1000)
     }
+  end
+
+  def rand_string(length \\ 16) do
+    length
+    |> :crypto.strong_rand_bytes()
+    |> Base.url_encode64()
   end
 
   defp integer, do: System.unique_integer([:positive])
