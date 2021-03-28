@@ -101,6 +101,26 @@ defmodule Client.Factory do
     }
   end
 
+  def train_engine_factory do
+    %Client.Trains.Engine{
+      number: rand_int()
+    }
+  end
+
+  def train_sighting_factory do
+    %Client.Trains.Sighting{
+      sighted_at: DateTime.utc_now() |> DateTime.truncate(:second),
+      direction: "South",
+      cars: 10
+    }
+  end
+
+  def train_log_factory do
+    %Client.Trains.Log{
+      location: "Location #{rand_string()}"
+    }
+  end
+
   def rand_string(length \\ 16) do
     length
     |> :crypto.strong_rand_bytes()
