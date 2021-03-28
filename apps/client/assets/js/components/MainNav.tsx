@@ -42,49 +42,8 @@ class _MainNav extends React.Component<Props, State> {
             <Menu.Item name={"twitch"} active={activeItem === "twitch"} />
           </Link>
 
-          <Dropdown item text="Logs">
-            <Dropdown.Menu>
-              <Link to="/water-logs" component={StaticLink}>
-                <Dropdown.Item
-                  name={"waterLogs"}
-                  active={activeItem === "waterLogs"}
-                >
-                  Water Logs
-                </Dropdown.Item>
-              </Link>
-
-              <Link to="/food-logs" component={StaticLink}>
-                <Dropdown.Item
-                  name={"foodLogs"}
-                  active={activeItem === "foodLogs"}
-                >
-                  Food Logs
-                </Dropdown.Item>
-              </Link>
-
-              <Link to="/soap" component={StaticLink}>
-                <Dropdown.Item name={"soap"} active={activeItem === "soap"}>
-                  Soap
-                </Dropdown.Item>
-              </Link>
-            </Dropdown.Menu>
-          </Dropdown>
-
-          <Dropdown item text="Legacy">
-            <Dropdown.Menu>
-              <Link to="/coffeemaker">
-                <Dropdown.Item active={activeItem === "coffeemaker"}>
-                  Coffeemaker
-                </Dropdown.Item>
-              </Link>
-
-              <Link to="/resume">
-                <Dropdown.Item active={activeItem === "resume"}>
-                  Resume
-                </Dropdown.Item>
-              </Link>
-            </Dropdown.Menu>
-          </Dropdown>
+          {renderLogsSubnav(activeItem)}
+          {renderLegacySubnav(activeItem)}
         </Menu.Menu>
 
         <Menu.Menu position="right">
@@ -137,6 +96,46 @@ class _MainNav extends React.Component<Props, State> {
     this.props.history.push("/");
   };
 }
+
+const renderLogsSubnav = (activeItem: String) => (
+  <Dropdown item text="Logs">
+    <Dropdown.Menu>
+      <Link to="/water-logs" component={StaticLink}>
+        <Dropdown.Item name={"waterLogs"} active={activeItem === "waterLogs"}>
+          Water Logs
+        </Dropdown.Item>
+      </Link>
+
+      <Link to="/food-logs" component={StaticLink}>
+        <Dropdown.Item name={"foodLogs"} active={activeItem === "foodLogs"}>
+          Food Logs
+        </Dropdown.Item>
+      </Link>
+
+      <Link to="/soap" component={StaticLink}>
+        <Dropdown.Item name={"soap"} active={activeItem === "soap"}>
+          Soap
+        </Dropdown.Item>
+      </Link>
+    </Dropdown.Menu>
+  </Dropdown>
+);
+
+const renderLegacySubnav = (activeItem: String) => (
+  <Dropdown item text="Legacy">
+    <Dropdown.Menu>
+      <Link to="/coffeemaker">
+        <Dropdown.Item active={activeItem === "coffeemaker"}>
+          Coffeemaker
+        </Dropdown.Item>
+      </Link>
+
+      <Link to="/resume">
+        <Dropdown.Item active={activeItem === "resume"}>Resume</Dropdown.Item>
+      </Link>
+    </Dropdown.Menu>
+  </Dropdown>
+);
 
 const StaticLink = forwardRef((props: any, ref) => {
   const href = props.href.replace("#/", "");
