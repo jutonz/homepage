@@ -58,4 +58,20 @@ defmodule Client.TrainsTest do
       assert ^expected = errors_on(changeset)
     end
   end
+
+  describe "get_log/2" do
+    test "returns a user's log" do
+      user = insert(:user)
+      log = insert(:train_log, user_id: user.id)
+
+      assert Trains.get_log(user.id, log.id)
+    end
+
+    test "doesn't return another user's log" do
+      user = insert(:user)
+      log = insert(:train_log, user_id: user.id)
+
+      refute Trains.get_log(123, log.id)
+    end
+  end
 end
