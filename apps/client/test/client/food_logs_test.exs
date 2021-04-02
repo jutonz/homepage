@@ -1,5 +1,6 @@
 defmodule Client.FoodLogsTest do
   use Client.DataCase, async: true
+
   alias Client.{
     FoodLogs,
     FoodLogs.Entry,
@@ -77,7 +78,7 @@ defmodule Client.FoodLogsTest do
       actual =
         my_id
         |> FoodLogs.list_by_owner_id()
-        |> Enum.map(&(&1.id))
+        |> Enum.map(& &1.id)
 
       assert actual == [my_log.id]
     end
