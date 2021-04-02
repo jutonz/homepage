@@ -34,6 +34,7 @@ jobs:
           v1-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v1-plts-${{ hashFiles('.tool-versions') }}-
           v1-plts-
+    - run: mix format --check-formatted
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
     - run: mix dialyzer
@@ -108,9 +109,8 @@ jobs:
     needs: yarn_install
     runs-on: ubuntu-latest
     env:
-      TWITCH_SECRET_MASTER_KEY: ${{ secrets.TWITCH_SECRET_MASTER_KEY }}
-      DATASTORE_CREDENTIALS_JSON: ${{ secrets.DATASTORE_CREDENTIALS_JSON }}
       MIX_ENV: test
+      TWITCH_DATASTORE_DISABLED: "true"
     services:
       postgres:
         image: circleci/postgres:12-alpine
@@ -146,8 +146,6 @@ jobs:
         restore-keys: |
           v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-test-${{ hashFiles('.tool-versions') }}-
-    - name: Write twitch secret master key to file
-      run: echo -n $TWITCH_SECRET_MASTER_KEY > apps/twitch/config/master.key
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
     - run: mix do ecto.create, ecto.migrate
