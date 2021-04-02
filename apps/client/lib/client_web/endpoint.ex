@@ -9,7 +9,7 @@ defmodule ClientWeb.Endpoint do
   ]
 
   if sandbox = Application.get_env(:client, :sql_sandbox) do
-    plug Phoenix.Ecto.SQL.Sandbox, sandbox: sandbox
+    plug(Phoenix.Ecto.SQL.Sandbox, sandbox: sandbox)
   end
 
   socket("/socket", ClientWeb.UserSocket)

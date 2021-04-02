@@ -180,8 +180,8 @@ defmodule ClientWeb.TeamResolverTest do
       db_team = Team |> Repo.get(id) |> Repo.preload(:users)
 
       assert Enum.find(db_team.users, fn db_user ->
-        db_user.email == user.email
-      end)
+               db_user.email == user.email
+             end)
     end
   end
 
