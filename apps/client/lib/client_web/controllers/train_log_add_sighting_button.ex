@@ -52,6 +52,7 @@ defmodule ClientWeb.TrainLogAddSightingButton do
     assigns = [
       changeset: Trains.new_sighting_changeset()
     ]
+
     {:noreply, assign(socket, assigns)}
   end
 

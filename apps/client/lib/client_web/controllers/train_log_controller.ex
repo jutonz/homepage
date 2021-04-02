@@ -1,5 +1,6 @@
 defmodule ClientWeb.TrainLogController do
   use ClientWeb, :controller
+
   alias Client.{
     Session,
     Trains
@@ -34,6 +35,7 @@ defmodule ClientWeb.TrainLogController do
       "id" => params["id"],
       "user_id" => Session.current_user_id(conn)
     }
+
     live_render(conn, ClientWeb.TrainLogLive, session: session)
   end
 end

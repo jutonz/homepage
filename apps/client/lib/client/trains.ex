@@ -26,11 +26,13 @@ defmodule Client.Trains do
   end
 
   def get_log(user_id, log_id) do
-    query = from(
-      log in Log,
-      where: log.user_id == ^user_id,
-      where: log.id == ^log_id
-    )
+    query =
+      from(
+        log in Log,
+        where: log.user_id == ^user_id,
+        where: log.id == ^log_id
+      )
+
     Repo.one(query)
   end
 
@@ -54,7 +56,6 @@ defmodule Client.Trains do
   ##############################################################################
   # Sightings
   ##############################################################################
-
 
   def new_sighting_changeset(params \\ %{}) do
     sighting_changeset(%Sighting{}, params)
