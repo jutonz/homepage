@@ -60,7 +60,7 @@
     "babel-preset-stage-1": "^6.24.1",
     "css-loader": "^5.2.0",
     "cssnano": "^4.1.11",
-    "date-fns": "^2.19.0",
+    "date-fns": "^2.21.1",
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
