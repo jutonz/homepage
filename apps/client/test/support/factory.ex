@@ -108,8 +108,11 @@ defmodule Client.Factory do
   end
 
   def train_sighting_factory do
+    now = DateTime.utc_now() |> DateTime.shift_zone!("America/New_York")
+
     %Client.Trains.Sighting{
-      sighted_at: DateTime.utc_now() |> DateTime.truncate(:second),
+      sighted_date: DateTime.to_date(now),
+      sighted_time: DateTime.to_time(now),
       direction: "South",
       cars: 10
     }

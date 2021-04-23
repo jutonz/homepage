@@ -4,6 +4,8 @@ defmodule Client.Trains.Engine do
 
   schema "train_engines" do
     belongs_to(:user, Client.User)
+    has_many(:engine_sightings, Client.Trains.EngineSighting)
+    has_many(:sightings, through: [:engine_sightings, :sighting])
     field(:number, :integer)
     timestamps(type: :utc_datetime)
   end

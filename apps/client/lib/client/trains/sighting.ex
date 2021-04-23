@@ -12,6 +12,7 @@ defmodule Client.Trains.Sighting do
   schema "train_sightings" do
     belongs_to(:log, Client.Trains.Log)
     has_many(:engine_sightings, Client.Trains.EngineSighting)
+    has_many(:engines, through: [:engine_sightings, :engine])
     field(:sighted_at, :utc_datetime)
     field(:direction, :string)
     field(:cars, :integer)
@@ -44,6 +45,7 @@ defmodule Client.Trains.Sighting do
     |> cast(params, @params)
     |> update_sighted_at()
     |> validate_required(@required_params)
+    |> validate_inclusion(:direction, ~w[North South], message: "Must be North or South")
   end
 
   defp update_sighted_at(changeset) do
