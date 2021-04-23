@@ -48,22 +48,4 @@ defmodule Twitch.Factory do
       }
     }
   end
-
-  def gambling_event_factory do
-    event =
-      build(:event, %{
-        channel: "#comradenerdy",
-        message: "syps_ won 566 blyats in roulette and now has 61132 blyats! FeelsGoodMan",
-        display_name: "syps_",
-        raw_event:
-          ":takeitbot!takeitbot@takeitbot.tmi.twitch.tv PRIVMSG #comradenerdy :takeitbot won 566 blyats in roulette and now has 61132 blyats! FeelsGoodMan"
-      })
-
-    %Twitch.GamblingEvent{
-      channel: "#comradenerdy",
-      gamble_type: "routlette",
-      won: true,
-      twitch_event: event
-    }
-  end
 end
