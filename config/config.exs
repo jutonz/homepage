@@ -124,12 +124,4 @@ config :exenv,
      ]}
   ]
 
-case System.get_env("TWITCH_DATASTORE_DISABLED") do
-  "true" ->
-    config :goth, disabled: true
-
-  _ ->
-    config :goth, config_module: Twitch.GothConfig
-end
-
 import_config "#{Mix.env()}.exs"

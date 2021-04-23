@@ -1,4 +1,8 @@
 defmodule Twitch.EventPersister do
+  ##############################################################################
+  # Disabled as of 23 April 2021 to remove Google Datastore dependency
+  ##############################################################################
+
   use GenServer
 
   @persist_after 10
