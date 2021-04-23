@@ -62,3 +62,6 @@ config :client, Client.Repo,
 config :twitch, Twitch.Repo,
   database: "homepage_twitch_dev",
   hostname: "localhost"
+
+
+config :goth, config_module: Twitch.GothConfig

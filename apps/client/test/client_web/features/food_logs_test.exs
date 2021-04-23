@@ -1,4 +1,4 @@
-defmodule ClientWeb.FoodLogs.AddEntryTest do
+defmodule ClientWeb.FoodLogsTest do
   use ClientWeb.FeatureCase, async: true
   import Wallaby.Query, only: [css: 1]
   alias Client.FoodLogs

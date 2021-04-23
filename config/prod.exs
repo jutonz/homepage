@@ -58,3 +58,5 @@ config :twitch, Twitch.Repo,
   url: db_url,
   pool_size: db_pool_size,
   ssl: true
+
+config :goth, config_module: Twitch.GothConfig

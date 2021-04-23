@@ -10,7 +10,7 @@ fn form -> %>
       :location,
       class: "mt-2",
       autofocus: true,
-      data: [role: "water-log-location-input"]
+      data: [role: "train-log-location-input"]
     ) %>
     <div class="text-red-600 mt-1">
       <%= error_tag(form, :location) %>

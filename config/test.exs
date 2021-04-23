@@ -60,3 +60,5 @@ config :twitch,
 config :exenv,
   start_on_application: false,
   adapters: []
+
+config :goth, disabled: true

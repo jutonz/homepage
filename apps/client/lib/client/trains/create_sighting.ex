@@ -1,4 +1,5 @@
 defmodule Client.Trains.CreateSighting do
+  import Ecto.Changeset
   alias Client.{
     Repo,
     Trains,
@@ -20,14 +21,21 @@ defmodule Client.Trains.CreateSighting do
           | {:error, Ecto.Changeset.t()}
 
   def create_sighting(params) do
-    engine_params = %{
-      number: Map.fetch!(params, :number),
-      user_id: Map.fetch!(params, :user_id)
-    }
+    %Sighting{}
+    |> Sighting.changeset(params)
+    |> IO.inspect()
+    |> insert()
+  end
 
+  defp insert(%Ecto.Changeset{valid?: false} = changeset) do
+    changeset = Map.put(changeset, :action, :insert)
+    {:error, changeset}
+  end
+
+  defp insert(changeset) do
     Repo.transaction(fn ->
-      with {:ok, engine} <- ensure_engine(engine_params),
-           {:ok, sighting} <- insert_sighting(params),
+      with {:ok, engines} <- ensure_engines(changeset),
+           {:ok, sighting} <- Repo.insert(changeset),
            {:ok, _engine_sighting} <- insert_engine_sighting(engine.id, sighting.id) do
         sighting
       else
@@ -36,15 +44,20 @@ defmodule Client.Trains.CreateSighting do
     end)
   end
 
+  defp ensure_engines(changeset) do
+    numbers = fetch_change!(changeset, :numbers)
+    user_id = fetch_change!(changeset, :user_id)
+
+    Enum.each(numbers, fn number ->
+      ensure_engine(%{number: number, user_id: user_id})
+    end)
+  end
+
   defp ensure_engine(%{number: number} = params) do
     case Trains.get_engine_by_number(number) do
       nil -> Trains.create_engine(params)
       train -> {:ok, train}
     end
-  end
-
-  defp insert_sighting(params) do
-    %Sighting{} |> Sighting.changeset(params) |> Repo.insert()
   end
 
   defp insert_engine_sighting(engine_id, sighting_id) do
