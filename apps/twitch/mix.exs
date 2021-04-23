@@ -36,7 +36,6 @@ defmodule Twitch.MixProject do
       {:ecto_sql, "~> 3.0"},
       {:postgrex, "~> 0.14"},
       {:poison, "~> 4.0"},
-      {:diplomat, "~> 0.2"},
       {:exenv, "~> 0.3"},
       {:ex_machina, "~> 2.2", only: :test},
       {:events, in_umbrella: true}
