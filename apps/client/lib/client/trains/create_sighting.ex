@@ -8,17 +8,8 @@ defmodule Client.Trains.CreateSighting do
     Trains.Sighting
   }
 
-  @type params :: %{
-          cars: non_neg_integer(),
-          direction: String.t(),
-          log_id: String.t(),
-          number: non_neg_integer(),
-          sighted_at: DateTime.t(),
-          user_id: pos_integer()
-        }
-
-  @spec create_sighting(params :: params()) ::
-          {:ok, Sighting.t()}
+  @spec create_sighting(map()) ::
+          {:ok, list(Sighting.t())}
           | {:error, Ecto.Changeset.t()}
 
   def create_sighting(params) do
