@@ -117,6 +117,12 @@ const renderLogsSubnav = (activeItem: String) => (
           Soap
         </Dropdown.Item>
       </Link>
+
+      <Link to="/train-logs" component={StaticLink}>
+        <Dropdown.Item name={"trainLogs"} active={activeItem === "trainLogs"}>
+          Trains
+        </Dropdown.Item>
+      </Link>
     </Dropdown.Menu>
   </Dropdown>
 );

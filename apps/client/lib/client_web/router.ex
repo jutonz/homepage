@@ -48,6 +48,8 @@ defmodule ClientWeb.Router do
       live("/kiosk", WaterLogKioskLive, layout: {ClientWeb.LayoutView, :app})
     end
 
+    resources("/train-logs", TrainLogController, only: ~w[index new create show]a)
+
     scope("/settings", Settings, as: :settings) do
       resources("/api", ApiController, singleton: true, only: ~w[show]a) do
         resources("/tokens", TokenController, only: ~w[new create delete]a)
