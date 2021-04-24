@@ -1,5 +1,6 @@
 defmodule Client.Trains.CreateSighting do
   import Ecto.Changeset
+
   alias Client.{
     Repo,
     Trains,
@@ -76,7 +77,7 @@ defmodule Client.Trains.CreateSighting do
   end
 
   defp insert_engine_sightings(engines, sighting_id) do
-    sightings = Enum.map(engines, & insert_engine_sighting(&1.id, sighting_id))
+    sightings = Enum.map(engines, &insert_engine_sighting(&1.id, sighting_id))
 
     first_error =
       Enum.find(sightings, fn

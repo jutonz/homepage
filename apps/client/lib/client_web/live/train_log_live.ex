@@ -86,7 +86,7 @@ defmodule ClientWeb.TrainLogLive do
   def handle_info(:reload_sightings, socket) do
     log = socket.assigns[:log]
     sightings = Trains.list_sightings(log.id)
-    {:noreply, assign(socket, [sightings: sightings])}
+    {:noreply, assign(socket, sightings: sightings)}
   end
 
   defp format_engines(sighting) do

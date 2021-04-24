@@ -115,10 +115,12 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
 
   def handle_event("add-sighting", _params, socket) do
     now = now()
+
     params = %{
       sighted_date: DateTime.to_date(now),
       sighted_time: DateTime.to_time(now)
     }
+
     changeset = Trains.new_sighting_changeset(params)
 
     {:noreply, assign(socket, :changeset, changeset)}
@@ -129,9 +131,10 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
   end
 
   def handle_event("save", %{"sighting" => sighting_params}, socket) do
-    sighting_params = Enum.reduce(sighting_params, %{}, fn {k, v}, acc ->
-      Map.put(acc, String.to_atom(k), v)
-    end)
+    sighting_params =
+      Enum.reduce(sighting_params, %{}, fn {k, v}, acc ->
+        Map.put(acc, String.to_atom(k), v)
+      end)
 
     engines =
       sighting_params
@@ -156,7 +159,6 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
         {:error, changeset} ->
           [changeset: changeset]
       end
-
 
     {:noreply, assign(socket, assigns)}
   end

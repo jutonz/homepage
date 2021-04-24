@@ -68,11 +68,12 @@ defmodule Client.Trains do
   defdelegate create_sighting(params), to: CreateSighting
 
   def list_sightings(log_id) do
-    query = from(
-      s in Sighting,
-      where: s.log_id == ^log_id,
-      order_by: [desc: s.sighted_at]
-    )
+    query =
+      from(
+        s in Sighting,
+        where: s.log_id == ^log_id,
+        order_by: [desc: s.sighted_at]
+      )
 
     query
     |> Repo.all()

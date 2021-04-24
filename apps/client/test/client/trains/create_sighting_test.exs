@@ -20,6 +20,7 @@ defmodule Client.Trains.CreateSightingTest do
       assert sighting.direction == params[:direction]
 
       {:ok, naive_sighted_at} = NaiveDateTime.new(params[:sighted_date], params[:sighted_time])
+
       sighted_at =
         naive_sighted_at
         |> DateTime.from_naive!("America/New_York")
