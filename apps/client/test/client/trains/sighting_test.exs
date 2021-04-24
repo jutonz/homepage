@@ -9,7 +9,7 @@ defmodule Client.Trains.SightingTest do
       changeset = Sighting.changeset(%Sighting{}, params)
       errors = errors_on(changeset)
 
-      assert errors[:direction] == ["Must be North or South"]
+      assert errors[:direction] == ["must be North or South"]
     end
 
     test "combines sighted_date and sighted_time into sighted_at" do

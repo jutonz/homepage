@@ -51,7 +51,7 @@ defmodule ClientWeb.TrainLogLive do
         </thead>
         <tbody>
           <%= for sighting <- @sightings do %>
-            <tr>
+            <tr data-role="train-sighting-row">
               <td><%= format_date(sighting) %></td>
               <td><%= format_time(sighting) %></td>
               <td><%= sighting.direction %></td>
@@ -81,6 +81,12 @@ defmodule ClientWeb.TrainLogLive do
     else
       {:ok, assign(socket, :loading, true)}
     end
+  end
+
+  def handle_info(:reload_sightings, socket) do
+    log = socket.assigns[:log]
+    sightings = Trains.list_sightings(log.id)
+    {:noreply, assign(socket, [sightings: sightings])}
   end
 
   defp format_engines(sighting) do

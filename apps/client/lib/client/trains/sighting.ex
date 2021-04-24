@@ -45,7 +45,7 @@ defmodule Client.Trains.Sighting do
     |> cast(params, @params)
     |> update_sighted_at()
     |> validate_required(@required_params)
-    |> validate_inclusion(:direction, ~w[North South], message: "Must be North or South")
+    |> validate_inclusion(:direction, ~w[North South], message: "must be North or South")
   end
 
   defp update_sighted_at(changeset) do

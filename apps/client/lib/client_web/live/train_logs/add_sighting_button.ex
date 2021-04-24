@@ -24,7 +24,7 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
           form,
           :sighted_date,
           class: "mt-2",
-          data: [role: "train-log-sighted-at-input"]
+          data: [role: "train-log-sighted-date-input"]
         ) %>
       </div>
 
@@ -39,7 +39,7 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
           form,
           :sighted_time,
           class: "mt-2",
-          data: [role: "train-log-sighted-at-input"]
+          data: [role: "train-log-sighted-time-input"]
         ) %>
       </div>
 
@@ -81,11 +81,11 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
             <%= error_tag(form, :numbers) %>
           </span>
         </div>
-        <%= number_input(
+        <%= text_input(
           form,
           :numbers,
           class: "mt-2",
-          data: [role: "train-log-number-input"]
+          data: [role: "train-log-numbers-input"]
         ) %>
       </div>
 
@@ -107,7 +107,7 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
 
   defp render_button(assigns) do
     ~L"""
-    <button phx-click="add-sighting" phx-target="<%= @myself %>">
+    <button phx-click="add-sighting" phx-target="<%= @myself %>" data-role="add-sighting-button">
       Add sighting
     </button>
     """
@@ -137,6 +137,7 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
       sighting_params
       |> Map.get(:numbers)
       |> String.split(" ")
+      |> Enum.filter(fn string -> string != "" end)
       |> Enum.map(&String.to_integer/1)
 
     sighting_params =
@@ -144,13 +145,13 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
       |> Map.put(:user_id, socket.assigns[:user_id])
       |> Map.put(:log_id, socket.assigns[:log_id])
       |> Map.put(:numbers, engines)
-      |> IO.inspect()
 
     assigns =
       case Trains.create_sighting(sighting_params) do
-        {:ok, sighting} ->
-          IO.inspect(sighting)
-          []
+        {:ok, _sighting} ->
+          # TODO: Add this sighting to the list
+          send(self(), :reload_sightings)
+          [changeset: nil]
 
         {:error, changeset} ->
           [changeset: changeset]

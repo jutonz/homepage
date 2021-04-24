@@ -71,13 +71,11 @@ defmodule Client.Trains do
     query = from(
       s in Sighting,
       where: s.log_id == ^log_id,
-      order_by: s.sighted_at
+      order_by: [desc: s.sighted_at]
     )
 
     query
     |> Repo.all()
-    |> Repo.preload(:engine_sightings)
-    |> Repo.preload(engine_sightings: :engine)
-    |> IO.inspect()
+    |> Repo.preload(:engines)
   end
 end
