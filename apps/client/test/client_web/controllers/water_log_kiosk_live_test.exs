@@ -17,7 +17,7 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
     user = insert(:user)
     log = insert(:water_log, user_id: user.id)
     path = Routes.water_log_live_path(conn, @controller, log.id, as: user.id)
-    insert(:water_log_entry, water_log_id: log.id, ml: 1000, inserted_at: now())
+    insert(:water_log_entry, water_log_id: log.id, ml: 1000)
 
     {:ok, view, html} = live(conn, path)
     assert html =~ "Dispensed now: 0 ml"
@@ -94,9 +94,5 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
     |> Floki.find("[data-role='usage-for-Today']")
     |> Floki.text()
     |> String.trim()
-  end
-
-  def now do
-    :client |> Application.get_env(:default_timezone) |> Timex.now()
   end
 end
