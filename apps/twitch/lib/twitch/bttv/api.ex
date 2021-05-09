@@ -1,5 +1,5 @@
 defmodule Twitch.Bttv.Api do
-  @api_base "https://api.betterttv.net/2/"
+  @api_base "https://api.betterttv.net/3/"
 
   def connection(method, path, body \\ nil) do
     url = @api_base |> URI.merge(path) |> URI.to_string()

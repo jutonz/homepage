@@ -3,7 +3,6 @@ defmodule Twitch.Bttv.Emote do
   defstruct ~w(channel code id image_type regex)a
 
   @type t :: %Bttv.Emote{
-          channel: String.t(),
           code: String.t(),
           id: String.t(),
           image_type: String.t(),
@@ -13,7 +12,6 @@ defmodule Twitch.Bttv.Emote do
   @spec from_bttv_json(map) :: Bttv.Emote.t()
   def from_bttv_json(json) do
     %Bttv.Emote{
-      channel: json["channel"],
       code: json["code"],
       id: json["id"],
       image_type: json["imageType"],
