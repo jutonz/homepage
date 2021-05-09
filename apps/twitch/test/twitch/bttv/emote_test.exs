@@ -4,14 +4,12 @@ defmodule Twitch.Bttv.EmoteTest do
 
   test "from_bttv_json/1 converts a map into a struct" do
     json = %{
-      "channel" => "channel",
       "code" => "code",
       "id" => "123",
       "imageType" => "gif"
     }
 
     expected = %Bttv.Emote{
-      channel: "channel",
       code: "code",
       id: "123",
       image_type: "gif",

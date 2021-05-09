@@ -40,7 +40,7 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
     res = subscribe_to_chat(channel.name)
     {:ok, _} = subscribe_to_emotes(channel.name)
     {:ok, _} = subscribe_to_streamelements(twitch_user, channel.name)
-    {:ok, _} = create_webhook_subscription(channel)
+    # {:ok, _} = create_webhook_subscription(channel)
     res
   end
 
