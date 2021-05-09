@@ -1,4 +1,5 @@
 defmodule Twitch.ParsedEvent do
+  @derive Jason.Encoder
   defstruct badges: nil,
             color: nil,
             emotes: nil,
