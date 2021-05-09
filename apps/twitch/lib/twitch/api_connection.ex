@@ -6,7 +6,8 @@ defmodule Twitch.ApiConnection do
 
     persistent_headers = [
       {"Authorization", "Bearer #{access_token}"},
-      {"Accept", "application/json"}
+      {"Accept", "application/json"},
+      {"client-id", client_id()}
     ]
 
     headers = user_headers ++ persistent_headers
@@ -25,5 +26,9 @@ defmodule Twitch.ApiConnection do
 
   def base_url do
     "https://api.twitch.tv"
+  end
+
+  defp client_id do
+    System.get_env("TWITCH_CLIENT_ID")
   end
 end
