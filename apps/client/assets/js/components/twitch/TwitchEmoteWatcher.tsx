@@ -1,7 +1,13 @@
 import * as React from "react";
 import { StyleSheet, css } from "aphrodite";
 import { Header } from "semantic-ui-react";
-import { Chart } from "chart.js";
+import {
+  BarController,
+  BarElement,
+  CategoryScale,
+  Chart,
+  LinearScale,
+} from "chart.js";
 import { Socket } from "phoenix";
 
 import { FormBox } from "@components/FormBox";
@@ -81,11 +87,11 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
   componentDidMount() {
     const { chartId } = this.state;
     const canvas = document.getElementById(chartId) as HTMLCanvasElement;
+    Chart.register(BarController, BarElement, CategoryScale, LinearScale);
     const context = canvas.getContext("2d");
     const chart = new Chart(context, {
-      type: "horizontalBar",
+      type: "bar",
       data: {
-        labels: [],
         datasets: [
           {
             label: "",
@@ -96,31 +102,7 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
         ],
       },
       options: {
-        scales: {
-          yAxes: [
-            {
-              scaleLabel: {
-                display: false,
-              },
-              ticks: {
-                min: 0,
-                beginAtZero: true,
-              },
-            },
-          ],
-          xAxes: [
-            {
-              scaleLabel: {
-                display: false,
-              },
-              ticks: {
-                min: 0,
-                suggestedMax: 3,
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
+        indexAxis: "y",
       },
     });
     this.setState({ chart });
@@ -159,20 +141,22 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
 
   oneMinuteWindowUpdate(emotes) {
     const entries = Object.keys(emotes).map((key) => [key, emotes[key]]);
-    const sortedEntries = entries.sort((a, b) => {
-      const [aEmote, aCount] = a;
-      const [bEmote, bCount] = b;
+    const sortedEntries = entries
+      .sort((a, b) => {
+        const [aEmote, aCount] = a;
+        const [bEmote, bCount] = b;
 
-      if (aCount < bCount) {
-        return 1;
-      }
+        if (aCount < bCount) {
+          return 1;
+        }
 
-      if (aCount > bCount) {
-        return -1;
-      }
+        if (aCount > bCount) {
+          return -1;
+        }
 
-      return 0;
-    });
+        return 0;
+      })
+      .slice(0, 15);
 
     const sortedKeys = sortedEntries.map((entry) => entry[0]);
     const sortedValues = sortedEntries.map((entry) => entry[1]);
