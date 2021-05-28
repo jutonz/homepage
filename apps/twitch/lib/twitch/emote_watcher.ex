@@ -109,6 +109,12 @@ defmodule Twitch.EmoteWatcher do
     {:noreply, new_state}
   end
 
+  def handle_info({:ssl_closed, _}, state) do
+    # https://sentry.io/share/issue/207a371da909426aadf6658651b0ebc9/
+    # https://github.com/benoitc/hackney/pull/640
+    {:noreply, state}
+  end
+
   def schedule_decrement(bucket, emote, amount, after_ms) do
     Process.send_after(
       self(),
