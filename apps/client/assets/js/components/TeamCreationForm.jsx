@@ -21,12 +21,8 @@ const style = StyleSheet.create({
 
 class _TeamCreationForm extends React.Component {
   render() {
-    const {
-      newTeamName,
-      newNameIsValid,
-      creatingNewTeam,
-      createNewTeamError,
-    } = this.props;
+    const { newTeamName, newNameIsValid, creatingNewTeam, createNewTeamError } =
+      this.props;
     return (
       <div className={css(style.container)}>
         <FormBox>
