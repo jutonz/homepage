@@ -55,13 +55,14 @@
         <th class="p-2">Label</th>
         <th class="p-2">Cost</th>
         <th class="p-2">Quantity</th>
+        <th class="p-2">Depleted</th>
         <th></th>
       </tr>
     </thead>
 
     <tbody>
       <%= for ingredient <- @order.ingredients do %>
-        <tr class="hover:bg-gray-800">
+        <tr class="hover:bg-gray-800" data-ingredient-id="<%= ingredient.id %>">
           <td class="p-2 pl-0">
             <%= link(
               ingredient.name,
@@ -92,6 +93,14 @@
               to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-quantity"]
+            ) %>
+          </td>
+          <td class="p-2">
+            <%= link(
+              existential_checkmark(ingredient.depleted_at),
+              to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
+              class: "block",
+              data: [role: "ingredient-depleted"]
             ) %>
           </td>
           <td></td>

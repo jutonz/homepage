@@ -24,7 +24,6 @@ fn form -> %>
         form,
         :amount_used,
         class: "mt-2",
-        autofocus: true,
         data: [role: "ingredient-amount-used-input"]
       ) %>
       <div class="text-red-600 mt-1">

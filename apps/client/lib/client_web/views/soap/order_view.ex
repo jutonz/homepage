@@ -12,4 +12,11 @@ defmodule ClientWeb.Soap.OrderView do
     |> material_cost_of_ingredients()
     |> Money.add(Client.Soap.Order.total_overhead(order))
   end
+
+  def existential_checkmark(value) do
+    case value do
+      nil -> ""
+      _ -> "✓"
+    end
+  end
 end

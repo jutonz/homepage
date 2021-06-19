@@ -44,6 +44,19 @@ fn form -> %>
         <%= error_tag(form, :quantity) %>
       </div>
     </div>
+
+    <div>
+      <%= label(form, :depleted_at, "Depleted", class: "mr-4") %>
+      <%= checkbox(
+        form,
+        :depleted_at,
+        class: "mt-2",
+        data: [role: "soap-order-ingredient-depleted-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :depleted_at) %>
+      </div>
+    </div>
   </div>
 
   <%= submit(@action, data: [role: "soap-order-ingredient-submit"]) %>
