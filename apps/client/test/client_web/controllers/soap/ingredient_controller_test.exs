@@ -31,5 +31,20 @@ defmodule ClientWeb.Soap.IngredientControllerTest do
       assert html =~ Money.to_string(ingredient.total_cost)
       assert html =~ to_string(ingredient.quantity)
     end
+
+    test "includes a link to the ingredient's order", %{conn: conn} do
+      user = Factory.insert(:user)
+      order = Factory.insert(:soap_order, user_id: user.id)
+      Factory.insert(:soap_ingredient, order_id: order.id)
+
+      html =
+        conn
+        |> get(Routes.soap_ingredient_path(conn, :index), as: user.id)
+        |> html_response(200)
+        |> Floki.parse_document!()
+
+      selector = "a[href='#{Routes.soap_order_path(conn, :show, order)}']"
+      assert [ele] = Floki.find(html, selector)
+    end
   end
 end

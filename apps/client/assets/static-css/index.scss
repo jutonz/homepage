@@ -28,6 +28,11 @@ button, .button {
     @apply bg-red-500;
     &:hover { @apply bg-red-700; }
   }
+
+  &--small {
+    @apply py-1 px-2;
+    @apply text-sm;
+  }
 }
 
 [phx-click] {
