@@ -16,6 +16,7 @@
         <th class="p-2">Overhead cost</th>
         <th class="p-2">Total cost</th>
         <th class="p-2">Quantity</th>
+        <th class="p-2"></th>
       </tr>
     </thead>
 
@@ -28,6 +29,13 @@
           <td class="p-2"><%= ingredient.overhead_cost %></td>
           <td class="p-2"><%= ingredient.total_cost %></td>
           <td class="p-2"><%= ingredient.quantity %> g</td>
+          <td>
+            <%= link(
+              "View Order",
+              to: Routes.soap_order_path(@conn, :show, ingredient.order_id),
+              class: "button button--small"
+            ) %>
+          </td>
         </tr>
       <% end %>
     </tbody>
