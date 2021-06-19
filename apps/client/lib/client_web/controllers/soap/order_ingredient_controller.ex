@@ -12,13 +12,20 @@ defmodule ClientWeb.Soap.OrderIngredientController do
     order_id = Map.fetch!(params, "order_id")
     user_id = Session.current_user_id(conn)
 
-    insert_result =
+    ingredient_params =
       params
       |> Map.get("ingredient")
       |> Map.put("order_id", order_id)
-      |> Soap.create_ingredient(user_id)
 
-    case insert_result do
+    {_, ingredient_params} =
+      Map.get_and_update(ingredient_params, "depleted_at", fn value ->
+        case value do
+          "true" -> {value, DateTime.utc_now()}
+          _ -> {value, nil}
+        end
+      end)
+
+    case Soap.create_ingredient(ingredient_params, user_id) do
       {:ok, _ingredient} ->
         redirect(conn, to: Routes.soap_order_path(conn, :show, order_id))
 
@@ -49,6 +56,14 @@ defmodule ClientWeb.Soap.OrderIngredientController do
       params
       |> Map.fetch!("ingredient")
       |> Map.put("user_id", user_id)
+
+    {_, ingredient_params} =
+      Map.get_and_update(ingredient_params, "depleted_at", fn value ->
+        case value do
+          "true" -> {value, DateTime.utc_now()}
+          _ -> {value, nil}
+        end
+      end)
 
     insert_result =
       user_id

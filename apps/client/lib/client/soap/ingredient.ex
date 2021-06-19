@@ -3,7 +3,8 @@ defmodule Client.Soap.Ingredient do
   import Ecto.Changeset
 
   @type t :: %__MODULE__{
-          name: String.t() | nil
+          name: String.t() | nil,
+          depleted_at: DateTime.t()
         }
 
   schema "soap_ingredients" do
@@ -22,14 +23,8 @@ defmodule Client.Soap.Ingredient do
     field(:overhead_cost, Money.Ecto.Amount.Type)
     field(:total_cost, Money.Ecto.Amount.Type)
     field(:quantity, :integer)
+    field(:depleted_at, :utc_datetime)
     timestamps()
-  end
-
-  def changeset(ingredient, attrs \\ %{}) do
-    ingredient
-    |> cast(attrs, required_attrs())
-    |> calculate_total_cost()
-    |> validate_required(required_attrs())
   end
 
   @required_attrs ~w[
@@ -40,8 +35,14 @@ defmodule Client.Soap.Ingredient do
     quantity
     order_id
   ]a
-  defp required_attrs,
-    do: @required_attrs
+  @optional_attrs ~w[depleted_at]a
+  @attrs @required_attrs ++ @optional_attrs
+  def changeset(ingredient, attrs \\ %{}) do
+    ingredient
+    |> cast(attrs, @attrs)
+    |> calculate_total_cost()
+    |> validate_required(@required_attrs)
+  end
 
   defp calculate_total_cost(%Ecto.Changeset{valid?: false} = changeset),
     do: changeset
