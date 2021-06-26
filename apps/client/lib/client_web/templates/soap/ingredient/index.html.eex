@@ -24,7 +24,12 @@
       <%= for ingredient <- @ingredients do %>
         <tr class="hover:bg-gray-800" data-role="<%= "soap-ingredient-#{ingredient.id}" %>">
           <td class="p-2 pl-0"><%= ingredient.id %></td>
-          <td class="p-2"><%= ingredient.name %></td>
+          <td class="p-2">
+            <%= link(
+              ingredient.name,
+              to: Routes.soap_ingredient_path(@conn, :show, ingredient)
+            ) %>
+          </td>
           <td class="p-2"><%= ingredient.material_cost %></td>
           <td class="p-2"><%= ingredient.overhead_cost %></td>
           <td class="p-2"><%= ingredient.total_cost %></td>

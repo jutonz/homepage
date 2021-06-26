@@ -59,7 +59,7 @@ defmodule ClientWeb.Router do
     scope("/soap", Soap, as: :soap) do
       get("/", SoapController, :index)
 
-      resources("/ingredients", IngredientController, only: ~w[index]a)
+      resources("/ingredients", IngredientController, only: ~w[index show]a)
 
       resources("/batches", BatchController) do
         resources(
