@@ -30,7 +30,8 @@ defmodule Client.Soap do
         i in Ingredient,
         join: o in Order,
         on: i.order_id == o.id,
-        where: o.user_id == ^user_id
+        where: o.user_id == ^user_id,
+        order_by: [asc: i.id]
       )
 
     Repo.all(query)
@@ -123,7 +124,8 @@ defmodule Client.Soap do
             overhead_cost: i.overhead_cost,
             total_cost: i.total_cost
           }
-        }
+        },
+        order_by: [asc: sbi.ingredient_id]
       )
 
     query
@@ -175,8 +177,13 @@ defmodule Client.Soap do
     Repo.one(query)
   end
 
-  def get_order_with_ingredients(user_id, id),
-    do: user_id |> get_order(id) |> Repo.preload(:ingredients)
+  def get_order_with_ingredients(user_id, id) do
+    preload_query = from(i in Ingredient, order_by: i.id)
+
+    user_id
+    |> get_order(id)
+    |> Repo.preload(ingredients: preload_query)
+  end
 
   def get_order_ingredient(user_id, order_id, ingredient_id) do
     query =
