@@ -85,7 +85,8 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
           form,
           :numbers,
           class: "mt-2",
-          data: [role: "train-log-numbers-input"]
+          data: [role: "train-log-numbers-input"],
+          value: Enum.join(Ecto.Changeset.get_change(@changeset, :numbers, []), " ")
         ) %>
       </div>
 

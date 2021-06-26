@@ -4,7 +4,7 @@
       <%= day %>
     </div>
     <%= for entry <- @entries[day] do %>
-      <%= live_component(@socket, ClientWeb.FoodLog.EntryView, id: entry[:id]) %>
+      <%= live_component(ClientWeb.FoodLog.EntryView, id: entry[:id]) %>
     <% end %>
 
     <%= if day == @today do %>

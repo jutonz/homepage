@@ -31,7 +31,6 @@ defmodule ClientWeb.TrainLogLive do
 
       <div class="mt-3">
         <%= live_component(
-          @socket,
           ClientWeb.TrainLogs.AddSightingButton,
           id: :add_sighting_button,
           user_id: @user_id,
