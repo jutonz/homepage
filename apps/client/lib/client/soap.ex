@@ -199,6 +199,19 @@ defmodule Client.Soap do
     Repo.one(query)
   end
 
+  def get_ingredient(user_id, ingredient_id) do
+    query =
+      from(
+        i in Ingredient,
+        join: o in Order,
+        on: i.order_id == o.id,
+        where: o.user_id == ^user_id,
+        where: i.id == ^ingredient_id
+      )
+
+    Repo.one(query)
+  end
+
   ##############################################################################
   # Update
   ##############################################################################

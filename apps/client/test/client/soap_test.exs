@@ -161,4 +161,24 @@ defmodule Client.SoapTest do
       assert ingredient_ids == [ingredient1.id, ingredient2.id]
     end
   end
+
+  describe "get_ingredient/2" do
+    test "returns an ingredient" do
+      user = insert(:user)
+      order = insert(:soap_order, user_id: user.id)
+      ingredient = insert(:soap_ingredient, order_id: order.id)
+
+      actual = Soap.get_ingredient(user.id, ingredient.id)
+
+      assert actual.id == ingredient.id
+    end
+
+    test "doesn't return an ingredient belonging to someone else" do
+      user = insert(:user)
+      order = insert(:soap_order, user_id: insert(:user).id)
+      ingredient = insert(:soap_ingredient, order_id: order.id)
+
+      refute Soap.get_ingredient(user.id, ingredient.id)
+    end
+  end
 end

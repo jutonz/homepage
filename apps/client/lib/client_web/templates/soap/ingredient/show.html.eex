@@ -1,0 +1,85 @@
+<div class="m-5">
+  <div class="flex align-center text-xl">
+    <div class="mr-2 text-gray-500">
+      <%= link("Soap", to: Routes.soap_soap_path(@conn, :index)) %>
+    </div>
+    >
+    <div class="ml-2 mr-2 text-gray-500">
+      <%= link("Ingredients", to: Routes.soap_ingredient_path(@conn, :index)) %>
+    </div>
+    >
+    <div class="ml-2">
+      <%= "#{@ingredient.name} (#{@ingredient.id})" %>
+    </div>
+  </div>
+
+  <table class="mt-5 mb-5">
+    <tr>
+      <td class="p-1 pl-0 pr-3">Name</td>
+      <td><%= @ingredient.name %></td>
+    </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3">Label</td>
+      <td><%= @ingredient.id %></td>
+    </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3 pt-5">Material cost</td>
+      <td class="pt-5"><%= @ingredient.material_cost %></td>
+    </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3">Overhead cost</td>
+      <td><%= @ingredient.overhead_cost %></td>
+    </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3">Total cost</td>
+      <td><%= @ingredient.total_cost %></td>
+    </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3 pt-5">Quantity</td>
+      <td class="pt-5"><%= @ingredient.quantity %>g</td>
+    </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3">Total used</td>
+      <td><%= total_used(@ingredient) %>g</td>
+    </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3">Depleted at</td>
+      <td><%= @ingredient.depleted_at %></td>
+    </tr>
+    <tr>
+      <td class="p-1 pl-0 pr-3 pt-5">Order</td>
+      <td class="pt-5">
+        <%= link(
+          @ingredient.order.name,
+          to: Routes.soap_order_path(@conn, :show, @ingredient.order)
+        ) %>
+      </td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <div class="text-xl mt-3">Used in</div>
+
+  <table class="mt-5 table-auto">
+    <thead>
+      <tr>
+        <td>Batch</td>
+        <td>Amount Used</td>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for batch_ingredient <- @ingredient.batch_ingredients do %>
+        <tr>
+          <td class="p-1">
+            <%= link(
+              batch_ingredient.batch.name,
+              to: Routes.soap_batch_path(@conn, :show, batch_ingredient.batch)
+            ) %>
+          </td>
+          <td class="p-1"><%= batch_ingredient.amount_used %>g</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
