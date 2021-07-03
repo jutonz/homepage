@@ -1,5 +1,6 @@
 defmodule ClientWeb.TrainLogsTest do
   use ClientWeb.FeatureCase, async: true
+  import Wallaby.Query, only: [radio_button: 1]
 
   test "can create a train log", %{session: session} do
     user = insert(:user)
@@ -22,11 +23,10 @@ defmodule ClientWeb.TrainLogsTest do
     |> click(role("add-sighting-button"))
     |> fill_in(role("train-log-sighted-date-input"), with: "04/23/2021")
     |> fill_in(role("train-log-sighted-time-input"), with: "07:23PM")
-    |> fill_in(role("train-log-direction-input"), with: "North")
+    |> click(radio_button("south"))
     |> fill_in(role("train-log-cars-input"), with: "21")
     |> fill_in(role("train-log-numbers-input"), with: "100 200")
     |> click(role("create-train-sighting"))
-    |> take_screenshot()
     |> assert_has(role("train-sighting-row", text: "100, 200"))
   end
 end
