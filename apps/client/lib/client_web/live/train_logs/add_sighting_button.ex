@@ -44,19 +44,22 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
       </div>
 
       <div class="flex flex-1 flex-col">
-        <div class="flex flex-row">
+        <div class="flex flex-row mt-2">
           <%= label(form, :direction, "Direction") %>
           <span class="text-red-600 ml-2">
             <%= error_tag(form, :direction) %>
           </span>
         </div>
-        <%= text_input(
-          form,
-          :direction,
-          class: "mt-2",
-          autofocus: true,
-          data: [role: "train-log-direction-input"]
-        ) %>
+        <div class="flex">
+          <div>
+            <%= radio_button(form, :direction, "North", id: "north") %>
+            <%= label(form, :direction, "North", for: "north") %>
+          </div>
+          <div class="ml-2">
+            <%= radio_button(form, :direction, "South", id: "south") %>
+            <%= label(form, :direction, "South", for: "south") %>
+          </div>
+        </div>
       </div>
 
       <div class="flex flex-1 flex-col mt-2">
