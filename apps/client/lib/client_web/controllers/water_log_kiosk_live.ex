@@ -38,7 +38,7 @@ defmodule ClientWeb.WaterLogKioskLive do
           </div>
           <%= if @filter_life_remaining do %>
             <div>
-              Filter life remaining: <%= @filter_life_remaining %> L
+              Filter life remaining: <%= Util.format_number(@filter_life_remaining) %> L
             </div>
           <% end %>
         </div>
@@ -176,11 +176,10 @@ defmodule ClientWeb.WaterLogKioskLive do
     current_filter = WaterLogs.get_current_filter(log_id)
 
     if current_filter && current_filter.lifespan do
-      lifespan = current_filter.lifespan
+      lifespan_ml = current_filter.lifespan * 1000
       inserted_at = DateTime.from_naive!(current_filter.inserted_at, "Etc/UTC")
       usage_ml = WaterLogs.get_amount_dispensed(log_id, start_at: inserted_at)
-      usage_l = floor(usage_ml / 1000)
-      lifespan - usage_l
+      (lifespan_ml - usage_ml) / 1000
     else
       nil
     end
@@ -188,7 +187,7 @@ defmodule ClientWeb.WaterLogKioskLive do
 
   defp total_amount_dispensed(log) do
     start_at = DateTime.from_naive!(log.inserted_at, "Etc/UTC")
-    trunc(WaterLogs.get_amount_dispensed(log.id, start_at: start_at) / 1000)
+    WaterLogs.get_amount_dispensed(log.id, start_at: start_at) / 1000
   end
 
   # one hour

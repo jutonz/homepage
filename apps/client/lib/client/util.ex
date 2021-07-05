@@ -18,7 +18,27 @@ defmodule Client.Util do
     |> Enum.join(", ")
   end
 
-  @spec format_number(number()) :: String.t()
+  @spec format_number(number() | float()) :: String.t()
+
+  def format_number(number) when is_float(number) do
+    [number, decimal] =
+      number
+      |> Float.to_string()
+      |> String.split(".")
+
+    number =
+      with {number, _rem} <- Integer.parse(number) do
+        format_number(number)
+      end
+
+    decimal =
+      with {decimal, _rem} <- Float.parse("0.#{decimal}") do
+        decimal |> Float.round(1) |> Float.to_string() |> String.slice(1..-1)
+      end
+
+    number <> decimal
+  end
+
   def format_number(number) do
     number
     |> Integer.to_string()

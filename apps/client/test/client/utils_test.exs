@@ -86,5 +86,13 @@ defmodule Client.UtilTest do
     test "formats a negative number" do
       assert Util.format_number(-1000) == "-1,000"
     end
+
+    test "returns 3.0 as 3.0" do
+      assert Util.format_number(3.0) == "3.0"
+    end
+
+    test "returns 3000.19 as 3,000.2" do
+      assert Util.format_number(3000.19) == "3,000.2"
+    end
   end
 end

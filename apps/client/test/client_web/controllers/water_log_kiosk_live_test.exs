@@ -10,7 +10,7 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
 
     {:ok, _view, html} = live(conn, path)
 
-    assert html =~ "Total dispensed: 0 L"
+    assert html =~ "Total dispensed: 0.0 L"
   end
 
   test "updates usage as events come in", %{conn: conn} do
@@ -65,7 +65,7 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
     )
 
     {:ok, _view, html} = live(conn, path)
-    assert html =~ "Filter life remaining: 1999 L"
+    assert html =~ "Filter life remaining: 1,999.0 L"
   end
 
   test "shows and updates the current weight", %{conn: conn} do
