@@ -25,7 +25,6 @@ defmodule Client.Trains.Sighting do
   end
 
   @required_params ~w[
-    cars
     direction
     log_id
     sighted_at
@@ -36,6 +35,7 @@ defmodule Client.Trains.Sighting do
   ]a
 
   @optional_params ~w[
+    cars
   ]a
 
   @params @required_params ++ @optional_params
