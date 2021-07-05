@@ -51,11 +51,11 @@ defmodule ClientWeb.TrainLogLive do
         <tbody>
           <%= for sighting <- @sightings do %>
             <tr data-role="train-sighting-row">
-              <td><%= format_date(sighting) %></td>
-              <td><%= format_time(sighting) %></td>
-              <td><%= sighting.direction %></td>
-              <td><%= sighting.cars %></td>
-              <td><%= format_engines(sighting) %></td>
+              <td class="p-2 pl-0"><%= format_date(sighting) %></td>
+              <td class="p-2"><%= format_time(sighting) %></td>
+              <td class="p-2"><%= sighting.direction %></td>
+              <td class="p-2"><%= sighting.cars %></td>
+              <td class="p-2"><%= format_engines(sighting) %></td>
             </tr>
           <% end %>
         </tbody>
