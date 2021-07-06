@@ -15,5 +15,6 @@ defmodule Client.Trains.Log do
     |> cast(params, @required_params)
     |> validate_required(@required_params)
     |> unique_constraint(:location, name: :train_logs_user_id_location_index)
+    |> foreign_key_constraint(:user_id, name: :train_logs_user_id_fkey)
   end
 end

@@ -29,16 +29,18 @@ defmodule Twitch.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.3"},
-      {:gen_stage, "~> 1.1.0"},
-      {:websockex, "~> 0.4.1"},
-      {:exirc, "~> 2.0"},
       {:ecto_sql, "~> 3.0"},
-      {:postgrex, "~> 0.14"},
-      {:poison, "~> 4.0"},
-      {:exenv, "~> 0.3"},
+      {:events, in_umbrella: true},
       {:ex_machina, "~> 2.2", only: :test},
-      {:events, in_umbrella: true}
+      {:exenv, "~> 0.3"},
+      {:exirc, "~> 2.0"},
+      {:gen_stage, "~> 1.1.0"},
+      {:httpoison, "~> 1.3"},
+      {:jason, "~> 1.1"},
+      {:poison, "~> 4.0"},
+      {:postgrex, "~> 0.14"},
+      {:sentry, "~> 8.0"},
+      {:websockex, "~> 0.4.1"}
     ]
   end
 end
