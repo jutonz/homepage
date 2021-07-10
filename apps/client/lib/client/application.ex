@@ -4,13 +4,11 @@ defmodule Client.Application do
   # See https://hexdocs.pm/elixir/Application.html for more information on OTP
   # Applications
   def start(_type, _args) do
-    import Supervisor.Spec
-
     children = [
-      supervisor(Client.Repo, []),
+      Client.Repo,
       {Phoenix.PubSub, name: Client.PubSub},
-      supervisor(ClientWeb.Endpoint, []),
-      worker(Client.UserServer, [[name: :user_server]]),
+      ClientWeb.Endpoint,
+      {Client.UserServer, [name: :user_server]},
       Client.TwitchServer,
       ClientWeb.Telemetry
     ]

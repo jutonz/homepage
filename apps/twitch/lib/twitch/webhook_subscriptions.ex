@@ -1,4 +1,7 @@
 defmodule Twitch.WebhookSubscriptions do
+  # Started with OTP 24 and Elixir 1.12
+  @dialyzer {:no_return, calculate_signature: 1}
+
   alias Twitch.WebhookSubscriptions
   alias Twitch.WebhookSubscriptions.Subscription
   alias Twitch.WebhookSubscriptions.Query

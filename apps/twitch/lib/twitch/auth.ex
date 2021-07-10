@@ -44,8 +44,6 @@ defmodule Twitch.Auth do
         params: query
       )
 
-    IO.inspect(response)
-
     response |> parse_response
   end
 
