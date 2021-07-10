@@ -23,7 +23,7 @@ jobs:
         path: |
           deps
           _build/dev
-        key: v1-dev-${{ hashFiles('mix.lock') }}
+        key: v1-dev-${{ hashFiles('.tool-versions')}}-${{ hashFiles('mix.lock') }}
         restore-keys: v1-dev-
     - name: Restore PLT cache
       uses: actions/cache@v2
