@@ -1,4 +1,7 @@
 defmodule ClientWeb.Router do
+  # Phoenix has a couple of bad typespecs as of 1.4.11
+  @dialyzer {:no_return, __checks__: 0}
+
   use ClientWeb, :router
   import Plug.BasicAuth
   import Phoenix.LiveView.Router

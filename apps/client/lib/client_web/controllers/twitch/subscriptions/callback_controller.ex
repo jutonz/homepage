@@ -1,4 +1,7 @@
 defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
+  # Started with OTP 24 and Elixir 1.12
+  @dialyzer {:no_return, callback: 2}
+
   use ClientWeb, :controller
   alias Twitch.WebhookSubscriptions
 

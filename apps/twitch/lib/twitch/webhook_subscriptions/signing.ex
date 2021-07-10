@@ -1,4 +1,7 @@
 defmodule Twitch.WebhookSubscriptions.Signing do
+  # Started with OTP 24 and Elixir 1.12
+  @dialyzer {:no_return, signature: 1}
+
   def signature(body) do
     signature =
       :sha256
