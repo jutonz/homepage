@@ -1,6 +1,7 @@
 defmodule ClientWeb.TrainLogLive do
   use Phoenix.LiveView
   alias Client.Trains
+  alias ClientWeb.Router.Helpers, as: Routes
 
   def render(assigns) do
     if assigns[:loading] do
@@ -76,6 +77,13 @@ defmodule ClientWeb.TrainLogLive do
         user_id: session["user_id"]
       ]
 
+      socket =
+        if assigns[:log] do
+          socket
+        else
+          redirect(socket, to: Routes.train_log_path(socket, :index))
+        end
+
       {:ok, assign(socket, assigns)}
     else
       {:ok, assign(socket, :loading, true)}
@@ -95,12 +103,10 @@ defmodule ClientWeb.TrainLogLive do
   end
 
   defp format_date(sighting) do
-    sighting.sighted_at
-    |> DateTime.to_date()
+    Calendar.strftime(sighting.sighted_at, "%d %b")
   end
 
   defp format_time(sighting) do
-    sighting.sighted_at
-    |> DateTime.to_time()
+    Calendar.strftime(sighting.sighted_at, "%H:%M")
   end
 end
