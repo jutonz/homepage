@@ -51,7 +51,7 @@
     "@types/react-redux": "^7.1.16",
     "@types/react-router-dom": "^5.1.8",
     "@types/redux-saga": "^0.10.5",
-    "@typescript-eslint/typescript-estree": "^4.28.2",
+    "@typescript-eslint/typescript-estree": "^4.28.3",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-semantic-ui-react-imports": "^1.4.1",
