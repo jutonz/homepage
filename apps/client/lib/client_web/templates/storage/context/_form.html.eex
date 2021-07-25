@@ -1,0 +1,36 @@
+<%= form_for(
+  @changeset,
+  @submit_path,
+fn form -> %>
+  <div class="flex flex-1 flex-col mb-6">
+    <div>
+      <%= label(form, :name, "Name") %>
+      <%= text_input(
+        form,
+        :name,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "name-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :name) %>
+      </div>
+    </div>
+
+    <div>
+      <%= label(form, :team_names, "Team names (separate multiple with commas)") %>
+      <%= text_input(
+        form,
+        :team_names,
+        class: "mt-2",
+        data: [role: "team-names-input"],
+        value: comma_separated_team_names(@changeset)
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :team_names) %>
+      </div>
+    </div>
+  </div>
+
+  <%= submit(@action, data: [role: "soap-batch-submit"]) %>
+<% end) %>

@@ -124,6 +124,12 @@ defmodule Client.Factory do
     }
   end
 
+  def storage_context_factory do
+    %Client.Storage.Context{
+      name: "Context #{rand_string()}"
+    }
+  end
+
   def rand_string(length \\ 16) do
     length
     |> :crypto.strong_rand_bytes()

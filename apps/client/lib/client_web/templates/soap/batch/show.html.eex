@@ -1,5 +1,7 @@
 <div class="m-5">
-  <div class="flex align-center text-xl mb-5"> <div class="mr-2 text-gray-500"> <%= link("Soap", to: Routes.soap_soap_path(@conn, :index)) %>
+  <div class="flex align-center text-xl mb-5">
+    <div class="mr-2 text-gray-500">
+      <%= link("Soap", to: Routes.soap_soap_path(@conn, :index)) %>
     </div>
     >
     <div class="ml-2 mr-2 text-gray-500">
