@@ -123,6 +123,12 @@ const renderLogsSubnav = (activeItem: String) => (
           Trains
         </Dropdown.Item>
       </Link>
+
+      <Link to="/storage" component={StaticLink}>
+        <Dropdown.Item name={"storage"} active={activeItem === "storage"}>
+          Storage
+        </Dropdown.Item>
+      </Link>
     </Dropdown.Menu>
   </Dropdown>
 );
