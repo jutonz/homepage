@@ -84,7 +84,9 @@ defmodule ClientWeb.Router do
     end
 
     scope("/storage", Storage, as: :storage) do
-      resources("/", ContextController)
+      resources("/", ContextController) do
+        resources("/items", ItemController)
+      end
     end
   end
 

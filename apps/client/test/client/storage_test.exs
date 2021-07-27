@@ -30,6 +30,40 @@ defmodule Client.StorageTest do
     end
   end
 
+  describe "list_items/2" do
+    test "lists items for my context" do
+      user = insert(:user)
+      context = insert(:storage_context, creator: user)
+      item = insert(:storage_item, context: context)
+      other_context = insert(:storage_context, creator: insert(:user))
+      _other_item = insert(:storage_item, context: other_context)
+
+      item_ids = user.id |> Storage.list_items(context.id) |> Enum.map(& &1.id)
+
+      assert item_ids == [item.id]
+    end
+
+    test "lists items for my team's context" do
+      me = insert(:user)
+      team_lead = insert(:user)
+      team = insert(:team, users: [me, team_lead])
+      context = insert(:storage_context, creator: team_lead, teams: [team])
+      item = insert(:storage_item, context: context)
+
+      item_ids = me.id |> Storage.list_items(context.id) |> Enum.map(& &1.id)
+
+      assert item_ids == [item.id]
+    end
+
+    test "doesn't list anything if I can't access the context" do
+      user = insert(:user)
+      context = insert(:storage_context, creator: insert(:user))
+      _item = insert(:storage_item, context: context)
+
+      assert Storage.list_items(user.id, context.id) == []
+    end
+  end
+
   describe "create_context/1" do
     test "creates a context" do
       user = insert(:user)

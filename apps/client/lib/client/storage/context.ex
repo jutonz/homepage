@@ -4,8 +4,7 @@ defmodule Client.Storage.Context do
 
   schema "storage_contexts" do
     belongs_to(:creator, Client.User)
-    field(:name, :string)
-    timestamps(type: :utc_datetime)
+    has_many(:items, Client.Storage.Item)
 
     many_to_many(
       :teams,
@@ -14,6 +13,9 @@ defmodule Client.Storage.Context do
       on_replace: :delete,
       on_delete: :delete_all
     )
+
+    field(:name, :string)
+    timestamps(type: :utc_datetime)
 
     field(:team_names, {:array, :string}, virtual: true)
   end

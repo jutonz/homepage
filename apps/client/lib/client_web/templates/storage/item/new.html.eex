@@ -1,0 +1,13 @@
+<div class="m-4">
+  <div class="text-xl mb-5">New item</div>
+  <%= render(
+    "_form.html",
+    changeset: @changeset,
+    submit_path: Routes.storage_context_item_path(
+      @conn,
+      :create,
+      Ecto.Changeset.get_field(@changeset, :context_id)
+    ),
+    action: "Create"
+  ) %>
+</div>
