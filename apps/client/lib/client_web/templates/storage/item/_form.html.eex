@@ -1,0 +1,63 @@
+<%= form_for(
+  @changeset,
+  @submit_path,
+fn form -> %>
+  <div class="flex flex-1 flex-col mb-6">
+    <div>
+      <%= label(form, :name, "Name") %>
+      <%= text_input(
+        form,
+        :name,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "name-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :name) %>
+      </div>
+    </div>
+
+    <div>
+      <%= label(form, :description, "Description of contents (optional)") %>
+      <%= text_input(
+        form,
+        :description,
+        class: "mt-2",
+        autofocus: true,
+        data: [role: "description-input"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :description) %>
+      </div>
+    </div>
+
+    <div>
+      <%= label(form, :location, "Location") %>
+      <%= text_input(
+        form,
+        :location,
+        class: "mt-2",
+        data: [role: "location-input"],
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :location) %>
+      </div>
+    </div>
+
+    <div>
+      <%= label(form, :unpacked_at, "Unpacked", class: "mr-4") %>
+      <%= checkbox(
+        form,
+        :unpacked_at,
+        class: "mt-2",
+        data: [role: "unpacked-input"],
+        value: if(Ecto.Changeset.get_field(@changeset, :unpacked_at), do: true, else: false)
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :unpacked_at) %>
+      </div>
+    </div>
+  </div>
+
+  <%= submit(@action) %>
+<% end) %>

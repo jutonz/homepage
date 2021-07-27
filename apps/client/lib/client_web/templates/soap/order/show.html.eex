@@ -97,7 +97,7 @@
           </td>
           <td class="p-2">
             <%= link(
-              existential_checkmark(ingredient.depleted_at),
+              ClientWeb.GenericHelpers.existential_checkmark(ingredient.depleted_at),
               to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-depleted"]

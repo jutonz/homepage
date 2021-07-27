@@ -52,6 +52,7 @@ defmodule ClientWeb.Storage.ContextController do
       |> Storage.get_context(id)
       |> Repo.preload(:teams)
       |> Repo.preload(:creator)
+      |> Repo.preload(items: Storage.ItemQuery.order_by_name(Storage.Item))
 
     render(conn, "show.html", context: context)
   end

@@ -130,6 +130,13 @@ defmodule Client.Factory do
     }
   end
 
+  def storage_item_factory do
+    %Client.Storage.Item{
+      name: "Item #{rand_string()}",
+      location: "Location #{rand_string()}"
+    }
+  end
+
   def rand_string(length \\ 16) do
     length
     |> :crypto.strong_rand_bytes()

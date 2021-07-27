@@ -2,7 +2,9 @@ defmodule Client.Storage do
   alias Client.{
     Repo,
     Storage.Context,
-    Storage.ContextQuery
+    Storage.ContextQuery,
+    Storage.Item,
+    Storage.ItemQuery
   }
 
   import Ecto.Query, only: [from: 2]
@@ -14,6 +16,13 @@ defmodule Client.Storage do
   def list_contexts(user_id) do
     Context
     |> ContextQuery.by_user_id(user_id)
+    |> Repo.all()
+  end
+
+  def list_items(user_id, context_id) do
+    Item
+    |> ItemQuery.by_user_id(user_id)
+    |> ItemQuery.by_context_id(context_id)
     |> Repo.all()
   end
 
@@ -29,6 +38,14 @@ defmodule Client.Storage do
     context_changeset(%Context{}, attrs)
   end
 
+  def item_changeset(item, attrs \\ %{}) do
+    Item.changeset(item, attrs)
+  end
+
+  def new_item_changeset(attrs \\ %{}) do
+    item_changeset(%Item{}, attrs)
+  end
+
   ##############################################################################
   # Create
   ##############################################################################
@@ -40,6 +57,12 @@ defmodule Client.Storage do
     |> Repo.insert()
   end
 
+  def create_item(attrs) do
+    attrs
+    |> new_item_changeset()
+    |> Repo.insert()
+  end
+
   ##############################################################################
   # Get
   ##############################################################################
@@ -48,6 +71,14 @@ defmodule Client.Storage do
     Context
     |> ContextQuery.by_user_id(user_id)
     |> ContextQuery.by_id(id)
+    |> Repo.one()
+  end
+
+  def get_item(user_id, context_id, id) do
+    Item
+    |> ItemQuery.by_user_id(user_id)
+    |> ItemQuery.by_context_id(context_id)
+    |> ItemQuery.by_id(id)
     |> Repo.one()
   end
 
@@ -66,6 +97,10 @@ defmodule Client.Storage do
     |> Repo.update()
   end
 
+  def update_item(item, attrs) do
+    item |> item_changeset(attrs) |> Repo.update()
+  end
+
   defp team_names_to_teams(user_id, team_names) do
     if team_names && Enum.any?(team_names) do
       query =
@@ -81,5 +116,13 @@ defmodule Client.Storage do
     else
       []
     end
+  end
+
+  ##############################################################################
+  # Delete
+  ##############################################################################
+
+  def delete_item(item) do
+    Repo.delete(item)
   end
 end
