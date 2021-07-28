@@ -33,4 +33,14 @@ defmodule Client.Storage.ItemQuery do
   def order_by_name(query) do
     from(i in query, order_by: :name)
   end
+
+  def search(query, search) do
+    from(
+      i in query,
+      where:
+        ilike(i.name, ^"%#{search}%") or
+          ilike(i.description, ^"%#{search}%") or
+          ilike(i.location, ^"%#{search}%")
+    )
+  end
 end
