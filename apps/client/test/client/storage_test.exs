@@ -171,4 +171,58 @@ defmodule Client.StorageTest do
       assert team2.name in team_names
     end
   end
+
+  describe "search_items/3" do
+    test "searches by names" do
+      user = insert(:user)
+      context = insert(:storage_context, creator: user)
+      value = rand_string()
+      item = insert(:storage_item, context: context, name: value)
+
+      ids = user.id |> Storage.search_items(context.id, value) |> Enum.map(& &1.id)
+
+      assert ids == [item.id]
+    end
+
+    test "searches by location" do
+      user = insert(:user)
+      context = insert(:storage_context, creator: user)
+      value = rand_string()
+      item = insert(:storage_item, context: context, location: value)
+
+      ids = user.id |> Storage.search_items(context.id, value) |> Enum.map(& &1.id)
+
+      assert ids == [item.id]
+    end
+
+    test "searches by description" do
+      user = insert(:user)
+      context = insert(:storage_context, creator: user)
+      value = rand_string()
+      item = insert(:storage_item, context: context, description: value)
+
+      ids = user.id |> Storage.search_items(context.id, value) |> Enum.map(& &1.id)
+
+      assert ids == [item.id]
+    end
+
+    test "orders results by name" do
+      user = insert(:user)
+      context = insert(:storage_context, creator: user)
+      item2 = insert(:storage_item, context: context, name: "test b")
+      item1 = insert(:storage_item, context: context, name: "test a")
+
+      ids = user.id |> Storage.search_items(context.id, "test") |> Enum.map(& &1.id)
+
+      assert ids == [item1.id, item2.id]
+    end
+
+    test "doesn't return someone else's items" do
+      user = insert(:user)
+      context = insert(:storage_context, creator: insert(:user))
+      _item = insert(:storage_item, context: context, name: "name")
+
+      assert Storage.search_items(user.id, context.id, "name") == []
+    end
+  end
 end

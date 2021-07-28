@@ -28,47 +28,14 @@
 
   <hr class="my-5">
 
-  <div class="text-lg mb-1">Items</div>
-
-  <table class="mb-4">
-    <th>
-      <tr>
-        <td class="pr-2">ID</td>
-        <td class="pr-2">Name</td>
-        <td class="p-2">Location</td>
-        <td class="p-2">Unpacked</td>
-      </tr>
-    </th>
-
-    <%= for item <- @context.items do %>
-      <tr class="hover:bg-gray-800 cursor-pointer">
-        <td class="pr-2">
-          <%= link(
-            item.id,
-            to: Routes.storage_context_item_path(@conn, :edit, @context, item)
-          )%>
-        </td>
-        <td class="pr-2">
-          <%= link(
-            item.name,
-            to: Routes.storage_context_item_path(@conn, :edit, @context, item)
-          )%>
-        </td>
-        <td class="p-2">
-          <%= link(
-            item.location,
-            to: Routes.storage_context_item_path(@conn, :edit, @context, item)
-          )%>
-        </td>
-        <td class="p-2">
-          <%= link(
-            ClientWeb.GenericHelpers.existential_checkmark(item.unpacked_at),
-            to: Routes.storage_context_item_path(@conn, :edit, @context, item)
-          )%>
-        </td>
-      </tr>
-    <% end %>
-  </table>
+  <%= live_render(
+    @conn,
+    ClientWeb.Storage.ContextItemsLive,
+    session: %{
+      "context_id" => @context.id,
+      "user_id" => Client.Session.current_user_id(@conn)
+    }
+  ) %>
 
   <%= link(
     "New item",

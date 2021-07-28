@@ -51,11 +51,20 @@ defmodule ClientWeb do
         only: [
           live_render: 2,
           live_render: 3,
+          live_component: 1,
           live_component: 2,
           live_component: 3,
           live_component: 4
         ]
 
+      alias ClientWeb.Router.Helpers, as: Routes
+    end
+  end
+
+  def live_view do
+    quote do
+      use Phoenix.LiveView
+      use Phoenix.HTML
       alias ClientWeb.Router.Helpers, as: Routes
     end
   end

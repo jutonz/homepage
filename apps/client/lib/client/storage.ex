@@ -125,4 +125,17 @@ defmodule Client.Storage do
   def delete_item(item) do
     Repo.delete(item)
   end
+
+  ##############################################################################
+  # Other
+  ##############################################################################
+
+  def search_items(user_id, context_id, search) do
+    Item
+    |> ItemQuery.by_user_id(user_id)
+    |> ItemQuery.by_context_id(context_id)
+    |> ItemQuery.search(search)
+    |> ItemQuery.order_by_name()
+    |> Repo.all()
+  end
 end
