@@ -28,7 +28,7 @@ defmodule ClientWeb.StorageFeatureTests do
 
     session
     |> visit(path)
-    |> click(link("Edit context"))
+    |> click(link("✎"))
     |> fill_in(role("name-input"), with: "new name")
     |> fill_in(role("team-names-input"), with: "#{team.name}, #{other_team.name}")
     |> click(button("Update"))

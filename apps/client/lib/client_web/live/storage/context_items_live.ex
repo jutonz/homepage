@@ -44,43 +44,53 @@ defmodule ClientWeb.Storage.ContextItemsLive do
 
   defp render_items(assigns) do
     ~L"""
-    <div class="flex mb-4">
+    <div class="flex justify-between align-center">
       <div class="text-lg mb-1 mr-5">Items</div>
-      <form phx-change="search_changed">
-        <%= text_input(:search, :query, phx_debounce: 500, placeholder: "Search") %>
-      </form>
+      <%= link(
+        "New item",
+        to: Routes.storage_context_item_path(ClientWeb.Endpoint, :new, @context),
+        class: "button"
+      ) %>
     </div>
-    <table class="mb-4">
-      <th>
-        <tr>
-          <td class="pr-2">ID</td>
-          <td class="pr-2">Name</td>
-          <td class="p-2">Location</td>
-          <td class="p-2">Unpacked</td>
-          <td class="p-2">Description</td>
-        </tr>
-      </th>
 
+    <form class="flex flex-1 mt-5 mb-3" phx-change="search_changed">
+      <%= text_input(
+        :search,
+        :query,
+        phx_debounce: 500,
+        placeholder: "Search",
+        class: "rounded-sm flex-1"
+      ) %>
+    </form>
+
+
+    <div>
       <%= for item <- @items do %>
-        <tr class="hover:bg-gray-800 cursor-pointer" phx-click="redirect_to_item" phx-value-item-id="<%= item.id %>">
-        <td class="pr-2">
-            <%= item.id %>
-          </td>
-          <td class="pr-2">
+        <div class="py-3 border-b hover:bg-gray-800 cursor-pointer" phx-click="redirect_to_item" phx-value-item-id="<%= item.id %>">
+          <div>
             <%= item.name %>
-          </td>
-          <td class="p-2">
-            <%= item.location %>
-          </td>
-          <td class="p-2">
-            <%= ClientWeb.GenericHelpers.existential_checkmark(item.unpacked_at) %>
-          </td>
-          <td class="p-2">
-            <%= item.description %>
-          </td>
-        </tr>
+            <%= if item.description do %>
+             → <%= item.description %>
+            <% end %>
+          </div>
+          <%= if false && item.description do %>
+            <div class="flex">
+              <div class="pl-2">→</div>
+              <div class="pl-1"><%= item.description %></div>
+            </div>
+          <% end %>
+          <div class="flex justify-between">
+            <div class="flex">
+              <div class="">ID</div>
+              <div class="pl-1"><%= item.id %></div>
+            </div>
+            <div class="flex">
+              <div><%= item.location %></div>
+            </div>
+          </div>
+        </div>
       <% end %>
-    </table>
+    </div>
     """
   end
 

@@ -1,4 +1,4 @@
-<div class="m-4">
+<div class="m-4 max-w-screen-sm">
   <div class="flex align-center text-xl mb-5">
     <div class="mr-2 text-gray-500">
       <%= link("Storage", to: Routes.storage_context_path(@conn, :index)) %>
@@ -6,6 +6,11 @@
     >
     <div class="ml-2" data-role="storage-context-name">
       <%= @context.name %>
+      <%= link(
+        "✎",
+        to: Routes.storage_context_path(@conn, :edit, @context),
+        class: "text-lg"
+      ) %>
     </div>
   </div>
 
@@ -20,12 +25,6 @@
     </tr>
   </table>
 
-  <%= link(
-    "Edit context",
-    to: Routes.storage_context_path(@conn, :edit, @context),
-    class: "button"
-  ) %>
-
   <hr class="my-5">
 
   <%= live_render(
@@ -35,11 +34,5 @@
       "context_id" => @context.id,
       "user_id" => Client.Session.current_user_id(@conn)
     }
-  ) %>
-
-  <%= link(
-    "New item",
-    to: Routes.storage_context_item_path(@conn, :new, @context),
-    class: "button"
   ) %>
 </div>
