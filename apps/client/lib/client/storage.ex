@@ -135,7 +135,7 @@ defmodule Client.Storage do
     |> ItemQuery.by_user_id(user_id)
     |> ItemQuery.by_context_id(context_id)
     |> ItemQuery.search(search)
-    |> ItemQuery.order_by_name()
+    |> ItemQuery.order_by_id_desc()
     |> Repo.all()
   end
 end

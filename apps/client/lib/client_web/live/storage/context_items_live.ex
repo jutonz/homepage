@@ -11,7 +11,7 @@ defmodule ClientWeb.Storage.ContextItemsLive do
       context =
         assigns["user_id"]
         |> Storage.get_context(assigns["context_id"])
-        |> Repo.preload(items: Storage.ItemQuery.order_by_id(Storage.Item))
+        |> Repo.preload(items: Storage.ItemQuery.order_by_id_desc(Storage.Item))
 
       assigns = [
         user_id: assigns["user_id"],

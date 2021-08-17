@@ -30,12 +30,8 @@ defmodule Client.Storage.ItemQuery do
     from(i in query, where: i.id == ^id)
   end
 
-  def order_by_name(query) do
-    from(i in query, order_by: :name)
-  end
-
-  def order_by_id(query) do
-    from(i in query, order_by: :id)
+  def order_by_id_desc(query) do
+    from(i in query, order_by: [desc: :id])
   end
 
   def search(query, search) do
