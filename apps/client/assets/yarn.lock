@@ -324,10 +324,10 @@
     "@types/history" "*"
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^16.14.12":
-  version "16.14.12"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.12.tgz#1e38e2114e568f6541f88628a207f72630ee161f"
-  integrity sha512-7nOJgNsRbARhZhvwPm7cnzahtzEi5VJ9OvcQk8ExEEb1t+zaFklwLVkJz7G1kfxX4X/mDa/icTmzE0vTmqsqBg==
+"@types/react@*", "@types/react@^16.14.14":
+  version "16.14.14"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.14.tgz#853de95a32a6a0e719192e222eacad024add2b8e"
+  integrity sha512-uwIWDYW8LznHzEMJl7ag9St1RsK0gw/xaFZ5+uI1ZM1HndwUgmPH3/wQkSb87GkOVg7shUxnpNW8DcN0AzvG5Q==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -5793,10 +5793,10 @@ pdfjs-dist@^2.0.205:
     node-ensure "^0.0.0"
     worker-loader "^1.1.1"
 
-phoenix@1.5.9:
-  version "1.5.9"
-  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.5.9.tgz#5aad82072c8d90e7e20a187063c5db9b9ab9b5cd"
-  integrity sha512-NBRQaCYIrXL/wd5+OoO+DLlNTIdRvxKat0DSkfJ/c8qwYqKK7jNrf1GWPBOPzSVJ9HNMPjgmniJ87m9Os9IQGg==
+phoenix@1.5.11:
+  version "1.5.11"
+  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.5.11.tgz#05528f0cf46db18e7bd53b438a67fa774085fbd0"
+  integrity sha512-zqrm76pIJRqSOtd3C9d+jOeb9ewrsl+1L48je98xwXg2Jys9TQYIuBjdBf/lwSB4Y901927nbZJvThGhnhzmOA==
 
 phoenix_html@2.14.3:
   version "2.14.3"

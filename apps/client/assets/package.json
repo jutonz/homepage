@@ -25,7 +25,7 @@
     "history": "^5.0.0",
     "immutable": "4.0.0-rc.12",
     "pdfjs-dist": "^2.0.205",
-    "phoenix": "1.5.9",
+    "phoenix": "1.5.11",
     "phoenix_html": "2.14.3",
     "phoenix_live_view": "0.15.7",
     "react": "^16.14.0",
@@ -46,7 +46,7 @@
     "three": "^0.131.3"
   },
   "devDependencies": {
-    "@types/react": "^16.14.12",
+    "@types/react": "^16.14.14",
     "@types/react-dom": "^17.0.9",
     "@types/react-redux": "^7.1.18",
     "@types/react-router-dom": "^5.1.8",
