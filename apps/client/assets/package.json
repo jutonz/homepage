@@ -25,7 +25,7 @@
     "history": "^5.0.0",
     "immutable": "4.0.0-rc.12",
     "pdfjs-dist": "^2.0.205",
-    "phoenix": "1.5.9",
+    "phoenix": "1.5.11",
     "phoenix_html": "2.14.3",
     "phoenix_live_view": "0.15.7",
     "react": "^16.14.0",
