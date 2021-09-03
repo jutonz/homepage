@@ -20,7 +20,11 @@ defmodule Client.FoodLogsTest do
   describe "create/1" do
     test "it creates a food log" do
       params = params_for(:food_log)
+
       assert {:ok, log} = FoodLogs.create(params)
+      assert log.id
+      assert log.name == params[:name]
+      assert log.owner_id == params[:owner_id]
     end
   end
 
@@ -36,7 +40,7 @@ defmodule Client.FoodLogsTest do
     test "returns a food log if it exists" do
       log_id = insert(:food_log).id
 
-      assert %FoodLog{id: log_id} = FoodLogs.get(log_id)
+      assert %FoodLog{id: ^log_id} = FoodLogs.get(log_id)
     end
 
     test "returns nil if the food log doesn't exist" do
@@ -48,7 +52,7 @@ defmodule Client.FoodLogsTest do
     test "returns an entry if it exists" do
       entry_id = insert(:food_log_entry).id
 
-      assert %Entry{id: log_id} = FoodLogs.get_entry(entry_id)
+      assert %Entry{id: ^entry_id} = FoodLogs.get_entry(entry_id)
     end
 
     test "returns nil if the food log doesn't exist" do
