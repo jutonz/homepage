@@ -44,7 +44,7 @@ defmodule ClientWeb.Soap.IngredientControllerTest do
         |> Floki.parse_document!()
 
       selector = "a[href='#{Routes.soap_order_path(conn, :show, order)}']"
-      assert [ele] = Floki.find(html, selector)
+      assert [_ele] = Floki.find(html, selector)
     end
   end
 

@@ -85,7 +85,9 @@ defmodule Client.SoapTest do
 
       response = Soap.delete_batch_ingredient(user.id, batch.id, ba.id)
 
-      assert {:ok, ba} = response
+      assert {:ok, deleted} = response
+      assert deleted.id == ba.id
+      refute Repo.get(Soap.BatchIngredient, ba.id)
     end
   end
 

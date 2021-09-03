@@ -12,7 +12,7 @@ defmodule Client.WaterLogsTest do
       params = %{"water_log_id" => log_id, "lifespan" => 2000}
 
       assert {:ok, %Filter{} = filter} = WaterLogs.create_filter(params)
-      assert %Filter{water_log_id: log_id, lifespan: 2000} = filter
+      assert %Filter{water_log_id: ^log_id, lifespan: 2000} = filter
     end
 
     test "returns a changeset on error" do
@@ -24,7 +24,7 @@ defmodule Client.WaterLogsTest do
     test "returns a filter" do
       filter_id = insert(:water_log_filter).id
 
-      assert %Filter{id: filter_id} = WaterLogs.get_filter(filter_id)
+      assert %Filter{id: ^filter_id} = WaterLogs.get_filter(filter_id)
     end
 
     test "returns nil if no filter matches" do
@@ -79,7 +79,7 @@ defmodule Client.WaterLogsTest do
     test "deletes a filter" do
       filter_id = insert(:water_log_filter).id
 
-      assert {:ok, filter} = WaterLogs.delete_filter(filter_id)
+      assert {:ok, _filter} = WaterLogs.delete_filter(filter_id)
       assert is_nil(WaterLogs.get_filter(filter_id))
     end
   end

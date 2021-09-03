@@ -12,7 +12,7 @@ defmodule Client.ApiTokensTest do
   describe "get/1" do
     test "returns a token" do
       token_id = insert(:api_token).id
-      assert %ApiToken{id: token_id} = ApiTokens.get(token_id)
+      assert %ApiToken{id: ^token_id} = ApiTokens.get(token_id)
     end
   end
 
@@ -24,7 +24,7 @@ defmodule Client.ApiTokensTest do
 
       actual = ApiTokens.get_by_description(user_id, desc)
 
-      assert %ApiToken{description: desc} = actual
+      assert %ApiToken{description: ^desc} = actual
     end
   end
 
@@ -35,7 +35,7 @@ defmodule Client.ApiTokensTest do
 
       actual = ApiTokens.get_by_token(token)
 
-      assert %ApiToken{token: token} = actual
+      assert %ApiToken{token: ^token} = actual
     end
   end
 

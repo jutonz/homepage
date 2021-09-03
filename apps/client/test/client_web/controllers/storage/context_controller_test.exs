@@ -19,7 +19,7 @@ defmodule ClientWeb.Storage.ContextControllerTest do
       attrs = Map.put(attrs, "team_names", Enum.join(team_names, ", "))
       params = %{as: user.id, context: attrs}
 
-      conn = post(conn, Routes.storage_context_path(conn, :create, params))
+      post(conn, Routes.storage_context_path(conn, :create, params))
 
       [context] =
         user.id
