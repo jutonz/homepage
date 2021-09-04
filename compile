@@ -3,5 +3,6 @@ mkdir -p $phoenix_dir/priv/static
 
 NODE_ENV=production node --optimize_for_size --max_old_space_size=2048 ./node_modules/.bin/webpack --config webpack.config.production.js
 yarn run bundle:static
+yarn run bundle:static-css
 cd $phoenix_dir
 mix phx.digest

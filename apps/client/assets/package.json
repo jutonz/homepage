@@ -2,15 +2,12 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "bundle:static": "MIX_ENV=prod NODE_ENV=production node ./node_modules/.bin/webpack --config ./webpack-static.config.js",
+    "bundle:static-css": "npx postcss ./static-css/index.scss -o ./../priv/static/static-css/index.css",
+    "bundle:static": "node ./scripts/compile_static.js",
     "bundle:react": "NODE_ENV=production node ./node_modules/.bin/webpack --config webpack.config.production.js",
-    "build": "node ./node_modules/.bin/webpack --color",
-    "watch": "node ./node_modules/.bin/webpack --watch-stdin --color",
     "start": "node ./node_modules/.bin/webpack serve --config webpack.config.development.js",
     "s": "yarn start",
-    "lint": "node ./node_modules/.bin/eslint '{static-js,js}/**/*.{js,jsx,ts,tsx}' '*.js'",
-    "compile:backend": "cd ../../.. && MIX_ENV=prod mix local.hex --force && MIX_ENV=prod mix local.rebar --force && MIX_ENV=prod mix deps.get && MIX_ENV=prod mix compile",
-    "compile:frontend": "yarn --link-duplicates && yarn run bundle"
+    "lint": "node ./node_modules/.bin/eslint '{static-js,js}/**/*.{js,jsx,ts,tsx}' '*.js'"
   },
   "dependencies": {
     "@apollo/react-hooks": "3.1.3",
@@ -60,6 +57,7 @@
     "css-loader": "^5.2.7",
     "cssnano": "^4.1.11",
     "date-fns": "^2.23.0",
+    "esbuild": "^0.12.25",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -69,6 +67,8 @@
     "less": "3.12.2",
     "less-loader": "^7.3.0",
     "mini-css-extract-plugin": "^1.6.2",
+    "postcss": "^8.3.6",
+    "postcss-cli": "^8.3.1",
     "postcss-loader": "^3.0.0",
     "prettier": "^2.3.2",
     "react-hot-loader": "^4.13.0",

@@ -42,6 +42,8 @@ jobs:
   yarn_install:
     name: yarn install and bundle:static
     runs-on: ubuntu-latest
+    env:
+      MIX_ENV: prod
     steps:
     - uses: actions/checkout@v2
     - name: Setup node
@@ -69,7 +71,7 @@ jobs:
     - name: Restore static asset cache
       uses: actions/cache@v2
       with:
-        path: apps/client/priv/static/js
+        path: apps/client/priv/static
         key: v1-static-assets-${{ github.ref }}
     - name: yarn install
       working-directory: apps/client/assets
@@ -80,6 +82,9 @@ jobs:
     - name: yarn bundle:static
       working-directory: apps/client/assets
       run: yarn bundle:static
+    - name: yarn bundle:static-css
+      working-directory: apps/client/assets
+      run: yarn bundle:static-css
 
   build_react:
     name: yarn bundle:react
@@ -134,7 +139,7 @@ jobs:
     - name: Restore static asset cache
       uses: actions/cache@v2
       with:
-        path: apps/client/priv/static/js
+        path: apps/client/priv/static
         key: v1-static-assets-${{ github.ref }}
     - name: Restore test cache
       uses: actions/cache@v2
