@@ -22,7 +22,7 @@ esbuild.build({
   sourcemap: true,
   minify: isProd,
   watch: !isProd,
-  outdir: "./../priv/static/",
+  outfile: "./../priv/static/static-js/index.js",
   target: [
     "chrome58",
     "firefox57",
