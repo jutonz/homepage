@@ -42,6 +42,8 @@ jobs:
   yarn_install:
     name: yarn install and bundle:static
     runs-on: ubuntu-latest
+    env:
+      MIX_ENV: prod
     steps:
     - uses: actions/checkout@v2
     - name: Setup node
@@ -69,8 +71,8 @@ jobs:
     - name: Restore static asset cache
       uses: actions/cache@v2
       with:
-        path: apps/client/priv/static/js
-        key: v1-static-assets-${{ github.ref }}
+        path: apps/client/priv/static
+        key: v2-static-assets-${{ github.ref }}
     - name: yarn install
       working-directory: apps/client/assets
       run: yarn install
@@ -80,6 +82,9 @@ jobs:
     - name: yarn bundle:static
       working-directory: apps/client/assets
       run: yarn bundle:static
+    - name: yarn bundle:static-css
+      working-directory: apps/client/assets
+      run: yarn bundle:static-css
 
   build_react:
     name: yarn bundle:react
@@ -134,8 +139,8 @@ jobs:
     - name: Restore static asset cache
       uses: actions/cache@v2
       with:
-        path: apps/client/priv/static/js
-        key: v1-static-assets-${{ github.ref }}
+        path: apps/client/priv/static
+        key: v2-static-assets-${{ github.ref }}
     - name: Restore test cache
       uses: actions/cache@v2
       with:
@@ -146,6 +151,7 @@ jobs:
         restore-keys: |
           v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-test-${{ hashFiles('.tool-versions') }}-
+    - run: tree apps/client/priv/static
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
     - run: mix do ecto.create, ecto.migrate

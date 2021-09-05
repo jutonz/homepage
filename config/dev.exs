@@ -33,11 +33,13 @@ config :client, ClientWeb.Endpoint,
     ]
   ],
   watchers: [
-    node: [
-      "node_modules/.bin/webpack",
+    yarn: [
+      "bundle:static",
+      cd: Path.expand("../apps/client/assets", __DIR__)
+    ],
+    yarn: [
+      "bundle:static-css",
       "--watch",
-      "--color",
-      "--config=webpack-static.config.js",
       cd: Path.expand("../apps/client/assets", __DIR__)
     ]
   ]
