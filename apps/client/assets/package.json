@@ -46,7 +46,7 @@
     "@types/react": "^16.14.15",
     "@types/react-dom": "^17.0.9",
     "@types/react-redux": "^7.1.18",
-    "@types/react-router-dom": "^5.1.8",
+    "@types/react-router-dom": "^5.1.9",
     "@types/redux-saga": "^0.10.5",
     "@typescript-eslint/typescript-estree": "^4.31.1",
     "babel-core": "^6.26.3",
