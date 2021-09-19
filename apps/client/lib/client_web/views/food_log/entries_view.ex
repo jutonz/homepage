@@ -1,5 +1,5 @@
 defmodule ClientWeb.FoodLog.EntriesView do
-  use Phoenix.LiveView
+  use ClientWeb, :live_view
   alias Client.FoodLogs
   alias Client.FoodLogs.Entry
 

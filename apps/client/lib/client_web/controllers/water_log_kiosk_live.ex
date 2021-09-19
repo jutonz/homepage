@@ -8,17 +8,17 @@ defmodule ClientWeb.WaterLogKioskLive do
   }
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div class="m-4 flex flex-col justify-center w-full h-screen">
       <table class="max-h-32">
         <tr>
           <%= for datum <- @data do %>
             <td class="pr-3 h-64 align-bottom">
               <div class="h-full flex flex-col justify-end items-center">
-                <span data-role="<%= "usage-for-#{day_name(datum.date)}" %>">
+                <span data-role={"usage-for-#{day_name(datum.date)}"}>
                   <%= datum.amount %>
                 </span>
-                <div style="height: <%= datum.percentage %>%;" class="bg-white w-20"></div>
+                  <div {style_for_usage(datum)} class="bg-white w-20"></div>
               </div>
             </td>
           <% end %>
@@ -170,6 +170,10 @@ defmodule ClientWeb.WaterLogKioskLive do
     else
       Timex.Format.DateTime.Formatters.Strftime.format!(datetime, "%a")
     end
+  end
+
+  defp style_for_usage(datum) do
+    [style: "height: #{datum.percentage}%"]
   end
 
   defp filter_life_remaining(log_id) do

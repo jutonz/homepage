@@ -19,7 +19,7 @@ defmodule ClientWeb.WaterLogs.Usage do
   end
 
   def render(assigns) do
-    ~L"""
+    ~H"""
     <div>
       Dispensed today: <%= Util.format_number(@today_ml) %> ml
     </div>

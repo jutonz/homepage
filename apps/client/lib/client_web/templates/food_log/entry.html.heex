@@ -2,7 +2,7 @@
   <%= if @changeset do %>
     <div class="modal">
       <div class="modal__content">
-        <%= form_for @changeset, "#", [phx_submit: "update_entry", phx_target: @myself], fn f -> %>
+        <.form let={f} for={@changeset} phx_submit="update_entry" phx_target={@myself}>
           <div class="modal__content__header">
             <div class="text-xl">Edit entry</div>
             <div class="text-xl absolute top-0 right-0 mr-2" phx-click="cancel_edit_entry">x</div>
@@ -45,18 +45,18 @@
               class="button"
               data-role="delete-log-entry"
               phx-click="delete_entry"
-              phx-target="<%= @myself %>"
+              phx-target={@myself}
               data-confirm="Are you sure?"
             >
               Delete
             </div>
           </div>
-        </div>
-      <% end %>
+        </.form>
+      </div>
     </div>
   <% end %>
 
-  <div id="entry-<%= @entry.id %>" data-role="food-log-entry" data-entry-id="<%= @entry.id %>" class="ml-2 mb-2 mt-2" phx-click="edit_entry" phx-target="<%= @myself %>">
+  <div id="entry-{@entry.id}" data-role="food-log-entry" data-entry-id={@entry.id} class="ml-2 mb-2 mt-2" phx-click="edit_entry" phx-target={@myself}>
     <%= @entry.description %>
   </div>
 </div>

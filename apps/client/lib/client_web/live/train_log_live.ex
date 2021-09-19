@@ -12,13 +12,13 @@ defmodule ClientWeb.TrainLogLive do
   end
 
   defp render_loading(assigns) do
-    ~L"""
+    ~H"""
     <div class="m-4">Loading...</div>
     """
   end
 
   defp render_log(assigns) do
-    ~L"""
+    ~H"""
     <div class="m-4">
       <div class="text-xl">
         <%= @log.location %>
