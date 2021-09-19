@@ -48,7 +48,9 @@ defmodule ClientWeb.Router do
         as: :filters
       )
 
-      live("/kiosk", WaterLogKioskLive, layout: {ClientWeb.LayoutView, :app})
+      live_session(:water_logs, root_layout: {ClientWeb.LayoutView, :app}) do
+        live("/kiosk", WaterLogKioskLive)
+      end
     end
 
     resources("/train-logs", TrainLogController, only: ~w[index new create show]a)
