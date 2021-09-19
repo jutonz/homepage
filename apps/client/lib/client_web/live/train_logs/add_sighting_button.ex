@@ -3,16 +3,23 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
   alias Client.Trains
 
   def render(assigns) do
-    if assigns[:changeset] do
-      render_form(assigns)
-    else
-      render_button(assigns)
-    end
+    rendered =
+      if assigns[:changeset] do
+        render_form(assigns)
+      else
+        render_button(assigns)
+      end
+
+    ~H"""
+    <div id={@myself}>
+      <%= rendered %>
+    </div>
+    """
   end
 
   defp render_form(assigns) do
-    ~L"""
-    <%= form = form_for @changeset, "#", [phx_submit: "save", phx_target: @myself] %>
+    ~H"""
+    <.form let={form} for={@changeset} phx_submit="save" phx_target={@myself}>
       <div class="flex flex-1 flex-col mt-2">
         <div class="flex flex-row">
           <%= label(form, :sighted_date, "Date") %>
@@ -100,18 +107,17 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
           data: [role: "create-train-sighting"]
         ) %>
 
-        <button class="" phx-click="cancel" phx-target="<%= @myself %>">
+        <button class="" phx-click="cancel" phx-target={@myself}>
           Cancel
         </button>
       </div>
-    </form>
-
+    </.form>
     """
   end
 
   defp render_button(assigns) do
-    ~L"""
-    <button phx-click="add-sighting" phx-target="<%= @myself %>" data-role="add-sighting-button">
+    ~H"""
+    <button phx-click="add-sighting" phx-target={@myself} data-role="add-sighting-button">
       Add sighting
     </button>
     """

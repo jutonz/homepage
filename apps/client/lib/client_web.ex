@@ -38,42 +38,27 @@ defmodule ClientWeb do
         only: [
           get_csrf_token: 0,
           get_flash: 2,
-          view_module: 1
+          view_module: 1,
+          view_template: 1
         ]
 
-      # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
-
-      import ClientWeb.ErrorHelpers
-      import ClientWeb.Gettext
-
-      import Phoenix.LiveView.Helpers,
-        only: [
-          live_render: 2,
-          live_render: 3,
-          live_component: 1,
-          live_component: 2,
-          live_component: 3,
-          live_component: 4
-        ]
-
-      alias ClientWeb.Router.Helpers, as: Routes
+      unquote(view_helpers())
     end
   end
 
   def live_view do
     quote do
       use Phoenix.LiveView
-      use Phoenix.HTML
-      alias ClientWeb.Router.Helpers, as: Routes
+
+      unquote(view_helpers())
     end
   end
 
   def live_component do
     quote do
       use Phoenix.LiveComponent
-      use Phoenix.HTML
-      import ClientWeb.ErrorHelpers
+
+      unquote(view_helpers())
     end
   end
 
@@ -98,5 +83,19 @@ defmodule ClientWeb do
   """
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
+  end
+
+  defp view_helpers do
+    quote do
+      use Phoenix.HTML
+
+      import Phoenix.View
+      import Phoenix.LiveView.Helpers
+
+      import ClientWeb.ErrorHelpers
+      import ClientWeb.Gettext
+
+      alias ClientWeb.Router.Helpers, as: Routes
+    end
   end
 end

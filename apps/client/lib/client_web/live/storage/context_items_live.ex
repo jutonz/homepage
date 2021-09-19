@@ -36,14 +36,14 @@ defmodule ClientWeb.Storage.ContextItemsLive do
   end
 
   defp render_loading(assigns) do
-    ~L"""
+    ~H"""
     <div class="text-lg mb-4">Items</div>
     <div class="m-4">Loading...</div>
     """
   end
 
   defp render_items(assigns) do
-    ~L"""
+    ~H"""
     <div class="flex justify-between align-center">
       <div class="text-lg mb-1 mr-5">Items</div>
       <%= link(
@@ -66,7 +66,7 @@ defmodule ClientWeb.Storage.ContextItemsLive do
 
     <div>
       <%= for item <- @items do %>
-        <div class="py-3 border-b hover:bg-gray-800 cursor-pointer" phx-click="redirect_to_item" phx-value-item-id="<%= item.id %>">
+        <div class="py-3 border-b hover:bg-gray-800 cursor-pointer" phx-click="redirect_to_item" phx-value-item-id="{item.id}">
           <div>
             <%= item.name %>
             <%= if item.description do %>
