@@ -24,9 +24,8 @@ esbuild.build({
   watch: !isProd,
   outfile: "./../priv/static/static-js/index.js",
   target: [
-    "chrome58",
-    "firefox57",
-    "safari11",
-    "edge16"
+    "chrome90",
+    "firefox90",
+    "safari14"
   ],
 }).catch(() => process.exit(1))
