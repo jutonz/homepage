@@ -62,7 +62,7 @@
 
     <tbody>
       <%= for ingredient <- @order.ingredients do %>
-        <tr class="hover:bg-gray-800" data-ingredient-id="<%= ingredient.id %>">
+        <tr class="hover:bg-gray-800" data-ingredient-id={ingredient.id}>
           <td class="p-2 pl-0">
             <%= link(
               ingredient.name,

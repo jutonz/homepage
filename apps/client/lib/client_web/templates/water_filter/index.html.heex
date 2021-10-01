@@ -37,12 +37,12 @@
     <tbody>
       <%= if !Enum.any?(@filters) do %>
         <tr data-role="filter-empty-state">
-          <td colspan=3>You haven't yet recorded a filter change.</td>
+          <td colspan="3">You haven't yet recorded a filter change.</td>
         <tr>
       <% end %>
 
       <%= for {filter, i} <- Enum.with_index(@filters) do %>
-        <tr data-role="water-filter-row-<%= filter.id %>">
+        <tr data-role={"water-filter-row-#{filter.id}"}>
           <td class="pt-1 pb-1 pr-4"><%= i + 1 %></td>
           <td class="pt-1 pb-1 pr-4"><%= formatted_date(filter.inserted_at) %></td>
           <td class="pt-1 pb-1 pr-4"><%= formatted_lifespan(filter.lifespan) %></td>
