@@ -4,28 +4,6 @@ const path = require("path");
 
 const port = process.env.PORT || 4001;
 
-const getEnv = () => {
-  switch (process.env.MIX_ENV) {
-    case "prod":
-      return "production";
-    default:
-      return "development";
-  }
-};
-
-const env = getEnv();
-const isProd = env === "production";
-
-const postcssPlugins = () => {
-  let p = [require("tailwindcss"), require("autoprefixer")];
-
-  if (isProd) {
-    p.push(require("cssnano"));
-  }
-
-  return p;
-};
-
 const webpackConfig = {
   mode: "development",
   entry: "./../assets/js/index.js",
@@ -111,21 +89,6 @@ const webpackConfig = {
         include: [
           path.resolve(__dirname, "css"),
           path.resolve(__dirname, "node_modules/semantic-ui-less"),
-        ],
-      },
-      // Tailwind
-      {
-        test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          {
-            loader: "postcss-loader",
-            options: {
-              ident: "postcss-loader",
-              plugins: postcssPlugins(),
-            },
-          },
         ],
       },
     ],

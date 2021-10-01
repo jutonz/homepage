@@ -17,7 +17,7 @@ module.exports = {
       "./../lib/client_web/templates/**/*.eex",
       "./../lib/client_web/controllers/**/*_live.ex",
       "./../lib/client_web/live/**/*.ex",
-      "./js/**/*.tsx",
+      "./js/**/*.{jsx,tsx}",
     ],
   },
   theme: {
