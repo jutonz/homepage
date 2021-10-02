@@ -2,6 +2,7 @@
 
 import { build } from "esbuild";
 import { lessLoader } from "esbuild-plugin-less";
+import { copyStaticFiles } from "./copy-static-files.mjs";
 
 const getEnv = () => {
   switch (process.env.MIX_ENV) {
@@ -23,7 +24,7 @@ const lessOpts = {
   ],
 };
 
-build({
+const esbuildOpts = {
   entryPoints: ["./static-js/index.js", "./css/index.less"],
   plugins: [lessLoader(lessOpts)],
   loader: {
@@ -40,4 +41,9 @@ build({
   watch: !isProd,
   outdir: "./../priv/static/",
   target: ["chrome90", "firefox90", "safari14"],
-}).catch(() => process.exit(1));
+};
+
+(async function compile() {
+  await copyStaticFiles();
+  await build(esbuildOpts);
+})();

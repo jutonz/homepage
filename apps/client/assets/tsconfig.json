@@ -27,7 +27,6 @@
       "@utils/*": ["js/utils/*"],
       "@components/*": ["js/components/*"],
       "@routes/*": ["js/routes/*"],
-      "@static/*": ["static/*"],
       "@app/*": ["js/*"]
     }
   },
