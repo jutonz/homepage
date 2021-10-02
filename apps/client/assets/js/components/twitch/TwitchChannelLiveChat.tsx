@@ -1,5 +1,6 @@
 import * as React from "react";
 import { StyleSheet, css } from "aphrodite";
+// @ts-ignore
 import { Socket } from "phoenix";
 
 const HISTORY_THRESSHOLD = 100;

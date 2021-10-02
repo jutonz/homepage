@@ -8,6 +8,7 @@ import {
   Chart,
   LinearScale,
 } from "chart.js";
+// @ts-ignore
 import { Socket } from "phoenix";
 
 import { FormBox } from "./../FormBox";
