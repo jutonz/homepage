@@ -6,8 +6,8 @@ import gql from "graphql-tag";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
-import { showFlash } from "@store";
-import { FormBox } from "@components/FormBox";
+import { showFlash } from "./../store/store";
+import { FormBox } from "./../components/FormBox";
 
 const style = StyleSheet.create({
   container: {

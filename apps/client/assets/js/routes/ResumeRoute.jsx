@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, css } from "aphrodite";
 import { Button } from "semantic-ui-react";
-import { MainNav } from "@components/MainNav";
-import { PdfViewer } from "@components/PdfViewer";
+import { MainNav } from "./../components/MainNav";
+import { PdfViewer } from "./../components/PdfViewer";
 
 const { host, protocol } = window.location;
 const FULL_HOSTNAME = `${protocol}//${host}`;

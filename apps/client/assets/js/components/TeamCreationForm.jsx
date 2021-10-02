@@ -4,8 +4,8 @@ import { Header, Form, Message } from "semantic-ui-react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 
-import { fetchTeams, setNewTeamName, createTeam } from "@store";
-import { FormBox } from "@components/FormBox";
+import { fetchTeams, setNewTeamName, createTeam } from "./../store/store";
+import { FormBox } from "./FormBox";
 
 const style = StyleSheet.create({
   container: {

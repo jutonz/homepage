@@ -2,7 +2,7 @@ import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { LoginForm } from "@components/LoginForm";
+import { LoginForm } from "./../components/LoginForm";
 import { BgGrid } from "./../BgGrid";
 
 class _LoginRoute extends React.Component {

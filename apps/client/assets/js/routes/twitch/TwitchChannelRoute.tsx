@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Grid, Header } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { StyleSheet, css } from "aphrodite";
 
-import { MainNav } from "@components/MainNav";
-import { TwitchChannel } from "@components/twitch/TwitchChannel";
-import { TwitchEmoteWatcher } from "@components/twitch/TwitchEmoteWatcher";
-import { QueryLoader } from "@utils/QueryLoader";
+import { MainNav } from "./../../components/MainNav";
+import { TwitchChannel } from "./../../components/twitch/TwitchChannel";
+import { TwitchEmoteWatcher } from "./../../components/twitch/TwitchEmoteWatcher";
+import { QueryLoader } from "./../../utils/QueryLoader";
 
 const GET_CHANNEL_QUERY = gql`
   query GetTwitchChannel($channelName: String!) {

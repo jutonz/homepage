@@ -2,9 +2,9 @@ import * as React from "react";
 import gql from "graphql-tag";
 import { Button, Header, Table } from "semantic-ui-react";
 
-import { QueryLoader } from "@utils/QueryLoader";
+import { QueryLoader } from "./../../utils/QueryLoader";
 import { IjustAddOccurrenceToEventButton } from "./IjustAddOccurrenceToEventButton";
-import { IjustOccurrence } from "@components/ijust/IjustOccurrence";
+import { IjustOccurrence } from "./IjustOccurrence";
 
 export const GET_OCCURRENCES = gql`
   query GetIjustEventOccurrences($eventId: ID!, $offset: Int!) {

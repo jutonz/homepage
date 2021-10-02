@@ -4,8 +4,8 @@ import gql from "graphql-tag";
 
 import { IjustContext } from "../components/ijust/IjustContext";
 import { MainNav } from "../components/MainNav";
-import { Context } from "@store/reducers/ijust";
-import { QueryLoader } from "@utils/QueryLoader";
+import { Context } from "./../store/reducers/ijust";
+import { QueryLoader } from "./../utils/QueryLoader";
 
 const style = StyleSheet.create({
   routeContainer: {

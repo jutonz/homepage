@@ -3,11 +3,11 @@ import gql from "graphql-tag";
 import { Table } from "semantic-ui-react";
 import { format, formatDistanceToNow, parseISO } from "date-fns";
 
-import { MainNav } from "@components/MainNav";
-import { QueryLoader } from "@utils/QueryLoader";
-import { IjustEventOccurrences } from "@components/ijust/IjustEventOccurrences";
-import { Constants } from "@utils/Constants";
-import { IjustBreadcrumbs } from "@components/ijust/IjustBreadcrumbs";
+import { MainNav } from "./../../components/MainNav";
+import { IjustEventOccurrences } from "./../../components/ijust/IjustEventOccurrences";
+import { Constants } from "./../../utils/Constants";
+import { QueryLoader } from "./../../utils/QueryLoader";
+import { IjustBreadcrumbs } from "./../../components/ijust/IjustBreadcrumbs";
 
 const QUERY = gql`
   query GetIjustContextEvent($contextId: ID!, $eventId: ID!) {

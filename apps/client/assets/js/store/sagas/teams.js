@@ -1,12 +1,12 @@
 import { put, takeEvery } from "redux-saga/effects";
-import collectGraphqlErrors from "@utils/collectGraphqlErrors";
-import { showFlash } from "@store";
+import collectGraphqlErrors from "./../../utils/collectGraphqlErrors";
+import { showFlash } from "./../store";
 import {
   deleteTeamMutation,
   renameTeamMutation,
   joinTeamMutation,
   leaveTeamMutation,
-} from "@store/mutations";
+} from "./../mutations";
 
 function* deleteTeam({ id, resolve, reject }) {
   try {

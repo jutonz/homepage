@@ -3,9 +3,9 @@ import * as React from "react";
 import gql from "graphql-tag";
 import { Link } from "react-router-dom";
 
-import { MainNav } from "../components/MainNav";
-import { IjustBreadcrumbs } from "@components/ijust/IjustBreadcrumbs";
-import { QueryLoader } from "@utils/QueryLoader";
+import { MainNav } from "./../components/MainNav";
+import { IjustBreadcrumbs } from "./../components/ijust/IjustBreadcrumbs";
+import { QueryLoader } from "./../utils/QueryLoader";
 
 const style = StyleSheet.create({
   routeContainer: {

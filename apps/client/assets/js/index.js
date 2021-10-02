@@ -11,12 +11,12 @@ import thunk from "redux-thunk";
 
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { Index } from "@components/Index";
-import { appStore } from "@store";
+import { Index } from "./components/Index";
+import { appStore } from "./store/store";
 import { createLogger } from "redux-logger";
-import { rootSaga } from "@store/sagas/root";
-import isValidEmail from "@utils/isValidEmail";
-import isValidPassword from "@utils/isValidPassword";
+import { rootSaga } from "./store/sagas/root";
+import isValidEmail from "./utils/isValidEmail";
+import isValidPassword from "./utils/isValidPassword";
 
 const wee = document.getElementById("wee");
 const isHttps = wee.getAttribute("data-https");

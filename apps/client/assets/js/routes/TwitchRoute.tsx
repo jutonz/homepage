@@ -3,10 +3,10 @@ import gql from "graphql-tag";
 import { Button, Grid } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 
-import { MainNav } from "@components/MainNav";
-import { TwitchChannel } from "@components/twitch/TwitchChannel";
-import { TwitchChannelSubscription } from "@components/twitch/TwitchChannelSubscription";
-import { QueryLoader } from "@utils/QueryLoader";
+import { MainNav } from "./../components/MainNav";
+import { TwitchChannel } from "./../components/twitch/TwitchChannel";
+import { TwitchChannelSubscription } from "./../components/twitch/TwitchChannelSubscription";
+import { QueryLoader } from "./../utils/QueryLoader";
 
 const GET_CURRENT_USER_QUERY = gql`
   query GetTwitchUser {

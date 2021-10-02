@@ -3,7 +3,7 @@ import { Button } from "semantic-ui-react";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 
-import collectGraphqlErrors from "@utils/collectGraphqlErrors";
+import collectGraphqlErrors from "./../../utils/collectGraphqlErrors";
 
 const ADD_OCCURRENCE = gql`
   mutation IjustAddOccurrenceToEvent($ijustEventId: ID!) {

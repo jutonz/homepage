@@ -10,7 +10,7 @@ import {
 } from "chart.js";
 import { Socket } from "phoenix";
 
-import { FormBox } from "@components/FormBox";
+import { FormBox } from "./../FormBox";
 
 const style = StyleSheet.create({
   container: {

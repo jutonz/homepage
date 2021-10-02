@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Header } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { StyleSheet, css } from "aphrodite";
+import { StyleSheet } from "aphrodite";
 import gql from "graphql-tag";
 
-import { QueryLoader } from "@utils/QueryLoader";
-import { FormBox } from "@components/FormBox";
+import { QueryLoader } from "./../utils/QueryLoader";
+import { FormBox } from "./FormBox";
 
 const style = StyleSheet.create({
   container: {

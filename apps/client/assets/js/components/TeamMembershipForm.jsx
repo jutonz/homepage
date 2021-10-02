@@ -5,8 +5,8 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { fetchTeams } from "@store";
-import { FormBox } from "@components/FormBox";
+import { fetchTeams } from "./../store/store";
+import { FormBox } from "./FormBox";
 
 const style = StyleSheet.create({
   container: {

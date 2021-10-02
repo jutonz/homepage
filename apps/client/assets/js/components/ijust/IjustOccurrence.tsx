@@ -6,8 +6,8 @@ import { format, formatDistanceToNow, parseISO } from "date-fns";
 import { useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
-import { Constants } from "@utils/Constants";
-import { Confirm } from "@components/Confirm";
+import { Constants } from "./../../utils/Constants";
+import { Confirm } from "./../Confirm";
 
 const styles = StyleSheet.create({
   relativeDateSpacer: {

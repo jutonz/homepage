@@ -4,9 +4,9 @@ import { Header, Button } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 import { Mutation } from "react-apollo";
 
-import { FormBox } from "@components/FormBox";
-import { QueryLoader } from "@utils/QueryLoader";
-import collectGraphqlErrors from "@utils/collectGraphqlErrors";
+import { FormBox } from "./FormBox";
+import { QueryLoader } from "./../utils/QueryLoader";
+import collectGraphqlErrors from "./../utils/collectGraphqlErrors";
 
 const GET_CURRENT_USER_QUERY = gql`
   query GetTwitchUser {

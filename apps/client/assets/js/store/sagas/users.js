@@ -1,6 +1,6 @@
 import { put, takeEvery } from "redux-saga/effects";
-import { fetchUserQuery, fetchTeamUserQuery } from "@store/queries";
-import collectGraphqlErrors from "@utils/collectGraphqlErrors";
+import { fetchUserQuery, fetchTeamUserQuery } from "./../queries";
+import collectGraphqlErrors from "./../../utils/collectGraphqlErrors";
 
 function* fetchUser({ id }) {
   try {

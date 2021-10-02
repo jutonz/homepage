@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { StyleSheet, css } from "aphrodite";
 import { Loader } from "semantic-ui-react";
-import { MainNav } from "@components/MainNav";
+import { MainNav } from "./../components/MainNav";
 
 const style = StyleSheet.create({
   routeContainer: {
