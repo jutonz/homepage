@@ -40,15 +40,6 @@ const webpackConfig = {
         include: path.resolve(__dirname, "js"),
         exclude: /node_modules/,
       },
-      // Handle static files
-      {
-        test: /\.(pdf|docx)$/,
-        loader: "file-loader",
-        options: {
-          name: "[name].[ext]?[hash]",
-        },
-        include: path.resolve(__dirname, "static/files"),
-      },
     ],
   },
 
@@ -74,7 +65,6 @@ const webpackConfig = {
       "@utils": path.resolve(__dirname, "js/utils/"),
       "@components": path.resolve(__dirname, "js/components/"),
       "@routes": path.resolve(__dirname, "js/routes/"),
-      "@static": path.resolve(__dirname, "static/"),
       "@app": path.resolve(__dirname, "js/"),
     },
     extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],

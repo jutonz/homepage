@@ -7,7 +7,7 @@
     "bundle:react": "NODE_ENV=production node ./node_modules/.bin/webpack --config webpack.config.production.js",
     "start": "node ./node_modules/.bin/webpack serve --config webpack.config.development.js",
     "s": "yarn start",
-    "lint": "node ./node_modules/.bin/eslint '{static-js,js}/**/*.{js,jsx,ts,tsx}' '*.js'"
+    "lint": "node ./node_modules/.bin/eslint '{static-js,js,scripts}/**/*.{js,mjs,jsx,ts,tsx}' '*.js'"
   },
   "dependencies": {
     "@apollo/react-hooks": "3.1.3",

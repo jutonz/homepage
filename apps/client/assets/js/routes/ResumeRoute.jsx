@@ -3,8 +3,11 @@ import { StyleSheet, css } from "aphrodite";
 import { Button } from "semantic-ui-react";
 import { MainNav } from "@components/MainNav";
 import { PdfViewer } from "@components/PdfViewer";
-import pdfPath from "@static/files/resume.pdf";
-import docPath from "@static/files/resume.docx";
+
+const { host, protocol } = window.location;
+const FULL_HOSTNAME = `${protocol}//${host}`;
+const PDF_PATH = FULL_HOSTNAME + "/files/resume.pdf";
+const DOC_PATH = FULL_HOSTNAME + "/files/resume.docx";
 
 const style = StyleSheet.create({
   resumeContainer: {
@@ -30,7 +33,7 @@ export const ResumeRoute = () => (
     <MainNav activeItem={"resume"} />
 
     <div className={css(style.resumeContainer)}>
-      <PdfViewer pdfPath={pdfPath} />
+      <PdfViewer pdfPath={PDF_PATH} />
     </div>
 
     <div className={css(style.actionsContainer)}>
@@ -42,8 +45,8 @@ export const ResumeRoute = () => (
   </div>
 );
 
-const openPdf = () => openFile(pdfPath);
-const openDoc = () => openFile(docPath);
+const openPdf = () => openFile(PDF_PATH);
+const openDoc = () => openFile(DOC_PATH);
 
 const openFile = (file) => {
   const link = document.createElement("a");
