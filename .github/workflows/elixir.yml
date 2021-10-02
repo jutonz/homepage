@@ -40,7 +40,7 @@ jobs:
     - run: mix dialyzer
 
   yarn_install:
-    name: yarn install and bundle:static
+    name: yarn install and bundle
     runs-on: ubuntu-latest
     env:
       MIX_ENV: prod
@@ -79,35 +79,12 @@ jobs:
     - name: yarn lint
       working-directory: apps/client/assets
       run: yarn lint
-    - name: yarn bundle:static
+    - name: yarn bundle:js
       working-directory: apps/client/assets
-      run: yarn bundle:static
-    - name: yarn bundle:static-css
+      run: yarn bundle:js
+    - name: yarn bundle:css
       working-directory: apps/client/assets
-      run: yarn bundle:static-css
-
-  build_react:
-    name: yarn bundle:react
-    runs-on: ubuntu-latest
-    needs: yarn_install
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup node
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.17
-    - name: Restore node_modules cache
-      uses: actions/cache@v2
-      with:
-        path: apps/client/assets/node_modules
-        key: v1-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-        restore-keys: |
-          v1-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-          v1-node-modules-${{ hashFiles('.tool-versions') }}
-          v1-node-modules-
-    - name: yarn bundle:react
-      working-directory: apps/client/assets
-      run: yarn bundle:react
+      run: yarn bundle:css
 
   mix_test:
     name: mix test

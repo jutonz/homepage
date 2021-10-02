@@ -26,7 +26,7 @@ const lessOpts = {
 };
 
 const esbuildOpts = {
-  entryPoints: ["./static-js/index.js", "./css/index.less"],
+  entryPoints: ["./js/index.jsx", "./static-js/index.js", "./css/index.less"],
   plugins: [lessLoader(lessOpts)],
   loader: {
     ".eot": "dataurl",

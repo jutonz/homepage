@@ -2,11 +2,8 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "bundle:static-css": "npx postcss ./static-css/index.scss -o ./../priv/static/static-css/index.css",
-    "bundle:static": "node ./scripts/compile_static.mjs",
-    "bundle:react": "NODE_ENV=production node ./node_modules/.bin/webpack --config webpack.config.production.js",
-    "start": "node ./node_modules/.bin/webpack serve --config webpack.config.development.js",
-    "s": "yarn start",
+    "bundle:css": "npx postcss ./static-css/index.scss -o ./../priv/static/static-css/index.css",
+    "bundle:js": "node ./scripts/compile_static.mjs",
     "lint": "node ./node_modules/.bin/eslint '{static-js,js,scripts}/**/*.{js,mjs,jsx,ts,tsx}' '*.js'"
   },
   "dependencies": {
