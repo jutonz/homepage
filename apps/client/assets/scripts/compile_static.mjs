@@ -3,6 +3,7 @@
 import { build } from "esbuild";
 import { lessLoader } from "esbuild-plugin-less";
 import { copyStaticFiles } from "./copy-static-files.mjs";
+import { generateIndexHtml } from "./generate-index-html.mjs";
 
 const getEnv = () => {
   switch (process.env.MIX_ENV) {
@@ -44,6 +45,10 @@ const esbuildOpts = {
 };
 
 (async function compile() {
+  await generateIndexHtml({
+    TITLE: isProd ? "jutonz.com" : "[dev] jutonz.com",
+    IS_HTTPS: isProd,
+  });
   await copyStaticFiles();
   await build(esbuildOpts);
 })();
