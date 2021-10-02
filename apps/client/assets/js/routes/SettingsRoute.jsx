@@ -26,7 +26,7 @@ export const SettingsRoute = () => (
       className={css(style.routeContainer)}
     >
       <Grid.Column>
-        <Header className="transform scale-50">User settings</Header>
+        <Header>User settings</Header>
         <Grid columns={2} relaxed stackable>
           <ChangePasswordForm />
           <OneTimeLoginLink />
