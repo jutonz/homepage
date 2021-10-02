@@ -1,7 +1,3 @@
-import "semantic-ui-less/semantic.less";
-
-import "./../css/app.less";
-
 import { ApolloClient } from "apollo-client";
 import { ApolloProvider } from "react-apollo";
 import { Provider } from "react-redux";
