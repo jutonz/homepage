@@ -1,6 +1,4 @@
-import { GraphQLError } from "graphql";
-
-import { dig } from "@utils/Dig";
+import { dig } from "./Dig";
 
 export default function (error) {
   if (!!!error) {

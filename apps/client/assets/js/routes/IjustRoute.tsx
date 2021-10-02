@@ -2,8 +2,8 @@ import * as React from "react";
 import { Redirect } from "react-router-dom";
 import gql from "graphql-tag";
 
-import { MainNav } from "@components/MainNav";
-import { QueryLoader } from "@utils/QueryLoader";
+import { MainNav } from "./../components/MainNav";
+import { QueryLoader } from "./../utils/QueryLoader";
 
 const QUERY = gql`
   query GetIjustDefaultContextQuery {

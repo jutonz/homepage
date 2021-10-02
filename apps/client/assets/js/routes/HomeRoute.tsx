@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { MainNav } from "@components/MainNav";
+import { MainNav } from "./../components/MainNav";
 
 export const HomeRoute = () => (
   <div>

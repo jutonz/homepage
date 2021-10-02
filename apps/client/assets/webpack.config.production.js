@@ -39,14 +39,6 @@ const webpackConfig = {
   ],
 
   resolve: {
-    alias: {
-      "@store$": path.resolve(__dirname, "js/store/store"),
-      "@store": path.resolve(__dirname, "js/store/"),
-      "@utils": path.resolve(__dirname, "js/utils/"),
-      "@components": path.resolve(__dirname, "js/components/"),
-      "@routes": path.resolve(__dirname, "js/routes/"),
-      "@app": path.resolve(__dirname, "js/"),
-    },
     extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],
     modules: ["./", "./node_modules/"],
   },

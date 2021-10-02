@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { withRouter } from "react-router";
 
-import { FormBox } from "@components/FormBox";
+import { FormBox } from "./FormBox";
 
 const style = StyleSheet.create({
   container: {

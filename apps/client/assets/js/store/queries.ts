@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
-import collectGraphqlErrors from "@utils/collectGraphqlErrors";
-import { GraphqlClient } from "@app/index";
+import collectGraphqlErrors from "./../utils/collectGraphqlErrors";
+import { GraphqlClient } from "./../index";
 
 export const fetchTeamUserQuery = (variables) => {
   const query = gql`

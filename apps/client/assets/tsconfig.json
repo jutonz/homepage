@@ -21,14 +21,6 @@
       "es5"
     ],
     "baseUrl": ".",
-    "paths": {
-      "@store$": ["js/store/store"],
-      "@store/*": ["js/store/*"],
-      "@utils/*": ["js/utils/*"],
-      "@components/*": ["js/components/*"],
-      "@routes/*": ["js/routes/*"],
-      "@app/*": ["js/*"]
-    }
   },
   "exclude": [
     "node_modules"

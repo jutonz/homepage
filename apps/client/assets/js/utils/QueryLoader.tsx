@@ -3,8 +3,8 @@ import { useQuery } from "@apollo/react-hooks";
 import { Loader } from "semantic-ui-react";
 import { css, StyleSheet } from "aphrodite";
 
-import collectGraphqlErrors from "@utils/collectGraphqlErrors";
-import { StyleGlobals } from "@app/style-globals";
+import collectGraphqlErrors from "./../utils/collectGraphqlErrors";
+import { StyleGlobals } from "./../style-globals";
 
 const styles = StyleSheet.create({
   error: {

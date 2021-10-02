@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import gql from "graphql-tag";
 import { formatDistanceToNow, parseISO } from "date-fns";
 
-import { QueryLoader } from "@utils/QueryLoader";
+import { QueryLoader } from "./../../utils/QueryLoader";
 
 const GET_RECENT_EVENTS = gql`
   query FetchIjustRecentEventsQuery($contextId: ID!) {

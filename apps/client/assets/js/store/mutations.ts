@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
-import { GraphqlClient } from "@app/index";
-import collectGraphqlErrors from "@utils/collectGraphqlErrors";
+import { GraphqlClient } from "./../index";
+import collectGraphqlErrors from "./../utils/collectGraphqlErrors";
 
 export const deleteTeamMutation = (variables) => {
   const mutation = gql`

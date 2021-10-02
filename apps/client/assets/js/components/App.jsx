@@ -4,22 +4,22 @@ import { connect } from "react-redux";
 import { css, StyleSheet } from "aphrodite";
 import React from "react";
 
-import { AuthenticatedRoute } from "@routes/AuthenticatedRoute";
-import { CoffeemakerRoute } from "@routes/CoffeemakerRoute";
-import { Flash } from "@components/Flash";
-import { HomeRoute } from "@routes/HomeRoute";
-import { IjustContextEventRoute } from "@routes/ijust/IjustContextEventRoute";
-import { IjustContextRoute } from "@routes/IjustContextRoute";
-import { IjustContextsRoute } from "@routes/IjustContextsRoute";
-import { IjustRoute } from "@routes/IjustRoute";
-import { LoginRoute } from "@routes/LoginRoute";
-import { ResumeRoute } from "@routes/ResumeRoute";
-import { SettingsRoute } from "@routes/SettingsRoute";
-import { SignupRoute } from "@routes/SignupRoute";
-import { TeamRoute } from "@routes/TeamRoute";
-import { TeamUserRoute } from "@routes/TeamUserRoute";
-import { TwitchRoute } from "@routes/TwitchRoute";
-import { TwitchChannelRoute } from "@routes/twitch/TwitchChannelRoute";
+import { Flash } from "./Flash";
+import { AuthenticatedRoute } from "./../routes/AuthenticatedRoute";
+import { CoffeemakerRoute } from "./../routes/CoffeemakerRoute";
+import { HomeRoute } from "./../routes/HomeRoute";
+import { IjustContextEventRoute } from "./../routes/ijust/IjustContextEventRoute";
+import { IjustContextRoute } from "./../routes/IjustContextRoute";
+import { IjustContextsRoute } from "./../routes/IjustContextsRoute";
+import { IjustRoute } from "./../routes/IjustRoute";
+import { LoginRoute } from "./../routes/LoginRoute";
+import { ResumeRoute } from "./../routes/ResumeRoute";
+import { SettingsRoute } from "./../routes/SettingsRoute";
+import { SignupRoute } from "./../routes/SignupRoute";
+import { TeamRoute } from "./../routes/TeamRoute";
+import { TeamUserRoute } from "./../routes/TeamUserRoute";
+import { TwitchRoute } from "./../routes/TwitchRoute";
+import { TwitchChannelRoute } from "./../routes/twitch/TwitchChannelRoute";
 
 const style = StyleSheet.create({
   flashContainer: {

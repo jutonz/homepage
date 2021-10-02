@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleSheet, css } from "aphrodite";
 import { Grid, Header } from "semantic-ui-react";
-import { MainNav } from "@components/MainNav";
-import { ChangePasswordForm } from "@components/ChangePasswordForm";
-import { OneTimeLoginLink } from "@components/OneTimeLoginLink";
-import { TeamMembershipForm } from "@components/TeamMembershipForm";
-import { TeamCreationForm } from "@components/TeamCreationForm";
-import { TeamJoinForm } from "@components/TeamJoinForm";
-import { IntegrateWithTwitchForm } from "@components/IntegrateWithTwitchForm";
+import { MainNav } from "./../components/MainNav";
+import { ChangePasswordForm } from "./../components/ChangePasswordForm";
+import { OneTimeLoginLink } from "./../components/OneTimeLoginLink";
+import { TeamMembershipForm } from "./../components/TeamMembershipForm";
+import { TeamCreationForm } from "./../components/TeamCreationForm";
+import { TeamJoinForm } from "./../components/TeamJoinForm";
+import { IntegrateWithTwitchForm } from "./../components/IntegrateWithTwitchForm";
 
 const style = StyleSheet.create({
   routeContainer: {

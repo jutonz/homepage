@@ -3,7 +3,7 @@ import { StyleSheet, css } from "aphrodite";
 import gql from "graphql-tag";
 import { Button, Header, Form, Message } from "semantic-ui-react";
 
-import { FormBox } from "@components/FormBox";
+import { FormBox } from "./FormBox";
 
 const styles = StyleSheet.create({
   container: {

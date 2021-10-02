@@ -1,19 +1,12 @@
 import * as React from "react";
-import {
-  Button,
-  Message,
-  Form,
-  Input,
-  Search,
-  SearchResultProps,
-} from "semantic-ui-react";
+import { Message, Form, Search, SearchResultProps } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { css, StyleSheet } from "aphrodite";
 import { Redirect } from "react-router-dom";
 
-import collectGraphqlErrors from "@utils/collectGraphqlErrors";
-import { IjustEventTypeahead } from "@utils/IjustEventTypeahead";
+import collectGraphqlErrors from "./../../utils/collectGraphqlErrors";
+import { IjustEventTypeahead } from "./../../utils/IjustEventTypeahead";
 
 const CREATE_EVENT = gql`
   mutation CreateIjustEvent($ijustContextId: ID!, $eventName: String!) {

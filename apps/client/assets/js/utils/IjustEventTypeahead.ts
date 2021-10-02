@@ -2,7 +2,7 @@ import { from, Subject } from "rxjs";
 import { filter, debounceTime, switchMap } from "rxjs/operators";
 import gql from "graphql-tag";
 
-import { GraphqlClient } from "@app/index";
+import { GraphqlClient } from "./../index";
 
 const SEARCH_EVENTS = gql`
   query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {

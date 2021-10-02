@@ -1,7 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
 import { connect } from "react-redux";
-import { App } from "@components/App";
+import { App } from "./../components/App";
 
 class _Index extends React.Component {
   constructor(props) {

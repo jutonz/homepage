@@ -4,10 +4,10 @@ import { StyleSheet, css } from "aphrodite";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 
-import { FormBox } from "@components/FormBox";
-import IsValidEmail from "@utils/isValidEmail";
-import IsValidPassword from "@utils/isValidPassword";
-import collectGraphqlErrors from "@utils/collectGraphqlErrors";
+import { FormBox } from "./../components/FormBox";
+import IsValidEmail from "./../utils/isValidEmail";
+import IsValidPassword from "./../utils/isValidPassword";
+import collectGraphqlErrors from "./../utils/collectGraphqlErrors";
 
 const SIGNUP = gql`
   mutation Signup($email: String!, $password: String!) {

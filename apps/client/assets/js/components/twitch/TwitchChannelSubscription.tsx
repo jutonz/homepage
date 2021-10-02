@@ -4,8 +4,8 @@ import gql from "graphql-tag";
 import { Header, Button, Input, InputOnChangeData } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 
-import { FormBox } from "@components/FormBox";
-import collectGraphqlErrors from "@utils/collectGraphqlErrors";
+import { FormBox } from "./../FormBox";
+import collectGraphqlErrors from "./../../utils/collectGraphqlErrors";
 
 const CHANNEL_SUBSCRIBE_MUTATION = gql`
   mutation TwitchChannelSubscribe($channel: String!) {

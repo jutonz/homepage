@@ -1,14 +1,14 @@
 import * as React from "react";
-import { Button, Dropdown, Header, Icon } from "semantic-ui-react";
+import { Button, Dropdown, Header } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { Redirect, RouteComponentProps } from "react-router-dom";
 
-import { FormBox } from "@components/FormBox";
-import { TwitchChannelLiveChat } from "@components/twitch/TwitchChannelLiveChat";
-import { TwitchChannelArchiveView } from "@components/twitch/TwitchChannelArchiveView";
-import collectGraphqlErrors from "@utils/collectGraphqlErrors";
+import { FormBox } from "./../FormBox";
+import { TwitchChannelLiveChat } from "./TwitchChannelLiveChat";
+import { TwitchChannelArchiveView } from "./TwitchChannelArchiveView";
+import collectGraphqlErrors from "./../../utils/collectGraphqlErrors";
 
 const style = StyleSheet.create({
   container: {

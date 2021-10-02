@@ -4,13 +4,13 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import React from "react";
 
-import { TeamDeleteButton } from "@components/TeamDeleteButton";
-import { TeamName } from "@components/TeamName";
-import { TeamRenameForm } from "@components/TeamRenameForm";
-import { TeamUsersForm } from "@components/TeamUsersForm";
-import { TeamLeaveForm } from "@components/TeamLeaveForm";
-import { MainNav } from "@components/MainNav";
-import { fetchTeam, showFlash } from "@store";
+import { TeamDeleteButton } from "./../components/TeamDeleteButton";
+import { TeamName } from "./../components/TeamName";
+import { TeamRenameForm } from "./../components/TeamRenameForm";
+import { TeamUsersForm } from "./../components/TeamUsersForm";
+import { TeamLeaveForm } from "./../components/TeamLeaveForm";
+import { MainNav } from "./../components/MainNav";
+import { fetchTeam, showFlash } from "./../store/store";
 
 const style = StyleSheet.create({
   routeContainer: {
