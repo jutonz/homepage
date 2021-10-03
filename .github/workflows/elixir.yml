@@ -72,7 +72,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: apps/client/priv/static
-        key: v2-static-assets-${{ github.ref }}
+        key: v3-static-assets-${{ github.ref }}
     - name: yarn install
       working-directory: apps/client/assets
       run: yarn install
@@ -123,7 +123,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: apps/client/priv/static
-        key: v2-static-assets-${{ github.ref }}
+        key: v3-static-assets-${{ github.ref }}
     - name: Restore test cache
       uses: actions/cache@v2
       with:
