@@ -79,9 +79,9 @@ jobs:
     - name: yarn lint
       working-directory: apps/client/assets
       run: yarn lint
-    - name: check typings
+    - name: yarn typecheck
       working-directory: apps/client/assets
-      run: npx tsc --project ./tsconfig.json
+      run: yarn typecheck
     - name: yarn bundle:js
       working-directory: apps/client/assets
       run: yarn bundle:js

@@ -4,7 +4,8 @@
   "scripts": {
     "bundle:css": "npx postcss ./static-css/index.scss -o ./../priv/static/static-css/index.css",
     "bundle:js": "node ./scripts/compile_static.mjs",
-    "lint": "node ./node_modules/.bin/eslint '{static-js,js,scripts}/**/*.{js,mjs,jsx,ts,tsx}' '*.js'"
+    "lint": "node ./node_modules/.bin/eslint '{static-js,js,scripts}/**/*.{js,mjs,jsx,ts,tsx}' '*.js'",
+    "typecheck": "npx tsc --project ./tsconfig.json"
   },
   "dependencies": {
     "@apollo/react-hooks": "3.1.3",
