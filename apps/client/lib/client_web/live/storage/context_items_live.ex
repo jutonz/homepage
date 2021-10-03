@@ -53,20 +53,19 @@ defmodule ClientWeb.Storage.ContextItemsLive do
       ) %>
     </div>
 
-    <form class="flex flex-1 mt-5 mb-3" phx-change="search_changed">
+    <form class="flex flex-1 mt-5 mb-3" data-role="search-form" phx-change="search_changed">
       <%= text_input(
         :search,
         :query,
         phx_debounce: 500,
         placeholder: "Search",
-        class: "rounded-sm flex-1"
+        class: "rounded-sm flex-1",
       ) %>
     </form>
 
-
     <div>
       <%= for item <- @items do %>
-        <div class="py-3 border-b hover:bg-gray-800 cursor-pointer" phx-click="redirect_to_item" phx-value-item-id="{item.id}">
+        <div class="py-3 border-b hover:bg-gray-800 cursor-pointer" data-item-id={item.id} phx-click="redirect_to_item" phx-value-item-id={item.id}>
           <div>
             <%= item.name %>
             <%= if item.description do %>
