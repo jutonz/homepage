@@ -1,5 +1,3 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const path = require("path");
 
 const port = process.env.PORT || 4001;
@@ -42,21 +40,6 @@ const webpackConfig = {
       },
     ],
   },
-
-  plugins: [
-    // Handles bundled css output
-    new MiniCssExtractPlugin({
-      filename: "css/app.css",
-      chunkFilename: "[id].css",
-    }),
-    new HtmlWebpackPlugin({
-      template: "static/index.ejs",
-      templateParameters: {
-        title: "[dev] jutonz.com",
-        isHttps: false,
-      },
-    }),
-  ],
 
   resolve: {
     extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],

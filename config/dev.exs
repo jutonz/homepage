@@ -34,11 +34,11 @@ config :client, ClientWeb.Endpoint,
   ],
   watchers: [
     yarn: [
-      "bundle:static",
+      "bundle:js",
       cd: Path.expand("../apps/client/assets", __DIR__)
     ],
     yarn: [
-      "bundle:static-css",
+      "bundle:css",
       "--watch",
       cd: Path.expand("../apps/client/assets", __DIR__)
     ]

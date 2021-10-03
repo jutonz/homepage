@@ -40,7 +40,7 @@ jobs:
     - run: mix dialyzer
 
   yarn_install:
-    name: yarn install and bundle:static
+    name: yarn install and bundle
     runs-on: ubuntu-latest
     env:
       MIX_ENV: prod
@@ -72,42 +72,22 @@ jobs:
       uses: actions/cache@v2
       with:
         path: apps/client/priv/static
-        key: v2-static-assets-${{ github.ref }}
+        key: v3-static-assets-${{ github.ref }}
     - name: yarn install
       working-directory: apps/client/assets
       run: yarn install
     - name: yarn lint
       working-directory: apps/client/assets
       run: yarn lint
-    - name: yarn bundle:static
+    - name: yarn typecheck
       working-directory: apps/client/assets
-      run: yarn bundle:static
-    - name: yarn bundle:static-css
+      run: yarn typecheck
+    - name: yarn bundle:js
       working-directory: apps/client/assets
-      run: yarn bundle:static-css
-
-  build_react:
-    name: yarn bundle:react
-    runs-on: ubuntu-latest
-    needs: yarn_install
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup node
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.17
-    - name: Restore node_modules cache
-      uses: actions/cache@v2
-      with:
-        path: apps/client/assets/node_modules
-        key: v1-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-        restore-keys: |
-          v1-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-          v1-node-modules-${{ hashFiles('.tool-versions') }}
-          v1-node-modules-
-    - name: yarn bundle:react
+      run: yarn bundle:js
+    - name: yarn bundle:css
       working-directory: apps/client/assets
-      run: yarn bundle:react
+      run: yarn bundle:css
 
   mix_test:
     name: mix test
@@ -140,7 +120,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: apps/client/priv/static
-        key: v2-static-assets-${{ github.ref }}
+        key: v3-static-assets-${{ github.ref }}
     - name: Restore test cache
       uses: actions/cache@v2
       with:
@@ -151,7 +131,6 @@ jobs:
         restore-keys: |
           v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-test-${{ hashFiles('.tool-versions') }}-
-    - run: tree apps/client/priv/static
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
     - run: mix do ecto.create, ecto.migrate

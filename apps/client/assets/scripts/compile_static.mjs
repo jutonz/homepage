@@ -2,7 +2,8 @@
 
 import { build } from "esbuild";
 import { lessLoader } from "esbuild-plugin-less";
-import { copyStaticFiles } from "./copy-static-files.mjs";
+import { createStaticDir } from "./create-static-dir.mjs";
+import { generateIndexHtml } from "./generate-index-html.mjs";
 
 const getEnv = () => {
   switch (process.env.MIX_ENV) {
@@ -25,7 +26,7 @@ const lessOpts = {
 };
 
 const esbuildOpts = {
-  entryPoints: ["./static-js/index.js", "./css/index.less"],
+  entryPoints: ["./js/index.jsx", "./static-js/index.js", "./css/index.less"],
   plugins: [lessLoader(lessOpts)],
   loader: {
     ".eot": "dataurl",
@@ -44,6 +45,14 @@ const esbuildOpts = {
 };
 
 (async function compile() {
-  await copyStaticFiles();
-  await build(esbuildOpts);
+  try {
+    await createStaticDir();
+    await generateIndexHtml({
+      TITLE: isProd ? "jutonz.com" : "[dev] jutonz.com",
+      IS_HTTPS: isProd,
+    });
+    await build(esbuildOpts);
+  } catch (_e) {
+    process.exit(1);
+  }
 })();

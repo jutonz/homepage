@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
 interface Props {}
 interface State {
   floz: number;
-  grams: number;
   focusedInput: string;
+  grams: number;
 }
 export class Coffeemaker extends React.Component<Props, State> {
   constructor(props: Props) {

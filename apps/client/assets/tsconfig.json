@@ -5,23 +5,23 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "module": "esnext",
+    "target": "esnext",
     "moduleResolution": "node",
-    "target": "es5",
-    "sourceMap": true,
+    "sourceMap": false,
     "jsx": "react",
     "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "lib": [
       "dom",
-      "es2015.collection",
-      "es2015.core",
-      "es2015.promise",
-      "es2015.iterable",
-      "es2015.symbol",
-      "es2016.array.include",
-      "es5"
+      "esnext"
     ],
     "baseUrl": ".",
+    "noEmit": true
   },
+  "include": [
+    "./js/index.jsx"
+  ],
   "exclude": [
     "node_modules"
   ]
