@@ -141,10 +141,6 @@ const renderLegacySubnav = (activeItem: String) => (
           Coffeemaker
         </Dropdown.Item>
       </Link>
-
-      <Link to="/resume">
-        <Dropdown.Item active={activeItem === "resume"}>Resume</Dropdown.Item>
-      </Link>
     </Dropdown.Menu>
   </Dropdown>
 );

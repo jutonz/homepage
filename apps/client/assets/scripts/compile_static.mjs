@@ -3,7 +3,6 @@
 import { build } from "esbuild";
 import { lessLoader } from "esbuild-plugin-less";
 import { createStaticDir } from "./create-static-dir.mjs";
-import { copyStaticFiles } from "./copy-static-files.mjs";
 import { generateIndexHtml } from "./generate-index-html.mjs";
 
 const getEnv = () => {
@@ -52,7 +51,6 @@ const esbuildOpts = {
       TITLE: isProd ? "jutonz.com" : "[dev] jutonz.com",
       IS_HTTPS: isProd,
     });
-    await copyStaticFiles();
     await build(esbuildOpts);
   } catch (_e) {
     process.exit(1);
