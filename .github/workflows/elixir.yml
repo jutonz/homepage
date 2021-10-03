@@ -88,9 +88,6 @@ jobs:
     - name: yarn bundle:css
       working-directory: apps/client/assets
       run: yarn bundle:css
-    - name: tree
-      working-directory: apps/client/priv/static
-      run: tree .
 
   mix_test:
     name: mix test
@@ -134,7 +131,6 @@ jobs:
         restore-keys: |
           v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-test-${{ hashFiles('.tool-versions') }}-
-    - run: tree apps/client/priv/static
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
     - run: mix do ecto.create, ecto.migrate
