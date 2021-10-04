@@ -54,20 +54,16 @@ jobs:
       uses: actions/cache@v2
       with:
         path: apps/client/assets/node_modules
-        key: v1-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        key: v2-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
-          v1-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-          v1-node-modules-${{ hashFiles('.tool-versions') }}
-          v1-node-modules-
+          v2-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore yarn cache
       uses: actions/cache@v2
       with:
         path: ~/.cache/yarn
-        key: v1-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        key: v2-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
-          v1-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-          v1-yarn-${{ hashFiles('.tool-versions') }}
-          v1-yarn-
+          v2-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore static asset cache
       uses: actions/cache@v2
       with:
