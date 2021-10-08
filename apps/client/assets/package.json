@@ -45,7 +45,7 @@
     "@types/redux-saga": "^0.10.5",
     "@typescript-eslint/typescript-estree": "^4.32.0",
     "cssnano": "^4.1.11",
-    "date-fns": "^2.24.0",
+    "date-fns": "^2.25.0",
     "esbuild": "^0.13.3",
     "esbuild-plugin-less": "^1.1.4",
     "eslint": "^7.32.0",
