@@ -2767,10 +2767,10 @@ phoenix@1.6.0:
   resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.6.0.tgz#8aaec3a472930de89abec6fe4fae5ba876388719"
   integrity sha512-gslo1W8kJMXKux4cOiR+JAGkF5hE80hEZKoHtBEv27GCWVWDu8uh4bTODV0B2PRSO4L8P8SMbufRQRInur8E9Q==
 
-phoenix_html@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-3.0.0.tgz#3da360ee9a1904e0b197d405e0430d08995531e5"
-  integrity sha512-usD5rTKi6zckiNfY9yywELgfEpwWMxdWr+mG8qxk11gldYCAa+yirUyMXkrNalHFiTiw0V5xLsf0GHPdpIzQTA==
+phoenix_html@3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-3.0.4.tgz#96d498aa3e4889289d7035d5ed1c893ad5344048"
+  integrity sha512-P+FHH9eyp87Fjcrje/tOmGfdc3boPUhwAHeQytoNeM6rhacLefG3H2mo+cj85K5pTgyngc6FK1z2igqLviSGEg==
 
 phoenix_live_view@0.16.3:
   version "0.16.3"
@@ -3499,10 +3499,10 @@ run-parallel@^1.1.9:
   resolved "https://registry.yarnpkg.com/run-parallel/-/run-parallel-1.1.9.tgz#c9dd3a7cf9f4b2c4b6244e173a6ed866e61dd679"
   integrity sha512-DEqnSRTDw/Tc3FXf49zedI638Z9onwUotBMiUFKmrO2sdFKIbXamXGQ3Axd4qgphxKB4kw/qP1w5kTxnfU1B9Q==
 
-rxjs@^7.3.0:
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.3.0.tgz#39fe4f3461dc1e50be1475b2b85a0a88c1e938c6"
-  integrity sha512-p2yuGIg9S1epc3vrjKf6iVb3RCaAYjYskkO+jHIaV0IjOPlJop4UnodOoFb2xeNwlguqLYvGw1b1McillYb5Gw==
+rxjs@^7.4.0:
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.4.0.tgz#a12a44d7eebf016f5ff2441b87f28c9a51cebc68"
+  integrity sha512-7SQDi7xeTMCJpqViXh8gL/lebcwlp3d831F05+9B44A4B0WfsEwUQHR64gsH1kvJ+Ep/J9K2+n1hVl1CsGN23w==
   dependencies:
     tslib "~2.1.0"
 
