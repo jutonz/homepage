@@ -11,6 +11,7 @@ const env = getEnv();
 const isProd = env === "prod";
 
 module.exports = {
+  important: true,
   purge: {
     enabled: isProd,
     content: [

@@ -1,6 +1,4 @@
 import React from "react";
-import { StyleSheet, css } from "aphrodite";
-import { Grid, Header } from "semantic-ui-react";
 import { MainNav } from "./../components/MainNav";
 import { ChangePasswordForm } from "./../components/ChangePasswordForm";
 import { OneTimeLoginLink } from "./../components/OneTimeLoginLink";
@@ -9,39 +7,28 @@ import { TeamCreationForm } from "./../components/TeamCreationForm";
 import { TeamJoinForm } from "./../components/TeamJoinForm";
 import { IntegrateWithTwitchForm } from "./../components/IntegrateWithTwitchForm";
 
-const style = StyleSheet.create({
-  routeContainer: {
-    margin: "0 30px",
-  },
-});
-
 export const SettingsRoute = () => (
   <div>
     <MainNav activeItem={"settings"} />
-    <Grid
-      columns={2}
-      divided
-      relaxed
-      stackable
-      className={css(style.routeContainer)}
-    >
-      <Grid.Column>
-        <Header>User settings</Header>
-        <Grid columns={2} relaxed stackable>
+
+    <div className="m-5 flex flex-row flex-wrap max-w-full">
+      <div className="mr-5 pb-5">
+        <div className="text-xl font-bold">User settings</div>
+        <div className="flex flex-row flex-wrap sm:space-x-4">
           <ChangePasswordForm />
           <OneTimeLoginLink />
           <IntegrateWithTwitchForm />
-        </Grid>
-      </Grid.Column>
+        </div>
+      </div>
 
-      <Grid.Column>
-        <Header>Team settings</Header>
-        <Grid columns={2} relaxed stackable>
+      <div>
+        <div className="text-xl font-bold">Team settings</div>
+        <div className="flex flex-row flex-wrap sm:space-x-4">
           <TeamMembershipForm />
           <TeamCreationForm />
           <TeamJoinForm />
-        </Grid>
-      </Grid.Column>
-    </Grid>
+        </div>
+      </div>
+    </div>
   </div>
 );
