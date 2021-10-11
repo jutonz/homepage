@@ -8,6 +8,8 @@ import ReactDOM from "react-dom";
 import { createBrowserHistory as createHistory } from "history";
 import createSagaMiddleware from "redux-saga";
 import thunk from "redux-thunk";
+import { Socket } from "phoenix";
+import { LiveSocket } from "phoenix_live_view";
 
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
@@ -18,12 +20,21 @@ import { rootSaga } from "./store/sagas/root";
 import isValidEmail from "./utils/isValidEmail";
 import isValidPassword from "./utils/isValidPassword";
 
-const wee = document.getElementById("wee");
-const isHttps = wee.getAttribute("data-https");
+const container = document.querySelector("main[role=main]");
+const isHttps = container.getAttribute("data-https");
 if (isHttps == "true" && window.location.protocol === "http:") {
   const httpsUrl = window.location.href.replace("http:", "https:");
   window.location.replace(httpsUrl);
 }
+
+const csrfToken = document
+  .querySelector("meta[name='csrf-token']")
+  .getAttribute("content");
+const socketOpts = {
+  params: { _csrf_token: csrfToken },
+};
+const liveSocket = new LiveSocket("/live", Socket, socketOpts);
+liveSocket.connect();
 
 window.Utils = {
   isValidEmail,
@@ -66,5 +77,5 @@ ReactDOM.render(
       <Index />
     </ApolloProvider>
   </Provider>,
-  document.getElementById("wee")
+  container
 );

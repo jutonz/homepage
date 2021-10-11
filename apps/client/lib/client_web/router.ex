@@ -38,6 +38,9 @@ defmodule ClientWeb.Router do
 
   scope "/", ClientWeb do
     pipe_through(:browser)
+
+    get("/", PageController, :index)
+
     pipe_through(:browser_authenticated)
 
     resources("/food-logs", FoodLogController)
