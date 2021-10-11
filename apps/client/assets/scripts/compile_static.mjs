@@ -3,7 +3,6 @@
 import { build } from "esbuild";
 import { lessLoader } from "esbuild-plugin-less";
 import { createStaticDir } from "./create-static-dir.mjs";
-import { generateIndexHtml } from "./generate-index-html.mjs";
 
 const getEnv = () => {
   switch (process.env.MIX_ENV) {
@@ -47,10 +46,6 @@ const esbuildOpts = {
 (async function compile() {
   try {
     await createStaticDir();
-    await generateIndexHtml({
-      TITLE: isProd ? "jutonz.com" : "[dev] jutonz.com",
-      IS_HTTPS: isProd,
-    });
     await build(esbuildOpts);
   } catch (_e) {
     process.exit(1);

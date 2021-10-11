@@ -21,12 +21,6 @@ defmodule ClientWeb.Endpoint do
     websocket: [connect_info: [session: @session_opts]]
   )
 
-  # Serve at "/" the static files from "priv/static" directory.
-  #
-  # You should set gzip to true if you are running phoenix.digest when
-  # deploying your static files in production.
-  plug(Plug.Static.IndexHtml, at: "/")
-
   plug(
     Plug.Static,
     at: "/",
