@@ -47,7 +47,7 @@
     "cssnano": "^4.1.11",
     "date-fns": "^2.25.0",
     "esbuild": "^0.13.6",
-    "esbuild-plugin-less": "^1.1.4",
+    "esbuild-plugin-less": "^1.1.5",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
