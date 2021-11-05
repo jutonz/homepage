@@ -57,7 +57,7 @@ defmodule Client.Mixfile do
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 3.1.0"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:phoenix_live_view, "~> 0.16.4"},
+      {:phoenix_live_view, "~> 0.17.5"},
       {:phoenix_pubsub, "~> 2.0"},
       {:plug_cowboy, "~> 2.3"},
       {:plug_static_index_html, "~> 1.0"},
@@ -67,7 +67,7 @@ defmodule Client.Mixfile do
       {:twitch, in_umbrella: true},
       {:wallaby, "~> 0.29.0", only: :test},
       # Live dashboard
-      {:phoenix_live_dashboard, "~> 0.5"},
+      {:phoenix_live_dashboard, "~> 0.6.1"},
       {:ecto_psql_extras, "~> 0.2"},
       {:telemetry_poller, "~> 0.4"},
       {:telemetry_metrics, "~> 0.4"}
