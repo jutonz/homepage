@@ -13,7 +13,8 @@ defmodule Twitch.EmoteWatcher do
   def init([name, "#" <> channel_name]) do
     Events.subscribe({__MODULE__, ["chat_message"]})
 
-    channel_id = Twitch.Api.user(channel_name)["_id"]
+    {:ok, response} = Twitch.Api.user(channel_name)
+    %{data: %{"data" => [%{"id" => channel_id}]}} = response
 
     state = %{
       twitch_emotes: MapSet.new(),

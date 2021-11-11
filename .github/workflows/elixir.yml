@@ -29,11 +29,11 @@ jobs:
       uses: actions/cache@v2
       with:
         path: _plts
-        key: v1-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+        key: v2-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
         restore-keys: |
-          v1-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
-          v1-plts-${{ hashFiles('.tool-versions') }}-
-          v1-plts-
+          v2-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+          v2-plts-${{ hashFiles('.tool-versions') }}-
+          v2-plts-
     - run: mix format --check-formatted
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
