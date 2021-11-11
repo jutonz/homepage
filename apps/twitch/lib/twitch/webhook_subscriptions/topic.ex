@@ -5,11 +5,9 @@ end
 
 defimpl Twitch.WebhookSubscriptions.Topic, for: Twitch.Channel do
   def topic(channel) do
-    channel_id =
-      channel.name
-      |> Twitch.Channel.without_irc_prefix()
-      |> Twitch.Api.user()
-      |> Map.get("_id")
+    channel_name = Twitch.Channel.without_irc_prefix(channel.name)
+    {:ok, response} = Twitch.Api.user(channel_name)
+    %{data: %{"data" => [%{"id" => channel_id}]}} = response
 
     "https://api.twitch.tv/helix/streams?user_id=#{channel_id}"
   end

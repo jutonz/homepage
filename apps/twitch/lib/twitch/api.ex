@@ -1,5 +1,9 @@
 defmodule Twitch.Api do
-  alias Twitch.{Api, ApiConnection}
+  alias Twitch.{
+    Api,
+    ApiClient,
+    ApiConnection
+  }
 
   def current_user(access_token) do
     with {:ok, json} <- ApiConnection.connection(access_token, :get, "/helix/users"),
@@ -30,27 +34,15 @@ defmodule Twitch.Api do
   end
 
   def user(username) do
-    response =
-      Api.Kraken.connection(:get, "kraken/users", [
-        {:headers, [{"Accept", "application/vnd.twitchtv.v5+json"}]},
-        {:params, [{"login", username}]}
-      ])
-
-    case response do
-      %{"users" => [user]} -> user
-      _ -> nil
-    end
+    username
+    |> Api.Users.list_by_login()
+    |> ApiClient.make_request()
   end
 
-  @type stream_type :: :live | :playlist | :all
-  def streams(channel_id, stream_type \\ :live, opts \\ []) do
-    path = "kraken/streams/#{channel_id}"
-
-    req_opts = [
-      params: [{"stream_type", to_string(stream_type)}]
-    ]
-
-    Api.Kraken.connection(:get, path, Keyword.merge(opts, req_opts))
+  def streams(login) do
+    login
+    |> Api.Streams.list_by_login()
+    |> ApiClient.make_request()
   end
 
   def game(game_id) do

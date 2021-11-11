@@ -5,7 +5,7 @@ defmodule ClientWeb.Twitch.ChannelView do
   @one_hour_seconds @one_minute_seconds * 60
 
   def formatted_uptime(stream) do
-    {:ok, live_at, _offset} = DateTime.from_iso8601(stream["created_at"])
+    {:ok, live_at, _offset} = DateTime.from_iso8601(stream["started_at"])
     now = DateTime.utc_now()
     live_for_seconds = DateTime.diff(now, live_at)
 

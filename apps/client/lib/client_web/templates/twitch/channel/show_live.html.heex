@@ -4,14 +4,14 @@
   <div>
     <div class="mb-1">
       Status:
-      <%= get_in(@stream, ~w[channel status]) %>
+      <%= get_in(@stream, ~w[type]) %>
     </div>
 
     <div class="mb-1">
       Playing
-      <%= get_in(@stream, ~w[game]) %>
+      <%= get_in(@stream, ~w[game_name]) %>
       for
-      <%= get_in(@stream, ~w[viewers]) %>
+      <%= get_in(@stream, ~w[viewer_count]) %>
       viewers
     </div>
 
