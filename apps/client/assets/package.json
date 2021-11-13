@@ -4,7 +4,7 @@
   "scripts": {
     "bundle:css": "npx postcss ./static-css/index.scss -o ./../priv/static/static-css/index.css",
     "bundle:js": "node ./scripts/compile_static.mjs",
-    "lint": "node ./node_modules/.bin/eslint '{static-js,js,scripts}/**/*.{js,mjs,jsx,ts,tsx}' '*.js'",
+    "lint": "npx prettier '{static-js,js,scripts}/**/*.{js,mjs,jsx,ts,tsx}' '*.js'",
     "typecheck": "npx tsc --project ./tsconfig.json"
   },
   "dependencies": {
@@ -43,15 +43,10 @@
     "@types/react-redux": "^7.1.19",
     "@types/react-router-dom": "^5.3.2",
     "@types/redux-saga": "^0.10.5",
-    "@typescript-eslint/typescript-estree": "^5.3.1",
     "cssnano": "^5.0.9",
     "date-fns": "^2.25.0",
     "esbuild": "^0.13.13",
     "esbuild-plugin-less": "^1.1.5",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.27.0",
     "less": "4.1.2",
     "postcss": "^8.3.11",
     "postcss-cli": "^9.0.2",
