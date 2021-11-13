@@ -72,9 +72,9 @@ jobs:
     - name: yarn install
       working-directory: apps/client/assets
       run: yarn install
-    - name: yarn lint
+    - name: yarn lint --check
       working-directory: apps/client/assets
-      run: yarn lint
+      run: yarn lint --check
     - name: yarn typecheck
       working-directory: apps/client/assets
       run: yarn typecheck
