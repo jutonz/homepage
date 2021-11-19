@@ -1,7 +1,5 @@
 import * as React from "react";
-import { Grid } from "semantic-ui-react";
 import gql from "graphql-tag";
-import { StyleSheet, css } from "aphrodite";
 
 import { MainNav } from "./../../components/MainNav";
 import { TwitchChannel } from "./../../components/twitch/TwitchChannel";
@@ -16,20 +14,10 @@ const GET_CHANNEL_QUERY = gql`
   }
 `;
 
-const style = StyleSheet.create({
-  routeContainer: {
-    margin: "0 30px",
-  },
-  channelGrid: {
-    marginLeft: 0,
-    marginRight: 0,
-  },
-});
-
 export const TwitchChannelRoute = ({ match }) => (
   <div>
     <MainNav activeItem={"twitch"} />
-    <div className={css(style.routeContainer)}>
+    <div className="mx-3">
       <QueryLoader
         query={GET_CHANNEL_QUERY}
         variables={{ channelName: match.params.channel_name }}
@@ -42,11 +30,9 @@ export const TwitchChannelRoute = ({ match }) => (
   </div>
 );
 
-const renderChannel = (channel) => (
-  <div>
-    <Grid columns={2} relaxed stackable className={css(style.channelGrid)}>
-      <TwitchChannel channel={channel} />
-      <TwitchEmoteWatcher channel={channel} />
-    </Grid>
+const renderChannel = (channel: any) => (
+  <div className="flex">
+    <TwitchChannel channel={channel} />
+    <TwitchEmoteWatcher channel={channel} />
   </div>
 );
