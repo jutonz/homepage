@@ -1,7 +1,6 @@
 import * as React from "react";
 import gql from "graphql-tag";
-import { Button, Grid } from "semantic-ui-react";
-import { StyleSheet, css } from "aphrodite";
+import { Button } from "semantic-ui-react";
 
 import { MainNav } from "./../components/MainNav";
 import { TwitchChannel } from "./../components/twitch/TwitchChannel";
@@ -27,16 +26,6 @@ const GET_CHANNELS_QUERY = gql`
   }
 `;
 
-const style = StyleSheet.create({
-  routeContainer: {
-    margin: "0 30px",
-  },
-  channelGrid: {
-    marginLeft: 0,
-    marginRight: 0,
-  },
-});
-
 export const TwitchRoute = () => (
   <div>
     <MainNav activeItem={"twitch"} />
@@ -53,7 +42,7 @@ export const TwitchRoute = () => (
 const renderTwitchUser = (twitchUser: any) => {
   if (twitchUser) {
     return (
-      <div className={css(style.routeContainer)}>
+      <div className="mx-3">
         <p>Hey {twitchUser.display_name}</p>
         <TwitchChannelSubscription />
         {renderTwitchChannels()}
@@ -61,7 +50,7 @@ const renderTwitchUser = (twitchUser: any) => {
     );
   } else {
     return (
-      <div className={css(style.routeContainer)}>
+      <div className="mx-3">
         <p>
           Connect your Twitch account to view chat, track metrics, and more!
         </p>
@@ -80,17 +69,12 @@ const renderTwitchChannels = () => (
       component={({ data }) => {
         const channels = data.getTwitchChannels;
         return (
-          <Grid
-            columns={2}
-            relaxed
-            stackable
-            className={css(style.channelGrid)}
-          >
+          <div className="flex flex-col sm:flex-row">
             {channels &&
-              channels.map((channel) => (
+              channels.map((channel: any) => (
                 <TwitchChannel key={channel.id} channel={channel} />
               ))}
-          </Grid>
+          </div>
         );
       }}
     />
