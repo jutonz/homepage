@@ -1,5 +1,7 @@
-defmodule Twitch.Eventpub.Subscriptions.MakeRequest do
+defmodule Twitch.Eventsub.Subscriptions.MakeRequest do
   @behaviour Twitch.Util.Interactible
+
+  alias Twitch.Eventsub.Subscription
 
   @type options :: %{
     type: String.t(),
@@ -9,17 +11,13 @@ defmodule Twitch.Eventpub.Subscriptions.MakeRequest do
 
   @spec up(map(), options()) :: {:ok, any()} | {:error | any()}
   def up(context, [options]) do
-    options
-    |> to_body()
-    |> Twitch.Api.Eventsub.Subscriptions.create()
-    |> Twitch.ApiClient.make_request()
-    |> case do
-      {:ok, response} ->
-        {:ok, %{context | response: response}}
+    {status, response} =
+      context
+      |> to_body(options)
+      |> Twitch.Api.Eventsub.Subscriptions.create()
+      |> Twitch.ApiClient.make_request()
 
-      {:error, response} ->
-        {:error, %{context | response: response}}
-    end
+    {status, Map.put(context, :response, response)}
   end
 
   def down(context, _response) do
@@ -27,20 +25,20 @@ defmodule Twitch.Eventpub.Subscriptions.MakeRequest do
     {:ok, context}
   end
 
-  defp to_body(options) do
+  defp to_body(context, options) do
     %{
       "type" => options[:type],
       "condition" => options[:condition],
       "version" => options[:version],
-      "transport" => transport()
+      "transport" => transport(context)
     }
   end
 
-  defp transport do
+  defp transport(%{subscription: sub}) do
     %{
       "method" => "webhook",
-      "callback" => "",
-      "secret" => ""
+      "callback" => Subscription.callback(sub),
+      "secret" => Application.get_env(:twitch, :webhook_secret)
     }
   end
 end

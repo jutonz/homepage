@@ -1,18 +1,18 @@
-defmodule Twitch.Eventpub.Subscriptions.Create do
+defmodule Twitch.Eventsub.Subscriptions.Create do
   @behaviour Twitch.Util.Interactible
 
   alias Twitch.{
-    Eventpub.Subscription,
+    Eventsub.Subscription,
     Repo
   }
 
   def up(context, []) do
     case create_blank_sub() do
       {:ok, sub} ->
-        {:ok, %{context | subscription: sub}}
+        {:ok, Map.put(context, :subscription, sub)}
 
       {:error, changeset} ->
-        {:error, %{context | subscription: changeset}}
+        {:ok, Map.put(context, :subscription, changeset)}
     end
   end
 

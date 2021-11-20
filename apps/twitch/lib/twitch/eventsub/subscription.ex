@@ -1,4 +1,4 @@
-defmodule Twitch.Eventpub.Subscription do
+defmodule Twitch.Eventsub.Subscription do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -16,5 +16,19 @@ defmodule Twitch.Eventpub.Subscription do
     sub
     |> cast(attrs, @attrs)
     |> validate_required(@required_attrs)
+  end
+
+  def callback(subscription) do
+    #lt -s dank -p 4000
+    "https://dank.loca.lt/api/twitch/subscriptions/4"
+
+    #route_helpers = Application.get_env(:twitch, :route_helpers)
+    #endpoint = Application.get_env(:twitch, :endpoint)
+
+    #route_helpers.twitch_subscriptions_callback_url(
+      #endpoint,
+      #:callback,
+      #subscription.id
+    #)
   end
 end

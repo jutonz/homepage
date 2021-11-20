@@ -3,42 +3,47 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
   @dialyzer {:no_return, callback: 2}
 
   use ClientWeb, :controller
-  alias Twitch.WebhookSubscriptions
 
-  # Called to verify the intent of the subscriber
-  # https://www.w3.org/TR/websub/#x5-3-hub-verifies-intent-of-the-subscriber
-  def confirm(conn, params) do
-    %{
-      "hub.topic" => topic,
-      "hub.challenge" => challenge,
-      "id" => user_id
-    } = params
+  alias Twitch.Eventsub.Subscriptions
 
-    case WebhookSubscriptions.get_by_topic(user_id, topic) do
-      nil ->
-        send_resp(conn, 404, "")
+  def callback(conn, params) do
+    #raw_body = conn.assigns[:raw_body] |> hd()
+    #IO.inspect(conn.resp_headers)
+    #IO.inspect(params)
+    # TODO: Convert verification into a plug?
+    #calc_sig = Subscriptions.calculate_signature(
+      #hd(get_req_header(conn, "twitch-eventsub-message-id"))
+        #<> hd(get_req_header(conn, "twitch-eventsub-message-timestamp"))
+        #<> raw_body
+    #)
+    #actual_sig =
+      #conn
+      #|> get_req_header("twitch-eventsub-message-signature")
+      #|> hd()
 
-      sub ->
-        {:ok, _updated} = WebhookSubscriptions.confirm(sub)
-        send_resp(conn, 200, challenge)
+    [event_type] = get_req_header(conn, "twitch-eventsub-message-type")
+
+    case event_type do
+      "webhook_callback_verification" ->
+        send_resp(conn, 200, params["challenge"])
+      "notification" ->
+        params["id"]
+        |> Subscriptions.get()
+        |> Subscriptions.callback(params)
+
+        send_resp(conn, 204, "")
+      "revocation" ->
+        params["id"]
+        |> Subscriptions.get()
+        |> Subscriptions.destroy()
+        send_resp(conn, 204, "")
     end
-  end
 
-  def callback(conn, _params) do
-    raw_body = conn.assigns[:raw_body] |> hd()
-    IO.inspect(raw_body)
-    signature = conn |> get_req_header("x-hub-signature") |> hd()
-    calc_sig = WebhookSubscriptions.calculate_signature(raw_body)
-
-    Twitch.WebhookSubscriptions.Log.log(%{
-      actual_signature: signature,
-      calculated_signature: calc_sig,
-      raw_body: raw_body,
-      body_byte_size: byte_size(raw_body),
-      content_length: conn |> get_req_header("content-length") |> hd()
-    })
-
-    send_resp(conn, 202, "")
+    #if calc_sig == actual_sig do
+      #send_resp(conn, 202, "")
+    #else
+      #send_resp(conn, 400, "")
+    #end
   end
 
   def log(conn, _params) do

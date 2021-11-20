@@ -45,9 +45,20 @@ defmodule Twitch.Api do
     |> ApiClient.make_request()
   end
 
+  def list_eventsub_subscriptions do
+    Api.Eventsub.Subscriptions.list()
+    |> ApiClient.make_request()
+  end
+
   def create_eventsub_subscription(body) do
     body
     |> Api.Eventsub.Subscriptions.create()
+    |> ApiClient.make_request()
+  end
+
+  def delete_eventsub_subscription(id) do
+    id
+    |> Api.Eventsub.Subscriptions.delete()
     |> ApiClient.make_request()
   end
 
