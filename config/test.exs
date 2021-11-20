@@ -55,7 +55,8 @@ config :twitch, Twitch.Repo,
 
 config :twitch,
   bttv_api_client: Twitch.BttvApiMock,
-  twitch_emotes_api_client: Twitch.TwitchEmotesApiMock
+  twitch_emotes_api_client: Twitch.TwitchEmotesApiMock,
+  webhook_secret: "secret"
 
 config :exenv,
   start_on_application: false,

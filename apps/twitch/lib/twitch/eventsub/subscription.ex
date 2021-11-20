@@ -4,7 +4,7 @@ defmodule Twitch.Eventsub.Subscription do
 
   @type t :: %__MODULE__{}
 
-  schema "eventpub_subscriptions" do
+  schema "eventsub_subscriptions" do
     field(:twitch_id, :string)
     timestamps()
   end
