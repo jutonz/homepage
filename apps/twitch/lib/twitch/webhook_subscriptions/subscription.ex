@@ -15,11 +15,14 @@ defmodule Twitch.WebhookSubscriptions.Subscription do
     timestamps()
   end
 
+
+  @required_attrs ~w[topic secret expires_at user_id]a
+  @optional_attrs ~w[confirmed]a
+  @attrs @optional_attrs ++ @required_attrs
   def changeset(%Subscription{} = sub, attrs \\ %{}) do
     sub
-    |> cast(attrs, optional_attrs() ++ required_attrs())
-    |> maybe_add_secret()
-    |> validate_required(required_attrs())
+    |> cast(attrs, @attrs)
+    |> validate_required(@required_attrs)
     |> unique_constraint(:topic, name: :webhook_subscriptions_user_id_topic_index)
   end
 
@@ -32,20 +35,17 @@ defmodule Twitch.WebhookSubscriptions.Subscription do
 
   def secret, do: Application.get_env(:twitch, :webhook_secret)
 
-  def callback(user_id) do
-    # lt -s dank -p 4000
-    # "https://dank.localtunnel.me/api/twitch/subscriptions/callback"
+  def callback(_user_id) do
+     #lt -s dank -p 4000
+     "https://dank.loca.lt/api/twitch/subscriptions/callback"
 
-    route_helpers = Application.get_env(:twitch, :route_helpers)
-    endpoint = Application.get_env(:twitch, :endpoint)
+    #route_helpers = Application.get_env(:twitch, :route_helpers)
+    #endpoint = Application.get_env(:twitch, :endpoint)
 
-    route_helpers.twitch_subscriptions_callback_url(
-      endpoint,
-      :callback,
-      user_id
-    )
+    #route_helpers.twitch_subscriptions_callback_url(
+      #endpoint,
+      #:callback,
+      #user_id
+    #)
   end
-
-  def required_attrs, do: ~w[topic secret expires_at user_id]a
-  def optional_attrs, do: ~w[confirmed]a
 end

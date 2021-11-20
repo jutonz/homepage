@@ -1,66 +1,29 @@
 defmodule Twitch.Util.Interactor do
-  alias Twitch.Util.Interactor.PerformedStep
-
-  def perform(interactibles) do
-    interactibles
-    |> Enum.map(&expand_input(&1))
-    |> perform([])
+  def perform(context, steps) do
+    perform_steps(:up, context, [], steps)
   end
 
-  defp perform([], performed) do
-    result =
-      case performed do
-        [] -> nil
-        [first | _rest] -> first.result
-      end
-
-    {:ok, result}
-  end
-
-  defp perform([{interactible, arg} | rest], performed) do
-    actualized_arg = maybe_curry_arg(arg, performed)
-
-    case apply(interactible, :up, actualized_arg) do
-      {:ok, result} ->
-        perfomed_step = %PerformedStep{
-          interactible: interactible,
-          result: result,
-          actualized_arg: actualized_arg
-        }
-
-        perform(rest, [perfomed_step | performed])
-
-      {:error, reason} ->
-        rollback(performed)
-        {:error, reason}
-
-      other ->
-        error = """
-        An Interatible returned something other than {:ok, result} or {:error, reason}.
-
-        Please adjust #{interactible}.up such that it always returns one of these results.
-
-        The actual result was: #{inspect(other)}
-        """
-
-        raise error
+  defp perform_steps(direction, context, _performed_steps, []) do
+    case direction do
+      :up -> {:ok, context}
+      :down -> {:error, context}
     end
   end
 
-  def rollback([]), do: :noop
+  defp perform_steps(direction, context, performed_steps, remaining_steps) do
+    [next_step | later_steps] = remaining_steps
 
-  def rollback([first | rest]) do
-    apply(first.interactible, :down, [first.result])
-    rollback(rest)
+    case perform_step(direction, context, next_step) do
+      {:ok, new_context} ->
+        perform_steps(direction, new_context, [next_step | performed_steps], later_steps)
+
+      {:error, new_context} ->
+        perform_steps(:down, new_context, [], performed_steps)
+    end
   end
 
-  defp expand_input({interactible, arg}) when is_list(arg),
-    do: {interactible, arg}
-
-  defp expand_input({interactible, arg}), do: {interactible, [arg]}
-  defp expand_input(interactible), do: {interactible, :curry}
-
-  def maybe_curry_arg(:curry, []), do: [nil]
-  def maybe_curry_arg(:curry, [first | _rest]), do: [first.result]
-  def maybe_curry_arg(arg, _performed), do: arg
+  defp perform_step(direction, context, {module, args}) do
+    #IO.puts("Calling #{inspect({module, direction, args})} with context #{inspect(context)}")
+    apply(module, direction, [context, args])
+  end
 end

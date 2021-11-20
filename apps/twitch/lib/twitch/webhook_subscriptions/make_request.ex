@@ -4,11 +4,8 @@ defmodule Twitch.WebhookSubscriptions.MakeRequest do
   require Logger
   alias Twitch.WebhookSubscriptions.SubscriptionRequest
 
-  def up(%SubscriptionRequest{} = request) do
-    case SubscriptionRequest.perform(request) do
-      :ok -> {:ok, request}
-      {:error, reason} -> {:error, reason}
-    end
+  def up(%Twitch.Api.Request{} = request) do
+    Twitch.ApiClient.make_request(request)
   end
 
   def down(%SubscriptionRequest{} = request) do
