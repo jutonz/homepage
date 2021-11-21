@@ -23,7 +23,7 @@ defmodule Twitch.Util.Interactor do
   end
 
   defp perform_step(direction, context, {module, args}) do
-    #IO.puts("Calling #{inspect({module, direction, args})} with context #{inspect(context)}")
+    # IO.puts("Calling #{inspect({module, direction, args})} with context #{inspect(context)}")
     apply(module, direction, [context, args])
   end
 end

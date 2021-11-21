@@ -7,7 +7,7 @@ defmodule Twitch.Repo.Migrations.CreateEventsubSubscriptions do
       timestamps(null: false)
     end
 
-    create index(:eventsub_subscriptions, :twitch_id, unique: true)
+    create(index(:eventsub_subscriptions, :twitch_id, unique: true))
 
     create table(:twitch_channel_updates) do
       add(:twitch_user_id, :string, null: false)
@@ -17,6 +17,6 @@ defmodule Twitch.Repo.Migrations.CreateEventsubSubscriptions do
       timestamps(null: false)
     end
 
-    create index(:twitch_channel_updates, :twitch_user_id)
+    create(index(:twitch_channel_updates, :twitch_user_id))
   end
 end

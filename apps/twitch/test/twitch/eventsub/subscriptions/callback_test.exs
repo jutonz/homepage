@@ -9,6 +9,7 @@ defmodule Twitch.Eventsub.Subscriptions.CallbackTest do
   describe ".perform/3" do
     test "inserts a ChannelUpdate" do
       sub = %Subscription{}
+
       body = %{
         "event" => %{
           "broadcaster_user_id" => "id",

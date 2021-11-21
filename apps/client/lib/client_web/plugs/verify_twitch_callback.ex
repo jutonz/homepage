@@ -8,11 +8,13 @@ defmodule ClientWeb.Plugs.VerifyTwitchCallback do
   @timestamp_header "twitch-eventsub-message-timestamp"
   @signature_header "twitch-eventsub-message-signature"
   def call(conn, _opts) do
-    calc_sig = Subscriptions.calculate_signature(
-      header(conn, @id_header)
-      <> header(conn, @timestamp_header)
-      <> raw_body(conn)
-    )
+    calc_sig =
+      Subscriptions.calculate_signature(
+        header(conn, @id_header) <>
+          header(conn, @timestamp_header) <>
+          raw_body(conn)
+      )
+
     actual_sig = header(conn, @signature_header)
 
     if calc_sig == actual_sig do

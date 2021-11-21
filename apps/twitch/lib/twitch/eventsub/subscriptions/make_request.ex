@@ -4,12 +4,12 @@ defmodule Twitch.Eventsub.Subscriptions.MakeRequest do
   alias Twitch.Eventsub.Subscription
 
   @type options :: %{
-    type: String.t(),
-    condition: map() | nil,
-    version: non_neg_integer()
-  }
+          type: String.t(),
+          condition: map() | nil,
+          version: non_neg_integer()
+        }
 
-  @spec up(map(), options()) :: {:ok, any()} | {:error | any()}
+  @spec up(map(), [options()]) :: {:ok, any()} | {:error, any()}
   def up(context, [options]) do
     {status, response} =
       context
