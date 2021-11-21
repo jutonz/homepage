@@ -3,51 +3,33 @@ defmodule ClientWeb.Twitch.Subscriptions.CallbackController do
   @dialyzer {:no_return, callback: 2}
 
   use ClientWeb, :controller
-  alias Twitch.WebhookSubscriptions
+  alias Twitch.Eventsub.Subscriptions
 
-  # Called to verify the intent of the subscriber
-  # https://www.w3.org/TR/websub/#x5-3-hub-verifies-intent-of-the-subscriber
-  def confirm(conn, params) do
-    %{
-      "hub.topic" => topic,
-      "hub.challenge" => challenge,
-      "id" => user_id
-    } = params
+  plug(ClientWeb.Plugs.VerifyTwitchCallback)
 
-    case WebhookSubscriptions.get_by_topic(user_id, topic) do
-      nil ->
+  def callback(conn, params) do
+    [event_type] = get_req_header(conn, "twitch-eventsub-message-type")
+
+    case event_type do
+      "webhook_callback_verification" ->
+        send_resp(conn, 200, params["challenge"])
+
+      "notification" ->
+        params["id"]
+        |> Subscriptions.get()
+        |> Subscriptions.callback(params)
+
+        send_resp(conn, 204, "")
+
+      "revocation" ->
+        params["id"]
+        |> Subscriptions.get()
+        |> Subscriptions.destroy()
+
+        send_resp(conn, 204, "")
+
+      _ ->
         send_resp(conn, 404, "")
-
-      sub ->
-        {:ok, _updated} = WebhookSubscriptions.confirm(sub)
-        send_resp(conn, 200, challenge)
     end
-  end
-
-  def callback(conn, _params) do
-    raw_body = conn.assigns[:raw_body] |> hd()
-    IO.inspect(raw_body)
-    signature = conn |> get_req_header("x-hub-signature") |> hd()
-    calc_sig = WebhookSubscriptions.calculate_signature(raw_body)
-
-    Twitch.WebhookSubscriptions.Log.log(%{
-      actual_signature: signature,
-      calculated_signature: calc_sig,
-      raw_body: raw_body,
-      body_byte_size: byte_size(raw_body),
-      content_length: conn |> get_req_header("content-length") |> hd()
-    })
-
-    send_resp(conn, 202, "")
-  end
-
-  def log(conn, _params) do
-    messages = Twitch.WebhookSubscriptions.Log.get_log()
-    IO.inspect(messages)
-    json = Poison.encode!(%{messages: messages})
-
-    conn
-    |> put_resp_header("content-type", "application/json")
-    |> send_resp(200, json)
   end
 end

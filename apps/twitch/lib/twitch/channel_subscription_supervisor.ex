@@ -2,7 +2,6 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
   use DynamicSupervisor
   require Logger
   alias Twitch.Queries.ChannelQuery
-  alias Twitch.WebhookSubscriptions
 
   def start_link(arg) do
     DynamicSupervisor.start_link(__MODULE__, arg, name: __MODULE__)
@@ -49,8 +48,6 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
       twitch_user
       |> Twitch.StreamelementsSubscription.name(String.trim_leading(channel.name, "#"))
       |> Process.whereis()
-
-    maybe_delete_webhook_subscription(channel)
 
     if se_pid do
       DynamicSupervisor.terminate_child(__MODULE__, se_pid)
@@ -100,21 +97,6 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
       {:ok, _} -> {:ok, :connected}
       :ignore -> {:ok, :not_enabled}
       _ -> {:error, res}
-    end
-  end
-
-  def create_webhook_subscription(channel) do
-    case WebhookSubscriptions.get_by_channel(channel) do
-      nil -> WebhookSubscriptions.subscribe_to(channel)
-      sub -> {:ok, sub}
-    end
-  end
-
-  def maybe_delete_webhook_subscription(channel) do
-    subs = WebhookSubscriptions.list_by_channel(channel)
-
-    if length(subs) == 1 do
-      subs |> hd() |> WebhookSubscriptions.delete()
     end
   end
 

@@ -14,7 +14,6 @@ defmodule Twitch.Application do
       Twitch.ChannelSubscriptionSupervisor,
       Twitch.EventParseFailureLogger,
       {Twitch.ApiCache, Application.get_env(:twitch, :api_cache_name)},
-      Twitch.WebhookSubscriptions.Log,
       Twitch.Api.TokenCache
     ]
 

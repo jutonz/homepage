@@ -35,8 +35,20 @@ defmodule Twitch.Api.Request do
     %{request | params: Enum.into(params, existing_params)}
   end
 
+  def add_body(%__MODULE__{body: existing_body} = request, body) do
+    %{request | body: Enum.into(body, existing_body)}
+  end
+
   def add_headers(%{headers: existing_headers} = request, headers) do
     %{request | headers: Enum.into(headers, existing_headers)}
+  end
+
+  @json_headers %{
+    "content-type" => "application/json",
+    "accept" => "application/json"
+  }
+  def add_json_headers(%__MODULE{} = request) do
+    add_headers(request, @json_headers)
   end
 
   def use_client_credentials(request) do
