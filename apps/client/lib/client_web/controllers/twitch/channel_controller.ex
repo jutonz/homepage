@@ -1,7 +1,7 @@
 defmodule ClientWeb.Twitch.ChannelController do
   use ClientWeb, :controller
 
-  def show(conn, %{"name" => name} = params) do
+  def show(conn, %{"id" => name} = params) do
     stream = channel_stream(name)
     {:ok, _pid} = subscribe_to_chat(name)
 

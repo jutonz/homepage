@@ -1,5 +1,5 @@
 defmodule Twitch.Eventsub.Subscriptions.Callback do
-  alias Twitch.Eventsub.ChannelUpdate
+  alias Twitch.Eventsub.ChannelUpdates
 
   def perform(_sub, %{"event" => event}, "channel.update") do
     attrs = %{
@@ -9,9 +9,7 @@ defmodule Twitch.Eventsub.Subscriptions.Callback do
       category_name: event["category_name"]
     }
 
-    %ChannelUpdate{}
-    |> ChannelUpdate.changeset(attrs)
-    |> Twitch.Repo.insert()
+    ChannelUpdates.create(attrs)
   end
 
   def perform(_sub, _body, _type) do
