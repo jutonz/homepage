@@ -1,4 +1,4 @@
-defmodule Twitch.Eventsub.ChannelUpdate do
+defmodule Twitch.Eventsub.ChannelUpdates.Update do
   use Ecto.Schema
   import Ecto.Changeset
 

@@ -6,6 +6,7 @@ defmodule Twitch.Eventsub.Subscription do
 
   schema "eventsub_subscriptions" do
     field(:twitch_id, :string)
+    # TODO: Also store twitch user id
     timestamps()
   end
 

@@ -106,10 +106,12 @@ defmodule ClientWeb.Router do
     )
   end
 
-  scope "/twitch", ClientWeb.Twitch do
+  scope "/twitch", ClientWeb.Twitch, as: :twitch do
     pipe_through(:browser)
 
-    get("/channels/:name", ChannelController, :show)
+    resources("/channels", ChannelController, only: ~w[show]a) do
+      resources("/updates", ChannelUpdateController, only: ~w[index]a)
+    end
   end
 
   ##############################################################################

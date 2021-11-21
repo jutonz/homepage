@@ -48,4 +48,13 @@ defmodule Twitch.Factory do
       }
     }
   end
+
+  def twitch_channel_update_factory do
+    %Twitch.Eventsub.ChannelUpdates.Update{
+      twitch_user_id: "1234",
+      title: "Playing DS!",
+      category_name: "Dark Souls",
+      category_id: "123"
+    }
+  end
 end
