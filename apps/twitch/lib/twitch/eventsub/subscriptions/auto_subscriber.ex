@@ -7,9 +7,10 @@ defmodule Twitch.Eventsub.Subscriptions.AutoSubscriber do
   end
 
   def init(_args) do
-    case subscriptions() do
-      [] -> :ignore
-      _subs -> {:ok, nil, {:continue, :subscribe}}
+    if console?() || subscriptions() == [] do
+      :ignore
+    else
+      {:ok, nil, {:continue, :subscribe}}
     end
   end
 
@@ -20,5 +21,9 @@ defmodule Twitch.Eventsub.Subscriptions.AutoSubscriber do
 
   defp subscriptions do
     Application.fetch_env!(:twitch, :eventsub_subscriptions)
+  end
+
+  defp console? do
+    !!System.get_env("CONSOLE")
   end
 end
