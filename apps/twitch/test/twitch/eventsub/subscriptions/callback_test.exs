@@ -25,6 +25,7 @@ defmodule Twitch.Eventsub.Subscriptions.CallbackTest do
       assert update.title == "title"
       assert update.category_id == "category_id"
       assert update.category_name == "category_name"
+      assert update.type == "channel.update"
     end
 
     test "returns {:ok, nil} for an unsupported type" do

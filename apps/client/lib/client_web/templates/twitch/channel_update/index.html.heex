@@ -1,23 +1,27 @@
-<%= if Enum.empty?(@updates) do %>
-  <div>No updates received yet</div>
-<% end %>
+<div class="m-4">
+  <%= if Enum.empty?(@updates) do %>
+    <div>No updates received yet</div>
+  <% end %>
 
-<table class="mt-6 text-left">
-  <thead>
-    <tr>
-      <th class="p-2 pl-0">Title</th>
-      <th class="p-2">Category</th>
-      <th class="p-2">Occurred at</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <%= for update <- @updates do %>
-      <tr class="hover:bg-gray-800">
-        <td class="p-2 pl-0"><%= update.title %></td>
-        <td class="p-2"><%= update.category_name %></td>
-        <td class="p-2"><%= update.inserted_at %></td>
+  <table class="mt-6 text-left">
+    <thead>
+      <tr>
+        <th class="p-2 pl-0">Type</th>
+        <th class="p-2">Title</th>
+        <th class="p-2">Category</th>
+        <th class="p-2">Occurred at</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <%= for update <- @updates do %>
+        <tr class="hover:bg-gray-800">
+          <td class="p-2 pl-0"><%= type(update.type) %></td>
+          <td class="p-2"><%= update.title %></td>
+          <td class="p-2"><%= update.category_name %></td>
+          <td class="p-2"><%= update.inserted_at %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

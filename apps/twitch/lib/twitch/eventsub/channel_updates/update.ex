@@ -7,10 +7,11 @@ defmodule Twitch.Eventsub.ChannelUpdates.Update do
     field(:title, :string)
     field(:category_id, :string)
     field(:category_name, :string)
+    field(:type, :string)
     timestamps()
   end
 
-  @required_attrs ~w[twitch_user_id title category_id category_name]a
+  @required_attrs ~w[twitch_user_id title category_id category_name type]a
   @optional_attrs ~w[]a
   @attrs @required_attrs ++ @optional_attrs
   def changeset(%__MODULE__{} = sub, attrs \\ %{}) do
