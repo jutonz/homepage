@@ -58,3 +58,13 @@ config :twitch, Twitch.Repo,
   url: db_url,
   pool_size: db_pool_size,
   ssl: true
+
+config :twitch,
+  eventsub_subscriptions: [
+    # ela
+    %{
+      type: "channel.update",
+      condition: %{"broadcaster_user_id" => "26921830"},
+      version: 1
+    }
+  ]

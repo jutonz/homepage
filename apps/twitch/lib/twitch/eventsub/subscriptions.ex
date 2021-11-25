@@ -1,4 +1,6 @@
 defmodule Twitch.Eventsub.Subscriptions do
+  import Ecto.Query, only: [from: 2]
+
   alias Twitch.{
     Eventsub.Subscription,
     Eventsub.Subscriptions.Callback,
@@ -18,7 +20,7 @@ defmodule Twitch.Eventsub.Subscriptions do
   @spec create(MakeRequest.options()) :: {:ok, any()} | {:error, any()}
   def create(options) do
     Interactor.perform(%{}, [
-      {Create, []},
+      {Create, [options]},
       {MakeRequest, [options]},
       {Update, []}
     ])
@@ -30,6 +32,18 @@ defmodule Twitch.Eventsub.Subscriptions do
 
   def get_by_twitch_id(twitch_id) do
     Repo.get_by(Subscription, twitch_id: twitch_id)
+  end
+
+  def get_by_config(%{type: type, condition: condition, version: version}) do
+    query =
+      from(
+        s in Subscription,
+        where: s.type == ^type,
+        where: s.version == ^version,
+        where: s.condition == ^condition
+      )
+
+    Repo.one(query)
   end
 
   def callback(subscription, body) do

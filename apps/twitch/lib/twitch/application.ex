@@ -14,7 +14,8 @@ defmodule Twitch.Application do
       Twitch.ChannelSubscriptionSupervisor,
       Twitch.EventParseFailureLogger,
       {Twitch.ApiCache, Application.get_env(:twitch, :api_cache_name)},
-      Twitch.Api.TokenCache
+      Twitch.Api.TokenCache,
+      Twitch.Eventsub.Subscriptions.AutoSubscriber
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
