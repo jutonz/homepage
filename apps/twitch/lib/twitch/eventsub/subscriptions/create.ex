@@ -6,8 +6,8 @@ defmodule Twitch.Eventsub.Subscriptions.Create do
     Repo
   }
 
-  def up(context, []) do
-    case create_blank_sub() do
+  def up(context, [options]) do
+    case create_local_sub(options) do
       {:ok, sub} ->
         {:ok, Map.put(context, :subscription, sub)}
 
@@ -21,9 +21,9 @@ defmodule Twitch.Eventsub.Subscriptions.Create do
     {:ok, context}
   end
 
-  defp create_blank_sub do
+  defp create_local_sub(attrs) do
     %Subscription{}
-    |> Subscription.changeset(%{})
+    |> Subscription.changeset(attrs)
     |> Repo.insert()
   end
 end

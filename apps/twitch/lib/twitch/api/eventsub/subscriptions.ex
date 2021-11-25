@@ -20,6 +20,13 @@ defmodule Twitch.Api.Eventsub.Subscriptions do
     |> Request.add_body(body)
   end
 
+  def get(twitch_id) do
+    @base_url
+    |> Request.build(@path, :get)
+    |> Request.add_json_headers()
+    |> Request.add_url_params(%{id: twitch_id})
+  end
+
   def delete(id) do
     @base_url
     |> Request.build(@path, :delete)

@@ -49,6 +49,15 @@ defmodule Twitch.Factory do
     }
   end
 
+  def twitch_eventsub_subscription_factory do
+    %Twitch.Eventsub.Subscription{
+      twitch_id: Ecto.UUID.generate(),
+      type: "channel.update",
+      version: 1,
+      condition: %{"broadcaster_user_id" => "26921830"}
+    }
+  end
+
   def twitch_channel_update_factory do
     %Twitch.Eventsub.ChannelUpdates.Update{
       twitch_user_id: "1234",

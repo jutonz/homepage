@@ -113,7 +113,8 @@ config :twitch,
   bttv_api_client: Twitch.Bttv.Api,
   twitch_emotes_api_client: Twitch.TwitchEmotes.Api,
   api_cache_name: :api_cache,
-  webhook_secret: System.get_env("TWITCH_CLIENT_ID")
+  webhook_secret: System.get_env("TWITCH_CLIENT_ID"),
+  eventsub_subscriptions: []
 
 config :exenv,
   adapters: [
