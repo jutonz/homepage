@@ -54,7 +54,8 @@ defmodule Twitch.Factory do
       twitch_user_id: "1234",
       title: "Playing DS!",
       category_name: "Dark Souls",
-      category_id: "123"
+      category_id: "123",
+      type: "channel.update"
     }
   end
 end

@@ -1,5 +1,5 @@
 defmodule Twitch.Eventsub.ChannelUpdates do
-  import Ecto.Query, only: [from: 2]
+  import Ecto.Query, only: [from: 2, order_by: 2]
 
   alias Twitch.{
     Eventsub.ChannelUpdates.Update,
@@ -8,7 +8,10 @@ defmodule Twitch.Eventsub.ChannelUpdates do
 
   def list_by_user_id(user_id) do
     query = from(u in Update, where: u.twitch_user_id == ^user_id)
-    Repo.all(query)
+
+    query
+    |> order_by(asc: :inserted_at)
+    |> Repo.all()
   end
 
   def create(attrs) do

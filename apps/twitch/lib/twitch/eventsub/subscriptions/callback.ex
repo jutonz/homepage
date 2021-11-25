@@ -6,7 +6,8 @@ defmodule Twitch.Eventsub.Subscriptions.Callback do
       twitch_user_id: event["broadcaster_user_id"],
       title: event["title"],
       category_id: event["category_id"],
-      category_name: event["category_name"]
+      category_name: event["category_name"],
+      type: "channel.update"
     }
 
     ChannelUpdates.create(attrs)
