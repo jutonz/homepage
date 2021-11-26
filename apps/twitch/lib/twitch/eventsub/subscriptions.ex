@@ -47,8 +47,7 @@ defmodule Twitch.Eventsub.Subscriptions do
   end
 
   def callback(subscription, body) do
-    type = get_in(body, ["subscription", "type"])
-    Callback.perform(subscription, body, type)
+    Callback.perform(subscription, body)
   end
 
   def destroy(subscription) do

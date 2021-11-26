@@ -66,5 +66,31 @@ config :twitch,
       type: "channel.update",
       condition: %{"broadcaster_user_id" => "26921830"},
       version: 1
-    }
+    },
+    %{
+      type: "stream.online",
+      condition: %{"broadcaster_user_id" => "26921830"},
+      version: 1
+    },
+    %{
+      type: "stream.offline",
+      condition: %{"broadcaster_user_id" => "26921830"},
+      version: 1
+    },
+    # syps_
+    %{
+      type: "channel.update",
+      condition: %{"broadcaster_user_id" => "86120737"},
+      version: 1
+    },
+    %{
+      type: "stream.online",
+      condition: %{"broadcaster_user_id" => "86120737"},
+      version: 1
+    },
+    %{
+      type: "stream.offline",
+      condition: %{"broadcaster_user_id" => "86120737"},
+      version: 1
+    },
   ]
