@@ -67,7 +67,7 @@ twitch_users = [
 ]
 
 config :twitch,
-  eventsub_subscriptions: Enum.flat_map(twitch_users, user_id ->
+  eventsub_subscriptions: Enum.flat_map(twitch_users, fn user_id ->
     [
       %{
         type: "channel.update",
