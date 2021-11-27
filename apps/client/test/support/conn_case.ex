@@ -14,6 +14,7 @@ defmodule ClientWeb.ConnCase do
   end
 
   setup _tags do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Twitch.Repo)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end
