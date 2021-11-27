@@ -22,16 +22,10 @@ defmodule Twitch.Eventsub.Subscriptions.Callback do
   end
 
   def perform(%{type: "stream.offline"}, %{"event" => event}) do
-    case event["type"] do
-      "live" ->
-        event
-        |> extract_attrs()
-        |> Map.put(:type, "stream.offline")
-        |> ChannelUpdates.create()
-
-      _ ->
-        nil
-    end
+    event
+    |> extract_attrs()
+    |> Map.put(:type, "stream.offline")
+    |> ChannelUpdates.create()
   end
 
   def perform(_sub, _body) do
