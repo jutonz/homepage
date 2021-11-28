@@ -10,7 +10,7 @@ defmodule Twitch.Eventsub.ChannelUpdates do
     query = from(u in Update, where: u.twitch_user_id == ^user_id)
 
     query
-    |> order_by(asc: :inserted_at)
+    |> order_by(desc: :inserted_at)
     |> Repo.all()
   end
 
