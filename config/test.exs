@@ -56,7 +56,13 @@ config :twitch, Twitch.Repo,
 config :twitch,
   bttv_api_client: Twitch.BttvApiMock,
   twitch_emotes_api_client: Twitch.TwitchEmotesApiMock,
-  webhook_secret: "secret"
+  webhook_secret: "secret",
+  http_executor: Twitch.HttpMock,
+  oauth: %{
+    client_id: "TWITCH_CLIENT_ID",
+    client_secret: "TWITCH_CLIENT_SECRET",
+    redirect_uri: "TWITCH_REDIRECT_URI"
+  }
 
 config :exenv,
   start_on_application: false,

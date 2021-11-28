@@ -114,7 +114,8 @@ config :twitch,
   twitch_emotes_api_client: Twitch.TwitchEmotes.Api,
   api_cache_name: :api_cache,
   webhook_secret: System.get_env("TWITCH_CLIENT_ID"),
-  eventsub_subscriptions: []
+  eventsub_subscriptions: [],
+  http_executor: Twitch.Api.Executor
 
 config :exenv,
   adapters: [

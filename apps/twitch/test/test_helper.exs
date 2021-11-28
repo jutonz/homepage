@@ -1,6 +1,9 @@
-Code.put_compiler_option(:warnings_as_errors, true)
+# Code.put_compiler_option(:warnings_as_errors, true)
 
 {:ok, _} = Application.ensure_all_started(:ex_machina)
+{:ok, _} = Application.ensure_all_started(:mox)
+
+Mox.defmock(Twitch.HttpMock, for: Twitch.Api.Adapter)
 
 ExUnit.start()
 
