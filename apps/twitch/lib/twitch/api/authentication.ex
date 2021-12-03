@@ -1,4 +1,6 @@
 defmodule Twitch.Api.Authentication do
+  require Logger
+
   alias Twitch.{
     Api.ClientCredentials,
     Api.TokenCache,
@@ -15,11 +17,28 @@ defmodule Twitch.Api.Authentication do
   end
 
   def client_id do
-    System.fetch_env!("TWITCH_CLIENT_ID")
+    case Application.fetch_env!(:twitch, :oauth)[:client_id] do
+      nil ->
+        Logger.warn("Config :twitch, :oauth, :client_id was unset. Twitch API calls will fail.")
+        nil
+
+      id ->
+        id
+    end
   end
 
   def client_secret do
-    System.fetch_env!("TWITCH_CLIENT_SECRET")
+    case Application.fetch_env!(:twitch, :oauth)[:client_secret] do
+      nil ->
+        Logger.warn(
+          "Config :twitch, :oauth, :client_secret was unset. Twitch API calls will fail."
+        )
+
+        nil
+
+      id ->
+        id
+    end
   end
 
   @scopes ["user:read:email"]

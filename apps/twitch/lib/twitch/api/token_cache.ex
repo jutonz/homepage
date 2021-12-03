@@ -12,4 +12,8 @@ defmodule Twitch.Api.TokenCache do
   def set(value) do
     Agent.update(__MODULE__, fn _state -> value end)
   end
+
+  def unset do
+    set(nil)
+  end
 end

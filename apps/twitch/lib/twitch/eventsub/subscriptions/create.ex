@@ -16,7 +16,7 @@ defmodule Twitch.Eventsub.Subscriptions.Create do
     end
   end
 
-  def down(%{subscription: sub} = context, []) do
+  def down(%{subscription: sub} = context, [_options]) do
     Repo.delete(sub)
     {:ok, context}
   end

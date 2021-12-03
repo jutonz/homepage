@@ -50,5 +50,7 @@ defmodule Twitch.ApiClient do
   defp respond(%Response{} = response),
     do: {:error, response}
 
-  def http_executor, do: HTTPoison
+  def http_executor do
+    Application.fetch_env!(:twitch, :http_executor)
+  end
 end
