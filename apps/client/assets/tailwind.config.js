@@ -16,6 +16,7 @@ module.exports = {
     enabled: isProd,
     content: [
       "./../lib/client_web/templates/**/*.eex",
+      "./../lib/client_web/templates/**/*.heex",
       "./../lib/client_web/controllers/**/*_live.ex",
       "./../lib/client_web/live/**/*.ex",
       "./js/**/*.{jsx,tsx}",
