@@ -7,12 +7,14 @@ defmodule ClientWeb.Twitch.ChannelUpdateController do
   }
 
   def index(conn, params) do
-    updates =
-      params["channel_id"]
-      |> twitch_id()
-      |> ChannelUpdates.list_by_user_id()
+    case twitch_id(params["channel_id"]) do
+      nil ->
+        render(conn, "index_nouser.html")
 
-    render(conn, "index.html", updates: updates)
+      id ->
+        updates = ChannelUpdates.list_by_user_id(id)
+        render(conn, "index.html", updates: updates)
+    end
   end
 
   defp twitch_id(channel_name) do
