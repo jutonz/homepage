@@ -17,12 +17,16 @@ defmodule ClientWeb.Twitch.ChatView do
 
     schedule_alive_check()
 
-    {:ok, socket}
+    {:ok, socket, temporary_assigns: [events: []]}
   end
 
+  @valid_irc_commands ~w[PRIVMSG ACTION]
   def handle_info(%Twitch.ParsedEvent{} = event, socket) do
-    new_events = append_event(event, socket.assigns.events)
-    {:noreply, assign(socket, :events, new_events)}
+    if Enum.member?(@valid_irc_commands, event.irc_command) do
+      {:noreply, assign(socket, events: [event])}
+    else
+      {:noreply, socket}
+    end
   end
 
   def handle_info(:check_alive, socket) do
@@ -32,18 +36,8 @@ defmodule ClientWeb.Twitch.ChatView do
     {:noreply, assign(socket, alive?: is_alive)}
   end
 
-  @history_size 50
-  @valid_irc_commands ~w[PRIVMSG ACTION]
-  defp append_event(event, events) do
-    if Enum.member?(@valid_irc_commands, event.irc_command) do
-      [event | Enum.take(events, @history_size - 1)]
-    else
-      events
-    end
-  end
-
   defp welcome_event(channel_name) do
-    %Twitch.ParsedEvent{message: "Connected to #{channel_name}"}
+    %Twitch.ParsedEvent{id: "welcome", message: "Connected to #{channel_name}'s chat"}
   end
 
   defp schedule_alive_check do

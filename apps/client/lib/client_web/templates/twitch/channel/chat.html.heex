@@ -1,21 +1,9 @@
-<div class="chat">
-  <div class="chat__container">
-    <div class="chat__header">
-      <div class="chat__header__heading">
-        <%= "#{@channel_name}'s chat" %>
-      </div>
-      <div class="chat__header__status">
-        Connected: <%= @alive? %>
-      </div>
-    </div>
-    <div class="chat__scroll-pane">
-      <div class="chat__scroll-pane__messages">
-        <%= for event <- @events do %>
-          <p class="chat__messages__message">
-            <%= event.display_name %>: <%= event.message %>
-          </p>
-        <% end %>
-      </div>
-    </div>
+<div class="border">
+  <div class="p-3 flex flex-col" id="chat" phx-update="append">
+    <%= for event <- @events do %>
+      <p id={event.id}>
+        <%= event.display_name %>: <%= event.message %>
+      </p>
+    <% end %>
   </div>
 </div>

@@ -73,15 +73,17 @@ defmodule Twitch.ParsedEvent do
 
   def to_parsed_event("PRIVMSG", parsed, raw, tags) do
     [channel | message] = parsed.args
+    parsed_tags = parse_tags(tags)
 
     {:ok,
      %Twitch.ParsedEvent{
        channel: channel,
-       message: Enum.at(message, 0),
-       irc_command: parsed.cmd,
        display_name: parsed.nick,
+       id: parsed_tags["id"],
+       irc_command: parsed.cmd,
+       message: Enum.at(message, 0),
        raw_event: raw,
-       tags: parse_tags(tags)
+       tags: parsed_tags
      }}
   end
 

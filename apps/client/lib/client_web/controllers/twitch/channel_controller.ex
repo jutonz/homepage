@@ -1,7 +1,7 @@
 defmodule ClientWeb.Twitch.ChannelController do
   use ClientWeb, :controller
 
-  def show(conn, %{"id" => name} = params) do
+  def show(conn, %{"id" => name}) do
     stream = channel_stream(name)
     {:ok, _pid} = subscribe_to_chat(name)
 
@@ -10,13 +10,9 @@ defmodule ClientWeb.Twitch.ChannelController do
         render(conn, "show_notlive.html", name: name)
 
       stream ->
-        others = filter_others(params["and"])
-        render(conn, "show_live.html", name: name, stream: stream, others: others)
+        render(conn, "show_live.html", name: name, stream: stream)
     end
   end
-
-  defp filter_others(nil = _other_channel_names), do: []
-  defp filter_others(other_channel_names), do: Enum.uniq(other_channel_names)
 
   defp channel_stream(channel_name) do
     with {:ok, response} <- Twitch.Api.streams(channel_name),

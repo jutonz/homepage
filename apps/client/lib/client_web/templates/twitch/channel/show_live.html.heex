@@ -1,10 +1,7 @@
-<div class="channel m-4 flex flex-col justify-center">
-  <div class="mb-4"><%= @name %> is live!</div>
-
+<div class="m-4">
   <div>
     <div class="mb-1">
-      Status:
-      <%= get_in(@stream, ~w[type]) %>
+      <%= get_in(@stream, ~w[user_name]) %> is live!
     </div>
 
     <div class="mb-1">
@@ -15,30 +12,33 @@
       viewers
     </div>
 
+    <div class="mb-1">
+      Title:
+      <%= get_in(@stream, ~w[title]) %>
+    </div>
+
     <div class="mb-4">
       Live for
       <%= formatted_uptime(@stream) %>
     </div>
 
-    <%= link(
-      gettext("Open stream"),
-      to: "https://twitch.tv/#{@name}",
-      target: "_blank",
-      class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-    ) %>
+    <div class="mb-3">
+      <%= link(
+        gettext("Open stream"),
+        to: "https://twitch.tv/#{@name}",
+        target: "_blank",
+      ) %>
+
+      <%= link(
+        "View updates",
+        to: Routes.twitch_channel_channel_update_path(@conn, :index, get_in(@stream, ~w[user_login])),
+      ) %>
+    </div>
 
     <%= live_render(
       @conn,
       ClientWeb.Twitch.ChatView,
       session: %{"channel_name" => @name}
     ) %>
-
-    <%= for other <- @others do %>
-      <%= live_render(
-        @conn,
-        ClientWeb.Twitch.ChatView,
-        session: %{channel_name: other}
-      ) %>
-    <% end %>
   </div>
 </div>
