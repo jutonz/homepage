@@ -15,7 +15,7 @@
 
     <tbody>
       <%= for update <- @updates do %>
-        <tr class="hover:bg-gray-800">
+        <tr class="hover:bg-gray-800" data-update-id={update.id}>
           <td class="p-2 pl-0"><%= type(update.type) %></td>
           <td class="p-2"><%= update.title %></td>
           <td class="p-2"><%= update.category_name %></td>

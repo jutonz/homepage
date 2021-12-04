@@ -3,11 +3,7 @@ defmodule Twitch.Eventsub.SubscriptionsTest do
   import Mox
   alias Twitch.Eventsub.Subscriptions
 
-  setup do
-    on_exit(fn ->
-      Twitch.Api.TokenCache.unset()
-    end)
-  end
+  setup :reset_api_token_cache
 
   describe ".create/1" do
     test "creates a new subscription" do
@@ -71,22 +67,6 @@ defmodule Twitch.Eventsub.SubscriptionsTest do
       assert result.version == config[:version]
       assert result.condition == config[:condition]
     end
-  end
-
-  defp stub_auth_request do
-    Twitch.HttpMock
-    |> expect(:request, fn
-      %{url: "https://id.twitch.tv/oauth2/token"} ->
-        body = %{
-          "access_token" => "access_token_abc123",
-          "expires_in" => 5_387_394,
-          "scope" => ["user:read:email"],
-          "token_type" => "bearer"
-        }
-
-        response = %{body: Jason.encode!(body), status_code: 200}
-        {:ok, response}
-    end)
   end
 
   defp stub_successful_subscription_create_request(opts) do
