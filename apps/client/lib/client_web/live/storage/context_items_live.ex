@@ -59,7 +59,7 @@ defmodule ClientWeb.Storage.ContextItemsLive do
         :query,
         phx_debounce: 500,
         placeholder: "Search",
-        class: "rounded-sm flex-1",
+        class: "rounded-sm flex-1"
       ) %>
     </form>
 
