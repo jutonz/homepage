@@ -26,12 +26,12 @@
       <%= link(
         gettext("Open stream"),
         to: "https://twitch.tv/#{@name}",
-        target: "_blank",
+        target: "_blank"
       ) %>
 
       <%= link(
         "View updates",
-        to: Routes.twitch_channel_channel_update_path(@conn, :index, get_in(@stream, ~w[user_login])),
+        to: Routes.twitch_channel_channel_update_path(@conn, :index, get_in(@stream, ~w[user_login]))
       ) %>
     </div>
 

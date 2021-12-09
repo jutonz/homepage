@@ -15,7 +15,7 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
       with:
-        elixir-version: '1.12.2'
+        elixir-version: '1.13.0'
         otp-version: '24.0'
     - name: Restore dev cache
       uses: actions/cache@v2
@@ -33,7 +33,6 @@ jobs:
         restore-keys: |
           v2-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-plts-${{ hashFiles('.tool-versions') }}-
-          v2-plts-
     - run: mix format --check-formatted
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
@@ -110,7 +109,7 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
       with:
-        elixir-version: '1.12.2'
+        elixir-version: '1.13.0'
         otp-version: '24.0'
     - name: Restore static asset cache
       uses: actions/cache@v2
