@@ -9,7 +9,8 @@
         <th class="p-2 pl-0">Type</th>
         <th class="p-2">Title</th>
         <th class="p-2">Category</th>
-        <th class="p-2">Occurred at</th>
+        <th class="p-2">Date</th>
+        <th class="p-2">Time</th>
       </tr>
     </thead>
 
@@ -19,7 +20,8 @@
           <td class="p-2 pl-0"><%= type(update.type) %></td>
           <td class="p-2"><%= update.title %></td>
           <td class="p-2"><%= update.category_name %></td>
-          <td class="p-2"><%= update.inserted_at %></td>
+          <td class="p-2 whitespace-no-wrap"><%= format_date(update.inserted_at) %></td>
+          <td class="p-2 whitespace-no-wrap"><%= format_time(update.inserted_at) %></td>
         </tr>
       <% end %>
     </tbody>
