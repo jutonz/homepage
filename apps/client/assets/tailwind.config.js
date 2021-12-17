@@ -12,16 +12,13 @@ const isProd = env === "prod";
 
 module.exports = {
   important: true,
-  purge: {
-    enabled: isProd,
-    content: [
-      "./../lib/client_web/templates/**/*.eex",
-      "./../lib/client_web/templates/**/*.heex",
-      "./../lib/client_web/controllers/**/*_live.ex",
-      "./../lib/client_web/live/**/*.ex",
-      "./js/**/*.{jsx,tsx}",
-    ],
-  },
+  content: [
+    "./../lib/client_web/templates/**/*.eex",
+    "./../lib/client_web/templates/**/*.heex",
+    "./../lib/client_web/controllers/**/*_live.ex",
+    "./../lib/client_web/live/**/*.ex",
+    "./js/**/*.{jsx,tsx}",
+  ],
   theme: {
     extend: {
       colors: {
