@@ -34,7 +34,7 @@
     "sass": "1.45.1",
     "semantic-ui-less": "^2.4.1",
     "semantic-ui-react": "^2.0.4",
-    "tailwindcss": "^3.0.6",
+    "tailwindcss": "^3.0.7",
     "three": "^0.135.0"
   },
   "devDependencies": {
