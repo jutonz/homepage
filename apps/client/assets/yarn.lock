@@ -2299,10 +2299,10 @@ tailwindcss@^3.0.13:
     quick-lru "^5.1.1"
     resolve "^1.21.0"
 
-three@^0.137.0:
-  version "0.137.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.137.0.tgz#0ebd6ba66637a332c31f234bcdd35aeec071a6e3"
-  integrity sha512-rzSDhia6cU35UCy6y+zEEws6vSgytfHqFMSaBvUcySgzwvDO6vETyswtSNi/+aVqJw8WLMwyT1mlQQ1T/dxxOA==
+three@^0.137.4:
+  version "0.137.4"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.137.4.tgz#ec73b6a6c40b733d56544b13d0c3cdb0bce5d0a7"
+  integrity sha512-kUyOZNX+dMbvaS0mGYM1BaXHkHVNQdpryWH8dBg3mn725dJcTo9/5rjyH+OJ8V0r+XbZPz7sncV+c3Gjpc9UBA==
 
 through@2, "through@>=2.2.7 <3", through@~2.3, through@~2.3.1:
   version "2.3.8"
