@@ -38,7 +38,7 @@
       <%= if !Enum.any?(@filters) do %>
         <tr data-role="filter-empty-state">
           <td colspan="3">You haven't yet recorded a filter change.</td>
-        <tr>
+        </tr>
       <% end %>
 
       <%= for {filter, i} <- Enum.with_index(@filters) do %>
