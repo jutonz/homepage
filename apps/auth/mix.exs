@@ -27,7 +27,7 @@ defmodule Auth.Mixfile do
     [
       {:guardian, "~> 2.0"},
       {:comeonin, "~> 5.1"},
-      {:argon2_elixir, "~> 2.0"},
+      {:argon2_elixir, "~> 3.0"},
       {:redis, in_umbrella: true}
     ]
   end
