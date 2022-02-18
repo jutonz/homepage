@@ -68,10 +68,10 @@ defmodule Client.TrainsTest do
     end
 
     test "doesn't return another user's log" do
-      user = insert(:user)
-      log = insert(:train_log, user_id: user.id)
+      [user1, user2] = insert_pair(:user)
+      log = insert(:train_log, user_id: user1.id)
 
-      refute Trains.get_log(123, log.id)
+      refute Trains.get_log(user2.id, log.id)
     end
   end
 end
