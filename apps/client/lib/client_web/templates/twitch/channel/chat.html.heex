@@ -1,5 +1,5 @@
-<div class="border">
-  <div class="p-3 flex flex-col" id="chat" phx-update="append">
+<div class="border max-h-full min-h-full overflow-scroll grow">
+  <div class="p-3 flex flex-col max-h-full overflow-scroll" id="chat" phx-update="prepend">
     <%= for event <- @events do %>
       <p id={event.id}>
         <%= event.display_name %>: <%= event.message %>

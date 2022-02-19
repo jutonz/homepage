@@ -1,5 +1,6 @@
 defmodule ClientWeb.Twitch.ChatView do
-  use Phoenix.LiveView
+  use Phoenix.LiveView,
+    container: {:div, class: "grow overflow-scroll"}
 
   def render(assigns) do
     ClientWeb.Twitch.ChannelView.render("chat.html", assigns)

@@ -52,7 +52,7 @@ defmodule Twitch.Api.Authentication do
         {:ok, data["access_token"]}
 
       {:error, reason} ->
-        {:error, "Could not fetch access token: #{reason}"}
+        {:error, "Could not fetch access token: #{inspect(reason)}"}
     end
   end
 
