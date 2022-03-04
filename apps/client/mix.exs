@@ -42,7 +42,7 @@ defmodule Client.Mixfile do
       {:auth, in_umbrella: true},
       {:bamboo, "~> 2.0"},
       {:bamboo_phoenix, "~> 1.0"},
-      {:cors_plug, "~> 2.0"},
+      {:cors_plug, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
       {:emoncms, in_umbrella: true},
       {:events, in_umbrella: true},
