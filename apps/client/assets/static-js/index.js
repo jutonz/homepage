@@ -13,5 +13,6 @@ const socketOpts = {
 };
 const liveSocket = new LiveSocket("/live", Socket, socketOpts);
 liveSocket.connect();
+liveSocket.disableDebug();
 
 import "./chat-autoscroll";
