@@ -14,7 +14,7 @@ defmodule ClientWeb.Api.SessionControllerTest do
       {response, conn} = conn |> get(path) |> json_response()
 
       assert conn.status == 401
-      assert response["messages"] == ["Invalid JWT"]
+      assert response["messages"] == ["invalid_token"]
     end
 
     test "redirects to /#/", %{conn: conn} do
