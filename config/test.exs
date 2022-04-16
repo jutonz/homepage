@@ -32,7 +32,7 @@ config :client, sql_sandbox: Client.Sandbox
 # https://github.com/elixir-wallaby/wallaby/blob/master/lib/wallaby/experimental/chrome.ex#L74
 config :wallaby,
   otp_app: :client,
-  max_wait_time: 3_000,
+  max_wait_time: 10_000,
   screenshot_on_failure: true,
   screenshot_dir: "/tmp/homepage-screenshots",
   driver: Wallaby.Chrome,
