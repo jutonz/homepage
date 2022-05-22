@@ -46,7 +46,7 @@
     "autoprefixer": "^10.4.7",
     "cssnano": "^5.1.7",
     "date-fns": "^2.28.0",
-    "esbuild": "^0.14.38",
+    "esbuild": "^0.14.39",
     "esbuild-plugin-less": "^1.1.6",
     "less": "4.1.2",
     "postcss": "^8.4.14",
