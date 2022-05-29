@@ -23,9 +23,11 @@ export const IjustRoute = () => (
       component={({ data }) => {
         const contextId = data.getIjustDefaultContext.id;
         return (
-          <Route render={() => (
-            <Redirect to={{pathname: `ijust/contexts/${contextId}`}} />
-          )} />
+          <Route
+            render={() => (
+              <Redirect to={{ pathname: `ijust/contexts/${contextId}` }} />
+            )}
+          />
         );
       }}
     />

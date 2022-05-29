@@ -123,7 +123,7 @@ export class IjustEventInput extends React.Component<Props, State> {
 
     if (selectedEventId) {
       const to = {
-        pathname: `/ijust/contexts/${ijustContextId}/events/${selectedEventId}`
+        pathname: `/ijust/contexts/${ijustContextId}/events/${selectedEventId}`,
       };
       return <Route render={() => <Redirect to={to} />} />;
     }
