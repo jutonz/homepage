@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Redirect } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import gql from "graphql-tag";
 
 import { MainNav } from "./../components/MainNav";
@@ -23,11 +23,9 @@ export const IjustRoute = () => (
       component={({ data }) => {
         const contextId = data.getIjustDefaultContext.id;
         return (
-          <Redirect
-            to={{
-              pathname: `ijust/contexts/${contextId}`,
-            }}
-          />
+          <Route render={() => (
+            <Redirect to={{pathname: `ijust/contexts/${contextId}`}} />
+          )} />
         );
       }}
     />

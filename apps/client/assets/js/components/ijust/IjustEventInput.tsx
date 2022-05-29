@@ -3,7 +3,7 @@ import { Message, Form, Search, SearchResultProps } from "semantic-ui-react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
 import { css, StyleSheet } from "aphrodite";
-import { Redirect } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 
 import collectGraphqlErrors from "./../../utils/collectGraphqlErrors";
 import { IjustEventTypeahead } from "./../../utils/IjustEventTypeahead";
@@ -118,17 +118,14 @@ export class IjustEventInput extends React.Component<Props, State> {
   };
 
   render() {
-    const { eventName, selectedEventId } = this.state;
+    const { selectedEventId } = this.state;
     const { ijustContextId } = this.props;
 
     if (selectedEventId) {
-      return (
-        <Redirect
-          to={{
-            pathname: `/ijust/contexts/${ijustContextId}/events/${selectedEventId}`,
-          }}
-        />
-      );
+      const to = {
+        pathname: `/ijust/contexts/${ijustContextId}/events/${selectedEventId}`
+      };
+      return <Route render={() => <Redirect to={to} />} />;
     }
 
     return (

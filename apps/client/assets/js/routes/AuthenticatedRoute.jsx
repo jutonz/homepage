@@ -22,7 +22,7 @@ class _AuthenticatedRoute extends React.Component {
 
   redirectToLogin = (props) => {
     const location = { pathname: "/login", state: props.location };
-    return <Redirect to={location} />;
+    return <Route render={() => <Redirect to={location} />} />;
   };
 }
 
