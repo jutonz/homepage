@@ -853,10 +853,10 @@ esbuild-openbsd-64@0.14.43:
   resolved "https://registry.yarnpkg.com/esbuild-openbsd-64/-/esbuild-openbsd-64-0.14.43.tgz#0229dc2db2ded97b03bb93bba7646b30ffdf5d0d"
   integrity sha512-ZhQpiZjvqCqO8jKdGp9+8k9E/EHSA+zIWOg+grwZasI9RoblqJ1QiZqqi7jfd6ZrrG1UFBNGe4m0NFxCFbMVbg==
 
-esbuild-plugin-less@^1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/esbuild-plugin-less/-/esbuild-plugin-less-1.1.6.tgz#747eec8d94682942a22e3b029c5d7d9067b79359"
-  integrity sha512-zDZPXNCnaYodobJaMV01/5olDgFv4JACrhCo84xsbJJgU+f+JI8FW0E2nqDbsbV3tWyqRW+qU3uCEYTulRjong==
+esbuild-plugin-less@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/esbuild-plugin-less/-/esbuild-plugin-less-1.1.7.tgz#92a1773f93c18282b3ffc563f505bef5d605e500"
+  integrity sha512-PK4X5e0v/u5egWpQ+YCBgIq3BVgm7Ukg9b6Kx8VKJUUtBBkjfnATaUJOPV+yegAKwkYYE9IYcfr//I86A8jigg==
   dependencies:
     "@types/less" "^3.0.3"
     less "^4.1.1"
