@@ -54,7 +54,7 @@ defmodule Client.Mixfile do
       {:jason, "~> 1.1"},
       {:money, "~> 1.7"},
       {:mox, "~> 1.0", only: :test},
-      {:phoenix, "1.6.7"},
+      {:phoenix, "1.6.10"},
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 3.2.0"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
