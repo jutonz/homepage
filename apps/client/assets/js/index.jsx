@@ -1,22 +1,23 @@
 import { ApolloClient } from "apollo-client";
-import { ApolloProvider } from "react-apollo";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import { routerMiddleware } from "react-router-redux";
-import React from "react";
-import ReactDOM from "react-dom";
 import { createBrowserHistory as createHistory } from "history";
-import createSagaMiddleware from "redux-saga";
-import thunk from "redux-thunk";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
+import React from "react";
+import { ApolloProvider } from "react-apollo";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { routerMiddleware } from "react-router-redux";
+import { applyMiddleware, createStore } from "redux";
+import createSagaMiddleware from "redux-saga";
+import thunk from "redux-thunk";
+import { createClient, Provider as UrqlProvider } from "urql";
 
-import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
-import { Index } from "./components/Index";
-import { appStore } from "./store/store";
+import { HttpLink } from "apollo-link-http";
 import { createLogger } from "redux-logger";
+import { Index } from "./components/Index";
 import { rootSaga } from "./store/sagas/root";
+import { appStore } from "./store/store";
 import isValidEmail from "./utils/isValidEmail";
 import isValidPassword from "./utils/isValidPassword";
 
@@ -71,10 +72,19 @@ const store = createStore(appStore, middleware);
 
 sagaMiddleware.run(rootSaga);
 
+const urqlClient = createClient({
+  url: graphqlEndpoint,
+  fetchOptions: {
+    credentials: "include",
+  },
+});
+
 ReactDOM.render(
   <Provider store={store}>
     <ApolloProvider client={window.grapqlClient}>
-      <Index />
+      <UrqlProvider value={urqlClient}>
+        <Index />
+      </UrqlProvider>
     </ApolloProvider>
   </Provider>,
   container

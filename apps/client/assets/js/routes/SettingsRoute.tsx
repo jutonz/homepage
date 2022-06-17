@@ -1,11 +1,11 @@
 import React from "react";
-import { MainNav } from "./../components/MainNav";
 import { ChangePasswordForm } from "./../components/ChangePasswordForm";
+import { IntegrateWithTwitchForm } from "./../components/IntegrateWithTwitchForm";
+import { MainNav } from "./../components/MainNav";
 import { OneTimeLoginLink } from "./../components/OneTimeLoginLink";
-import { TeamMembershipForm } from "./../components/TeamMembershipForm";
 import { TeamCreationForm } from "./../components/TeamCreationForm";
 import { TeamJoinForm } from "./../components/TeamJoinForm";
-import { IntegrateWithTwitchForm } from "./../components/IntegrateWithTwitchForm";
+import { TeamMembershipForm } from "./../components/TeamMembershipForm";
 
 export const SettingsRoute = () => (
   <div>
