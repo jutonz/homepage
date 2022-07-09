@@ -43,4 +43,11 @@ defmodule Client.Storage.ItemQuery do
           ilike(i.location, ^"%#{search}%")
     )
   end
+
+  def select(query, fields) do
+    from(
+      i in query,
+      select: ^fields
+    )
+  end
 end

@@ -33,7 +33,8 @@ defmodule HomepageUmbrella.Mixfile do
     [
       "env.encrypt": "exenv.encrypt /apps/twitch/config/master.key /apps/twitch/config/.env",
       "env.decrypt": "exenv.decrypt /apps/twitch/config/master.key /apps/twitch/config/.env.enc",
-      dialyzer: ["dialyzer_pre", "dialyzer"]
+      dialyzer: ["dialyzer_pre", "dialyzer"],
+      "phx.routes": "phx.routes ClientWeb.Router"
     ]
   end
 end

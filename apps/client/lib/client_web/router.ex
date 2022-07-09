@@ -90,6 +90,7 @@ defmodule ClientWeb.Router do
 
     scope("/storage", Storage, as: :storage) do
       resources("/", ContextController) do
+        resources("/export", ExportController, only: ~w[create]a)
         resources("/items", ItemController)
       end
     end
