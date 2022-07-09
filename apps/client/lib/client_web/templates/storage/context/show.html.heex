@@ -25,6 +25,14 @@
     </tr>
   </table>
 
+  <%= link(
+    "Export to CSV",
+    to: Routes.storage_context_export_path(ClientWeb.Endpoint, :create, @context),
+    method: "POST",
+    class: "button",
+    target: "_blank"
+  ) %>
+
   <hr class="my-5">
 
   <%= live_render(

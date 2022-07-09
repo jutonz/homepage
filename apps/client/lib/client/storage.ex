@@ -3,6 +3,7 @@ defmodule Client.Storage do
     Repo,
     Storage.Context,
     Storage.ContextQuery,
+    Storage.Export,
     Storage.Item,
     Storage.ItemQuery
   }
@@ -137,5 +138,11 @@ defmodule Client.Storage do
     |> ItemQuery.search(search)
     |> ItemQuery.order_by_id_desc()
     |> Repo.all()
+  end
+
+  def export_to_csv(user_id, context_id) do
+    user_id
+    |> get_context(context_id)
+    |> Export.perform()
   end
 end
