@@ -1,9 +1,13 @@
 import React from "react";
 import gql from "graphql-tag";
-import { useQuery } from 'urql'
+import { useQuery } from "urql";
 import { App } from "./../components/App";
 
-const CHECK_SESSION_QUERY = gql`{ check_session }`
+const CHECK_SESSION_QUERY = gql`
+  {
+    check_session
+  }
+`;
 
 export function Index() {
   const [{ fetching, error }] = useQuery({ query: CHECK_SESSION_QUERY });

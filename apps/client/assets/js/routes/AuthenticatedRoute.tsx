@@ -2,9 +2,13 @@ import gql from "graphql-tag";
 import React from "react";
 import type { RouteProps } from "react-router-dom";
 import { Redirect, Route } from "react-router-dom";
-import { useQuery } from 'urql';
+import { useQuery } from "urql";
 
-const CHECK_SESSION_QUERY = gql`{ check_session }`
+const CHECK_SESSION_QUERY = gql`
+  {
+    check_session
+  }
+`;
 
 export function AuthenticatedRoute(props: RouteProps) {
   const [{ data, fetching, error }] = useQuery({ query: CHECK_SESSION_QUERY });
