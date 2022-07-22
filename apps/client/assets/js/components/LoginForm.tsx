@@ -2,9 +2,6 @@ import React from "react";
 import { StyleSheet, css } from "aphrodite";
 import { Button, Form, Input } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { compose } from "redux";
 
 const styles = StyleSheet.create({
   container: {
@@ -38,8 +35,21 @@ const styles = StyleSheet.create({
   },
 });
 
-class _LoginForm extends React.Component {
-  constructor(props) {
+interface Props {
+  onLogin: () => void;
+}
+
+interface State {
+  username: string;
+  password: string;
+  usernameIsInvalid: boolean;
+  passwordIsInvalid: boolean;
+  canSubmit: boolean;
+  loggingIn: boolean;
+}
+
+export class LoginForm extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       username: "",
@@ -51,30 +61,33 @@ class _LoginForm extends React.Component {
     };
   }
 
-  usernameChanged = (_event, data) => {
+  usernameChanged = (_event: any, data: any) => {
     let username = data.value;
-    let newState = {
+    let newState: any = {
       username: username,
       canSubmit: this.validateInputs(username, this.state.password),
     };
 
-    if (this.state.usernameIsInvalid && window.Utils.isValidEmail(username)) {
+    if (
+      this.state.usernameIsInvalid &&
+      (window as any).Utils.isValidEmail(username)
+    ) {
       newState.usernameIsInvalid = false;
     }
 
     this.setState(newState);
   };
 
-  passwordChanged = (_event, data) => {
+  passwordChanged = (_event: any, data: any) => {
     let password = data.value;
-    let newState = {
+    let newState: any = {
       password: password,
       canSubmit: this.validateInputs(this.state.username, password),
     };
 
     if (
       this.state.passwordIsInvalid &&
-      window.Utils.isValidPassword(password)
+      (window as any).Utils.isValidPassword(password)
     ) {
       newState.passwordIsInvalid = false;
     }
@@ -82,24 +95,24 @@ class _LoginForm extends React.Component {
     this.setState(newState);
   };
 
-  validateInputs = (username, password) => {
+  validateInputs = (username: string, password: string) => {
     return (
-      window.Utils.isValidEmail(username) &&
-      window.Utils.isValidPassword(password)
+      (window as any).Utils.isValidEmail(username) &&
+      (window as any).Utils.isValidPassword(password)
     );
   };
 
-  submit = (event) => {
+  submit = (event: any) => {
     event.preventDefault();
 
     let isValid = true;
 
-    if (!window.Utils.isValidEmail(this.state.username)) {
+    if (!(window as any).Utils.isValidEmail(this.state.username)) {
       this.setState({ usernameIsInvalid: true });
       isValid = false;
     }
 
-    if (!window.Utils.isValidPassword(this.state.password)) {
+    if (!(window as any).Utils.isValidPassword(this.state.password)) {
       this.setState({ passwordIsInvalid: true });
       isValid = false;
     }
@@ -177,12 +190,3 @@ class _LoginForm extends React.Component {
     );
   }
 }
-
-const mapStateToProps = (state) => ({
-  csrfToken: state.csrfToken,
-});
-
-export const LoginForm = compose(
-  withRouter,
-  connect(mapStateToProps)
-)(_LoginForm);
