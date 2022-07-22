@@ -35,7 +35,9 @@ export function LoginRoute() {
   const onLogin = () => {
     // TODO: Look for a `to` query param or something to redirect
     // Also maybe look into using location.state somehow?
-    history.push("/");
+    // TODO: Update urql cache?
+    // @ts-ignore
+    window.location = "/";
   };
 
   return (
