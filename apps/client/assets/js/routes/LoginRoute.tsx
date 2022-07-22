@@ -45,6 +45,7 @@ export function LoginRoute() {
         <code>&lt;canvas&gt;</code> element.
       </canvas>
 
+      {/* @ts-ignore */}
       <LoginForm onLogin={onLogin} />
     </div>
   );
