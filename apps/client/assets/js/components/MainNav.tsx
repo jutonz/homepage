@@ -17,7 +17,10 @@ interface Props {
 const CHECK_SESSION_QUERY = gql`{ check_session }`
 
 export function MainNav({ activeItem }: Props) {
-  const [{ data, fetching, error }] = useQuery({ query: CHECK_SESSION_QUERY });
+  const [{ data, fetching, error }] = useQuery({
+    query: CHECK_SESSION_QUERY,
+    requestPolicy: "network-only"
+  });
 
   if (fetching) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;

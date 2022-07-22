@@ -119,6 +119,7 @@ class _LoginForm extends React.Component {
         this.setState({ loggingIn: false });
         if (resp.ok && resp.status === 200) {
           this.props.onLogin();
+          return;
         } else {
           return resp.json();
         }
