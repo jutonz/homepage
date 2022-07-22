@@ -46,7 +46,7 @@
     "@types/redux-saga": "^0.10.5",
     "autoprefixer": "^10.4.7",
     "cssnano": "^5.1.12",
-    "date-fns": "^2.28.0",
+    "date-fns": "^2.29.1",
     "esbuild": "^0.14.49",
     "esbuild-plugin-less": "^1.1.7",
     "less": "4.1.3",
