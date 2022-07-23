@@ -16,7 +16,7 @@ config :client,
 # sources.
 config :client, ClientWeb.Endpoint,
   http: [port: 4000],
-  url: [host: "localhost", port: 4001, scheme: "http"],
+  url: [host: "localhost", port: 4000, scheme: "http"],
   debug_errors: true,
   code_reloader: true,
   check_origin: false

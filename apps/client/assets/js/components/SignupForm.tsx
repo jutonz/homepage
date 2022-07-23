@@ -1,15 +1,14 @@
-import * as React from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { css, StyleSheet } from "aphrodite";
+import React, { useCallback } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Button, Header, Input, Message } from "semantic-ui-react";
-import { StyleSheet, css } from "aphrodite";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
+import { gql, useMutation } from "urql";
+import * as yup from "yup";
 
 import { FormBox } from "./../components/FormBox";
-import IsValidEmail from "./../utils/isValidEmail";
-import IsValidPassword from "./../utils/isValidPassword";
-import collectGraphqlErrors from "./../utils/collectGraphqlErrors";
 
-const SIGNUP = gql`
+const SIGNUP_MUTATION = gql`
   mutation Signup($email: String!, $password: String!) {
     signup(email: $email, password: $password)
   }
@@ -36,88 +35,116 @@ const styles = StyleSheet.create({
   },
 });
 
-interface State {
-  email: String;
-  password: String;
-  emailIsValid: boolean;
-  passwordIsValid: boolean;
-  formIsValid: boolean;
-}
-interface Props {}
+type SignupDataType = {
+  signup: string;
+};
 
-export class SignupForm extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
+interface FormInputs {
+  email: string;
+  password: string;
+  backendError: null;
+}
+
+const schema = yup
+  .object({
+    email: yup.string().email().required(),
+    password: yup.string().required().min(8),
+  })
+  .required();
+
+export function SignupForm() {
+  const {
+    clearErrors,
+    control,
+    formState: { errors },
+    handleSubmit,
+    setError,
+  } = useForm<FormInputs>({
+    defaultValues: {
       email: "",
       password: "",
-      emailIsValid: false,
-      passwordIsValid: false,
-      formIsValid: false,
-    };
-  }
+      backendError: null,
+    },
+    mode: "onBlur",
+    resolver: yupResolver(schema),
+  });
 
-  render() {
-    const { email, password, formIsValid } = this.state;
+  const [_result, signup] = useMutation<SignupDataType>(SIGNUP_MUTATION);
 
-    return (
-      <div className={css(styles.container)}>
-        <Mutation mutation={SIGNUP}>
-          {(signup, result) => (
-            <FormBox>
-              <Header className={css(styles.header)}>Signup</Header>
-              {result.error && (
-                <Message error>{collectGraphqlErrors(result.error)}</Message>
-              )}
-              <Input
-                fluid
-                label="email"
-                value={email}
-                onChange={(_ev, { value }) => this.setEmail(value)}
-              />
-              <Input
-                fluid
-                label="password"
-                input={{ type: "password" }}
-                value={password}
-                onChange={(_ev, { value }) => this.setPassword(value)}
-                className={css(styles.inputLast)}
-              />
-              <Button
-                primary
-                fluid
-                disabled={!formIsValid}
-                loading={result.loading}
-                className={css(styles.submit)}
-                onClick={() => {
-                  signup({
-                    variables: { email, password },
-                  }).then((response: any) => {
-                    const redirectLink = response.data.signup;
-                    window.location.href = redirectLink;
-                  });
-                }}
-              >
-                Signup
-              </Button>
-            </FormBox>
+  const onSubmit: SubmitHandler<FormInputs> = useCallback(
+    async (form: FormInputs) => {
+      clearErrors("backendError");
+      const { email, password } = form;
+      const { data, error } = await signup({ email, password });
+
+      try {
+        if (error) {
+          console.error(error);
+          setError("backendError", { type: "custom", message: error.message });
+        } else {
+          const redirectUrl = data.signup;
+          (window as any).location = redirectUrl;
+        }
+      } catch (e) {
+        console.error(e);
+        setError("backendError", {
+          type: "custom",
+          message: "Something went wrong, please try again",
+        });
+      }
+    },
+    [clearErrors, setError, signup]
+  );
+
+  return (
+    <form className={css(styles.container)} onSubmit={handleSubmit(onSubmit)}>
+      <FormBox>
+        <Header className={css(styles.header)}>Signup</Header>
+        {errors.backendError?.message && (
+          <Message error>{errors.backendError.message}</Message>
+        )}
+        <Controller
+          control={control}
+          name="email"
+          render={({ field }) => (
+            <Input
+              {...field}
+              fluid
+              label="Email"
+              error={!!errors.email?.message}
+            />
           )}
-        </Mutation>
-      </div>
-    );
-  }
-
-  setEmail(email: String) {
-    const emailIsValid = IsValidEmail(email);
-    const { passwordIsValid } = this.state;
-    const formIsValid = emailIsValid && passwordIsValid;
-    this.setState({ email, emailIsValid, formIsValid });
-  }
-
-  setPassword(password: String) {
-    const passwordIsValid = IsValidPassword(password);
-    const { emailIsValid } = this.state;
-    const formIsValid = emailIsValid && passwordIsValid;
-    this.setState({ password, passwordIsValid, formIsValid });
-  }
+        />
+        {errors.email?.message && (
+          <Message error>{errors.email.message}</Message>
+        )}
+        <Controller
+          control={control}
+          name="password"
+          render={({ field }) => (
+            <Input
+              {...field}
+              input={{ type: "password" }}
+              label="Password"
+              fluid
+              error={!!errors.password?.message}
+              className={css(styles.inputLast)}
+            />
+          )}
+        />
+        {errors.password?.message && (
+          <Message error>{errors.password.message}</Message>
+        )}
+        <Button
+          primary
+          fluid
+          disabled={false}
+          loading={false}
+          className={css(styles.submit)}
+        >
+          Signup
+        </Button>
+      </FormBox>
+    </form>
+  );
 }
