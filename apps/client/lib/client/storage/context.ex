@@ -2,6 +2,8 @@ defmodule Client.Storage.Context do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @type t :: %__MODULE__{}
+
   schema "storage_contexts" do
     belongs_to(:creator, Client.User)
     has_many(:items, Client.Storage.Item)
@@ -15,13 +17,14 @@ defmodule Client.Storage.Context do
     )
 
     field(:name, :string)
+    field(:default_location, :string)
     timestamps(type: :utc_datetime)
 
     field(:team_names, {:array, :string}, virtual: true)
   end
 
   @required_params ~w[creator_id name]a
-  @optional_params ~w[]a
+  @optional_params ~w[default_location]a
   @params @required_params ++ @optional_params
 
   def changeset(context, params) do

@@ -2,6 +2,8 @@ defmodule Client.Storage.Item do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @type t :: %__MODULE__{}
+
   schema "storage_items" do
     belongs_to(:context, Client.Storage.Context)
     field(:name, :string)

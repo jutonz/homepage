@@ -12,7 +12,7 @@ defmodule ClientWeb.Storage.ItemController do
       |> Session.current_user_id()
       |> Storage.get_context(context_id)
 
-    changeset = Storage.new_item_changeset(%{context_id: context.id})
+    changeset = Storage.new_item_changeset(context)
     render(conn, "new.html", changeset: changeset)
   end
 
@@ -22,10 +22,6 @@ defmodule ClientWeb.Storage.ItemController do
       |> Session.current_user_id()
       |> Storage.get_context(params["context_id"])
 
-    item_params =
-      item_params
-      |> Map.put("context_id", context.id)
-
     {_, item_params} =
       Map.get_and_update(item_params, "unpacked_at", fn value ->
         case value do
@@ -34,7 +30,7 @@ defmodule ClientWeb.Storage.ItemController do
         end
       end)
 
-    case Storage.create_item(item_params) do
+    case Storage.create_item(context, item_params) do
       {:ok, _item} ->
         redirect(conn, to: Routes.storage_context_path(conn, :show, context))
 
