@@ -19,5 +19,9 @@ defmodule Client.Storage.Item do
     item
     |> cast(params, @params)
     |> validate_required(@required_params)
+    |> unique_constraint(:name,
+      name: :storage_items_context_id_name_index,
+      message: "This name already exists. Please choose another one."
+    )
   end
 end

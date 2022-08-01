@@ -225,4 +225,32 @@ defmodule Client.StorageTest do
       assert Storage.search_items(user.id, context.id, "name") == []
     end
   end
+
+  describe "create_item/1" do
+    test "creates an item" do
+      creator = insert(:user)
+      context = insert(:storage_context, creator_id: creator.id)
+      attrs = params_for(:storage_item, context_id: context.id)
+
+      {:ok, item} = Storage.create_item(attrs)
+
+      assert item.location == attrs[:location]
+      assert item.name == attrs[:name]
+    end
+
+    test "handles name conflicts" do
+      creator = insert(:user)
+      context = insert(:storage_context, creator_id: creator.id)
+      existing = insert(:storage_item, context_id: context.id)
+      duplicate_attrs = params_for(:storage_item, context_id: context.id, name: existing.name)
+
+      {:error, changeset} = Storage.create_item(duplicate_attrs)
+
+      name_errors = errors_on(changeset)[:name]
+
+      assert name_errors == [
+               "This name already exists. Please choose another one."
+             ]
+    end
+  end
 end
