@@ -15,7 +15,7 @@ body * {
   visibility: initial;
 }
 
-input {
+input, textarea {
   @apply text-black p-1 pl-2 pr-2;
 }
 
@@ -31,6 +31,11 @@ button, .button {
   &--small {
     @apply py-1 px-2;
     @apply text-sm;
+  }
+
+  &--secondary {
+    @apply bg-zinc-500;
+    &:hover { @apply bg-zinc-700; }
   }
 }
 
