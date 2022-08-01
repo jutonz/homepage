@@ -226,13 +226,13 @@ defmodule Client.StorageTest do
     end
   end
 
-  describe "create_item/1" do
+  describe "create_item/2" do
     test "creates an item" do
       creator = insert(:user)
       context = insert(:storage_context, creator_id: creator.id)
       attrs = params_for(:storage_item, context_id: context.id)
 
-      {:ok, item} = Storage.create_item(attrs)
+      {:ok, item} = Storage.create_item(context, attrs)
 
       assert item.location == attrs[:location]
       assert item.name == attrs[:name]
@@ -244,7 +244,7 @@ defmodule Client.StorageTest do
       existing = insert(:storage_item, context_id: context.id)
       duplicate_attrs = params_for(:storage_item, context_id: context.id, name: existing.name)
 
-      {:error, changeset} = Storage.create_item(duplicate_attrs)
+      {:error, changeset} = Storage.create_item(context, duplicate_attrs)
 
       name_errors = errors_on(changeset)[:name]
 

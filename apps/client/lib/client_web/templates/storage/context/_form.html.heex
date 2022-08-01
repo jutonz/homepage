@@ -3,7 +3,7 @@
   @submit_path,
 fn form -> %>
   <div class="flex flex-1 flex-col mb-6">
-    <div>
+    <div class="flex flex-col">
       <%= label(form, :name, "Name") %>
       <%= text_input(
         form,
@@ -17,7 +17,7 @@ fn form -> %>
       </div>
     </div>
 
-    <div>
+    <div class="flex flex-col mt-3">
       <%= label(form, :team_names, "Team names (separate multiple with commas)") %>
       <%= text_input(
         form,
@@ -30,7 +30,20 @@ fn form -> %>
         <%= error_tag(form, :team_names) %>
       </div>
     </div>
+
+    <div class="flex flex-col mt-3">
+      <%= label(form, :default_location, "Default location") %>
+      <%= text_input(
+        form,
+        :default_location,
+        class: "mt-2",
+        data: [role: "default-location"]
+      ) %>
+      <div class="text-red-600 mt-1">
+        <%= error_tag(form, :default_location) %>
+      </div>
+    </div>
   </div>
 
-  <%= submit(@action, data: [role: "soap-batch-submit"]) %>
+  <%= submit(@action, class: "button", data: [role: "storage-context-form-submit"]) %>
 <% end) %>

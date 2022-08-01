@@ -43,8 +43,14 @@ defmodule Client.Storage do
     Item.changeset(item, attrs)
   end
 
-  def new_item_changeset(attrs \\ %{}) do
-    item_changeset(%Item{}, attrs)
+  @spec new_item_changeset(Context.t(), map()) :: Ecto.Changeset.t()
+  def new_item_changeset(context, attrs \\ %{}) do
+    default_attrs = %{
+      context_id: context.id,
+      location: context.default_location
+    }
+
+    item_changeset(%Item{}, Map.merge(default_attrs, attrs))
   end
 
   ##############################################################################
@@ -58,9 +64,10 @@ defmodule Client.Storage do
     |> Repo.insert()
   end
 
-  def create_item(attrs) do
-    attrs
-    |> new_item_changeset()
+  @spec create_item(Context.t(), map()) :: {:ok, Item.t()} | {:error, Ecto.Changeset.t()}
+  def create_item(context, attrs) do
+    context
+    |> new_item_changeset(attrs)
     |> Repo.insert()
   end
 
