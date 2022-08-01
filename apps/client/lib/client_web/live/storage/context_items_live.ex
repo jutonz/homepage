@@ -66,18 +66,14 @@ defmodule ClientWeb.Storage.ContextItemsLive do
     <div>
       <%= for item <- @items do %>
         <div class="py-3 border-b hover:bg-gray-800 cursor-pointer" data-item-id={item.id} phx-click="redirect_to_item" phx-value-item-id={item.id}>
-          <div>
-            <%= item.name %>
+          <div class="mb-2">
+            <span class="font-bold">
+              <%= item.name %>
+            </span>
             <%= if item.description do %>
-             → <%= item.description %>
+              <span class="font-thin">→</span> <%= item.description %>
             <% end %>
           </div>
-          <%= if false && item.description do %>
-            <div class="flex">
-              <div class="pl-2">→</div>
-              <div class="pl-1"><%= item.description %></div>
-            </div>
-          <% end %>
           <div class="flex justify-between">
             <div class="flex">
               <div class="">ID</div>
