@@ -890,13 +890,13 @@ esbuild-openbsd-64@0.14.53:
   resolved "https://registry.yarnpkg.com/esbuild-openbsd-64/-/esbuild-openbsd-64-0.14.53.tgz#9bcbbe6f86304872c6e91f64c8eb73fc29c3588b"
   integrity sha512-eKQ30ZWe+WTZmteDYg8S+YjHV5s4iTxeSGhJKJajFfQx9TLZJvsJX0/paqwP51GicOUruFpSUAs2NCc0a4ivQQ==
 
-esbuild-plugin-less@^1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/esbuild-plugin-less/-/esbuild-plugin-less-1.1.7.tgz#92a1773f93c18282b3ffc563f505bef5d605e500"
-  integrity sha512-PK4X5e0v/u5egWpQ+YCBgIq3BVgm7Ukg9b6Kx8VKJUUtBBkjfnATaUJOPV+yegAKwkYYE9IYcfr//I86A8jigg==
+esbuild-plugin-less@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/esbuild-plugin-less/-/esbuild-plugin-less-1.1.8.tgz#d503ad3ed6a4ba6542799f3287cf40d55aab5e06"
+  integrity sha512-CJ25vnEFvYplrHWG2G3tG+SOye9Z2iacKIcpZPW5n/1LAyQh0gkIRi03Q170GD6tQaaszNojezZNoYZ3RRQbZw==
   dependencies:
     "@types/less" "^3.0.3"
-    less "^4.1.1"
+    less "^4.1.3"
 
 esbuild-sunos-64@0.14.53:
   version "0.14.53"
@@ -1230,7 +1230,7 @@ keyboard-key@^1.1.0:
   resolved "https://registry.yarnpkg.com/keyboard-key/-/keyboard-key-1.1.0.tgz#6f2e8e37fa11475bb1f1d65d5174f1b35653f5b7"
   integrity sha512-qkBzPTi3rlAKvX7k0/ub44sqOfXeLc/jcnGGmj5c7BJpU8eDrEVPyhCvNYAaoubbsLm9uGWwQJO1ytQK1a9/dQ==
 
-less@4.1.3, less@^4.1.1:
+less@4.1.3, less@^4.1.3:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/less/-/less-4.1.3.tgz#175be9ddcbf9b250173e0a00b4d6920a5b770246"
   integrity sha512-w16Xk/Ta9Hhyei0Gpz9m7VS8F28nieJaL/VyShID7cYvP6IL5oHeL6p4TXSDJqZE/lNv0oJ2pGVjJsRkfwm5FA==
