@@ -1,5 +1,6 @@
 defmodule ClientWeb.IjustResolver do
   alias Client.{IjustContext, IjustEvent, IjustOccurrence}
+  import Ecto.Query, only: [from: 2]
 
   def get_ijust_default_context(_parent, _args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
@@ -63,6 +64,10 @@ defmodule ClientWeb.IjustResolver do
          {:ok, context_id} <- args |> Map.fetch(:context_id),
          {:ok, event_id} <- args |> Map.fetch(:event_id),
          {:ok, event} <- context_id |> IjustEvent.get_for_context(event_id),
+         event <-
+           Client.Repo.preload(event,
+             ijust_occurrences: from(o in IjustOccurrence, order_by: [desc: o.inserted_at])
+           ),
          do: {:ok, event},
          else:
            (
@@ -88,6 +93,7 @@ defmodule ClientWeb.IjustResolver do
     with {:ok, _user} <- context |> Map.fetch(:current_user),
          {:ok, event_id} <- args |> Map.fetch(:ijust_event_id),
          {:ok, occurrence} <- event_id |> IjustEvent.add_occurrence_by_id(),
+         occurrence <- Client.Repo.preload(occurrence, :ijust_event),
          do: {:ok, occurrence},
          else:
            (

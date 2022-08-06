@@ -27,7 +27,6 @@ defmodule Client.IjustOccurrence do
         occ in IjustOccurrence,
         where: occ.ijust_event_id == ^event_id,
         order_by: [desc: occ.inserted_at],
-        limit: 10,
         offset: ^offset
       )
 

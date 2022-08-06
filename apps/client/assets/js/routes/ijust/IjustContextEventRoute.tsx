@@ -74,6 +74,6 @@ const renderEvent = (event, context) => (
       </Table.Body>
     </Table>
 
-    <IjustEventOccurrences eventId={event.id} />
+    <IjustEventOccurrences contextId={context.id} eventId={event.id} />
   </div>
 );
