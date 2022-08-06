@@ -1,9 +1,6 @@
-import * as React from "react";
+import React from "react";
 import { Button } from "semantic-ui-react";
-import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
-
-import collectGraphqlErrors from "./../../utils/collectGraphqlErrors";
+import { gql, useMutation } from "urql";
 
 const ADD_OCCURRENCE = gql`
   mutation IjustAddOccurrenceToEvent($ijustEventId: ID!) {
@@ -11,53 +8,31 @@ const ADD_OCCURRENCE = gql`
       id
       insertedAt
       isDeleted
+      ijustEvent {
+        id
+        ijustContextId
+      }
     }
   }
 `;
 
 interface Props {
   eventId: string;
-  updateQuery: any;
 }
-export const IjustAddOccurrenceToEventButton = ({
-  eventId,
-  updateQuery,
-}: Props) => (
-  <div>
-    <Mutation
-      mutation={ADD_OCCURRENCE}
-      update={(cache, { data }) => {
-        const newOccurrence = data.ijustAddOccurrenceToEvent;
-        const { getIjustEventOccurrences } = cache.readQuery({
-          query: updateQuery,
-          variables: { eventId, offset: 0 },
-        });
 
-        const newOccurrences = [newOccurrence, ...getIjustEventOccurrences];
-        cache.writeQuery({
-          query: updateQuery,
-          variables: { eventId, offset: 0 },
-          data: { getIjustEventOccurrences: newOccurrences },
-        });
-      }}
-    >
-      {(addOccurrence, result) => {
-        return (
-          <div>
-            {result.error && collectGraphqlErrors(result.error)}
-            <Button
-              loading={result.loading}
-              onClick={() =>
-                addOccurrence({
-                  variables: { ijustEventId: eventId },
-                })
-              }
-            >
-              Add Occurrence
-            </Button>
-          </div>
-        );
-      }}
-    </Mutation>
-  </div>
-);
+export function IjustAddOccurrenceToEventButton({ eventId }: Props) {
+  const [result, addOccurrence] = useMutation(ADD_OCCURRENCE);
+  const { fetching, error } = result;
+
+  return (
+    <div>
+      {error && <div>{error.message}</div>}
+      <Button
+        loading={fetching}
+        onClick={() => addOccurrence({ ijustEventId: eventId })}
+      >
+        Add Occurrence
+      </Button>
+    </div>
+  );
+}

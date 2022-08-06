@@ -7,73 +7,48 @@ import { IjustAddOccurrenceToEventButton } from "./IjustAddOccurrenceToEventButt
 import { IjustOccurrence } from "./IjustOccurrence";
 
 export const GET_OCCURRENCES = gql`
-  query GetIjustEventOccurrences($eventId: ID!, $offset: Int!) {
-    getIjustEventOccurrences(eventId: $eventId, offset: $offset) {
+  query GetIjustContextEvent($contextId: ID!, $eventId: ID!) {
+    getIjustContextEvent(contextId: $contextId, eventId: $eventId) {
       id
-      insertedAt
-      isDeleted
+      ijustContextId
+      ijustOccurrences {
+        id
+        insertedAt
+        updatedAt
+        isDeleted
+      }
     }
   }
 `;
 
 interface Props {
+  contextId: string;
   eventId: string;
 }
-interface State {
-  offset: number;
-}
 
-export class IjustEventOccurrences extends React.Component<Props, State> {
+export class IjustEventOccurrences extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.state = { offset: 0 };
   }
 
   render() {
-    const { offset } = this.state;
-    const { eventId } = this.props;
+    const { contextId, eventId } = this.props;
     return (
       <div>
         <Header>Occurrences</Header>
         <QueryLoader
           query={GET_OCCURRENCES}
-          variables={{ eventId, offset }}
-          component={({ data, fetchMore }) => {
-            const occurrences = data.getIjustEventOccurrences;
+          variables={{ contextId, eventId }}
+          component={({ data }) => {
+            const occurrences = data.getIjustContextEvent.ijustOccurrences;
             return (
               <div>
-                <IjustAddOccurrenceToEventButton
-                  eventId={eventId}
-                  updateQuery={GET_OCCURRENCES}
-                />
+                <IjustAddOccurrenceToEventButton eventId={eventId} />
                 <Table basic="very">
                   <Table.Body>
-                    {occurrences &&
-                      occurrences
-                        .filter((o) => !o.isDeleted)
-                        .map(this.renderOccurrence)}
+                    {occurrences && occurrences.map(this.renderOccurrence)}
                   </Table.Body>
                 </Table>
-                <Button
-                  onClick={() => {
-                    fetchMore({
-                      variables: { offset: occurrences.length },
-                      updateQuery: (prev, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) {
-                          return prev;
-                        }
-                        return Object.assign({}, prev, {
-                          getIjustEventOccurrences: [
-                            ...prev.getIjustEventOccurrences,
-                            ...fetchMoreResult.getIjustEventOccurrences,
-                          ],
-                        });
-                      },
-                    });
-                  }}
-                >
-                  Load more
-                </Button>
               </div>
             );
           }}

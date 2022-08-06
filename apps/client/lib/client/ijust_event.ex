@@ -11,6 +11,7 @@ defmodule Client.IjustEvent do
     field(:name, :string)
     field(:count, :integer, default: 1)
     field(:ijust_context_id, :id)
+    has_many(:ijust_occurrences, IjustOccurrence)
     timestamps()
   end
 

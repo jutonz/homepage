@@ -31,10 +31,12 @@ defmodule ClientWeb.Schema do
     field(:ijust_context_id, non_null(:id))
     field(:inserted_at, non_null(:string))
     field(:updated_at, non_null(:string))
+    field(:ijust_occurrences, list_of(:ijust_occurrence))
   end
 
   object :ijust_occurrence do
     field(:id, non_null(:id))
+    field(:ijust_event, :ijust_event)
     field(:ijust_event_id, non_null(:id))
     field(:inserted_at, non_null(:string))
     field(:updated_at, non_null(:string))
