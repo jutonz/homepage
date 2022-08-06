@@ -1,6 +1,6 @@
 import { StyleSheet, css } from "aphrodite";
 import * as React from "react";
-import gql from "graphql-tag";
+import { gql } from "urql";
 
 import { IjustContext } from "../components/ijust/IjustContext";
 import { MainNav } from "../components/MainNav";

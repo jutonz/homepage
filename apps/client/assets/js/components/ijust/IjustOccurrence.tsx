@@ -4,7 +4,7 @@ import { Button, Table } from "semantic-ui-react";
 import { css, StyleSheet } from "aphrodite";
 import { format, formatDistanceToNow, parseISO } from "date-fns";
 import { useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
+import { gql } from "urql";
 
 import { Constants } from "./../../utils/Constants";
 import { Confirm } from "./../Confirm";

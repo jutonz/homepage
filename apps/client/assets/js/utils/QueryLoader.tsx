@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "urql";
 import { Loader } from "semantic-ui-react";
 import { css, StyleSheet } from "aphrodite";
 
@@ -27,7 +27,8 @@ export const QueryLoader = ({
   variables,
   component: Component,
 }: Props) => {
-  const { loading, data, error } = useQuery(query, { variables });
+  const [result, _executeQuery] = useQuery({ query, variables });
+  const { fetching: loading, data, error } = result;
 
   if (loading) {
     return (
@@ -38,8 +39,7 @@ export const QueryLoader = ({
   }
 
   if (error) {
-    const errors = collectGraphqlErrors(error);
-    return <div className={css(styles.error)}>{errors}</div>;
+    return <div className={css(styles.error)}>{error.message}</div>;
   }
 
   return <Component {...{ loading, data, error }} />;

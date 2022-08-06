@@ -8,6 +8,7 @@ import { IjustRecentEvents } from "./IjustRecentEvents";
 export const IjustContext = ({ context }) => (
   <div className="m-5">
     <IjustBreadcrumbs context={context} viewing={context} />
+    <div className="mb-5" />
     <IjustEventInput ijustContextId={context.id} />
     <Divider hidden />
     <IjustRecentEvents context={context} />
