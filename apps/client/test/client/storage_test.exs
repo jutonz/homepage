@@ -230,19 +230,21 @@ defmodule Client.StorageTest do
     test "creates an item" do
       creator = insert(:user)
       context = insert(:storage_context, creator_id: creator.id)
-      attrs = params_for(:storage_item, context_id: context.id)
+      attrs = string_params_for(:storage_item, context_id: context.id)
 
       {:ok, item} = Storage.create_item(context, attrs)
 
-      assert item.location == attrs[:location]
-      assert item.name == attrs[:name]
+      assert item.location == attrs["location"]
+      assert item.name == attrs["name"]
     end
 
     test "handles name conflicts" do
       creator = insert(:user)
       context = insert(:storage_context, creator_id: creator.id)
       existing = insert(:storage_item, context_id: context.id)
-      duplicate_attrs = params_for(:storage_item, context_id: context.id, name: existing.name)
+
+      duplicate_attrs =
+        string_params_for(:storage_item, context_id: context.id, name: existing.name)
 
       {:error, changeset} = Storage.create_item(context, duplicate_attrs)
 
