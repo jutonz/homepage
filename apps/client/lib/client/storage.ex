@@ -46,8 +46,8 @@ defmodule Client.Storage do
   @spec new_item_changeset(Context.t(), map()) :: Ecto.Changeset.t()
   def new_item_changeset(context, attrs \\ %{}) do
     default_attrs = %{
-      context_id: context.id,
-      location: context.default_location
+      "context_id" => context.id,
+      "location" => context.default_location
     }
 
     item_changeset(%Item{}, Map.merge(default_attrs, attrs))
