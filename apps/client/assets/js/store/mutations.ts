@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-import { GraphqlClient } from "./../index";
+import { urqlClient } from "./../index";
 import collectGraphqlErrors from "./../utils/collectGraphqlErrors";
 
 export const deleteTeamMutation = (variables) => {
@@ -12,7 +12,7 @@ export const deleteTeamMutation = (variables) => {
     }
   `;
 
-  return GraphqlClient.mutate({ mutation, variables });
+  return urqlClient.mutation(mutation, variables);
 };
 
 export const renameTeamMutation = (variables) => {
@@ -24,9 +24,12 @@ export const renameTeamMutation = (variables) => {
     }
   `;
 
-  return GraphqlClient.mutate({ mutation, variables }).then((response) => {
-    return response.data.renameTeam;
-  });
+  return urqlClient
+    .mutation(mutation, variables)
+    .toPromise()
+    .then((response) => {
+      return response.data.renameTeam;
+    });
 };
 
 export const joinTeamMutation = (variables) => {
@@ -39,9 +42,12 @@ export const joinTeamMutation = (variables) => {
     }
   `;
 
-  return GraphqlClient.mutate({ mutation, variables }).then((response) => {
-    return response.data.joinTeam;
-  });
+  return urqlClient
+    .mutation(mutation, variables)
+    .toPromise()
+    .then((response) => {
+      return response.data.joinTeam;
+    });
 };
 
 export const leaveTeamMutation = (variables) => {
@@ -54,7 +60,9 @@ export const leaveTeamMutation = (variables) => {
   `;
 
   return new Promise((resolve, reject) => {
-    GraphqlClient.mutate({ mutation, variables })
+    urqlClient
+      .mutation(mutation, variables)
+      .toPromise()
       .then((response) => {
         resolve(response.data.joinTeam);
       })
@@ -83,7 +91,9 @@ export const createIjustEventMuation = (variables: {
   `;
 
   return new Promise((resolve, reject) => {
-    GraphqlClient.mutate({ mutation, variables })
+    urqlClient
+      .mutation(mutation, variables)
+      .toPromise()
       .then((response) => resolve(response.data.createIjustEvent))
       .catch((error) => {
         console.error(error);

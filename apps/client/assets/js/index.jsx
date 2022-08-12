@@ -1,9 +1,7 @@
-import { ApolloClient } from "apollo-client";
 import { createBrowserHistory as createHistory } from "history";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import React from "react";
-import { ApolloProvider } from "react-apollo";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { routerMiddleware } from "react-router-redux";
@@ -17,8 +15,6 @@ import {
   dedupExchange,
   fetchExchange,
 } from "urql";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { HttpLink } from "apollo-link-http";
 import { createLogger } from "redux-logger";
 import { cacheExchange } from "@urql/exchange-graphcache";
 
@@ -56,16 +52,6 @@ if (window.location.port === "4000") {
 } else {
   graphqlEndpoint = `${window.location.origin}/graphql`;
 }
-const graphqlClient = new ApolloClient({
-  link: new HttpLink({
-    uri: graphqlEndpoint,
-    credentials: "include", // TODO use same-origin in dev
-    //credentials: "same-origin"
-  }),
-  cache: new InMemoryCache(),
-});
-window.grapqlClient = graphqlClient;
-export const GraphqlClient = graphqlClient;
 
 const reduxLogger = createLogger({}); // use default opts
 const sagaMiddleware = createSagaMiddleware();
@@ -79,7 +65,7 @@ const store = createStore(appStore, middleware);
 
 sagaMiddleware.run(rootSaga);
 
-const urqlClient = createClient({
+export const urqlClient = createClient({
   url: graphqlEndpoint,
   fetchOptions: {
     credentials: "include",
@@ -148,6 +134,52 @@ const urqlClient = createClient({
               return data;
             });
           },
+          twitchChannelSubscribe(result, _args, cache, _info) {
+            const query = gql`
+              query {
+                getTwitchChannels {
+                  id
+                }
+              }
+            `;
+
+            cache.updateQuery({ query }, (data) => {
+              data.getTwitchChannels.push(result.twitchChannelSubscribe);
+              return data;
+            });
+          },
+          twitchChannelUnsubscribe(_result, args, cache, _info) {
+            const query = gql`
+              query {
+                getTwitchChannels {
+                  name
+                }
+              }
+            `;
+
+            cache.updateQuery({ query }, (data) => {
+              data.getTwitchChannels = data.getTwitchChannels.filter(
+                (channel) => {
+                  return channel.name !== args.name;
+                }
+              );
+              return data;
+            });
+          },
+          twitchRemoveIntegration(_result, _args, cache, _info) {
+            const query = gql`
+              query {
+                getTwitchUser {
+                  id
+                }
+              }
+            `;
+
+            cache.updateQuery({ query }, (data) => {
+              data.getTwitchUser = null;
+              return data;
+            });
+          },
         },
       },
     }),
@@ -157,11 +189,9 @@ const urqlClient = createClient({
 
 ReactDOM.render(
   <Provider store={store}>
-    <ApolloProvider client={window.grapqlClient}>
-      <UrqlProvider value={urqlClient}>
-        <Index />
-      </UrqlProvider>
-    </ApolloProvider>
+    <UrqlProvider value={urqlClient}>
+      <Index />
+    </UrqlProvider>
   </Provider>,
   container
 );

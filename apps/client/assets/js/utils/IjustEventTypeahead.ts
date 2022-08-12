@@ -1,8 +1,8 @@
 import { Subject } from "rxjs";
 import { filter, debounceTime, switchMap } from "rxjs/operators";
-import gql from "graphql-tag";
+import { gql } from "urql";
 
-import { GraphqlClient } from "./../index";
+import { urqlClient } from "./../index";
 
 const SEARCH_EVENTS = gql`
   query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {
@@ -56,15 +56,19 @@ export class IjustEventTypeahead {
   };
 
   private queryRemote = (eventName: string) => {
-    return new Promise((resolve, _reject) => {
+    return new Promise((resolve, reject) => {
       const { ijustContextId } = this;
-      GraphqlClient.query({
-        query: SEARCH_EVENTS,
-        variables: { eventName, ijustContextId },
-      }).then((data: any) => {
-        const results = data.data.ijustEventsSearch;
-        resolve(results);
-      });
+      const variables = { eventName, ijustContextId };
+      urqlClient
+        .query(SEARCH_EVENTS, variables)
+        .toPromise()
+        .then((data) => {
+          if (data.error) {
+            reject(data);
+          } else {
+            resolve(data.data.ijustEventsSearch);
+          }
+        });
     });
   };
 }

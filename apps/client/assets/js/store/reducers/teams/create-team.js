@@ -1,6 +1,8 @@
 import { storeTeam } from "./../teams";
 import gql from "graphql-tag";
 
+import { urqlClient } from "../../../index.jsx";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Public action creators
 ////////////////////////////////////////////////////////////////////////////////
@@ -18,8 +20,9 @@ export const createTeam = (name) => {
       createTeam(name: "${name}") { name id }
     }`;
 
-    window.grapqlClient
-      .mutate({ mutation })
+    urqlClient
+      .mutation(mutation)
+      .toPromise()
       .then((response) => {
         const { name, id } = response.data.createTeam;
         const team = { name, id, fetchStatus: "success" };

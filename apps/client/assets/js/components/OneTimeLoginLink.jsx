@@ -94,8 +94,9 @@ class _OneTimeLoginLink extends React.Component {
       }
     `;
 
-    window.grapqlClient
-      .query({ query: query })
+    urqlClient
+      .query(query)
+      .toPromise()
       .then((response) => {
         const link = response.data.getOneTimeLoginLink;
         this.setState({ link: link, loading: false });

@@ -1,12 +1,10 @@
 import * as React from "react";
-import gql from "graphql-tag";
-import { Header, Button } from "semantic-ui-react";
+import { Header, Button, Message } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
-import { Mutation } from "react-apollo";
+import { gql, useMutation } from "urql";
 
 import { FormBox } from "./FormBox";
 import { QueryLoader } from "./../utils/QueryLoader";
-import collectGraphqlErrors from "./../utils/collectGraphqlErrors";
 
 const GET_CURRENT_USER_QUERY = gql`
   query GetTwitchUser {
@@ -41,42 +39,35 @@ export const IntegrateWithTwitchForm = () => (
       <QueryLoader
         query={GET_CURRENT_USER_QUERY}
         component={({ data }) => {
-          const user = data.getTwitchUser;
-          return renderTwitchUser(user);
+          return <TwitchUserComponent user={data.getTwitchUser} />;
         }}
       />
     </FormBox>
   </div>
 );
 
-const renderTwitchUser = (twitchUser: any) => {
-  if (twitchUser) {
+interface TwitchUserComponentProps {
+  user: any;
+}
+
+function TwitchUserComponent({ user }: TwitchUserComponentProps) {
+  const [result, removeIntegration] = useMutation(REMOVE_TWITCH_MUTATION);
+
+  if (user) {
     return (
       <div>
-        <p>Connected to account {twitchUser.display_name} :)</p>
-        <Mutation
-          mutation={REMOVE_TWITCH_MUTATION}
-          update={(cache, { data }) => {
-            cache.writeQuery({
-              query: GET_CURRENT_USER_QUERY,
-              data: { getTwitchUser: null },
-            });
-          }}
-        >
-          {(removeIntegration, result) => (
-            <div>
-              {result.error && collectGraphqlErrors(result.error)}
-              <Button
-                primary
-                fluid
-                loading={result.loading}
-                onClick={() => removeIntegration()}
-              >
-                Disconnect account
-              </Button>
-            </div>
-          )}
-        </Mutation>
+        <p>Connected to account {user.display_name} :)</p>
+        <div>
+          {result.error && <Message error>{result.error}</Message>}
+          <Button
+            primary
+            fluid
+            loading={result.fetching}
+            onClick={() => removeIntegration()}
+          >
+            Disconnect account
+          </Button>
+        </div>
       </div>
     );
   } else {
@@ -93,4 +84,4 @@ const renderTwitchUser = (twitchUser: any) => {
       </div>
     );
   }
-};
+}

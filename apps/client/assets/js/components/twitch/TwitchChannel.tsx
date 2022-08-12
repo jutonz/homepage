@@ -1,14 +1,12 @@
-import * as React from "react";
-import { Button, Dropdown, Header } from "semantic-ui-react";
+import React, { useState } from "react";
+import { Button, Dropdown, Header, Message } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
-import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
 import { Redirect, RouteComponentProps } from "react-router-dom";
+import { gql, useMutation } from "urql";
 
 import { FormBox } from "./../FormBox";
 import { TwitchChannelLiveChat } from "./TwitchChannelLiveChat";
 import { TwitchChannelArchiveView } from "./TwitchChannelArchiveView";
-import collectGraphqlErrors from "./../../utils/collectGraphqlErrors";
 
 const style = StyleSheet.create({
   container: {
@@ -46,14 +44,6 @@ const CHANNEL_UNSUBSCRIBE_MUTATION = gql`
   }
 `;
 
-const GET_TWITCH_CHANNELS = gql`
-  query GetTwitchChannels {
-    getTwitchChannels {
-      id
-    }
-  }
-`;
-
 enum ChatMode {
   Live,
   Archive,
@@ -66,117 +56,60 @@ interface _Props {
 
 type Props = Partial<RouteComponentProps<any>> & _Props;
 
-interface State {
-  chatMode: ChatMode;
-}
-export class TwitchChannel extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { chatMode: ChatMode.Live };
+export function TwitchChannel({ channel }: Props) {
+  const [chatMode, setChatMode] = useState(ChatMode.Live);
+
+  if (chatMode == ChatMode.RedirectToChannelPage) {
+    const pathname = `/twitch/channels/${channel.name.substr(1)}`;
+    return <Redirect to={{ pathname }} />;
   }
 
-  render() {
-    const { channel } = this.props;
-    const { chatMode } = this.state;
+  const [result, unsubscribe] = useMutation(CHANNEL_UNSUBSCRIBE_MUTATION);
 
-    if (chatMode == ChatMode.RedirectToChannelPage) {
-      return (
-        <Redirect
-          to={{
-            pathname: `/twitch/channels/${this.props.channel.name.substr(1)}`,
-            state: { from: this.props.location },
-          }}
-        />
-      );
-    }
-
-    return (
-      <FormBox styles={style.container}>
-        <div className={css(style.header)}>
-          <Header>{channel.name}</Header>
-          {this.renderDropdown()}
-        </div>
-        <div className={css(style.body)}>{this.renderBody()}</div>
-        {renderUnsubscribeButton(channel)}
-      </FormBox>
-    );
-  }
-
-  renderDropdown() {
-    const { chatMode } = this.state;
-
-    return (
-      <Dropdown icon="setting">
-        <Dropdown.Menu>
-          <Dropdown.Item
-            active={chatMode === ChatMode.Live}
-            onClick={() => this.switchMode(ChatMode.Live)}
-            text="Live chat"
-          />
-          <Dropdown.Item
-            active={chatMode === ChatMode.Archive}
-            onClick={() => this.switchMode(ChatMode.Archive)}
-            text="Chat archive"
-          />
-          <Dropdown.Item
-            onClick={() => this.switchMode(ChatMode.RedirectToChannelPage)}
-            text="Expand"
-          />
-        </Dropdown.Menu>
-      </Dropdown>
-    );
-  }
-
-  renderBody() {
-    const { channel } = this.props;
-    const { chatMode } = this.state;
-
-    switch (chatMode) {
-      case ChatMode.Live:
-        return <TwitchChannelLiveChat channel={channel} />;
-      case ChatMode.Archive:
-        return <TwitchChannelArchiveView />;
-    }
-  }
-
-  switchMode(chatMode: ChatMode) {
-    this.setState({ chatMode });
-  }
-}
-
-const renderUnsubscribeButton = (channel) => (
-  <Mutation
-    mutation={CHANNEL_UNSUBSCRIBE_MUTATION}
-    update={(cache, { data }) => {
-      const idToRemove = data.twitchChannelUnsubscribe.id;
-      const { getTwitchChannels: existingChannels } = cache.readQuery({
-        query: GET_TWITCH_CHANNELS,
-      });
-
-      const newChannelList = existingChannels.filter(
-        (ch) => ch.id !== channel.id
-      );
-
-      cache.writeQuery({
-        query: GET_TWITCH_CHANNELS,
-        data: { getTwitchChannels: newChannelList },
-      });
-    }}
-  >
-    {(unsubscribe, result) => (
+  return (
+    <FormBox styles={style.container}>
+      <div className={css(style.header)}>
+        <Header>{channel.name}</Header>
+        <Dropdown icon="setting">
+          <Dropdown.Menu>
+            <Dropdown.Item
+              active={chatMode === ChatMode.Live}
+              onClick={() => setChatMode(ChatMode.Live)}
+              text="Live chat"
+            />
+            <Dropdown.Item
+              active={chatMode === ChatMode.Archive}
+              onClick={() => setChatMode(ChatMode.Archive)}
+              text="Chat archive"
+            />
+            <Dropdown.Item
+              onClick={() => setChatMode(ChatMode.RedirectToChannelPage)}
+              text="Expand"
+            />
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+      <div className={css(style.body)}>{renderBody(channel, chatMode)}</div>
       <div className={css(style.unsubButtonContainer)}>
-        {result.error && collectGraphqlErrors(result.error)}
+        {result.error && <Message error>result.error</Message>}
         <Button
           primary
           fluid
-          loading={result.loading}
-          onClick={() => {
-            unsubscribe({ variables: { name: channel.name } });
-          }}
+          loading={result.fetching}
+          onClick={() => unsubscribe({ name: channel.name })}
         >
           Unsubscribe
         </Button>
       </div>
-    )}
-  </Mutation>
-);
+    </FormBox>
+  );
+}
+
+function renderBody(channel: any, chatMode: ChatMode) {
+  switch (chatMode) {
+    case ChatMode.Live:
+      return <TwitchChannelLiveChat channel={channel} />;
+    case ChatMode.Archive:
+      return <TwitchChannelArchiveView />;
+  }
+}
