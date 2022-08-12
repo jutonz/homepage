@@ -46,7 +46,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/redux-saga": "^0.10.5",
     "autoprefixer": "^10.4.8",
-    "cssnano": "^5.1.12",
+    "cssnano": "^5.1.13",
     "date-fns": "^2.29.1",
     "esbuild": "^0.14.54",
     "esbuild-plugin-less": "^1.1.7",
