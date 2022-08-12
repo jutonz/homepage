@@ -48,7 +48,7 @@ jobs:
     - name: Setup node
       uses: actions/setup-node@v1
       with:
-        node-version: 16.13
+        node-version: 16.16
     - name: Restore node_modules cache
       uses: actions/cache@v2
       with:
