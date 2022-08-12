@@ -1,11 +1,15 @@
-import * as React from "react";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
-import { Header, Button, Input, InputOnChangeData } from "semantic-ui-react";
+import React, { useState } from "react";
+import { gql, useMutation } from "urql";
+import {
+  Message,
+  Header,
+  Button,
+  Input,
+  InputOnChangeData,
+} from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 
 import { FormBox } from "./../FormBox";
-import collectGraphqlErrors from "./../../utils/collectGraphqlErrors";
 
 const CHANNEL_SUBSCRIBE_MUTATION = gql`
   mutation TwitchChannelSubscribe($channel: String!) {
@@ -13,14 +17,6 @@ const CHANNEL_SUBSCRIBE_MUTATION = gql`
       id
       name
       userId
-    }
-  }
-`;
-
-const GET_TWITCH_CHANNELS = gql`
-  query GetTwitchChannels {
-    getTwitchChannels {
-      id
     }
   }
 `;
@@ -42,76 +38,48 @@ interface Props {
 }
 export const TwitchChannelSubscription = ({ channelName }: Props) => {
   if (channelName) {
+    return null;
   } else {
     return <SubscribeForm />;
   }
 };
 
-interface Props {}
-interface State {
-  channelName: string;
-}
-class SubscribeForm extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { channelName: "" };
-  }
+function SubscribeForm() {
+  const [channelName, setChannelName] = useState<string>("");
+  const [result, subscribeToChannel] = useMutation(CHANNEL_SUBSCRIBE_MUTATION);
 
-  render() {
-    return (
-      <div className={css(style.container)}>
-        <FormBox>
-          <Header>Subscribe to a channel</Header>
-          <p>Observe and record chat events in real time!</p>
-          <Mutation
-            mutation={CHANNEL_SUBSCRIBE_MUTATION}
-            update={(cache, { data }) => {
-              const { getTwitchChannels: existingChannels } = cache.readQuery({
-                query: GET_TWITCH_CHANNELS,
-              });
-
-              const newChannel = data.twitchChannelSubscribe;
-
-              cache.writeQuery({
-                query: GET_TWITCH_CHANNELS,
-                data: {
-                  getTwitchChannels: existingChannels.concat([newChannel]),
-                },
+  return (
+    <div className={css(style.container)}>
+      <FormBox>
+        <Header>Subscribe to a channel</Header>
+        <p>Observe and record chat events in real time!</p>
+        <div>
+          {result.error && <Message error>{result.error}</Message>}
+          <Input
+            fluid
+            label="Channel name"
+            value={channelName}
+            onChange={(_ev, data: InputOnChangeData) => {
+              setChannelName(data.value);
+            }}
+          />
+          <Button
+            primary
+            fluid
+            loading={result.fetching}
+            className={css(style.button)}
+            onClick={() => {
+              subscribeToChannel({
+                channel: channelName,
+              }).then(() => {
+                setChannelName("");
               });
             }}
           >
-            {(subscribe, result) => (
-              <div>
-                {result.error && collectGraphqlErrors(result.error)}
-                <Input
-                  fluid
-                  label="Channel name"
-                  value={this.state.channelName}
-                  onChange={(_ev, data: InputOnChangeData) => {
-                    this.setState({ channelName: data.value });
-                  }}
-                />
-                <Button
-                  primary
-                  fluid
-                  loading={result.loading}
-                  className={css(style.button)}
-                  onClick={() => {
-                    const { channelName } = this.state;
-                    subscribe({
-                      variables: { channel: channelName },
-                    }).then(() => {
-                      this.setState({ channelName: "" });
-                    });
-                  }}
-                >
-                  Subscribe
-                </Button>
-              </div>
-            )}
-          </Mutation>
-        </FormBox>
-      </div>
-    );
-  }
+            Subscribe
+          </Button>
+        </div>
+      </FormBox>
+    </div>
+  );
 }

@@ -64,7 +64,6 @@ export function IjustEventInput({ ijustContextId }: Props) {
         title: name,
         description: `${count} existing occurrence${count !== 1 ? "s" : ""}`,
       }));
-      console.dir(transformed);
       setSearchResults(transformed);
     }, ijustContextId);
   }, [ijustContextId, setSearchResults]);

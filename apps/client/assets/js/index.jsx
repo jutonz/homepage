@@ -79,7 +79,7 @@ const store = createStore(appStore, middleware);
 
 sagaMiddleware.run(rootSaga);
 
-const urqlClient = createClient({
+export const urqlClient = createClient({
   url: graphqlEndpoint,
   fetchOptions: {
     credentials: "include",
@@ -145,6 +145,38 @@ const urqlClient = createClient({
                 (o) => o.id !== args.ijustOccurrenceId
               );
               data.getIjustContextEvent.ijustOccurrences = occurrences;
+              return data;
+            });
+          },
+          twitchChannelSubscribe(result, _args, cache, _info) {
+            const query = gql`
+              query {
+                getTwitchChannels {
+                  id
+                }
+              }
+            `;
+
+            cache.updateQuery({ query }, (data) => {
+              data.getTwitchChannels.push(result.twitchChannelSubscribe);
+              return data;
+            });
+          },
+          twitchChannelUnsubscribe(_result, args, cache, _info) {
+            const query = gql`
+              query {
+                getTwitchChannels {
+                  name
+                }
+              }
+            `;
+
+            cache.updateQuery({ query }, (data) => {
+              data.getTwitchChannels = data.getTwitchChannels.filter(
+                (channel) => {
+                  return channel.name !== args.name;
+                }
+              );
               return data;
             });
           },
