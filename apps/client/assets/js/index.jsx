@@ -180,6 +180,20 @@ export const urqlClient = createClient({
               return data;
             });
           },
+          twitchRemoveIntegration(_result, _args, cache, _info) {
+            const query = gql`
+              query {
+                getTwitchUser {
+                  id
+                }
+              }
+            `;
+
+            cache.updateQuery({ query }, (data) => {
+              data.getTwitchUser = null;
+              return data;
+            });
+          },
         },
       },
     }),
