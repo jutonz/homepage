@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 export * from "./teams/create-team";
 import { createTeamReducer } from "./teams/create-team";
-import { Map } from "immutable";
+import { urqlClient } from "../../index.jsx";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Public action creators
@@ -29,11 +29,9 @@ export const fetchTeam = (id) => {
       `;
       const variables = { id };
 
-      return window.grapqlClient
-        .query({
-          query,
-          variables,
-        })
+      return urqlClient
+        .query(query, variables)
+        .toPromise()
         .then((response) => {
           const team = {
             ...response.data.getTeam,
@@ -69,8 +67,9 @@ export const fetchTeams = () => {
       }
     `;
 
-    window.grapqlClient
-      .query({ query })
+    urqlClient
+      .query(query)
+      .toPromise()
       .then((response) => {
         const rawTeams = response.data.getTeams;
         const teams = {};

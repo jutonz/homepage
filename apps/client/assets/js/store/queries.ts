@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 import collectGraphqlErrors from "./../utils/collectGraphqlErrors";
-import { GraphqlClient } from "./../index";
+import { urqlClient } from "./../index";
 
 export const fetchTeamUserQuery = (variables) => {
   const query = gql`
@@ -12,9 +12,12 @@ export const fetchTeamUserQuery = (variables) => {
     }
   `;
 
-  return GraphqlClient.query({ query, variables }).then((response: any) => {
-    return response.data.getTeamUser;
-  });
+  return urqlClient
+    .query(query, variables)
+    .toPromise()
+    .then((response: any) => {
+      return response.data.getTeamUser;
+    });
 };
 
 export const fetchUserQuery = (variables) => {
@@ -27,9 +30,12 @@ export const fetchUserQuery = (variables) => {
     }
   `;
 
-  return GraphqlClient.query({ query, variables }).then((response: any) => {
-    return response.data.getUser;
-  });
+  return urqlClient
+    .query(query, variables)
+    .toPromise()
+    .then((response: any) => {
+      return response.data.getUser;
+    });
 };
 
 export const getIjustDefaultContextQuery = (variables = {}) => {
@@ -44,7 +50,9 @@ export const getIjustDefaultContextQuery = (variables = {}) => {
   `;
 
   return new Promise((resolve, reject) => {
-    GraphqlClient.query({ query, variables })
+    urqlClient
+      .query(query, variables)
+      .toPromise()
       .then((response: any) => {
         resolve(response.data.getIjustDefaultContext);
       })
@@ -67,7 +75,9 @@ export const getIjustContextQuery = (variables) => {
   `;
 
   return new Promise((resolve, reject) => {
-    GraphqlClient.query({ query, variables })
+    urqlClient
+      .query(query, variables)
+      .toPromise()
       .then((response: any) => {
         resolve(response.data.getIjustContext);
       })
@@ -93,7 +103,9 @@ export const getIjustRecentEventsQuery = (variables) => {
   `;
 
   return new Promise((resolve, reject) => {
-    GraphqlClient.query({ query, variables, fetchPolicy: "network-only" })
+    urqlClient
+      .query(query, variables)
+      .toPromise()
       .then((response: any) => {
         resolve(response.data.getIjustRecentEvents);
       })
@@ -122,7 +134,9 @@ export const getIjustContextEventQuery = (variables: {
   `;
 
   return new Promise((resolve, reject) => {
-    GraphqlClient.query({ query, variables })
+    urqlClient
+      .query(query, variables)
+      .toPromise()
       .then((response: any) => {
         resolve(response.data.getIjustContextEvent);
       })
