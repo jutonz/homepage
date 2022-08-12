@@ -1,11 +1,9 @@
-import * as React from "react";
+import React, { useMemo, useState } from "react";
 import { Message, Form, Search, SearchResultProps } from "semantic-ui-react";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
 import { css, StyleSheet } from "aphrodite";
 import { Redirect } from "react-router-dom";
+import { gql, useMutation } from "urql";
 
-import collectGraphqlErrors from "./../../utils/collectGraphqlErrors";
 import { IjustEventTypeahead } from "./../../utils/IjustEventTypeahead";
 
 const CREATE_EVENT = gql`
@@ -54,57 +52,30 @@ interface Props {
   ijustContextId: string;
 }
 
-interface State {
-  eventName: string;
-  typeahead: any;
-  searchResults?: Array<any>;
-  selectedEventId?: string;
-}
+export function IjustEventInput({ ijustContextId }: Props) {
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
+  const [searchResults, setSearchResults] = useState<any>([]);
+  const [result, createEvent] = useMutation(CREATE_EVENT);
 
-export class IjustEventInput extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    const typeahead = new IjustEventTypeahead(
-      this.onTypeheadResult,
-      props.ijustContextId
-    );
-    this.state = { eventName: "", typeahead };
+  const typeahead = useMemo(() => {
+    return new IjustEventTypeahead((rawResults: Array<any>) => {
+      const transformed = rawResults.map(({ id, name, count }) => ({
+        id,
+        title: name,
+        description: `${count} existing occurrence${count !== 1 ? "s" : ""}`,
+      }));
+      console.dir(transformed);
+      setSearchResults(transformed);
+    }, ijustContextId);
+  }, [ijustContextId, setSearchResults]);
+
+  if (selectedEventId) {
+    const pathname = `/ijust/contexts/${ijustContextId}/events/${selectedEventId}`;
+    return <Redirect to={{ pathname }} />;
   }
 
-  onTypeheadResult = (rawResults: Array<any>) => {
-    const transformed = rawResults.map((raw) => {
-      return {
-        id: raw.id,
-        title: raw.name,
-        description: `${raw.count} existing occurrence${
-          raw.count !== 1 ? "s" : ""
-        }`,
-      };
-    });
-    console.dir(transformed);
-    this.setState({ searchResults: transformed });
-  };
-
-  renderSearchResults = (props: SearchResultProps): React.ReactElement<any> => {
-    const rendered = (
-      <div key={props.id} className={css(styles.searchResultContainer)}>
-        <div>
-          <div className={css(styles.searchResultTitle)}>{props.title}</div>
-          <div className={css(styles.searchResultDescription)}>
-            {props.description}
-          </div>
-        </div>
-        <div className={css(styles.searchResultRight)}>
-          {props.active && <div>Enter to view</div>}
-        </div>
-      </div>
-    );
-
-    return rendered;
-  };
-
-  renderNoResultsMessage = () => {
-    if (this.state.searchResults) {
+  const renderNoResultsMessage = () => {
+    if (searchResults) {
       return (
         <div>
           <div className={css(styles.searchResultTitle)}>
@@ -117,62 +88,44 @@ export class IjustEventInput extends React.Component<Props, State> {
     }
   };
 
-  render() {
-    const { eventName, selectedEventId } = this.state;
-    const { ijustContextId } = this.props;
-
-    if (selectedEventId) {
-      return (
-        <Redirect
-          to={{
-            pathname: `/ijust/contexts/${ijustContextId}/events/${selectedEventId}`,
-          }}
+  return (
+    <div className={css(styles.container)}>
+      <Form
+        onSubmit={() => {
+          const eventName = typeahead.getLatestSearch();
+          createEvent({ eventName, ijustContextId }).then((data: any) => {
+            const newEventId = data.data.createIjustEvent.id;
+            setSelectedEventId(newEventId);
+          });
+        }}
+      >
+        <Search
+          fluid
+          selectFirstResult
+          onSearchChange={(_ev, { value }) => typeahead.search(value)}
+          onResultSelect={(_ev, data) => setSelectedEventId(data.result.id)}
+          results={searchResults}
+          resultRenderer={renderSearchResults}
+          noResultsMessage={renderNoResultsMessage()}
         />
-      );
-    }
-
-    return (
-      <Mutation mutation={CREATE_EVENT}>
-        {(createEvent, result) => (
-          <div className={css(styles.container)}>
-            <Form
-              onSubmit={() => {
-                const { ijustContextId } = this.props;
-                const eventName = this.state.typeahead.getLatestSearch();
-                createEvent({
-                  variables: { eventName, ijustContextId },
-                }).then((data: any) => {
-                  const newEventId = data.data.createIjustEvent.id;
-                  this.setState({ selectedEventId: newEventId });
-                });
-              }}
-            >
-              <Search
-                fluid
-                selectFirstResult
-                onSearchChange={(_ev, { value }) =>
-                  this.state.typeahead.search(value)
-                }
-                onResultSelect={(_ev, data) => {
-                  const selectedEventId = data.result.id;
-                  this.setState({ selectedEventId });
-                }}
-                results={this.state.searchResults}
-                resultRenderer={this.renderSearchResults}
-                noResultsMessage={this.renderNoResultsMessage()}
-              />
-              {result.error && (
-                <Message error>{collectGraphqlErrors(result.error)}</Message>
-              )}
-            </Form>
-          </div>
-        )}
-      </Mutation>
-    );
-  }
-
-  setName = (eventName: string) => {
-    this.setState({ eventName });
-    this.state.typeahead.search(eventName);
-  };
+        {result.error && <Message error>{result.error}</Message>}
+      </Form>
+    </div>
+  );
 }
+
+const renderSearchResults = (
+  props: SearchResultProps
+): React.ReactElement<any> => (
+  <div key={props.id} className={css(styles.searchResultContainer)}>
+    <div>
+      <div className={css(styles.searchResultTitle)}>{props.title}</div>
+      <div className={css(styles.searchResultDescription)}>
+        {props.description}
+      </div>
+    </div>
+    <div className={css(styles.searchResultRight)}>
+      {props.active && <div>Enter to view</div>}
+    </div>
+  </div>
+);
