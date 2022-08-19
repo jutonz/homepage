@@ -223,7 +223,15 @@
   resolved "https://registry.yarnpkg.com/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz#b6725d5f4af24ace33b36fafd295136e75509f43"
   integrity sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==
 
-"@urql/core@>=2.5.0", "@urql/core@^2.6.1":
+"@urql/core@>=3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@urql/core/-/core-3.0.0.tgz#181976367ae27e1b36b9864fb3fa1bbfdad3ae71"
+  integrity sha512-C9nVn3+hhht8K0MEr9zLUgzoapkoX7X0crwMB72LrMqerhBjvEEuTngEFlZfALRwOzHjUNXBT9ZVgyzt6cKRhA==
+  dependencies:
+    "@graphql-typed-document-node/core" "^3.1.1"
+    wonka "^6.0.0"
+
+"@urql/core@^2.6.1":
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-2.6.1.tgz#c10ee972c5e81df6d7bf1e778ef1b5d30e2906e5"
   integrity sha512-gYrEHy3tViJhwIhauK6MIf2Qp09QTsgNHZRd0n71rS+hF6gdwjspf1oKljl4m25+272cJF7fPjBUGmjaiEr7Kg==
@@ -231,13 +239,13 @@
     "@graphql-typed-document-node/core" "^3.1.1"
     wonka "^4.0.14"
 
-"@urql/exchange-graphcache@^4.4.3":
-  version "4.4.3"
-  resolved "https://registry.yarnpkg.com/@urql/exchange-graphcache/-/exchange-graphcache-4.4.3.tgz#3c8295a16c730918e1d01de42a2f180a777b98ca"
-  integrity sha512-EPXRCzq929RjVDym4NP4mO6bsyGE6J1JzUxE9vpm04VjZtK90Ag4bgftFdkHsMHh4ydvokLKQjCRVqGxKEBnEg==
+"@urql/exchange-graphcache@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@urql/exchange-graphcache/-/exchange-graphcache-5.0.0.tgz#f86f536f016478f4a06d4900b64993cb57c945d9"
+  integrity sha512-REUA1SBrPQukxHq+IpBrLihSAW9J/QOOK3XPCfO5wtkg9FaBp3VV0MlOL/CItZYvfVvgnfLWMzwIDAcUCDZmgA==
   dependencies:
-    "@urql/core" ">=2.5.0"
-    wonka "^4.0.14"
+    "@urql/core" ">=3.0.0"
+    wonka "^6.0.0"
 
 JSONStream@^1.0.7:
   version "1.3.2"
@@ -539,10 +547,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.2.tgz#ee5ff8f208c8cd613b389f7b222c9801ca62b3f7"
   integrity sha512-ofovWglpqoqbfLNOTBNZLSbMuGrblAf1efvvArGKOZMBrIoJeu5UsAipQolkijtyQx5MtAzT/J9IHj/CEY1mJw==
 
-date-fns@^2.29.1:
-  version "2.29.1"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.1.tgz#9667c2615525e552b5135a3116b95b1961456e60"
-  integrity sha512-dlLD5rKaKxpFdnjrs+5azHDFOPEu4ANy/LTh04A1DTzMM7qoajmKCBc8pkKRFT41CNzw+4gQh79X5C+Jq27HAw==
+date-fns@^2.29.2:
+  version "2.29.2"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.29.2.tgz#0d4b3d0f3dff0f920820a070920f0d9662c51931"
+  integrity sha512-0VNbwmWJDS/G3ySwFSJA3ayhbURMTJLtwM2DTxf9CWondCnh6DTNlO9JgRSq6ibf4eD0lfMJNBxUdEAHHix+bA==
 
 debug@^3.2.6:
   version "3.2.7"
@@ -913,10 +921,10 @@ graphql-tag@^2.12.6:
   dependencies:
     tslib "^2.1.0"
 
-graphql@^16.5.0:
-  version "16.5.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.5.0.tgz#41b5c1182eaac7f3d47164fb247f61e4dfb69c85"
-  integrity sha512-qbHgh8Ix+j/qY+a/ZcJnFQ+j8ezakqPiHwPiZhV/3PgGlgf96QMBB5/f2rkiC9sgLoy/xvT6TSiaf2nTHJh5iA==
+graphql@^16.6.0:
+  version "16.6.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
+  integrity sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==
 
 has@^1.0.3:
   version "1.0.3"
@@ -2111,6 +2119,11 @@ wonka@^4.0.14:
   version "4.0.15"
   resolved "https://registry.yarnpkg.com/wonka/-/wonka-4.0.15.tgz#9aa42046efa424565ab8f8f451fcca955bf80b89"
   integrity sha512-U0IUQHKXXn6PFo9nqsHphVCE5m3IntqZNB9Jjn7EB1lrR7YTDY3YWgFvEvwniTzXSvOH/XMzAZaIfJF/LvHYXg==
+
+wonka@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/wonka/-/wonka-6.0.0.tgz#38cd39a517fc3ff721ea3bf353642b353bf48860"
+  integrity sha512-TEiIOqkhQXbcmL1RrjxPCzTX15V5FSyJvZRSiTxvgTgrJMaOVKmzGTdRVh349CfaNo9dsIhWDyg1/GNq4NWrEg==
 
 wrap-ansi@^7.0.0:
   version "7.0.0"
