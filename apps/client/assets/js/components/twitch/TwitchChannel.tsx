@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Dropdown, Header, Message } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
-import { Redirect, RouteComponentProps } from "react-router-dom";
+import { useNavigate, RouteComponentProps } from "react-router-dom";
 import { gql, useMutation } from "urql";
 
 import { FormBox } from "./../FormBox";
@@ -57,11 +57,13 @@ interface _Props {
 type Props = Partial<RouteComponentProps<any>> & _Props;
 
 export function TwitchChannel({ channel }: Props) {
+  const navigate = useNavigate();
   const [chatMode, setChatMode] = useState(ChatMode.Live);
 
   if (chatMode == ChatMode.RedirectToChannelPage) {
     const pathname = `/twitch/channels/${channel.name.substr(1)}`;
-    return <Redirect to={{ pathname }} />;
+    navigate(pathname);
+    return null;
   }
 
   const [result, unsubscribe] = useMutation(CHANNEL_UNSUBSCRIBE_MUTATION);

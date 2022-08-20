@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Redirect } from "react-router-dom";
 import gql from "graphql-tag";
+import { useNavigate } from 'react-router-dom';
 
 import { MainNav } from "./../components/MainNav";
 import { QueryLoader } from "./../utils/QueryLoader";
@@ -15,21 +15,20 @@ const QUERY = gql`
   }
 `;
 
-export const IjustRoute = () => (
-  <div>
-    <MainNav activeItem={"ijust"} />
-    <QueryLoader
-      query={QUERY}
-      component={({ data }) => {
-        const contextId = data.getIjustDefaultContext.id;
-        return (
-          <Redirect
-            to={{
-              pathname: `ijust/contexts/${contextId}`,
-            }}
-          />
-        );
-      }}
-    />
-  </div>
-);
+export const IjustRoute = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div>
+      <MainNav activeItem={"ijust"} />
+      <QueryLoader
+        query={QUERY}
+        component={({ data }) => {
+          const contextId = data.getIjustDefaultContext.id;
+          navigate(`ijust/contexts/${contextId}`)
+          return null;
+        }}
+      />
+    </div>
+  );
+}

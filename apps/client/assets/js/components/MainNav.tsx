@@ -107,7 +107,7 @@ function renderLegacySubnav(activeItem: String) {
 }
 
 function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const logout = () => {
     fetch("/api/logout", {
@@ -117,7 +117,7 @@ function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
       .then((response) => {
         if (response.ok) {
           //this.props.destroySession();
-          history.push("/login");
+          navigate("/login");
         } else {
           return response.json();
         }
@@ -129,7 +129,7 @@ function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
       });
   };
 
-  const login = () => history.push("/");
+  const login = () => navigate("/");
 
   if (isLoggedIn) {
     return (

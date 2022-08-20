@@ -3,7 +3,7 @@ import { StyleSheet, css } from "aphrodite";
 import { Header, Form, Message } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { withRouter } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import { FormBox } from "./FormBox";
 
@@ -17,25 +17,29 @@ const style = StyleSheet.create({
   },
 });
 
-const _TeamJoinForm = ({ name, setName, join, isLoading, errors, history }) => (
-  <div className={css(style.container)} onSubmit={() => join(name, history)}>
-    <FormBox>
-      <Form error={!!errors}>
-        <Header>Join a team</Header>
-        <p>Become a member of an existing team</p>
-        <Message error>{errors}</Message>
-        <Form.Input
-          label="Name"
-          value={name}
-          onChange={(_ev, data) => setName(data.value)}
-        />
-        <Form.Button primary fluid disabled={!!!name} loading={!!isLoading}>
-          Join
-        </Form.Button>
-      </Form>
-    </FormBox>
-  </div>
-);
+const _TeamJoinForm = ({ name, setName, join, isLoading, errors }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div className={css(style.container)} onSubmit={() => join(name, navigate)}>
+      <FormBox>
+        <Form error={!!errors}>
+          <Header>Join a team</Header>
+          <p>Become a member of an existing team</p>
+          <Message error>{errors}</Message>
+          <Form.Input
+            label="Name"
+            value={name}
+            onChange={(_ev, data) => setName(data.value)}
+          />
+          <Form.Button primary fluid disabled={!!!name} loading={!!isLoading}>
+            Join
+          </Form.Button>
+        </Form>
+      </FormBox>
+    </div>
+  );
+}
 
 export const TeamJoinForm = compose(
   connect(
@@ -46,8 +50,7 @@ export const TeamJoinForm = compose(
     }),
     (dispatch) => ({
       setName: (name) => dispatch({ type: "SET_JOIN_TEAM_NAME", name }),
-      join: (name, history) => dispatch({ type: "JOIN_TEAM", name, history }),
+      join: (name, navigate) => dispatch({ type: "JOIN_TEAM", name, navigate }),
     })
-  ),
-  withRouter
+  )
 )(_TeamJoinForm);
