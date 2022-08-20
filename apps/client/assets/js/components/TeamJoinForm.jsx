@@ -39,7 +39,7 @@ const _TeamJoinForm = ({ name, setName, join, isLoading, errors }) => {
       </FormBox>
     </div>
   );
-}
+};
 
 export const TeamJoinForm = compose(
   connect(

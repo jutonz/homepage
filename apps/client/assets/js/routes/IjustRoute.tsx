@@ -1,6 +1,6 @@
 import * as React from "react";
 import gql from "graphql-tag";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import { MainNav } from "./../components/MainNav";
 import { QueryLoader } from "./../utils/QueryLoader";
@@ -25,10 +25,10 @@ export const IjustRoute = () => {
         query={QUERY}
         component={({ data }) => {
           const contextId = data.getIjustDefaultContext.id;
-          navigate(`ijust/contexts/${contextId}`)
+          navigate(`ijust/contexts/${contextId}`);
           return null;
         }}
       />
     </div>
   );
-}
+};

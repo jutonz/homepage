@@ -29,7 +29,7 @@ const _TeamLeaveForm = ({ team, leaveTeam, isLoading, errors }) => {
       </Form>
     </div>
   );
-}
+};
 
 export const TeamLeaveForm = compose(
   connect(
@@ -38,7 +38,8 @@ export const TeamLeaveForm = compose(
       errors: state.teams.leavingTeamErrors,
     }),
     (dispatch) => ({
-      leaveTeam: (id, navigate) => dispatch({ type: "LEAVE_TEAM", id, navigate }),
+      leaveTeam: (id, navigate) =>
+        dispatch({ type: "LEAVE_TEAM", id, navigate }),
     })
   )
 )(_TeamLeaveForm);

@@ -44,11 +44,7 @@ const _App = ({ flashMessages }) => (
       <Route path="/coffeemaker" component={CoffeemakerRoute} />
 
       <AuthenticatedRoute path="/" exact={true} component={HomeRoute} />
-      <AuthenticatedRoute
-        path="/twitch"
-        exact={true}
-        component={TwitchRoute}
-      />
+      <AuthenticatedRoute path="/twitch" exact={true} component={TwitchRoute} />
       <AuthenticatedRoute
         path="/twitch/channels/:channel_name"
         exact={true}

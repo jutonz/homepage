@@ -19,7 +19,7 @@ export function AuthenticatedRoute(props: RouteProps) {
 
   const isLoggedIn = data.check_session;
   if (!isLoggedIn) {
-    navigate('/login');
+    navigate("/login");
     return null;
   }
 
