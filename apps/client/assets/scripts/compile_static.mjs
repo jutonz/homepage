@@ -41,6 +41,7 @@ const esbuildOpts = {
   watch: !isProd,
   outdir: "./../priv/static/",
   target: ["chrome90", "firefox90", "safari14"],
+  logLevel: "debug"
 };
 
 (async function compile() {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Dropdown, Header, Message } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
-import { useNavigate, RouteComponentProps } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "urql";
 
 import { FormBox } from "./../FormBox";
@@ -50,11 +50,9 @@ enum ChatMode {
   RedirectToChannelPage,
 }
 
-interface _Props {
+interface Props {
   channel: any;
 }
-
-type Props = Partial<RouteComponentProps<any>> & _Props;
 
 export function TwitchChannel({ channel }: Props) {
   const navigate = useNavigate();

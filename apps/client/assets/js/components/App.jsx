@@ -1,11 +1,11 @@
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, useHref } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { css, StyleSheet } from "aphrodite";
 import React from "react";
 
 import { Flash } from "./Flash";
-import { AuthenticatedRoute } from "./../routes/AuthenticatedRoute";
+import { RequireLogin } from "./login/RequireLogin";
 import { CoffeemakerRoute } from "./../routes/CoffeemakerRoute";
 import { HomeRoute } from "./../routes/HomeRoute";
 import { IjustContextEventRoute } from "./../routes/ijust/IjustContextEventRoute";
@@ -32,49 +32,71 @@ const style = StyleSheet.create({
   },
 });
 
+const requireLogin = (Route) => (
+  <RequireLogin>
+    <Route />
+  </RequireLogin>
+)
+
 const _App = ({ flashMessages }) => (
   <div>
     <div className={css(style.flashContainer)}>
       {renderFlash(flashMessages)}
     </div>
 
-    <Routes>
-      <Route path="/login" component={LoginRoute} />
-      <Route path="/signup" component={SignupRoute} />
-      <Route path="/coffeemaker" component={CoffeemakerRoute} />
+    <Router>
+      <Routes>
+        <Route path="/login" component={LoginRoute} />
+        <Route path="/signup" component={SignupRoute} />
+        <Route path="/coffeemaker" component={CoffeemakerRoute} />
 
-      <AuthenticatedRoute path="/" exact={true} component={HomeRoute} />
-      <AuthenticatedRoute path="/twitch" exact={true} component={TwitchRoute} />
-      <AuthenticatedRoute
-        path="/twitch/channels/:channel_name"
-        exact={true}
-        component={TwitchChannelRoute}
-      />
-      <AuthenticatedRoute path="/settings" component={SettingsRoute} />
-      <AuthenticatedRoute exact path="/teams/:id" component={TeamRoute} />
-      <AuthenticatedRoute
-        path="/teams/:team_id/users/:user_id"
-        component={TeamUserRoute}
-      />
-      <AuthenticatedRoute exact path="/ijust" component={IjustRoute} />
-      <AuthenticatedRoute
-        exact
-        path="/ijust/contexts"
-        component={IjustContextsRoute}
-      />
-      <AuthenticatedRoute
-        exact
-        path="/ijust/contexts/:id"
-        component={IjustContextRoute}
-      />
-      <AuthenticatedRoute
-        exact
-        path="/ijust/contexts/:contextId/events/:eventId"
-        component={IjustContextEventRoute}
-      />
-    </Routes>
+        <Route path="/" exact={true} element={requireLogin(HomeRoute)} />
+        <Route
+          path="/twitch"
+          exact={true}
+          element={<RequireLogin><TwitchRoute /></RequireLogin>}
+        />
+        <Route
+          path="/twitch/channels/:channel_name"
+          exact={true}
+          element={<RequireLogin><TwitchChannelRoute /></RequireLogin>}
+        />
+        <Route path="/settings" element={<RequireLogin><SettingsRoute /></RequireLogin>} />
+        <Route exact path="/teams/:id" element={<RequireLogin><TeamRoute /></RequireLogin>} />
+        <Route
+          path="/teams/:team_id/users/:user_id"
+          element={<RequireLogin><TeamUserRoute /></RequireLogin>}
+        />
+        <Route exact path="/ijust" element={<RequireLogin><IjustRoute /></RequireLogin>} />
+        <Route
+          exact
+          path="/ijust/contexts"
+          element={<RequireLogin><IjustContextsRoute /></RequireLogin>}
+        />
+        <Route
+          exact
+          path="/ijust/contexts/:id"
+          element={<RequireLogin><IjustContextRoute /></RequireLogin>}
+        />
+        <Route
+          exact
+          path="/ijust/contexts/:contextId/events/:eventId"
+          element={<RequireLogin><IjustContextEventRoute /></RequireLogin>}
+        />
+        <Route path="*" element={<RedirectToStatic />} />
+      </Routes>
+    </Router>
   </div>
 );
+
+function RedirectToStatic() {
+  React.useEffect(() => {
+    const href = window.location.href;
+    window.location.href = href.replace("/#", "");
+  }, [])
+
+  return null;
+}
 
 const renderFlash = (messages) => {
   let comps = [];

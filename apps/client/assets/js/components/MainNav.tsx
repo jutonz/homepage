@@ -1,8 +1,9 @@
 import React, { forwardRef } from "react";
 import { Dropdown, Menu } from "semantic-ui-react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import gql from "graphql-tag";
 import { useQuery } from "urql";
+import type { LinkProps } from 'react-router-dom';
 
 interface Props {
   activeItem: string;
@@ -58,35 +59,35 @@ function renderLogsSubnav(activeItem: String) {
   return (
     <Dropdown item text="Logs">
       <Dropdown.Menu>
-        <Link to="/water-logs" component={StaticLink}>
+        <StaticLink to="/water-logs">
           <Dropdown.Item name={"waterLogs"} active={activeItem === "waterLogs"}>
             Water Logs
           </Dropdown.Item>
-        </Link>
+        </StaticLink>
 
-        <Link to="/food-logs" component={StaticLink}>
+        <StaticLink to="/food-logs">
           <Dropdown.Item name={"foodLogs"} active={activeItem === "foodLogs"}>
             Food Logs
           </Dropdown.Item>
-        </Link>
+        </StaticLink>
 
-        <Link to="/soap" component={StaticLink}>
+        <StaticLink to="/soap">
           <Dropdown.Item name={"soap"} active={activeItem === "soap"}>
             Soap
           </Dropdown.Item>
-        </Link>
+        </StaticLink>
 
-        <Link to="/train-logs" component={StaticLink}>
+        <StaticLink to="/train-logs">
           <Dropdown.Item name={"trainLogs"} active={activeItem === "trainLogs"}>
             Trains
           </Dropdown.Item>
-        </Link>
+        </StaticLink>
 
-        <Link to="/storage" component={StaticLink}>
+        <StaticLink to="/storage">
           <Dropdown.Item name={"storage"} active={activeItem === "storage"}>
             Storage
           </Dropdown.Item>
-        </Link>
+        </StaticLink>
       </Dropdown.Menu>
     </Dropdown>
   );
@@ -144,12 +145,14 @@ function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
   }
 }
 
-const StaticLink = forwardRef((props: any, ref) => {
-  const href = props.href.replace("#/", "");
+function StaticLink({ children, ...props }: LinkProps) {
+  const onClick = (args) => {
+    debugger;
+  }
 
   return (
-    <a ref={ref as React.RefObject<HTMLAnchorElement>} href={href}>
-      {props.children}
+    <a onClick={onClick} {...props}>
+      {children}
     </a>
   );
-});
+}
