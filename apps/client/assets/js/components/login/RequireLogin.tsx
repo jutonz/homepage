@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql, useQuery } from "urql";
 
@@ -9,10 +9,10 @@ const CHECK_SESSION_QUERY = gql`
 `;
 
 interface Props {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
-export function RequireLogin({ children } : Props) {
+export function RequireLogin({ children }: Props) {
   const [{ data, fetching, error }] = useQuery({ query: CHECK_SESSION_QUERY });
   const navigate = useNavigate();
   const location = useLocation();

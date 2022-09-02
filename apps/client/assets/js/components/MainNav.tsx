@@ -3,7 +3,7 @@ import { Dropdown, Menu } from "semantic-ui-react";
 import { Link, useNavigate } from "react-router-dom";
 import gql from "graphql-tag";
 import { useQuery } from "urql";
-import type { LinkProps } from 'react-router-dom';
+import type { LinkProps } from "react-router-dom";
 
 interface Props {
   activeItem: string;
@@ -148,7 +148,7 @@ function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
 function StaticLink({ children, ...props }: LinkProps) {
   const onClick = (args) => {
     debugger;
-  }
+  };
 
   return (
     <a onClick={onClick} {...props}>

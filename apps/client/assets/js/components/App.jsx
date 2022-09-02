@@ -36,7 +36,7 @@ const requireLogin = (Route) => (
   <RequireLogin>
     <Route />
   </RequireLogin>
-)
+);
 
 const _App = ({ flashMessages }) => (
   <div>
@@ -54,34 +54,81 @@ const _App = ({ flashMessages }) => (
         <Route
           path="/twitch"
           exact={true}
-          element={<RequireLogin><TwitchRoute /></RequireLogin>}
+          element={
+            <RequireLogin>
+              <TwitchRoute />
+            </RequireLogin>
+          }
         />
         <Route
           path="/twitch/channels/:channel_name"
           exact={true}
-          element={<RequireLogin><TwitchChannelRoute /></RequireLogin>}
+          element={
+            <RequireLogin>
+              <TwitchChannelRoute />
+            </RequireLogin>
+          }
         />
-        <Route path="/settings" element={<RequireLogin><SettingsRoute /></RequireLogin>} />
-        <Route exact path="/teams/:id" element={<RequireLogin><TeamRoute /></RequireLogin>} />
+        <Route
+          path="/settings"
+          element={
+            <RequireLogin>
+              <SettingsRoute />
+            </RequireLogin>
+          }
+        />
+        <Route
+          exact
+          path="/teams/:id"
+          element={
+            <RequireLogin>
+              <TeamRoute />
+            </RequireLogin>
+          }
+        />
         <Route
           path="/teams/:team_id/users/:user_id"
-          element={<RequireLogin><TeamUserRoute /></RequireLogin>}
+          element={
+            <RequireLogin>
+              <TeamUserRoute />
+            </RequireLogin>
+          }
         />
-        <Route exact path="/ijust" element={<RequireLogin><IjustRoute /></RequireLogin>} />
+        <Route
+          exact
+          path="/ijust"
+          element={
+            <RequireLogin>
+              <IjustRoute />
+            </RequireLogin>
+          }
+        />
         <Route
           exact
           path="/ijust/contexts"
-          element={<RequireLogin><IjustContextsRoute /></RequireLogin>}
+          element={
+            <RequireLogin>
+              <IjustContextsRoute />
+            </RequireLogin>
+          }
         />
         <Route
           exact
           path="/ijust/contexts/:id"
-          element={<RequireLogin><IjustContextRoute /></RequireLogin>}
+          element={
+            <RequireLogin>
+              <IjustContextRoute />
+            </RequireLogin>
+          }
         />
         <Route
           exact
           path="/ijust/contexts/:contextId/events/:eventId"
-          element={<RequireLogin><IjustContextEventRoute /></RequireLogin>}
+          element={
+            <RequireLogin>
+              <IjustContextEventRoute />
+            </RequireLogin>
+          }
         />
         <Route path="*" element={<RedirectToStatic />} />
       </Routes>
@@ -93,7 +140,7 @@ function RedirectToStatic() {
   React.useEffect(() => {
     const href = window.location.href;
     window.location.href = href.replace("/#", "");
-  }, [])
+  }, []);
 
   return null;
 }
