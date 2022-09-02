@@ -228,7 +228,15 @@
   resolved "https://registry.yarnpkg.com/@types/use-sync-external-store/-/use-sync-external-store-0.0.3.tgz#b6725d5f4af24ace33b36fafd295136e75509f43"
   integrity sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==
 
-"@urql/core@>=2.5.0", "@urql/core@^2.6.1":
+"@urql/core@>=3.0.0":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@urql/core/-/core-3.0.2.tgz#91008bc112000dd42c5260142e4eed7901def6bd"
+  integrity sha512-TRpQOdt1Mtpt/EgPlFCx9Aqc3TbHtzH3yj8pJ9yjSUKT4slRyy+ofMQ8yx50oZzZjAOswF02zBRwnxsZANb35A==
+  dependencies:
+    "@graphql-typed-document-node/core" "^3.1.1"
+    wonka "^6.0.0"
+
+"@urql/core@^2.6.1":
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-2.6.1.tgz#c10ee972c5e81df6d7bf1e778ef1b5d30e2906e5"
   integrity sha512-gYrEHy3tViJhwIhauK6MIf2Qp09QTsgNHZRd0n71rS+hF6gdwjspf1oKljl4m25+272cJF7fPjBUGmjaiEr7Kg==
@@ -236,13 +244,13 @@
     "@graphql-typed-document-node/core" "^3.1.1"
     wonka "^4.0.14"
 
-"@urql/exchange-graphcache@^4.4.3":
-  version "4.4.3"
-  resolved "https://registry.yarnpkg.com/@urql/exchange-graphcache/-/exchange-graphcache-4.4.3.tgz#3c8295a16c730918e1d01de42a2f180a777b98ca"
-  integrity sha512-EPXRCzq929RjVDym4NP4mO6bsyGE6J1JzUxE9vpm04VjZtK90Ag4bgftFdkHsMHh4ydvokLKQjCRVqGxKEBnEg==
+"@urql/exchange-graphcache@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@urql/exchange-graphcache/-/exchange-graphcache-5.0.1.tgz#3c051d971ba79cccf4aadc2cf87b413c6682cbd3"
+  integrity sha512-sbornx6SaAADycfEex0+npdJwhImSKa+76DAnOjF48wls5bYlG+ewDe0ipWdmV+gQ+t9SDFPLAHBzFURTlQacQ==
   dependencies:
-    "@urql/core" ">=2.5.0"
-    wonka "^4.0.14"
+    "@urql/core" ">=3.0.0"
+    wonka "^6.0.0"
 
 JSONStream@^1.0.7:
   version "1.3.2"
@@ -2116,6 +2124,11 @@ wonka@^4.0.14:
   version "4.0.15"
   resolved "https://registry.yarnpkg.com/wonka/-/wonka-4.0.15.tgz#9aa42046efa424565ab8f8f451fcca955bf80b89"
   integrity sha512-U0IUQHKXXn6PFo9nqsHphVCE5m3IntqZNB9Jjn7EB1lrR7YTDY3YWgFvEvwniTzXSvOH/XMzAZaIfJF/LvHYXg==
+
+wonka@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/wonka/-/wonka-6.0.0.tgz#38cd39a517fc3ff721ea3bf353642b353bf48860"
+  integrity sha512-TEiIOqkhQXbcmL1RrjxPCzTX15V5FSyJvZRSiTxvgTgrJMaOVKmzGTdRVh349CfaNo9dsIhWDyg1/GNq4NWrEg==
 
 wrap-ansi@^7.0.0:
   version "7.0.0"
