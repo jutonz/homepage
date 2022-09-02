@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql, useQuery } from "urql";
 
@@ -17,14 +17,15 @@ export function RequireLogin({ children }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  useEffect(() => {
+    const isLoggedIn = data.check_session;
+    if (!isLoggedIn) {
+      navigate("/login", { replace: true, state: { from: location } });
+    }
+  }, [data.check_session]);
+
   if (fetching) return null;
   if (error) return <div>An error occurred: {error.message}</div>;
-
-  const isLoggedIn = data.check_session;
-  if (!isLoggedIn) {
-    navigate("/login", { replace: true, state: { from: location } });
-    return null;
-  }
 
   return children;
 }

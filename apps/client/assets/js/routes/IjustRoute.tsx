@@ -25,8 +25,7 @@ export const IjustRoute = () => {
         query={QUERY}
         component={({ data }) => {
           const contextId = data.getIjustDefaultContext.id;
-          navigate(`ijust/contexts/${contextId}`);
-          return null;
+          navigate(`/ijust/contexts/${contextId}`);
         }}
       />
     </div>

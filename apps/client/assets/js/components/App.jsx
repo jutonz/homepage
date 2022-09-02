@@ -46,9 +46,9 @@ const _App = ({ flashMessages }) => (
 
     <Router>
       <Routes>
-        <Route path="/login" component={LoginRoute} />
-        <Route path="/signup" component={SignupRoute} />
-        <Route path="/coffeemaker" component={CoffeemakerRoute} />
+        <Route path="/login" element={<LoginRoute />} />
+        <Route path="/signup" element={<SignupRoute />} />
+        <Route path="/coffeemaker" element={<CoffeemakerRoute />} />
 
         <Route path="/" exact={true} element={requireLogin(HomeRoute)} />
         <Route
