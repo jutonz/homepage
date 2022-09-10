@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 import { Dropdown, Menu } from "semantic-ui-react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import gql from "graphql-tag";
 import { useQuery } from "urql";
 
@@ -17,7 +17,7 @@ const CHECK_SESSION_QUERY = gql`
 export function MainNav({ activeItem }: Props) {
   const [{ data, fetching, error }] = useQuery({
     query: CHECK_SESSION_QUERY,
-    requestPolicy: "network-only",
+    requestPolicy: "cache-only",
   });
 
   if (fetching) return <div>Loading...</div>;
@@ -58,35 +58,35 @@ function renderLogsSubnav(activeItem: String) {
   return (
     <Dropdown item text="Logs">
       <Dropdown.Menu>
-        <Link to="/water-logs" component={StaticLink}>
+        <StaticLink pathname="/water-logs">
           <Dropdown.Item name={"waterLogs"} active={activeItem === "waterLogs"}>
             Water Logs
           </Dropdown.Item>
-        </Link>
+        </StaticLink>
 
-        <Link to="/food-logs" component={StaticLink}>
+        <StaticLink pathname="/food-logs">
           <Dropdown.Item name={"foodLogs"} active={activeItem === "foodLogs"}>
             Food Logs
           </Dropdown.Item>
-        </Link>
+        </StaticLink>
 
-        <Link to="/soap" component={StaticLink}>
+        <StaticLink pathname="/soap">
           <Dropdown.Item name={"soap"} active={activeItem === "soap"}>
             Soap
           </Dropdown.Item>
-        </Link>
+        </StaticLink>
 
-        <Link to="/train-logs" component={StaticLink}>
+        <StaticLink pathname="/train-logs">
           <Dropdown.Item name={"trainLogs"} active={activeItem === "trainLogs"}>
             Trains
           </Dropdown.Item>
-        </Link>
+        </StaticLink>
 
-        <Link to="/storage" component={StaticLink}>
+        <StaticLink pathname="/storage">
           <Dropdown.Item name={"storage"} active={activeItem === "storage"}>
             Storage
           </Dropdown.Item>
-        </Link>
+        </StaticLink>
       </Dropdown.Menu>
     </Dropdown>
   );
@@ -107,7 +107,7 @@ function renderLegacySubnav(activeItem: String) {
 }
 
 function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const logout = () => {
     fetch("/api/logout", {
@@ -117,7 +117,7 @@ function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
       .then((response) => {
         if (response.ok) {
           //this.props.destroySession();
-          history.push("/login");
+          navigate("/login");
         } else {
           return response.json();
         }
@@ -129,7 +129,7 @@ function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
       });
   };
 
-  const login = () => history.push("/");
+  const login = () => navigate("/");
 
   if (isLoggedIn) {
     return (
@@ -144,12 +144,11 @@ function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
   }
 }
 
-const StaticLink = forwardRef((props: any, ref) => {
-  const href = props.href.replace("#/", "");
+type StaticLinkProps = {
+  children: React.ReactNode;
+  pathname: string;
+};
 
-  return (
-    <a ref={ref as React.RefObject<HTMLAnchorElement>} href={href}>
-      {props.children}
-    </a>
-  );
-});
+function StaticLink({ children, pathname }: StaticLinkProps) {
+  return <a href={pathname}>{children}</a>;
+}

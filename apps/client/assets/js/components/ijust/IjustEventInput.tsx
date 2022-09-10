@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Message, Form, Search, SearchResultProps } from "semantic-ui-react";
 import { css, StyleSheet } from "aphrodite";
-import { Redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "urql";
 
 import { IjustEventTypeahead } from "./../../utils/IjustEventTypeahead";
@@ -56,6 +56,7 @@ export function IjustEventInput({ ijustContextId }: Props) {
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<any>([]);
   const [result, createEvent] = useMutation(CREATE_EVENT);
+  const navigate = useNavigate();
 
   const typeahead = useMemo(() => {
     return new IjustEventTypeahead((rawResults: Array<any>) => {
@@ -70,7 +71,8 @@ export function IjustEventInput({ ijustContextId }: Props) {
 
   if (selectedEventId) {
     const pathname = `/ijust/contexts/${ijustContextId}/events/${selectedEventId}`;
-    return <Redirect to={{ pathname }} />;
+    navigate(pathname);
+    return null;
   }
 
   const renderNoResultsMessage = () => {

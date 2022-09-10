@@ -48,7 +48,7 @@ function* joinTeam({ name, history }) {
     const team = yield joinTeamMutation({ name });
     yield put({ type: "STORE_TEAM", team });
     yield put({ type: "JOIN_TEAM_SUCCESS", team });
-    history.push(`/teams/${team.id}`);
+    history(`/teams/${team.id}`);
     yield put(showFlash("Successfully joined team", "success"));
   } catch (error) {
     console.error(error);
@@ -57,13 +57,13 @@ function* joinTeam({ name, history }) {
   }
 }
 
-function* leaveTeam({ id, history }) {
+function* leaveTeam({ id, navigate }) {
   try {
     yield put({ type: "LEAVE_TEAM_REQUEST" });
     yield leaveTeamMutation({ id });
     yield put({ type: "UNSTORE_TEAM", id });
     yield put({ type: "LEAVE_TEAM_SUCCESS", id });
-    history.push("/settings");
+    navigate("/settings");
     yield put(showFlash("Successfully left team", "success"));
   } catch (errors) {
     yield put({ type: "LEAVE_TEAM_FAILURE", errors });

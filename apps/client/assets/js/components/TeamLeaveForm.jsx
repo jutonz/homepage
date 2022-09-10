@@ -3,7 +3,7 @@ import { StyleSheet, css } from "aphrodite";
 import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { withRouter } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const style = StyleSheet.create({
   container: {
@@ -14,18 +14,22 @@ const style = StyleSheet.create({
   },
 });
 
-const _TeamLeaveForm = ({ team, leaveTeam, isLoading, errors, history }) => (
-  <div className={css(style.container)}>
-    <Form onSubmit={() => leaveTeam(team.id, history)} error={!!errors}>
-      <Header>Leave team</Header>
-      <Message error>{errors}</Message>
-      <p>You can always rejoin later</p>
-      <Form.Button primary fluid loading={isLoading}>
-        Leave
-      </Form.Button>
-    </Form>
-  </div>
-);
+const _TeamLeaveForm = ({ team, leaveTeam, isLoading, errors }) => {
+  const navigate = useNavigate();
+
+  return (
+    <div className={css(style.container)}>
+      <Form onSubmit={() => leaveTeam(team.id, navigate)} error={!!errors}>
+        <Header>Leave team</Header>
+        <Message error>{errors}</Message>
+        <p>You can always rejoin later</p>
+        <Form.Button primary fluid loading={isLoading}>
+          Leave
+        </Form.Button>
+      </Form>
+    </div>
+  );
+};
 
 export const TeamLeaveForm = compose(
   connect(
@@ -34,8 +38,8 @@ export const TeamLeaveForm = compose(
       errors: state.teams.leavingTeamErrors,
     }),
     (dispatch) => ({
-      leaveTeam: (id, history) => dispatch({ type: "LEAVE_TEAM", id, history }),
+      leaveTeam: (id, navigate) =>
+        dispatch({ type: "LEAVE_TEAM", id, navigate }),
     })
-  ),
-  withRouter
+  )
 )(_TeamLeaveForm);

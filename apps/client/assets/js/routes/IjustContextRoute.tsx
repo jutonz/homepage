@@ -1,6 +1,7 @@
 import { StyleSheet, css } from "aphrodite";
 import * as React from "react";
 import { gql } from "urql";
+import { useParams } from "react-router-dom";
 
 import { IjustContext } from "../components/ijust/IjustContext";
 import { MainNav } from "../components/MainNav";
@@ -25,21 +26,25 @@ const QUERY = gql`
   }
 `;
 
-export const IjustContextRoute = ({ match }) => (
-  <div>
-    <MainNav activeItem={"ijust"} />
-    <QueryLoader
-      query={QUERY}
-      variables={{ id: match.params.id }}
-      component={({ data }) => {
-        const context = new Context(data.getIjustContext);
-        return renderContext(context);
-      }}
-    />
-  </div>
-);
+export const IjustContextRoute = () => {
+  const { id } = useParams();
 
-const renderContext = (context) => (
+  return (
+    <div>
+      <MainNav activeItem={"ijust"} />
+      <QueryLoader
+        query={QUERY}
+        variables={{ id }}
+        component={({ data }) => {
+          const context = new Context(data.getIjustContext);
+          return renderContext(context);
+        }}
+      />
+    </div>
+  );
+};
+
+const renderContext = (context: any) => (
   <div>
     <div className={css(style.routeContainer)}>
       <IjustContext context={context} />

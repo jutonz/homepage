@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LoginForm } from "./../components/LoginForm";
 import { BgGrid } from "./../BgGrid";
 import gql from "graphql-tag";
@@ -12,7 +12,7 @@ const CHECK_SESSION_QUERY = gql`
 `;
 
 export function LoginRoute() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [_bgGrid, setBgGrid] = useState(null);
   const [{ data, fetching, error }] = useQuery({ query: CHECK_SESSION_QUERY });
 
@@ -23,7 +23,7 @@ export function LoginRoute() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      history.replace("/");
+      navigate("/");
     } else {
       const newGrid = new BgGrid();
       newGrid.init();

@@ -1,11 +1,11 @@
-import { HashRouter as Router, Route, Switch } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, useHref } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { css, StyleSheet } from "aphrodite";
 import React from "react";
 
 import { Flash } from "./Flash";
-import { AuthenticatedRoute } from "./../routes/AuthenticatedRoute";
+import { RequireLogin } from "./login/RequireLogin";
 import { CoffeemakerRoute } from "./../routes/CoffeemakerRoute";
 import { HomeRoute } from "./../routes/HomeRoute";
 import { IjustContextEventRoute } from "./../routes/ijust/IjustContextEventRoute";
@@ -32,6 +32,12 @@ const style = StyleSheet.create({
   },
 });
 
+const requireLogin = (Route) => (
+  <RequireLogin>
+    <Route />
+  </RequireLogin>
+);
+
 const _App = ({ flashMessages }) => (
   <div>
     <div className={css(style.flashContainer)}>
@@ -39,48 +45,105 @@ const _App = ({ flashMessages }) => (
     </div>
 
     <Router>
-      <Switch>
-        <Route path="/login" component={LoginRoute} />
-        <Route path="/signup" component={SignupRoute} />
-        <Route path="/coffeemaker" component={CoffeemakerRoute} />
+      <Routes>
+        <Route path="/login" element={<LoginRoute />} />
+        <Route path="/signup" element={<SignupRoute />} />
+        <Route path="/coffeemaker" element={<CoffeemakerRoute />} />
 
-        <AuthenticatedRoute path="/" exact={true} component={HomeRoute} />
-        <AuthenticatedRoute
+        <Route path="/" exact={true} element={requireLogin(HomeRoute)} />
+        <Route
           path="/twitch"
           exact={true}
-          component={TwitchRoute}
+          element={
+            <RequireLogin>
+              <TwitchRoute />
+            </RequireLogin>
+          }
         />
-        <AuthenticatedRoute
+        <Route
           path="/twitch/channels/:channel_name"
           exact={true}
-          component={TwitchChannelRoute}
+          element={
+            <RequireLogin>
+              <TwitchChannelRoute />
+            </RequireLogin>
+          }
         />
-        <AuthenticatedRoute path="/settings" component={SettingsRoute} />
-        <AuthenticatedRoute exact path="/teams/:id" component={TeamRoute} />
-        <AuthenticatedRoute
+        <Route
+          path="/settings"
+          element={
+            <RequireLogin>
+              <SettingsRoute />
+            </RequireLogin>
+          }
+        />
+        <Route
+          exact
+          path="/teams/:id"
+          element={
+            <RequireLogin>
+              <TeamRoute />
+            </RequireLogin>
+          }
+        />
+        <Route
           path="/teams/:team_id/users/:user_id"
-          component={TeamUserRoute}
+          element={
+            <RequireLogin>
+              <TeamUserRoute />
+            </RequireLogin>
+          }
         />
-        <AuthenticatedRoute exact path="/ijust" component={IjustRoute} />
-        <AuthenticatedRoute
+        <Route
+          exact
+          path="/ijust"
+          element={
+            <RequireLogin>
+              <IjustRoute />
+            </RequireLogin>
+          }
+        />
+        <Route
           exact
           path="/ijust/contexts"
-          component={IjustContextsRoute}
+          element={
+            <RequireLogin>
+              <IjustContextsRoute />
+            </RequireLogin>
+          }
         />
-        <AuthenticatedRoute
+        <Route
           exact
           path="/ijust/contexts/:id"
-          component={IjustContextRoute}
+          element={
+            <RequireLogin>
+              <IjustContextRoute />
+            </RequireLogin>
+          }
         />
-        <AuthenticatedRoute
+        <Route
           exact
           path="/ijust/contexts/:contextId/events/:eventId"
-          component={IjustContextEventRoute}
+          element={
+            <RequireLogin>
+              <IjustContextEventRoute />
+            </RequireLogin>
+          }
         />
-      </Switch>
+        <Route path="*" element={<RedirectToStatic />} />
+      </Routes>
     </Router>
   </div>
 );
+
+function RedirectToStatic() {
+  React.useEffect(() => {
+    const href = window.location.href;
+    window.location.href = href.replace("/#", "");
+  }, []);
+
+  return null;
+}
 
 const renderFlash = (messages) => {
   let comps = [];

@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, css } from "aphrodite";
 import { Button, Form, Input } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
@@ -181,7 +180,4 @@ const mapStateToProps = (state) => ({
   csrfToken: state.csrfToken,
 });
 
-export const LoginForm = compose(
-  withRouter,
-  connect(mapStateToProps)
-)(_LoginForm);
+export const LoginForm = compose(connect(mapStateToProps))(_LoginForm);
