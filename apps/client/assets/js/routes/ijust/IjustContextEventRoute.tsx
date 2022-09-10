@@ -2,6 +2,7 @@ import * as React from "react";
 import gql from "graphql-tag";
 import { Table } from "semantic-ui-react";
 import { format, formatDistanceToNow, parseISO } from "date-fns";
+import { useParams } from "react-router-dom";
 
 import { MainNav } from "./../../components/MainNav";
 import { IjustEventOccurrences } from "./../../components/ijust/IjustEventOccurrences";
@@ -22,8 +23,8 @@ const QUERY = gql`
   }
 `;
 
-export const IjustContextEventRoute = ({ match }) => {
-  const { contextId, eventId } = match.params;
+export const IjustContextEventRoute = () => {
+  const { contextId, eventId } = useParams();
 
   return (
     <div>
@@ -34,7 +35,6 @@ export const IjustContextEventRoute = ({ match }) => {
           variables={{ contextId, eventId }}
           component={({ data }) => {
             const event = data.getIjustContextEvent;
-            // TODO: hacky hack
             const context = { name: "default", id: contextId };
             return renderEvent(event, context);
           }}
