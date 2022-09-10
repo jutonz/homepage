@@ -3,7 +3,6 @@ import { Dropdown, Menu } from "semantic-ui-react";
 import { Link, useNavigate } from "react-router-dom";
 import gql from "graphql-tag";
 import { useQuery } from "urql";
-import type { LinkProps } from "react-router-dom";
 
 interface Props {
   activeItem: string;
@@ -18,7 +17,7 @@ const CHECK_SESSION_QUERY = gql`
 export function MainNav({ activeItem }: Props) {
   const [{ data, fetching, error }] = useQuery({
     query: CHECK_SESSION_QUERY,
-    requestPolicy: "network-only",
+    requestPolicy: "cache-only",
   });
 
   if (fetching) return <div>Loading...</div>;
@@ -59,31 +58,31 @@ function renderLogsSubnav(activeItem: String) {
   return (
     <Dropdown item text="Logs">
       <Dropdown.Menu>
-        <StaticLink to="/water-logs">
+        <StaticLink pathname="/water-logs">
           <Dropdown.Item name={"waterLogs"} active={activeItem === "waterLogs"}>
             Water Logs
           </Dropdown.Item>
         </StaticLink>
 
-        <StaticLink to="/food-logs">
+        <StaticLink pathname="/food-logs">
           <Dropdown.Item name={"foodLogs"} active={activeItem === "foodLogs"}>
             Food Logs
           </Dropdown.Item>
         </StaticLink>
 
-        <StaticLink to="/soap">
+        <StaticLink pathname="/soap">
           <Dropdown.Item name={"soap"} active={activeItem === "soap"}>
             Soap
           </Dropdown.Item>
         </StaticLink>
 
-        <StaticLink to="/train-logs">
+        <StaticLink pathname="/train-logs">
           <Dropdown.Item name={"trainLogs"} active={activeItem === "trainLogs"}>
             Trains
           </Dropdown.Item>
         </StaticLink>
 
-        <StaticLink to="/storage">
+        <StaticLink pathname="/storage">
           <Dropdown.Item name={"storage"} active={activeItem === "storage"}>
             Storage
           </Dropdown.Item>
@@ -145,14 +144,11 @@ function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
   }
 }
 
-function StaticLink({ children, ...props }: LinkProps) {
-  const onClick = (args) => {
-    debugger;
-  };
+type StaticLinkProps = {
+  children: React.ReactNode;
+  pathname: string;
+};
 
-  return (
-    <a onClick={onClick} {...props}>
-      {children}
-    </a>
-  );
+function StaticLink({ children, pathname }: StaticLinkProps) {
+  return <a href={pathname}>{children}</a>;
 }

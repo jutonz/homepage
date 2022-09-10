@@ -28,26 +28,27 @@ const QUERY = gql`
   }
 `;
 
-export const IjustContextsRoute = ({ match }) => (
-  <div>
-    <MainNav activeItem={"ijust"} />
-    <div className={css(style.routeContainer)}>
-      <IjustBreadcrumbs viewing={"contexts"} />
-      <p>
-        Contexts are groups of events. You can create priviate contexts for your
-        personal items and shared contexts for things you want to track with
-        your friends.
-      </p>
-      <QueryLoader
-        query={QUERY}
-        variables={{ id: match.params.id }}
-        component={({ data }) => {
-          return renderContexts(data.getIjustContexts);
-        }}
-      />
+export const IjustContextsRoute = () => {
+  return (
+    <div>
+      <MainNav activeItem={"ijust"} />
+      <div className={css(style.routeContainer)}>
+        <IjustBreadcrumbs viewing={"contexts"} />
+        <p>
+          Contexts are groups of events. You can create priviate contexts for
+          your personal items and shared contexts for things you want to track
+          with your friends.
+        </p>
+        <QueryLoader
+          query={QUERY}
+          component={({ data }) => {
+            return renderContexts(data.getIjustContexts);
+          }}
+        />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const renderContexts = (contexts) => (
   <div>
