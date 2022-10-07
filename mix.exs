@@ -13,6 +13,19 @@ defmodule HomepageUmbrella.Mixfile do
         plt_add_apps: ~w[mix]a,
         plt_core_path: "_plts",
         plt_file: {:no_warn, "_plts/homepage.plt"}
+      ],
+      releases: [
+        homepage: [
+          version: "0.1.0",
+          applications: [
+            auth: :permanent,
+            client: :permanent,
+            emoncms: :permanent,
+            events: :permanent,
+            redis: :permanent,
+            twitch: :permanent
+          ]
+        ]
       ]
     ]
   end
