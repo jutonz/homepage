@@ -19,7 +19,7 @@ fn form -> %>
 
   <%= submit(
     @action |> to_string |> String.capitalize(),
-    class: "w-32 mt-4",
+    class: "button",
     data: [role: "#{to_string(@action)}-water-log"]
   ) %>
 <% end) %>
