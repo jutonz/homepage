@@ -10,9 +10,11 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
         render_button(assigns)
       end
 
+    assigns = assign(assigns, :rendered, rendered)
+
     ~H"""
     <div id={@myself}>
-      <%= rendered %>
+      <%= @rendered %>
     </div>
     """
   end
@@ -103,7 +105,7 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
       <div class="flex flex-row mt-4 justify-between">
         <%= submit(
           "Create",
-          class: "px-4 mr-5",
+          class: "button",
           data: [role: "create-train-sighting"]
         ) %>
 

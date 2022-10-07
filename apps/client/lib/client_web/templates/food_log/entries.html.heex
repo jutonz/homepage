@@ -4,7 +4,7 @@
       <%= day %>
     </div>
     <%= for entry <- @entries[day] do %>
-      <%= live_component(ClientWeb.FoodLog.EntryView, id: entry[:id]) %>
+      <.live_component module={ClientWeb.FoodLog.EntryView} id={entry[:id]} />
     <% end %>
 
     <%= if day == @today do %>
@@ -21,7 +21,7 @@
             <%= error_tag(f, :description) %>
           </div>
 
-          <%= submit("Add entry", data: [role: "entry-submit"], class: "ml-4") %>
+          <%= submit("Add entry", data: [role: "entry-submit"], class: "button ml-4") %>
         </div>
       </.form>
     <% end %>
