@@ -2,7 +2,7 @@ import { createBrowserHistory as createHistory } from "history";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { routerMiddleware } from "react-router-redux";
 import { applyMiddleware, createStore } from "redux";
@@ -187,11 +187,12 @@ export const urqlClient = createClient({
   ],
 });
 
-ReactDOM.render(
+const root = createRoot(container);
+
+root.render(
   <Provider store={store}>
     <UrqlProvider value={urqlClient}>
       <Index />
     </UrqlProvider>
-  </Provider>,
-  container
+  </Provider>
 );
