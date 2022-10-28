@@ -10,4 +10,4 @@ build:
     && rm -rf /var/lib/apt/lists/*
   RUN MIX_ENV=prod mix do local.hex --force, local.rebar --force, deps.get
   RUN MIX_ENV=prod mix release homepage
-  SAVE ARTIFACT --force _build/prod/rel/homepage AS LOCAL tmp/testin
+  SAVE ARTIFACT --force _build/prod/rel/homepage AS LOCAL tmp/deploy
