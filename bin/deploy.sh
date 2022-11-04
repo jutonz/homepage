@@ -18,8 +18,7 @@ export EARTHLY_BUILDKIT_HOST=tcp://littlebox.local:8372
 rm -rf tmp/deploy
 earthly +build
 
-# TODO: Stop existing server, if one is running
-
+ssh littlebox -C "sudo systemctl stop homepage"
 ssh littlebox -C "rm -rf srv/homepage"
 
 mkdir -p tmp/deploy/secrets
@@ -27,7 +26,4 @@ cp bin/decrypt_secrets.sh key.txt secrets.txt.encrypted tmp/deploy/secrets
 
 rsync -a tmp/deploy/ littlebox:srv/homepage/
 
-ssh littlebox -C "cd srv/homepage && ./bin/homepage eval \"Client.Release.migrate()\""
-ssh littlebox -C "cd srv/homepage && ./bin/homepage eval \"Twitch.Release.migrate()\""
-
-# TODO: start server
+ssh littlebox -C "cd srv/homepage && ./bin/post_deploy.sh"

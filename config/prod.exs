@@ -6,7 +6,13 @@ import Config
 
 config :client, ClientWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
-  force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto]]
+  force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto]],
+  https: [
+    port: 4000,
+    cipher_suite: :strong,
+    keyfile: "/home/jutonz/srv/homepage/secrets/privkey.pem",
+    certfile: "/home/jutonz/srv/homepage/secrets/fullchain.pem"
+  ]
 
 # Do not print debug messages in production
 config :logger, level: :info

@@ -21,9 +21,9 @@ build:
     && rm -rf /var/lib/apt/lists/*
   COPY . .
   RUN MIX_ENV=prod mix do local.hex --force, local.rebar --force, deps.get
+  RUN mix deps.compile
   RUN mix compile
   COPY +assets/priv/static apps/client/priv/static
-  RUN ls -alh apps/client/priv/static
   RUN mix phx.digest
   RUN mix release homepage
   SAVE ARTIFACT --force _build/prod/rel/homepage AS LOCAL tmp/deploy
