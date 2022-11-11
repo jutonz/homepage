@@ -8,7 +8,7 @@
     "typecheck": "npx tsc --project ./tsconfig.json"
   },
   "dependencies": {
-    "@hookform/resolvers": "^2.9.8",
+    "@hookform/resolvers": "^2.9.10",
     "@urql/exchange-graphcache": "^5.0.4",
     "aphrodite": "^2.4.0",
     "chart.js": "^3.9.1",
