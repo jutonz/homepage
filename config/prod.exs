@@ -4,11 +4,14 @@ import Config
 # Client config
 ################################################################################
 
+config :client, env: :prod
+
+  #force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto]],
 config :client, ClientWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
-  force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto]],
+  http: [port: 4080],
   https: [
-    port: 4000,
+    port: 4443,
     cipher_suite: :strong,
     keyfile: "/home/jutonz/srv/homepage/secrets/privkey.pem",
     certfile: "/home/jutonz/srv/homepage/secrets/fullchain.pem"

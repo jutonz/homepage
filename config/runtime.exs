@@ -4,8 +4,6 @@ import Config
 # Client config
 ################################################################################
 
-port = "PORT" |> System.fetch_env!() |> String.to_integer()
-
 host = System.fetch_env!("PHX_HOST")
   #case System.get_env("HEROKU_APP_NAME") do
     #"jt-homepage" -> "app.jutonz.com"
@@ -14,7 +12,6 @@ host = System.fetch_env!("PHX_HOST")
   #end
 
 config :client, ClientWeb.Endpoint,
-  http: [port: port],
   url: [scheme: "https", port: 443, host: host],
   check_origin: ["https://#{host}"]
 

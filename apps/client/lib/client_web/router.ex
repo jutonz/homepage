@@ -19,7 +19,7 @@ defmodule ClientWeb.Router do
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
 
-    if Mix.env() == :test do
+    if Application.fetch_env!(:client, :env) == :test do
       plug(ClientWeb.Plugs.TestAuthHelper)
     end
   end
@@ -140,7 +140,7 @@ defmodule ClientWeb.Router do
 
   Absinthe.Plug.GraphiQL
 
-  if Mix.env() == :dev do
+  if Application.fetch_env!(:client, :env) == :dev do
     forward(
       "/graphiql",
       Absinthe.Plug.GraphiQL,
@@ -163,7 +163,7 @@ defmodule ClientWeb.Router do
     plug(ClientWeb.Plugs.ApiAuthenticated)
   end
 
-  if Mix.env() == :dev do
+  if Application.fetch_env!(:client, :env) == :dev do
     forward("/sent_emails", Bamboo.SentEmailViewerPlug)
   end
 
