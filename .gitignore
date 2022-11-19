@@ -28,6 +28,8 @@ docker/ci/keys
 # Igore things for encrypted secrets
 apps/twitch/config/master.key
 apps/twitch/config/.env
+key.txt
+secrets.txt
 
 # Ignore dialyzer PLT files
 _plts/

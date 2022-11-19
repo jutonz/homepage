@@ -6,7 +6,8 @@ import Config
 
 config :client,
   admin_username: "admin",
-  admin_password: "admin"
+  admin_password: "admin",
+  env: :dev
 
 # For development, we disable any cache and enable debugging and code
 # reloading.

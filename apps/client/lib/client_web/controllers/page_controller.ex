@@ -3,7 +3,7 @@ defmodule ClientWeb.PageController do
 
   def index(conn, _params) do
     title =
-      if Mix.env() == :prod do
+      if Application.fetch_env!(:client, :env) == :prod do
         "jutonz.com"
       else
         "[dev] jutonz.com"

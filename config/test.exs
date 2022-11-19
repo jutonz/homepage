@@ -5,6 +5,7 @@ import Config
 ################################################################################
 
 config :client,
+  env: :test,
   default_timezone: "America/New_York"
 
 # We don't run a server during test. If one is required, you can enable the
