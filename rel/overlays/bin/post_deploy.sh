@@ -10,7 +10,6 @@ set -ex
 
 sudo cp /etc/letsencrypt/live/jutonz.com/fullchain.pem /home/jutonz/srv/homepage/secrets/fullchain.pem
 sudo cp /etc/letsencrypt/live/jutonz.com/privkey.pem /home/jutonz/srv/homepage/secrets/privkey.pem
-#sudo chown jutonz:jutonz /home/jutonz/srv/homepage/secrets/*pem
-# TODO: chown SSL certificates
+sudo chown jutonz:jutonz /home/jutonz/srv/homepage/secrets/*pem
 
 sudo systemctl start homepage
