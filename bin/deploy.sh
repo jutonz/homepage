@@ -11,6 +11,13 @@ if ! test -f "secrets.txt.encrypted"; then
   exit 1
 fi
 
+if ! command -v earthly > /dev/null; then
+  echo "The command \"earthly\" was not installed."
+  echo "Please install it to continue."
+  echo "Probably you want \`brew install earthly\`"
+  exit 1
+fi
+
 set -ex
 
 export EARTHLY_BUILDKIT_HOST=tcp://littlebox.local:8372
