@@ -35,7 +35,7 @@
     "semantic-ui-less": "^2.5.0",
     "semantic-ui-react": "^2.1.4",
     "tailwindcss": "^3.2.4",
-    "three": "^0.146.0",
+    "three": "^0.148.0",
     "urql": "^2.2.3",
     "yup": "^0.32.11"
   },
