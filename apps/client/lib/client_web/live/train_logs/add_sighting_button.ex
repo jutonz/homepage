@@ -21,7 +21,7 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
 
   defp render_form(assigns) do
     ~H"""
-    <.form let={form} for={@changeset} phx_submit="save" phx_target={@myself}>
+    <.form :let={form} for={@changeset} phx_submit="save" phx_target={@myself}>
       <div class="flex flex-1 flex-col mt-2">
         <div class="flex flex-row">
           <%= label(form, :sighted_date, "Date") %>
