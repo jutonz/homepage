@@ -2,9 +2,9 @@
   <%= if @changeset do %>
     <div class="modal">
       <div class="modal__content">
-        <.form let={f} for={@changeset} phx_submit="update_entry" phx_target={@myself}>
+        <.form :let={f} for={@changeset} phx_submit="update_entry" phx_target={@myself}>
           <div class="modal__content__header">
-            <div class="text-xl">Edit entry</div>
+            <div class="text-xl mb-2">Edit entry</div>
             <div class="text-xl absolute top-0 right-0 mr-2" phx-click="cancel_edit_entry">x</div>
           </div>
           <div class="modal__content__body">
@@ -39,10 +39,10 @@
               </div>
             </div>
           </div>
-          <div class="modal__content__footer flex justify-between">
-            <%= submit("Save", data: [role: "entry-update-submit"]) %>
+          <div class="modal__content__footer flex mt-2">
+            <%= submit("Save", class: "button", data: [role: "entry-update-submit"]) %>
             <div
-              class="button"
+              class="button ml-2"
               data-role="delete-log-entry"
               phx-click="delete_entry"
               phx-target={@myself}
