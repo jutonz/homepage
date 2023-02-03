@@ -48,7 +48,7 @@ defmodule Client.Mixfile do
       {:events, in_umbrella: true},
       {:ex_machina, "~> 2.2", only: :test},
       {:floki, "~> 0.34.0", only: :test},
-      {:gen_stage, "~> 1.1.0"},
+      {:gen_stage, "~> 1.2.0"},
       {:gettext, "~> 0.11"},
       {:hackney, "~> 1.8"},
       {:jason, "~> 1.1"},
