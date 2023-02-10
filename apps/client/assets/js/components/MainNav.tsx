@@ -10,7 +10,9 @@ interface Props {
 
 const CHECK_SESSION_QUERY = gql`
   {
-    check_session
+    check_session {
+      authenticated
+    }
   }
 `;
 
@@ -23,7 +25,7 @@ export function MainNav({ activeItem }: Props) {
   if (fetching) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;
 
-  const isLoggedIn = data.check_session;
+  const isLoggedIn = data.check_session.authenticated;
 
   return (
     <Menu stackable>
@@ -108,25 +110,29 @@ function renderLegacySubnav(activeItem: String) {
 
 function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
   const navigate = useNavigate();
+  const [_result, checkSession] = useQuery({
+    query: CHECK_SESSION_QUERY,
+    pause: true,
+    requestPolicy: "network-only",
+  });
 
-  const logout = () => {
-    fetch("/api/logout", {
+  const logout = async () => {
+    const response = await fetch("/api/logout", {
       method: "POST",
       credentials: "same-origin",
-    })
-      .then((response) => {
-        if (response.ok) {
-          //this.props.destroySession();
-          navigate("/login");
-        } else {
-          return response.json();
-        }
-      })
-      .then((response) => {
-        if (response && response.messages) {
-          console.error(response.messages);
-        }
-      });
+    });
+
+    if (response.ok) {
+      // bust cache by re-running check_session with network-only requestPolicy
+      await checkSession();
+      navigate("/");
+      return;
+    }
+
+    const json: any = await response.json();
+    if (json && json.messages) {
+      console.error(json.messages);
+    }
   };
 
   const login = () => navigate("/");

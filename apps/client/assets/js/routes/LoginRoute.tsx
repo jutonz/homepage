@@ -7,7 +7,9 @@ import { useQuery } from "urql";
 
 const CHECK_SESSION_QUERY = gql`
   {
-    check_session
+    check_session {
+      authenticated
+    }
   }
 `;
 
@@ -19,7 +21,7 @@ export function LoginRoute() {
   if (fetching) return null;
   if (error) return <div>An error occurred: {error.message}</div>;
 
-  const isLoggedIn = data.check_session;
+  const isLoggedIn = data.check_session.authenticated;
 
   useEffect(() => {
     if (isLoggedIn) {

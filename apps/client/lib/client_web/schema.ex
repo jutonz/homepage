@@ -60,6 +60,10 @@ defmodule ClientWeb.Schema do
     field(:updated_at, non_null(:string))
   end
 
+  object :check_session_result do
+    field(:authenticated, non_null(:boolean))
+  end
+
   query do
     field :get_user, :user do
       arg(:id, :id)
@@ -67,7 +71,7 @@ defmodule ClientWeb.Schema do
       resolve(&ClientWeb.UserResolver.get_user/3)
     end
 
-    field :check_session, :boolean do
+    field :check_session, :check_session_result do
       resolve(&ClientWeb.SessionResolver.check_session/3)
     end
 

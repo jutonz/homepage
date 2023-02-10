@@ -4,7 +4,9 @@ import { gql, useQuery } from "urql";
 
 const CHECK_SESSION_QUERY = gql`
   {
-    check_session
+    check_session {
+      authenticated
+    }
   }
 `;
 
@@ -18,7 +20,7 @@ export function RequireLogin({ children }: Props) {
   const location = useLocation();
 
   useEffect(() => {
-    const isLoggedIn = data.check_session;
+    const isLoggedIn = data.check_session.authenticated;
     if (!isLoggedIn) {
       navigate("/login", { replace: true, state: { from: location } });
     }
