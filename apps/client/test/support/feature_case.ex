@@ -13,6 +13,7 @@ defmodule ClientWeb.FeatureCase do
       import Ecto.Changeset
       import Ecto.Query
       import Client.Factory
+      import Wallaby.Query
       import ClientWeb.FeatureHelpers
 
       @endpoint ClientWeb.Endpoint

@@ -5,7 +5,9 @@ import { App } from "./../components/App";
 
 const CHECK_SESSION_QUERY = gql`
   {
-    check_session
+    check_session {
+      authenticated
+    }
   }
 `;
 

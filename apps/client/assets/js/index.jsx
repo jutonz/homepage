@@ -73,6 +73,9 @@ export const urqlClient = createClient({
   exchanges: [
     dedupExchange,
     cacheExchange({
+      keys: {
+        CheckSessionResult: () => null,
+      },
       updates: {
         Mutation: {
           ijustAddOccurrenceToEvent(result, _args, cache, _info) {
