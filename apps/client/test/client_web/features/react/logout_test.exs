@@ -1,14 +1,14 @@
 defmodule ClientWeb.React.LogoutTest do
   use ClientWeb.FeatureCase, async: true
-  import Wallaby.Query, only: [link: 1]
 
   test "sends the user back to the login page", %{session: session} do
     user = insert(:user)
 
     session
     |> login(user)
-    |> click(link("Logout"))
+    |> click(css("a", text: "Logout"))
+    |> assert_has(css("h1", text: "Login"))
 
-    assert current_path(session) === "/#/login"
+    assert current_url(session) == ClientWeb.Endpoint.url() <> "/#/login"
   end
 end

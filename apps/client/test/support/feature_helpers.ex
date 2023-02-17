@@ -1,12 +1,6 @@
 defmodule ClientWeb.FeatureHelpers do
   use Wallaby.DSL
-
-  import Wallaby.Query,
-    only: [
-      button: 1,
-      css: 2,
-      fillable_field: 1
-    ]
+  import Wallaby.Query
 
   def role(role, opts \\ []),
     do: role |> role_selector() |> css(opts)
@@ -19,7 +13,9 @@ defmodule ClientWeb.FeatureHelpers do
     |> visit("/#/login")
     |> fill_in(fillable_field("email"), with: user.email)
     |> fill_in(fillable_field("password"), with: user.password)
-    |> click(button("Login"))
+    |> click(button("Login", disabled: false))
     |> find(css("a", text: "Logout"))
+
+    session
   end
 end

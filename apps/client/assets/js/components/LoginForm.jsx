@@ -137,7 +137,7 @@ class _LoginForm extends React.Component {
         action="/login"
         onSubmit={this.submit}
       >
-        <div className={css(styles.header)}>Login</div>
+        <h1 className={css(styles.header)}>Login</h1>
 
         <Form.Field>
           <label>Email</label>

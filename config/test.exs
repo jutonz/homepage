@@ -38,7 +38,20 @@ config :wallaby,
   screenshot_dir: "/tmp/homepage-screenshots",
   driver: Wallaby.Chrome,
   chromedriver: [
-    headless: true
+    capabilities: %{
+      takesScreenshot: true,
+      loggingPrefs: %{
+        browser: "DEBUG"
+      },
+      chromeOptions: %{
+        args: [
+          "--window-size=1920,1080",
+          "--headless",
+          "--use-gl=swiftshader",
+          "--ignore-gpu-blocklist"
+        ]
+      }
+    }
   ]
 
 ################################################################################
