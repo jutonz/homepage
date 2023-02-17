@@ -74,7 +74,7 @@ export const urqlClient = createClient({
     dedupExchange,
     cacheExchange({
       keys: {
-        CheckSessionResult: () => null
+        CheckSessionResult: () => null,
       },
       updates: {
         Mutation: {
