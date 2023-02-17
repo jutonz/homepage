@@ -1214,10 +1214,10 @@ phoenix@1.6.15:
   resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.6.15.tgz#efb2088a310cde333b3762002831b79dedf76002"
   integrity sha512-O6AG5jTkZOOkdd/GOSCsM4v3bzBoyRnC5bEi57KhX/Daba6FvnBRzt0nhEeRRiVQGLSxDlyb0dUe9CkYWMZd8g==
 
-phoenix_html@3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-3.2.0.tgz#4a30e5c331a72abababa1f3b81a9fe2c0e5a43d7"
-  integrity sha512-zv7PIZk0MPkF0ax8n465Q6w86+sGAy5cTem6KcbkUbdgxGc0y3WZmzkM2bSlYdSGbLEZfjXxos1G72xXsha6xA==
+phoenix_html@3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-3.3.0.tgz#75862f2270b8e6da3b5e528512a1a64de92f7874"
+  integrity sha512-Q/X9UhxQLMYOuA8cXrDSH7PWTK/+vCpX+rtSheoNaPb/qDVoi+R3GPYKgL9CJ06+VWhcC3kkZ05O/RVsby7m6A==
 
 phoenix_live_view@0.18.11:
   version "0.18.11"
