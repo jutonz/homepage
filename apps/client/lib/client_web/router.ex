@@ -3,9 +3,14 @@ defmodule ClientWeb.Router do
   @dialyzer {:no_return, __checks__: 0}
 
   use ClientWeb, :router
-  import Plug.BasicAuth
   import Phoenix.LiveView.Router
   import Phoenix.LiveDashboard.Router
+
+  defp basic_auth_runtime(conn, _opts) do
+    username = Application.fetch_env!(:client, :admin_username)
+    password = Application.fetch_env!(:client, :admin_password)
+    Plug.BasicAuth.basic_auth(conn, username: username, password: password)
+  end
 
   ##############################################################################
   # Browser requests
@@ -29,11 +34,7 @@ defmodule ClientWeb.Router do
   end
 
   pipeline :admin do
-    plug(
-      :basic_auth,
-      username: Application.compile_env!(:client, :admin_username),
-      password: Application.compile_env!(:client, :admin_password)
-    )
+    plug(:basic_auth_runtime)
   end
 
   scope "/", ClientWeb do
