@@ -11,7 +11,7 @@ jobs:
     name: mix compile and dialyzer
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
@@ -44,7 +44,7 @@ jobs:
     env:
       MIX_ENV: prod
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Setup node
       uses: actions/setup-node@v1
       with:
@@ -105,7 +105,7 @@ jobs:
         ports:
         - 6379:6379
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
