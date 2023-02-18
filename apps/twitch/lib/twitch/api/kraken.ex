@@ -44,7 +44,7 @@ defmodule Twitch.Api.Kraken do
     end
   end
 
-  @api_cache_server Application.get_env(:twitch, :api_cache_name)
+  @api_cache_server Application.compile_env(:twitch, :api_cache_name)
   def cached_get(url, headers, params) do
     cache_key = ApiCache.cache_key([url, headers, params])
 

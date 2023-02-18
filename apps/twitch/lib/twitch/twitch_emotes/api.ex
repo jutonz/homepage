@@ -16,7 +16,7 @@ defmodule Twitch.TwitchEmotes.Api do
 
   @one_minute 60000
   @one_hour @one_minute * 60
-  @api_cache_server Application.get_env(:twitch, :api_cache_name)
+  @api_cache_server Application.compile_env(:twitch, :api_cache_name)
   def cached_get(url, headers, params) do
     cache_key = ApiCache.cache_key([url, headers, params])
 

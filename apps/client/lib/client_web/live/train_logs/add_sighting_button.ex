@@ -21,7 +21,7 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
 
   defp render_form(assigns) do
     ~H"""
-    <.form :let={form} for={@changeset} phx_submit="save" phx_target={@myself}>
+    <.form :let={form} for={@changeset} phx-submit="save" phx-target={@myself}>
       <div class="flex flex-1 flex-col mt-2">
         <div class="flex flex-row">
           <%= label(form, :sighted_date, "Date") %>
@@ -175,9 +175,8 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
     {:noreply, assign(socket, assigns)}
   end
 
+  @default_timezone Application.compile_env!(:client, :default_timezone)
   defp now do
-    :client
-    |> Application.fetch_env!(:default_timezone)
-    |> DateTime.now!()
+    DateTime.now!(@default_timezone)
   end
 end

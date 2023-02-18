@@ -19,7 +19,7 @@ defmodule ClientWeb.Router do
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
 
-    if Application.fetch_env!(:client, :env) == :test do
+    if Application.compile_env!(:client, :env) == :test do
       plug(ClientWeb.Plugs.TestAuthHelper)
     end
   end
@@ -31,8 +31,8 @@ defmodule ClientWeb.Router do
   pipeline :admin do
     plug(
       :basic_auth,
-      username: Application.fetch_env!(:client, :admin_username),
-      password: Application.fetch_env!(:client, :admin_password)
+      username: Application.compile_env!(:client, :admin_username),
+      password: Application.compile_env!(:client, :admin_password)
     )
   end
 
@@ -140,7 +140,7 @@ defmodule ClientWeb.Router do
 
   Absinthe.Plug.GraphiQL
 
-  if Application.fetch_env!(:client, :env) == :dev do
+  if Application.compile_env!(:client, :env) == :dev do
     forward(
       "/graphiql",
       Absinthe.Plug.GraphiQL,
@@ -163,7 +163,7 @@ defmodule ClientWeb.Router do
     plug(ClientWeb.Plugs.ApiAuthenticated)
   end
 
-  if Application.fetch_env!(:client, :env) == :dev do
+  if Application.compile_env!(:client, :env) == :dev do
     forward("/sent_emails", Bamboo.SentEmailViewerPlug)
   end
 
