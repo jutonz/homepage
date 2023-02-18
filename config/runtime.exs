@@ -5,6 +5,10 @@ if config_env() == :prod do
   # Client config
   ##############################################################################
 
+  config :client,
+    admin_username: System.fetch_env!("ADMIN_USERNAME"),
+    admin_password: System.fetch_env!("ADMIN_PASSWORD")
+
   host = System.fetch_env!("PHX_HOST")
 
   config :client, ClientWeb.Endpoint,
