@@ -18,7 +18,7 @@ jobs:
         elixir-version: '1.13.0'
         otp-version: '24.0'
     - name: Restore dev cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           deps
@@ -26,7 +26,7 @@ jobs:
         key: v1-dev-${{ hashFiles('.tool-versions')}}-${{ hashFiles('mix.lock') }}
         restore-keys: v1-dev-
     - name: Restore PLT cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: _plts
         key: v2-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
@@ -50,21 +50,21 @@ jobs:
       with:
         node-version: 16.16
     - name: Restore node_modules cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: apps/client/assets/node_modules
         key: v2-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
           v2-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore yarn cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.cache/yarn
         key: v2-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
           v2-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore static asset cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: apps/client/priv/static
         key: v3-static-assets-${{ github.ref }}
@@ -112,12 +112,12 @@ jobs:
         elixir-version: '1.13.0'
         otp-version: '24.0'
     - name: Restore static asset cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: apps/client/priv/static
         key: v3-static-assets-${{ github.ref }}
     - name: Restore test cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           deps
