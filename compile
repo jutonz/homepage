@@ -1,7 +1,0 @@
-rm -rf $phoenix_dir/priv/static
-mkdir -p $phoenix_dir/priv/static
-
-yarn run bundle:js
-yarn run bundle:css
-cd $phoenix_dir
-mix phx.digest
