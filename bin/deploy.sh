@@ -20,7 +20,10 @@ fi
 
 set -ex
 
-export EARTHLY_BUILDKIT_HOST=tcp://littlebox.local:8372
+# Note: You may have to replace this hostname with the IP if it fails to
+# connect. Not sure why 🤔
+#export EARTHLY_BUILDKIT_HOST=tcp://littlebox.local:8372
+export EARTHLY_BUILDKIT_HOST=tcp://192.168.1.217:8372
 
 rm -rf tmp/deploy
 earthly +build
