@@ -8,7 +8,7 @@ defmodule ClientWeb.Endpoint do
     signing_salt: "bj3dUFRB"
   ]
 
-  if sandbox = Application.get_env(:client, :sql_sandbox) do
+  if sandbox = Application.compile_env(:client, :sql_sandbox) do
     plug(Phoenix.Ecto.SQL.Sandbox, sandbox: sandbox)
   end
 

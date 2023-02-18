@@ -1,6 +1,6 @@
 defmodule Emoncms do
-  @host Application.get_env(:emoncms, :host)
-  @api_key Application.get_env(:emoncms, :api_key)
+  @host Application.compile_env(:emoncms, :host)
+  @api_key Application.compile_env(:emoncms, :api_key)
   @timezone "America/New_York"
 
   def get_values(feed_id \\ "380936") do

@@ -1,5 +1,5 @@
 VERSION 0.6
-FROM hexpm/elixir:1.13.3-erlang-24.0.3-ubuntu-focal-20210325
+FROM hexpm/elixir:1.14.3-erlang-25.2.3-ubuntu-jammy-20221130
 WORKDIR /elxir-workdir
 
 assets:
