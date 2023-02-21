@@ -2,10 +2,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { css, StyleSheet } from "aphrodite";
 import React, { useCallback } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Button, Header, Input, Message } from "semantic-ui-react";
 import { gql, useMutation } from "urql";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
+import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
 import { FormBox } from "./../components/FormBox";
 
@@ -21,18 +23,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "calc(50% - 150px)",
     right: "calc(50% - 150px)",
-  },
-
-  header: {
-    marginBottom: 30,
-  },
-
-  inputLast: {
-    marginTop: "20px",
-  },
-
-  submit: {
-    marginTop: 30,
   },
 });
 
@@ -57,7 +47,7 @@ export function SignupForm() {
   const {
     clearErrors,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     handleSubmit,
     setError,
   } = useForm<FormInputs>({
@@ -100,48 +90,48 @@ export function SignupForm() {
   return (
     <form className={css(styles.container)} onSubmit={handleSubmit(onSubmit)}>
       <FormBox>
-        <Header className={css(styles.header)}>Signup</Header>
+        <h1>Signup</h1>
         {errors.backendError?.message && (
-          <Message error>{errors.backendError.message}</Message>
+          <Alert color="error">{errors.backendError.message}</Alert>
         )}
         <Controller
           control={control}
           name="email"
           render={({ field }) => (
-            <Input
+            <TextField
               {...field}
-              fluid
               label="Email"
               error={!!errors.email?.message}
+              fullWidth
             />
           )}
         />
         {errors.email?.message && (
-          <Message error>{errors.email.message}</Message>
+          <Alert color="error">{errors.email.message}</Alert>
         )}
         <Controller
           control={control}
           name="password"
           render={({ field }) => (
-            <Input
+            <TextField
               {...field}
-              input={{ type: "password" }}
+              className="mt-3"
+              type="password"
               label="Password"
-              fluid
               error={!!errors.password?.message}
-              className={css(styles.inputLast)}
+              fullWidth
             />
           )}
         />
         {errors.password?.message && (
-          <Message error>{errors.password.message}</Message>
+          <Alert color="error">{errors.password.message}</Alert>
         )}
+
         <Button
-          primary
-          fluid
-          disabled={false}
-          loading={false}
-          className={css(styles.submit)}
+          type="submit"
+          fullWidth
+          className="mt-5"
+          disabled={isSubmitting}
         >
           Signup
         </Button>
