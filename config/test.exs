@@ -26,6 +26,7 @@ config :client, Client.Repo,
   password: nil,
   ownership_timeout: :infinity,
   pool_size: 20
+  #log: :debug # enable to print ecto logs in test
 
 config :client, sql_sandbox: Client.Sandbox
 
