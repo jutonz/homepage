@@ -1209,10 +1209,10 @@ pause-stream@0.0.11:
   dependencies:
     through "~2.3"
 
-phoenix@1.6.15:
-  version "1.6.15"
-  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.6.15.tgz#efb2088a310cde333b3762002831b79dedf76002"
-  integrity sha512-O6AG5jTkZOOkdd/GOSCsM4v3bzBoyRnC5bEi57KhX/Daba6FvnBRzt0nhEeRRiVQGLSxDlyb0dUe9CkYWMZd8g==
+phoenix@1.6.16:
+  version "1.6.16"
+  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.6.16.tgz#fd92e87cd0c7cd36a99c6f168beeeb46afde7932"
+  integrity sha512-3vOfu5olbFg6eBNkF4pnwMzNm7unl/4vy24MW+zxKklVgjq1zLnO2EWq9wz6i6r4PbQ0CGxHGtqKJH2VSsnhaA==
 
 phoenix_html@3.3.0:
   version "3.3.0"
