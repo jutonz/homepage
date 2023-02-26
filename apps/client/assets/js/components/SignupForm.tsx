@@ -4,6 +4,7 @@ import React, { useCallback } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Button, Header, Input, Message } from "semantic-ui-react";
 import { gql, useMutation } from "urql";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
 
 import { FormBox } from "./../components/FormBox";
@@ -144,6 +145,10 @@ export function SignupForm() {
         >
           Signup
         </Button>
+
+        <Link to="/login" className="flex justify-center mt-3">
+          Or login
+        </Link>
       </FormBox>
     </form>
   );
