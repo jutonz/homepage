@@ -16,6 +16,7 @@ import {
   fetchExchange,
 } from "urql";
 import { createLogger } from "redux-logger";
+import { ThemeProvider } from "@mui/material/styles";
 import { cacheExchange } from "@urql/exchange-graphcache";
 
 import { Index } from "./components/Index";
@@ -23,6 +24,7 @@ import { rootSaga } from "./store/sagas/root";
 import { appStore } from "./store/store";
 import isValidEmail from "./utils/isValidEmail";
 import isValidPassword from "./utils/isValidPassword";
+import theme from "./utils/theme";
 
 const container = document.querySelector("main[role=main]");
 const isHttps = container.getAttribute("data-https");
@@ -195,7 +197,9 @@ const root = createRoot(container);
 root.render(
   <Provider store={store}>
     <UrqlProvider value={urqlClient}>
-      <Index />
+      <ThemeProvider theme={theme}>
+        <Index />
+      </ThemeProvider>
     </UrqlProvider>
   </Provider>
 );
