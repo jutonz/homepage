@@ -1,10 +1,10 @@
+import { css, StyleSheet } from "aphrodite";
 import React from "react";
-import { StyleSheet, css } from "aphrodite";
 import { Link } from "react-router-dom";
 import { gql } from "urql";
 
-import { FormBox } from "./FormBox";
 import { QueryLoader } from "./../utils/QueryLoader";
+import { FormBox } from "./FormBox";
 
 const GET_TEAMS_QUERY = gql`
   query GetTeams {
@@ -39,9 +39,9 @@ function renderTeams(teams: Team[]) {
     <div>
       {teams.map(({ id, name }) => {
         return (
-          <Link key={id} to={`/teams/${id}`}>
-            {name}
-          </Link>
+          <div key={id}>
+            <Link to={`/teams/${id}`}>{name}</Link>
+          </div>
         );
       })}
     </div>
