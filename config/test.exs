@@ -6,7 +6,8 @@ import Config
 
 config :client,
   env: :test,
-  default_timezone: "America/New_York"
+  default_timezone: "America/New_York",
+  sql_sandbox: Client.Sandbox
 
 # We don't run a server during test. If one is required, you can enable the
 # server option below.
@@ -27,8 +28,6 @@ config :client, Client.Repo,
   ownership_timeout: :infinity,
   pool_size: 20
   #log: :debug # enable to print ecto logs in test
-
-config :client, sql_sandbox: Client.Sandbox
 
 # Default capabilities copied from here:
 # https://github.com/elixir-wallaby/wallaby/blob/master/lib/wallaby/experimental/chrome.ex#L74
