@@ -81,6 +81,8 @@ export const urqlClient = createClient({
       updates: {
         Mutation: {
           createTeam(result, _args, cache, _info) {
+            if (!result.createTeam) return;
+
             const query = gql`
               query {
                 getTeams {

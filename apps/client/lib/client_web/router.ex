@@ -139,8 +139,6 @@ defmodule ClientWeb.Router do
     forward("/", Absinthe.Plug, schema: ClientWeb.Schema)
   end
 
-  Absinthe.Plug.GraphiQL
-
   if Application.compile_env!(:client, :env) == :dev do
     forward(
       "/graphiql",

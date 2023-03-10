@@ -1,9 +1,9 @@
 defmodule Client.Session do
   import Plug.Conn
-  alias Client.{User, Repo, UserServer}
+  alias Client.{User, Repo}
 
   def login(conn, email, password) do
-    with {:ok, user} <- UserServer.get_by_email(email),
+    with {:ok, user} <- User.get_by_email(email),
          {:ok, _pass} <- Auth.check_password(password, user.password_hash),
          {:ok, conn} <- init_user_session(conn, user),
          do: {:ok, user, conn},

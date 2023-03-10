@@ -1,5 +1,5 @@
 defmodule ClientWeb.UserResolver do
-  alias Client.{User, UserServer, Repo, Session}
+  alias Client.{User, Repo, Session}
   alias ClientWeb.{Endpoint, Router}
 
   def signup(_parent, args, _context) do
@@ -45,7 +45,7 @@ defmodule ClientWeb.UserResolver do
     with {:ok, user} <- Map.fetch(context, :current_user),
          {:ok, current_pw} <- Map.fetch(args, :current_password),
          {:ok, new_pw} <- Map.fetch(args, :new_password),
-         {:ok, user} <- UserServer.change_password(user, current_pw, new_pw),
+         {:ok, user} <- User.change_password(user, current_pw, new_pw),
          do: {:ok, user},
          else:
            (

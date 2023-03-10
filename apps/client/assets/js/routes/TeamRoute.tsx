@@ -6,7 +6,6 @@ import { gql } from "urql";
 import { MainNav } from "./../components/MainNav";
 import { TeamDeleteButton } from "./../components/TeamDeleteButton";
 import { TeamLeaveForm } from "./../components/TeamLeaveForm";
-import { TeamName } from "./../components/TeamName";
 import { TeamRenameForm } from "./../components/TeamRenameForm";
 import { TeamUsersForm } from "./../components/TeamUsersForm";
 import { QueryLoader } from "./../utils/QueryLoader";
@@ -34,7 +33,7 @@ const GET_TEAMS_QUERY = gql`
 const renderTeam = (team: any) => {
   return (
     <div>
-      <TeamName team={team} />
+      <h1>{team.name}</h1>
       <div className={css(style.components)}>
         <TeamRenameForm team={team} />
         <TeamUsersForm team={team} onDelete={() => {}} />

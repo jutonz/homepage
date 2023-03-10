@@ -79,9 +79,10 @@ export function TeamCreationForm() {
     async (form: FormInputs) => {
       clearErrors("backendError");
       const { name } = form;
-      const { data, error } = await createTeam({ name });
 
       try {
+        const { data, error } = await createTeam({ name });
+
         if (error) {
           console.error(error);
           setBackendError(error.message);

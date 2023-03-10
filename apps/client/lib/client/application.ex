@@ -8,7 +8,6 @@ defmodule Client.Application do
       Client.Repo,
       {Phoenix.PubSub, name: Client.PubSub},
       ClientWeb.Endpoint,
-      {Client.UserServer, [name: :user_server]},
       Client.TwitchServer,
       ClientWeb.Telemetry
     ]

@@ -11,6 +11,11 @@ defmodule ClientWeb.FeatureHelpers do
   def login(session, user) do
     session
     |> visit("/#/login")
+
+    require IEx
+    IEx.pry()
+
+    session
     |> fill_in(fillable_field("email"), with: user.email)
     |> fill_in(fillable_field("password"), with: user.password)
     |> click(button("Login", disabled: false))
