@@ -47,7 +47,7 @@
   "devDependencies": {
     "@types/react-redux": "^7.1.25",
     "@types/redux-saga": "^0.10.5",
-    "autoprefixer": "^10.4.13",
+    "autoprefixer": "^10.4.14",
     "cssnano": "^5.1.15",
     "date-fns": "^2.29.3",
     "esbuild": "^0.14.54",
