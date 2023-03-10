@@ -13,7 +13,7 @@ defmodule ClientWeb.React.TeamsTest do
     |> find(css("form", text: "Create a team"), fn form ->
       form
       |> fill_in(fillable_field("Name"), with: team_name)
-      |> click(button("Create Team"))
+      |> click(button("Create Team", disabled: false))
     end)
     |> find(css("h1", text: team_name))
 

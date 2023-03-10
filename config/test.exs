@@ -29,11 +29,9 @@ config :client, Client.Repo,
   pool_size: 20
   #log: :debug # enable to print ecto logs in test
 
-# Default capabilities copied from here:
-# https://github.com/elixir-wallaby/wallaby/blob/master/lib/wallaby/experimental/chrome.ex#L74
 config :wallaby,
   otp_app: :client,
-  max_wait_time: 10_000,
+  max_wait_time: 30_000,
   screenshot_on_failure: true,
   screenshot_dir: "/tmp/homepage-screenshots",
   driver: Wallaby.Chrome,
