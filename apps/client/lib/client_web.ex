@@ -49,6 +49,7 @@ defmodule ClientWeb do
   def live_view do
     quote do
       use Phoenix.LiveView
+      alias ClientWeb.Live.LiveHelpers
 
       unquote(view_helpers())
     end

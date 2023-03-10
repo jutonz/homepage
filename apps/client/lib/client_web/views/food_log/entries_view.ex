@@ -8,6 +8,7 @@ defmodule ClientWeb.FoodLog.EntriesView do
   end
 
   def mount(_params, session, socket) do
+    LiveHelpers.allow_ecto_sandbox(socket)
     entry_cs = FoodLogs.entry_changeset(%Entry{}, %{})
 
     assigns = [

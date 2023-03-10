@@ -41,27 +41,6 @@ config :wallaby,
   chromedriver: [
     headless: true
   ]
-  #chromedriver: [
-    #capabilities: %{
-      #takesScreenshot: true,
-      #loggingPrefs: %{
-        #browser: "DEBUG"
-      #},
-      #chromeOptions: %{
-        #args: [
-          #"--window-size=1920,1080",
-          #"--headless",
-          # Enable software rendering using SwANGLE. When using --headless, we
-          # don't get a GPU, but WebGL stuff (Three.js) needs one. I found I
-          # needed this flag to get Three.js animations to work in tests on my
-          # machine. Interestingly, this didn't seem necessary for CI. Maybe
-          # something changed in recent chrome versions?
-          # https://stackoverflow.com/a/73048626
-          #"--use-gl=angle",
-        #]
-      #}
-    #}
-  #]
 
 ################################################################################
 # Twitch config
