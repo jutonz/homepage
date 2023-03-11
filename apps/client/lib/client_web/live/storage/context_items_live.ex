@@ -7,6 +7,8 @@ defmodule ClientWeb.Storage.ContextItemsLive do
   }
 
   def mount(_params, assigns, socket) do
+    LiveHelpers.allow_ecto_sandbox(socket)
+
     if connected?(socket) do
       context =
         assigns["user_id"]

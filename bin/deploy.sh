@@ -23,17 +23,18 @@ set -ex
 # Note: You may have to replace this hostname with the IP if it fails to
 # connect. Not sure why 🤔
 #export EARTHLY_BUILDKIT_HOST=tcp://littlebox.local:8372
-export EARTHLY_BUILDKIT_HOST=tcp://192.168.1.217:8372
+build_host=192.168.1.217
+export EARTHLY_BUILDKIT_HOST=tcp://$build_host:8372
 
 rm -rf tmp/deploy
 earthly +build
 
-ssh littlebox -C "sudo systemctl stop homepage"
-ssh littlebox -C "rm -rf srv/homepage"
+ssh $build_host -C "sudo systemctl stop homepage"
+ssh $build_host -C "rm -rf srv/homepage"
 
 mkdir -p tmp/deploy/secrets
 cp bin/decrypt_secrets.sh key.txt secrets.txt.encrypted tmp/deploy/secrets
 
-rsync -a tmp/deploy/ littlebox:srv/homepage/
+rsync -a tmp/deploy/ $build_host:srv/homepage/
 
-ssh littlebox -C "cd srv/homepage && ./bin/post_deploy.sh"
+ssh $build_host -C "cd srv/homepage && ./bin/post_deploy.sh"

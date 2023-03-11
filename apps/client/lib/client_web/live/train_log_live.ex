@@ -1,5 +1,5 @@
 defmodule ClientWeb.TrainLogLive do
-  use Phoenix.LiveView
+  use ClientWeb, :live_view
   alias Client.Trains
   alias ClientWeb.Router.Helpers, as: Routes
 
@@ -69,6 +69,8 @@ defmodule ClientWeb.TrainLogLive do
   end
 
   def mount(_params, session, socket) do
+    LiveHelpers.allow_ecto_sandbox(socket)
+
     if connected?(socket) do
       assigns = [
         loading: false,

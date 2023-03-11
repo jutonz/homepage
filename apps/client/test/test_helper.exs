@@ -10,4 +10,5 @@ Application.put_env(:wallaby, :base_url, ClientWeb.Endpoint.url())
 
 ExUnit.start()
 
+Ecto.Adapters.SQL.Sandbox.mode(Client.Repo, :manual)
 Ecto.Adapters.SQL.Sandbox.mode(Twitch.Repo, :manual)

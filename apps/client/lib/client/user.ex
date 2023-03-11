@@ -28,6 +28,25 @@ defmodule Client.User do
     |> unique_constraint(:email)
   end
 
+  def get_by_email(email) do
+    case User |> Repo.get_by(email: email) do
+      user = %User{} -> {:ok, user}
+      _ -> {:error, "No user with email #{email}"}
+    end
+  end
+
+  def change_password(user, current_pw, new_pw) do
+    with {:ok, _pass} <- Auth.check_password(current_pw, user.password_hash),
+         changeset <- User.changeset(user, %{password: new_pw}),
+         {:ok, user} <- Repo.update(changeset),
+         do: {:ok, user},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Could not change password"}
+           )
+  end
+
   def get_team(%User{} = user, team_id) do
     query =
       from(

@@ -6,7 +6,8 @@ import Config
 
 config :client,
   env: :test,
-  default_timezone: "America/New_York"
+  default_timezone: "America/New_York",
+  sql_sandbox: ClientWeb.Plugs.Sandbox
 
 # We don't run a server during test. If one is required, you can enable the
 # server option below.
@@ -28,36 +29,15 @@ config :client, Client.Repo,
   pool_size: 20
   #log: :debug # enable to print ecto logs in test
 
-config :client, sql_sandbox: Client.Sandbox
-
-# Default capabilities copied from here:
-# https://github.com/elixir-wallaby/wallaby/blob/master/lib/wallaby/experimental/chrome.ex#L74
 config :wallaby,
   otp_app: :client,
   max_wait_time: 10_000,
   screenshot_on_failure: true,
   screenshot_dir: "/tmp/homepage-screenshots",
   driver: Wallaby.Chrome,
+  js_errors: true,
   chromedriver: [
-    capabilities: %{
-      takesScreenshot: true,
-      loggingPrefs: %{
-        browser: "DEBUG"
-      },
-      chromeOptions: %{
-        args: [
-          "--window-size=1920,1080",
-          "--headless",
-          # Enable software rendering using SwANGLE. When using --headless, we
-          # don't get a GPU, but WebGL stuff (Three.js) needs one. I found I
-          # needed this flag to get Three.js animations to work in tests on my
-          # machine. Interestingly, this didn't seem necessary for CI. Maybe
-          # something changed in recent chrome versions?
-          # https://stackoverflow.com/a/73048626
-          "--use-gl=angle",
-        ]
-      }
-    }
+    headless: true
   ]
 
 ################################################################################

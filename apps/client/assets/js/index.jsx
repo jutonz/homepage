@@ -80,6 +80,23 @@ export const urqlClient = createClient({
       },
       updates: {
         Mutation: {
+          createTeam(result, _args, cache, _info) {
+            if (!result.createTeam) return;
+
+            const query = gql`
+              query {
+                getTeams {
+                  id
+                  name
+                }
+              }
+            `;
+
+            cache.updateQuery({ query }, (data) => {
+              data.getTeams.push(result.createTeam);
+              return data;
+            });
+          },
           ijustAddOccurrenceToEvent(result, _args, cache, _info) {
             const query = gql`
               query ($contextId: ID!, $eventId: ID!) {
