@@ -71,6 +71,9 @@ export const urqlClient = createClient({
   url: graphqlEndpoint,
   fetchOptions: {
     credentials: "include",
+    headers: {
+      "x-beam-metadata": window.beamMetadata
+    }
   },
   exchanges: [
     dedupExchange,

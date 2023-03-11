@@ -16,7 +16,7 @@ config :client, ClientWeb.Endpoint,
   server: true
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :info
 
 config :client, Client.Repo,
   adapter: Ecto.Adapters.Postgres,

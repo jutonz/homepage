@@ -38,6 +38,21 @@
 
 import "@testing-library/cypress/add-commands";
 
+const buildTrackableFetchWithSessionId =
+  (fetch) => (fetchUrl, fetchOptions) => {
+    const { headers } = fetchOptions;
+    const modifiedHeaders = Object.assign(
+      { "x-beam-metadata": Cypress.env("beamMetadata") },
+      headers
+    );
+
+    const modifiedOptions = Object.assign({}, fetchOptions, {
+      headers: modifiedHeaders,
+    });
+
+    return fetch(fetchUrl, modifiedOptions);
+  };
+
 Cypress.Commands.add("checkoutSession", async () => {
   const response = await fetch("/sandbox", {
     cache: "no-store",
@@ -45,13 +60,19 @@ Cypress.Commands.add("checkoutSession", async () => {
   });
 
   const metadata = await response.text();
+
+  Cypress.on("window:before:load", (win) => {
+    cy.stub(win, "fetch", buildTrackableFetchWithSessionId(fetch));
+    win.beamMetadata = metadata;
+  });
+
   return Cypress.env("beamMetadata", metadata);
 });
 
 Cypress.Commands.add("dropSession", () => {
-  console.log("metadata is", Cypress.env("beamMetadata"));
+  //console.log("metadata is", Cypress.env("beamMetadata"));
   fetch("/sandbox", {
     method: "DELETE",
     headers: { "x-beam-metadata": Cypress.env("beamMetadata") },
-  })
+  });
 });

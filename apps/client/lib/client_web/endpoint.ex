@@ -9,14 +9,15 @@ defmodule ClientWeb.Endpoint do
   ]
 
   if sandbox = Application.compile_env(:client, :sql_sandbox) do
-    plug(Phoenix.Ecto.SQL.Sandbox, sandbox: sandbox)
-
     plug(Phoenix.Ecto.SQL.Sandbox,
       at: "/sandbox",
       repo: Client.Repo,
       header: "x-beam-metadata",
-      timeout: 15_000
+      timeout: 15_000,
+      sandbox: sandbox
     )
+
+    #plug(Phoenix.Ecto.SQL.Sandbox, sandbox: sandbox)
   end
 
   socket("/socket", ClientWeb.UserSocket)
