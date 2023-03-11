@@ -12,17 +12,11 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "baseUrl": ".",
-    "noEmit": true
+    "noEmit": true,
+    "types": ["cypress", "@testing-library/cypress"]
   },
-  "include": [
-    "./js/index.jsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./js/index.jsx"],
+  "exclude": ["node_modules"]
 }
