@@ -16,10 +16,14 @@ defmodule ClientWeb.React.TeamsTest do
       |> click(button("Create Team", disabled: false))
     end)
 
-    # |> find(css("h1", text: team_name))
+    team =
+      wait_for_condition(10, fn ->
+        case Repo.get_by(Team, name: team_name) do
+          nil -> :error
+          team -> {:ok, team}
+        end
+      end)
 
-    team = Repo.get_by(Team, name: team_name)
-    assert team
     assert hash_path(session) == "#/teams/#{team.id}"
   end
 end
