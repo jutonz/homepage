@@ -3,7 +3,7 @@ defmodule ClientWeb.React.TeamsTest do
 
   alias Client.Team
 
-  test "can create a team", %{session: session} do
+  feature "can create a team", %{session: session} do
     user = insert(:user)
     team_name = "team-#{rand_string()}"
 
