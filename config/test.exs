@@ -31,7 +31,7 @@ config :client, Client.Repo,
 
 config :wallaby,
   otp_app: :client,
-  max_wait_time: 30_000,
+  max_wait_time: 10_000,
   screenshot_on_failure: true,
   screenshot_dir: "/tmp/homepage-screenshots",
   driver: Wallaby.Chrome,
