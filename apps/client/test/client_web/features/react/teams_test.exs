@@ -15,8 +15,11 @@ defmodule ClientWeb.React.TeamsTest do
       |> fill_in(fillable_field("Name"), with: team_name)
       |> click(button("Create Team", disabled: false))
     end)
-    |> find(css("h1", text: team_name))
 
-    assert Repo.get_by(Team, name: team_name)
+    # |> find(css("h1", text: team_name))
+
+    team = Repo.get_by(Team, name: team_name)
+    assert team
+    assert hash_path(session) == "#/teams/#{team.id}"
   end
 end

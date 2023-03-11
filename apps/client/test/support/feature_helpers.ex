@@ -18,4 +18,13 @@ defmodule ClientWeb.FeatureHelpers do
 
     session
   end
+
+  def hash_path(session) do
+    execute_script_sync(session, "return window.location.hash")
+  end
+
+  def execute_script_sync(%{driver: driver} = session, script) do
+    {:ok, value} = driver.execute_script(session, script, [])
+    value
+  end
 end
