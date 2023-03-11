@@ -130,3 +130,9 @@ jobs:
     - run: mix compile --warnings-as-errors
     - run: mix do ecto.create, ecto.migrate
     - run: mix test; mix test --failed
+    - name: Archive failure screenshots
+      uses: actions/upload-artifact@v3
+      with:
+        name: failure-screenshots
+        path: |
+          /tmp/homepage-screenshots
