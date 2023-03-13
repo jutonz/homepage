@@ -142,17 +142,18 @@ jobs:
       uses: cypress-io/github-action@v5
       with:
         working-directory: apps/client/assets
-    - uses: actions/upload-artifact@v3
-      if: failure()
-      with:
-        name: cypress-screenshots
-        path: cypress/screenshots
-    # Test run video was always captured, so this action uses "always()" condition
-    - uses: actions/upload-artifact@v3
+    - name: Archive failure screenshots
+      uses: actions/upload-artifact@v3
       if: always()
       with:
-        name: cypress-videos
-        path: cypress/videos
+        name: failure-screenshots
+        path: apps/client/assets/cypress/screenshots
+    - name: Archive videos
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: videos
+        path: apps/client/assets/cypress/videos
 
   mix_test:
     name: mix test
