@@ -17,7 +17,7 @@ defmodule ClientWeb.Endpoint do
       sandbox: sandbox
     )
 
-    #plug(Phoenix.Ecto.SQL.Sandbox, sandbox: sandbox)
+    # plug(Phoenix.Ecto.SQL.Sandbox, sandbox: sandbox)
   end
 
   socket("/socket", ClientWeb.UserSocket)

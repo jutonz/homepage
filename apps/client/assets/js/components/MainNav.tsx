@@ -140,6 +140,7 @@ function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
   if (isLoggedIn) {
     return (
       <Menu.Item
+        href="#"
         name={"logout"}
         active={activeItem === "logout"}
         onClick={logout}

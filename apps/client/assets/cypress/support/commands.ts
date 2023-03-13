@@ -38,6 +38,8 @@
 
 import "@testing-library/cypress/add-commands";
 
+import { randEmail } from "./utils";
+
 const buildTrackableFetchWithSessionId =
   (fetch) => (fetchUrl, fetchOptions) => {
     const { headers } = fetchOptions;
@@ -53,6 +55,10 @@ const buildTrackableFetchWithSessionId =
     return fetch(fetchUrl, modifiedOptions);
   };
 
+// TODO: This doesn't work. Even when sending sandbox data to the backend, we
+// still weren't operating in a sandbox. Maybe something to do with Absinthe
+// runs in a separate process outside the sandbox? I could maybe set the db
+// connection mode to manual and see if I can find the source of errors.
 Cypress.Commands.add("checkoutSession", async () => {
   const response = await fetch("/sandbox", {
     cache: "no-store",
@@ -69,6 +75,8 @@ Cypress.Commands.add("checkoutSession", async () => {
   return Cypress.env("beamMetadata", metadata);
 });
 
+// TODO: This doesn't work. Even when sending sandbox data to the backend, we
+// still weren't operating in a sandbox
 Cypress.Commands.add("dropSession", () => {
   //console.log("metadata is", Cypress.env("beamMetadata"));
   fetch("/sandbox", {
@@ -76,3 +84,37 @@ Cypress.Commands.add("dropSession", () => {
     headers: { "x-beam-metadata": Cypress.env("beamMetadata") },
   });
 });
+
+interface SignupOpts {
+  email?: string;
+  password?: string;
+}
+
+Cypress.Commands.add("signup", (opts?: SignupOpts) => {
+  opts = opts || {};
+  const email = opts.email || randEmail();
+  const password = opts.password || "password123";
+
+  cy.visit("/");
+
+  cy.findByRole("link", { name: "Or signup" }).click();
+
+  cy.findByLabelText("Email").type(email);
+  cy.findByLabelText("Password").type(password);
+
+  cy.findByRole("button", { name: "Signup" }).click();
+
+  cy.location("hash").should("eql", "#/");
+
+  return cy.wrap({ email, password });
+});
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      checkoutSession(): void;
+      dropSession(): void;
+      signup(opts?: SignupOpts): Cypress.Chainable<SignupOpts>;
+    }
+  }
+}

@@ -1,32 +1,15 @@
-import { randString } from "./../support/utils";
-
-
 describe("authorization", () => {
-  beforeEach(() => {
-    //cy.checkoutSession();
-    //cy.intercept(`${Cypress.config("baseUrl")}**`, (req) => {
-      //req.headers["x-beam-metadata"] = Cypress.env("beamMetadata");
-    //}).as("sandbox");
-  });
+  it("allows a user to signup and login", () => {
+    cy.signup().then(({ email, password }) => {
+      cy.findByRole("link", { name: "Logout" }).click();
 
-  afterEach(() => {
-    //cy.dropSession();
-  });
+      cy.location("hash").should("eql", "#/login");
 
-  it("allows a user to signup", () => {
-    cy.visit("/");
+      cy.findByLabelText("Email").type(email);
+      cy.findByLabelText("Password").type(password);
+      cy.findByRole("button", { name: "Login" }).click();
+    });
 
-    cy.findByRole("link", { name: "Or signup" }).click();
-
-    cy.findByLabelText("Email").type(`${randString()}@example.com`);
-    cy.findByLabelText("Password").type("password123");
-
-    cy.findByRole("button", { name: "Signup" }).click();
-
-    //cy.reload(true);
-
-    //cy.findByRole("link", { name: "Logout" })
-
-    //cy.url().should("eql", "#/");
+    cy.location("pathname").should("eql", "/");
   });
 });

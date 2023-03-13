@@ -72,8 +72,8 @@ export const urqlClient = createClient({
   fetchOptions: {
     credentials: "include",
     headers: {
-      "x-beam-metadata": window.beamMetadata
-    }
+      "x-beam-metadata": window.beamMetadata,
+    },
   },
   exchanges: [
     dedupExchange,

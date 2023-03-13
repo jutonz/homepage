@@ -53,16 +53,18 @@ jobs:
       uses: actions/cache@v3
       with:
         path: apps/client/assets/node_modules
-        key: v2-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        key: v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
-          v2-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+          v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore yarn cache
       uses: actions/cache@v3
       with:
-        path: ~/.cache/yarn
-        key: v2-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        path: |
+          ~/.cache/yarn
+          ~/.cache/Cypress
+        key: v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
-          v2-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+          v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore static asset cache
       uses: actions/cache@v3
       with:
@@ -111,11 +113,31 @@ jobs:
       with:
         elixir-version: '1.14.3'
         otp-version: '25.2'
+    - name: Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.16
     - name: Restore static asset cache
       uses: actions/cache@v3
       with:
         path: apps/client/priv/static
         key: v3-static-assets-${{ github.ref }}
+    - name: Restore node_modules cache
+      uses: actions/cache@v3
+      with:
+        path: apps/client/assets/node_modules
+        key: v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        restore-keys: |
+          v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+    - name: Restore yarn cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/yarn
+          ~/.cache/Cypress
+        key: v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        restore-keys: |
+          v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore test cache
       uses: actions/cache@v3
       with:
@@ -129,6 +151,15 @@ jobs:
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
     - run: mix do ecto.create, ecto.migrate
+    - name: yarn install
+      working-directory: apps/client/assets
+      run: yarn install
+    - name: cypress run
+      run: |
+        MIX_ENV=test mix phx.server &
+        cd apps/client/assets
+        npx cypres install
+        npx cypress run
     - run: (mix test || true) && mix test --failed
     - name: Archive failure screenshots
       uses: actions/upload-artifact@v3

@@ -1,5 +1,4 @@
 defmodule ClientWeb.Plugs.Sandbox do
-
   defdelegate checkin(repo, args), to: Ecto.Adapters.SQL.Sandbox
   defdelegate checkout(repo, args), to: Ecto.Adapters.SQL.Sandbox
 
