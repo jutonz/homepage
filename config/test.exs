@@ -15,8 +15,8 @@ config :client, ClientWeb.Endpoint,
   http: [port: 4002],
   server: true
 
-# Print only warnings and errors during test
-config :logger, level: :warn
+log_level = "LOG_LEVEL" |> System.get_env("warn") |> String.to_atom()
+config :logger, level: log_level
 
 config :client, Client.Repo,
   adapter: Ecto.Adapters.Postgres,

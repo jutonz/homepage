@@ -13,6 +13,8 @@ apps/client/cover
 .hex
 /deps/
 /cover
+apps/client/assets/cypress/videos
+apps/client/assets/cypress/screenshots
 
 # Generated on crash by the VM
 erl_crash.dump
