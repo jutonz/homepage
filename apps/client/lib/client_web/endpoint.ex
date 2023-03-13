@@ -12,9 +12,9 @@ defmodule ClientWeb.Endpoint do
     plug(Phoenix.Ecto.SQL.Sandbox,
       at: "/sandbox",
       repo: Client.Repo,
-      header: "x-beam-metadata",
       timeout: 15_000,
       sandbox: sandbox
+      # header: "x-beam-metadata",
     )
 
     # plug(Phoenix.Ecto.SQL.Sandbox, sandbox: sandbox)

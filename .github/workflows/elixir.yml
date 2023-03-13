@@ -69,7 +69,10 @@ jobs:
       uses: actions/cache@v3
       with:
         path: apps/client/priv/static
-        key: v3-static-assets-${{ github.ref }}
+        key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
+        restore-keys: |
+          v3-static-assets-${{ github.ref }}-${{ github.sha }}
+          v3-static-assets-${{ github.ref }}-
     - name: yarn install
       working-directory: apps/client/assets
       run: yarn install
@@ -85,6 +88,71 @@ jobs:
     - name: yarn bundle:css
       working-directory: apps/client/assets
       run: yarn bundle:css
+
+  cypress_run:
+    name: cypress run
+    needs: ["yarn_install"]
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: test
+      LOG_LEVEL: info
+      TWITCH_DATASTORE_DISABLED: "true"
+    services:
+      postgres:
+        image: circleci/postgres:12-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: homepage_test
+          POSTGRES_PASSWORD:
+        ports:
+        - 5432:5432
+      redis:
+        image: circleci/redis
+        ports:
+        - 6379:6379
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: '1.14.3'
+        otp-version: '25.2'
+    - name: Restore test cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          deps
+          _build/test
+        key: v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+        restore-keys: |
+          v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+          v2-test-${{ hashFiles('.tool-versions') }}-
+    - name: Restore static asset cache
+      uses: actions/cache@v3
+      with:
+        path: apps/client/priv/static
+        key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
+        restore-keys: |
+          v3-static-assets-${{ github.ref }}-${{ github.sha }}
+          v3-static-assets-${{ github.ref }}-
+    - run: mix deps.get
+    - run: mix do ecto.create, ecto.migrate
+    - run: MIX_ENV=test mix phx.server &
+    - name: Cypress run
+      uses: cypress-io/github-action@v5
+      with:
+        working-directory: apps/client/assets
+    - uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: cypress-screenshots
+        path: cypress/screenshots
+    # Test run video was always captured, so this action uses "always()" condition
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: cypress-videos
+        path: cypress/videos
 
   mix_test:
     name: mix test
@@ -113,31 +181,11 @@ jobs:
       with:
         elixir-version: '1.14.3'
         otp-version: '25.2'
-    - name: Setup node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16.16
     - name: Restore static asset cache
       uses: actions/cache@v3
       with:
         path: apps/client/priv/static
-        key: v3-static-assets-${{ github.ref }}
-    - name: Restore node_modules cache
-      uses: actions/cache@v3
-      with:
-        path: apps/client/assets/node_modules
-        key: v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-        restore-keys: |
-          v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-    - name: Restore yarn cache
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.cache/yarn
-          ~/.cache/Cypress
-        key: v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-        restore-keys: |
-          v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
     - name: Restore test cache
       uses: actions/cache@v3
       with:
@@ -151,15 +199,6 @@ jobs:
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
     - run: mix do ecto.create, ecto.migrate
-    - name: yarn install
-      working-directory: apps/client/assets
-      run: yarn install
-    - name: cypress run
-      run: |
-        MIX_ENV=test mix phx.server &
-        cd apps/client/assets
-        npx cypres install
-        npx cypress run
     - run: (mix test || true) && mix test --failed
     - name: Archive failure screenshots
       uses: actions/upload-artifact@v3
