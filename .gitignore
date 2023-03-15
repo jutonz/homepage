@@ -32,6 +32,7 @@ apps/twitch/config/master.key
 apps/twitch/config/.env
 key.txt
 secrets.txt
+config/dev.secret.exs
 
 # Ignore dialyzer PLT files
 _plts/

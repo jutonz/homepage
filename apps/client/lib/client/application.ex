@@ -9,7 +9,8 @@ defmodule Client.Application do
       {Phoenix.PubSub, name: Client.PubSub},
       ClientWeb.Endpoint,
       Client.TwitchServer,
-      ClientWeb.Telemetry
+      ClientWeb.Telemetry,
+      {Finch, name: ClientFinch}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html for other strategies and

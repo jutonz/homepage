@@ -193,6 +193,10 @@ defmodule ClientWeb.Router do
       resources "/water-logs", WaterLog, only: [] do
         resources("/entries", WaterLogEntryController, as: :entry, only: ~w[create]a)
       end
+
+      scope("/todoist", Todoist, as: :todoist) do
+        resources("/laundry_tasks", LaundryTasksController, only: ~w[create]a)
+      end
     end
   end
 

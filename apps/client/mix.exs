@@ -47,6 +47,7 @@ defmodule Client.Mixfile do
       {:emoncms, in_umbrella: true},
       {:events, in_umbrella: true},
       {:ex_machina, "~> 2.2", only: :test},
+      {:finch, "~> 0.14"},
       {:floki, "~> 0.34.0", only: :test},
       {:gen_stage, "~> 1.2.0"},
       {:gettext, "~> 0.11"},

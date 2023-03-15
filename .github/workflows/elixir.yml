@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Setup dev config
+      run: cp config/dev.secret.example.exs config/dev.secret.exs
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
@@ -112,6 +114,8 @@ jobs:
         - 6379:6379
     steps:
     - uses: actions/checkout@v3
+    - name: Setup dev config
+      run: cp config/dev.secret.example.exs config/dev.secret.exs
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
@@ -177,6 +181,8 @@ jobs:
         - 6379:6379
     steps:
     - uses: actions/checkout@v3
+    - name: Setup dev config
+      run: cp config/dev.secret.example.exs config/dev.secret.exs
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
