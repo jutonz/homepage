@@ -7,7 +7,8 @@ if config_env() == :prod do
 
   config :client,
     admin_username: System.fetch_env!("ADMIN_USERNAME"),
-    admin_password: System.fetch_env!("ADMIN_PASSWORD")
+    admin_password: System.fetch_env!("ADMIN_PASSWORD"),
+    todoist_api_token: System.fetch_env!("TODOIST_API_TOKEN")
 
   host = System.fetch_env!("PHX_HOST")
 
