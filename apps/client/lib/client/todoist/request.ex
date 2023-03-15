@@ -21,11 +21,10 @@ defmodule Client.Todoist.Request do
     |> Map.put(:body, Jason.encode!(body))
   end
 
-  @api_token Application.compile_env!(:client, :todoist_api_token)
-  @auth_header {"authorization", "Bearer #{@api_token}"}
   @spec put_auth_header(Finch.Request.t()) :: Finch.Request.t()
   def put_auth_header(request) do
-    put_headers(request, [@auth_header])
+    token = Application.fetch_env!(:client, :todoist_api_token)
+    put_header(request, "authorization", "Bearer #{token}")
   end
 
   @spec put_json_header(Finch.Request.t()) :: Finch.Request.t()
