@@ -109,12 +109,51 @@ Cypress.Commands.add("signup", (opts?: SignupOpts) => {
   return cy.wrap({ email, password });
 });
 
+interface LoginOpts {
+  email: string;
+  password: string;
+}
+
+Cypress.Commands.add("login", ({ email, password }: LoginOpts) => {
+  cy.visit("/");
+
+  cy.findByLabelText("Email").type(email);
+  cy.findByLabelText("Password").type(password);
+
+  cy.findByRole("button", { name: "Login" }).click();
+
+  cy.location("pathname").should("eql", "/");
+});
+
+Cypress.Commands.add("insert", (factory: string, attrs?: any) => {
+  attrs = attrs ?? {};
+  cy.request("POST", `/factory/${factory}`, attrs).then((response) => {
+    return cy.wrap(response.body);
+  });
+});
+
+interface User {
+  id: number;
+  email: string;
+}
+
+Cypress.Commands.add("initSession", () => {
+  const password = "password123";
+  cy.insert("user", { password }).then((user: User) => {
+    cy.visit(`/?as=${user.id}`);
+    return cy.wrap(user);
+  });
+});
+
 declare global {
   namespace Cypress {
     interface Chainable {
       checkoutSession(): void;
       dropSession(): void;
       signup(opts?: SignupOpts): Cypress.Chainable<SignupOpts>;
+      login(opts: LoginOpts) : void;
+      insert(factory: string, attrs?: any): Cypress.Chainable<any>;
+      initSession(): Cypress.Chainable<User>;
     }
   }
 }

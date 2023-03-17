@@ -4,6 +4,8 @@ defmodule Client.User do
   import Ecto.Query, only: [from: 2]
   alias Client.{Team, Repo, User}
 
+  @derive {Jason.Encoder, only: ~w[id email]a}
+
   schema "users" do
     field(:password_hash, :string)
     field(:password, :string, virtual: true)
