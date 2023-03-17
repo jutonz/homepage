@@ -61,6 +61,14 @@ defmodule ClientWeb.Endpoint do
     body_reader: {ClientWeb.CacheBodyReader, :read_body, []}
   )
 
+  if Mix.env() == :test do
+    plug(ClientWeb.Plugs.FactoryPlug,
+      at: "/factory",
+      factory: Client.Factory,
+      repo: Client.Repo
+    )
+  end
+
   plug(Sentry.PlugContext)
 
   plug(CORSPlug, origin: ["http://localhost:4001"])

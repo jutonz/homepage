@@ -100,6 +100,23 @@ export const urqlClient = createClient({
               return data;
             });
           },
+          joinTeam(result, _args, cache, _info) {
+            if (!result.joinTeam) return;
+
+            const query = gql`
+              query {
+                getTeams {
+                  id
+                  name
+                }
+              }
+            `;
+
+            cache.updateQuery({ query }, (data) => {
+              data.getTeams.push(result.joinTeam);
+              return data;
+            });
+          },
           ijustAddOccurrenceToEvent(result, _args, cache, _info) {
             const query = gql`
               query ($contextId: ID!, $eventId: ID!) {

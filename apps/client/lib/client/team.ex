@@ -4,6 +4,8 @@ defmodule Client.Team do
   import Ecto.Query, only: [from: 2]
   alias Client.{Team, Repo, User}
 
+  @derive {Jason.Encoder, only: ~w[id name]a}
+
   schema "teams" do
     field(:name, :string)
     timestamps()
@@ -43,7 +45,7 @@ defmodule Client.Team do
   def get_by_name(name) do
     case Team |> Repo.get_by(name: name) do
       team = %Team{} -> {:ok, team}
-      _ -> {:error, "An team called #{name} does not exist."}
+      _ -> {:error, "A team called #{name} does not exist."}
     end
   end
 end
