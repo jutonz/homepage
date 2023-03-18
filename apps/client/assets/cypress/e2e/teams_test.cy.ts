@@ -53,4 +53,52 @@ describe("teams", () => {
       cy.findByText("Team renamed.").should("exist");
     });
   });
+
+  it("allows me to leave a team", () => {
+    cy.initSession();
+    cy.findByRole("link", { name: "Settings" }).click();
+
+    cy.insert("team").then(({ name }) => {
+      cy.contains("form", "Join a team").within(() => {
+        cy.findByLabelText("Name").type(name);
+        cy.findByRole("button", { name: "Join Team" }).click();
+      });
+
+      cy.findByRole("heading", { name });
+
+      cy.contains("form", "Leave team").within(() => {
+        cy.findByRole("button", { name: "Leave" }).click();
+      });
+
+      cy.location("hash").should("eql", "#/settings");
+
+      cy.contains("div", "Team membership").within(() => {
+        cy.findByRole("link", { name }).should("not.exist");
+      });
+    });
+  });
+
+  it("allows me to delete a team", () => {
+    cy.initSession();
+    cy.findByRole("link", { name: "Settings" }).click();
+
+    cy.insert("team").then(({ name }) => {
+      cy.contains("form", "Join a team").within(() => {
+        cy.findByLabelText("Name").type(name);
+        cy.findByRole("button", { name: "Join Team" }).click();
+      });
+
+      cy.findByRole("heading", { name });
+
+      cy.contains("form", "Delete team").within(() => {
+        cy.findByRole("button", { name: "Delete" }).click();
+      });
+
+      cy.location("hash").should("eql", "#/settings");
+
+      cy.contains("div", "Team membership").within(() => {
+        cy.findByRole("link", { name }).should("not.exist");
+      });
+    });
+  });
 });

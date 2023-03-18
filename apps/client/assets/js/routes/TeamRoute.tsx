@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { gql } from "urql";
 
 import { MainNav } from "./../components/MainNav";
-import { TeamDeleteButton } from "./../components/TeamDeleteButton";
+import { TeamDeleteForm } from "./../components/TeamDeleteForm";
 import { TeamLeaveForm } from "./../components/TeamLeaveForm";
 import { TeamRenameForm } from "./../components/TeamRenameForm";
 import { TeamUsersForm } from "./../components/TeamUsersForm";
@@ -37,7 +37,7 @@ const renderTeam = (team: any) => {
       <div className={css(style.components)}>
         <TeamRenameForm team={team} />
         <TeamUsersForm team={team} onDelete={() => {}} />
-        <TeamDeleteButton team={team} onDelete={() => {}} />
+        <TeamDeleteForm team={team} />
         <TeamLeaveForm team={team} />
       </div>
     </div>

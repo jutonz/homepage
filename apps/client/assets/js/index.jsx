@@ -118,6 +118,46 @@ export const urqlClient = createClient({
               return data;
             });
           },
+          leaveTeam(result, _args, cache, _info) {
+            if (!result.leaveTeam) return;
+
+            const query = gql`
+              query {
+                getTeams {
+                  id
+                  name
+                }
+              }
+            `;
+
+            cache.updateQuery({ query }, (data) => {
+              const getTeams = data.getTeams;
+              data.getTeams = getTeams.filter(
+                ({ id }) => id != result.leaveTeam.id
+              );
+              return data;
+            });
+          },
+          deleteTeam(result, _args, cache, _info) {
+            if (!result.deleteTeam) return;
+
+            const query = gql`
+              query {
+                getTeams {
+                  id
+                  name
+                }
+              }
+            `;
+
+            cache.updateQuery({ query }, (data) => {
+              const getTeams = data.getTeams;
+              data.getTeams = getTeams.filter(
+                ({ id }) => id != result.deleteTeam.id
+              );
+              return data;
+            });
+          },
           ijustAddOccurrenceToEvent(result, _args, cache, _info) {
             const query = gql`
               query ($contextId: ID!, $eventId: ID!) {
