@@ -18,6 +18,7 @@ import {
 import { createLogger } from "redux-logger";
 import { ThemeProvider } from "@mui/material/styles";
 import { cacheExchange } from "@urql/exchange-graphcache";
+import { SnackbarProvider } from "notistack";
 
 import { Index } from "./components/Index";
 import { rootSaga } from "./store/sagas/root";
@@ -235,7 +236,9 @@ root.render(
   <Provider store={store}>
     <UrqlProvider value={urqlClient}>
       <ThemeProvider theme={theme}>
-        <Index />
+        <SnackbarProvider>
+          <Index />
+        </SnackbarProvider>
       </ThemeProvider>
     </UrqlProvider>
   </Provider>

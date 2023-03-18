@@ -30,4 +30,27 @@ describe("teams", () => {
       cy.location("hash").should("eql", `#/teams/${id}`);
     });
   });
+
+  it("allows me to rename a team", () => {
+    cy.initSession();
+    cy.findByRole("link", { name: "Settings" }).click();
+
+    cy.insert("team").then(({ name }) => {
+      cy.contains("form", "Join a team").within(() => {
+        cy.findByLabelText("Name").type(name);
+        cy.findByRole("button", { name: "Join Team" }).click();
+      });
+
+      cy.findByRole("heading", { name });
+
+      const newName = name + "-new!";
+      cy.contains("form", "Rename team").within(() => {
+        cy.findByLabelText("New name").type(newName);
+        cy.findByRole("button", { name: "Rename team" }).click();
+      });
+
+      cy.findByRole("heading", { name: newName });
+      cy.findByText("Team renamed.").should("exist");
+    });
+  });
 });
