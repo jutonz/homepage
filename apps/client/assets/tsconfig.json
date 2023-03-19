@@ -15,7 +15,11 @@
     "lib": ["dom", "esnext"],
     "baseUrl": ".",
     "noEmit": true,
-    "types": ["cypress", "@testing-library/cypress"]
+    "types": ["cypress", "@testing-library/cypress"],
+    "baseUrl": ".",
+    "paths": {
+      "@types": ["js/utils/types.ts"]
+    }
   },
   "include": ["./js/index.jsx"],
   "exclude": ["node_modules"]

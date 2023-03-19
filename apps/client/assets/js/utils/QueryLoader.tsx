@@ -3,7 +3,6 @@ import { useQuery } from "urql";
 import { Loader } from "semantic-ui-react";
 import { css, StyleSheet } from "aphrodite";
 
-import collectGraphqlErrors from "./../utils/collectGraphqlErrors";
 import { StyleGlobals } from "./../style-globals";
 
 const styles = StyleSheet.create({
@@ -22,12 +21,9 @@ interface Props {
   component: any;
 }
 
-export const QueryLoader = ({
-  query,
-  variables,
-  component: Component,
-}: Props) => {
-  const [result, _executeQuery] = useQuery({ query, variables });
+export function QueryLoader<T>(props: Props) {
+  const { query, variables, component: Component } = props;
+  const [result, _executeQuery] = useQuery<T>({ query, variables });
   const { fetching: loading, data, error } = result;
 
   if (loading) {
@@ -43,4 +39,4 @@ export const QueryLoader = ({
   }
 
   return <Component {...{ loading, data, error }} />;
-};
+}

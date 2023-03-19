@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Breadcrumb } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { StyleSheet, css } from "aphrodite";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
 
 interface Props {
   context?: any;
@@ -9,35 +8,12 @@ interface Props {
   viewing: any | "contexts";
 }
 
-const style = StyleSheet.create({
-  breadcrumb: {
-    fontSize: "1.3rem",
-    display: "flex",
-  },
-  sep: {
-    fontSize: "0.9rem",
-    display: "flex",
-    alignItems: "center",
-    margin: "0 10px 2px 10px",
-  },
-});
-
 export const IjustBreadcrumbs = ({ context, event, viewing }: Props) => (
-  <Breadcrumb className={css(style.breadcrumb)}>
-    <Breadcrumb.Section>{contextsLinkOrNot(viewing)}</Breadcrumb.Section>
-    {context && (
-      <Breadcrumb.Divider className={css(style.sep)}>&gt;</Breadcrumb.Divider>
-    )}
-    {context && (
-      <Breadcrumb.Section>
-        {contextLinkOrNot(context, viewing)}
-      </Breadcrumb.Section>
-    )}
-    {event && (
-      <Breadcrumb.Divider className={css(style.sep)}>&gt;</Breadcrumb.Divider>
-    )}
-    {event && <Breadcrumb.Section>{event.name}</Breadcrumb.Section>}
-  </Breadcrumb>
+  <Breadcrumbs className="text-xl" separator="→">
+    {contextsLinkOrNot(viewing)}
+    {context && contextLinkOrNot(context, viewing)}
+    {event && <span>{event.name}</span>}
+  </Breadcrumbs>
 );
 
 const contextsLinkOrNot = (viewing: String) => {

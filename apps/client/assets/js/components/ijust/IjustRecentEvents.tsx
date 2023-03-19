@@ -4,6 +4,7 @@ import gql from "graphql-tag";
 import { formatDistanceToNow, parseISO } from "date-fns";
 
 import { QueryLoader } from "./../../utils/QueryLoader";
+import type { IjustEventType, IjustContextType } from "@types";
 
 const GET_RECENT_EVENTS = gql`
   query FetchIjustRecentEventsQuery($contextId: ID!) {
@@ -18,13 +19,17 @@ const GET_RECENT_EVENTS = gql`
   }
 `;
 
+type GetRecentEventsType = {
+  getIjustRecentEvents: [IjustEventType];
+};
+
 interface Props {
   context: any;
 }
 
 export const IjustRecentEvents = ({ context }: Props) => (
   <div>
-    <QueryLoader
+    <QueryLoader<GetRecentEventsType>
       query={GET_RECENT_EVENTS}
       variables={{ contextId: context.id }}
       component={({ data }) => {
@@ -35,19 +40,22 @@ export const IjustRecentEvents = ({ context }: Props) => (
   </div>
 );
 
-const renderRecentEvents = (recentEvents, context) => {
-  if (!recentEvents) {
-    return <></>;
+const renderRecentEvents = (
+  events: [IjustEventType],
+  context: IjustContextType
+) => {
+  if (!events) {
+    return null;
   }
 
-  if (recentEvents.length < 1) {
+  if (events.length < 1) {
     return renderEmptyState();
   }
 
-  return <div>{recentEvents.map((ev) => renderRecentEvent(ev, context))}</div>;
+  return <div>{events.map((ev) => renderEvent(ev, context))}</div>;
 };
 
-const renderRecentEvent = (event, context) => (
+const renderEvent = (event: IjustEventType, context: IjustContextType) => (
   <Link
     to={`/ijust/contexts/${context.id}/events/${event.id}`}
     className="flex flex-col px-2 py-5 border-b last:border-none"
