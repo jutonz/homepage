@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 
 import { IjustContext } from "../components/ijust/IjustContext";
 import { MainNav } from "../components/MainNav";
-import { Context } from "./../store/reducers/ijust";
 import { QueryLoader } from "./../utils/QueryLoader";
 
 const style = StyleSheet.create({
@@ -36,8 +35,7 @@ export const IjustContextRoute = () => {
         query={QUERY}
         variables={{ id }}
         component={({ data }) => {
-          const context = new Context(data.getIjustContext);
-          return renderContext(context);
+          return renderContext(data.getIjustContext);
         }}
       />
     </div>
