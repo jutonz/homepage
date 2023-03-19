@@ -13,7 +13,6 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "lib": ["dom", "esnext"],
-    "baseUrl": ".",
     "noEmit": true,
     "types": ["cypress", "@testing-library/cypress"],
     "baseUrl": ".",
