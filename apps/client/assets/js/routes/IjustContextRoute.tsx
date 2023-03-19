@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { IjustContext } from "../components/ijust/IjustContext";
 import { MainNav } from "../components/MainNav";
 import { QueryLoader } from "./../utils/QueryLoader";
+import type { IjustContextType } from "@types";
 
 const style = StyleSheet.create({
   routeContainer: {
@@ -16,7 +17,7 @@ const style = StyleSheet.create({
 });
 
 const QUERY = gql`
-  query GetIjustContextQuery($id: ID!) {
+  query GetIjustContext($id: ID!) {
     getIjustContext(id: $id) {
       id
       name
@@ -25,13 +26,17 @@ const QUERY = gql`
   }
 `;
 
+interface GetIjustContextType {
+  getIjustContext: IjustContextType;
+}
+
 export const IjustContextRoute = () => {
   const { id } = useParams();
 
   return (
     <div>
       <MainNav activeItem={"ijust"} />
-      <QueryLoader
+      <QueryLoader<GetIjustContextType>
         query={QUERY}
         variables={{ id }}
         component={({ data }) => {

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Divider } from "semantic-ui-react";
 
 import { IjustBreadcrumbs } from "./IjustBreadcrumbs";
 import { IjustEventInput } from "./IjustEventInput";
@@ -10,7 +9,7 @@ export const IjustContext = ({ context }) => (
     <IjustBreadcrumbs context={context} viewing={context} />
     <div className="mb-5" />
     <IjustEventInput ijustContextId={context.id} />
-    <Divider hidden />
+    <hr />
     <IjustRecentEvents context={context} />
   </div>
 );
