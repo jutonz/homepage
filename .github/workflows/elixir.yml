@@ -21,6 +21,7 @@ jobs:
         otp-version: '25.2'
     - name: Restore dev cache
       uses: actions/cache@v3
+      id: dev-cache
       with:
         path: |
           deps
@@ -36,6 +37,7 @@ jobs:
           v2-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-plts-${{ hashFiles('.tool-versions') }}-
     - run: mix deps.get
+      unless: steps.dev-cache.outputs.cache-hit == 'true'
     - run: mix format --check-formatted
     - run: mix compile --warnings-as-errors
     - run: mix dialyzer
