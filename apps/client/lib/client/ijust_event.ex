@@ -2,7 +2,7 @@ defmodule Client.IjustEvent do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
-  alias Client.{IjustOccurrence, IjustEvent, Repo}
+  alias Client.{IjustContext, IjustOccurrence, IjustEvent, Repo}
 
   @type t :: %__MODULE__{}
   @moduledoc false
@@ -12,7 +12,7 @@ defmodule Client.IjustEvent do
   schema "ijust_events" do
     field(:name, :string)
     field(:count, :integer, default: 1)
-    field(:ijust_context_id, :id)
+    belongs_to(:ijust_context, IjustContext)
     has_many(:ijust_occurrences, IjustOccurrence)
     timestamps()
   end

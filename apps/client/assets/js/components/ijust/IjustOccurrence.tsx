@@ -1,10 +1,11 @@
-import * as React from "react";
-import { useState } from "react";
-import { Button, Table } from "semantic-ui-react";
+import React from "react";
 import { css, StyleSheet } from "aphrodite";
 import { format, formatDistanceToNow, parseISO } from "date-fns";
+import { useState } from "react";
+import { Button } from "semantic-ui-react";
 import { gql, useMutation } from "urql";
 
+import type { IjustOccurrence as OccurrenceType } from "@types";
 import { Constants } from "./../../utils/Constants";
 import { Confirm } from "./../Confirm";
 
@@ -33,12 +34,12 @@ export const GET_OCCURRENCE = gql`
 `;
 
 interface Props {
-  occurrence: any;
+  occurrence: OccurrenceType;
 }
 export const IjustOccurrence = ({ occurrence }: Props) => {
   return (
-    <Table.Row>
-      <Table.Cell>
+    <div className="flex flex-row mt-5">
+      <div className="flex flex-row flex-1">
         {format(
           parseISO(occurrence.insertedAt + "Z"),
           Constants.dateTimeFormat
@@ -46,13 +47,13 @@ export const IjustOccurrence = ({ occurrence }: Props) => {
         <span className={css(styles.relativeDateSpacer)}>
           ({formatDistanceToNow(parseISO(occurrence.insertedAt + "Z"))} ago)
         </span>
-      </Table.Cell>
-      <Table.Cell>{renderDeleteButton(occurrence)}</Table.Cell>
-    </Table.Row>
+      </div>
+      <div>{renderDeleteButton(occurrence)}</div>
+    </div>
   );
 };
 
-const renderDeleteButton = (occurrence: any) => {
+const renderDeleteButton = (occurrence: OccurrenceType) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [result, deleteOccurrence] = useMutation(DELETE_OCCURRENCE);
   const variables = { occurrenceId: occurrence.id };

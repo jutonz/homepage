@@ -68,6 +68,7 @@ defmodule ClientWeb.IjustResolver do
            Client.Repo.preload(event,
              ijust_occurrences: from(o in IjustOccurrence, order_by: [desc: o.inserted_at])
            ),
+         event <- Client.Repo.preload(event, :ijust_context),
          do: {:ok, event},
          else:
            (

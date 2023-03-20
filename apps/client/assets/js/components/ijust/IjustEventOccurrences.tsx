@@ -1,10 +1,10 @@
-import * as React from "react";
+import React from "react";
 import gql from "graphql-tag";
-import { Button, Header, Table } from "semantic-ui-react";
 
 import { QueryLoader } from "./../../utils/QueryLoader";
 import { IjustAddOccurrenceToEventButton } from "./IjustAddOccurrenceToEventButton";
-import { IjustOccurrence } from "./IjustOccurrence";
+import { IjustOccurrence as IjustOccurrenceComponent } from "./IjustOccurrence";
+import type { IjustOccurrence } from "@types";
 
 export const GET_OCCURRENCES = gql`
   query GetIjustContextEvent($contextId: ID!, $eventId: ID!) {
@@ -21,43 +21,42 @@ export const GET_OCCURRENCES = gql`
   }
 `;
 
+interface GetOccurrences {
+  getIjustContextEvent: {
+    id: string;
+    ijustContextId: string;
+    ijustOccurrences: IjustOccurrence[];
+  };
+}
+
 interface Props {
   contextId: string;
   eventId: string;
 }
 
-export class IjustEventOccurrences extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-  }
+export function IjustEventOccurrences({ contextId, eventId }: Props) {
+  return (
+    <div className="mt-3">
+      <h2>Occurrences</h2>
+      <QueryLoader<GetOccurrences>
+        query={GET_OCCURRENCES}
+        variables={{ contextId, eventId }}
+        component={({ data }) => {
+          const occurrences = data.getIjustContextEvent.ijustOccurrences;
+          return (
+            <div className="w-full">
+              <IjustAddOccurrenceToEventButton eventId={eventId} />
+              {occurrences && occurrences.map(renderOccurrence)}
+            </div>
+          );
+        }}
+      />
+    </div>
+  );
+}
 
-  render() {
-    const { contextId, eventId } = this.props;
-    return (
-      <div>
-        <Header>Occurrences</Header>
-        <QueryLoader
-          query={GET_OCCURRENCES}
-          variables={{ contextId, eventId }}
-          component={({ data }) => {
-            const occurrences = data.getIjustContextEvent.ijustOccurrences;
-            return (
-              <div>
-                <IjustAddOccurrenceToEventButton eventId={eventId} />
-                <Table basic="very">
-                  <Table.Body>
-                    {occurrences && occurrences.map(this.renderOccurrence)}
-                  </Table.Body>
-                </Table>
-              </div>
-            );
-          }}
-        />
-      </div>
-    );
-  }
-
-  renderOccurrence(occurrence) {
-    return <IjustOccurrence occurrence={occurrence} key={occurrence.id} />;
-  }
+function renderOccurrence(occurrence: IjustOccurrence) {
+  return (
+    <IjustOccurrenceComponent occurrence={occurrence} key={occurrence.id} />
+  );
 }
