@@ -17,6 +17,8 @@ defmodule ClientWeb do
   and import those modules here.
   """
 
+  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: ClientWeb
@@ -24,6 +26,8 @@ defmodule ClientWeb do
       import ClientWeb.Gettext
       import Phoenix.LiveView.Controller, only: [live_render: 2, live_render: 3]
       alias ClientWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 
@@ -79,6 +83,15 @@ defmodule ClientWeb do
     end
   end
 
+  def verified_routes do
+    quote do
+      use Phoenix.VerifiedRoutes,
+        endpoint: DemoWeb.Endpoint,
+        router: DemoWeb.Router,
+        statics: DemoWeb.static_paths()
+    end
+  end
+
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """
@@ -98,6 +111,8 @@ defmodule ClientWeb do
       import ClientWeb.Gettext
 
       alias ClientWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 end
