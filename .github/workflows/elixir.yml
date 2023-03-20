@@ -25,7 +25,7 @@ jobs:
         path: |
           deps
           _build/dev
-        key: v1-dev-${{ hashFiles('.tool-versions')}}-${{ hashFiles('mix.lock') }}
+        key: v1-dev-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
         restore-keys: v1-dev-
     - name: Restore PLT cache
       uses: actions/cache@v3
@@ -35,8 +35,8 @@ jobs:
         restore-keys: |
           v2-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-plts-${{ hashFiles('.tool-versions') }}-
-    - run: mix format --check-formatted
     - run: mix deps.get
+    - run: mix format --check-formatted
     - run: mix compile --warnings-as-errors
     - run: mix dialyzer
 
