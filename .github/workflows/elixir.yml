@@ -37,7 +37,7 @@ jobs:
           v2-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-plts-${{ hashFiles('.tool-versions') }}-
     - run: mix deps.get
-      unless: steps.dev-cache.outputs.cache-hit == 'true'
+      if: steps.dev-cache.outputs.cache-hit != 'true'
     - run: mix compile --warnings-as-errors
     - run: mix format --check-formatted
     - run: mix dialyzer
