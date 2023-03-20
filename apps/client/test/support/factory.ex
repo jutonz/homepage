@@ -44,6 +44,34 @@ defmodule Client.Factory do
     }
   end
 
+  def ijust_context_factory(attrs) do
+    struct = %Client.IjustContext {
+      name: sequence(:name, &"context-#{&1}"),
+      user_id: rand_int()
+    }
+
+    merge_attributes(struct, attrs)
+  end
+
+  def ijust_event_factory(attrs) do
+    struct = %Client.IjustEvent{
+      name: sequence(:name, &"event-#{&1}"),
+      count: 1,
+      ijust_context_id: rand_int()
+    }
+
+    merge_attributes(struct, attrs)
+  end
+
+  def ijust_occurrence_factory(attrs) do
+    struct = %Client.IjustOccurrence{
+      user_id: rand_int(),
+      ijust_event_id: rand_int()
+    }
+
+    merge_attributes(struct, attrs)
+  end
+
   def water_log_factory do
     %Client.WaterLogs.WaterLog{
       name: sequence(:name, &"water log #{&1}"),

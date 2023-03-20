@@ -7,6 +7,8 @@ defmodule Client.IjustContext do
   @type t :: %__MODULE__{}
   @moduledoc false
 
+  @derive {Jason.Encoder, only: ~w[id name user_id]a}
+
   schema "ijust_contexts" do
     timestamps()
     field(:name, :string)

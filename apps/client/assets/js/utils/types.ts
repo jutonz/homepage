@@ -1,4 +1,4 @@
-export type IjustEventType = {
+export type IjustEvent = {
   id: string;
   name: string;
   count: number;
@@ -7,7 +7,7 @@ export type IjustEventType = {
   ijustContextId: string;
 };
 
-export type IjustContextType = {
+export type IjustContext = {
   id: string;
   name: string;
   userId: string;
