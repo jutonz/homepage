@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from "react";
-import { Message, Form, Search, SearchResultProps } from "semantic-ui-react";
-import { css, StyleSheet } from "aphrodite";
 import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "urql";
+import Alert from "@mui/material/Alert";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 
 import { IjustEventTypeahead } from "./../../utils/IjustEventTypeahead";
+import type { IjustEvent } from "@types";
 
 const CREATE_EVENT = gql`
   mutation CreateIjustEvent($ijustContextId: ID!, $eventName: String!) {
@@ -19,114 +21,58 @@ const CREATE_EVENT = gql`
   }
 `;
 
-const styles = StyleSheet.create({
-  container: {
-    margin: "30 0",
-  },
-  form: {
-    minWidth: 300,
-    maxWidth: 300,
-  },
-  input: {
-    width: "100%",
-  },
-  button: {
-    marginLeft: "10px",
-  },
-  searchResultTitle: {
-    fontFace: "bold",
-  },
-  searchResultDescription: {
-    color: "#ccc",
-  },
-  searchResultContainer: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  searchResultRight: {
-    alignItems: "center",
-  },
-});
+interface CreateEventType {
+  createIjustEvent: IjustEvent;
+}
 
 interface Props {
   ijustContextId: string;
 }
 
 export function IjustEventInput({ ijustContextId }: Props) {
-  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
-  const [searchResults, setSearchResults] = useState<any>([]);
-  const [result, createEvent] = useMutation(CREATE_EVENT);
+  const [searchResults, setSearchResults] = useState<IjustEvent[]>([]);
+  const [result, createEvent] = useMutation<CreateEventType>(CREATE_EVENT);
   const navigate = useNavigate();
 
   const typeahead = useMemo(() => {
-    return new IjustEventTypeahead((rawResults: Array<any>) => {
-      const transformed = rawResults.map(({ id, name, count }) => ({
-        id,
-        title: name,
-        description: `${count} existing occurrence${count !== 1 ? "s" : ""}`,
-      }));
-      setSearchResults(transformed);
-    }, ijustContextId);
+    return new IjustEventTypeahead(setSearchResults, ijustContextId);
   }, [ijustContextId, setSearchResults]);
 
-  if (selectedEventId) {
-    const pathname = `/ijust/contexts/${ijustContextId}/events/${selectedEventId}`;
+  const redirectToEvent = (eventId: string) => {
+    const pathname = `/ijust/contexts/${ijustContextId}/events/${eventId}`;
     navigate(pathname);
-    return null;
-  }
-
-  const renderNoResultsMessage = () => {
-    if (searchResults) {
-      return (
-        <div>
-          <div className={css(styles.searchResultTitle)}>
-            Press enter to create new event
-          </div>
-        </div>
-      );
-    } else {
-      return <div>Loading</div>;
-    }
   };
 
   return (
-    <div className={css(styles.container)}>
-      <Form
-        onSubmit={() => {
+    <div className="my-5">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
           const eventName = typeahead.getLatestSearch();
-          createEvent({ eventName, ijustContextId }).then((data: any) => {
+          createEvent({ eventName, ijustContextId }).then((data) => {
             const newEventId = data.data.createIjustEvent.id;
-            setSelectedEventId(newEventId);
+            redirectToEvent(newEventId);
           });
         }}
       >
-        <Search
-          fluid
-          selectFirstResult
-          onSearchChange={(_ev, { value }) => typeahead.search(value)}
-          onResultSelect={(_ev, data) => setSelectedEventId(data.result.id)}
-          results={searchResults}
-          resultRenderer={renderSearchResults}
-          noResultsMessage={renderNoResultsMessage()}
+        <Autocomplete
+          autoComplete
+          options={searchResults}
+          filterOptions={(x) => x}
+          onInputChange={(_ev, value) => typeahead.search(value)}
+          getOptionLabel={(option) => option.name}
+          onChange={(_ev, value) => redirectToEvent(value.id)}
+          noOptionsText="Press enter to create"
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search for an event, or create a new one"
+              fullWidth
+            />
+          )}
         />
-        {result.error && <Message error>{result.error}</Message>}
-      </Form>
+        {result.error && <Alert color="error">{result.error}</Alert>}
+      </form>
     </div>
   );
 }
-
-const renderSearchResults = (
-  props: SearchResultProps
-): React.ReactElement<any> => (
-  <div key={props.id} className={css(styles.searchResultContainer)}>
-    <div>
-      <div className={css(styles.searchResultTitle)}>{props.title}</div>
-      <div className={css(styles.searchResultDescription)}>
-        {props.description}
-      </div>
-    </div>
-    <div className={css(styles.searchResultRight)}>
-      {props.active && <div>Enter to view</div>}
-    </div>
-  </div>
-);

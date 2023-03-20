@@ -12,7 +12,7 @@ export const IjustBreadcrumbs = ({ context, event, viewing }: Props) => (
   <Breadcrumbs className="text-xl" separator="→">
     {contextsLinkOrNot(viewing)}
     {context && contextLinkOrNot(context, viewing)}
-    {event && <span>{event.name}</span>}
+    {event && <h1 className="text-xl">{event.name}</h1>}
   </Breadcrumbs>
 );
 

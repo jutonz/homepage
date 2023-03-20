@@ -3,6 +3,7 @@ import { filter, debounceTime, switchMap } from "rxjs/operators";
 import { gql } from "urql";
 
 import { urqlClient } from "./../index";
+import type { IjustEvent } from "@types";
 
 const SEARCH_EVENTS = gql`
   query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {
@@ -17,13 +18,20 @@ const SEARCH_EVENTS = gql`
   }
 `;
 
+interface IjustEventsSearch {
+  ijustEventsSearch: IjustEvent[];
+}
+
 export class IjustEventTypeahead {
-  callback: (results: Array<any>) => void;
+  callback: (results: Array<IjustEvent>) => void;
   ijustContextId: string;
   subject: any;
   latestSearch: string | undefined;
 
-  constructor(callback: (results: Array<any>) => void, ijustContextId: string) {
+  constructor(
+    callback: (results: Array<IjustEvent>) => void,
+    ijustContextId: string
+  ) {
     this.callback = callback;
     this.ijustContextId = ijustContextId;
     this.subject = this.setupSubject();
@@ -60,7 +68,7 @@ export class IjustEventTypeahead {
       const { ijustContextId } = this;
       const variables = { eventName, ijustContextId };
       urqlClient
-        .query(SEARCH_EVENTS, variables)
+        .query<IjustEventsSearch>(SEARCH_EVENTS, variables)
         .toPromise()
         .then((data) => {
           if (data.error) {

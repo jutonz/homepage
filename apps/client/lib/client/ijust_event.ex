@@ -7,6 +7,8 @@ defmodule Client.IjustEvent do
   @type t :: %__MODULE__{}
   @moduledoc false
 
+  @derive {Jason.Encoder, only: ~w[id name count ijust_context_id]a}
+
   schema "ijust_events" do
     field(:name, :string)
     field(:count, :integer, default: 1)

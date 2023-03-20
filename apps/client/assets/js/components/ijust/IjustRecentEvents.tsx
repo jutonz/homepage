@@ -1,10 +1,10 @@
+import { formatDistanceToNow, parseISO } from "date-fns";
+import gql from "graphql-tag";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import gql from "graphql-tag";
-import { formatDistanceToNow, parseISO } from "date-fns";
 
+import type { IjustContext, IjustEvent } from "@types";
 import { QueryLoader } from "./../../utils/QueryLoader";
-import type { IjustEventType, IjustContextType } from "@types";
 
 const GET_RECENT_EVENTS = gql`
   query FetchIjustRecentEventsQuery($contextId: ID!) {
@@ -20,7 +20,7 @@ const GET_RECENT_EVENTS = gql`
 `;
 
 type GetRecentEventsType = {
-  getIjustRecentEvents: [IjustEventType];
+  getIjustRecentEvents: [IjustEvent];
 };
 
 interface Props {
@@ -40,10 +40,7 @@ export const IjustRecentEvents = ({ context }: Props) => (
   </div>
 );
 
-const renderRecentEvents = (
-  events: [IjustEventType],
-  context: IjustContextType
-) => {
+const renderRecentEvents = (events: [IjustEvent], context: IjustContext) => {
   if (!events) {
     return null;
   }
@@ -55,7 +52,7 @@ const renderRecentEvents = (
   return <div>{events.map((ev) => renderEvent(ev, context))}</div>;
 };
 
-const renderEvent = (event: IjustEventType, context: IjustContextType) => (
+const renderEvent = (event: IjustEvent, context: IjustContext) => (
   <Link
     to={`/ijust/contexts/${context.id}/events/${event.id}`}
     className="flex flex-col px-2 py-5 border-b last:border-none"
@@ -70,5 +67,5 @@ const renderEvent = (event: IjustEventType, context: IjustContextType) => (
 );
 
 const renderEmptyState = () => (
-  <div>You haven't added any events. Get to it!</div>
+  <div className="mt-3">You haven't added any events. Get to it!</div>
 );

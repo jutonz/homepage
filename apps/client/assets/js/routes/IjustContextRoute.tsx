@@ -1,19 +1,18 @@
-import { StyleSheet, css } from "aphrodite";
+import { css, StyleSheet } from "aphrodite";
 import * as React from "react";
-import { gql } from "urql";
 import { useParams } from "react-router-dom";
+import { gql } from "urql";
 
-import { IjustContext } from "../components/ijust/IjustContext";
+import type { IjustContext } from "@types";
+import { IjustContextComponent } from "../components/ijust/IjustContextComponent";
 import { MainNav } from "../components/MainNav";
 import { QueryLoader } from "./../utils/QueryLoader";
-import type { IjustContextType } from "@types";
 
 const style = StyleSheet.create({
   routeContainer: {
     margin: "30px auto",
     maxWidth: "700px",
   },
-  errors: { color: "red" },
 });
 
 const QUERY = gql`
@@ -27,7 +26,7 @@ const QUERY = gql`
 `;
 
 interface GetIjustContextType {
-  getIjustContext: IjustContextType;
+  getIjustContext: IjustContext;
 }
 
 export const IjustContextRoute = () => {
@@ -47,10 +46,10 @@ export const IjustContextRoute = () => {
   );
 };
 
-const renderContext = (context: any) => (
+const renderContext = (context: IjustContext) => (
   <div>
     <div className={css(style.routeContainer)}>
-      <IjustContext context={context} />
+      <IjustContextComponent context={context} />
     </div>
   </div>
 );
