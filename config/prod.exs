@@ -42,29 +42,34 @@ config :twitch, Twitch.Repo,
   ssl: false
 
 twitch_users = [
-  "26921830", # ela
-  "86120737", # syps_
-  "14824099", # trizze
-  "61350245"  # comradenerdy
+  # ela
+  "26921830",
+  # syps_
+  "86120737",
+  # trizze
+  "14824099",
+  # comradenerdy
+  "61350245"
 ]
 
 config :twitch,
-  eventsub_subscriptions: Enum.flat_map(twitch_users, fn user_id ->
-    [
-      %{
-        type: "channel.update",
-        condition: %{"broadcaster_user_id" => user_id},
-        version: 1
-      },
-      %{
-        type: "stream.online",
-        condition: %{"broadcaster_user_id" => user_id},
-        version: 1
-      },
-      %{
-        type: "stream.offline",
-        condition: %{"broadcaster_user_id" => user_id},
-        version: 1
-      }
-    ]
-  end)
+  eventsub_subscriptions:
+    Enum.flat_map(twitch_users, fn user_id ->
+      [
+        %{
+          type: "channel.update",
+          condition: %{"broadcaster_user_id" => user_id},
+          version: 1
+        },
+        %{
+          type: "stream.online",
+          condition: %{"broadcaster_user_id" => user_id},
+          version: 1
+        },
+        %{
+          type: "stream.offline",
+          condition: %{"broadcaster_user_id" => user_id},
+          version: 1
+        }
+      ]
+    end)

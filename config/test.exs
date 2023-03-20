@@ -27,7 +27,8 @@ config :client, Client.Repo,
   password: nil,
   ownership_timeout: :infinity,
   pool_size: 20
-  #log: :debug # enable to print ecto logs in test
+
+# log: :debug # enable to print ecto logs in test
 
 config :wallaby,
   otp_app: :client,

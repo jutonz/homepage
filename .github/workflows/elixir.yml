@@ -21,11 +21,12 @@ jobs:
         otp-version: '25.2'
     - name: Restore dev cache
       uses: actions/cache@v3
+      id: dev-cache
       with:
         path: |
           deps
           _build/dev
-        key: v1-dev-${{ hashFiles('.tool-versions')}}-${{ hashFiles('mix.lock') }}
+        key: v1-dev-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
         restore-keys: v1-dev-
     - name: Restore PLT cache
       uses: actions/cache@v3
@@ -35,9 +36,10 @@ jobs:
         restore-keys: |
           v2-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-plts-${{ hashFiles('.tool-versions') }}-
-    - run: mix format --check-formatted
     - run: mix deps.get
+      if: steps.dev-cache.outputs.cache-hit != 'true'
     - run: mix compile --warnings-as-errors
+    - run: mix format --check-formatted
     - run: mix dialyzer
 
   yarn_install:

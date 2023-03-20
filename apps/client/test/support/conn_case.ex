@@ -3,6 +3,8 @@ defmodule ClientWeb.ConnCase do
 
   using do
     quote do
+      use ClientWeb, :verified_routes
+
       alias ClientWeb.Router.Helpers, as: Routes
       import Plug.Conn
       import Phoenix.ConnTest

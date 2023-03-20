@@ -33,7 +33,8 @@ defmodule ClientWeb.Endpoint do
     Plug.Static,
     at: "/",
     from: :client,
-    gzip: false
+    gzip: false,
+    only: ClientWeb.static_paths()
   )
 
   # Code reloading can be explicitly enabled under the :code_reloader
