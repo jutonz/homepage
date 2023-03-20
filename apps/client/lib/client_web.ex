@@ -41,7 +41,6 @@ defmodule ClientWeb do
       import Phoenix.Controller,
         only: [
           get_csrf_token: 0,
-          get_flash: 2,
           view_module: 1,
           view_template: 1
         ]
@@ -86,9 +85,9 @@ defmodule ClientWeb do
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,
-        endpoint: DemoWeb.Endpoint,
-        router: DemoWeb.Router,
-        statics: DemoWeb.static_paths()
+        endpoint: ClientWeb.Endpoint,
+        router: ClientWeb.Router,
+        statics: ClientWeb.static_paths()
     end
   end
 
