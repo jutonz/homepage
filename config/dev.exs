@@ -66,5 +66,4 @@ config :twitch, Twitch.Repo,
   database: "homepage_twitch_dev",
   hostname: "localhost"
 
-
 import_config "dev.secret.exs"

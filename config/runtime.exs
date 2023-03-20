@@ -46,7 +46,6 @@ if config_env() == :prod do
     },
     webhook_secret: System.fetch_env!("TWITCH_CLIENT_ID")
 
-
   config :twitch, Twitch.Repo,
     url: System.fetch_env!("TWITCH_DATABASE_URL"),
     pool_size: db_pool_size,

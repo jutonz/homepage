@@ -26,8 +26,9 @@ config :client,
   namespace: Client,
   ecto_repos: [Client.Repo],
   default_timezone: "America/New_York",
-  admin_username: System.get_env("ADMIN_USERNAME")  || "admin",
-  admin_password: System.get_env("ADMIN_PASSWORD") || :crypto.strong_rand_bytes(124) |> Base.encode64(),
+  admin_username: System.get_env("ADMIN_USERNAME") || "admin",
+  admin_password:
+    System.get_env("ADMIN_PASSWORD") || :crypto.strong_rand_bytes(124) |> Base.encode64(),
   todoist_api_token: System.get_env("TODOIST_API_TOKEN")
 
 config :phoenix,
