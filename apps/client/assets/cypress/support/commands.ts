@@ -137,8 +137,13 @@ interface User {
   email: string;
 }
 
-Cypress.Commands.add("initSession", () => {
-  const password = "password123";
+interface InitSessionOpts {
+  password?: string;
+}
+
+Cypress.Commands.add("initSession", (opts: InitSessionOpts = {}) => {
+  let { password } = opts;
+  password = password ?? "password123";
   cy.insert("user", { password }).then((user: User) => {
     cy.visit(`/?as=${user.id}`);
     return cy.wrap(user);
@@ -153,7 +158,7 @@ declare global {
       signup(opts?: SignupOpts): Cypress.Chainable<SignupOpts>;
       login(opts: LoginOpts) : void;
       insert(factory: string, attrs?: any): Cypress.Chainable<any>;
-      initSession(): Cypress.Chainable<User>;
+      initSession(opts?: InitSessionOpts): Cypress.Chainable<User>;
     }
   }
 }
