@@ -220,11 +220,6 @@
   resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-4.5.8.tgz#56347764786079838faf43f0eeda22dd7328437f"
   integrity sha512-CnD7zLItIzt86q4Sj3kZUiLcBk1dSk81qcqgMGaZe7SQ1P8hFNxhMl5AZthK1zrDM5m74VVhaOpuMGIL4gagaA==
 
-"@graphql-typed-document-node/core@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.1.tgz#076d78ce99822258cf813ecc1e7fa460fa74d052"
-  integrity sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==
-
 "@hookform/resolvers@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-3.0.0.tgz#bb9346f1550a472a980af5b08e549366c788ff76"
@@ -542,20 +537,12 @@
   dependencies:
     "@types/node" "*"
 
-"@urql/core@>=3.2.0":
+"@urql/core@>=3.2.0", "@urql/core@^3.2.0":
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-3.2.2.tgz#2a44015b536d72981822f715c96393d8e0ddc576"
   integrity sha512-i046Cz8cZ4xIzGMTyHZrbdgzcFMcKD7+yhCAH5FwWBRjcKrc+RjEOuR9X5AMuBvr8c6IAaE92xAqa4wmlGfWTQ==
   dependencies:
     wonka "^6.1.2"
-
-"@urql/core@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@urql/core/-/core-2.6.1.tgz#c10ee972c5e81df6d7bf1e778ef1b5d30e2906e5"
-  integrity sha512-gYrEHy3tViJhwIhauK6MIf2Qp09QTsgNHZRd0n71rS+hF6gdwjspf1oKljl4m25+272cJF7fPjBUGmjaiEr7Kg==
-  dependencies:
-    "@graphql-typed-document-node/core" "^3.1.1"
-    wonka "^4.0.14"
 
 "@urql/exchange-graphcache@^5.2.0":
   version "5.2.0"
@@ -3768,13 +3755,13 @@ update-browserslist-db@^1.0.10:
     escalade "^3.1.1"
     picocolors "^1.0.0"
 
-urql@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/urql/-/urql-2.2.3.tgz#84c6ad962d771235106f24de56b5dc6bd85a2c3a"
-  integrity sha512-XMkSYJKW9s4ZlbSuxcUz3fTBIykOn0sGileRXQeyZpaRBXJPVz5saSY05k7jdefNxShZtTI+/nr7PYUWQertfg==
+urql@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/urql/-/urql-3.0.4.tgz#f73dbd2e5b134b7328c14d5b8ab1f93f93db8990"
+  integrity sha512-okmQKQ9pF4t8O8iCC5gH9acqfFji5lkhW3nLBjx8WKDd2zZG7PXoUpUK19VQEMK87L6VFBOO/XZ52MMKFEI0AA==
   dependencies:
-    "@urql/core" "^2.6.1"
-    wonka "^4.0.14"
+    "@urql/core" "^3.2.0"
+    wonka "^6.0.0"
 
 use-sync-external-store@^1.0.0:
   version "1.1.0"
@@ -3845,11 +3832,6 @@ which@^2.0.1:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
-
-wonka@^4.0.14:
-  version "4.0.15"
-  resolved "https://registry.yarnpkg.com/wonka/-/wonka-4.0.15.tgz#9aa42046efa424565ab8f8f451fcca955bf80b89"
-  integrity sha512-U0IUQHKXXn6PFo9nqsHphVCE5m3IntqZNB9Jjn7EB1lrR7YTDY3YWgFvEvwniTzXSvOH/XMzAZaIfJF/LvHYXg==
 
 wonka@^6.0.0, wonka@^6.1.2:
   version "6.1.2"

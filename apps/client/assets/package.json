@@ -42,7 +42,7 @@
     "semantic-ui-react": "^2.1.4",
     "tailwindcss": "^3.2.7",
     "three": "^0.150.1",
-    "urql": "^2.2.3",
+    "urql": "^3.0.4",
     "yup": "^1.0.2"
   },
   "devDependencies": {
