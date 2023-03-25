@@ -94,6 +94,10 @@ describe("teams", () => {
         cy.findByRole("button", { name: "Delete" }).click();
       });
 
+      cy.findByRole("dialog", { name: "Are you sure?" }).within(() => {
+        cy.findByRole("button", { name: "Delete team" }).click();
+      });
+
       cy.location("hash").should("eql", "#/settings");
 
       cy.contains("div", "Team membership").within(() => {
