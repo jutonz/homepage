@@ -21,3 +21,8 @@ export type IjustOccurrence = {
   insertedAt: string;
   updatedAt: string;
 };
+
+export type User = {
+  id: string;
+  email: string;
+};

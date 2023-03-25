@@ -36,7 +36,7 @@ const renderTeam = (team: any) => {
       <h1>{team.name}</h1>
       <div className={css(style.components)}>
         <TeamRenameForm team={team} />
-        <TeamUsersForm team={team} onDelete={() => {}} />
+        <TeamUsersForm team={team} />
         <TeamDeleteForm team={team} />
         <TeamLeaveForm team={team} />
       </div>

@@ -1,22 +1,10 @@
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
-import { css, StyleSheet } from "aphrodite";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "urql";
-
-import { FormBox } from "./FormBox";
-
-const style = StyleSheet.create({
-  container: {
-    maxWidth: 300,
-    minWidth: 300,
-    marginTop: 30,
-    marginRight: 30,
-  },
-});
 
 const LEAVE_TEAM = gql`
   mutation LeaveTeam($id: ID!) {
@@ -85,20 +73,21 @@ export function TeamLeaveForm({ team }: Props) {
   }, [clearErrors, setError, leaveTeam]);
 
   return (
-    <form className={css(style.container)} onSubmit={handleSubmit(onSubmit)}>
-      <FormBox>
-        <h3>Leave team</h3>
+    <form
+      className="w-80 mt-5 p-2.5 border-gray-300 border"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <h3>Leave team</h3>
 
-        {errors.backendError?.message && (
-          <Alert color="error">{errors.backendError.message}</Alert>
-        )}
+      {errors.backendError?.message && (
+        <Alert color="error">{errors.backendError.message}</Alert>
+      )}
 
-        <p>You can always rejoin later.</p>
+      <p>You can always rejoin later.</p>
 
-        <Button type="submit" fullWidth disabled={isSubmitting || !isValid}>
-          Leave
-        </Button>
-      </FormBox>
+      <Button type="submit" fullWidth disabled={isSubmitting || !isValid}>
+        Leave
+      </Button>
     </form>
   );
 }

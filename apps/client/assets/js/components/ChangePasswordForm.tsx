@@ -1,29 +1,17 @@
-import { css, StyleSheet } from "aphrodite";
-import gql from "graphql-tag";
-import React, { useState } from "react";
-import {
-  Button,
-  Form,
-  Header,
-  InputOnChangeData,
-  Message,
-} from "semantic-ui-react";
-import { useMutation } from "urql";
+import { yupResolver } from "@hookform/resolvers/yup";
+import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { enqueueSnackbar } from "notistack";
+import React, { useCallback } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { gql, useMutation } from "urql";
+import * as yup from "yup";
 
+import type { User } from "@types";
 import { FormBox } from "./FormBox";
 
-const styles = StyleSheet.create({
-  container: {
-    maxWidth: 300,
-    minWidth: 300,
-    marginTop: 30,
-  },
-  submit: {
-    marginTop: 30,
-  },
-});
-
-const ChangePassword = gql`
+const CHANGE_PASSWORD = gql`
   mutation ($currentPassword: String!, $newPassword: String!) {
     changePassword(
       currentPassword: $currentPassword
@@ -34,123 +22,154 @@ const ChangePassword = gql`
   }
 `;
 
+type ChangePasswordType = {
+  changePassword: User;
+};
+
+interface FormInputs {
+  currentPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
+  backendError: null;
+}
+
+const schema = yup
+  .object({
+    currentPassword: yup.string().required(),
+    newPassword: yup.string().required(),
+    newPasswordConfirm: yup
+      .string()
+      .required()
+      .oneOf([yup.ref("newPassword")], "Passwords don't match"),
+  })
+  .required();
+
 export function ChangePasswordForm() {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [oldPassword, setOldPassword] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [newPasswordConfirm, setNewPasswordConfirm] = useState<string>("");
-  const [formState, setFormState] = useState<string>("pending");
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [confirmBad, setConfirmBad] = useState<boolean>(false);
-  const [_changePasswordResult, changePassword] = useMutation(ChangePassword);
+  const {
+    clearErrors,
+    control,
+    formState: { isValid, errors, isSubmitting },
+    handleSubmit,
+    reset,
+    setError,
+  } = useForm<FormInputs>({
+    defaultValues: {
+      currentPassword: "",
+      newPassword: "",
+      newPasswordConfirm: "",
+      backendError: null,
+    },
+    mode: "onBlur",
+    resolver: yupResolver(schema),
+  });
 
-  function submit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setErrorMessage("");
-    setFormState("pending");
-    setLoading(true);
+  const [_result, changePassword] =
+    useMutation<ChangePasswordType>(CHANGE_PASSWORD);
 
-    const vars = { currentPassword: oldPassword, newPassword };
-    changePassword(vars).then((result) => {
-      setLoading(false);
+  const setBackendError = useCallback(
+    (message: string) => {
+      setError("backendError", { type: "custom", message });
+    },
+    [setError]
+  );
 
-      if (result.error) {
-        setFormState("error");
-        console.error(result.error);
-        setErrorMessage(result.error.message || "Failed to update password");
-      } else {
-        setOldPassword("");
-        setNewPassword("");
-        setNewPasswordConfirm("");
-        setFormState("success");
+  const onSubmit = useCallback(
+    async (form: FormInputs) => {
+      clearErrors("backendError");
+      const { currentPassword, newPassword, newPasswordConfirm } = form;
+
+      try {
+        const { error } = await changePassword({
+          currentPassword,
+          newPassword,
+          newPasswordConfirm,
+        });
+
+        if (error) {
+          console.error(error);
+          setBackendError(error.message);
+        } else {
+          reset();
+          enqueueSnackbar("Password changed.", { variant: "success" });
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+        setBackendError("Something went wrong. Please try again.");
       }
-    });
-  }
-
-  function renderStatusMessage() {
-    switch (formState) {
-      case "success":
-        return (
-          <Message success={true} header="Success" content="Password updated" />
-        );
-      case "error":
-        return <Message error={true} header="Error" content={errorMessage} />;
-      default:
-        return null;
-    }
-  }
-
-  function comparePasswords(newPasswordConfirm: string) {
-    if (newPasswordConfirm === "" || newPassword === "") {
-      return;
-    } else if (newPassword !== newPasswordConfirm) {
-      setConfirmBad(true);
-    } else {
-      setConfirmBad(false);
-    }
-  }
+    },
+    [clearErrors, setError, changePassword]
+  );
 
   return (
-    <div className={css(styles.container)}>
+    <form className="w-80 mt-3" onSubmit={handleSubmit(onSubmit)}>
       <FormBox>
-        <Form className={formState} onSubmit={submit}>
-          <Header>Change password</Header>
+        <h3>Change password</h3>
 
-          {renderStatusMessage()}
+        {errors.backendError?.message && (
+          <Alert color="error">{errors.backendError.message}</Alert>
+        )}
 
-          <Form.Field>
-            <Form.Input
-              name="current_password"
+        <Controller
+          control={control}
+          name="currentPassword"
+          render={({ field }) => (
+            <TextField
+              {...field}
+              type="password"
               label="Current password"
-              type="password"
-              autoFocus={true}
-              value={oldPassword}
-              onChange={(_event, { value }: InputOnChangeData) => {
-                setOldPassword(value);
-              }}
+              error={!!errors.currentPassword?.message}
+              fullWidth
             />
-          </Form.Field>
+          )}
+        />
+        {errors.currentPassword?.message && (
+          <Alert color="error">{errors.currentPassword.message}</Alert>
+        )}
 
-          <Form.Field>
-            <Form.Input
+        <Controller
+          control={control}
+          name="newPassword"
+          render={({ field }) => (
+            <TextField
+              {...field}
+              className="mt-3"
               label="New password"
-              type="password"
-              name="new_password"
-              error={confirmBad}
-              value={newPassword}
-              onChange={(_event, { value }: InputOnChangeData) => {
-                setNewPassword(value);
-                setConfirmBad(false);
-              }}
+              error={!!errors.newPassword?.message}
+              fullWidth
             />
-          </Form.Field>
+          )}
+        />
+        {errors.newPassword?.message && (
+          <Alert color="error">{errors.newPassword.message}</Alert>
+        )}
 
-          <Form.Field>
-            <Form.Input
-              type="password"
-              label="Confirm new password"
-              name="new_password_confirm"
-              error={confirmBad}
-              value={newPasswordConfirm}
-              onChange={(_event, { value }: InputOnChangeData) => {
-                setNewPasswordConfirm(value);
-                comparePasswords(value);
-              }}
+        <Controller
+          control={control}
+          name="newPasswordConfirm"
+          render={({ field }) => (
+            <TextField
+              {...field}
+              className="mt-3"
+              label="New password (confirm)"
+              error={!!errors.newPasswordConfirm?.message}
+              fullWidth
             />
-          </Form.Field>
+          )}
+        />
+        {errors.newPasswordConfirm?.message && (
+          <Alert color="error">{errors.newPasswordConfirm.message}</Alert>
+        )}
 
-          <Button
-            primary
-            active
-            fluid
-            type="submit"
-            className={css(styles.submit)}
-            loading={loading}
-          >
-            Change password
-          </Button>
-        </Form>
+        <Button
+          type="submit"
+          fullWidth
+          className="mt-5"
+          disabled={isSubmitting || !isValid}
+        >
+          Change password
+        </Button>
       </FormBox>
-    </div>
+    </form>
   );
 }

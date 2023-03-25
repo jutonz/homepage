@@ -2,24 +2,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { css, StyleSheet } from "aphrodite";
+import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { gql, useMutation } from "urql";
 import * as yup from "yup";
-import { enqueueSnackbar } from "notistack";
 
 import { FormBox } from "./FormBox";
-
-const style = StyleSheet.create({
-  container: {
-    maxWidth: 300,
-    minWidth: 300,
-    marginTop: 30,
-    marginRight: 30,
-    marginBottom: 0,
-  },
-});
 
 const RENAME_TEAM = gql`
   mutation RenameTeam($id: ID!, $name: String!) {
@@ -105,7 +94,7 @@ export function TeamRenameForm({ team }: Props) {
   );
 
   return (
-    <form className={css(style.container)} onSubmit={handleSubmit(onSubmit)}>
+    <form className="w-80 mt-3" onSubmit={handleSubmit(onSubmit)}>
       <FormBox>
         <h3>Rename team</h3>
 

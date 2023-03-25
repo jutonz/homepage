@@ -1,20 +1,10 @@
 import * as React from "react";
 import { Header } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import { StyleSheet } from "aphrodite";
 import gql from "graphql-tag";
 
 import { QueryLoader } from "./../utils/QueryLoader";
-import { FormBox } from "./FormBox";
-
-const style = StyleSheet.create({
-  container: {
-    maxWidth: 300,
-    minWidth: 300,
-    marginTop: 30,
-    marginRight: 30,
-  },
-});
+import type { User } from "@types";
 
 const GET_TEAM_USERS = gql`
   query GetTeamUsers($teamId: ID!) {
@@ -25,11 +15,15 @@ const GET_TEAM_USERS = gql`
   }
 `;
 
-export const TeamUsersForm = ({ team, onDelete }) => (
-  <FormBox styles={style.container}>
+type GetUsersType = {
+  getTeamUsers: User[];
+};
+
+export const TeamUsersForm = ({ team }) => (
+  <div className="w-80 mt-5 p-2.5 border-gray-300 border">
     <Header>Team users</Header>
     <p>View individual members of a team</p>
-    <QueryLoader
+    <QueryLoader<GetUsersType>
       query={GET_TEAM_USERS}
       variables={{ teamId: team.id }}
       component={({ data }) => {
@@ -39,7 +33,7 @@ export const TeamUsersForm = ({ team, onDelete }) => (
         } else {
           return (
             <div>
-              {users.map((user) => (
+              {users.map((user: User) => (
                 <div key={user.id}>
                   <Link to={`/teams/${team.id}/users/${user.id}`}>
                     {user.email}
@@ -51,5 +45,5 @@ export const TeamUsersForm = ({ team, onDelete }) => (
         }
       }}
     />
-  </FormBox>
+  </div>
 );

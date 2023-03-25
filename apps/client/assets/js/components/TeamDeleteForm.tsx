@@ -1,5 +1,4 @@
 import Alert from "@mui/material/Alert";
-import { css, StyleSheet } from "aphrodite";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
@@ -7,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "urql";
 
 import { ConfirmButton } from "./ConfirmButton";
-import { FormBox } from "./FormBox";
 
 const DELETE_TEAM = gql`
   mutation DeleteTeam($id: ID!) {
@@ -16,15 +14,6 @@ const DELETE_TEAM = gql`
     }
   }
 `;
-
-const style = StyleSheet.create({
-  container: {
-    maxWidth: 300,
-    minWidth: 300,
-    marginTop: 30,
-    marginRight: 30,
-  },
-});
 
 type Team = {
   id: string;
@@ -86,27 +75,28 @@ export function TeamDeleteForm({ team }: Props) {
   }, [clearErrors, setError, deleteTeam]);
 
   return (
-    <form className={css(style.container)} onSubmit={handleSubmit(onSubmit)}>
-      <FormBox>
-        <h3>Delete team</h3>
+    <form
+      className="w-80 mt-5 p-2.5 border-gray-300 border"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <h3>Delete team</h3>
 
-        {errors.backendError?.message && (
-          <Alert color="error">{errors.backendError.message}</Alert>
-        )}
+      {errors.backendError?.message && (
+        <Alert color="error">{errors.backendError.message}</Alert>
+      )}
 
-        <p>Everyone else will be removed from the team.</p>
+      <p>Everyone else will be removed from the team.</p>
 
-        <ConfirmButton
-          type="submit"
-          fullWidth
-          disabled={isSubmitting || !isValid}
-          onConfirm={handleSubmit(onSubmit)}
-          confirmText="All existing members will be removed from the team."
-          confirmButtonText="Delete team"
-        >
-          Delete
-        </ConfirmButton>
-      </FormBox>
+      <ConfirmButton
+        type="submit"
+        fullWidth
+        disabled={isSubmitting || !isValid}
+        onConfirm={handleSubmit(onSubmit)}
+        confirmText="All existing members will be removed from the team."
+        confirmButtonText="Delete team"
+      >
+        Delete
+      </ConfirmButton>
     </form>
   );
 }
