@@ -1,5 +1,4 @@
 import Alert from "@mui/material/Alert";
-import Button from "@mui/material/Button";
 import { css, StyleSheet } from "aphrodite";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
@@ -7,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "urql";
 
+import { ConfirmButton } from "./ConfirmButton";
 import { FormBox } from "./FormBox";
 
 const DELETE_TEAM = gql`
@@ -96,9 +96,16 @@ export function TeamDeleteForm({ team }: Props) {
 
         <p>Everyone else will be removed from the team.</p>
 
-        <Button type="submit" fullWidth disabled={isSubmitting || !isValid}>
+        <ConfirmButton
+          type="submit"
+          fullWidth
+          disabled={isSubmitting || !isValid}
+          onConfirm={handleSubmit(onSubmit)}
+          confirmText="All existing members will be removed from the team."
+          confirmButtonText="Delete team"
+        >
           Delete
-        </Button>
+        </ConfirmButton>
       </FormBox>
     </form>
   );
