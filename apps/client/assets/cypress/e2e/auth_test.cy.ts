@@ -40,4 +40,13 @@ describe("authorization", () => {
       cy.login({ email, password: newPassword });
     });
   });
+
+  it("allows a user to generate a one-time login link", () => {
+    cy.initSession();
+    cy.findByRole("link", { name: "Settings" }).click();
+
+    cy.contains("div", "One-time login link").within(() => {
+      cy.findByRole("button", { name: "Generate" }).click();
+    });
+  });
 });
