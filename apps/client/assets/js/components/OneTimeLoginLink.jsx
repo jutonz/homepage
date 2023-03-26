@@ -3,10 +3,9 @@ import { css, StyleSheet } from "aphrodite";
 import { Form, Header } from "semantic-ui-react";
 import Clipboard from "clipboard";
 import gql from "graphql-tag";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import { enqueueSnackbar } from "notistack";
 
-import { showFlash } from "./../store/store";
+import { urqlClient } from "./../index";
 import { FormBox } from "./../components/FormBox";
 
 const style = StyleSheet.create({
@@ -17,7 +16,7 @@ const style = StyleSheet.create({
   },
 });
 
-class _OneTimeLoginLink extends React.Component {
+export class OneTimeLoginLink extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -32,10 +31,10 @@ class _OneTimeLoginLink extends React.Component {
     });
 
     clipboard.on("success", () => {
-      this.props.showFlash("Copied", "success");
+      enqueueSnackbar("Copied", { variant: "success" });
     });
     clipboard.on("error", () => {
-      this.props.showFlash("Press Ctrl+C to topy", "info");
+      enqueueSnackbar("Press Ctrl+C to copy", { variant: "info" });
     });
     this.setState({ clipboard });
   }
@@ -113,12 +112,3 @@ class _OneTimeLoginLink extends React.Component {
     }
   }
 }
-
-//const mapStoreToProps = () => {};
-const mapDispatchToProps = (dispatch) => ({
-  showFlash: (message, tone = "info") => dispatch(showFlash(message, tone)),
-});
-
-export const OneTimeLoginLink = compose(connect(null, mapDispatchToProps))(
-  _OneTimeLoginLink
-);
