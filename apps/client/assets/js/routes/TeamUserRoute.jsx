@@ -4,6 +4,27 @@ import { StyleSheet, css } from "aphrodite";
 import { Loader } from "semantic-ui-react";
 import { MainNav } from "./../components/MainNav";
 
+import React from "react";
+import { Header } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+import gql from "graphql-tag";
+
+import { QueryLoader } from "./../utils/QueryLoader";
+import type { User } from "@types";
+
+const GET_TEAM_USER = gql`
+  query GetTeamUsers($teamId: ID!) {
+    getTeamUsers(teamId: $teamId) {
+      email
+      id
+    }
+  }
+`;
+
+type GetUsersType = {
+  getTeamUsers: User[],
+};
+
 const style = StyleSheet.create({
   routeContainer: {
     margin: "30px",
