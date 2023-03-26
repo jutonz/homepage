@@ -1,10 +1,6 @@
 import { HashRouter as Router, Routes, Route, useHref } from "react-router-dom";
-import { compose } from "redux";
-import { connect } from "react-redux";
-import { css, StyleSheet } from "aphrodite";
 import React from "react";
 
-import { Flash } from "./Flash";
 import { RequireLogin } from "./login/RequireLogin";
 import { CoffeemakerRoute } from "./../routes/CoffeemakerRoute";
 import { HomeRoute } from "./../routes/HomeRoute";
@@ -20,30 +16,14 @@ import { TeamUserRoute } from "./../routes/TeamUserRoute";
 import { TwitchRoute } from "./../routes/TwitchRoute";
 import { TwitchChannelRoute } from "./../routes/twitch/TwitchChannelRoute";
 
-const style = StyleSheet.create({
-  flashContainer: {
-    position: "absolute",
-    width: "100%",
-    top: "10px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-  },
-});
-
 const requireLogin = (Route) => (
   <RequireLogin>
     <Route />
   </RequireLogin>
 );
 
-const _App = ({ flashMessages }) => (
+export const App = () => (
   <div>
-    <div className={css(style.flashContainer)}>
-      {renderFlash(flashMessages)}
-    </div>
-
     <Router>
       <Routes>
         <Route path="/login" element={<LoginRoute />} />
@@ -144,19 +124,3 @@ function RedirectToStatic() {
 
   return null;
 }
-
-const renderFlash = (messages) => {
-  let comps = [];
-
-  messages.mapEntries(([id, message]) => {
-    comps.push(<Flash message={message.get("message")} key={id} />);
-  });
-
-  return comps;
-};
-
-const mapStoreToProps = (state) => ({
-  flashMessages: state.flash.get("messages"),
-});
-
-export const App = compose(connect(mapStoreToProps, null))(_App);
