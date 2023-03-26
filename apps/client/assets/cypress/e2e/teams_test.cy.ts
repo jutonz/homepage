@@ -3,17 +3,21 @@ import { randString } from "../support/utils";
 describe("teams", () => {
   it("allows me to create a team", () => {
     const teamName = `team-${randString()}`;
-    cy.initSession();
+    cy.initSession().then(({ email }) => {
+      cy.findByRole("link", { name: "Settings" }).click();
 
-    cy.findByRole("link", { name: "Settings" }).click();
+      cy.contains("form", "Create a team").within(() => {
+        cy.findByLabelText("Name").type(teamName);
+        cy.findByRole("button", { name: "Create Team" }).click();
+      });
 
-    cy.contains("form", "Create a team").within(() => {
-      cy.findByLabelText("Name").type(teamName);
-      cy.findByRole("button", { name: "Create Team" }).click();
+      cy.location("hash").should("include", "#/teams")
+      cy.findByRole("heading", { name: teamName });
+
+      cy.contains("[data-role=box]", "Team users").within(() => {
+        cy.findByRole("link", { name: email }).click();
+      });
     });
-
-    cy.location("hash").should("include", "#/teams")
-    cy.findByRole("heading", { name: teamName });
   });
 
   it("allows me to join an existing team", () => {

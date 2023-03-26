@@ -26,3 +26,8 @@ export type User = {
   id: string;
   email: string;
 };
+
+export type Team = {
+  id: string;
+  name: string;
+};
