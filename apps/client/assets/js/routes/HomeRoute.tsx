@@ -4,7 +4,7 @@ import { MainNav } from "./../components/MainNav";
 
 export const HomeRoute = () => (
   <div>
-    <MainNav activeItem={"home"} />
+    <MainNav />
     <div className="m-4">Use the nav above to select something to do</div>
   </div>
 );

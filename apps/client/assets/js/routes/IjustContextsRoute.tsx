@@ -31,7 +31,7 @@ const QUERY = gql`
 export const IjustContextsRoute = () => {
   return (
     <div>
-      <MainNav activeItem={"ijust"} />
+      <MainNav />
       <div className={css(style.routeContainer)}>
         <IjustBreadcrumbs viewing={"contexts"} />
         <p>

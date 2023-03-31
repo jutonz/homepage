@@ -34,7 +34,7 @@ export const IjustContextRoute = () => {
 
   return (
     <div>
-      <MainNav activeItem={"ijust"} />
+      <MainNav />
       <QueryLoader<GetIjustContextType>
         query={QUERY}
         variables={{ id }}

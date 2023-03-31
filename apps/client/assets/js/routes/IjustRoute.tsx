@@ -23,7 +23,7 @@ interface GetContextType {
 export const IjustRoute = () => {
   return (
     <div>
-      <MainNav activeItem={"ijust"} />
+      <MainNav />
       <QueryLoader<GetContextType>
         query={QUERY}
         component={({ data }) => {

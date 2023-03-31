@@ -49,7 +49,7 @@ export function TeamRoute() {
 
   return (
     <div>
-      <MainNav activeItem={"settings"} />
+      <MainNav />
       <QueryLoader
         query={GET_TEAMS_QUERY}
         component={({ data }) => {

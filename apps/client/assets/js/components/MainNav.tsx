@@ -1,12 +1,12 @@
+import AppBar from "@mui/material/AppBar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
 import gql from "graphql-tag";
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Dropdown, Menu } from "semantic-ui-react";
+import React, { useState } from "react";
+import type { NavLinkProps } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useQuery } from "urql";
-
-interface Props {
-  activeItem: string;
-}
 
 const CHECK_SESSION_QUERY = gql`
   {
@@ -16,7 +16,7 @@ const CHECK_SESSION_QUERY = gql`
   }
 `;
 
-export function MainNav({ activeItem }: Props) {
+export function MainNav() {
   const [{ data, fetching, error }] = useQuery({
     query: CHECK_SESSION_QUERY,
     requestPolicy: "cache-only",
@@ -28,72 +28,105 @@ export function MainNav({ activeItem }: Props) {
   const isLoggedIn = data.check_session.authenticated;
 
   return (
-    <Menu stackable>
-      <Menu.Menu position="left">
-        <Link to="/">
-          <Menu.Item name={"home"} active={activeItem === "home"} />
-        </Link>
+    <AppBar position="static" className="mb-5">
+      <Toolbar disableGutters className="flex justify-between px-5">
+        <div>
+          <StyledNavLink to="/" className="p-5">
+            Home
+          </StyledNavLink>
 
-        <Link to="/ijust">
-          <Menu.Item name={"ijust"} active={activeItem === "ijust"} />
-        </Link>
+          <StyledNavLink to="/ijust" className="p-5">
+            Ijust
+          </StyledNavLink>
 
-        <Link to="/twitch">
-          <Menu.Item name={"twitch"} active={activeItem === "twitch"} />
-        </Link>
-
-        {renderLogsSubnav(activeItem)}
-      </Menu.Menu>
-
-      <Menu.Menu position="right">
-        <Link to="/settings">
-          <Menu.Item name={"settings"} active={activeItem === "settings"} />
-        </Link>
-        {renderLoginOrLogout(activeItem, isLoggedIn)}
-      </Menu.Menu>
-    </Menu>
+          <StyledNavLink to="/twitch" className="p-5">
+            Twitch
+          </StyledNavLink>
+          <LogsSubnav />
+        </div>
+        <div>
+          <StyledNavLink to="/settings" className="p-5">
+            Settings
+          </StyledNavLink>
+          {renderLoginOrLogout(isLoggedIn)}
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 }
 
-function renderLogsSubnav(activeItem: String) {
+type InitialNavLinkProps = NavLinkProps &
+  React.RefAttributes<HTMLAnchorElement>;
+
+interface StyledNavLinkProps extends Omit<InitialNavLinkProps, "className"> {
+  children: React.ReactNode;
+  className?: string;
+  isActive?: boolean;
+}
+
+function StyledNavLink({
+  children,
+  className,
+  isActive: isActiveOverride,
+  ...props
+}: StyledNavLinkProps) {
+  className = className ?? "";
+
+  const activeClassName = ({ isActive }) => {
+    const active = isActiveOverride ?? isActive;
+    return active ? className + " text-purple-500" : className;
+  };
+
   return (
-    <Dropdown item text="Logs">
-      <Dropdown.Menu>
-        <StaticLink pathname="/water-logs">
-          <Dropdown.Item name={"waterLogs"} active={activeItem === "waterLogs"}>
-            Water Logs
-          </Dropdown.Item>
-        </StaticLink>
-
-        <StaticLink pathname="/food-logs">
-          <Dropdown.Item name={"foodLogs"} active={activeItem === "foodLogs"}>
-            Food Logs
-          </Dropdown.Item>
-        </StaticLink>
-
-        <StaticLink pathname="/soap">
-          <Dropdown.Item name={"soap"} active={activeItem === "soap"}>
-            Soap
-          </Dropdown.Item>
-        </StaticLink>
-
-        <StaticLink pathname="/train-logs">
-          <Dropdown.Item name={"trainLogs"} active={activeItem === "trainLogs"}>
-            Trains
-          </Dropdown.Item>
-        </StaticLink>
-
-        <StaticLink pathname="/storage">
-          <Dropdown.Item name={"storage"} active={activeItem === "storage"}>
-            Storage
-          </Dropdown.Item>
-        </StaticLink>
-      </Dropdown.Menu>
-    </Dropdown>
+    <NavLink {...props} className={activeClassName}>
+      {children}
+    </NavLink>
   );
 }
 
-function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
+function LogsSubnav() {
+  const [menuAnchor, setMenuAnchor] = useState<undefined | HTMLElement>();
+  const menuOpen = Boolean(menuAnchor);
+  return (
+    <>
+      <StyledNavLink
+        id="logs-menu"
+        to="#"
+        isActive={false}
+        onClick={(ev) => setMenuAnchor(ev.currentTarget)}
+        className="p-4"
+      >
+        Logs
+      </StyledNavLink>
+      <Menu
+        anchorEl={menuAnchor}
+        open={menuOpen}
+        onClose={() => setMenuAnchor(undefined)}
+        MenuListProps={{
+          "aria-labelledby": "logs-menu",
+        }}
+      >
+        <MenuItem>
+          <StaticLink pathname="/water-logs">Water Logs</StaticLink>
+        </MenuItem>
+        <MenuItem>
+          <StaticLink pathname="/food-logs">Food Logs</StaticLink>
+        </MenuItem>
+        <MenuItem>
+          <StaticLink pathname="/soap">Soap</StaticLink>
+        </MenuItem>
+        <MenuItem>
+          <StaticLink pathname="/train-logs">Trains</StaticLink>
+        </MenuItem>
+        <MenuItem>
+          <StaticLink pathname="/storage">Storage</StaticLink>
+        </MenuItem>
+      </Menu>
+    </>
+  );
+}
+
+function renderLoginOrLogout(isLoggedIn: boolean) {
   const navigate = useNavigate();
   const [_result, checkSession] = useQuery({
     query: CHECK_SESSION_QUERY,
@@ -124,15 +157,16 @@ function renderLoginOrLogout(activeItem: string, isLoggedIn: boolean) {
 
   if (isLoggedIn) {
     return (
-      <Menu.Item
-        href="#"
-        name={"logout"}
-        active={activeItem === "logout"}
-        onClick={logout}
-      />
+      <StyledNavLink to="#" onClick={logout} isActive={false}>
+        Logout
+      </StyledNavLink>
     );
   } else {
-    return <Menu.Item name={"login"} active={false} onClick={login} />;
+    return (
+      <StyledNavLink to="#" onClick={login} isActive={false}>
+        Login
+      </StyledNavLink>
+    );
   }
 }
 

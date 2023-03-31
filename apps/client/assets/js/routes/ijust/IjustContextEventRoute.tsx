@@ -36,7 +36,7 @@ export function IjustContextEventRoute() {
 
   return (
     <div>
-      <MainNav activeItem="ijust" />
+      <MainNav />
       <div className="m-4 max-w-3xl lg:mx-auto">
         <QueryLoader<GetEventQuery>
           query={QUERY}
