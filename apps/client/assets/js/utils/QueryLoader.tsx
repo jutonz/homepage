@@ -1,19 +1,6 @@
-import * as React from "react";
+import Alert from "@mui/material/Alert";
+import React from "react";
 import { useQuery } from "urql";
-import { Loader } from "semantic-ui-react";
-import { css, StyleSheet } from "aphrodite";
-
-import { StyleGlobals } from "./../style-globals";
-
-const styles = StyleSheet.create({
-  error: {
-    color: StyleGlobals.errorColor,
-  },
-  loaderContainer: {
-    display: "flex",
-    justifyContent: "center",
-  },
-});
 
 interface Props {
   query: any;
@@ -27,15 +14,11 @@ export function QueryLoader<T>(props: Props) {
   const { fetching: loading, data, error } = result;
 
   if (loading) {
-    return (
-      <div className={css(styles.loaderContainer)}>
-        <Loader active inline />
-      </div>
-    );
+    return <div className="flex justify-center">Loading...</div>;
   }
 
   if (error) {
-    return <div className={css(styles.error)}>{error.message}</div>;
+    return <Alert color="error">{error.message}</Alert>;
   }
 
   return <Component {...{ loading, data, error }} />;
