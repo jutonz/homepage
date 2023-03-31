@@ -13,7 +13,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@hookform/resolvers": "^3.0.0",
     "@mui/icons-material": "^5.11.9",
-    "@mui/material": "^5.11.13",
+    "@mui/material": "^5.11.15",
     "@urql/exchange-graphcache": "^5.2.0",
     "aphrodite": "^2.4.0",
     "chart.js": "^3.9.1",
