@@ -1,6 +1,5 @@
 import * as React from "react";
 import { StyleSheet, css } from "aphrodite";
-import { Header } from "semantic-ui-react";
 import {
   BarController,
   BarElement,
@@ -66,7 +65,7 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
     return (
       <FormBox styles={style.container}>
         <div className={css(style.header)}>
-          <Header>Emotes (60 second window)</Header>
+          <h3>Emotes (60 second window)</h3>
         </div>
         <div className={css(style.body)}>{this.renderBody()}</div>
       </FormBox>

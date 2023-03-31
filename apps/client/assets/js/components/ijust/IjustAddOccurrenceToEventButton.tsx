@@ -1,5 +1,5 @@
+import Button from "@mui/material/Button";
 import React from "react";
-import { Button } from "semantic-ui-react";
 import { gql, useMutation } from "urql";
 
 const ADD_OCCURRENCE = gql`
@@ -28,7 +28,7 @@ export function IjustAddOccurrenceToEventButton({ eventId }: Props) {
     <div>
       {error && <div>{error.message}</div>}
       <Button
-        loading={fetching}
+        disabled={fetching}
         onClick={() => addOccurrence({ ijustEventId: eventId })}
       >
         Add Occurrence
