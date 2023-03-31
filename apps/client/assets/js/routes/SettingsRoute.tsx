@@ -9,7 +9,7 @@ import { TeamMembershipForm } from "./../components/TeamMembershipForm";
 
 export const SettingsRoute = () => (
   <div>
-    <MainNav activeItem={"settings"} />
+    <MainNav />
 
     <div className="m-5 flex flex-row flex-wrap max-w-full">
       <div className="mr-5 pb-5">

@@ -24,7 +24,7 @@ export function TeamUserRoute() {
 
   return (
     <>
-      <MainNav activeItem="settings" />
+      <MainNav />
       <div className="mt-5">
         <QueryLoader<GetUsersType>
           query={GET_TEAM_USER}

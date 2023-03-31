@@ -28,7 +28,7 @@ const GET_CHANNELS_QUERY = gql`
 
 export const TwitchRoute = () => (
   <div>
-    <MainNav activeItem={"twitch"} />
+    <MainNav />
     <QueryLoader
       query={GET_CURRENT_USER_QUERY}
       component={({ data }) => {

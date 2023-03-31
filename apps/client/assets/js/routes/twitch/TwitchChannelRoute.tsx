@@ -21,7 +21,7 @@ export const TwitchChannelRoute = () => {
 
   return (
     <div>
-      <MainNav activeItem={"twitch"} />
+      <MainNav />
       <div className="mx-3">
         <QueryLoader
           query={GET_CHANNEL_QUERY}
