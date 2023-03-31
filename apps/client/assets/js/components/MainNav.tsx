@@ -1,7 +1,7 @@
-import React, { forwardRef } from "react";
-import { Dropdown, Menu } from "semantic-ui-react";
-import { Link, useNavigate } from "react-router-dom";
 import gql from "graphql-tag";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Dropdown, Menu } from "semantic-ui-react";
 import { useQuery } from "urql";
 
 interface Props {
@@ -43,7 +43,6 @@ export function MainNav({ activeItem }: Props) {
         </Link>
 
         {renderLogsSubnav(activeItem)}
-        {renderLegacySubnav(activeItem)}
       </Menu.Menu>
 
       <Menu.Menu position="right">
@@ -89,20 +88,6 @@ function renderLogsSubnav(activeItem: String) {
             Storage
           </Dropdown.Item>
         </StaticLink>
-      </Dropdown.Menu>
-    </Dropdown>
-  );
-}
-
-function renderLegacySubnav(activeItem: String) {
-  return (
-    <Dropdown item text="Legacy">
-      <Dropdown.Menu>
-        <Link to="/coffeemaker">
-          <Dropdown.Item active={activeItem === "coffeemaker"}>
-            Coffeemaker
-          </Dropdown.Item>
-        </Link>
       </Dropdown.Menu>
     </Dropdown>
   );

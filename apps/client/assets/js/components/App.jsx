@@ -1,10 +1,7 @@
-import { HashRouter as Router, Routes, Route, useHref } from "react-router-dom";
 import React from "react";
+import { Route, HashRouter as Router, Routes } from "react-router-dom";
 
-import { RequireLogin } from "./login/RequireLogin";
-import { CoffeemakerRoute } from "./../routes/CoffeemakerRoute";
 import { HomeRoute } from "./../routes/HomeRoute";
-import { IjustContextEventRoute } from "./../routes/ijust/IjustContextEventRoute";
 import { IjustContextRoute } from "./../routes/IjustContextRoute";
 import { IjustContextsRoute } from "./../routes/IjustContextsRoute";
 import { IjustRoute } from "./../routes/IjustRoute";
@@ -14,7 +11,9 @@ import { SignupRoute } from "./../routes/SignupRoute";
 import { TeamRoute } from "./../routes/TeamRoute";
 import { TeamUserRoute } from "./../routes/TeamUserRoute";
 import { TwitchRoute } from "./../routes/TwitchRoute";
+import { IjustContextEventRoute } from "./../routes/ijust/IjustContextEventRoute";
 import { TwitchChannelRoute } from "./../routes/twitch/TwitchChannelRoute";
+import { RequireLogin } from "./login/RequireLogin";
 
 const requireLogin = (Route) => (
   <RequireLogin>
@@ -28,7 +27,6 @@ export const App = () => (
       <Routes>
         <Route path="/login" element={<LoginRoute />} />
         <Route path="/signup" element={<SignupRoute />} />
-        <Route path="/coffeemaker" element={<CoffeemakerRoute />} />
 
         <Route path="/" exact={true} element={requireLogin(HomeRoute)} />
         <Route
