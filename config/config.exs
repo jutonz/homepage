@@ -111,7 +111,12 @@ config :twitch,
   twitch_emotes_api_client: Twitch.TwitchEmotes.Api,
   api_cache_name: :api_cache,
   eventsub_subscriptions: [],
-  http_executor: Twitch.Api.Executor
+  http_executor: Twitch.Api.Executor,
+  oauth: %{
+    client_id: System.get_env("TWITCH_CLIENT_ID"),
+    client_secret: System.get_env("TWITCH_CLIENT_SECRET"),
+    redirect_uri: System.get_env("TWITCH_REDIRECT_URI")
+  }
 
 config :exenv,
   adapters: [

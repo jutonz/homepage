@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Button, Dropdown, Header, Message } from "semantic-ui-react";
+import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { StyleSheet, css } from "aphrodite";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "urql";
 
 import { FormBox } from "./../FormBox";
 import { TwitchChannelLiveChat } from "./TwitchChannelLiveChat";
-import { TwitchChannelArchiveView } from "./TwitchChannelArchiveView";
 
 const style = StyleSheet.create({
   container: {
@@ -25,6 +27,7 @@ const style = StyleSheet.create({
     flexBasis: "auto",
     display: "flex",
     justifyContent: "space-between",
+    marginBottom: "1rem",
   },
   body: {
     flexGrow: 1,
@@ -46,7 +49,6 @@ const CHANNEL_UNSUBSCRIBE_MUTATION = gql`
 
 enum ChatMode {
   Live,
-  Archive,
   RedirectToChannelPage,
 }
 
@@ -57,7 +59,9 @@ interface Props {
 export function TwitchChannel({ channel }: Props) {
   const navigate = useNavigate();
   const [chatMode, setChatMode] = useState(ChatMode.Live);
+  const [menuAnchor, setMenuAnchor] = useState<undefined | HTMLElement>();
   const [result, unsubscribe] = useMutation(CHANNEL_UNSUBSCRIBE_MUTATION);
+  const menuOpen = Boolean(menuAnchor);
 
   useEffect(() => {
     if (chatMode == ChatMode.RedirectToChannelPage) {
@@ -69,33 +73,41 @@ export function TwitchChannel({ channel }: Props) {
   return (
     <FormBox styles={style.container}>
       <div className={css(style.header)}>
-        <Header>{channel.name}</Header>
-        <Dropdown icon="setting">
-          <Dropdown.Menu>
-            <Dropdown.Item
-              active={chatMode === ChatMode.Live}
-              onClick={() => setChatMode(ChatMode.Live)}
-              text="Live chat"
-            />
-            <Dropdown.Item
-              active={chatMode === ChatMode.Archive}
-              onClick={() => setChatMode(ChatMode.Archive)}
-              text="Chat archive"
-            />
-            <Dropdown.Item
-              onClick={() => setChatMode(ChatMode.RedirectToChannelPage)}
-              text="Expand"
-            />
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
-      <div className={css(style.body)}>{renderBody(channel, chatMode)}</div>
-      <div className={css(style.unsubButtonContainer)}>
-        {result.error && <Message error>result.error</Message>}
+        <h3>{channel.name}</h3>
         <Button
-          primary
-          fluid
-          loading={result.fetching}
+          color="secondary"
+          id="menu"
+          onClick={(ev) => setMenuAnchor(ev.currentTarget)}
+        >
+          Menu
+        </Button>
+        <Menu
+          id="basic-menu"
+          anchorEl={menuAnchor}
+          open={menuOpen}
+          onClose={() => setMenuAnchor(undefined)}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={() => setChatMode(ChatMode.Live)}>
+            Live chat
+          </MenuItem>
+          <MenuItem onClick={() => setChatMode(ChatMode.RedirectToChannelPage)}>
+            Expand
+          </MenuItem>
+        </Menu>
+      </div>
+      <div className={css(style.body)}>
+        <TwitchChannelLiveChat channel={channel} />
+      </div>
+      <div className={css(style.unsubButtonContainer)}>
+        {result.error?.message && (
+          <Alert color="error">{result.error.message}</Alert>
+        )}
+        <Button
+          fullWidth
+          disabled={result.fetching}
           onClick={() => unsubscribe({ name: channel.name })}
         >
           Unsubscribe
@@ -103,13 +115,4 @@ export function TwitchChannel({ channel }: Props) {
       </div>
     </FormBox>
   );
-}
-
-function renderBody(channel: any, chatMode: ChatMode) {
-  switch (chatMode) {
-    case ChatMode.Live:
-      return <TwitchChannelLiveChat channel={channel} />;
-    case ChatMode.Archive:
-      return <TwitchChannelArchiveView />;
-  }
 }

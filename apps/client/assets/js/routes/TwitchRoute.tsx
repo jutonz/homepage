@@ -1,6 +1,6 @@
 import * as React from "react";
 import gql from "graphql-tag";
-import { Button } from "semantic-ui-react";
+import Button from "@mui/material/Button";
 
 import { MainNav } from "./../components/MainNav";
 import { TwitchChannel } from "./../components/twitch/TwitchChannel";
@@ -55,7 +55,7 @@ const renderTwitchUser = (twitchUser: any) => {
           Connect your Twitch account to view chat, track metrics, and more!
         </p>
         <a href="/twitch/login">
-          <Button primary>Connect Twitch</Button>
+          <Button>Connect Twitch</Button>
         </a>
       </div>
     );

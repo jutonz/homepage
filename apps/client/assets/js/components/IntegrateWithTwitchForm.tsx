@@ -1,7 +1,8 @@
 import * as React from "react";
-import { Header, Button, Message } from "semantic-ui-react";
 import { StyleSheet, css } from "aphrodite";
 import { gql, useMutation } from "urql";
+import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
 
 import { FormBox } from "./FormBox";
 import { QueryLoader } from "./../utils/QueryLoader";
@@ -35,7 +36,7 @@ const style = StyleSheet.create({
 export const IntegrateWithTwitchForm = () => (
   <div className={css(style.container)}>
     <FormBox>
-      <Header>Twitch integration</Header>
+      <h3>Twitch integration</h3>
       <QueryLoader
         query={GET_CURRENT_USER_QUERY}
         component={({ data }) => {
@@ -58,11 +59,10 @@ function TwitchUserComponent({ user }: TwitchUserComponentProps) {
       <div>
         <p>Connected to account {user.display_name} :)</p>
         <div>
-          {result.error && <Message error>{result.error}</Message>}
+          {result.error && <Alert color="error">{result.error}</Alert>}
           <Button
-            primary
-            fluid
-            loading={result.fetching}
+            fullWidth
+            disabled={result.fetching}
             onClick={() => removeIntegration()}
           >
             Disconnect account
@@ -77,9 +77,7 @@ function TwitchUserComponent({ user }: TwitchUserComponentProps) {
           Connect your Twitch account to view chat, track metrics, and more!
         </p>
         <a href="/twitch/login">
-          <Button primary fluid>
-            Connect Twitch
-          </Button>
+          <Button fullWidth>Connect Twitch</Button>
         </a>
       </div>
     );

@@ -1,13 +1,9 @@
+import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { StyleSheet, css } from "aphrodite";
 import React, { useState } from "react";
 import { gql, useMutation } from "urql";
-import {
-  Message,
-  Header,
-  Button,
-  Input,
-  InputOnChangeData,
-} from "semantic-ui-react";
-import { StyleSheet, css } from "aphrodite";
 
 import { FormBox } from "./../FormBox";
 
@@ -51,22 +47,23 @@ function SubscribeForm() {
   return (
     <div className={css(style.container)}>
       <FormBox>
-        <Header>Subscribe to a channel</Header>
+        <h3>Subscribe to a channel</h3>
         <p>Observe and record chat events in real time!</p>
         <div>
-          {result.error && <Message error>{result.error}</Message>}
-          <Input
-            fluid
+          {result.error?.message && (
+            <Alert color="error">{result.error.message}</Alert>
+          )}
+          <TextField
             label="Channel name"
-            value={channelName}
-            onChange={(_ev, data: InputOnChangeData) => {
-              setChannelName(data.value);
+            error={!!result.error}
+            fullWidth
+            onChange={(event) => {
+              setChannelName(event.target.value);
             }}
           />
           <Button
-            primary
-            fluid
-            loading={result.fetching}
+            fullWidth
+            disabled={result.fetching}
             className={css(style.button)}
             onClick={() => {
               subscribeToChannel({
