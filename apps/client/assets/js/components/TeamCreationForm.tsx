@@ -102,7 +102,7 @@ export function TeamCreationForm() {
   return (
     <form className={css(style.container)} onSubmit={handleSubmit(onSubmit)}>
       <FormBox>
-        <h3>Create a team</h3>
+        <h3 className="text-lg mb-3">Create a team</h3>
 
         {errors.backendError?.message && (
           <Alert color="error">{errors.backendError.message}</Alert>

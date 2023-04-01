@@ -36,7 +36,7 @@ const style = StyleSheet.create({
 export const IntegrateWithTwitchForm = () => (
   <div className={css(style.container)}>
     <FormBox>
-      <h3>Twitch integration</h3>
+      <h3 className="text-lg mb-3">Twitch integration</h3>
       <QueryLoader
         query={GET_CURRENT_USER_QUERY}
         component={({ data }) => {
@@ -64,6 +64,7 @@ function TwitchUserComponent({ user }: TwitchUserComponentProps) {
             fullWidth
             disabled={result.fetching}
             onClick={() => removeIntegration()}
+            className="mt-3"
           >
             Disconnect account
           </Button>

@@ -73,7 +73,7 @@ export function TwitchChannel({ channel }: Props) {
   return (
     <FormBox styles={style.container}>
       <div className={css(style.header)}>
-        <h3>{channel.name}</h3>
+        <h3 className="text-lg mb-3">{channel.name}</h3>
         <Button
           color="secondary"
           id="menu"

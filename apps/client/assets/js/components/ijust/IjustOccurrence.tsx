@@ -58,6 +58,7 @@ const renderDeleteButton = (occurrence: OccurrenceType) => {
   return (
     <ConfirmButton
       type="submit"
+      color="error"
       fullWidth
       disabled={fetching}
       onConfirm={() => deleteOccurrence(variables)}

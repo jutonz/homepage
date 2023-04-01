@@ -104,7 +104,7 @@ export function ChangePasswordForm() {
   return (
     <form className="w-80 mt-3" onSubmit={handleSubmit(onSubmit)}>
       <FormBox>
-        <h3>Change password</h3>
+        <h3 className="text-lg mb-3">Change password</h3>
 
         {errors.backendError?.message && (
           <Alert color="error">{errors.backendError.message}</Alert>

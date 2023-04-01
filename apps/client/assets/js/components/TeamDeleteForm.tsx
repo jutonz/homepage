@@ -79,7 +79,7 @@ export function TeamDeleteForm({ team }: Props) {
       className="w-80 mt-5 p-2.5 border-gray-300 border"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h3>Delete team</h3>
+      <h3 className="text-lg mb-3">Delete team</h3>
 
       {errors.backendError?.message && (
         <Alert color="error">{errors.backendError.message}</Alert>
@@ -88,6 +88,7 @@ export function TeamDeleteForm({ team }: Props) {
       <p>Everyone else will be removed from the team.</p>
 
       <ConfirmButton
+        className="mt-3"
         type="submit"
         fullWidth
         disabled={isSubmitting || !isValid}

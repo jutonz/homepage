@@ -52,7 +52,7 @@ export function TeamMembershipForm() {
   return (
     <div className={css(style.container)}>
       <FormBox>
-        <h3>Team membership</h3>
+        <h3 className="text-lg mb-3">Team membership</h3>
         <p>Change which teams you belong to</p>
         <QueryLoader
           query={GET_TEAMS_QUERY}

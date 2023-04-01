@@ -25,8 +25,8 @@ interface Props {
 export function TeamUsersForm({ team }: Props) {
   return (
     <div className="w-80 mt-5 p-2.5 border-gray-300 border" data-role="box">
-      <h3>Team users</h3>
-      <p>View individual members of a team</p>
+      <h3 className="text-lg mb-3">Team users</h3>
+      <p className="mb-3">View individual members of a team</p>
       <QueryLoader<GetUsersType>
         query={GET_TEAM_USERS}
         variables={{ teamId: team.id }}

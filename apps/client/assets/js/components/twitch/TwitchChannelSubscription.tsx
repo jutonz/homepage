@@ -47,7 +47,7 @@ function SubscribeForm() {
   return (
     <div className={css(style.container)}>
       <FormBox>
-        <h3>Subscribe to a channel</h3>
+        <h3 className="text-lg mb-3">Subscribe to a channel</h3>
         <p>Observe and record chat events in real time!</p>
         <div>
           {result.error?.message && (
