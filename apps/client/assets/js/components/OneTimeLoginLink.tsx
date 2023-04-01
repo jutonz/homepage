@@ -37,13 +37,18 @@ export function OneTimeLoginLink() {
 
   return (
     <div className="w-80 mt-5 p-2.5 border-gray-300 border">
-      <h3>One-time login link</h3>
+      <h3 className="text-lg mb-3">One-time login link</h3>
       <p>
         Generate a one-time login link for passwordless authentication. This
         link is valid for only 24 hours.
       </p>
 
-      <Button fullWidth disabled={fetching} onClick={() => getLink()}>
+      <Button
+        fullWidth
+        className="mt-3"
+        disabled={fetching}
+        onClick={() => getLink()}
+      >
         Generate
       </Button>
 

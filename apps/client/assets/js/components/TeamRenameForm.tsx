@@ -96,7 +96,7 @@ export function TeamRenameForm({ team }: Props) {
   return (
     <form className="w-80 mt-3" onSubmit={handleSubmit(onSubmit)}>
       <FormBox>
-        <h3>Rename team</h3>
+        <h3 className="text-lg mb-3">Rename team</h3>
 
         {errors.backendError?.message && (
           <Alert color="error">{errors.backendError.message}</Alert>

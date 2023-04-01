@@ -1,0 +1,38 @@
+:root {
+  --background-color: black;
+  --brand-primary: #AC17C6; /* rgb(172, 23, 198) */
+  --border-color: #ccc;
+  --font-color: #ccc;
+  --font-color--active: #AC17C6;
+  --font-color--hover: #B63FCB;
+}
+
+html, body {
+  background: var(--background-color);
+  color: var(--font-color);
+  font-family: sans-serif;
+  font-weight: 300;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: var(--font-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--font-color--hover);
+}
+
+a:active {
+  color: var(--font-color--active);
+}
+
+#gl-canvas {
+  width: 100%;
+  height: 100%;
+  margin-top: -20px;
+}

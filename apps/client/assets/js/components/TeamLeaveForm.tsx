@@ -77,7 +77,7 @@ export function TeamLeaveForm({ team }: Props) {
       className="w-80 mt-5 p-2.5 border-gray-300 border"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h3>Leave team</h3>
+      <h3 className="text-lg mb-3">Leave team</h3>
 
       {errors.backendError?.message && (
         <Alert color="error">{errors.backendError.message}</Alert>
@@ -85,7 +85,12 @@ export function TeamLeaveForm({ team }: Props) {
 
       <p>You can always rejoin later.</p>
 
-      <Button type="submit" fullWidth disabled={isSubmitting || !isValid}>
+      <Button
+        type="submit"
+        className="mt-3"
+        fullWidth
+        disabled={isSubmitting || !isValid}
+      >
         Leave
       </Button>
     </form>

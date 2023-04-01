@@ -103,7 +103,7 @@ export function TeamJoinForm() {
   return (
     <form className={css(style.container)} onSubmit={handleSubmit(onSubmit)}>
       <FormBox>
-        <h3>Join a team</h3>
+        <h3 className="text-lg mb-3">Join a team</h3>
         <p>Become a member of an existing team</p>
 
         {errors.backendError?.message && (

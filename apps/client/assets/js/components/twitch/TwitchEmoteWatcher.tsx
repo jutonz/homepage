@@ -65,7 +65,7 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
     return (
       <FormBox styles={style.container}>
         <div className={css(style.header)}>
-          <h3>Emotes (60 second window)</h3>
+          <h3 className="text-lg mb-3">Emotes (60 second window)</h3>
         </div>
         <div className={css(style.body)}>{this.renderBody()}</div>
       </FormBox>

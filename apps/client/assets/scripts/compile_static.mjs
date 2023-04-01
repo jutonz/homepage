@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import { build } from "esbuild";
-import { lessLoader } from "esbuild-plugin-less";
 import { createStaticDir } from "./create-static-dir.mjs";
 
 const getEnv = () => {
@@ -16,17 +15,8 @@ const getEnv = () => {
 const env = getEnv();
 const isProd = env === "prod";
 
-const lessOpts = {
-  math: "always",
-  paths: [
-    "./semantic-theme/site/modules",
-    "./node_modules/semantic-ui-less/themes",
-  ],
-};
-
 const esbuildOpts = {
-  entryPoints: ["./js/index.jsx", "./static-js/index.js", "./css/index.less"],
-  plugins: [lessLoader(lessOpts)],
+  entryPoints: ["./js/index.jsx", "./static-js/index.js", "./css/index.css"],
   loader: {
     ".eot": "dataurl",
     ".png": "dataurl",
