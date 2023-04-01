@@ -3,11 +3,6 @@ import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
-import { routerMiddleware } from "react-router-redux";
-import { applyMiddleware, createStore } from "redux";
-import createSagaMiddleware from "redux-saga";
-import thunk from "redux-thunk";
 import {
   createClient,
   gql,
@@ -15,14 +10,11 @@ import {
   dedupExchange,
   fetchExchange,
 } from "urql";
-import { createLogger } from "redux-logger";
 import { ThemeProvider } from "@mui/material/styles";
 import { cacheExchange } from "@urql/exchange-graphcache";
 import { SnackbarProvider } from "notistack";
 
 import { Index } from "./components/Index";
-import { rootSaga } from "./store/sagas/root";
-import { appStore } from "./store/store";
 import isValidEmail from "./utils/isValidEmail";
 import isValidPassword from "./utils/isValidPassword";
 import theme from "./utils/theme";
@@ -55,18 +47,6 @@ if (window.location.port === "4000") {
 } else {
   graphqlEndpoint = `${window.location.origin}/graphql`;
 }
-
-const reduxLogger = createLogger({}); // use default opts
-const sagaMiddleware = createSagaMiddleware();
-const middleware = applyMiddleware(
-  thunk,
-  routerMiddleware(createHistory()),
-  sagaMiddleware,
-  reduxLogger
-);
-const store = createStore(appStore, middleware);
-
-sagaMiddleware.run(rootSaga);
 
 export const urqlClient = createClient({
   url: graphqlEndpoint,
@@ -273,13 +253,11 @@ export const urqlClient = createClient({
 const root = createRoot(container);
 
 root.render(
-  <Provider store={store}>
-    <UrqlProvider value={urqlClient}>
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider>
-          <Index />
-        </SnackbarProvider>
-      </ThemeProvider>
-    </UrqlProvider>
-  </Provider>
+  <UrqlProvider value={urqlClient}>
+    <ThemeProvider theme={theme}>
+      <SnackbarProvider>
+        <Index />
+      </SnackbarProvider>
+    </ThemeProvider>
+  </UrqlProvider>
 );
