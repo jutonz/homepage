@@ -1,13 +1,11 @@
-import React from "react";
 import { css, StyleSheet } from "aphrodite";
 import { format, formatDistanceToNow, parseISO } from "date-fns";
-import { useState } from "react";
-import { Button } from "semantic-ui-react";
+import React from "react";
 import { gql, useMutation } from "urql";
 
 import type { IjustOccurrence as OccurrenceType } from "@types";
+import { ConfirmButton } from "../ConfirmButton";
 import { Constants } from "./../../utils/Constants";
-import { Confirm } from "./../Confirm";
 
 const styles = StyleSheet.create({
   relativeDateSpacer: {
@@ -38,7 +36,7 @@ interface Props {
 }
 export const IjustOccurrence = ({ occurrence }: Props) => {
   return (
-    <div className="flex flex-row mt-5">
+    <div className="flex flex-row mt-5" data-role="ijust-occurrence">
       <div className="flex flex-row flex-1">
         {format(
           parseISO(occurrence.insertedAt + "Z"),
@@ -54,21 +52,18 @@ export const IjustOccurrence = ({ occurrence }: Props) => {
 };
 
 const renderDeleteButton = (occurrence: OccurrenceType) => {
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [result, deleteOccurrence] = useMutation(DELETE_OCCURRENCE);
+  const [{ fetching }, deleteOccurrence] = useMutation(DELETE_OCCURRENCE);
   const variables = { occurrenceId: occurrence.id };
 
   return (
-    <>
-      <Button onClick={() => setShowConfirm(true)} loading={result.fetching}>
-        Delete
-      </Button>
-      <Confirm
-        open={showConfirm}
-        onCancel={() => setShowConfirm(false)}
-        onConfirm={() => deleteOccurrence(variables)}
-        loading={result.fetching}
-      />
-    </>
+    <ConfirmButton
+      type="submit"
+      fullWidth
+      disabled={fetching}
+      onConfirm={() => deleteOccurrence(variables)}
+      confirmButtonText="Delete"
+    >
+      Delete
+    </ConfirmButton>
   );
 };

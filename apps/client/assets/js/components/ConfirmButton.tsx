@@ -11,7 +11,7 @@ interface Props extends ButtonProps {
   children: React.ReactNode;
   onConfirm: () => void;
   confirmTitle?: React.ReactNode;
-  confirmText: React.ReactNode;
+  confirmText?: React.ReactNode;
   confirmButtonText: React.ReactNode;
 }
 
@@ -48,11 +48,13 @@ export function ConfirmButton(props: Props) {
         <DialogTitle id="confirm-dialog-title">
           {confirmTitle || "Are you sure?"}
         </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="confirm-dialog-desc">
-            {confirmText}
-          </DialogContentText>
-        </DialogContent>
+        {confirmText && (
+          <DialogContent>
+            <DialogContentText id="confirm-dialog-desc">
+              {confirmText}
+            </DialogContentText>
+          </DialogContent>
+        )}
         <DialogActions>
           <Button color="secondary" onClick={handleClose}>
             Cancel
