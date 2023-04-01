@@ -22,6 +22,28 @@ describe("Ijust", () => {
       }).type(`${event.name}{enter}`);
     });
   });
+
+  it("allows adding and deleting of occurrences", () => {
+    setup(createEventWithOccurrence).then(({ initUrl, event }) => {
+      cy.visit(initUrl);
+      cy.findByRole("link", { name: "Ijust" }).click();
+
+      cy.contains("a", event.name).click();
+      cy.get("[data-role=ijust-occurrence]").should("have.length", 1);
+
+      cy.findByRole("button", { name: "Add Occurrence" }).click();
+      cy.get("[data-role=ijust-occurrence]").should("have.length", 2);
+
+      cy.get("[data-role=ijust-occurrence]")
+        .findAllByRole("button", { name: "Delete" })
+        .click();
+      cy.findByRole("dialog", { name: "Are you sure?" }).within(() => {
+        cy.findByRole("button", { name: "Delete" }).click();
+      });
+
+      cy.get("[data-role=ijust-occurrence]").should("have.length", 1);
+    });
+  });
 });
 
 async function createEventWithOccurrence(user: User) {
