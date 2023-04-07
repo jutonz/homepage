@@ -15,6 +15,7 @@ apps/client/cover
 /cover
 apps/client/assets/cypress/videos
 apps/client/assets/cypress/screenshots
+esbuild-meta.json
 
 # Generated on crash by the VM
 erl_crash.dump
