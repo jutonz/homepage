@@ -8,24 +8,25 @@ import type { NavLinkProps } from "react-router-dom";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useQuery } from "urql";
 
-const CHECK_SESSION_QUERY = gql`
-  {
-    check_session {
-      authenticated
+const GET_CURRENT_USER = gql`
+  query GetCurrentUser {
+    getCurrentUser {
+      id
+      email
     }
   }
 `;
 
 export function MainNav() {
   const [{ data, fetching, error }] = useQuery({
-    query: CHECK_SESSION_QUERY,
+    query: GET_CURRENT_USER,
     requestPolicy: "cache-only",
   });
 
   if (fetching) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;
 
-  const isLoggedIn = data.check_session.authenticated;
+  const isLoggedIn = !!data.getCurrentUser;
 
   return (
     <AppBar position="static" className="mb-5">
@@ -128,8 +129,8 @@ function LogsSubnav() {
 
 function renderLoginOrLogout(isLoggedIn: boolean) {
   const navigate = useNavigate();
-  const [_result, checkSession] = useQuery({
-    query: CHECK_SESSION_QUERY,
+  const [_result, getCurrentUser] = useQuery({
+    query: GET_CURRENT_USER,
     pause: true,
     requestPolicy: "network-only",
   });
@@ -142,7 +143,7 @@ function renderLoginOrLogout(isLoggedIn: boolean) {
 
     if (response.ok) {
       // bust cache by re-running check_session with network-only requestPolicy
-      await checkSession();
+      await getCurrentUser();
       navigate("/");
       return;
     }

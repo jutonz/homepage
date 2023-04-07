@@ -1,8 +1,6 @@
 defmodule ClientWeb.SessionResolver do
-  def check_session(_parent, _args, %{context: context}) do
-    with {:ok, _user} <- Map.fetch(context, :current_user),
-         do: {:ok, %{authenticated: true}},
-         else: (_ -> {:ok, %{authenticated: false}})
+  def current_user(_parent, _args, %{context: context}) do
+    {:ok, context[:current_user]}
   end
 
   def get_one_time_login_link(_parent, _args, %{context: context}) do

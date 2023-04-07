@@ -139,13 +139,20 @@ interface User {
 
 interface InitSessionOpts {
   password?: string;
+  path?: string;
 }
 
 Cypress.Commands.add("initSession", (opts: InitSessionOpts = {}) => {
-  let { password } = opts;
+  let { password, path } = opts;
   password = password ?? "password123";
+
+
   cy.insert("user", { password }).then((user: User) => {
-    cy.visit(`/?as=${user.id}`);
+    let authPath = `/?as=${user.id}`;
+    if(path) authPath = authPath + `&to=${path}`
+
+    cy.visit(authPath);
+
     return cy.wrap(user);
   });
 });

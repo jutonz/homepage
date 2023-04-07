@@ -19,12 +19,6 @@ defmodule ClientWeb.UserResolver do
     {:ok, Repo.all(User)}
   end
 
-  def current_user(_parent, _args, %{context: context}) do
-    with {:ok, user} <- context |> Map.fetch(:current_user),
-         do: {:ok, user},
-         else: (_ -> {:error, "Could not fetch current user"})
-  end
-
   def get_user(_parent, args, %{context: context}) do
     with {:ok, _user} <- context |> Map.fetch(:current_user),
          {:ok, user_id} <- args |> Map.fetch(:id),

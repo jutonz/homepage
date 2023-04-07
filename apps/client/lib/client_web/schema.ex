@@ -61,19 +61,15 @@ defmodule ClientWeb.Schema do
     field(:updated_at, non_null(:string))
   end
 
-  object :check_session_result do
-    field(:authenticated, non_null(:boolean))
-  end
-
   query do
+    field :get_current_user, :user do
+      resolve(&ClientWeb.SessionResolver.current_user/3)
+    end
+
     field :get_user, :user do
       arg(:id, :id)
       arg(:email, :string)
       resolve(&ClientWeb.UserResolver.get_user/3)
-    end
-
-    field :check_session, :check_session_result do
-      resolve(&ClientWeb.SessionResolver.check_session/3)
     end
 
     field :get_one_time_login_link, :string do
@@ -134,10 +130,6 @@ defmodule ClientWeb.Schema do
       arg(:name, non_null(:string))
       arg(:ijust_context_id, non_null(:id))
       resolve(&ClientWeb.IjustResolver.search_events/3)
-    end
-
-    field :get_current_user, :user do
-      resolve(&ClientWeb.UserResolver.current_user/3)
     end
 
     field :get_twitch_user, :twitch_user do
