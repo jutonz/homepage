@@ -14,14 +14,16 @@ defmodule Client.Todoist do
     |> Request.request()
   end
 
+  @cj_shared_project_id "2295573986"
   def create_laundry_task do
     due_at =
       DateTime.utc_now()
-      |> DateTime.add(90, :minute)
+      |> DateTime.add(120, :minute)
       |> DateTime.to_iso8601()
 
     body = %{
       content: "Finish laundry",
+      project_id: @cj_shared_project_id,
       due_datetime: due_at
     }
 
