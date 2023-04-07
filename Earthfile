@@ -3,7 +3,7 @@ FROM hexpm/elixir:1.14.3-erlang-25.2.3-ubuntu-jammy-20221130
 WORKDIR /elxir-workdir
 
 assets:
-  FROM node:16.16-alpine3.15
+  FROM node:18.15.0-alpine3.17
   COPY . .
   WORKDIR apps/client/assets
   RUN yarn install
