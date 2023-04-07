@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { build } from "esbuild";
+import { build, context } from "esbuild";
 import { createStaticDir } from "./create-static-dir.mjs";
 
 const getEnv = () => {
@@ -28,7 +28,6 @@ const esbuildOpts = {
   bundle: true,
   sourcemap: true,
   minify: isProd,
-  watch: !isProd,
   outdir: "./../priv/static/",
   target: ["chrome90", "firefox90", "safari14"],
   logLevel: "debug",
@@ -37,8 +36,15 @@ const esbuildOpts = {
 (async function compile() {
   try {
     await createStaticDir();
-    await build(esbuildOpts);
-  } catch (_e) {
+
+    if (isProd) {
+      await build(esbuildOpts);
+    } else {
+      const mainContext = await context(esbuildOpts);
+      await mainContext.watch();
+    }
+  } catch (e) {
+    console.error(e);
     process.exit(1);
   }
 })();
