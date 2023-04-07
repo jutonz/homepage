@@ -205,10 +205,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-4.5.8.tgz#56347764786079838faf43f0eeda22dd7328437f"
   integrity sha512-CnD7zLItIzt86q4Sj3kZUiLcBk1dSk81qcqgMGaZe7SQ1P8hFNxhMl5AZthK1zrDM5m74VVhaOpuMGIL4gagaA==
 
-"@hookform/resolvers@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-3.0.0.tgz#bb9346f1550a472a980af5b08e549366c788ff76"
-  integrity sha512-SQPefakODpyq25b/phHXDKCdRrEfPcCXV7B4nAa139wE1DxufYbbNAjeo0T04ZXBokRxZ+wD8iA1kkVMa3QwjQ==
+"@hookform/resolvers@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-3.0.1.tgz#e030f8ef5c407beb5be9bbafd68059cbdd02e0cb"
+  integrity sha512-n5oOt0cLw9mQNW3/k9zWaPsNWQcc0k6Jpc7XUrg2Q/AqqsHp3IVa1juqHCxczXI6uXHBa69ILc4pdtsRGyuzsw==
 
 "@mui/base@5.0.0-alpha.124":
   version "5.0.0-alpha.124"
