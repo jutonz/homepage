@@ -5,10 +5,11 @@ import { BgGrid } from "./../BgGrid";
 import gql from "graphql-tag";
 import { useQuery } from "urql";
 
-const CHECK_SESSION_QUERY = gql`
-  {
-    check_session {
-      authenticated
+const GET_CURRENT_USER = gql`
+  query GetCurrentUser {
+    getCurrentUser {
+      id
+      email
     }
   }
 `;
@@ -16,12 +17,14 @@ const CHECK_SESSION_QUERY = gql`
 export function LoginRoute() {
   const navigate = useNavigate();
   const [_bgGrid, setBgGrid] = useState(null);
-  const [{ data, fetching, error }] = useQuery({ query: CHECK_SESSION_QUERY });
+  const [{ data, fetching, error }] = useQuery({
+    query: GET_CURRENT_USER,
+  });
 
   if (fetching) return null;
   if (error) return <div>An error occurred: {error.message}</div>;
 
-  const isLoggedIn = data.check_session.authenticated;
+  const isLoggedIn = !!data.getCurrentUser;
 
   useEffect(() => {
     if (isLoggedIn) {

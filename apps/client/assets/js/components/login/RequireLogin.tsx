@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { gql, useQuery } from "urql";
+import type { GetCurrentUser } from "@types";
 
-const CHECK_SESSION_QUERY = gql`
-  {
-    check_session {
-      authenticated
+const GET_CURRENT_USER = gql`
+  query GetCurrentUser {
+    getCurrentUser {
+      id
+      email
     }
   }
 `;
@@ -15,16 +17,18 @@ interface Props {
 }
 
 export function RequireLogin({ children }: Props) {
-  const [{ data, fetching, error }] = useQuery({ query: CHECK_SESSION_QUERY });
+  const [{ data, fetching, error }] = useQuery<GetCurrentUser>({
+    query: GET_CURRENT_USER,
+  });
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    const isLoggedIn = data.check_session.authenticated;
+    const isLoggedIn = !!data.getCurrentUser;
     if (!isLoggedIn) {
       navigate("/login", { replace: true, state: { from: location } });
     }
-  }, [data.check_session]);
+  }, [data.getCurrentUser]);
 
   if (fetching) return null;
   if (error) return <div>An error occurred: {error.message}</div>;

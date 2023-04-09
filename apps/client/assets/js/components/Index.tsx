@@ -3,19 +3,20 @@ import gql from "graphql-tag";
 import { useQuery } from "urql";
 import { App } from "./../components/App";
 
-const CHECK_SESSION_QUERY = gql`
-  {
-    check_session {
-      authenticated
+const GET_CURRENT_USER = gql`
+  query GetCurrentUser {
+    getCurrentUser {
+      id
+      email
     }
   }
 `;
 
 export function Index() {
-  const [{ fetching, error }] = useQuery({ query: CHECK_SESSION_QUERY });
+  const [{ fetching, error }] = useQuery({ query: GET_CURRENT_USER });
 
-  if (fetching) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;
+  if (fetching) return <div>Loading...</div>;
 
   return <App />;
 }
