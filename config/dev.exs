@@ -42,6 +42,11 @@ config :client, ClientWeb.Endpoint,
       "bundle:css",
       "--watch",
       cd: Path.expand("../apps/client/assets", __DIR__)
+    ],
+    yarn: [
+      "codegen",
+      "--watch",
+      cd: Path.expand("../apps/client/assets", __DIR__)
     ]
   ]
 

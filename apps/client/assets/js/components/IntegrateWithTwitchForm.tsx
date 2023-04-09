@@ -1,28 +1,29 @@
 import * as React from "react";
 import { StyleSheet, css } from "aphrodite";
-import { gql, useMutation } from "urql";
+import { useMutation } from "urql";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 
 import { FormBox } from "./FormBox";
 import { QueryLoader } from "./../utils/QueryLoader";
+import { graphql } from "../gql";
 
-const GET_CURRENT_USER_QUERY = gql`
-  query GetTwitchUser {
+const GET_CURRENT_USER_QUERY = graphql(`
+  query GetThisTwitchUser {
     getTwitchUser {
       id
-      display_name
+      displayName
     }
   }
-`;
+`);
 
-const REMOVE_TWITCH_MUTATION = gql`
+const REMOVE_TWITCH_MUTATION = graphql(`
   mutation TwitchRemoveIntegration {
     twitchRemoveIntegration {
       id
     }
   }
-`;
+`);
 
 const style = StyleSheet.create({
   container: {
@@ -63,7 +64,7 @@ function TwitchUserComponent({ user }: TwitchUserComponentProps) {
           <Button
             fullWidth
             disabled={result.fetching}
-            onClick={() => removeIntegration()}
+            onClick={() => removeIntegration({})}
             className="mt-3"
           >
             Disconnect account

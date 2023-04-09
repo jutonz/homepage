@@ -1,8 +1,10 @@
 import Button from "@mui/material/Button";
 import React from "react";
-import { gql, useMutation } from "urql";
+import { useMutation } from "urql";
 
-const ADD_OCCURRENCE = gql`
+import { graphql } from "../../gql";
+
+const ADD_OCCURRENCE = graphql(`
   mutation IjustAddOccurrenceToEvent($ijustEventId: ID!) {
     ijustAddOccurrenceToEvent(ijustEventId: $ijustEventId) {
       id
@@ -14,7 +16,7 @@ const ADD_OCCURRENCE = gql`
       }
     }
   }
-`;
+`);
 
 interface Props {
   eventId: string;

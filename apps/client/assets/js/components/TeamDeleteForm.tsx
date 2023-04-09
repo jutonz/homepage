@@ -3,26 +3,19 @@ import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { gql, useMutation } from "urql";
+import { useMutation } from "urql";
 
 import { ConfirmButton } from "./ConfirmButton";
+import { graphql } from "../gql";
+import type { Team } from "@gql-types";
 
-const DELETE_TEAM = gql`
+const DELETE_TEAM = graphql(`
   mutation DeleteTeam($id: ID!) {
     deleteTeam(id: $id) {
       id
     }
   }
-`;
-
-type Team = {
-  id: string;
-  name: string;
-};
-
-type DeleteTeamType = {
-  deleteTeam: Team;
-};
+`);
 
 interface FormInputs {
   name: string;
@@ -46,7 +39,7 @@ export function TeamDeleteForm({ team }: Props) {
     mode: "onBlur",
   });
 
-  const [_result, deleteTeam] = useMutation<DeleteTeamType>(DELETE_TEAM);
+  const [_result, deleteTeam] = useMutation(DELETE_TEAM);
 
   const setBackendError = useCallback(
     (message: string) => {

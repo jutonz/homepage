@@ -1,22 +1,22 @@
 import * as React from "react";
-import gql from "graphql-tag";
 import Button from "@mui/material/Button";
 
 import { MainNav } from "./../components/MainNav";
 import { TwitchChannel } from "./../components/twitch/TwitchChannel";
 import { TwitchChannelSubscription } from "./../components/twitch/TwitchChannelSubscription";
 import { QueryLoader } from "./../utils/QueryLoader";
+import { graphql } from "../gql";
 
-const GET_CURRENT_USER_QUERY = gql`
+const GET_CURRENT_USER_QUERY = graphql(`
   query GetTwitchUser {
     getTwitchUser {
       id
-      display_name
+      displayName
     }
   }
-`;
+`);
 
-const GET_CHANNELS_QUERY = gql`
+const GET_CHANNELS_QUERY = graphql(`
   query GetTwitchChannels {
     getTwitchChannels {
       id
@@ -24,7 +24,7 @@ const GET_CHANNELS_QUERY = gql`
       userId
     }
   }
-`;
+`);
 
 export const TwitchRoute = () => (
   <div>

@@ -1,19 +1,20 @@
 import { css, StyleSheet } from "aphrodite";
 import React from "react";
 import { Link } from "react-router-dom";
-import { gql } from "urql";
 
 import { QueryLoader } from "./../utils/QueryLoader";
 import { FormBox } from "./FormBox";
+import { graphql } from "../gql";
+import type { Team } from "@gql-types";
 
-const GET_TEAMS_QUERY = gql`
+const GET_TEAMS_QUERY = graphql(`
   query GetTeams {
     getTeams {
       id
       name
     }
   }
-`;
+`);
 
 const style = StyleSheet.create({
   container: {
@@ -24,11 +25,6 @@ const style = StyleSheet.create({
     flexGrow: 1,
   },
 });
-
-type Team = {
-  id: string;
-  name: string;
-};
 
 function renderTeams(teams: Team[]) {
   if (teams.length === 0) {

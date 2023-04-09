@@ -5,20 +5,18 @@ import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
-import { gql, useQuery } from "urql";
+import { useQuery } from "urql";
 
-const GET_LINK = gql`
+import { graphql } from "../gql";
+
+const GET_LINK = graphql(`
   query GetOneTimeLoginLink {
     getOneTimeLoginLink
   }
-`;
-
-type GetLinkType = {
-  getOneTimeLoginLink: string;
-};
+`);
 
 export function OneTimeLoginLink() {
-  const [{ fetching, data }, getLink] = useQuery<GetLinkType>({
+  const [{ fetching, data }, getLink] = useQuery({
     query: GET_LINK,
     pause: true,
   });

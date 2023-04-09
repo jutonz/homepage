@@ -1,16 +1,17 @@
 import React from "react";
-import gql from "graphql-tag";
 import { useQuery } from "urql";
-import { App } from "./../components/App";
 
-const GET_CURRENT_USER = gql`
-  query GetCurrentUser {
+import { App } from "./../components/App";
+import { graphql } from "./../gql";
+
+const GET_CURRENT_USER = graphql(`
+  query currentUserDocument {
     getCurrentUser {
       id
       email
     }
   }
-`;
+`);
 
 export function Index() {
   const [{ fetching, error }] = useQuery({ query: GET_CURRENT_USER });

@@ -1,12 +1,12 @@
 import * as React from "react";
-import gql from "graphql-tag";
 import { Navigate } from "react-router-dom";
 
 import { MainNav } from "./../components/MainNav";
 import { QueryLoader } from "./../utils/QueryLoader";
 import type { IjustContext } from "@types";
+import { graphql } from "../gql";
 
-const QUERY = gql`
+const QUERY = graphql(`
   query GetIjustDefaultContextQuery {
     getIjustDefaultContext {
       id
@@ -14,7 +14,7 @@ const QUERY = gql`
       userId
     }
   }
-`;
+`);
 
 interface GetContextType {
   getIjustDefaultContext: IjustContext;

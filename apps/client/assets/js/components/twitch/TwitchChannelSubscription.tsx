@@ -3,11 +3,12 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { StyleSheet, css } from "aphrodite";
 import React, { useState } from "react";
-import { gql, useMutation } from "urql";
+import { useMutation } from "urql";
 
 import { FormBox } from "./../FormBox";
+import { graphql } from "../../gql";
 
-const CHANNEL_SUBSCRIBE_MUTATION = gql`
+const CHANNEL_SUBSCRIBE_MUTATION = graphql(`
   mutation TwitchChannelSubscribe($channel: String!) {
     twitchChannelSubscribe(channel: $channel) {
       id
@@ -15,7 +16,7 @@ const CHANNEL_SUBSCRIBE_MUTATION = gql`
       userId
     }
   }
-`;
+`);
 
 const style = StyleSheet.create({
   container: {

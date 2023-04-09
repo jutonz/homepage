@@ -1,23 +1,19 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import gql from "graphql-tag";
 
 import { QueryLoader } from "./../utils/QueryLoader";
 import { MainNav } from "../components/MainNav";
-import type { User } from "@types";
+import { graphql } from "../gql";
+import type { GetTeamUsersQuery } from "@gql-types";
 
-const GET_TEAM_USER = gql`
+const GET_TEAM_USER = graphql(`
   query GetTeamUser($teamId: ID!, $userId: ID!) {
     getTeamUser(teamId: $teamId, userId: $userId) {
       email
       id
     }
   }
-`;
-
-type GetUsersType = {
-  getTeamUser: User;
-};
+`);
 
 export function TeamUserRoute() {
   const { user_id: userId, team_id: teamId } = useParams();
@@ -26,7 +22,7 @@ export function TeamUserRoute() {
     <>
       <MainNav />
       <div className="mt-5">
-        <QueryLoader<GetUsersType>
+        <QueryLoader<GetTeamUsersQuery>
           query={GET_TEAM_USER}
           variables={{ teamId, userId }}
           component={({ data }) => {

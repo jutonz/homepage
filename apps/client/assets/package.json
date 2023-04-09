@@ -4,6 +4,7 @@
   "scripts": {
     "bundle:css": "npx postcss ./static-css/index.scss -o ./../priv/static/static-css/index.css",
     "bundle:js": "node ./scripts/compile_static.mjs",
+    "codegen": "graphql-codegen",
     "lint": "npx prettier '{static-js,js,scripts}/**/*.{js,mjs,jsx,ts,tsx}' '*.js'",
     "typecheck": "npx tsc --project ./tsconfig.json"
   },
@@ -18,7 +19,6 @@
     "aphrodite": "^2.4.0",
     "chart.js": "^3.9.1",
     "graphql": "^16.6.0",
-    "graphql-tag": "^2.12.6",
     "history": "^5.3.0",
     "notistack": "^3.0.1",
     "phoenix": "1.7.2",
@@ -36,6 +36,8 @@
     "yup": "^1.1.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^3.3.0",
+    "@graphql-codegen/client-preset": "^3.0.0",
     "@testing-library/cypress": "^9.0.0",
     "autoprefixer": "^10.4.14",
     "cssnano": "^6.0.0",

@@ -21,5 +21,5 @@ export function QueryLoader<T>(props: Props) {
     return <Alert color="error">{error.message}</Alert>;
   }
 
-  return <Component {...{ loading, data, error }} />;
+  return <Component data={data} />;
 }

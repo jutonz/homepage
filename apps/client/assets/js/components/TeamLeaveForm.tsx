@@ -4,24 +4,18 @@ import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { gql, useMutation } from "urql";
+import { useMutation } from "urql";
 
-const LEAVE_TEAM = gql`
+import { graphql } from "../gql";
+import type { Team } from "@gql-types";
+
+const LEAVE_TEAM = graphql(`
   mutation LeaveTeam($id: ID!) {
     leaveTeam(id: $id) {
       id
     }
   }
-`;
-
-type Team = {
-  id: string;
-  name: string;
-};
-
-type LeaveTeamType = {
-  leaveTeam: Team;
-};
+`);
 
 interface FormInputs {
   backendError: null;
@@ -44,7 +38,7 @@ export function TeamLeaveForm({ team }: Props) {
     mode: "onBlur",
   });
 
-  const [_result, leaveTeam] = useMutation<LeaveTeamType>(LEAVE_TEAM);
+  const [_result, leaveTeam] = useMutation(LEAVE_TEAM);
 
   const setBackendError = useCallback(
     (message: string) => {

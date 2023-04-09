@@ -1,22 +1,18 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import gql from "graphql-tag";
 
 import { QueryLoader } from "./../utils/QueryLoader";
-import type { Team, User } from "@types";
+import type { Team, User, GetTeamUsersQuery } from "@gql-types";
+import { graphql } from "../gql";
 
-const GET_TEAM_USERS = gql`
+const GET_TEAM_USERS = graphql(`
   query GetTeamUsers($teamId: ID!) {
     getTeamUsers(teamId: $teamId) {
       email
       id
     }
   }
-`;
-
-type GetUsersType = {
-  getTeamUsers: User[];
-};
+`);
 
 interface Props {
   team: Team;
@@ -27,7 +23,7 @@ export function TeamUsersForm({ team }: Props) {
     <div className="w-80 mt-5 p-2.5 border-gray-300 border" data-role="box">
       <h3 className="text-lg mb-3">Team users</h3>
       <p className="mb-3">View individual members of a team</p>
-      <QueryLoader<GetUsersType>
+      <QueryLoader<GetTeamUsersQuery>
         query={GET_TEAM_USERS}
         variables={{ teamId: team.id }}
         component={({ data }) => {

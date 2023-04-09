@@ -1,7 +1,6 @@
 import { css, StyleSheet } from "aphrodite";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { gql } from "urql";
 
 import { MainNav } from "./../components/MainNav";
 import { TeamDeleteForm } from "./../components/TeamDeleteForm";
@@ -9,6 +8,7 @@ import { TeamLeaveForm } from "./../components/TeamLeaveForm";
 import { TeamRenameForm } from "./../components/TeamRenameForm";
 import { TeamUsersForm } from "./../components/TeamUsersForm";
 import { QueryLoader } from "./../utils/QueryLoader";
+import { graphql } from "./../gql";
 
 const style = StyleSheet.create({
   routeContainer: {
@@ -21,14 +21,14 @@ const style = StyleSheet.create({
   },
 });
 
-const GET_TEAM_QUERY = gql`
+const GET_TEAM_QUERY = graphql(`
   query GetTeam($id: ID!) {
     getTeam(id: $id) {
       name
       id
     }
   }
-`;
+`);
 
 const renderTeam = (team: any) => {
   return (

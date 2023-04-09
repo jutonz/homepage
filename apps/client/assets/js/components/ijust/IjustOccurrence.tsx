@@ -1,11 +1,12 @@
 import { css, StyleSheet } from "aphrodite";
 import { format, formatDistanceToNow, parseISO } from "date-fns";
 import React from "react";
-import { gql, useMutation } from "urql";
+import { useMutation } from "urql";
 
 import type { IjustOccurrence as OccurrenceType } from "@types";
 import { ConfirmButton } from "../ConfirmButton";
 import { Constants } from "./../../utils/Constants";
+import { graphql } from "../../gql";
 
 const styles = StyleSheet.create({
   relativeDateSpacer: {
@@ -13,23 +14,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const DELETE_OCCURRENCE = gql`
+const DELETE_OCCURRENCE = graphql(`
   mutation IjustDeleteOccurrence($occurrenceId: ID!) {
     ijustDeleteOccurrence(ijustOccurrenceId: $occurrenceId) {
       id
       ijustEventId
     }
   }
-`;
-
-export const GET_OCCURRENCE = gql`
-  query GetIjustEventOccurrence($occurrenceId: ID!) {
-    getIjustEventOccurrence(occurrenceId: $occurrenceId) {
-      id
-      isDeleted
-    }
-  }
-`;
+`);
 
 interface Props {
   occurrence: OccurrenceType;
