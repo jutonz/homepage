@@ -49,7 +49,7 @@ describe("teams", () => {
 
       const newName = name + "-new!";
       cy.contains("form", "Rename team").within(() => {
-        cy.findByLabelText("New name").type(newName);
+        cy.findByLabelText("New name").click().type(newName);
         cy.findByRole("button", { name: "Rename team" }).click();
       });
 
