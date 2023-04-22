@@ -14,7 +14,7 @@ export type User = {
 
 type Extra = (user: User) => any;
 
-export async function setup(extra: Extra) {
+export async function _setup(extra: Extra) {
   const user = await createUser();
   const initUrl = `/?as=${user.id}`;
   const returns = await extra(user);
@@ -22,6 +22,10 @@ export async function setup(extra: Extra) {
   return new Promise((resolve) => {
     resolve({ user, initUrl, ...returns });
   });
+}
+
+export function setup(extra: Extra) {
+  return cy.wrap(_setup(extra));
 }
 
 async function createUser() {
