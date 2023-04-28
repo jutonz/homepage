@@ -2,7 +2,7 @@ import { Subject } from "rxjs";
 import { filter, debounceTime, switchMap } from "rxjs/operators";
 
 import { urqlClient } from "./../index";
-import type { IjustEvent } from "@gql-types";
+import { IjustEvent, IjustEventsSearchQuery } from "@gql-types";
 import { graphql } from "../gql";
 
 const SEARCH_EVENTS = graphql(`
@@ -64,9 +64,10 @@ export class IjustEventTypeahead {
       const { ijustContextId } = this;
       const variables = { eventName, ijustContextId };
       urqlClient
-        .query(SEARCH_EVENTS as any, variables)
+        .query<IjustEventsSearchQuery>(SEARCH_EVENTS as any, variables)
         .toPromise()
         .then((data) => {
+          console.log(data);
           if (data.error) {
             reject(data);
           } else {
