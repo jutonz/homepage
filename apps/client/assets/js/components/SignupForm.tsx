@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { css, StyleSheet } from "aphrodite";
 import React, { useCallback } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { gql, useMutation } from "urql";
+import { useMutation } from "urql";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "@mui/material/Alert";
@@ -10,12 +10,13 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 
 import { FormBox } from "./../components/FormBox";
+import { graphql } from "../gql";
 
-const SIGNUP_MUTATION = gql`
+const SIGNUP_MUTATION = graphql(`
   mutation Signup($email: String!, $password: String!) {
     signup(email: $email, password: $password)
   }
-`;
+`);
 
 const styles = StyleSheet.create({
   container: {
@@ -25,10 +26,6 @@ const styles = StyleSheet.create({
     right: "calc(50% - 150px)",
   },
 });
-
-type SignupDataType = {
-  signup: string;
-};
 
 interface FormInputs {
   email: string;
@@ -60,7 +57,7 @@ export function SignupForm() {
     resolver: yupResolver(schema),
   });
 
-  const [_result, signup] = useMutation<SignupDataType>(SIGNUP_MUTATION);
+  const [_result, signup] = useMutation(SIGNUP_MUTATION);
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(
     async (form: FormInputs) => {

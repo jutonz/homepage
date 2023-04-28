@@ -1,5 +1,4 @@
 import React from "react";
-import gql from "graphql-tag";
 import { format, formatDistanceToNow, parseISO } from "date-fns";
 import { useParams } from "react-router-dom";
 
@@ -9,9 +8,10 @@ import { Constants } from "./../../utils/Constants";
 import { QueryLoader } from "./../../utils/QueryLoader";
 import { IjustBreadcrumbs } from "./../../components/ijust/IjustBreadcrumbs";
 import type { IjustEvent, IjustContext } from "@types";
+import { graphql } from "../../gql";
 
-const QUERY = gql`
-  query GetIjustContextEvent($contextId: ID!, $eventId: ID!) {
+const QUERY = graphql(`
+  query GetEvent($contextId: ID!, $eventId: ID!) {
     getIjustContextEvent(contextId: $contextId, eventId: $eventId) {
       id
       name
@@ -25,11 +25,7 @@ const QUERY = gql`
       }
     }
   }
-`;
-
-interface GetEventQuery {
-  getIjustContextEvent: IjustEvent;
-}
+`);
 
 export function IjustContextEventRoute() {
   const { contextId, eventId } = useParams();
@@ -38,7 +34,7 @@ export function IjustContextEventRoute() {
     <div>
       <MainNav />
       <div className="m-4 max-w-3xl lg:mx-auto">
-        <QueryLoader<GetEventQuery>
+        <QueryLoader
           query={QUERY}
           variables={{ contextId, eventId }}
           component={({ data }) => {

@@ -2,17 +2,18 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginForm } from "./../components/LoginForm";
 import { BgGrid } from "./../BgGrid";
-import gql from "graphql-tag";
 import { useQuery } from "urql";
 
-const GET_CURRENT_USER = gql`
+import { graphql } from "../gql";
+
+const GET_CURRENT_USER = graphql(`
   query GetCurrentUser {
     getCurrentUser {
       id
       email
     }
   }
-`;
+`);
 
 export function LoginRoute() {
   const navigate = useNavigate();

@@ -2,20 +2,21 @@ import AppBar from "@mui/material/AppBar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
-import gql from "graphql-tag";
 import React, { useState } from "react";
 import type { NavLinkProps } from "react-router-dom";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useQuery } from "urql";
 
-const GET_CURRENT_USER = gql`
+import { graphql } from "../gql";
+
+const GET_CURRENT_USER = graphql(`
   query GetCurrentUser {
     getCurrentUser {
       id
       email
     }
   }
-`;
+`);
 
 export function MainNav() {
   const [{ data, fetching, error }] = useQuery({

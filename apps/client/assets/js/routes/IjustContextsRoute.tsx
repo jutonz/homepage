@@ -1,11 +1,11 @@
 import { StyleSheet, css } from "aphrodite";
 import * as React from "react";
-import gql from "graphql-tag";
 import { Link } from "react-router-dom";
 
 import { MainNav } from "./../components/MainNav";
 import { IjustBreadcrumbs } from "./../components/ijust/IjustBreadcrumbs";
 import { QueryLoader } from "./../utils/QueryLoader";
+import { graphql } from "../gql";
 
 const style = StyleSheet.create({
   routeContainer: {
@@ -19,14 +19,14 @@ const style = StyleSheet.create({
   },
 });
 
-const QUERY = gql`
+const QUERY = graphql(`
   query GetIjustContextsQuery {
     getIjustContexts {
       id
       name
     }
   }
-`;
+`);
 
 export const IjustContextsRoute = () => {
   return (

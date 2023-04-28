@@ -6,19 +6,20 @@ import { css, StyleSheet } from "aphrodite";
 import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { gql, useMutation } from "urql";
+import { useMutation } from "urql";
 import * as yup from "yup";
 
 import { FormBox } from "./FormBox";
+import { graphql } from "../gql";
 
-const JOIN_TEAM = gql`
+const JOIN_TEAM = graphql(`
   mutation JoinTeam($name: String!) {
     joinTeam(name: $name) {
       id
       name
     }
   }
-`;
+`);
 
 const style = StyleSheet.create({
   container: {
@@ -29,15 +30,6 @@ const style = StyleSheet.create({
     flexGrow: 1,
   },
 });
-
-type Team = {
-  id: string;
-  name: string;
-};
-
-type JoinTeamType = {
-  joinTeam: Team;
-};
 
 interface FormInputs {
   name: string;
@@ -68,7 +60,7 @@ export function TeamJoinForm() {
     resolver: yupResolver(schema),
   });
 
-  const [_result, joinTeam] = useMutation<JoinTeamType>(JOIN_TEAM);
+  const [_result, joinTeam] = useMutation(JOIN_TEAM);
 
   const setBackendError = useCallback(
     (message: string) => {

@@ -1,13 +1,13 @@
 import { formatDistanceToNow, parseISO } from "date-fns";
-import gql from "graphql-tag";
 import * as React from "react";
 import { Link } from "react-router-dom";
 
 import type { IjustContext, IjustEvent } from "@types";
 import { QueryLoader } from "./../../utils/QueryLoader";
+import { graphql } from "../../gql";
 
-const GET_RECENT_EVENTS = gql`
-  query FetchIjustRecentEventsQuery($contextId: ID!) {
+const GET_RECENT_EVENTS = graphql(`
+  query GetIjustRecentEvents($contextId: ID!) {
     getIjustRecentEvents(contextId: $contextId) {
       id
       name
@@ -17,11 +17,7 @@ const GET_RECENT_EVENTS = gql`
       ijustContextId
     }
   }
-`;
-
-type GetRecentEventsType = {
-  getIjustRecentEvents: [IjustEvent];
-};
+`);
 
 interface Props {
   context: any;
@@ -29,7 +25,7 @@ interface Props {
 
 export const IjustRecentEvents = ({ context }: Props) => (
   <div>
-    <QueryLoader<GetRecentEventsType>
+    <QueryLoader
       query={GET_RECENT_EVENTS}
       variables={{ contextId: context.id }}
       component={({ data }) => {

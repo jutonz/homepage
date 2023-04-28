@@ -17,7 +17,8 @@
     "types": ["cypress", "@testing-library/cypress"],
     "baseUrl": ".",
     "paths": {
-      "@types": ["js/utils/types.ts"]
+      "@types": ["js/utils/types.ts"],
+      "@gql-types": ["js/gql/graphql.ts"]
     }
   },
   "include": ["./js/index.jsx"],

@@ -5,14 +5,14 @@ import TextField from "@mui/material/TextField";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { gql, useMutation } from "urql";
+import { useMutation } from "urql";
 import * as yup from "yup";
 
-import type { User } from "@types";
 import { FormBox } from "./FormBox";
+import { graphql } from "../gql";
 
-const CHANGE_PASSWORD = gql`
-  mutation ($currentPassword: String!, $newPassword: String!) {
+const CHANGE_PASSWORD = graphql(`
+  mutation ChangePassword($currentPassword: String!, $newPassword: String!) {
     changePassword(
       currentPassword: $currentPassword
       newPassword: $newPassword
@@ -20,11 +20,7 @@ const CHANGE_PASSWORD = gql`
       id
     }
   }
-`;
-
-type ChangePasswordType = {
-  changePassword: User;
-};
+`);
 
 interface FormInputs {
   currentPassword: string;
@@ -63,8 +59,7 @@ export function ChangePasswordForm() {
     resolver: yupResolver(schema),
   });
 
-  const [_result, changePassword] =
-    useMutation<ChangePasswordType>(CHANGE_PASSWORD);
+  const [_result, changePassword] = useMutation(CHANGE_PASSWORD);
 
   const setBackendError = useCallback(
     (message: string) => {
@@ -76,13 +71,12 @@ export function ChangePasswordForm() {
   const onSubmit = useCallback(
     async (form: FormInputs) => {
       clearErrors("backendError");
-      const { currentPassword, newPassword, newPasswordConfirm } = form;
+      const { currentPassword, newPassword } = form;
 
       try {
         const { error } = await changePassword({
           currentPassword,
           newPassword,
-          newPasswordConfirm,
         });
 
         if (error) {

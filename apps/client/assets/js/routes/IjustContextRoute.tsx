@@ -1,12 +1,12 @@
 import { css, StyleSheet } from "aphrodite";
 import * as React from "react";
 import { useParams } from "react-router-dom";
-import { gql } from "urql";
 
-import type { IjustContext } from "@types";
+import type { IjustContext, GetIjustContextQuery } from "@gql-types";
 import { IjustContextComponent } from "../components/ijust/IjustContextComponent";
 import { MainNav } from "../components/MainNav";
 import { QueryLoader } from "./../utils/QueryLoader";
+import { graphql } from "../gql";
 
 const style = StyleSheet.create({
   routeContainer: {
@@ -15,7 +15,7 @@ const style = StyleSheet.create({
   },
 });
 
-const QUERY = gql`
+const QUERY = graphql(`
   query GetIjustContext($id: ID!) {
     getIjustContext(id: $id) {
       id
@@ -23,11 +23,7 @@ const QUERY = gql`
       userId
     }
   }
-`;
-
-interface GetIjustContextType {
-  getIjustContext: IjustContext;
-}
+`);
 
 export const IjustContextRoute = () => {
   const { id } = useParams();
@@ -35,7 +31,7 @@ export const IjustContextRoute = () => {
   return (
     <div>
       <MainNav />
-      <QueryLoader<GetIjustContextType>
+      <QueryLoader<GetIjustContextQuery>
         query={QUERY}
         variables={{ id }}
         component={({ data }) => {

@@ -5,28 +5,21 @@ import TextField from "@mui/material/TextField";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { gql, useMutation } from "urql";
+import { useMutation } from "urql";
 import * as yup from "yup";
 
 import { FormBox } from "./FormBox";
+import { graphql } from "../gql";
+import type { Team } from "@gql-types";
 
-const RENAME_TEAM = gql`
+const RENAME_TEAM = graphql(`
   mutation RenameTeam($id: ID!, $name: String!) {
     renameTeam(id: $id, name: $name) {
       id
       name
     }
   }
-`;
-
-type Team = {
-  id: string;
-  name: string;
-};
-
-type RenameTeamType = {
-  renameTeam: Team;
-};
+`);
 
 interface FormInputs {
   name: string;
@@ -60,7 +53,7 @@ export function TeamRenameForm({ team }: Props) {
     resolver: yupResolver(schema),
   });
 
-  const [_result, renameTeam] = useMutation<RenameTeamType>(RENAME_TEAM);
+  const [_result, renameTeam] = useMutation(RENAME_TEAM);
 
   const setBackendError = useCallback(
     (message: string) => {
