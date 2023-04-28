@@ -21,9 +21,9 @@ const style = StyleSheet.create({
   },
 });
 
-const GET_TEAMS_QUERY = gql`
-  query GetTeams {
-    getTeams {
+const GET_TEAM_QUERY = gql`
+  query GetTeam($id: ID!) {
+    getTeam(id: $id) {
       name
       id
     }
@@ -51,10 +51,10 @@ export function TeamRoute() {
     <div>
       <MainNav />
       <QueryLoader
-        query={GET_TEAMS_QUERY}
+        query={GET_TEAM_QUERY}
+        variables={{ id: teamId }}
         component={({ data }) => {
-          const teams = data.getTeams;
-          const team = teams.find((team: any) => team.id === teamId);
+          const team = data.getTeam;
 
           return (
             <div className={css(style.routeContainer)}>
