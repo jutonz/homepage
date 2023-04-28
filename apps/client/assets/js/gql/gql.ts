@@ -43,6 +43,7 @@ const documents = {
     "\n  query GetTwitchChannels {\n    getTwitchChannels {\n      id\n      name\n      userId\n    }\n  }\n": types.GetTwitchChannelsDocument,
     "\n  query GetEvent($contextId: ID!, $eventId: ID!) {\n    getIjustContextEvent(contextId: $contextId, eventId: $eventId) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n      ijustContext {\n        id\n        name\n      }\n    }\n  }\n": types.GetEventDocument,
     "\n  query GetTwitchChannel($channelName: String!) {\n    getTwitchChannel(channelName: $channelName) {\n      id\n      name\n    }\n  }\n": types.GetTwitchChannelDocument,
+    "\n  query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {\n    ijustEventsSearch(ijustContextId: $ijustContextId, name: $eventName) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n    }\n  }\n": types.IjustEventsSearchDocument,
 };
 
 /**
@@ -179,6 +180,10 @@ export function graphql(source: "\n  query GetEvent($contextId: ID!, $eventId: I
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetTwitchChannel($channelName: String!) {\n    getTwitchChannel(channelName: $channelName) {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  query GetTwitchChannel($channelName: String!) {\n    getTwitchChannel(channelName: $channelName) {\n      id\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {\n    ijustEventsSearch(ijustContextId: $ijustContextId, name: $eventName) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n    }\n  }\n"): (typeof documents)["\n  query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {\n    ijustEventsSearch(ijustContextId: $ijustContextId, name: $eventName) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

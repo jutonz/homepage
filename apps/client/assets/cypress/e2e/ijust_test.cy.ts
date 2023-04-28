@@ -12,14 +12,20 @@ describe("Ijust", () => {
     cy.findByRole("heading", { name: "An event" });
   });
 
-  it("entering an existing event name adds a new occurrence", () => {
+  it("entering an existing event opens that event", () => {
     setup(createEventWithOccurrence).then(({ initUrl, event }) => {
       cy.visit(initUrl);
       cy.findByRole("link", { name: "Ijust" }).click();
 
       cy.findByRole("combobox", {
         name: "Search for an event, or create a new one",
-      }).type(`${event.name}{enter}`);
+      }).as("searchbox").type(`${event.name}`);
+
+      cy.findByRole("option", { name: event.name });
+
+      cy.get("@searchbox").type("{enter}");
+
+      cy.findByRole("heading", { name: event.name });
     });
   });
 
