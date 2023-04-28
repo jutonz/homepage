@@ -14,7 +14,7 @@
     "@hookform/resolvers": "^3.1.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.2",
-    "@urql/exchange-graphcache": "^5.2.0",
+    "@urql/exchange-graphcache": "^6.0.1",
     "aphrodite": "^2.4.0",
     "chart.js": "^3.9.1",
     "graphql": "^16.6.0",
@@ -32,7 +32,7 @@
     "rxjs": "^7.8.1",
     "tailwindcss": "^3.3.2",
     "three": "^0.151.3",
-    "urql": "^3.0.4",
+    "urql": "^4.0.1",
     "yup": "^1.1.1"
   },
   "devDependencies": {

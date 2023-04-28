@@ -81,7 +81,7 @@ defmodule ClientWeb.Schema do
     end
 
     field :get_team, :team do
-      arg(:id, :id)
+      arg(:id, non_null(:id))
       resolve(&ClientWeb.TeamResolver.get_team/3)
     end
 
