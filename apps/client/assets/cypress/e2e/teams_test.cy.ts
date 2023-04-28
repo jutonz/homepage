@@ -41,7 +41,7 @@ describe("teams", () => {
 
     cy.insert("team").then(({ name }) => {
       cy.contains("form", "Join a team").within(() => {
-        cy.findByLabelText("Name").type(name);
+        cy.findByLabelText("Name").should("not.be.disabled").type(name);
         cy.findByRole("button", { name: "Join Team" }).click();
       });
 
