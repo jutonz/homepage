@@ -53,4 +53,34 @@ defmodule ClientWeb.IjustResolverTest do
     %{"errors" => [%{"message" => error_message}]} = res
     assert error_message == "No matching context"
   end
+
+  describe "update_ijust_event" do
+    test "updates the event", %{conn: conn} do
+      conn = conn |> TestUtils.setup_current_user()
+      {:ok, user} = conn |> Session.current_user()
+      {:ok, context} = user.id |> IjustContext.get_default_context()
+
+      {:ok, event} =
+        user
+        |> IjustEvent.add_for_user(%{
+          name: "hello",
+          ijust_context_id: context.id
+        })
+
+      query = """
+      mutation {
+        updateIjustEvent(id: #{event.id}, name: "hello 2", cost: 123) {
+          name
+          cost
+        }
+      }
+      """
+
+      res = conn |> post("/graphql", %{query: query}) |> json_response(200)
+
+      updated = res["data"]["updateIjustEvent"]
+      assert updated["name"] == "hello 2"
+      assert updated["cost"] == %{"amount" => 123, "currency" => "USD"}
+    end
+  end
 end

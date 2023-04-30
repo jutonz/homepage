@@ -28,6 +28,7 @@ defmodule ClientWeb.Schema do
     field(:id, non_null(:id))
     field(:name, non_null(:string))
     field(:count, non_null(:integer))
+    field(:cost, :integer)
     field(:ijust_context_id, non_null(:id))
     field(:inserted_at, non_null(:string))
     field(:updated_at, non_null(:string))
@@ -196,6 +197,13 @@ defmodule ClientWeb.Schema do
       arg(:ijust_context_id, non_null(:id))
       arg(:name, non_null(:string))
       resolve(&ClientWeb.IjustResolver.create_ijust_event/3)
+    end
+
+    field :update_ijust_event, :ijust_event do
+      arg(:id, non_null(:id))
+      arg(:name, non_null(:string))
+      arg(:cost, non_null(:integer))
+      resolve(&ClientWeb.IjustResolver.update_ijust_event/3)
     end
 
     field :ijust_add_occurrence_to_event, :ijust_occurrence do
