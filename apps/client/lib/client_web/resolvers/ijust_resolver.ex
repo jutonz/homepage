@@ -56,7 +56,7 @@ defmodule ClientWeb.IjustResolver do
          do: {:ok, event},
          else:
            (
-             {:error, %Ecto.Changeset{} = cset} -> {:ok, error_payload(cset)}
+             #{:error, %Ecto.Changeset{} = cset} -> {:ok, error_payload(cset)}
              {:error, reason} -> {:error, reason}
              _ -> {:error, "Failed to update event"}
            )

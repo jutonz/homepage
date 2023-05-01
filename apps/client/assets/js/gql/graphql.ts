@@ -26,6 +26,7 @@ export type IjustContext = {
 
 export type IjustEvent = {
   __typename?: 'IjustEvent';
+  cost?: Maybe<Money>;
   count: Scalars['Int'];
   id: Scalars['ID'];
   ijustContext: IjustContext;
@@ -36,6 +37,16 @@ export type IjustEvent = {
   updatedAt: Scalars['String'];
 };
 
+export type IjustEventPayload = {
+  __typename?: 'IjustEventPayload';
+  /** A list of failed validations. May be blank or null if mutation succeeded. */
+  messages?: Maybe<Array<Maybe<ValidationMessage>>>;
+  /** The object created/updated/deleted by the mutation. May be null if mutation failed. */
+  result?: Maybe<IjustEvent>;
+  /** Indicates if the mutation completed successfully or not.  */
+  successful: Scalars['Boolean'];
+};
+
 export type IjustOccurrence = {
   __typename?: 'IjustOccurrence';
   id: Scalars['ID'];
@@ -44,6 +55,12 @@ export type IjustOccurrence = {
   insertedAt: Scalars['String'];
   isDeleted?: Maybe<Scalars['Boolean']>;
   updatedAt: Scalars['String'];
+};
+
+export type Money = {
+  __typename?: 'Money';
+  amount: Scalars['Int'];
+  currency: Scalars['String'];
 };
 
 export type RootMutationType = {
@@ -61,6 +78,7 @@ export type RootMutationType = {
   twitchChannelSubscribe?: Maybe<TwitchChannel>;
   twitchChannelUnsubscribe?: Maybe<TwitchChannel>;
   twitchRemoveIntegration?: Maybe<TwitchUser>;
+  updateIjustEvent?: Maybe<IjustEventPayload>;
   updateUser?: Maybe<User>;
 };
 
@@ -126,6 +144,13 @@ export type RootMutationTypeTwitchChannelSubscribeArgs = {
 
 export type RootMutationTypeTwitchChannelUnsubscribeArgs = {
   name: Scalars['String'];
+};
+
+
+export type RootMutationTypeUpdateIjustEventArgs = {
+  cost?: InputMaybe<Scalars['Int']>;
+  id: Scalars['ID'];
+  name?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -243,6 +268,70 @@ export type User = {
   id: Scalars['ID'];
   insertedAt: Scalars['String'];
   updatedAt: Scalars['String'];
+};
+
+/**
+ *   Validation messages are returned when mutation input does not meet the requirements.
+ *   While client-side validation is highly recommended to provide the best User Experience,
+ *   All inputs will always be validated server-side.
+ *
+ *   Some examples of validations are:
+ *
+ *   * Username must be at least 10 characters
+ *   * Email field does not contain an email address
+ *   * Birth Date is required
+ *
+ *   While GraphQL has support for required values, mutation data fields are always
+ *   set to optional in our API. This allows 'required field' messages
+ *   to be returned in the same manner as other validations. The only exceptions
+ *   are id fields, which may be required to perform updates or deletes.
+ *
+ */
+export type ValidationMessage = {
+  __typename?: 'ValidationMessage';
+  /** A unique error code for the type of validation used. */
+  code: Scalars['String'];
+  /**
+   * The input field that the error applies to. The field can be used to
+   * identify which field the error message should be displayed next to in the
+   * presentation layer.
+   *
+   * If there are multiple errors to display for a field, multiple validation
+   * messages will be in the result.
+   *
+   * This field may be null in cases where an error cannot be applied to a specific field.
+   */
+  field?: Maybe<Scalars['String']>;
+  /**
+   * A friendly error message, appropriate for display to the end user.
+   *
+   * The message is interpolated to include the appropriate variables.
+   *
+   * Example: `Username must be at least 10 characters`
+   *
+   * This message may change without notice, so we do not recommend you match against the text.
+   * Instead, use the *code* field for matching.
+   */
+  message?: Maybe<Scalars['String']>;
+  /** A list of substitutions to be applied to a validation message template */
+  options?: Maybe<Array<Maybe<ValidationOption>>>;
+  /**
+   * A template used to generate the error message, with placeholders for option substiution.
+   *
+   * Example: `Username must be at least {count} characters`
+   *
+   * This message may change without notice, so we do not recommend you match against the text.
+   * Instead, use the *code* field for matching.
+   */
+  template?: Maybe<Scalars['String']>;
+};
+
+export type ValidationOption = {
+  __typename?: 'ValidationOption';
+  /** The name of a variable to be subsituted in a validation message template */
+  key: Scalars['String'];
+  /** The value of a variable to be substituted in a validation message template */
+  value: Scalars['String'];
 };
 
 export type ChangePasswordMutationVariables = Exact<{
@@ -433,7 +522,16 @@ export type GetEventQueryVariables = Exact<{
 }>;
 
 
-export type GetEventQuery = { __typename?: 'RootQueryType', getIjustContextEvent?: { __typename?: 'IjustEvent', id: string, name: string, count: number, insertedAt: string, updatedAt: string, ijustContextId: string, ijustContext: { __typename?: 'IjustContext', id: string, name: string } } | null };
+export type GetEventQuery = { __typename?: 'RootQueryType', getIjustContextEvent?: { __typename?: 'IjustEvent', id: string, name: string, count: number, insertedAt: string, updatedAt: string, ijustContextId: string, cost?: { __typename?: 'Money', amount: number, currency: string } | null, ijustContext: { __typename?: 'IjustContext', id: string, name: string } } | null };
+
+export type UpdateIjustEventMutationVariables = Exact<{
+  id: Scalars['ID'];
+  name?: InputMaybe<Scalars['String']>;
+  cost?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type UpdateIjustEventMutation = { __typename?: 'RootMutationType', updateIjustEvent?: { __typename?: 'IjustEventPayload', successful: boolean, messages?: Array<{ __typename?: 'ValidationMessage', message?: string | null, field?: string | null } | null> | null, result?: { __typename?: 'IjustEvent', id: string, name: string, cost?: { __typename?: 'Money', amount: number, currency: string } | null } | null } | null };
 
 export type GetTwitchChannelQueryVariables = Exact<{
   channelName: Scalars['String'];
@@ -479,6 +577,7 @@ export const GetTeamDocument = {"kind":"Document","definitions":[{"kind":"Operat
 export const GetTeamUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetTeamUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"teamId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTeamUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"teamId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"teamId"}}},{"kind":"Argument","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]} as unknown as DocumentNode<GetTeamUserQuery, GetTeamUserQueryVariables>;
 export const GetTwitchUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetTwitchUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTwitchUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"displayName"}}]}}]}}]} as unknown as DocumentNode<GetTwitchUserQuery, GetTwitchUserQueryVariables>;
 export const GetTwitchChannelsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetTwitchChannels"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTwitchChannels"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}}]}}]}}]} as unknown as DocumentNode<GetTwitchChannelsQuery, GetTwitchChannelsQueryVariables>;
-export const GetEventDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetEvent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"contextId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"eventId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getIjustContextEvent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"contextId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"contextId"}}},{"kind":"Argument","name":{"kind":"Name","value":"eventId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"eventId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"insertedAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"ijustContextId"}},{"kind":"Field","name":{"kind":"Name","value":"ijustContext"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetEventQuery, GetEventQueryVariables>;
+export const GetEventDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetEvent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"contextId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"eventId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getIjustContextEvent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"contextId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"contextId"}}},{"kind":"Argument","name":{"kind":"Name","value":"eventId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"eventId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"cost"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}},{"kind":"Field","name":{"kind":"Name","value":"insertedAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"ijustContextId"}},{"kind":"Field","name":{"kind":"Name","value":"ijustContext"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]}}]} as unknown as DocumentNode<GetEventQuery, GetEventQueryVariables>;
+export const UpdateIjustEventDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateIjustEvent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cost"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateIjustEvent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"cost"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cost"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"successful"}},{"kind":"Field","name":{"kind":"Name","value":"messages"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"field"}}]}},{"kind":"Field","name":{"kind":"Name","value":"result"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"cost"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amount"}},{"kind":"Field","name":{"kind":"Name","value":"currency"}}]}}]}}]}}]}}]} as unknown as DocumentNode<UpdateIjustEventMutation, UpdateIjustEventMutationVariables>;
 export const GetTwitchChannelDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetTwitchChannel"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"channelName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTwitchChannel"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"channelName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"channelName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<GetTwitchChannelQuery, GetTwitchChannelQueryVariables>;
 export const IjustEventsSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"IjustEventsSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"ijustContextId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"eventName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ijustEventsSearch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"ijustContextId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"ijustContextId"}}},{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"eventName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"count"}},{"kind":"Field","name":{"kind":"Name","value":"insertedAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"ijustContextId"}}]}}]}}]} as unknown as DocumentNode<IjustEventsSearchQuery, IjustEventsSearchQueryVariables>;

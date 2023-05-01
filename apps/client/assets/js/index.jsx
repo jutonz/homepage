@@ -11,6 +11,7 @@ import isValidEmail from "./utils/isValidEmail";
 import isValidPassword from "./utils/isValidPassword";
 import theme from "./utils/theme";
 import { homepageCacheExchange } from "./utils/cacheExchange";
+import { mapExchange, CombinedError } from "urql";
 
 const container = document.querySelector("main[role=main]");
 const isHttps = container.getAttribute("data-https");
@@ -49,7 +50,22 @@ export const urqlClient = createClient({
       "x-beam-metadata": window.beamMetadata,
     },
   },
-  exchanges: [homepageCacheExchange, fetchExchange],
+  exchanges: [
+    mapExchange({
+      onResult(result) {
+        const errors = Object.entries(result.data).flatMap(([_operation, response]) => {
+          return response?.messages;
+        }).filter((e) => !!e);
+        console.log("result is", result);
+        console.log("errors are", errors);
+        if (errors.length > 0) {
+          result.error = new CombinedError({ graphQLErrors: errors, response: result.data });
+        }
+      }
+    }),
+    homepageCacheExchange,
+    fetchExchange
+  ],
 });
 
 const root = createRoot(container);
