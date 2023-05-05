@@ -38,6 +38,7 @@ defmodule Client.Mixfile do
   defp deps do
     [
       {:absinthe_ecto, "~> 0.1"},
+      {:absinthe_error_payload, "~> 1.0"},
       {:absinthe_plug, "~> 1.4"},
       {:auth, in_umbrella: true},
       {:bamboo, "~> 2.0"},

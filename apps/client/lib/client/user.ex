@@ -4,6 +4,8 @@ defmodule Client.User do
   import Ecto.Query, only: [from: 2]
   alias Client.{Team, Repo, User}
 
+  @type t :: %__MODULE__{}
+
   @derive {Jason.Encoder, only: ~w[id email]a}
 
   schema "users" do

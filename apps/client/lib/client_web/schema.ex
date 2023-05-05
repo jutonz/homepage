@@ -1,5 +1,7 @@
 defmodule ClientWeb.Schema do
   use Absinthe.Schema
+  import AbsintheErrorPayload.Payload
+  import_types AbsintheErrorPayload.ValidationMessageTypes
 
   object :user do
     field(:id, non_null(:id))
@@ -28,12 +30,15 @@ defmodule ClientWeb.Schema do
     field(:id, non_null(:id))
     field(:name, non_null(:string))
     field(:count, non_null(:integer))
+    field(:cost, :money)
     field(:ijust_context_id, non_null(:id))
     field(:inserted_at, non_null(:string))
     field(:updated_at, non_null(:string))
     field(:ijust_occurrences, list_of(:ijust_occurrence))
     field(:ijust_context, non_null(:ijust_context))
   end
+
+  payload_object(:ijust_event_payload, :ijust_event)
 
   object :ijust_occurrence do
     field(:id, non_null(:id))
@@ -59,6 +64,11 @@ defmodule ClientWeb.Schema do
     field(:user_id, non_null(:id))
     field(:inserted_at, non_null(:string))
     field(:updated_at, non_null(:string))
+  end
+
+  object :money do
+    field(:amount, non_null(:integer))
+    field(:currency, non_null(:string))
   end
 
   query do
@@ -196,6 +206,14 @@ defmodule ClientWeb.Schema do
       arg(:ijust_context_id, non_null(:id))
       arg(:name, non_null(:string))
       resolve(&ClientWeb.IjustResolver.create_ijust_event/3)
+    end
+
+    field :update_ijust_event, :ijust_event_payload do
+      arg(:id, non_null(:id))
+      arg(:name, :string)
+      arg(:cost, :integer)
+      resolve(&ClientWeb.IjustResolver.update_ijust_event/3)
+      middleware(&build_payload/2)
     end
 
     field :ijust_add_occurrence_to_event, :ijust_occurrence do

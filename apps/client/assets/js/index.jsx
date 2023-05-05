@@ -11,6 +11,7 @@ import isValidEmail from "./utils/isValidEmail";
 import isValidPassword from "./utils/isValidPassword";
 import theme from "./utils/theme";
 import { homepageCacheExchange } from "./utils/cacheExchange";
+import { mapExchange, CombinedError } from "urql";
 
 const container = document.querySelector("main[role=main]");
 const isHttps = container.getAttribute("data-https");

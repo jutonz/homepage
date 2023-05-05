@@ -1,5 +1,5 @@
 defmodule ClientWeb.IjustResolver do
-  alias Client.{IjustContext, IjustEvent, IjustOccurrence}
+  alias Client.{IjustContext, IjustEvent, IjustOccurrence, Repo}
   import Ecto.Query, only: [from: 2]
 
   def get_ijust_default_context(_parent, _args, %{context: context}) do
@@ -32,7 +32,7 @@ defmodule ClientWeb.IjustResolver do
          else:
            (
              {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to update password"}
+             _ -> {:error, "Failed to get context"}
            )
   end
 
@@ -43,7 +43,20 @@ defmodule ClientWeb.IjustResolver do
          else:
            (
              {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to update password"}
+             _ -> {:error, "Failed to create event"}
+           )
+  end
+
+  def update_ijust_event(_parent, args, %{context: context}) do
+    with {:ok, user} <- context |> Map.fetch(:current_user),
+         {:ok, event_id} <- args |> Map.fetch(:id),
+         {:ok, event} <- user |> IjustEvent.get_for_user(event_id),
+         {:ok, event} <- event |> IjustEvent.update_changeset(args) |> Repo.update(),
+         do: {:ok, event},
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to update event"}
            )
   end
 
@@ -60,10 +73,9 @@ defmodule ClientWeb.IjustResolver do
   end
 
   def get_context_event(_parent, args, %{context: context}) do
-    with {:ok, _user} <- context |> Map.fetch(:current_user),
-         {:ok, context_id} <- args |> Map.fetch(:context_id),
+    with {:ok, user} <- context |> Map.fetch(:current_user),
          {:ok, event_id} <- args |> Map.fetch(:event_id),
-         {:ok, event} <- context_id |> IjustEvent.get_for_context(event_id),
+         {:ok, event} <- user |> IjustEvent.get_for_user(event_id),
          event <-
            Client.Repo.preload(event,
              ijust_occurrences: from(o in IjustOccurrence, order_by: [desc: o.inserted_at])

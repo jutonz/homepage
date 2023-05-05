@@ -2,7 +2,7 @@ defmodule Client.IjustEvent do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
-  alias Client.{IjustContext, IjustOccurrence, IjustEvent, Repo}
+  alias Client.{User, IjustContext, IjustOccurrence, IjustEvent, Repo}
 
   @type t :: %__MODULE__{}
   @moduledoc false
@@ -10,26 +10,42 @@ defmodule Client.IjustEvent do
   @derive {Jason.Encoder, only: ~w[id name count ijust_context_id]a}
 
   schema "ijust_events" do
-    field(:name, :string)
-    field(:count, :integer, default: 1)
     belongs_to(:ijust_context, IjustContext)
     has_many(:ijust_occurrences, IjustOccurrence)
+
+    field(:name, :string)
+    field(:count, :integer, default: 1)
+    field(:cost, Money.Ecto.Amount.Type)
+
     timestamps()
   end
 
   def changeset(%IjustEvent{} = event, attrs \\ %{}) do
     event
-    |> cast(attrs, [:name, :count, :ijust_context_id])
+    |> cast(attrs, [:name, :count, :cost, :ijust_context_id])
     |> validate_required([:name, :count, :ijust_context_id])
     |> foreign_key_constraint(:ijust_context_id)
     |> unique_constraint(:name)
   end
 
-  @spec get_for_context(String.t(), String.t()) :: {:ok, IjustEvent.t()} | {:error, String.t()}
-  def get_for_context(context_id, event_id) do
-    ev = IjustEvent |> Repo.get_by(ijust_context_id: context_id, id: event_id)
+  def update_changeset(%IjustEvent{} = event, attrs \\ %{}) do
+    event
+    |> cast(attrs, [:name, :cost])
+    |> validate_required([:name])
+    |> unique_constraint(:name)
+  end
 
-    case ev do
+  @spec get_for_user(User.t(), String.t()) :: {:ok, IjustEvent.t()} | {:error, String.t()}
+  def get_for_user(user, event_id) do
+    query = from(
+      e in IjustEvent,
+      join: c in IjustContext,
+      on: c.id == e.ijust_context_id,
+      where: c.user_id == ^user.id,
+      where: e.id == ^event_id
+    )
+
+    case Repo.one(query) do
       %IjustEvent{} = ev -> {:ok, ev}
       _ -> {:error, "Could not find matching event"}
     end

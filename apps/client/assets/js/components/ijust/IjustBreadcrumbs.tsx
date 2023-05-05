@@ -6,9 +6,15 @@ interface Props {
   context?: any;
   event?: any;
   viewing: any | "contexts";
+  children?: React.ReactNode;
 }
 
-export const IjustBreadcrumbs = ({ context, event, viewing }: Props) => (
+export const IjustBreadcrumbs = ({
+  context,
+  event,
+  viewing,
+  children,
+}: Props) => (
   <Breadcrumbs className="text-xl" separator="→">
     {contextsLinkOrNot(viewing)}
     {context && contextLinkOrNot(context, viewing)}
