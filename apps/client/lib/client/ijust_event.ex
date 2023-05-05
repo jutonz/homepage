@@ -25,14 +25,14 @@ defmodule Client.IjustEvent do
     |> cast(attrs, [:name, :count, :cost, :ijust_context_id])
     |> validate_required([:name, :count, :ijust_context_id])
     |> foreign_key_constraint(:ijust_context_id)
-    |> unique_constraint(:name)
+    |> unique_constraint(:name, name: "ijust_events_ijust_context_id_name_index")
   end
 
   def update_changeset(%IjustEvent{} = event, attrs \\ %{}) do
     event
     |> cast(attrs, [:name, :cost])
     |> validate_required([:name])
-    |> unique_constraint(:name)
+    |> unique_constraint(:name, name: "ijust_events_ijust_context_id_name_index")
   end
 
   @spec get_for_user(User.t(), String.t()) :: {:ok, IjustEvent.t()} | {:error, String.t()}

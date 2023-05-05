@@ -1,14 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useCallback } from "react";
 import { StyleSheet, css } from "aphrodite";
 import { Link } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 
 import { FormBox } from "./../components/FormBox";
+import { ControlledTextField } from "./inputs/ControlledTextField";
 
 const styles = StyleSheet.create({
   container: {
@@ -95,38 +95,22 @@ export function LoginForm({ onLogin }: Props) {
             {errors.backendError.message}
           </Alert>
         )}
-        <Controller
+        <ControlledTextField
           control={control}
           name="email"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Email"
-              error={!!errors.email?.message}
-              fullWidth
-            />
-          )}
+          label="Email"
+          errors={errors}
+          fullWidth
         />
-        {errors.email?.message && (
-          <Alert severity="error">{errors.email.message}</Alert>
-        )}
-        <Controller
+
+        <ControlledTextField
           control={control}
           name="password"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              className="mt-3"
-              type="password"
-              label="Password"
-              error={!!errors.password?.message}
-              fullWidth
-            />
-          )}
+          label="Password"
+          errors={errors}
+          fullWidth
+          type="password"
         />
-        {errors.password?.message && (
-          <Alert severity="error">{errors.password.message}</Alert>
-        )}
 
         <Button
           type="submit"

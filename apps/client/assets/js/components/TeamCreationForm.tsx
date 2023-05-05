@@ -1,16 +1,16 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import { css, StyleSheet } from "aphrodite";
 import React, { useCallback } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "urql";
 import * as yup from "yup";
 
 import { FormBox } from "./FormBox";
 import { graphql } from "../gql";
+import { ControlledTextField } from "./inputs/ControlledTextField";
 
 const CREATE_TEAM = graphql(`
   mutation CreateTeam($name: String!) {
@@ -100,21 +100,13 @@ export function TeamCreationForm() {
           <Alert color="error">{errors.backendError.message}</Alert>
         )}
 
-        <Controller
+        <ControlledTextField
           control={control}
           name="name"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Name"
-              error={!!errors.name?.message}
-              fullWidth
-            />
-          )}
+          errors={errors}
+          label="Name"
+          fullWidth
         />
-        {errors.name?.message && (
-          <Alert color="error">{errors.name.message}</Alert>
-        )}
 
         <Button
           type="submit"
