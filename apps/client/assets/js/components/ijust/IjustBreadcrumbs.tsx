@@ -9,7 +9,12 @@ interface Props {
   children?: React.ReactNode;
 }
 
-export const IjustBreadcrumbs = ({ context, event, viewing, children }: Props) => (
+export const IjustBreadcrumbs = ({
+  context,
+  event,
+  viewing,
+  children,
+}: Props) => (
   <Breadcrumbs className="text-xl" separator="→">
     {contextsLinkOrNot(viewing)}
     {context && contextLinkOrNot(context, viewing)}

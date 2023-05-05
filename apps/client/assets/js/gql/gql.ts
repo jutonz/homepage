@@ -28,6 +28,7 @@ const documents = {
     "\n  mutation RenameTeam($id: ID!, $name: String!) {\n    renameTeam(id: $id, name: $name) {\n      id\n      name\n    }\n  }\n": types.RenameTeamDocument,
     "\n  query GetTeamUsers($teamId: ID!) {\n    getTeamUsers(teamId: $teamId) {\n      email\n      id\n    }\n  }\n": types.GetTeamUsersDocument,
     "\n  mutation IjustAddOccurrenceToEvent($ijustEventId: ID!) {\n    ijustAddOccurrenceToEvent(ijustEventId: $ijustEventId) {\n      id\n      insertedAt\n      isDeleted\n      ijustEvent {\n        id\n        ijustContextId\n      }\n    }\n  }\n": types.IjustAddOccurrenceToEventDocument,
+    "\n  mutation UpdateIjustEvent($id: ID!, $name: String, $cost: Int) {\n    updateIjustEvent(id: $id, name: $name, cost: $cost) {\n      successful\n      messages {\n        message\n        field\n      }\n      result {\n        id\n        name\n        cost {\n          amount\n          currency\n        }\n      }\n    }\n  }\n": types.UpdateIjustEventDocument,
     "\n  mutation CreateIjustEvent($ijustContextId: ID!, $eventName: String!) {\n    createIjustEvent(ijustContextId: $ijustContextId, name: $eventName) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n    }\n  }\n": types.CreateIjustEventDocument,
     "\n  query GetIjustContextEvent($contextId: ID!, $eventId: ID!) {\n    getIjustContextEvent(contextId: $contextId, eventId: $eventId) {\n      id\n      ijustContextId\n      ijustOccurrences {\n        id\n        insertedAt\n        updatedAt\n        isDeleted\n      }\n    }\n  }\n": types.GetIjustContextEventDocument,
     "\n  mutation IjustDeleteOccurrence($occurrenceId: ID!) {\n    ijustDeleteOccurrence(ijustOccurrenceId: $occurrenceId) {\n      id\n      ijustEventId\n    }\n  }\n": types.IjustDeleteOccurrenceDocument,
@@ -42,7 +43,6 @@ const documents = {
     "\n  query GetTwitchUser {\n    getTwitchUser {\n      id\n      displayName\n    }\n  }\n": types.GetTwitchUserDocument,
     "\n  query GetTwitchChannels {\n    getTwitchChannels {\n      id\n      name\n      userId\n    }\n  }\n": types.GetTwitchChannelsDocument,
     "\n  query GetEvent($contextId: ID!, $eventId: ID!) {\n    getIjustContextEvent(contextId: $contextId, eventId: $eventId) {\n      id\n      name\n      count\n      cost {\n        amount\n        currency\n      }\n      insertedAt\n      updatedAt\n      ijustContextId\n      ijustContext {\n        id\n        name\n      }\n    }\n  }\n": types.GetEventDocument,
-    "\n  mutation UpdateIjustEvent($id: ID!, $name: String, $cost: Int) {\n    updateIjustEvent(id: $id, name: $name, cost: $cost) {\n      successful\n      messages {\n        message\n        field\n      }\n      result {\n        id\n        name\n        cost {\n          amount\n          currency\n        }\n      }\n    }\n  }\n": types.UpdateIjustEventDocument,
     "\n  query GetTwitchChannel($channelName: String!) {\n    getTwitchChannel(channelName: $channelName) {\n      id\n      name\n    }\n  }\n": types.GetTwitchChannelDocument,
     "\n  query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {\n    ijustEventsSearch(ijustContextId: $ijustContextId, name: $eventName) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n    }\n  }\n": types.IjustEventsSearchDocument,
 };
@@ -124,6 +124,10 @@ export function graphql(source: "\n  mutation IjustAddOccurrenceToEvent($ijustEv
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation UpdateIjustEvent($id: ID!, $name: String, $cost: Int) {\n    updateIjustEvent(id: $id, name: $name, cost: $cost) {\n      successful\n      messages {\n        message\n        field\n      }\n      result {\n        id\n        name\n        cost {\n          amount\n          currency\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateIjustEvent($id: ID!, $name: String, $cost: Int) {\n    updateIjustEvent(id: $id, name: $name, cost: $cost) {\n      successful\n      messages {\n        message\n        field\n      }\n      result {\n        id\n        name\n        cost {\n          amount\n          currency\n        }\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  mutation CreateIjustEvent($ijustContextId: ID!, $eventName: String!) {\n    createIjustEvent(ijustContextId: $ijustContextId, name: $eventName) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n    }\n  }\n"): (typeof documents)["\n  mutation CreateIjustEvent($ijustContextId: ID!, $eventName: String!) {\n    createIjustEvent(ijustContextId: $ijustContextId, name: $eventName) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -177,10 +181,6 @@ export function graphql(source: "\n  query GetTwitchChannels {\n    getTwitchCha
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query GetEvent($contextId: ID!, $eventId: ID!) {\n    getIjustContextEvent(contextId: $contextId, eventId: $eventId) {\n      id\n      name\n      count\n      cost {\n        amount\n        currency\n      }\n      insertedAt\n      updatedAt\n      ijustContextId\n      ijustContext {\n        id\n        name\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetEvent($contextId: ID!, $eventId: ID!) {\n    getIjustContextEvent(contextId: $contextId, eventId: $eventId) {\n      id\n      name\n      count\n      cost {\n        amount\n        currency\n      }\n      insertedAt\n      updatedAt\n      ijustContextId\n      ijustContext {\n        id\n        name\n      }\n    }\n  }\n"];
-/**
- * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function graphql(source: "\n  mutation UpdateIjustEvent($id: ID!, $name: String, $cost: Int) {\n    updateIjustEvent(id: $id, name: $name, cost: $cost) {\n      successful\n      messages {\n        message\n        field\n      }\n      result {\n        id\n        name\n        cost {\n          amount\n          currency\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateIjustEvent($id: ID!, $name: String, $cost: Int) {\n    updateIjustEvent(id: $id, name: $name, cost: $cost) {\n      successful\n      messages {\n        message\n        field\n      }\n      result {\n        id\n        name\n        cost {\n          amount\n          currency\n        }\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

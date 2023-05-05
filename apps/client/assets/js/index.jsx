@@ -50,22 +50,7 @@ export const urqlClient = createClient({
       "x-beam-metadata": window.beamMetadata,
     },
   },
-  exchanges: [
-    mapExchange({
-      onResult(result) {
-        const errors = Object.entries(result.data).flatMap(([_operation, response]) => {
-          return response?.messages;
-        }).filter((e) => !!e);
-        console.log("result is", result);
-        console.log("errors are", errors);
-        if (errors.length > 0) {
-          result.error = new CombinedError({ graphQLErrors: errors, response: result.data });
-        }
-      }
-    }),
-    homepageCacheExchange,
-    fetchExchange
-  ],
+  exchanges: [homepageCacheExchange, fetchExchange],
 });
 
 const root = createRoot(container);

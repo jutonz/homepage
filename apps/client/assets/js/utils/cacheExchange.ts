@@ -2,6 +2,9 @@ import { gql } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
 
 export const homepageCacheExchange = cacheExchange({
+  keys: {
+    Money: () => null,
+  },
   updates: {
     Mutation: {
       createTeam(result, _args, cache, _info) {

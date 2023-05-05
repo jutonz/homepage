@@ -50,6 +50,22 @@ describe("Ijust", () => {
       cy.get("[data-role=ijust-occurrence]").should("have.length", 1);
     });
   });
+
+  it.only("can edit an event", () => {
+    setup(createEventWithOccurrence).then(({ initUrl, event }) => {
+      cy.visit(initUrl);
+      cy.findByRole("link", { name: "Ijust" }).click();
+      cy.contains("a", event.name).click();
+
+      cy.findByRole("button", { name: "Edit" }).click();
+      cy.findByLabelText("Name").click().type("wee");
+      cy.findByLabelText("Cost").click().type("123");
+      cy.findByRole("button", { name: "Save" }).click();
+
+      cy.findByRole("heading", { name: `${event.name}wee` });
+      cy.findByRole("cell", { name: "$123.00" });
+    });
+  });
 });
 
 async function createEventWithOccurrence(user: User) {
