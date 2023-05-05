@@ -1,7 +1,6 @@
 defmodule ClientWeb.IjustResolver do
   alias Client.{IjustContext, IjustEvent, IjustOccurrence, Repo}
   import Ecto.Query, only: [from: 2]
-  import AbsintheErrorPayload.Payload
 
   def get_ijust_default_context(_parent, _args, %{context: context}) do
     with {:ok, user} <- context |> Map.fetch(:current_user),
@@ -56,7 +55,6 @@ defmodule ClientWeb.IjustResolver do
          do: {:ok, event},
          else:
            (
-             #{:error, %Ecto.Changeset{} = cset} -> {:ok, error_payload(cset)}
              {:error, reason} -> {:error, reason}
              _ -> {:error, "Failed to update event"}
            )

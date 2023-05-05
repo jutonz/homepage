@@ -12,6 +12,7 @@ import { QueryLoader } from "./../../utils/QueryLoader";
 import { graphql } from "../../gql";
 import { IjustEditEventModal } from "./../../components/ijust/IjustEventEditModal";
 import type { IjustEvent, IjustContext } from "@gql-types";
+import { formatMoney } from "../../utils/money";
 
 const QUERY = graphql(`
   query GetEvent($contextId: ID!, $eventId: ID!) {
@@ -128,20 +129,4 @@ function EventInfo({ event }: EventInfoProps) {
       </table>
     </>
   );
-}
-
-interface Money {
-  amount: number;
-  currency: string;
-}
-
-function formatMoney(money?: Money) {
-  if (!money) return "-";
-
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: money.currency,
-  });
-
-  return formatter.format(money.amount);
 }
