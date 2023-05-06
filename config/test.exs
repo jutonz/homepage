@@ -24,7 +24,7 @@ config :client, Client.Repo,
   database: "homepage_test",
   hostname: "localhost",
   username: "postgres",
-  password: nil,
+  password: System.get_env("POSTGRES_PASSWORD"),
   ownership_timeout: :infinity,
   pool_size: 20
 
@@ -51,7 +51,7 @@ config :twitch, Twitch.Repo,
   database: "homepage_twitch_test",
   hostname: "localhost",
   username: "postgres",
-  password: nil,
+  password: System.get_env("POSTGRES_PASSWORD"),
   pool_size: 20
 
 config :twitch,
