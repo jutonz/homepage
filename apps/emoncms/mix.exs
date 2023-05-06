@@ -26,8 +26,8 @@ defmodule Emoncms.MixProject do
   defp deps do
     [
       {:httpoison, "~> 2.1"},
+      {:jason, "~> 1.4"},
       {:timex, "~> 3.1"},
-      {:poison, "~> 4.0"}
     ]
   end
 end

@@ -64,7 +64,7 @@ defmodule Twitch.Api.Kraken do
   def parse_response(response = %HTTPoison.Response{}) do
     case response.body do
       "" -> ""
-      body -> Poison.decode!(body)
+      body -> Jason.decode!(body)
     end
   end
 

@@ -21,7 +21,7 @@ defmodule Twitch.ApiConnection do
   end
 
   def parse_response({:ok, response = %HTTPoison.Response{}}) do
-    response.body |> Poison.decode()
+    response.body |> Jason.decode()
   end
 
   def base_url do
