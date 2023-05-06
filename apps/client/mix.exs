@@ -37,9 +37,9 @@ defmodule Client.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:absinthe_ecto, "~> 0.1"},
+      {:absinthe, "~> 1.7"},
       {:absinthe_error_payload, "~> 1.0"},
-      {:absinthe_plug, "~> 1.4"},
+      {:absinthe_plug, "~> 1.5"},
       {:auth, in_umbrella: true},
       {:bamboo, "~> 2.0"},
       {:bamboo_phoenix, "~> 1.0"},
@@ -54,7 +54,7 @@ defmodule Client.Mixfile do
       {:gettext, "~> 0.11"},
       {:hackney, "~> 1.8"},
       {:jason, "~> 1.1"},
-      {:money, "~> 1.7"},
+      {:money, "~> 1.12"},
       {:mox, "~> 1.0", only: :test},
       {:nimble_csv, "~> 1.1"},
       {:phoenix, "1.7.2"},
