@@ -98,6 +98,7 @@ export function SignupForm() {
           label="Email"
           errors={errors}
           fullWidth
+          className="mt-3"
         />
 
         <ControlledTextField

@@ -101,6 +101,7 @@ export function LoginForm({ onLogin }: Props) {
           label="Email"
           errors={errors}
           fullWidth
+          className="mt-3"
         />
 
         <ControlledTextField
@@ -110,6 +111,7 @@ export function LoginForm({ onLogin }: Props) {
           errors={errors}
           fullWidth
           type="password"
+          className="mt-3"
         />
 
         <Button
