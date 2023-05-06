@@ -11,14 +11,6 @@ secret_key_base =
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 
 ################################################################################
-# Auth config
-################################################################################
-
-config :auth, Auth.Guardian,
-  issuer: "homepage",
-  secret_key: secret_key_base
-
-################################################################################
 # Client config
 ################################################################################
 
@@ -48,6 +40,10 @@ config :client, ClientWeb.Endpoint,
   live_view: [
     signing_salt: "GakYThHq3i8b2wE+W12iNNKrwEzMkq6d"
   ]
+
+config :client, Client.Guardian,
+  issuer: "homepage",
+  secret_key: secret_key_base
 
 config :logger, :console, format: "$time $metadata[$level] $message\n", metadata: [:request_id]
 config :absinthe, log: false

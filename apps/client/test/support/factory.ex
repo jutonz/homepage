@@ -3,7 +3,7 @@ defmodule Client.Factory do
 
   def user_factory(attrs) do
     pw = Map.get(attrs, :password, "password123")
-    {:ok, pw_hash} = Auth.hash_password(pw)
+    {:ok, pw_hash} = Client.Auth.hash_password(pw)
 
     user = %Client.User{
       email: "email-#{rand_string()}@t.co",

@@ -1,6 +1,6 @@
 defmodule ClientWeb.Api.SessionController do
   use ClientWeb, :controller
-  alias Client.Session
+  alias Client.{Auth, Session}
 
   def login(conn, %{"email" => email, "password" => password}) do
     case conn |> Session.login(email, password) do
