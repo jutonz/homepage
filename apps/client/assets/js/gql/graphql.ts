@@ -43,7 +43,7 @@ export type IjustEventPayload = {
   messages?: Maybe<Array<Maybe<ValidationMessage>>>;
   /** The object created/updated/deleted by the mutation. May be null if mutation failed. */
   result?: Maybe<IjustEvent>;
-  /** Indicates if the mutation completed successfully or not.  */
+  /** Indicates if the mutation completed successfully or not. */
   successful: Scalars['Boolean'];
 };
 
@@ -271,7 +271,7 @@ export type User = {
 };
 
 /**
- *   Validation messages are returned when mutation input does not meet the requirements.
+ * Validation messages are returned when mutation input does not meet the requirements.
  *   While client-side validation is highly recommended to provide the best User Experience,
  *   All inputs will always be validated server-side.
  *
@@ -285,7 +285,6 @@ export type User = {
  *   set to optional in our API. This allows 'required field' messages
  *   to be returned in the same manner as other validations. The only exceptions
  *   are id fields, which may be required to perform updates or deletes.
- *
  */
 export type ValidationMessage = {
   __typename?: 'ValidationMessage';
