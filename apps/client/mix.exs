@@ -45,7 +45,6 @@ defmodule Client.Mixfile do
       {:bamboo_phoenix, "~> 1.0"},
       {:cors_plug, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
-      {:emoncms, in_umbrella: true},
       {:events, in_umbrella: true},
       {:ex_machina, "~> 2.2", only: :test},
       {:finch, "~> 0.14"},
@@ -69,6 +68,7 @@ defmodule Client.Mixfile do
       {:postgrex, "~> 0.14"},
       {:redis, in_umbrella: true},
       {:sentry, "~> 8.0"},
+      {:timex, "~> 3.7"},
       {:twitch, in_umbrella: true},
       {:wallaby, "~> 0.30.0", only: :test},
       # Live dashboard
