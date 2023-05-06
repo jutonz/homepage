@@ -32,7 +32,7 @@ defmodule Emoncms do
     {:ok, resp} = HTTPoison.get(url, headers, params: query)
 
     case resp.status_code do
-      200 -> {:ok, Poison.decode!(resp.body)}
+      200 -> {:ok, Jason.decode!(resp.body)}
       _ -> {:error, resp}
     end
   end

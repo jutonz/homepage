@@ -73,7 +73,7 @@ defmodule Twitch.Auth do
   def parse_response(response) do
     case response do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        {:ok, decoded} = body |> Poison.decode()
+        {:ok, decoded} = body |> Jason.decode()
         # TODO: Also confirm scope?
         {:ok, decoded}
 

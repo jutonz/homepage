@@ -11,6 +11,6 @@ defmodule Twitch.Bttv.Api do
   end
 
   def parse_response(response = %HTTPoison.Response{}) do
-    response.body |> Poison.decode!()
+    response.body |> Jason.decode!()
   end
 end
