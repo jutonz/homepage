@@ -43,6 +43,7 @@ defmodule Client.Mixfile do
       {:auth, in_umbrella: true},
       {:bamboo, "~> 2.0"},
       {:bamboo_phoenix, "~> 1.0"},
+      {:briefly, "~> 0.4.0", only: :test},
       {:cors_plug, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
       {:events, in_umbrella: true},

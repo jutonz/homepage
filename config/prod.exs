@@ -4,7 +4,9 @@ import Config
 # Client config
 ################################################################################
 
-config :client, env: :prod
+config :client,
+  env: :prod,
+  file_renamer_path: "/data/home/jutonz/testin"
 
 config :client, ClientWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",

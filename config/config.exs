@@ -29,7 +29,8 @@ config :client,
   admin_username: System.get_env("ADMIN_USERNAME") || "admin",
   admin_password:
     System.get_env("ADMIN_PASSWORD") || :crypto.strong_rand_bytes(124) |> Base.encode64(),
-  todoist_api_token: System.get_env("TODOIST_API_TOKEN")
+  todoist_api_token: System.get_env("TODOIST_API_TOKEN"),
+  file_renamer_path: nil
 
 config :phoenix,
   json_library: Jason,
