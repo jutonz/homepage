@@ -19,6 +19,8 @@ defmodule Client.FileRenamer do
   end
 
   def handle_continue(:check_path, %{path: path} = state) do
+    # TODO: Consider running these checks on every tick, not just at startup,
+    # to handle the directory being deleted while the app is running
     cond do
       !File.exists?(path) ->
         warn("Path '#{path}' doesn't exist. Exiting.")

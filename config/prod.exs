@@ -6,7 +6,7 @@ import Config
 
 config :client,
   env: :prod,
-  file_renamer_path: "/data/home/jutonz/testin"
+  file_renamer_path: "/data/home/jutonz/pictures/ios/t"
 
 config :client, ClientWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
