@@ -70,15 +70,17 @@ defmodule ClientWeb.IjustResolverTest do
       query = """
       mutation {
         updateIjustEvent(id: #{event.id}, name: "hello 2", cost: 123) {
-          name
-          cost
+          result {
+              name
+              cost { amount currency }
+          }
         }
       }
       """
 
       res = conn |> post("/graphql", %{query: query}) |> json_response(200)
 
-      updated = res["data"]["updateIjustEvent"]
+      updated = res["data"]["updateIjustEvent"]["result"]
       assert updated["name"] == "hello 2"
       assert updated["cost"] == %{"amount" => 123, "currency" => "USD"}
     end
