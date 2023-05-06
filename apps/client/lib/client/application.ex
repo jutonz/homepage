@@ -1,6 +1,8 @@
 defmodule Client.Application do
   use Application
 
+  @file_renamer_path Application.compile_env!(:client, :file_renamer_path)
+
   # See https://hexdocs.pm/elixir/Application.html for more information on OTP
   # Applications
   def start(_type, _args) do
@@ -10,7 +12,8 @@ defmodule Client.Application do
       ClientWeb.Endpoint,
       Client.TwitchServer,
       ClientWeb.Telemetry,
-      {Finch, name: ClientFinch}
+      {Finch, name: ClientFinch},
+      {Client.FileRenamer, path: @file_renamer_path}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html for other strategies and
