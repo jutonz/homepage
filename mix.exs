@@ -20,7 +20,6 @@ defmodule HomepageUmbrella.Mixfile do
           applications: [
             auth: :permanent,
             client: :permanent,
-            emoncms: :permanent,
             events: :permanent,
             redis: :permanent,
             twitch: :permanent
