@@ -1,15 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useMutation } from "urql";
 import * as yup from "yup";
 
 import { FormBox } from "./FormBox";
 import { graphql } from "../gql";
+import { ControlledTextField } from "./inputs/ControlledTextField";
 
 const CHANGE_PASSWORD = graphql(`
   mutation ChangePassword($currentPassword: String!, $newPassword: String!) {
@@ -104,56 +104,31 @@ export function ChangePasswordForm() {
           <Alert color="error">{errors.backendError.message}</Alert>
         )}
 
-        <Controller
+        <ControlledTextField
           control={control}
           name="currentPassword"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              type="password"
-              label="Current password"
-              error={!!errors.currentPassword?.message}
-              fullWidth
-            />
-          )}
+          label="Current password"
+          errors={errors}
+          fullWidth
         />
-        {errors.currentPassword?.message && (
-          <Alert color="error">{errors.currentPassword.message}</Alert>
-        )}
 
-        <Controller
+        <ControlledTextField
           control={control}
           name="newPassword"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              className="mt-3"
-              label="New password"
-              error={!!errors.newPassword?.message}
-              fullWidth
-            />
-          )}
+          label="New password"
+          errors={errors}
+          className="mt-3"
+          fullWidth
         />
-        {errors.newPassword?.message && (
-          <Alert color="error">{errors.newPassword.message}</Alert>
-        )}
 
-        <Controller
+        <ControlledTextField
           control={control}
           name="newPasswordConfirm"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              className="mt-3"
-              label="New password (confirm)"
-              error={!!errors.newPasswordConfirm?.message}
-              fullWidth
-            />
-          )}
+          label="New password (confirm)"
+          errors={errors}
+          className="mt-3"
+          fullWidth
         />
-        {errors.newPasswordConfirm?.message && (
-          <Alert color="error">{errors.newPasswordConfirm.message}</Alert>
-        )}
 
         <Button
           type="submit"

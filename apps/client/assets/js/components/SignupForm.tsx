@@ -1,16 +1,16 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { css, StyleSheet } from "aphrodite";
 import React, { useCallback } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "urql";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 
 import { FormBox } from "./../components/FormBox";
 import { graphql } from "../gql";
+import { ControlledTextField } from "./inputs/ControlledTextField";
 
 const SIGNUP_MUTATION = graphql(`
   mutation Signup($email: String!, $password: String!) {
@@ -91,38 +91,24 @@ export function SignupForm() {
         {errors.backendError?.message && (
           <Alert color="error">{errors.backendError.message}</Alert>
         )}
-        <Controller
+
+        <ControlledTextField
           control={control}
           name="email"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Email"
-              error={!!errors.email?.message}
-              fullWidth
-            />
-          )}
+          label="Email"
+          errors={errors}
+          fullWidth
         />
-        {errors.email?.message && (
-          <Alert color="error">{errors.email.message}</Alert>
-        )}
-        <Controller
+
+        <ControlledTextField
           control={control}
           name="password"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              className="mt-3"
-              type="password"
-              label="Password"
-              error={!!errors.password?.message}
-              fullWidth
-            />
-          )}
+          label="Password"
+          errors={errors}
+          fullWidth
+          type="password"
+          className="mt-3"
         />
-        {errors.password?.message && (
-          <Alert color="error">{errors.password.message}</Alert>
-        )}
 
         <Button
           type="submit"

@@ -1,16 +1,16 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useMutation } from "urql";
 import * as yup from "yup";
 
 import { FormBox } from "./FormBox";
 import { graphql } from "../gql";
 import type { Team } from "@gql-types";
+import { ControlledTextField } from "./inputs/ControlledTextField";
 
 const RENAME_TEAM = graphql(`
   mutation RenameTeam($id: ID!, $name: String!) {
@@ -95,21 +95,13 @@ export function TeamRenameForm({ team }: Props) {
           <Alert color="error">{errors.backendError.message}</Alert>
         )}
 
-        <Controller
+        <ControlledTextField
           control={control}
           name="name"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="New name"
-              error={!!errors.name?.message}
-              fullWidth
-            />
-          )}
+          label="New name"
+          errors={errors}
+          fullWidth
         />
-        {errors.name?.message && (
-          <Alert color="error">{errors.name.message}</Alert>
-        )}
 
         <Button
           type="submit"

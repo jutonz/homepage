@@ -2,18 +2,18 @@ import React, { useCallback, useState } from "react";
 import Button from "@mui/material/Button";
 import { useMutation } from "urql";
 import * as yup from "yup";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { enqueueSnackbar } from "notistack";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 
 import { graphql } from "../../gql";
 import type { IjustEvent } from "@gql-types";
+import { ControlledTextField } from "./../inputs/ControlledTextField";
 
 const UPDATE_EVENT = graphql(`
   mutation UpdateIjustEvent($id: ID!, $name: String, $cost: Int) {
@@ -133,40 +133,23 @@ export function IjustEditEventModal({ event, visible, setVisible }: Props) {
           {errors.backendError?.message && (
             <Alert color="error">{errors.backendError.message}</Alert>
           )}
-          <Controller
+          <ControlledTextField
             control={control}
             name="name"
-            render={({ field }) => (
-              <TextField
-                {...field}
-                className="mt-3"
-                label="Name"
-                error={!!errors.name?.message}
-                fullWidth
-              />
-            )}
+            label="Name"
+            errors={errors}
+            className="mt-3"
+            fullWidth
           />
-          {errors.name?.message && (
-            <Alert color="error">{errors.name.message}</Alert>
-          )}
 
-          <Controller
+          <ControlledTextField
             control={control}
             name="cost"
-            render={({ field }) => (
-              <TextField
-                {...field}
-                className="mt-3"
-                type="number"
-                label="Cost"
-                error={!!errors.cost?.message}
-                fullWidth
-              />
-            )}
+            label="Cost"
+            errors={errors}
+            className="mt-3"
+            fullWidth
           />
-          {errors.cost?.message && (
-            <Alert color="error">{errors.cost.message}</Alert>
-          )}
         </DialogContent>
         <DialogActions>
           <Button color="secondary" onClick={handleClose}>
