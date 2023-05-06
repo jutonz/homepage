@@ -104,13 +104,14 @@ jobs:
       MIX_ENV: test
       LOG_LEVEL: info
       TWITCH_DATASTORE_DISABLED: "true"
+      POSTGRES_PASSWORD: password
     services:
       postgres:
         image: postgres:15-alpine
         env:
           POSTGRES_USER: postgres
           POSTGRES_DB: homepage_test
-          POSTGRES_PASSWORD:
+          POSTGRES_PASSWORD: password
         ports:
         - 5432:5432
       redis:
@@ -171,13 +172,14 @@ jobs:
     env:
       MIX_ENV: test
       TWITCH_DATASTORE_DISABLED: "true"
+      POSTGRES_PASSWORD: password
     services:
       postgres:
         image: postgres:15-alpine
         env:
           POSTGRES_USER: postgres
           POSTGRES_DB: homepage_test
-          POSTGRES_PASSWORD:
+          POSTGRES_PASSWORD: password
         ports:
         - 5432:5432
       redis:
