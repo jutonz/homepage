@@ -1,6 +1,6 @@
 defmodule Client.Session do
   import Plug.Conn
-  alias Client.{User, Repo}
+  alias Client.{Auth, User, Repo}
 
   def login(conn, email, password) do
     with {:ok, user} <- User.get_by_email(email),

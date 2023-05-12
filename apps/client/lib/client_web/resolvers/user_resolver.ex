@@ -1,5 +1,5 @@
 defmodule ClientWeb.UserResolver do
-  alias Client.{User, Repo, Session}
+  alias Client.{Auth, User, Repo, Session}
   alias ClientWeb.{Endpoint, Router}
 
   def signup(_parent, args, _context) do

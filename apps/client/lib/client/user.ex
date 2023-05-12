@@ -2,7 +2,7 @@ defmodule Client.User do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query, only: [from: 2]
-  alias Client.{Team, Repo, User}
+  alias Client.{Auth, Team, Repo, User}
 
   @type t :: %__MODULE__{}
 

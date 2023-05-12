@@ -1,10 +1,10 @@
-defmodule Auth do
+defmodule Client.Auth do
   @moduledoc """
   Wrapper for Guardian and Comeonin dependencies. Anything related to passwords
   or JWT's should live here.
   """
 
-  alias Auth.Guardian
+  alias Client.Guardian
 
   def hash_password(password) do
     {:ok, Argon2.hash_pwd_salt(password)}

@@ -51,7 +51,7 @@ describe("Ijust", () => {
     });
   });
 
-  it.only("can edit an event", () => {
+  it("can edit an event", () => {
     setup(createEventWithOccurrence).then(({ initUrl, event }) => {
       cy.visit(initUrl);
       cy.findByRole("link", { name: "Ijust" }).click();
