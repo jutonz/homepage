@@ -54,6 +54,10 @@ defmodule Client.FileRenamer do
     Logger.warn("[#{__MODULE__}] #{msg}")
   end
 
+  defp info(msg) do
+    Logger.info("[#{__MODULE__}] #{msg}")
+  end
+
   @one_minute 60_000
   @one_hour @one_minute * 60
   defp schedule_checkin do
@@ -69,8 +73,9 @@ defmodule Client.FileRenamer do
     new_name = DateTime.to_iso8601(created_at) <> extname
 
     if basename != new_name do
-      dirname = Path.dirname(path)
-      File.rename!(path, Path.join(dirname, new_name))
+      new_path = Path.join(Path.dirname(path), new_name)
+      info("Renaming '#{path}' to '#{new_path}'")
+      File.rename!(path, new_path)
     end
   end
 end

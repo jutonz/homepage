@@ -94,5 +94,25 @@ defmodule Client.FileRenamerTest do
       assert ["subdir"] = File.ls!(dir)
       assert ["in_subdir.txt"] = File.ls!(subdir)
     end
+
+    test "handles files which already have the right name" do
+      dir = Briefly.create!(directory: true)
+      file = Path.join(dir, "asdf.txt")
+      File.write!(file, "")
+
+      expected_name =
+        file
+        |> File.stat!([time: :posix])
+        |> Map.get(:ctime)
+        |> DateTime.from_unix!()
+        |> DateTime.to_iso8601()
+        |> Kernel.<>(".txt")
+
+      File.rename!(file, Path.join(Path.dirname(file), expected_name))
+
+      FileRenamer.rename_files(dir)
+
+      assert [^expected_name] = File.ls!(dir)
+    end
   end
 end
