@@ -222,6 +222,7 @@ jobs:
         path: /tmp/homepage-screenshots
 
   build_release:
+    if: github.event.pull_request.merged
     name: build release
     needs:
     - build_dev
