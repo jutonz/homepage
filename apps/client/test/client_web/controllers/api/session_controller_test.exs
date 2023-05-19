@@ -2,6 +2,7 @@ defmodule ClientWeb.Api.SessionControllerTest do
   use ClientWeb.ConnCase, async: true
 
   alias Client.{
+    Auth,
     Factory,
     Session
   }
