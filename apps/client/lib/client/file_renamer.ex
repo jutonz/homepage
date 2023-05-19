@@ -66,16 +66,18 @@ defmodule Client.FileRenamer do
 
   defp rename_file(path) do
     stat = File.stat!(path, time: :posix)
-    created_at = DateTime.from_unix!(stat.ctime)
+    created_at = DateTime.from_unix!(stat.mtime)
     basename = Path.basename(path)
     extname = Path.extname(basename)
+    iso8601 = DateTime.to_iso8601(created_at)
 
-    new_name = DateTime.to_iso8601(created_at) <> extname
-
-    if basename != new_name do
+    if !String.starts_with?(basename, iso8601) do
+      new_name = "#{iso8601}-#{:rand.uniform(1_000_000)}#{extname}"
       new_path = Path.join(Path.dirname(path), new_name)
       info("Renaming '#{path}' to '#{new_path}'")
       File.rename!(path, new_path)
+      info("Setting mtime of #{new_path} to #{stat.mtime}")
+      File.touch!(new_path, stat.mtime)
     end
   end
 end
