@@ -220,3 +220,45 @@ jobs:
       with:
         name: failure-screenshots
         path: /tmp/homepage-screenshots
+
+  build_release:
+    name: build release
+    needs:
+    - build_dev
+    - yarn_install
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: prod
+      TWITCH_DATASTORE_DISABLED: "true"
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup dev config
+      run: cp config/dev.secret.example.exs config/dev.secret.exs
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: '1.14.3'
+        otp-version: '25.2'
+    - name: Restore static asset cache
+      uses: actions/cache@v3
+      with:
+        path: apps/client/priv/static
+        key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
+    - name: Restore dev cache
+      uses: actions/cache@v3
+      id: dev-cache
+      with:
+        path: |
+          deps
+          _build/dev
+        key: v1-dev-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+        restore-keys: v1-dev-
+    - run: mix deps.get
+    - run: mix compile --warnings-as-errors
+    - run: mix phx.digest
+    - run: mix release homepage
+    - name: Archive release
+      uses: actions/upload-artifact@v3
+      with:
+        name: release
+        path: _build/prod/rel/homepage
