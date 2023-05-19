@@ -230,6 +230,7 @@ jobs:
     env:
       MIX_ENV: prod
       TWITCH_DATASTORE_DISABLED: "true"
+      HOMEPAGE_VERSION: ${{ github.sha }}
     steps:
     - uses: actions/checkout@v3
     - name: Setup dev config

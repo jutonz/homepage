@@ -2,6 +2,8 @@ defmodule HomepageUmbrella.Mixfile do
   use Mix.Project
 
   def project do
+    version = System.get_env("HOMEPAGE_VERSION") || "0.1.0"
+
     [
       apps_path: "apps",
       start_permanent: Mix.env() == :prod,
@@ -16,9 +18,8 @@ defmodule HomepageUmbrella.Mixfile do
       ],
       releases: [
         homepage: [
-          version: "0.1.0",
+          version: version,
           applications: [
-            auth: :permanent,
             client: :permanent,
             events: :permanent,
             redis: :permanent,
