@@ -18,7 +18,6 @@ defmodule HomepageUmbrella.Mixfile do
         homepage: [
           version: "0.1.0",
           applications: [
-            auth: :permanent,
             client: :permanent,
             events: :permanent,
             redis: :permanent,
