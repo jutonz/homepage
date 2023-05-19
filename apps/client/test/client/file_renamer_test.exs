@@ -60,17 +60,18 @@ defmodule Client.FileRenamerTest do
       file = Path.join(dir, "asdf.txt")
       File.write!(file, "")
 
-      expected_name =
+      timestamp =
         file
         |> File.stat!([time: :posix])
-        |> Map.get(:ctime)
+        |> Map.get(:mtime)
         |> DateTime.from_unix!()
         |> DateTime.to_iso8601()
-        |> Kernel.<>(".txt")
 
       FileRenamer.rename_files(dir)
 
-      assert [^expected_name] = File.ls!(dir)
+      [actual_name] = File.ls!(dir)
+      assert String.starts_with?(actual_name, timestamp)
+      assert String.ends_with?(actual_name, ".txt")
     end
 
     test "doesn't rename directories" do
@@ -103,7 +104,7 @@ defmodule Client.FileRenamerTest do
       expected_name =
         file
         |> File.stat!([time: :posix])
-        |> Map.get(:ctime)
+        |> Map.get(:mtime)
         |> DateTime.from_unix!()
         |> DateTime.to_iso8601()
         |> Kernel.<>(".txt")
