@@ -17,7 +17,7 @@
     "@mui/material": "^5.13.2",
     "@urql/exchange-graphcache": "^6.0.4",
     "aphrodite": "^2.4.0",
-    "chart.js": "^3.9.1",
+    "chart.js": "^4.3.0",
     "graphql": "^16.6.0",
     "history": "^5.3.0",
     "notistack": "^3.0.1",
