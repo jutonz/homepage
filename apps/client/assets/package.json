@@ -36,7 +36,7 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^3.3.0",
+    "@graphql-codegen/cli": "^4.0.0",
     "@graphql-codegen/client-preset": "^3.0.0",
     "@testing-library/cypress": "^9.0.0",
     "autoprefixer": "^10.4.14",
