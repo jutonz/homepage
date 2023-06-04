@@ -8,7 +8,7 @@
     <% end %>
 
     <%= if day == @today do %>
-      <.form :let={f} for={@entry_changeset} phx_submit="add_entry">
+      <.form :let={f} for={@entry_changeset} phx-submit="add_entry">
         <div class="flex flex-row items-center">
           <div>
             <%= text_input(
