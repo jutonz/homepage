@@ -5,36 +5,38 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: { input: string | number; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
 };
 
 export type IjustContext = {
   __typename?: 'IjustContext';
-  accountId: Scalars['ID'];
-  id: Scalars['ID'];
-  insertedAt: Scalars['String'];
-  name: Scalars['String'];
-  updatedAt: Scalars['String'];
-  userId: Scalars['ID'];
+  accountId: Scalars['ID']['output'];
+  id: Scalars['ID']['output'];
+  insertedAt: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  updatedAt: Scalars['String']['output'];
+  userId: Scalars['ID']['output'];
 };
 
 export type IjustEvent = {
   __typename?: 'IjustEvent';
   cost?: Maybe<Money>;
-  count: Scalars['Int'];
-  id: Scalars['ID'];
+  count: Scalars['Int']['output'];
+  id: Scalars['ID']['output'];
   ijustContext: IjustContext;
-  ijustContextId: Scalars['ID'];
+  ijustContextId: Scalars['ID']['output'];
   ijustOccurrences?: Maybe<Array<Maybe<IjustOccurrence>>>;
-  insertedAt: Scalars['String'];
-  name: Scalars['String'];
-  updatedAt: Scalars['String'];
+  insertedAt: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  updatedAt: Scalars['String']['output'];
 };
 
 export type IjustEventPayload = {
@@ -44,23 +46,23 @@ export type IjustEventPayload = {
   /** The object created/updated/deleted by the mutation. May be null if mutation failed. */
   result?: Maybe<IjustEvent>;
   /** Indicates if the mutation completed successfully or not. */
-  successful: Scalars['Boolean'];
+  successful: Scalars['Boolean']['output'];
 };
 
 export type IjustOccurrence = {
   __typename?: 'IjustOccurrence';
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   ijustEvent?: Maybe<IjustEvent>;
-  ijustEventId: Scalars['ID'];
-  insertedAt: Scalars['String'];
-  isDeleted?: Maybe<Scalars['Boolean']>;
-  updatedAt: Scalars['String'];
+  ijustEventId: Scalars['ID']['output'];
+  insertedAt: Scalars['String']['output'];
+  isDeleted?: Maybe<Scalars['Boolean']['output']>;
+  updatedAt: Scalars['String']['output'];
 };
 
 export type Money = {
   __typename?: 'Money';
-  amount: Scalars['Int'];
-  currency: Scalars['String'];
+  amount: Scalars['Int']['output'];
+  currency: Scalars['String']['output'];
 };
 
 export type RootMutationType = {
@@ -74,7 +76,7 @@ export type RootMutationType = {
   joinTeam?: Maybe<Team>;
   leaveTeam?: Maybe<Team>;
   renameTeam?: Maybe<Team>;
-  signup?: Maybe<Scalars['String']>;
+  signup?: Maybe<Scalars['String']['output']>;
   twitchChannelSubscribe?: Maybe<TwitchChannel>;
   twitchChannelUnsubscribe?: Maybe<TwitchChannel>;
   twitchRemoveIntegration?: Maybe<TwitchUser>;
@@ -84,80 +86,80 @@ export type RootMutationType = {
 
 
 export type RootMutationTypeChangePasswordArgs = {
-  currentPassword: Scalars['String'];
-  newPassword: Scalars['String'];
+  currentPassword: Scalars['String']['input'];
+  newPassword: Scalars['String']['input'];
 };
 
 
 export type RootMutationTypeCreateIjustEventArgs = {
-  ijustContextId: Scalars['ID'];
-  name: Scalars['String'];
+  ijustContextId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
 export type RootMutationTypeCreateTeamArgs = {
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 };
 
 
 export type RootMutationTypeDeleteTeamArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type RootMutationTypeIjustAddOccurrenceToEventArgs = {
-  ijustEventId: Scalars['ID'];
+  ijustEventId: Scalars['ID']['input'];
 };
 
 
 export type RootMutationTypeIjustDeleteOccurrenceArgs = {
-  ijustOccurrenceId: Scalars['ID'];
+  ijustOccurrenceId: Scalars['ID']['input'];
 };
 
 
 export type RootMutationTypeJoinTeamArgs = {
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 };
 
 
 export type RootMutationTypeLeaveTeamArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type RootMutationTypeRenameTeamArgs = {
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 
 export type RootMutationTypeSignupArgs = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 
 export type RootMutationTypeTwitchChannelSubscribeArgs = {
-  channel: Scalars['String'];
+  channel: Scalars['String']['input'];
 };
 
 
 export type RootMutationTypeTwitchChannelUnsubscribeArgs = {
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 };
 
 
 export type RootMutationTypeUpdateIjustEventArgs = {
-  cost?: InputMaybe<Scalars['Int']>;
-  id: Scalars['ID'];
-  name?: InputMaybe<Scalars['String']>;
+  cost?: InputMaybe<Scalars['Int']['input']>;
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type RootMutationTypeUpdateUserArgs = {
-  email?: InputMaybe<Scalars['String']>;
-  id: Scalars['ID'];
-  password?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  password?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type RootQueryType = {
@@ -169,7 +171,7 @@ export type RootQueryType = {
   getIjustDefaultContext?: Maybe<IjustContext>;
   getIjustEventOccurrences?: Maybe<Array<Maybe<IjustOccurrence>>>;
   getIjustRecentEvents?: Maybe<Array<Maybe<IjustEvent>>>;
-  getOneTimeLoginLink?: Maybe<Scalars['String']>;
+  getOneTimeLoginLink?: Maybe<Scalars['String']['output']>;
   getTeam?: Maybe<Team>;
   getTeamUser?: Maybe<User>;
   getTeamUsers?: Maybe<Array<Maybe<User>>>;
@@ -183,91 +185,91 @@ export type RootQueryType = {
 
 
 export type RootQueryTypeGetIjustContextArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type RootQueryTypeGetIjustContextEventArgs = {
-  contextId: Scalars['ID'];
-  eventId: Scalars['ID'];
+  contextId: Scalars['ID']['input'];
+  eventId: Scalars['ID']['input'];
 };
 
 
 export type RootQueryTypeGetIjustEventOccurrencesArgs = {
-  eventId: Scalars['ID'];
-  offset?: InputMaybe<Scalars['Int']>;
+  eventId: Scalars['ID']['input'];
+  offset?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type RootQueryTypeGetIjustRecentEventsArgs = {
-  contextId: Scalars['ID'];
+  contextId: Scalars['ID']['input'];
 };
 
 
 export type RootQueryTypeGetTeamArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type RootQueryTypeGetTeamUserArgs = {
-  teamId: Scalars['ID'];
-  userId: Scalars['ID'];
+  teamId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
 };
 
 
 export type RootQueryTypeGetTeamUsersArgs = {
-  teamId: Scalars['ID'];
+  teamId: Scalars['ID']['input'];
 };
 
 
 export type RootQueryTypeGetTwitchChannelArgs = {
-  channelName: Scalars['String'];
+  channelName: Scalars['String']['input'];
 };
 
 
 export type RootQueryTypeGetUserArgs = {
-  email?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
 export type RootQueryTypeIjustEventsSearchArgs = {
-  ijustContextId: Scalars['ID'];
-  name: Scalars['String'];
+  ijustContextId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 };
 
 export type Team = {
   __typename?: 'Team';
-  id: Scalars['ID'];
-  insertedAt: Scalars['String'];
-  name: Scalars['String'];
-  updatedAt: Scalars['String'];
+  id: Scalars['ID']['output'];
+  insertedAt: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  updatedAt: Scalars['String']['output'];
 };
 
 export type TwitchChannel = {
   __typename?: 'TwitchChannel';
-  id: Scalars['ID'];
-  insertedAt: Scalars['String'];
-  name: Scalars['String'];
-  updatedAt: Scalars['String'];
-  userId: Scalars['ID'];
+  id: Scalars['ID']['output'];
+  insertedAt: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  updatedAt: Scalars['String']['output'];
+  userId: Scalars['ID']['output'];
 };
 
 export type TwitchUser = {
   __typename?: 'TwitchUser';
-  displayName: Scalars['String'];
-  email: Scalars['String'];
-  id: Scalars['ID'];
-  twitchUserId: Scalars['String'];
-  userId: Scalars['String'];
+  displayName: Scalars['String']['output'];
+  email: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  twitchUserId: Scalars['String']['output'];
+  userId: Scalars['String']['output'];
 };
 
 export type User = {
   __typename?: 'User';
-  email: Scalars['String'];
-  id: Scalars['ID'];
-  insertedAt: Scalars['String'];
-  updatedAt: Scalars['String'];
+  email: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  insertedAt: Scalars['String']['output'];
+  updatedAt: Scalars['String']['output'];
 };
 
 /**
@@ -289,7 +291,7 @@ export type User = {
 export type ValidationMessage = {
   __typename?: 'ValidationMessage';
   /** A unique error code for the type of validation used. */
-  code: Scalars['String'];
+  code: Scalars['String']['output'];
   /**
    * The input field that the error applies to. The field can be used to
    * identify which field the error message should be displayed next to in the
@@ -300,7 +302,7 @@ export type ValidationMessage = {
    *
    * This field may be null in cases where an error cannot be applied to a specific field.
    */
-  field?: Maybe<Scalars['String']>;
+  field?: Maybe<Scalars['String']['output']>;
   /**
    * A friendly error message, appropriate for display to the end user.
    *
@@ -311,7 +313,7 @@ export type ValidationMessage = {
    * This message may change without notice, so we do not recommend you match against the text.
    * Instead, use the *code* field for matching.
    */
-  message?: Maybe<Scalars['String']>;
+  message?: Maybe<Scalars['String']['output']>;
   /** A list of substitutions to be applied to a validation message template */
   options?: Maybe<Array<Maybe<ValidationOption>>>;
   /**
@@ -322,20 +324,20 @@ export type ValidationMessage = {
    * This message may change without notice, so we do not recommend you match against the text.
    * Instead, use the *code* field for matching.
    */
-  template?: Maybe<Scalars['String']>;
+  template?: Maybe<Scalars['String']['output']>;
 };
 
 export type ValidationOption = {
   __typename?: 'ValidationOption';
   /** The name of a variable to be subsituted in a validation message template */
-  key: Scalars['String'];
+  key: Scalars['String']['output'];
   /** The value of a variable to be substituted in a validation message template */
-  value: Scalars['String'];
+  value: Scalars['String']['output'];
 };
 
 export type ChangePasswordMutationVariables = Exact<{
-  currentPassword: Scalars['String'];
-  newPassword: Scalars['String'];
+  currentPassword: Scalars['String']['input'];
+  newPassword: Scalars['String']['input'];
 }>;
 
 
@@ -367,36 +369,36 @@ export type GetOneTimeLoginLinkQueryVariables = Exact<{ [key: string]: never; }>
 export type GetOneTimeLoginLinkQuery = { __typename?: 'RootQueryType', getOneTimeLoginLink?: string | null };
 
 export type SignupMutationVariables = Exact<{
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 }>;
 
 
 export type SignupMutation = { __typename?: 'RootMutationType', signup?: string | null };
 
 export type CreateTeamMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
 export type CreateTeamMutation = { __typename?: 'RootMutationType', createTeam?: { __typename?: 'Team', id: string, name: string } | null };
 
 export type DeleteTeamMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type DeleteTeamMutation = { __typename?: 'RootMutationType', deleteTeam?: { __typename?: 'Team', id: string } | null };
 
 export type JoinTeamMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
 export type JoinTeamMutation = { __typename?: 'RootMutationType', joinTeam?: { __typename?: 'Team', id: string, name: string } | null };
 
 export type LeaveTeamMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -408,82 +410,82 @@ export type GetTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetTeamsQuery = { __typename?: 'RootQueryType', getTeams?: Array<{ __typename?: 'Team', id: string, name: string } | null> | null };
 
 export type RenameTeamMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
 }>;
 
 
 export type RenameTeamMutation = { __typename?: 'RootMutationType', renameTeam?: { __typename?: 'Team', id: string, name: string } | null };
 
 export type GetTeamUsersQueryVariables = Exact<{
-  teamId: Scalars['ID'];
+  teamId: Scalars['ID']['input'];
 }>;
 
 
 export type GetTeamUsersQuery = { __typename?: 'RootQueryType', getTeamUsers?: Array<{ __typename?: 'User', email: string, id: string } | null> | null };
 
 export type IjustAddOccurrenceToEventMutationVariables = Exact<{
-  ijustEventId: Scalars['ID'];
+  ijustEventId: Scalars['ID']['input'];
 }>;
 
 
 export type IjustAddOccurrenceToEventMutation = { __typename?: 'RootMutationType', ijustAddOccurrenceToEvent?: { __typename?: 'IjustOccurrence', id: string, insertedAt: string, isDeleted?: boolean | null, ijustEvent?: { __typename?: 'IjustEvent', id: string, ijustContextId: string } | null } | null };
 
 export type UpdateIjustEventMutationVariables = Exact<{
-  id: Scalars['ID'];
-  name?: InputMaybe<Scalars['String']>;
-  cost?: InputMaybe<Scalars['Int']>;
+  id: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  cost?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
 export type UpdateIjustEventMutation = { __typename?: 'RootMutationType', updateIjustEvent?: { __typename?: 'IjustEventPayload', successful: boolean, messages?: Array<{ __typename?: 'ValidationMessage', message?: string | null, field?: string | null } | null> | null, result?: { __typename?: 'IjustEvent', id: string, name: string, cost?: { __typename?: 'Money', amount: number, currency: string } | null } | null } | null };
 
 export type CreateIjustEventMutationVariables = Exact<{
-  ijustContextId: Scalars['ID'];
-  eventName: Scalars['String'];
+  ijustContextId: Scalars['ID']['input'];
+  eventName: Scalars['String']['input'];
 }>;
 
 
 export type CreateIjustEventMutation = { __typename?: 'RootMutationType', createIjustEvent?: { __typename?: 'IjustEvent', id: string, name: string, count: number, insertedAt: string, updatedAt: string, ijustContextId: string } | null };
 
 export type GetIjustContextEventQueryVariables = Exact<{
-  contextId: Scalars['ID'];
-  eventId: Scalars['ID'];
+  contextId: Scalars['ID']['input'];
+  eventId: Scalars['ID']['input'];
 }>;
 
 
 export type GetIjustContextEventQuery = { __typename?: 'RootQueryType', getIjustContextEvent?: { __typename?: 'IjustEvent', id: string, ijustContextId: string, ijustOccurrences?: Array<{ __typename?: 'IjustOccurrence', id: string, insertedAt: string, updatedAt: string, isDeleted?: boolean | null } | null> | null } | null };
 
 export type IjustDeleteOccurrenceMutationVariables = Exact<{
-  occurrenceId: Scalars['ID'];
+  occurrenceId: Scalars['ID']['input'];
 }>;
 
 
 export type IjustDeleteOccurrenceMutation = { __typename?: 'RootMutationType', ijustDeleteOccurrence?: { __typename?: 'IjustOccurrence', id: string, ijustEventId: string } | null };
 
 export type GetIjustRecentEventsQueryVariables = Exact<{
-  contextId: Scalars['ID'];
+  contextId: Scalars['ID']['input'];
 }>;
 
 
 export type GetIjustRecentEventsQuery = { __typename?: 'RootQueryType', getIjustRecentEvents?: Array<{ __typename?: 'IjustEvent', id: string, name: string, count: number, insertedAt: string, updatedAt: string, ijustContextId: string } | null> | null };
 
 export type TwitchChannelUnsubscribeMutationVariables = Exact<{
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 }>;
 
 
 export type TwitchChannelUnsubscribeMutation = { __typename?: 'RootMutationType', twitchChannelUnsubscribe?: { __typename?: 'TwitchChannel', id: string } | null };
 
 export type TwitchChannelSubscribeMutationVariables = Exact<{
-  channel: Scalars['String'];
+  channel: Scalars['String']['input'];
 }>;
 
 
 export type TwitchChannelSubscribeMutation = { __typename?: 'RootMutationType', twitchChannelSubscribe?: { __typename?: 'TwitchChannel', id: string, name: string, userId: string } | null };
 
 export type GetIjustContextQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -500,15 +502,15 @@ export type GetIjustDefaultContextQueryQueryVariables = Exact<{ [key: string]: n
 export type GetIjustDefaultContextQueryQuery = { __typename?: 'RootQueryType', getIjustDefaultContext?: { __typename?: 'IjustContext', id: string, name: string, userId: string } | null };
 
 export type GetTeamQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
 export type GetTeamQuery = { __typename?: 'RootQueryType', getTeam?: { __typename?: 'Team', name: string, id: string } | null };
 
 export type GetTeamUserQueryVariables = Exact<{
-  teamId: Scalars['ID'];
-  userId: Scalars['ID'];
+  teamId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
 }>;
 
 
@@ -525,23 +527,23 @@ export type GetTwitchChannelsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetTwitchChannelsQuery = { __typename?: 'RootQueryType', getTwitchChannels?: Array<{ __typename?: 'TwitchChannel', id: string, name: string, userId: string } | null> | null };
 
 export type GetEventQueryVariables = Exact<{
-  contextId: Scalars['ID'];
-  eventId: Scalars['ID'];
+  contextId: Scalars['ID']['input'];
+  eventId: Scalars['ID']['input'];
 }>;
 
 
 export type GetEventQuery = { __typename?: 'RootQueryType', getIjustContextEvent?: { __typename?: 'IjustEvent', id: string, name: string, count: number, insertedAt: string, updatedAt: string, ijustContextId: string, cost?: { __typename?: 'Money', amount: number, currency: string } | null, ijustContext: { __typename?: 'IjustContext', id: string, name: string } } | null };
 
 export type GetTwitchChannelQueryVariables = Exact<{
-  channelName: Scalars['String'];
+  channelName: Scalars['String']['input'];
 }>;
 
 
 export type GetTwitchChannelQuery = { __typename?: 'RootQueryType', getTwitchChannel?: { __typename?: 'TwitchChannel', id: string, name: string } | null };
 
 export type IjustEventsSearchQueryVariables = Exact<{
-  ijustContextId: Scalars['ID'];
-  eventName: Scalars['String'];
+  ijustContextId: Scalars['ID']['input'];
+  eventName: Scalars['String']['input'];
 }>;
 
 
