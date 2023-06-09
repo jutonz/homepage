@@ -9,7 +9,7 @@
     "typecheck": "npx tsc --project ./tsconfig.json"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.0",
+    "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.2",
     "@hookform/resolvers": "^3.1.0",
