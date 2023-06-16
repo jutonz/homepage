@@ -4253,10 +4253,10 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==
 
-phoenix@1.7.5:
-  version "1.7.5"
-  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.7.5.tgz#93b2c9168e509adce75aa76270f71b330b46c7dd"
-  integrity sha512-QAyzJ5qa+eFg5v1LJK+415KvEwjatG0A5/ULbKc4btDSqdVVRPDF+QjE4Rj5fhwlXpD4zRq32e+/Cjrwl9o9EA==
+phoenix@1.7.6:
+  version "1.7.6"
+  resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.7.6.tgz#a58f5bf2727b734e9d0f754e0d30c3ec8cc56ffe"
+  integrity sha512-TOZmJqQaZIWDXMcRXo/qLSBcROFgfA0W/LlaJ9RpETGSYSTouGTJKw5ozR6dII6iPHpOXHagc9kV5WYO9LtTRQ==
 
 phoenix_html@3.3.1:
   version "3.3.1"
