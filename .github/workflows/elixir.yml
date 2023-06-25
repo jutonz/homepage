@@ -32,10 +32,10 @@ jobs:
       uses: actions/cache@v3
       with:
         path: _plts
-        key: v2-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+        key: v3-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
         restore-keys: |
-          v2-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
-          v2-plts-${{ hashFiles('.tool-versions') }}-
+          v3-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+          v3-plts-${{ hashFiles('.tool-versions') }}-
     - run: mix deps.get
       if: steps.dev-cache.outputs.cache-hit != 'true'
     - run: mix compile --warnings-as-errors
