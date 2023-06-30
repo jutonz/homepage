@@ -3,26 +3,14 @@ updates:
 - package-ecosystem: npm
   directory: "/apps/client/assets"
   schedule:
-    interval: weekly
-    day: friday
+    interval: daily
     time: "00:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: pdfjs-dist
-    versions:
-    - "> 2.0.466"
-    - "< 3"
 - package-ecosystem: mix
   directory: "/"
   schedule:
-    interval: weekly
-    day: friday
+    interval: daily
     time: "00:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: diplomat
-    versions:
-    - ">= 0.12.a"
-    - "< 0.13"
