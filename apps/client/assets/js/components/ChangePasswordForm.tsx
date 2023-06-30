@@ -37,7 +37,7 @@ const schema = yup
       .string()
       .required()
       .oneOf([yup.ref("newPassword")], "Passwords don't match"),
-    backendError: yup.mixed(),
+    backendError: yup.mixed().nullable(),
   })
   .required();
 

@@ -29,7 +29,7 @@ const schema = yup
   .object({
     email: yup.string().email().required(),
     password: yup.string().required(),
-    backendError: yup.mixed(),
+    backendError: yup.mixed().nullable(),
   })
   .required();
 

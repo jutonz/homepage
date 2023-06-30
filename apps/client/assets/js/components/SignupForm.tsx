@@ -37,7 +37,7 @@ const schema = yup
   .object({
     email: yup.string().email().required(),
     password: yup.string().required().min(8),
-    backendError: yup.mixed(),
+    backendError: yup.mixed().nullable(),
   })
   .required();
 

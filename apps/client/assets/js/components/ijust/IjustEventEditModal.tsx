@@ -51,7 +51,7 @@ const schema = yup
       })
       .nullable(),
     name: yup.string().required(),
-    backendError: yup.mixed(),
+    backendError: yup.mixed().nullable(),
   })
   .required();
 
