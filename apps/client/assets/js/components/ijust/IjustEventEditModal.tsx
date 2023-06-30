@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import Button from "@mui/material/Button";
 import { useMutation } from "urql";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { ErrorOption, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { enqueueSnackbar } from "notistack";
 import Dialog from "@mui/material/Dialog";
@@ -38,7 +38,7 @@ const UPDATE_EVENT = graphql(`
 interface FormInputs {
   cost: number;
   name: string;
-  backendError: null;
+  backendError: ErrorOption | null;
 }
 
 const schema = yup
@@ -51,6 +51,7 @@ const schema = yup
       })
       .nullable(),
     name: yup.string().required(),
+    backendError: yup.mixed(),
   })
   .required();
 

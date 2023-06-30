@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { css, StyleSheet } from "aphrodite";
 import React, { useCallback } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { ErrorOption, SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "urql";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
@@ -30,13 +30,14 @@ const styles = StyleSheet.create({
 interface FormInputs {
   email: string;
   password: string;
-  backendError: null;
+  backendError: ErrorOption | null;
 }
 
 const schema = yup
   .object({
     email: yup.string().email().required(),
     password: yup.string().required().min(8),
+    backendError: yup.mixed(),
   })
   .required();
 
