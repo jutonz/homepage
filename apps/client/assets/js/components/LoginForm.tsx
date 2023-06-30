@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { ErrorOption, SubmitHandler, useForm } from "react-hook-form";
 import React, { useCallback } from "react";
 import { StyleSheet, css } from "aphrodite";
 import { Link } from "react-router-dom";
@@ -19,18 +19,19 @@ const styles = StyleSheet.create({
   },
 });
 
+interface FormInputs {
+  email: string;
+  password: string;
+  backendError: ErrorOption | null;
+}
+
 const schema = yup
   .object({
     email: yup.string().email().required(),
     password: yup.string().required(),
+    backendError: yup.mixed().nullable(),
   })
   .required();
-
-interface FormInputs {
-  email: string;
-  password: string;
-  backendError: null;
-}
 
 interface Props {
   onLogin: () => void;
