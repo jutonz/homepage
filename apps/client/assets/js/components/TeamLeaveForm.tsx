@@ -44,7 +44,7 @@ export function TeamLeaveForm({ team }: Props) {
     (message: string) => {
       setError("backendError", { type: "custom", message });
     },
-    [setError]
+    [setError],
   );
 
   const onSubmit = useCallback(async () => {

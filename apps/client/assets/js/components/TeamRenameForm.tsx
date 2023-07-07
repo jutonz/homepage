@@ -60,7 +60,7 @@ export function TeamRenameForm({ team }: Props) {
     (message: string) => {
       setError("backendError", { type: "custom", message });
     },
-    [setError]
+    [setError],
   );
 
   const onSubmit = useCallback(
@@ -84,7 +84,7 @@ export function TeamRenameForm({ team }: Props) {
         setBackendError("Something went wrong. Please try again.");
       }
     },
-    [clearErrors, setError, renameTeam]
+    [clearErrors, setError, renameTeam],
   );
 
   return (

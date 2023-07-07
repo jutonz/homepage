@@ -14,7 +14,7 @@ type Props<FormInputs> = TextFieldProps & {
 };
 
 export const ControlledTextField = <TFormInputs extends unknown>(
-  props: Props<TFormInputs>
+  props: Props<TFormInputs>,
 ) => {
   const { control, errors, name, label, ...textFieldProps } = props;
 

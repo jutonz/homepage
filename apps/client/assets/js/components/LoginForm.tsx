@@ -58,7 +58,7 @@ export function LoginForm({ onLogin }: Props) {
     (message: string) => {
       setError("backendError", { type: "custom", message });
     },
-    [setError]
+    [setError],
   );
 
   const onSubmit: SubmitHandler<FormInputs> = useCallback(
@@ -85,7 +85,7 @@ export function LoginForm({ onLogin }: Props) {
         setBackendError("Something went wrong, please try again");
       }
     },
-    [clearErrors, setError]
+    [clearErrors, setError],
   );
   return (
     <form className={css(styles.container)} onSubmit={handleSubmit(onSubmit)}>

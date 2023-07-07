@@ -102,7 +102,7 @@ function EventInfo({ event }: EventInfoProps) {
             <td className="py-3">
               {format(
                 parseISO(event.insertedAt + "Z"),
-                Constants.dateTimeFormat
+                Constants.dateTimeFormat,
               )}
               <span className="ml-3">
                 ({formatDistanceToNow(parseISO(event.insertedAt + "Z"))} ago)
@@ -114,7 +114,7 @@ function EventInfo({ event }: EventInfoProps) {
             <td className="py-3">
               {format(
                 parseISO(event.updatedAt + "Z"),
-                Constants.dateTimeFormat
+                Constants.dateTimeFormat,
               )}
               <span className="ml-3">
                 ({formatDistanceToNow(parseISO(event.updatedAt + "Z"))} ago)
