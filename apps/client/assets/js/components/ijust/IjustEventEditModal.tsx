@@ -85,7 +85,7 @@ export function IjustEditEventModal({ event, visible, setVisible }: Props) {
     (message: string) => {
       setError("backendError", { type: "custom", message });
     },
-    [setError]
+    [setError],
   );
 
   const handleClose = () => {
@@ -120,7 +120,7 @@ export function IjustEditEventModal({ event, visible, setVisible }: Props) {
         setBackendError("Something went wrong. Please try again.");
       }
     },
-    [clearErrors, setError, updateEvent]
+    [clearErrors, setError, updateEvent],
   );
   return (
     <Dialog

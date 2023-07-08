@@ -9,7 +9,7 @@ export default function (error) {
   let errors;
   if (dig(error, ["networkError", "result", "errors", "length"]) > 0) {
     errors = dig(error, ["networkError", "result", "errors"]).map(
-      (e) => e.message
+      (e) => e.message,
     );
   } else if (graphQLErrors && graphQLErrors.length > 0) {
     errors = graphQLErrors.map((error) => error.message);

@@ -82,7 +82,7 @@ export function SignupForm() {
         });
       }
     },
-    [clearErrors, setError, signup]
+    [clearErrors, setError, signup],
   );
 
   return (

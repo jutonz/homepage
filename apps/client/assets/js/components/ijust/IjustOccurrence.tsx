@@ -32,7 +32,7 @@ export const IjustOccurrence = ({ occurrence }: Props) => {
       <div className="flex flex-row flex-1">
         {format(
           parseISO(occurrence.insertedAt + "Z"),
-          Constants.dateTimeFormat
+          Constants.dateTimeFormat,
         )}
         <span className={css(styles.relativeDateSpacer)}>
           ({formatDistanceToNow(parseISO(occurrence.insertedAt + "Z"))} ago)

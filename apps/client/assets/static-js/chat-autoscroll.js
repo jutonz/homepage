@@ -5,7 +5,7 @@ const selectors = {
 
 const autoscrollChatPane = (chatScrollPane) => {
   const messages = chatScrollPane.getElementsByClassName(
-    selectors.scrollPaneMessages
+    selectors.scrollPaneMessages,
   )[0];
   new MutationObserver((mutationsList, observer) => {
     for (let mutation of mutationsList) {

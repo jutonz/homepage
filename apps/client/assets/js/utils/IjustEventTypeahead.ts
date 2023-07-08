@@ -26,7 +26,7 @@ export class IjustEventTypeahead {
 
   constructor(
     callback: (results: Array<IjustEvent>) => void,
-    ijustContextId: string
+    ijustContextId: string,
   ) {
     this.callback = callback;
     this.ijustContextId = ijustContextId;
@@ -49,7 +49,7 @@ export class IjustEventTypeahead {
     const subj = new Subject<any>().pipe(
       debounceTime(500),
       filter((n) => n.length && n.length >= 2),
-      switchMap(this.queryRemote)
+      switchMap(this.queryRemote),
     );
 
     subj.subscribe((results: Array<any>) => {

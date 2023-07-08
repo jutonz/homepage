@@ -121,7 +121,7 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
     const channel = socket.channel(channelName, {});
 
     channel.on("one_minute_window", (message) =>
-      this.oneMinuteWindowUpdate(message)
+      this.oneMinuteWindowUpdate(message),
     );
 
     channel

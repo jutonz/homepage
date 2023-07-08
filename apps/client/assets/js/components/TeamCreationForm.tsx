@@ -65,7 +65,7 @@ export function TeamCreationForm() {
     (message: string) => {
       setError("backendError", { type: "custom", message });
     },
-    [setError]
+    [setError],
   );
 
   const onSubmit = useCallback(
@@ -89,7 +89,7 @@ export function TeamCreationForm() {
         setBackendError("Something went wrong. Please try again.");
       }
     },
-    [clearErrors, setError, createTeam]
+    [clearErrors, setError, createTeam],
   );
 
   return (

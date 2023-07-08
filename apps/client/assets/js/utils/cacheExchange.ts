@@ -56,7 +56,7 @@ export const homepageCacheExchange = cacheExchange({
         cache.updateQuery({ query }, (data) => {
           const getTeams = data.getTeams;
           data.getTeams = getTeams.filter(
-            ({ id }) => id != (result.leaveTeam as any).id
+            ({ id }) => id != (result.leaveTeam as any).id,
           );
           return data;
         });
@@ -76,7 +76,7 @@ export const homepageCacheExchange = cacheExchange({
         cache.updateQuery({ query }, (data) => {
           const getTeams = data.getTeams;
           data.getTeams = getTeams.filter(
-            ({ id }) => id != (result.deleteTeam as any).id
+            ({ id }) => id != (result.deleteTeam as any).id,
           );
           return data;
         });
@@ -104,7 +104,7 @@ export const homepageCacheExchange = cacheExchange({
 
         cache.updateQuery({ query, variables }, (data) => {
           data.getIjustContextEvent.ijustOccurrences.push(
-            result.ijustAddOccurrenceToEvent
+            result.ijustAddOccurrenceToEvent,
           );
           return data;
         });
@@ -127,14 +127,14 @@ export const homepageCacheExchange = cacheExchange({
         const eventId = (result.ijustDeleteOccurrence as any).ijustEventId;
         const contextId = cache.resolve(
           { __typename: "IjustEvent", id: eventId },
-          "ijustContextId"
+          "ijustContextId",
         );
         const variables = { contextId, eventId };
 
         cache.updateQuery({ query, variables }, (data) => {
           let occurrences = data.getIjustContextEvent.ijustOccurrences;
           occurrences = occurrences.filter(
-            (o) => o.id !== args.ijustOccurrenceId
+            (o) => o.id !== args.ijustOccurrenceId,
           );
           data.getIjustContextEvent.ijustOccurrences = occurrences;
           return data;

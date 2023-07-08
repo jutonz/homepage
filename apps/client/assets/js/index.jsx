@@ -62,5 +62,5 @@ root.render(
         <Index />
       </SnackbarProvider>
     </ThemeProvider>
-  </UrqlProvider>
+  </UrqlProvider>,
 );

@@ -66,7 +66,7 @@ export function ChangePasswordForm() {
     (message: string) => {
       setError("backendError", { type: "custom", message });
     },
-    [setError]
+    [setError],
   );
 
   const onSubmit = useCallback(
@@ -93,7 +93,7 @@ export function ChangePasswordForm() {
         setBackendError("Something went wrong. Please try again.");
       }
     },
-    [clearErrors, setError, changePassword]
+    [clearErrors, setError, changePassword],
   );
 
   return (

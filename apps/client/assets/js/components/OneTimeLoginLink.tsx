@@ -26,7 +26,7 @@ export function OneTimeLoginLink() {
     try {
       navigator.clipboard.writeText(link).then(
         () => enqueueSnackbar("Copied", { variant: "success" }),
-        () => enqueueSnackbar("Press Ctrl+C to copy", { variant: "info" })
+        () => enqueueSnackbar("Press Ctrl+C to copy", { variant: "info" }),
       );
     } catch (_e) {
       enqueueSnackbar("Press Ctrl+C to copy", { variant: "info" });
