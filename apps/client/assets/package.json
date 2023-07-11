@@ -21,7 +21,7 @@
     "graphql": "^16.7.1",
     "history": "^5.3.0",
     "notistack": "^3.0.1",
-    "phoenix": "1.7.6",
+    "phoenix": "1.7.7",
     "phoenix_html": "3.3.1",
     "phoenix_live_view": "0.19.3",
     "react": "^18.2.0",
