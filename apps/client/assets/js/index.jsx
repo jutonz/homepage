@@ -11,7 +11,7 @@ import isValidEmail from "./utils/isValidEmail";
 import isValidPassword from "./utils/isValidPassword";
 import theme from "./utils/theme";
 import { homepageCacheExchange } from "./utils/cacheExchange";
-import { mapExchange, CombinedError } from "urql";
+import { homepageAuthExchange } from "./utils/auth";
 
 const container = document.querySelector("main[role=main]");
 const isHttps = container.getAttribute("data-https");
@@ -45,12 +45,11 @@ if (window.location.port === "4000") {
 export const urqlClient = createClient({
   url: graphqlEndpoint,
   fetchOptions: {
-    credentials: "include",
     headers: {
       "x-beam-metadata": window.beamMetadata,
     },
   },
-  exchanges: [homepageCacheExchange, fetchExchange],
+  exchanges: [homepageCacheExchange, homepageAuthExchange, fetchExchange],
 });
 
 const root = createRoot(container);

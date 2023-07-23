@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { ErrorOption, SubmitHandler, useForm } from "react-hook-form";
-import React, { useCallback } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import React from "react";
 import { StyleSheet, css } from "aphrodite";
 import { Link } from "react-router-dom";
 import Alert from "@mui/material/Alert";
@@ -9,6 +9,9 @@ import Button from "@mui/material/Button";
 
 import { FormBox } from "./../components/FormBox";
 import { ControlledTextField } from "./inputs/ControlledTextField";
+import { graphql } from "./../gql";
+import { useMutation } from "urql";
+import { setToken } from "js/utils/auth";
 
 const styles = StyleSheet.create({
   container: {
@@ -19,17 +22,32 @@ const styles = StyleSheet.create({
   },
 });
 
+const LOGIN_MUTATION = graphql(`
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      messages {
+        message
+      }
+      result {
+        user {
+          id
+          email
+        }
+        jwt
+      }
+    }
+  }
+`);
+
 interface FormInputs {
   email: string;
   password: string;
-  backendError: ErrorOption | null;
 }
 
 const schema = yup
   .object({
     email: yup.string().email().required(),
     password: yup.string().required(),
-    backendError: yup.mixed().nullable(),
   })
   .required();
 
@@ -39,7 +57,6 @@ interface Props {
 
 export function LoginForm({ onLogin }: Props) {
   const {
-    clearErrors,
     control,
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -48,52 +65,38 @@ export function LoginForm({ onLogin }: Props) {
     defaultValues: {
       email: "",
       password: "",
-      backendError: null,
     },
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
 
-  const setBackendError = useCallback(
-    (message: string) => {
-      setError("backendError", { type: "custom", message });
-    },
-    [setError],
-  );
+  const [_result, login] = useMutation(LOGIN_MUTATION);
 
-  const onSubmit: SubmitHandler<FormInputs> = useCallback(
-    async (_inputs, event) => {
-      clearErrors("backendError");
-      const opts = {
-        method: "POST",
-        credentials: "same-origin" as const,
-        body: new FormData(event.target),
-      };
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    const result = await login(data);
 
-      try {
-        const res = await fetch("/api/login", opts);
-        if (res.ok) {
-          onLogin();
-        } else {
-          const json = await res.json();
-          if (json.error && json.messages?.length > 0) {
-            setBackendError(json.messages.join(", "));
-          }
-        }
-      } catch (e) {
-        console.error(e);
-        setBackendError("Something went wrong, please try again");
+    if (result.data?.login?.messages) {
+      const messages = result.data.login.messages.map(({ message }) => message);
+      if (messages.length > 0) {
+        setError("root.serverError", { message: messages.join(", ") });
       }
-    },
-    [clearErrors, setError],
-  );
+    }
+
+    if (result?.data?.login?.result?.jwt) {
+      setToken(result.data?.login?.result?.jwt);
+      onLogin();
+    } else {
+      setError("root.serverError", { message: "Something went wrong" });
+    }
+  };
+
   return (
     <form className={css(styles.container)} onSubmit={handleSubmit(onSubmit)}>
       <FormBox>
         <h1>Login</h1>
-        {errors.backendError?.message && (
+        {errors.root?.serverError && (
           <Alert severity="error" className="mb-2">
-            {errors.backendError.message}
+            {errors.root.serverError.message}
           </Alert>
         )}
         <ControlledTextField

@@ -1,18 +1,27 @@
 defmodule ClientWeb.UserResolver do
   alias Client.{Auth, User, Repo, Session}
-  alias ClientWeb.{Endpoint, Router}
 
   def signup(_parent, args, _context) do
     with {:ok, email} <- args |> Map.fetch(:email),
          {:ok, password} <- args |> Map.fetch(:password),
          {:ok, user} <- Session.signup(email, password),
-         {:ok, token, _claims} <- Auth.single_use_jwt(user.id),
-         do: {:ok, Router.Helpers.api_session_url(Endpoint, :exchange, token: token)},
+         {:ok, jwt, _claims} <- Auth.jwt_for_resource(user),
+         do: {:ok, %{user: user, jwt: jwt}},
          else:
            (
              {:error, reason} -> {:error, reason}
-             _ -> {:error, "Could not generate link"}
+             _ -> {:error, "Signup failed"}
            )
+  end
+
+  def login(_parent, %{email: email, password: password}, _context) do
+    with {:ok, user} <- Auth.authenticate(email, password),
+         {:ok, jwt, _claims} <- Auth.jwt_for_resource(user),
+         do: {:ok, %{user: user, jwt: jwt}},
+         else: (
+           {:error, reason} -> {:error, reason}
+           _ -> {:error, "Something went wrong"}
+         )
   end
 
   def get_users(_parent, _args, _context) do

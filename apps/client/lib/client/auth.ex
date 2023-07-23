@@ -5,16 +5,34 @@ defmodule Client.Auth do
   """
 
   alias Client.Guardian
+  alias Client.User
 
   def hash_password(password) do
     {:ok, Argon2.hash_pwd_salt(password)}
   end
 
+  @spec check_password(
+    String.t(),
+    User.t() | String.t()
+  ) :: {:ok, String.t()} | {:error, String.t()}
+
+  def check_password(password, user = %User{}) do
+    check_password(password, user.password_hash)
+  end
+
   def check_password(password, hash) do
     case Argon2.verify_pass(password, hash) do
       true -> {:ok, password}
-      _ -> {:error, "Invalid password"}
+      _ -> {:error, "Invalid email or password"}
     end
+  end
+
+  @spec authenticate(String.t(), String.t()) :: {:ok, User.t()} | {:error, String.t()}
+  def authenticate(email, password) do
+    with {:ok, user} <- User.get_by_email(email),
+         {:ok, _pw} <- check_password(password, user),
+         do: {:ok, user},
+         else: (_ -> {:error, "Invalid email or password"})
   end
 
   @doc """
@@ -44,8 +62,8 @@ defmodule Client.Auth do
            )
   end
 
-  def jwt_for_resource(resource_id) do
-    Guardian.encode_and_sign(resource_id)
+  def jwt_for_resource(resource) do
+    Guardian.encode_and_sign(resource)
   end
 
   def resource_for_jwt(jwt) do

@@ -17,9 +17,10 @@ const documents = {
     "\n  query currentUserDocument {\n    getCurrentUser {\n      id\n      email\n    }\n  }\n": types.CurrentUserDocumentDocument,
     "\n  query GetThisTwitchUser {\n    getTwitchUser {\n      id\n      displayName\n    }\n  }\n": types.GetThisTwitchUserDocument,
     "\n  mutation TwitchRemoveIntegration {\n    twitchRemoveIntegration {\n      id\n    }\n  }\n": types.TwitchRemoveIntegrationDocument,
+    "\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n    }\n  }\n": types.LoginDocument,
     "\n  query GetCurrentUser {\n    getCurrentUser {\n      id\n      email\n    }\n  }\n": types.GetCurrentUserDocument,
     "\n  query GetOneTimeLoginLink {\n    getOneTimeLoginLink\n  }\n": types.GetOneTimeLoginLinkDocument,
-    "\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password)\n  }\n": types.SignupDocument,
+    "\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n      successful\n    }\n  }\n": types.SignupDocument,
     "\n  mutation CreateTeam($name: String!) {\n    createTeam(name: $name) {\n      id\n      name\n    }\n  }\n": types.CreateTeamDocument,
     "\n  mutation DeleteTeam($id: ID!) {\n    deleteTeam(id: $id) {\n      id\n    }\n  }\n": types.DeleteTeamDocument,
     "\n  mutation JoinTeam($name: String!) {\n    joinTeam(name: $name) {\n      id\n      name\n    }\n  }\n": types.JoinTeamDocument,
@@ -80,6 +81,10 @@ export function graphql(source: "\n  mutation TwitchRemoveIntegration {\n    twi
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query GetCurrentUser {\n    getCurrentUser {\n      id\n      email\n    }\n  }\n"): (typeof documents)["\n  query GetCurrentUser {\n    getCurrentUser {\n      id\n      email\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -88,7 +93,7 @@ export function graphql(source: "\n  query GetOneTimeLoginLink {\n    getOneTime
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password)\n  }\n"): (typeof documents)["\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password)\n  }\n"];
+export function graphql(source: "\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n      successful\n    }\n  }\n"): (typeof documents)["\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n      successful\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

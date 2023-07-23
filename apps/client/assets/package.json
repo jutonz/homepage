@@ -15,6 +15,7 @@
     "@hookform/resolvers": "^3.1.1",
     "@mui/icons-material": "^5.14.1",
     "@mui/material": "^5.14.1",
+    "@urql/exchange-auth": "^2.1.5",
     "@urql/exchange-graphcache": "^6.1.4",
     "aphrodite": "^2.4.0",
     "chart.js": "^3.9.1",

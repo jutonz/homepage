@@ -182,7 +182,6 @@ defmodule ClientWeb.Router do
     end
 
     scope "/", Api, as: :api do
-      post("/login", SessionController, :login)
       get("/exchange", SessionController, :exchange)
       post("/logout", SessionController, :logout)
 

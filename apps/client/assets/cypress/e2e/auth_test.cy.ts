@@ -35,7 +35,6 @@ describe("authorization", () => {
       cy.findByText("Password changed.").should("exist");
 
       cy.findByRole("link", { name: "Logout" }).click();
-      cy.visit("/");
 
       cy.login({ email, password: newPassword });
     });

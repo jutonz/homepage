@@ -2,18 +2,6 @@ defmodule ClientWeb.Api.SessionController do
   use ClientWeb, :controller
   alias Client.{Auth, Session}
 
-  def login(conn, %{"email" => email, "password" => password}) do
-    case conn |> Session.login(email, password) do
-      {:ok, _user, conn} ->
-        conn |> put_status(200) |> json(%{error: false})
-
-      {:error, reason} ->
-        conn
-        |> put_status(401)
-        |> json(%{error: true, messages: [reason]})
-    end
-  end
-
   def exchange(conn, %{"token" => token} = params) do
     case conn |> Session.exchange(token) do
       {:ok, _user, conn} ->
