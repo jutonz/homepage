@@ -32,6 +32,7 @@ defmodule Client.User do
     |> unique_constraint(:email)
   end
 
+  @spec get_by_email(String.t()) :: {:ok, User.t()} | {:error, String.t()}
   def get_by_email(email) do
     case User |> Repo.get_by(email: email) do
       user = %User{} -> {:ok, user}

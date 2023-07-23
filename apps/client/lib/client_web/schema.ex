@@ -10,6 +10,12 @@ defmodule ClientWeb.Schema do
     field(:updated_at, non_null(:string))
   end
 
+  object :login_jwt do
+    field(:user, non_null(:user))
+    field(:jwt, non_null(:string))
+  end
+  payload_object(:login_jwt_payload, :login_jwt)
+
   object :team do
     field(:id, non_null(:id))
     field(:name, non_null(:string))
@@ -37,7 +43,6 @@ defmodule ClientWeb.Schema do
     field(:ijust_occurrences, list_of(:ijust_occurrence))
     field(:ijust_context, non_null(:ijust_context))
   end
-
   payload_object(:ijust_event_payload, :ijust_event)
 
   object :ijust_occurrence do
@@ -157,10 +162,18 @@ defmodule ClientWeb.Schema do
   end
 
   mutation do
-    field :signup, :string do
+    field :signup, :login_jwt_payload do
       arg(:email, non_null(:string))
       arg(:password, non_null(:string))
       resolve(&ClientWeb.UserResolver.signup/3)
+      middleware(&build_payload/2)
+    end
+
+    field :login, :login_jwt_payload do
+      arg(:email, non_null(:string))
+      arg(:password, non_null(:string))
+      resolve(&ClientWeb.UserResolver.login/3)
+      middleware(&build_payload/2)
     end
 
     field :update_user, :user do

@@ -5,9 +5,10 @@ import Toolbar from "@mui/material/Toolbar";
 import React, { useState } from "react";
 import type { NavLinkProps } from "react-router-dom";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useQuery } from "urql";
+import { useClient, useQuery } from "urql";
 
 import { graphql } from "../gql";
+import { clearTokens } from "js/utils/auth";
 
 const GET_CURRENT_USER = graphql(`
   query GetCurrentUser {
@@ -130,29 +131,22 @@ function LogsSubnav() {
 
 function renderLoginOrLogout(isLoggedIn: boolean) {
   const navigate = useNavigate();
-  const [_result, getCurrentUser] = useQuery({
-    query: GET_CURRENT_USER,
-    pause: true,
-    requestPolicy: "network-only",
-  });
+  const client = useClient();
 
   const logout = async () => {
-    const response = await fetch("/api/logout", {
+    clearTokens();
+
+    await fetch("/api/logout", {
       method: "POST",
       credentials: "same-origin",
     });
 
-    if (response.ok) {
-      // bust cache by re-running check_session with network-only requestPolicy
-      await getCurrentUser();
-      navigate("/");
-      return;
-    }
+    // bust cache by re-running check_session with network-only requestPolicy
+    await client
+      .query(GET_CURRENT_USER, {}, { requestPolicy: "network-only" })
+      .toPromise();
 
-    const json: any = await response.json();
-    if (json && json.messages) {
-      console.error(json.messages);
-    }
+    navigate("/login");
   };
 
   const login = () => navigate("/");

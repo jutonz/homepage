@@ -2,8 +2,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { css, StyleSheet } from "aphrodite";
 import React, { useCallback } from "react";
 import { ErrorOption, SubmitHandler, useForm } from "react-hook-form";
-import { useMutation } from "urql";
-import { Link } from "react-router-dom";
+import { useClient, useMutation, useQuery } from "urql";
+import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
@@ -11,10 +11,32 @@ import Button from "@mui/material/Button";
 import { FormBox } from "./../components/FormBox";
 import { graphql } from "../gql";
 import { ControlledTextField } from "./inputs/ControlledTextField";
+import { setToken } from "js/utils/auth";
 
 const SIGNUP_MUTATION = graphql(`
   mutation Signup($email: String!, $password: String!) {
-    signup(email: $email, password: $password)
+    signup(email: $email, password: $password) {
+      messages {
+        message
+      }
+      result {
+        user {
+          id
+          email
+        }
+        jwt
+      }
+      successful
+    }
+  }
+`);
+
+const GET_CURRENT_USER = graphql(`
+  query GetCurrentUser {
+    getCurrentUser {
+      id
+      email
+    }
   }
 `);
 
@@ -30,20 +52,17 @@ const styles = StyleSheet.create({
 interface FormInputs {
   email: string;
   password: string;
-  backendError: ErrorOption | null;
 }
 
 const schema = yup
   .object({
     email: yup.string().email().required(),
     password: yup.string().required().min(8),
-    backendError: yup.mixed().nullable(),
   })
   .required();
 
 export function SignupForm() {
   const {
-    clearErrors,
     control,
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -52,45 +71,50 @@ export function SignupForm() {
     defaultValues: {
       email: "",
       password: "",
-      backendError: null,
     },
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
 
   const [_result, signup] = useMutation(SIGNUP_MUTATION);
+  const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<FormInputs> = useCallback(
-    async (form: FormInputs) => {
-      clearErrors("backendError");
-      const { email, password } = form;
-      const { data, error } = await signup({ email, password });
+  const client = useClient();
 
-      try {
-        if (error) {
-          console.error(error);
-          setError("backendError", { type: "custom", message: error.message });
-        } else {
-          const redirectUrl = data.signup;
-          (window as any).location = redirectUrl;
-        }
-      } catch (e) {
-        console.error(e);
-        setError("backendError", {
-          type: "custom",
-          message: "Something went wrong, please try again",
-        });
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    const result = await signup(data);
+
+    if (result.data?.signup?.messages) {
+      const messages = result.data.signup.messages.map(
+        ({ message }) => message,
+      );
+      if (messages.length > 0) {
+        setError("root.serverError", { message: messages.join(", ") });
       }
-    },
-    [clearErrors, setError, signup],
-  );
+    }
+
+    const token = result.data?.signup?.result?.jwt;
+
+    if (token) {
+      setToken(token);
+
+      // bust cache by re-running check_session with network-only requestPolicy
+      await client
+        .query(GET_CURRENT_USER, {}, { requestPolicy: "network-only" })
+        .toPromise();
+
+      navigate("/");
+    } else {
+      setError("root.serverError", { message: "Something went wrong" });
+    }
+  };
 
   return (
     <form className={css(styles.container)} onSubmit={handleSubmit(onSubmit)}>
       <FormBox>
         <h1>Signup</h1>
-        {errors.backendError?.message && (
-          <Alert color="error">{errors.backendError.message}</Alert>
+        {errors.root?.serverError?.message && (
+          <Alert color="error">{errors.root?.serverError.message}</Alert>
         )}
 
         <ControlledTextField
