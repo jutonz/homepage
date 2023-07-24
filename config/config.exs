@@ -43,7 +43,10 @@ config :client, ClientWeb.Endpoint,
 
 config :client, Client.Guardian,
   issuer: "homepage",
-  secret_key: secret_key_base
+  secret_key: secret_key_base,
+  token_ttl: %{
+    "access" => {10, :minutes}
+  }
 
 config :logger, :console, format: "$time $metadata[$level] $message\n", metadata: [:request_id]
 config :absinthe, log: false

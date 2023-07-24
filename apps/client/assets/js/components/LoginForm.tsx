@@ -11,7 +11,7 @@ import { FormBox } from "./../components/FormBox";
 import { ControlledTextField } from "./inputs/ControlledTextField";
 import { graphql } from "./../gql";
 import { useMutation } from "urql";
-import { setToken } from "js/utils/auth";
+import { setTokens } from "js/utils/auth";
 
 const styles = StyleSheet.create({
   container: {
@@ -33,7 +33,8 @@ const LOGIN_MUTATION = graphql(`
           id
           email
         }
-        jwt
+        accessToken
+        refreshToken
       }
     }
   }
@@ -82,8 +83,11 @@ export function LoginForm({ onLogin }: Props) {
       }
     }
 
-    if (result?.data?.login?.result?.jwt) {
-      setToken(result.data?.login?.result?.jwt);
+    const accessToken = result?.data?.login?.result?.accessToken;
+    const refreshToken = result?.data?.login?.result?.refreshToken;
+
+    if (accessToken && refreshToken) {
+      setTokens(accessToken, refreshToken);
       onLogin();
     } else {
       setError("root.serverError", { message: "Something went wrong" });

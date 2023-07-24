@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import { FormBox } from "./../components/FormBox";
 import { graphql } from "../gql";
 import { ControlledTextField } from "./inputs/ControlledTextField";
-import { setToken } from "js/utils/auth";
+import { setTokens } from "js/utils/auth";
 
 const SIGNUP_MUTATION = graphql(`
   mutation Signup($email: String!, $password: String!) {
@@ -24,7 +24,8 @@ const SIGNUP_MUTATION = graphql(`
           id
           email
         }
-        jwt
+        accessToken
+        refreshToken
       }
       successful
     }
@@ -93,10 +94,11 @@ export function SignupForm() {
       }
     }
 
-    const token = result.data?.signup?.result?.jwt;
+    const token = result.data?.signup?.result?.accessToken;
+    const refreshToken = result.data?.signup?.result?.refreshToken;
 
-    if (token) {
-      setToken(token);
+    if (token && refreshToken) {
+      setTokens(token, refreshToken);
 
       // bust cache by re-running check_session with network-only requestPolicy
       await client

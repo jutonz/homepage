@@ -12,7 +12,8 @@ defmodule ClientWeb.Schema do
 
   object :login_jwt do
     field(:user, non_null(:user))
-    field(:jwt, non_null(:string))
+    field(:access_token, non_null(:string))
+    field(:refresh_token, non_null(:string))
   end
   payload_object(:login_jwt_payload, :login_jwt)
 
@@ -173,6 +174,12 @@ defmodule ClientWeb.Schema do
       arg(:email, non_null(:string))
       arg(:password, non_null(:string))
       resolve(&ClientWeb.UserResolver.login/3)
+      middleware(&build_payload/2)
+    end
+
+    field :refresh_token, :login_jwt_payload do
+      arg(:refresh_token, non_null(:string))
+      resolve(&ClientWeb.UserResolver.refresh_token/3)
       middleware(&build_payload/2)
     end
 
