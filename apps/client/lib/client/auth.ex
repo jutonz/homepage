@@ -44,12 +44,12 @@ defmodule Client.Auth do
   then, after performing business whatever business logic necessary,
   +revoke_single_use_token+ to expire it.
   """
-  def single_use_jwt(resource_id, ttl_sec \\ 86400) do
+  def single_use_jwt(resource_id, ttl_sec \\ 86400, token_type \\ "single-use") do
     with {:ok, token, claims} <-
            Guardian.encode_and_sign(
              resource_id,
              %{},
-             token_type: "single-use",
+             token_type: token_type,
              token_ttl: {ttl_sec, :seconds}
            ),
          {:ok, _resp} <-
@@ -62,8 +62,8 @@ defmodule Client.Auth do
            )
   end
 
-  def jwt_for_resource(resource) do
-    Guardian.encode_and_sign(resource)
+  def jwt_for_resource(resource, opts \\ %{}) do
+    Guardian.encode_and_sign(resource, opts)
   end
 
   def resource_for_jwt(jwt) do
@@ -78,9 +78,10 @@ defmodule Client.Auth do
   already expired via +expire_single_use_token+
   """
   def resource_for_single_use_jwt(jwt) do
-    with {:ok, resource_id, claims} <- resource_for_jwt(jwt),
+    with {:ok, resource, claims} <- resource_for_jwt(jwt),
          {:ok, true} <- ensure_token_unrevoked(claims["jti"]),
-         do: {:ok, resource_id, claims},
+         {:ok, true} <- revoke_token(claims["jti"]),
+         do: {:ok, resource, claims},
          else:
            (
              {:error, reason} -> {:error, reason}
@@ -92,6 +93,12 @@ defmodule Client.Auth do
     with {:ok, "true"} <- Redis.command(["GET", "single-use-token:#{jti}"]),
          do: {:ok, true},
          else: (_ -> {:error, false})
+  end
+
+  def revoke_token(jti) do
+    with {:ok, 1} <- Redis.command(["DEL", "single-use-token:#{jti}"]),
+         do: {:ok, true},
+         else: (_ -> {:error, "token was already used"})
   end
 
   @doc """

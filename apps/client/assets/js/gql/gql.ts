@@ -17,10 +17,10 @@ const documents = {
     "\n  query currentUserDocument {\n    getCurrentUser {\n      id\n      email\n    }\n  }\n": types.CurrentUserDocumentDocument,
     "\n  query GetThisTwitchUser {\n    getTwitchUser {\n      id\n      displayName\n    }\n  }\n": types.GetThisTwitchUserDocument,
     "\n  mutation TwitchRemoveIntegration {\n    twitchRemoveIntegration {\n      id\n    }\n  }\n": types.TwitchRemoveIntegrationDocument,
-    "\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n    }\n  }\n": types.LoginDocument,
+    "\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        accessToken\n        refreshToken\n      }\n    }\n  }\n": types.LoginDocument,
     "\n  query GetCurrentUser {\n    getCurrentUser {\n      id\n      email\n    }\n  }\n": types.GetCurrentUserDocument,
     "\n  query GetOneTimeLoginLink {\n    getOneTimeLoginLink\n  }\n": types.GetOneTimeLoginLinkDocument,
-    "\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n      successful\n    }\n  }\n": types.SignupDocument,
+    "\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        accessToken\n        refreshToken\n      }\n      successful\n    }\n  }\n": types.SignupDocument,
     "\n  mutation CreateTeam($name: String!) {\n    createTeam(name: $name) {\n      id\n      name\n    }\n  }\n": types.CreateTeamDocument,
     "\n  mutation DeleteTeam($id: ID!) {\n    deleteTeam(id: $id) {\n      id\n    }\n  }\n": types.DeleteTeamDocument,
     "\n  mutation JoinTeam($name: String!) {\n    joinTeam(name: $name) {\n      id\n      name\n    }\n  }\n": types.JoinTeamDocument,
@@ -46,6 +46,7 @@ const documents = {
     "\n  query GetEvent($contextId: ID!, $eventId: ID!) {\n    getIjustContextEvent(contextId: $contextId, eventId: $eventId) {\n      id\n      name\n      count\n      cost {\n        amount\n        currency\n      }\n      insertedAt\n      updatedAt\n      ijustContextId\n      ijustContext {\n        id\n        name\n      }\n    }\n  }\n": types.GetEventDocument,
     "\n  query GetTwitchChannel($channelName: String!) {\n    getTwitchChannel(channelName: $channelName) {\n      id\n      name\n    }\n  }\n": types.GetTwitchChannelDocument,
     "\n  query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {\n    ijustEventsSearch(ijustContextId: $ijustContextId, name: $eventName) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n    }\n  }\n": types.IjustEventsSearchDocument,
+    "\n  mutation RefreshToken($refreshToken: String!) {\n    refreshToken(refreshToken: $refreshToken) {\n      result {\n        accessToken\n        refreshToken\n        __typename\n      }\n    }\n  }\n": types.RefreshTokenDocument,
 };
 
 /**
@@ -81,7 +82,7 @@ export function graphql(source: "\n  mutation TwitchRemoveIntegration {\n    twi
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        accessToken\n        refreshToken\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        accessToken\n        refreshToken\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -93,7 +94,7 @@ export function graphql(source: "\n  query GetOneTimeLoginLink {\n    getOneTime
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n      successful\n    }\n  }\n"): (typeof documents)["\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        jwt\n      }\n      successful\n    }\n  }\n"];
+export function graphql(source: "\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        accessToken\n        refreshToken\n      }\n      successful\n    }\n  }\n"): (typeof documents)["\n  mutation Signup($email: String!, $password: String!) {\n    signup(email: $email, password: $password) {\n      messages {\n        message\n      }\n      result {\n        user {\n          id\n          email\n        }\n        accessToken\n        refreshToken\n      }\n      successful\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -194,6 +195,10 @@ export function graphql(source: "\n  query GetTwitchChannel($channelName: String
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {\n    ijustEventsSearch(ijustContextId: $ijustContextId, name: $eventName) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n    }\n  }\n"): (typeof documents)["\n  query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {\n    ijustEventsSearch(ijustContextId: $ijustContextId, name: $eventName) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation RefreshToken($refreshToken: String!) {\n    refreshToken(refreshToken: $refreshToken) {\n      result {\n        accessToken\n        refreshToken\n        __typename\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation RefreshToken($refreshToken: String!) {\n    refreshToken(refreshToken: $refreshToken) {\n      result {\n        accessToken\n        refreshToken\n        __typename\n      }\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

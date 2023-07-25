@@ -5,8 +5,9 @@ defmodule ClientWeb.UserResolver do
     with {:ok, email} <- args |> Map.fetch(:email),
          {:ok, password} <- args |> Map.fetch(:password),
          {:ok, user} <- Session.signup(email, password),
-         {:ok, jwt, _claims} <- Auth.jwt_for_resource(user),
-         do: {:ok, %{user: user, jwt: jwt}},
+         {:ok, access, _claims} <- Auth.jwt_for_resource(user),
+         {:ok, refresh, _claims} <- Auth.jwt_for_resource(user, %{typ: "refresh"}),
+         do: {:ok, %{user: user, access_token: access, refresh_token: refresh}},
          else:
            (
              {:error, reason} -> {:error, reason}
@@ -14,14 +15,25 @@ defmodule ClientWeb.UserResolver do
            )
   end
 
+  @one_day_sec 60 * 60 * 24
   def login(_parent, %{email: email, password: password}, _context) do
     with {:ok, user} <- Auth.authenticate(email, password),
-         {:ok, jwt, _claims} <- Auth.jwt_for_resource(user),
-         do: {:ok, %{user: user, jwt: jwt}},
+         {:ok, access, _claims} <- Auth.jwt_for_resource(user),
+         {:ok, refresh, _claims} <- Auth.single_use_jwt(user, @one_day_sec * 30, "refresh"),
+         do: {:ok, %{user: user, access_token: access, refresh_token: refresh}},
          else: (
            {:error, reason} -> {:error, reason}
            _ -> {:error, "Something went wrong"}
          )
+  end
+
+  def refresh_token(_parent, %{refresh_token: refresh_token}, _context) do
+    with {:ok, %{"email" => email}, _claims} <- Auth.resource_for_single_use_jwt(refresh_token),
+         {:ok, user} <- User.get_by_email(email),
+         {:ok, access, _claims} <- Auth.jwt_for_resource(user),
+         {:ok, refresh, _claims} <- Auth.jwt_for_resource(user, %{typ: "refresh"}),
+         do: {:ok, %{user: user, access_token: access, refresh_token: refresh}},
+         else: (_ -> {:error, "Failed to refresh"})
   end
 
   def get_users(_parent, _args, _context) do

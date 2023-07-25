@@ -67,7 +67,6 @@ export class IjustEventTypeahead {
         .query<IjustEventsSearchQuery>(SEARCH_EVENTS as any, variables)
         .toPromise()
         .then((data) => {
-          console.log(data);
           if (data.error) {
             reject(data);
           } else {
