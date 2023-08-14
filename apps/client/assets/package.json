@@ -42,7 +42,7 @@
     "@graphql-codegen/client-preset": "^4.1.0",
     "@parcel/watcher": "^2.2.0",
     "@testing-library/cypress": "^9.0.0",
-    "autoprefixer": "^10.4.14",
+    "autoprefixer": "^10.4.15",
     "cssnano": "^6.0.1",
     "cypress": "^12.17.3",
     "date-fns": "^2.30.0",
