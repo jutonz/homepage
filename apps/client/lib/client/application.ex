@@ -13,7 +13,9 @@ defmodule Client.Application do
       Client.TwitchServer,
       ClientWeb.Telemetry,
       {Finch, name: ClientFinch},
-      {Client.FileRenamer, path: @file_renamer_path}
+      {Client.FileRenamer, path: @file_renamer_path},
+      Client.Influx.AwairSubscriber,
+      Client.Awair.Supervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html for other strategies and

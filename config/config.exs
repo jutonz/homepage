@@ -48,6 +48,17 @@ config :client, Client.Guardian,
     "access" => {10, :minutes}
   }
 
+config :client, :awair,
+  servers: [
+    [name: "office", host: "http://192.168.1.121"],
+    [name: "garage", host: "http://192.168.1.231"]
+  ]
+
+config :client, :influx,
+  host: System.get_env("INFLUXDB_HOST") || "http://localhost:8086",
+  org: System.get_env("INFLUXDB_ORG") || "myorg",
+  token: System.get_env("INFLUXDB_TOKEN")
+
 config :logger, :console, format: "$time $metadata[$level] $message\n", metadata: [:request_id]
 config :absinthe, log: false
 
