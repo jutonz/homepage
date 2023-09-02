@@ -24,13 +24,18 @@ defmodule Client.Influx do
 
   def handle_response({:ok, %{status: 204} = resp}), do: {:ok, resp}
 
-  def handle_response({:ok, resp}) do
-    Logger.warn("[#{__MODULE__}] Failed to write to InfluxDB (#{resp.status}): #{IO.inspect(resp.body)}")
+  def handle_response({:ok, %{status: status, body: body} = resp}) do
+    Logger.warn("[#{__MODULE__}] Failed to write to InfluxDB (#{status}): #{IO.inspect(body)}")
     {:error, resp}
   end
 
-  def handle_response({:error, resp}) do
-    Logger.warn("[#{__MODULE__}] Failed to write to InfluxDB (#{resp.status}): #{IO.inspect(resp.body)}")
+  def handle_response({:error, %{status: status, body: body} = resp}) do
+    Logger.warn("[#{__MODULE__}] Failed to write to InfluxDB (#{status}): #{IO.inspect(body)}")
     {:error, resp}
+  end
+
+  def handle_response({:error, err}) do
+    Logger.warn("[#{__MODULE__}] Failed to write to InfluxDB (unknown)")
+    {:error, err}
   end
 end
