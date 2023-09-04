@@ -1,23 +1,14 @@
 defmodule Client.Influx do
   require Logger
 
-  @host Application.compile_env(:client, :influx)[:host]
-  @org Application.compile_env(:client, :influx)[:org]
-  @token Application.compile_env(:client, :influx)[:token]
-
-  @headers [
-    {"authorization", "Token #{@token}"},
-    {"content-type", "text/plain"},
-  ]
-
   @path "/api/v2/write"
   def write(line_data, bucket) do
-    query = Plug.Conn.Query.encode(%{org: @org, bucket: bucket})
-    url = @host <> @path <> "?" <> query
+    query = Plug.Conn.Query.encode(%{org: org(), bucket: bucket})
+    url = host() <> @path <> "?" <> query
     body = Client.Influx.LineData.to_string(line_data)
 
     :post
-    |> Finch.build(url, @headers, body)
+    |> Finch.build(url, headers(), body)
     |> Finch.request(ClientFinch)
     |> handle_response()
   end
@@ -37,5 +28,17 @@ defmodule Client.Influx do
   def handle_response({:error, err}) do
     Logger.warn("[#{__MODULE__}] Failed to write to InfluxDB (unknown)")
     {:error, err}
+  end
+
+  defp config, do: Application.get_env(:client, :influx)
+  defp host, do: config()[:host]
+  defp org, do: config()[:org]
+  defp token, do: config()[:token]
+
+  defp headers do
+    [
+      {"authorization", "Token #{token()}"},
+      {"content-type", "text/plain"},
+    ]
   end
 end
