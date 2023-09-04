@@ -28,6 +28,8 @@ config :client, Client.Repo,
   ownership_timeout: :infinity,
   pool_size: 20
 
+config :client, :awair, servers: []
+
 # log: :debug # enable to print ecto logs in test
 
 config :wallaby,
