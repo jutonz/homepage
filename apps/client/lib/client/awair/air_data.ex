@@ -48,5 +48,9 @@ defmodule Client.Awair.AirData do
     {:ok, struct}
   end
 
+  defp parse_response({:error, %{reason: reason}}) do
+    {:error, reason}
+  end
+
   defp parse_response(resp), do: resp
 end
