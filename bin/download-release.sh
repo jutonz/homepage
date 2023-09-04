@@ -22,7 +22,7 @@ wget \
   --header "X-GitHub-Api-Version: 2022-11-28" \
   $archive_url
 
-unzip tmp/deploy/release.zip -d tmp/deploy/
+unzip -q tmp/deploy/release.zip -d tmp/deploy/
 rm tmp/deploy/release.zip
 
 mkdir -p tmp/deploy/secrets

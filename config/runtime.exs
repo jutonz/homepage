@@ -32,6 +32,11 @@ if config_env() == :prod do
     pool_size: db_pool_size,
     socket_options: maybe_ipv6
 
+  config :client, :influx,
+    host: System.get_env("INFLUXDB_HOST") || "http://localhost:8086",
+    org: System.get_env("INFLUXDB_ORG") || "myorg",
+    token: System.get_env("INFLUXDB_TOKEN")
+
   config :sentry, dsn: {:system, "SENTRY_DSN"}
 
   ##############################################################################
