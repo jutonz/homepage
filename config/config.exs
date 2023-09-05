@@ -50,8 +50,8 @@ config :client, Client.Guardian,
 
 config :client, :awair,
   servers: [
-    [name: "office", host: "http://192.168.1.121"],
-    [name: "garage", host: "http://192.168.1.231"]
+    [name: "garage", host: "http://192.168.1.121"],
+    [name: "office", host: "http://192.168.1.231"]
   ]
 
 config :client, :influx,
