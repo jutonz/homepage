@@ -63,6 +63,8 @@ config :client, Client.Repo,
   database: "homepage_dev",
   hostname: "localhost"
 
+config :sentry, environment_name: :dev
+
 ################################################################################
 # Twitch config
 ################################################################################
