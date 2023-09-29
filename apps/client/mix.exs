@@ -63,7 +63,7 @@ defmodule Client.Mixfile do
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 3.3.0"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:phoenix_live_view, "~> 0.19.0"},
+      {:phoenix_live_view, "~> 0.20.0"},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_view, "~> 2.0"},
       {:plug_cowboy, "~> 2.3"},
