@@ -2,7 +2,12 @@
 
 set -ex
 
-token=$GITHUB_DEPLOY_TOKEN
+token=$(
+  op item get \
+  "Homepage deploy GH token" \
+  --vault="Homepage" \
+  --fields="credential"
+)
 
 archive_url=$(curl -L \
   --silent \
