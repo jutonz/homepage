@@ -31,12 +31,12 @@ defmodule ClientWeb.TrainLogLive do
       </div>
 
       <div class="mt-3">
-        <%= live_component(
-          ClientWeb.TrainLogs.AddSightingButton,
-          id: :add_sighting_button,
-          user_id: @user_id,
-          log_id: @log.id
-        ) %>
+        <.live_component
+          module={ClientWeb.TrainLogs.AddSightingButton}
+          id="add_sighting_button"
+          user_id={@user_id}
+          log_id={@log.id}
+        />
       </div>
 
       <table>
