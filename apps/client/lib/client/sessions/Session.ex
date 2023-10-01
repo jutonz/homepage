@@ -89,6 +89,32 @@ defmodule Client.Session do
   def current_user_id(conn),
     do: get_session(conn, :user_id)
 
+  def init_session_from_jwt(conn, _blueprint) do
+    conn = Plug.Conn.fetch_session(conn)
+
+    case current_user_id(conn) do
+      nil ->
+        jwt = auth_bearer_value(conn)
+        IO.inspect("jwt is #{jwt}")
+        case Client.Auth.resource_for_jwt(jwt) do
+          {:ok, %{"id" => id}, _claims} ->
+            user = %Client.User{id: id}
+            {:ok, conn} = init_user_session(conn, user)
+            conn
+          _ -> conn
+        end
+      _ ->
+        conn # session already established
+    end
+  end
+
+  defp auth_bearer_value(conn) do
+    case get_req_header(conn, "authorization") do
+      ["Bearer " <> value] -> value
+      _ -> nil
+    end
+  end
+
   defp load_current_user(conn) do
     case current_user_id(conn) do
       nil -> nil

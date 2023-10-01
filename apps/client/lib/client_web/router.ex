@@ -136,7 +136,12 @@ defmodule ClientWeb.Router do
   scope "/graphql" do
     pipe_through(:graphql_api)
 
-    forward("/", Absinthe.Plug, schema: ClientWeb.Schema)
+    forward(
+      "/",
+      Absinthe.Plug,
+      schema: ClientWeb.Schema,
+      before_send: {Client.Session, :init_session_from_jwt}
+    )
   end
 
   if Application.compile_env!(:client, :env) == :dev do
