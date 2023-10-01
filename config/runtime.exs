@@ -37,7 +37,8 @@ if config_env() == :prod do
     org: System.get_env("INFLUXDB_ORG") || "myorg",
     token: System.get_env("INFLUXDB_TOKEN")
 
-  config :sentry, dsn: {:system, "SENTRY_DSN"}
+  config :sentry,
+    dsn: System.get_env("SENTRY_DSN")
 
   ##############################################################################
   # Twitch config
