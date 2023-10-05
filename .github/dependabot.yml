@@ -7,6 +7,11 @@ updates:
     time: "00:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
+  groups:
+    mui_material:
+      patterns:
+      - "@mui/material"
+      - "@mui/icons-material"
 - package-ecosystem: mix
   directory: "/"
   schedule:
