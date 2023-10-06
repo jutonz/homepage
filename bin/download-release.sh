@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if ! command -v op > /dev/null; then
+  echo "The 1Password cli, op, is not installed."
+  echo "Please run \`brew install 1password-cli\`"
+  exit 1
+fi
+
 set -ex
 
 token=$(
