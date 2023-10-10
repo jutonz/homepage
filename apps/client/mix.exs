@@ -40,7 +40,7 @@ defmodule Client.Mixfile do
       {:absinthe, "~> 1.7"},
       {:absinthe_error_payload, "~> 1.0"},
       {:absinthe_plug, "~> 1.5"},
-      {:argon2_elixir, "~> 3.0"},
+      {:argon2_elixir, "~> 4.0"},
       {:bamboo, "~> 2.0"},
       {:bamboo_phoenix, "~> 1.0"},
       {:briefly, "~> 0.4.0", only: :test},
