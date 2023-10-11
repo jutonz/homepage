@@ -36,7 +36,7 @@ defmodule HomepageUmbrella.Mixfile do
   defp deps do
     [
       {:dialyxir, "~> 1.4.1", only: [:dev], runtime: false},
-      {:excoveralls, "~> 0.17.0"}
+      {:excoveralls, "~> 0.18.0"}
     ]
   end
 
