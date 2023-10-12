@@ -95,7 +95,6 @@ defmodule Client.Session do
     case current_user_id(conn) do
       nil ->
         jwt = auth_bearer_value(conn)
-        IO.inspect("jwt is #{jwt}")
         case Client.Auth.resource_for_jwt(jwt) do
           {:ok, %{"id" => id}, _claims} ->
             user = %Client.User{id: id}
