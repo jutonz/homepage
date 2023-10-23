@@ -3,5 +3,8 @@
   # looks like Plug.t() is new now.
   {"lib/client_web/controllers/api/fallback_controller.ex", :callback_type_mismatch},
   {"lib/client_web/controllers/api/fallback_controller.ex", :callback_arg_type_mismatch},
-  {"lib/twitch/api/authentication.ex", :pattern_match}
+  {"lib/twitch/api/authentication.ex", :pattern_match},
+  # Dialyzer thinks there are only two return types when actually there are
+  # multiple.
+  {"lib/client/awair/monitor.ex", :pattern_match_cov}
 ]

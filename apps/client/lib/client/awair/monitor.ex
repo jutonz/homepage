@@ -29,7 +29,13 @@ defmodule Client.Awair.Monitor do
         {:noreply, state}
 
       err ->
-        warn("Awair connection failed: #{IO.inspect(err)}")
+        msg =
+          case err do
+            {:error, reason} -> reason
+            err -> err
+          end
+
+        warn("Awair connection failed: #{IO.inspect(msg)}")
         {:stop, :connection_failed, state}
     end
   end
