@@ -7,7 +7,8 @@ import type { Control, Path } from "react-hook-form";
 import type { TextFieldProps } from "@mui/material/TextField";
 
 type Props<FormInputs> = TextFieldProps & {
-  control: Control<FormInputs>;
+  // control: Control<FormInputs>;
+  control: any;
   errors: any;
   name: Path<FormInputs>;
   label: string;
@@ -21,7 +22,7 @@ export const ControlledTextField = <TFormInputs extends unknown>(
   return (
     <>
       <Controller
-        control={control}
+        control={control as any}
         name={name}
         render={({ field }) => (
           <TextField

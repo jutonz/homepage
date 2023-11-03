@@ -22,7 +22,7 @@ interface State {
   channel?: any;
 }
 export class TwitchChannelLiveChat extends React.Component<Props, State> {
-  list = null;
+  list: any = null;
 
   constructor(props: Props) {
     super(props);
@@ -32,7 +32,9 @@ export class TwitchChannelLiveChat extends React.Component<Props, State> {
 
   componentDidUpdate() {
     const list = this.list;
-    list.scrollTop = list.scrollHeight - list.clientHeight;
+    if (list) {
+      list.scrollTop = list.scrollHeight - list.clientHeight;
+    }
   }
 
   componentDidMount() {

@@ -23,6 +23,8 @@ export function OneTimeLoginLink() {
   const link = data?.getOneTimeLoginLink;
 
   const copy = useCallback(() => {
+    if (!link) return;
+
     try {
       navigator.clipboard.writeText(link).then(
         () => enqueueSnackbar("Copied", { variant: "success" }),

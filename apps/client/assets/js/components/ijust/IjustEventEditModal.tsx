@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import Button from "@mui/material/Button";
 import { useMutation } from "urql";
 import * as yup from "yup";
-import { ErrorOption, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { enqueueSnackbar } from "notistack";
 import Dialog from "@mui/material/Dialog";
@@ -36,9 +36,8 @@ const UPDATE_EVENT = graphql(`
 `);
 
 interface FormInputs {
-  cost: number;
+  cost?: number | null;
   name: string;
-  backendError: ErrorOption | null;
 }
 
 const schema = yup
@@ -51,7 +50,6 @@ const schema = yup
       })
       .nullable(),
     name: yup.string().required(),
-    backendError: yup.mixed().nullable(),
   })
   .required();
 
@@ -75,7 +73,6 @@ export function IjustEditEventModal({ event, visible, setVisible }: Props) {
     defaultValues: {
       cost: event.cost?.amount || ("" as any),
       name: event.name,
-      backendError: null,
     },
     mode: "onBlur",
     resolver: yupResolver(schema),
@@ -83,7 +80,7 @@ export function IjustEditEventModal({ event, visible, setVisible }: Props) {
 
   const setBackendError = useCallback(
     (message: string) => {
-      setError("backendError", { type: "custom", message });
+      setError("root.serverError", { message });
     },
     [setError],
   );
@@ -95,7 +92,7 @@ export function IjustEditEventModal({ event, visible, setVisible }: Props) {
 
   const onSubmit = useCallback(
     async (form: FormInputs) => {
-      clearErrors("backendError");
+      clearErrors("root.serverError");
       const { cost, name } = form;
 
       try {
@@ -104,10 +101,11 @@ export function IjustEditEventModal({ event, visible, setVisible }: Props) {
         if (error) {
           console.error(error);
           setBackendError(error.message);
-        } else if (!data.updateIjustEvent.successful) {
-          const messages = data.updateIjustEvent.messages;
-          messages.forEach(({ field, message }) => {
-            setError(field as any, { message });
+        } else if (!data?.updateIjustEvent?.successful) {
+          data?.updateIjustEvent?.messages?.forEach((message) => {
+            if (message?.field && message?.message) {
+              setError(message.field as any, { message: message.message });
+            }
             return;
           });
         } else {
@@ -131,8 +129,8 @@ export function IjustEditEventModal({ event, visible, setVisible }: Props) {
       <DialogTitle id="edit-event-title">Edit event</DialogTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
-          {errors.backendError?.message && (
-            <Alert color="error">{errors.backendError.message}</Alert>
+          {errors.root?.serverError?.message && (
+            <Alert color="error">{errors.root.serverError.message}</Alert>
           )}
           <ControlledTextField
             control={control}

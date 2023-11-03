@@ -89,6 +89,10 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
     const canvas = document.getElementById(chartId) as HTMLCanvasElement;
     Chart.register(BarController, BarElement, CategoryScale, LinearScale);
     const context = canvas.getContext("2d");
+    if (!context) {
+      throw "couldn't find context";
+    }
+
     const chart = new Chart(context, {
       type: "bar",
       data: {
@@ -163,8 +167,10 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
 
     const { chart } = this.state;
 
-    chart.data.labels = sortedKeys;
-    chart.data.datasets[0].data = sortedValues;
-    chart.update();
+    if (chart) {
+      chart.data.labels = sortedKeys;
+      chart.data.datasets[0].data = sortedValues;
+      chart.update();
+    }
   }
 }

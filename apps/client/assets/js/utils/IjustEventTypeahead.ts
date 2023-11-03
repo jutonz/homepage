@@ -70,7 +70,7 @@ export class IjustEventTypeahead {
           if (data.error) {
             reject(data);
           } else {
-            resolve(data.data.ijustEventsSearch);
+            resolve(data.data?.ijustEventsSearch);
           }
         });
     });
