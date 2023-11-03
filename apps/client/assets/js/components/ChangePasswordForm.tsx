@@ -3,7 +3,7 @@ import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import { enqueueSnackbar } from "notistack";
 import React, { useCallback } from "react";
-import { useForm, ErrorOption } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useMutation } from "urql";
 import * as yup from "yup";
 
@@ -26,7 +26,6 @@ interface FormInputs {
   currentPassword: string;
   newPassword: string;
   newPasswordConfirm: string;
-  backendError: ErrorOption | null;
 }
 
 const schema = yup
@@ -37,7 +36,6 @@ const schema = yup
       .string()
       .required()
       .oneOf([yup.ref("newPassword")], "Passwords don't match"),
-    backendError: yup.mixed().nullable(),
   })
   .required();
 
@@ -54,7 +52,6 @@ export function ChangePasswordForm() {
       currentPassword: "",
       newPassword: "",
       newPasswordConfirm: "",
-      backendError: null,
     },
     mode: "onBlur",
     resolver: yupResolver(schema),
@@ -64,14 +61,14 @@ export function ChangePasswordForm() {
 
   const setBackendError = useCallback(
     (message: string) => {
-      setError("backendError", { type: "custom", message });
+      setError("root.serverError", { message });
     },
     [setError],
   );
 
   const onSubmit = useCallback(
     async (form: FormInputs) => {
-      clearErrors("backendError");
+      clearErrors("root.serverError");
       const { currentPassword, newPassword } = form;
 
       try {
@@ -101,8 +98,8 @@ export function ChangePasswordForm() {
       <FormBox>
         <h3 className="text-lg mb-3">Change password</h3>
 
-        {errors.backendError?.message && (
-          <Alert color="error">{errors.backendError.message}</Alert>
+        {errors.root?.serverError?.message && (
+          <Alert color="error">{errors.root.serverError.message}</Alert>
         )}
 
         <ControlledTextField

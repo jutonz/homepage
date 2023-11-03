@@ -28,7 +28,7 @@ export function MainNav() {
   if (fetching) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;
 
-  const isLoggedIn = !!data.getCurrentUser;
+  const isLoggedIn = !!data?.getCurrentUser;
 
   return (
     <AppBar position="static" className="mb-5">

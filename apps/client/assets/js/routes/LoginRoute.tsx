@@ -17,7 +17,7 @@ const GET_CURRENT_USER = graphql(`
 
 export function LoginRoute() {
   const navigate = useNavigate();
-  const [_bgGrid, setBgGrid] = useState(null);
+  const [_bgGrid, setBgGrid] = useState<any>(null);
   const [{ data, fetching, error }] = useQuery({
     query: GET_CURRENT_USER,
   });
@@ -25,7 +25,7 @@ export function LoginRoute() {
   if (fetching) return null;
   if (error) return <div>An error occurred: {error.message}</div>;
 
-  const isLoggedIn = !!data.getCurrentUser;
+  const isLoggedIn = !!data?.getCurrentUser;
 
   useEffect(() => {
     if (isLoggedIn) {

@@ -31,13 +31,11 @@ const style = StyleSheet.create({
 
 interface FormInputs {
   name: string;
-  backendError: ErrorOption | null;
 }
 
 const schema = yup
   .object({
     name: yup.string().required(),
-    backendError: yup.mixed().nullable(),
   })
   .required();
 
@@ -53,7 +51,6 @@ export function TeamCreationForm() {
   } = useForm<FormInputs>({
     defaultValues: {
       name: "",
-      backendError: null,
     },
     mode: "onBlur",
     resolver: yupResolver(schema),
@@ -63,14 +60,14 @@ export function TeamCreationForm() {
 
   const setBackendError = useCallback(
     (message: string) => {
-      setError("backendError", { type: "custom", message });
+      setError("root.serverError", { type: "custom", message });
     },
     [setError],
   );
 
   const onSubmit = useCallback(
     async (form: FormInputs) => {
-      clearErrors("backendError");
+      clearErrors("root.serverError");
       const { name } = form;
 
       try {
@@ -80,8 +77,7 @@ export function TeamCreationForm() {
           console.error(error);
           setBackendError(error.message);
         } else {
-          const team = data.createTeam;
-          navigate(`/teams/${team.id}`);
+          navigate(`/teams/${data?.createTeam?.id}`);
           return;
         }
       } catch (e) {
@@ -97,8 +93,8 @@ export function TeamCreationForm() {
       <FormBox>
         <h3 className="text-lg mb-3">Create a team</h3>
 
-        {errors.backendError?.message && (
-          <Alert color="error">{errors.backendError.message}</Alert>
+        {errors.root?.serverError?.message && (
+          <Alert color="error">{errors.root.serverError.message}</Alert>
         )}
 
         <ControlledTextField

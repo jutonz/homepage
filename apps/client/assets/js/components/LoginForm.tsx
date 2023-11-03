@@ -77,7 +77,7 @@ export function LoginForm({ onLogin }: Props) {
     const result = await login(data);
 
     if (result.data?.login?.messages) {
-      const messages = result.data.login.messages.map(({ message }) => message);
+      const messages = result.data.login.messages.map((message) => message?.message);
       if (messages.length > 0) {
         setError("root.serverError", { message: messages.join(", ") });
       }

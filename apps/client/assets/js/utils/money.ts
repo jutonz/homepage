@@ -3,7 +3,7 @@ interface Money {
   currency: string;
 }
 
-export function formatMoney(money?: Money) {
+export function formatMoney(money: Money | undefined | null) {
   if (!money) return "-";
 
   const formatter = new Intl.NumberFormat("en-US", {

@@ -56,7 +56,7 @@ export const homepageAuthExchange = authExchange(async (utils) => {
         return false;
       }
       const token = getAccessToken();
-      return token && isExpired(token);
+      return !!(token && isExpired(token));
     },
 
     async refreshAuth() {
@@ -103,5 +103,11 @@ export function clearTokens() {
 
 function isExpired(token: string) {
   const { exp } = jwtDecode<JwtPayload>(token);
-  return Date.now() >= exp * 1000;
+
+  if (exp) {
+    return Date.now() >= exp * 1000;
+  } else {
+    console.warn("didn't find exp field in jwt")
+    return false;
+  }
 }

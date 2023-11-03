@@ -25,11 +25,11 @@ export function RequireLogin({ children }: Props) {
   const location = useLocation();
 
   useEffect(() => {
-    const isLoggedIn = !!data.getCurrentUser;
+    const isLoggedIn = !!data?.getCurrentUser;
     if (!isLoggedIn) {
       navigate("/login", { replace: true, state: { from: location } });
     }
-  }, [data.getCurrentUser]);
+  }, [data?.getCurrentUser]);
 
   if (fetching) return null;
   if (error) return <div>An error occurred: {error.message}</div>;

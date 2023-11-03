@@ -50,8 +50,10 @@ export function IjustEventInput({ ijustContextId }: Props) {
           event.preventDefault();
           const eventName = typeahead.getLatestSearch();
           createEvent({ eventName, ijustContextId }).then((data) => {
-            const newEventId = data.data.createIjustEvent.id;
-            redirectToEvent(newEventId);
+            const newEventId = data?.data?.createIjustEvent?.id;
+            if (newEventId) {
+              redirectToEvent(newEventId);
+            }
           });
         }}
       >
@@ -61,7 +63,11 @@ export function IjustEventInput({ ijustContextId }: Props) {
           filterOptions={(x) => x}
           onInputChange={(_ev, value) => typeahead.search(value)}
           getOptionLabel={(option) => option.name}
-          onChange={(_ev, value) => redirectToEvent(value.id)}
+          onChange={(_ev, value) => {
+            if (value?.id) {
+              return redirectToEvent(value.id)
+            }
+          }}
           noOptionsText="Press enter to create"
           renderInput={(params) => (
             <TextField

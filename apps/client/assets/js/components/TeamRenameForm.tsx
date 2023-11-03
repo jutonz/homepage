@@ -23,7 +23,6 @@ const RENAME_TEAM = graphql(`
 
 interface FormInputs {
   name: string;
-  backendError: ErrorOption | null;
 }
 
 const schema = yup
@@ -47,8 +46,7 @@ export function TeamRenameForm({ team }: Props) {
     setError,
   } = useForm<FormInputs>({
     defaultValues: {
-      name: "",
-      backendError: null,
+      name: ""
     },
     mode: "onBlur",
     resolver: yupResolver(schema),
@@ -58,14 +56,14 @@ export function TeamRenameForm({ team }: Props) {
 
   const setBackendError = useCallback(
     (message: string) => {
-      setError("backendError", { type: "custom", message });
+      setError("root.serverError", { message });
     },
     [setError],
   );
 
   const onSubmit = useCallback(
     async (form: FormInputs) => {
-      clearErrors("backendError");
+      clearErrors("root.serverError");
       const { name } = form;
 
       try {
@@ -92,8 +90,10 @@ export function TeamRenameForm({ team }: Props) {
       <FormBox>
         <h3 className="text-lg mb-3">Rename team</h3>
 
-        {errors.backendError?.message && (
-          <Alert color="error">{errors.backendError.message}</Alert>
+        {errors.root?.serverError && (
+          <Alert severity="error" className="mb-2">
+            {errors.root.serverError.message}
+          </Alert>
         )}
 
         <ControlledTextField

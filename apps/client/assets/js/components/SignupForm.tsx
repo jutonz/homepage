@@ -1,8 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { css, StyleSheet } from "aphrodite";
-import React, { useCallback } from "react";
-import { ErrorOption, SubmitHandler, useForm } from "react-hook-form";
-import { useClient, useMutation, useQuery } from "urql";
+import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useClient, useMutation } from "urql";
 import { Link, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import Alert from "@mui/material/Alert";
@@ -87,7 +87,7 @@ export function SignupForm() {
 
     if (result.data?.signup?.messages) {
       const messages = result.data.signup.messages.map(
-        ({ message }) => message,
+        (message) => message?.message,
       );
       if (messages.length > 0) {
         setError("root.serverError", { message: messages.join(", ") });
