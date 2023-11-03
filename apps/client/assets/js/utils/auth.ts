@@ -1,5 +1,5 @@
 import { authExchange } from "@urql/exchange-auth";
-import jwtDecode, { JwtPayload } from "jwt-decode";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import { graphql } from "../gql/gql";
 
 const REFRESH_TOKEN_MUTATION = graphql(`
