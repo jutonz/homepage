@@ -65,7 +65,7 @@ export function IjustEventInput({ ijustContextId }: Props) {
           getOptionLabel={(option) => option.name}
           onChange={(_ev, value) => {
             if (value?.id) {
-              return redirectToEvent(value.id)
+              return redirectToEvent(value.id);
             }
           }}
           noOptionsText="Press enter to create"

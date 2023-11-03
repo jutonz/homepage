@@ -37,7 +37,7 @@ interface FormInputs {
 
 const schema = yup
   .object({
-    name: yup.string().required()
+    name: yup.string().required(),
   })
   .required();
 

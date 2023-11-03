@@ -90,7 +90,7 @@ export class TwitchEmoteWatcher extends React.Component<Props, State> {
     Chart.register(BarController, BarElement, CategoryScale, LinearScale);
     const context = canvas.getContext("2d");
     if (!context) {
-      throw "couldn't find context"
+      throw "couldn't find context";
     }
 
     const chart = new Chart(context, {

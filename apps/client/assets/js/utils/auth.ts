@@ -107,7 +107,7 @@ function isExpired(token: string) {
   if (exp) {
     return Date.now() >= exp * 1000;
   } else {
-    console.warn("didn't find exp field in jwt")
+    console.warn("didn't find exp field in jwt");
     return false;
   }
 }

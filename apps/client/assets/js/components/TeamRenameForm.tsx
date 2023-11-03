@@ -46,7 +46,7 @@ export function TeamRenameForm({ team }: Props) {
     setError,
   } = useForm<FormInputs>({
     defaultValues: {
-      name: ""
+      name: "",
     },
     mode: "onBlur",
     resolver: yupResolver(schema),
