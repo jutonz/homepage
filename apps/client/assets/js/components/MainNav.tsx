@@ -75,9 +75,13 @@ function StyledNavLink({
 }: StyledNavLinkProps) {
   className = className ?? "";
 
-  const activeClassName = ({ isActive }) => {
+  const activeClassName = ({ isActive }): string => {
     const active = isActiveOverride ?? isActive;
-    return active ? className + " text-purple-500" : className;
+    if (active) {
+      return className + " text-purple-500";
+    } else {
+      return className as string;
+    }
   };
 
   return (
