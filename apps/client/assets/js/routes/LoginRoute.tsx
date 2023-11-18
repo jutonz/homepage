@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { LoginForm } from "./../components/LoginForm";
 import { BgGrid } from "./../BgGrid";
 import { useQuery } from "urql";
@@ -18,6 +18,7 @@ const GET_CURRENT_USER = graphql(`
 export function LoginRoute() {
   const navigate = useNavigate();
   const [_bgGrid, setBgGrid] = useState<any>(null);
+  const [searchParams, _setSearchParams] = useSearchParams();
   const [{ data, fetching, error }] = useQuery({
     query: GET_CURRENT_USER,
   });
@@ -30,7 +31,7 @@ export function LoginRoute() {
   useEffect(() => {
     if (isLoggedIn) {
       navigate("/");
-    } else {
+    } else if (searchParams.get("bg") !== "false") {
       const newGrid = new BgGrid();
       newGrid.init();
       newGrid.start();
