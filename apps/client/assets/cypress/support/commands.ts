@@ -115,7 +115,7 @@ interface LoginOpts {
 }
 
 Cypress.Commands.add("login", ({ email, password }: LoginOpts) => {
-  cy.visit("/");
+  cy.visit("/#/login?bg=false");
 
   cy.findByLabelText("Email").type(email);
   cy.findByLabelText("Password").type(password);
@@ -148,7 +148,7 @@ Cypress.Commands.add("initSession", (opts: InitSessionOpts = {}) => {
 
 
   cy.insert("user", { password }).then((user: User) => {
-    let authPath = `/?as=${user.id}`;
+    let authPath = `/?as=${user.id}&bg=false`;
     if(path) authPath = authPath + `&to=${path}`
 
     cy.visit(authPath);
