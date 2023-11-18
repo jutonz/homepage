@@ -43,7 +43,7 @@ defmodule Client.Mixfile do
       {:argon2_elixir, "~> 4.0"},
       {:bamboo, "~> 2.0"},
       {:bamboo_phoenix, "~> 1.0"},
-      {:briefly, "~> 0.4.0", only: :test},
+      {:briefly, "~> 0.5.0", only: :test},
       {:comeonin, "~> 5.1"},
       {:cors_plug, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
