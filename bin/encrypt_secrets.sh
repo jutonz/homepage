@@ -12,11 +12,13 @@ if ! command -v ccrypt > /dev/null; then
 fi
 
 if ! test -f "$keyfile"; then
-  echo "The keyfile \"$keyfile\" is not present. Please add it then run this script again."
-  echo ""
-  echo "You can do this by finding the secret \"Secret key\" in 1password,"
-  echo "then running \`echo -n \"[secret key]\" > $keyfile"\`
-  exit 1
+  key=$(
+    op item get \
+    "Secret key" \
+    --vault="Homepage" \
+    --fields="password"
+  )
+  echo $key > "$keyfile"
 fi
 
 if test -f $encrypted_secretfile; then
