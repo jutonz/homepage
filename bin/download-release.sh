@@ -1,9 +1,27 @@
 #!/bin/bash
 
+keyfile="key.txt"
+
 if ! command -v op > /dev/null; then
   echo "The 1Password cli, op, is not installed."
   echo "Please run \`brew install 1password-cli\`"
   exit 1
+fi
+
+if ! test -f "secrets.txt.encrypted"; then
+  echo "Couldn't find encrypted secrets."
+  echo "Make sure you run ./bin/encrypt_secrets.sh before trying to deploy."
+  exit 1
+fi
+
+if ! test -f "$keyfile"; then
+  key=$(
+    op item get \
+    "Secret key" \
+    --vault="Homepage" \
+    --fields="password"
+  )
+  echo $key > "$keyfile"
 fi
 
 set -ex
