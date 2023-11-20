@@ -111,6 +111,7 @@ config :redis, redis_url: redis_url
 config :twitch,
   ecto_repos: [Twitch.Repo],
   bttv_api_client: Twitch.Bttv.Api,
+  seven_tv_api_client: Twitch.SevenTv.Api,
   twitch_emotes_api_client: Twitch.TwitchEmotes.Api,
   api_cache_name: :api_cache,
   eventsub_subscriptions: [],

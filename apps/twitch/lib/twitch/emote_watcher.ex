@@ -1,6 +1,6 @@
 defmodule Twitch.EmoteWatcher do
   use GenServer
-  alias Twitch.Bttv
+  alias Twitch.SevenTv
   alias Twitch.EmoteWatcher.TwitchEmoteExtractor
 
   @one_minute 60000
@@ -18,10 +18,7 @@ defmodule Twitch.EmoteWatcher do
 
     state = %{
       twitch_emotes: MapSet.new(),
-      bttv_channel_emotes: Twitch.Bttv.channel_emotes(channel_id),
-      bttv_global_emotes: Twitch.Bttv.global_emotes(),
-      ffz_global_emotes: Twitch.Bttv.global_ffz_emotes(),
-      ffz_channel_emotes: Twitch.Bttv.channel_ffz_emotes(channel_id),
+      seven_tv_emotes: Twitch.SevenTv.channel_emotes(channel_id),
       one_minute_window: %{},
       name: name,
       channel_name: channel_name
@@ -42,10 +39,7 @@ defmodule Twitch.EmoteWatcher do
   def emotes_in_message(message, state) do
     %{}
     |> Map.merge(Twitch.Emote.detect_many(MapSet.to_list(state[:twitch_emotes]), message))
-    |> Map.merge(Bttv.Emote.detect_many(state[:bttv_channel_emotes], message))
-    |> Map.merge(Bttv.Emote.detect_many(state[:bttv_global_emotes], message))
-    |> Map.merge(Bttv.Emote.detect_many(state[:ffz_global_emotes], message))
-    |> Map.merge(Bttv.Emote.detect_many(state[:ffz_channel_emotes], message))
+    |> Map.merge(SevenTv.Emote.detect_many(state[:seven_tv_emotes], message))
   end
 
   def lookup_twitch_emotes(event, state) do

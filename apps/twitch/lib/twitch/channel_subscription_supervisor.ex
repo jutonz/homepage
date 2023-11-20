@@ -63,7 +63,7 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
         {Twitch.ChatSubscription, channel_name}
       )
 
-    Logger.info("Starting twitch channel subscription for #{channel_name}: #{inspect(res)}")
+    Logger.info("Starting twitch chat subscription for #{channel_name}: #{inspect(res)}")
 
     case res do
       {:ok, pid} -> {:ok, pid}
@@ -78,6 +78,8 @@ defmodule Twitch.ChannelSubscriptionSupervisor do
         __MODULE__,
         {Twitch.EmoteWatcher, [channel_name]}
       )
+
+    Logger.info("Starting twitch emote subscription for #{channel_name}: #{inspect(res)}")
 
     case res do
       {:ok, pid} -> {:ok, pid}
