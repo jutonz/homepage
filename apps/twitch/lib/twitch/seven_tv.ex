@@ -3,7 +3,7 @@ defmodule Twitch.SevenTv do
 
   def channel_emotes(channel_name) do
     :get
-    |> SevenTv.Api.connection("/v3/users/twitch/#{channel_name}")
+    |> client().connection("/v3/users/twitch/#{channel_name}")
     |> get_in(~w(emote_set emotes))
     |> Enum.map(&SevenTv.Emote.from_json/1)
   end
