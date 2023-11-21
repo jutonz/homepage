@@ -4,10 +4,12 @@ defmodule Twitch.SevenTv.Api do
   def connection(method, path, body \\ nil) do
     url = @api_base |> URI.merge(path) |> URI.to_string()
 
-    case method do
-      :get -> HTTPoison.get!(url) |> IO.inspect() |> parse_response()
-      _ -> HTTPoison |> apply(method, [url, body]) |> parse_response()
-    end
+    method |>
+      case do
+        :get -> url |> HTTPoison.get!()
+        _ -> HTTPoison |> apply(method, [url, body])
+      end
+      |> parse_response()
   end
 
   def parse_response(response = %HTTPoison.Response{}) do

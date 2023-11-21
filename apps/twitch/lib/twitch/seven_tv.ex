@@ -5,6 +5,7 @@ defmodule Twitch.SevenTv do
     :get
     |> client().connection("/v3/users/twitch/#{channel_name}")
     |> get_in(~w(emote_set emotes))
+    |> Kernel.||([])
     |> Enum.map(&SevenTv.Emote.from_json/1)
   end
 

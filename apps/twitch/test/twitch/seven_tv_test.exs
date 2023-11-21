@@ -10,5 +10,10 @@ defmodule Twitch.SevenTvTest do
       assert emote1.name == "Okayeg"
       assert emote2.name == "FeelsRainMan"
     end
+
+    test "handles an invalid channel" do
+      emotes = SevenTv.channel_emotes("bad-channel-id")
+      assert emotes == []
+    end
   end
 end
