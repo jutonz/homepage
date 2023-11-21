@@ -27,6 +27,14 @@ defmodule Twitch.Factory do
     }
   end
 
+  def seven_tv_emote_factory do
+    %Twitch.SevenTv.Emote{
+      id: "123",
+      name: "nepSmug",
+      regex: ~r/nepSmug/
+    }
+  end
+
   def event_factory do
     %Twitch.TwitchEvent{
       channel: "#comradenerdy",
