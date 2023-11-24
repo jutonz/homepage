@@ -148,8 +148,10 @@ Cypress.Commands.add("initSession", (opts: InitSessionOpts = {}) => {
 
 
   cy.insert("user", { password }).then((user: User) => {
-    let authPath = `/?as=${user.id}&bg=false`;
-    if(path) authPath = authPath + `&to=${path}`
+    let authPath = `/?as=${user.id}`;
+    if (path) {
+      authPath = authPath + `&to=${encodeURIComponent(path)}`
+    }
 
     cy.visit(authPath);
 
