@@ -95,7 +95,7 @@ Cypress.Commands.add("signup", (opts?: SignupOpts) => {
   const email = opts.email || randEmail();
   const password = opts.password || "password123";
 
-  cy.visit("/");
+  cy.visit("/#/login?bg=false");
 
   cy.findByRole("link", { name: "Or signup" }).click();
 
