@@ -50,6 +50,7 @@ config :client, Client.Guardian,
 
 config :client, :awair,
   servers: [
+    [name: "bedroom", host: "http://192.168.1.177"],
     [name: "garage", host: "http://192.168.1.122"],
     [name: "office", host: "http://192.168.1.231"]
   ]
