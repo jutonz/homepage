@@ -50,7 +50,7 @@
     "postcss": "^8.4.32",
     "postcss-cli": "^11.0.0",
     "prettier": "^3.1.0",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.3"
   },
   "engines": {
     "yarn": "1.x"
