@@ -14,7 +14,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@hookform/resolvers": "^3.3.2",
     "@mui/icons-material": "^5.14.19",
-    "@mui/material": "^5.14.19",
+    "@mui/material": "^5.14.20",
     "@urql/exchange-auth": "^2.1.6",
     "@urql/exchange-graphcache": "^6.4.0",
     "aphrodite": "^2.4.0",
