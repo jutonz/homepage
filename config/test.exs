@@ -61,7 +61,6 @@ config :twitch, Twitch.Repo,
 config :twitch,
   bttv_api_client: Twitch.BttvApiMock,
   seven_tv_api_client: Twitch.SevenTvMock,
-  twitch_emotes_api_client: Twitch.TwitchEmotesApiMock,
   webhook_secret: "secret",
   http_executor: Twitch.HttpMock,
   oauth: %{
