@@ -1,7 +1,6 @@
 defmodule Twitch.EmoteWatcher do
   use GenServer
   alias Twitch.SevenTv
-  alias Twitch.EmoteWatcher.TwitchEmoteExtractor
 
   @one_minute 60000
 
@@ -43,8 +42,7 @@ defmodule Twitch.EmoteWatcher do
   end
 
   def lookup_twitch_emotes(event, state) do
-    IO.inspect(event)
-    emotes_in_msg = TwitchEmoteExtractor.extract(event)
+    emotes_in_msg = event.emotes
 
     new_emotes =
       Enum.reduce(emotes_in_msg, state[:twitch_emotes], fn emote, new_emotes ->

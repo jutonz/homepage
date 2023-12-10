@@ -11,6 +11,8 @@ defmodule Twitch.EmoteWatcher.TwitchEmoteExtractor do
     |> reject_nil()
   end
 
+  def extract(%ParsedEvent{tags: %{}}), do: []
+
   # emote_str looks like emote_id:pos_start-pos_end, e.g. 1:0-5
   defp to_emote_struct(%ParsedEvent{message: message}, emote_str) do
     match = Regex.named_captures(

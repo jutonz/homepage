@@ -41,6 +41,11 @@ defmodule Twitch.EmoteWatcher.TwitchEmoteExtractorTest do
       assert TwitchEmoteExtractor.extract(event) == []
     end
 
+    test "returns an empty list when tags is an empty map" do
+      event = Factory.build(:parsed_event, tags: %{})
+      assert TwitchEmoteExtractor.extract(event) == []
+    end
+
     test "returns an empty list when emotes is an empty string" do
       event = Factory.build(:parsed_event, tags: %{"emotes" => ""})
       assert TwitchEmoteExtractor.extract(event) == []
