@@ -14,16 +14,16 @@ defmodule ClientWeb.FoodLog.EntryView do
     Phoenix.View.render(ClientWeb.FoodLogView, "entry.html", assigns)
   end
 
-  def preload(list_of_assigns) do
+  def update_many(assigns_sockets) do
+    entry_ids = Enum.map(assigns_sockets, fn {assigns, _sockets} -> assigns.id end)
     entries =
-      list_of_assigns
-      |> Enum.map(&Map.get(&1, :id))
+      entry_ids
       |> FoodLogs.get_entries()
       |> Enum.map(&{&1.id, &1})
       |> Map.new()
 
-    Enum.map(list_of_assigns, fn assigns ->
-      Map.put(assigns, :entry, entries[assigns.id])
+    Enum.map(assigns_sockets, fn {assigns, socket} ->
+      assign(socket, :entry, entries[assigns.id])
     end)
   end
 
