@@ -43,6 +43,7 @@ defmodule Twitch.EmoteWatcher do
   end
 
   def lookup_twitch_emotes(event, state) do
+    IO.inspect(event)
     emotes_in_msg = TwitchEmoteExtractor.extract(event)
 
     new_emotes =

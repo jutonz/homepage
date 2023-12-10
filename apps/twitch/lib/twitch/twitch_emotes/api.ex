@@ -32,6 +32,7 @@ defmodule Twitch.TwitchEmotes.Api do
   end
 
   def parse_response(response = %HTTPoison.Response{}) do
+    IO.inspect(response)
     response.body |> Jason.decode!()
   end
 

@@ -12,6 +12,10 @@ defmodule Twitch.EmoteWatcher.TwitchEmoteExtractor do
     |> reject_nil()
   end
 
+  # defp to_emote_struct(emote_id) do
+    # Twitch.Emote.from_twitch_json
+  # end
+
   defp reject_nil(collection) do
     Enum.reduce(collection, [], fn elem, acc ->
       if elem do
