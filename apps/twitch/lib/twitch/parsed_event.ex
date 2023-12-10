@@ -1,40 +1,24 @@
 defmodule Twitch.ParsedEvent do
   @derive Jason.Encoder
-  defstruct badges: nil,
-            color: nil,
-            emotes: nil,
+  defstruct emotes: [],
             id: nil,
-            room_id: nil,
-            subscriber: nil,
-            tmi_sent_ts: nil,
-            turbo: nil,
             user_id: nil,
-            username: nil,
             display_name: nil,
             message_type: nil,
             message: nil,
             channel: nil,
-            irc_name: nil,
             irc_command: nil,
             raw_event: nil,
             tags: nil
 
   @type t :: %__MODULE__{
-          badges: map | nil,
-          color: String.t() | nil,
-          emotes: nil,
+          emotes: list(Twitch.Emote),
           id: String.t() | nil,
-          room_id: String.t() | nil,
-          subscriber: nil,
-          tmi_sent_ts: String.t() | nil,
-          turbo: String.t() | nil,
           user_id: String.t() | nil,
-          username: String.t() | nil,
           display_name: String.t() | nil,
           message_type: String.t() | nil,
           message: String.t() | nil,
           channel: String.t() | nil,
-          irc_name: String.t() | nil,
           irc_command: String.t() | nil,
           raw_event: String.t() | nil,
           tags: map
@@ -75,16 +59,20 @@ defmodule Twitch.ParsedEvent do
     [channel | message] = parsed.args
     parsed_tags = parse_tags(tags)
 
-    {:ok,
-     %Twitch.ParsedEvent{
-       channel: channel,
-       display_name: parsed.nick,
-       id: parsed_tags["id"],
-       irc_command: parsed.cmd,
-       message: Enum.at(message, 0),
-       raw_event: raw,
-       tags: parsed_tags
-     }}
+    parsed_event = %__MODULE__{
+      channel: channel,
+      display_name: parsed.nick,
+      id: parsed_tags["id"],
+      irc_command: parsed.cmd,
+      message: Enum.at(message, 0),
+      raw_event: raw,
+      tags: parsed_tags
+    }
+
+    twitch_emotes = Twitch.EmoteWatcher.TwitchEmoteExtractor.extract(parsed_event)
+    parsed_event = Map.put(parsed_event, :emotes, twitch_emotes)
+
+    {:ok, parsed_event}
   end
 
   def to_parsed_event("ACTION", parsed, raw, _tags) do

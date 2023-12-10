@@ -51,7 +51,7 @@ config :client, Client.Guardian,
 config :client, :awair,
   servers: [
     [name: "bedroom", host: "http://192.168.1.177"],
-    [name: "garage", host: "http://192.168.1.122"],
+    # [name: "garage", host: "http://192.168.1.122"],
     [name: "living_room", host: "http://192.168.1.44"],
     [name: "office", host: "http://192.168.1.231"]
   ]
@@ -114,7 +114,6 @@ config :twitch,
   ecto_repos: [Twitch.Repo],
   bttv_api_client: Twitch.Bttv.Api,
   seven_tv_api_client: Twitch.SevenTv.Api,
-  twitch_emotes_api_client: Twitch.TwitchEmotes.Api,
   api_cache_name: :api_cache,
   eventsub_subscriptions: [],
   http_executor: Twitch.Api.Executor,
