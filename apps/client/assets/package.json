@@ -46,7 +46,7 @@
     "cssnano": "^6.0.1",
     "cypress": "^13.6.1",
     "date-fns": "^2.30.0",
-    "esbuild": "0.19.8",
+    "esbuild": "0.19.9",
     "postcss": "^8.4.32",
     "postcss-cli": "^11.0.0",
     "prettier": "^3.1.1",
