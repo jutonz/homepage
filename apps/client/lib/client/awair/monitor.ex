@@ -49,7 +49,7 @@ defmodule Client.Awair.Monitor do
     Process.send_after(self(), :poll, :timer.seconds(@interval))
   end
 
-  defp warn(msg), do: Logger.warn("[#{__MODULE__}] #{msg}")
+  defp warn(msg), do: Logger.warning("[#{__MODULE__}] #{msg}")
 
   defp name(server), do: String.to_atom("awair_#{server[:name]}")
 end

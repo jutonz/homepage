@@ -51,7 +51,7 @@ defmodule Client.FileRenamer do
   end
 
   defp warn(msg) do
-    Logger.warn("[#{__MODULE__}] #{msg}")
+    Logger.warning("[#{__MODULE__}] #{msg}")
   end
 
   defp info(msg) do

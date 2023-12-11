@@ -22,7 +22,7 @@ defmodule Twitch.Eventsub.Subscriptions.EnsureSubscription do
         sub
 
       other ->
-        Logger.warn(
+        Logger.warning(
           "Existing twitch eventsub subscription had bad status \"#{other}\"; recreating"
         )
 
