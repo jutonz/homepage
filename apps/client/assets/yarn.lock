@@ -4484,10 +4484,10 @@ phoenix_html@3.3.3:
   resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-3.3.3.tgz#21c9f2068b9683a9fbb79ec4a74e30403219d6d2"
   integrity sha512-x0ZFCfe+jbYFjPRHQHa191C1thrhNYVZiRbdthxrH+DtMwtfPJSJnQLEKBeswlR08QWFioHO02bShP7XEIZOzw==
 
-phoenix_live_view@0.20.1:
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.20.1.tgz#0fd4e4c6822a996cabbb5b946cf16d1186a046cb"
-  integrity sha512-bEFec53iySU9MvSIgGA/T7F8Ikqvu5qlFzBn+nY88T36ZsIp/8SJJZqF8foWMOb7+Pb721tt04cz6T7dq0ZdrA==
+phoenix_live_view@0.20.2:
+  version "0.20.2"
+  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-0.20.2.tgz#3a457636759c04c84d75c90b48b406ab3a416cfc"
+  integrity sha512-hgK0/ZhWM0wkge0umJkywgxHfN6O9QTF94w0Qh3lMq/I8fFg9qupNJgQ1OPuvuJVTwHxKVj3pVht+OugM2ifCg==
 
 picocolors@^1.0.0:
   version "1.0.0"

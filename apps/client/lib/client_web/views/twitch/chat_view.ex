@@ -15,6 +15,7 @@ defmodule ClientWeb.Twitch.ChatView do
       |> assign(events: [welcome_event(channel_name)])
       |> assign(channel_name: channel_name)
       |> assign(alive?: Twitch.ChatSubscription.alive?(channel_name))
+      |> stream(:events, [], limit: 500)
 
     schedule_alive_check()
 
@@ -24,7 +25,8 @@ defmodule ClientWeb.Twitch.ChatView do
   @valid_irc_commands ~w[PRIVMSG ACTION]
   def handle_info(%Twitch.ParsedEvent{} = event, socket) do
     if Enum.member?(@valid_irc_commands, event.irc_command) do
-      {:noreply, assign(socket, events: [event])}
+      IO.inspect(event)
+      {:noreply, stream_insert(socket, :events, event)}
     else
       {:noreply, socket}
     end
