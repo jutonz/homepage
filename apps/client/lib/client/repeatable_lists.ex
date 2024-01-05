@@ -32,4 +32,18 @@ defmodule Client.RepeatableLists do
     |> new_template_changeset()
     |> Repo.insert()
   end
+
+  ##############################################################################
+  # Get
+  ##############################################################################
+
+  def get_template(user_id, id) do
+    query =
+      from(t in Template,
+        where: t.owner_id == ^user_id,
+        where: t.id == ^id
+      )
+
+    Repo.one(query)
+  end
 end
