@@ -1,5 +1,6 @@
 defmodule Client.RepeatableLists.TemplateSection do
   use Ecto.Schema
+
   alias Client.RepeatableLists.{
     Template,
     TemplateItem

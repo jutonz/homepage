@@ -5,7 +5,7 @@ defmodule Twitch.SevenTvMock do
       "platform" => "TWITCH",
       "username" => "elajjaz",
       "display_name" => "Elajjaz",
-      "linked_at" => 1637321817000,
+      "linked_at" => 1_637_321_817_000,
       "emote_capacity" => 1000,
       "emote_set_id" => nil,
       "emote_set" => %{
@@ -14,11 +14,11 @@ defmodule Twitch.SevenTvMock do
         "emotes" => [
           %{
             "id" => "603caa69faf3a00014dff0b1",
-            "name" => "Okayeg",
+            "name" => "Okayeg"
           },
           %{
             "id" => "603caa69faf3a00014dff0b2",
-            "name" => "FeelsRainMan",
+            "name" => "FeelsRainMan"
           }
         ]
       }

@@ -4,21 +4,15 @@
   </div>
 
   <div class="mb-1">
-    Playing
-    <%= get_in(@stream, ~w[game_name]) %>
-    for
-    <%= get_in(@stream, ~w[viewer_count]) %>
-    viewers
+    Playing <%= get_in(@stream, ~w[game_name]) %> for <%= get_in(@stream, ~w[viewer_count]) %> viewers
   </div>
 
   <div class="mb-1">
-    Title:
-    <%= get_in(@stream, ~w[title]) %>
+    Title: <%= get_in(@stream, ~w[title]) %>
   </div>
 
   <div class="mb-4">
-    Live for
-    <%= formatted_uptime(@stream) %>
+    Live for <%= formatted_uptime(@stream) %>
   </div>
 
   <div class="mb-3">
@@ -31,7 +25,8 @@
 
     <%= link(
       "View updates",
-      to: Routes.twitch_channel_channel_update_path(@conn, :index, get_in(@stream, ~w[user_login])),
+      to:
+        Routes.twitch_channel_channel_update_path(@conn, :index, get_in(@stream, ~w[user_login])),
       class: "button"
     ) %>
   </div>

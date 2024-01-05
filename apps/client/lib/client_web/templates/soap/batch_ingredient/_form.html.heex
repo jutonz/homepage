@@ -38,12 +38,13 @@ fn form -> %>
     <%= if Ecto.Changeset.get_field(@changeset, :id) do %>
       <%= link(
         "Delete",
-        to: Routes.soap_batch_ingredient_path(
-          ClientWeb.Endpoint,
-          :delete,
-          Ecto.Changeset.get_field(@changeset, :batch_id),
-          Ecto.Changeset.get_field(@changeset, :id)
-        ),
+        to:
+          Routes.soap_batch_ingredient_path(
+            ClientWeb.Endpoint,
+            :delete,
+            Ecto.Changeset.get_field(@changeset, :batch_id),
+            Ecto.Changeset.get_field(@changeset, :id)
+          ),
         method: :delete,
         class: "button button--danger ml-6",
         data: [confirm: "Are you sure?", role: "ingredient-delete-button"]

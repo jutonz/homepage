@@ -19,7 +19,10 @@ defmodule Twitch.Api.Authentication do
   def client_id do
     case Application.fetch_env!(:twitch, :oauth)[:client_id] do
       nil ->
-        Logger.warning("Config :twitch, :oauth, :client_id was unset. Twitch API calls will fail.")
+        Logger.warning(
+          "Config :twitch, :oauth, :client_id was unset. Twitch API calls will fail."
+        )
+
         nil
 
       id ->

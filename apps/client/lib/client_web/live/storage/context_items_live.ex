@@ -67,7 +67,12 @@ defmodule ClientWeb.Storage.ContextItemsLive do
 
     <div>
       <%= for item <- @items do %>
-        <div class="py-3 border-b hover:bg-gray-800 cursor-pointer" data-item-id={item.id} phx-click="redirect_to_item" phx-value-item-id={item.id}>
+        <div
+          class="py-3 border-b hover:bg-gray-800 cursor-pointer"
+          data-item-id={item.id}
+          phx-click="redirect_to_item"
+          phx-value-item-id={item.id}
+        >
           <div class="mb-2">
             <span class="font-bold">
               <%= item.name %>

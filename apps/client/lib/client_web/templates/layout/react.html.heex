@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
 
     <title><%= @conn.assigns[:title] || "jutonz.com" %></title>
 
-    <link rel="stylesheet" href={Routes.static_path(@conn, "/static-css/index.css")}>
-    <link rel="stylesheet" href={Routes.static_path(@conn, "/css/index.css")}>
+    <link rel="stylesheet" href={Routes.static_path(@conn, "/static-css/index.css")} />
+    <link rel="stylesheet" href={Routes.static_path(@conn, "/css/index.css")} />
   </head>
 
   <body onclick="">
-    <main role="main" data-https={if Application.fetch_env!(:client, :env) == :prod, do: "true", else: "false"}></main>
+    <main
+      role="main"
+      data-https={if Application.fetch_env!(:client, :env) == :prod, do: "true", else: "false"}
+    >
+    </main>
 
     <%= csrf_meta_tag() %>
-    <script src={Routes.static_path(@conn, "/js/index.js")}></script>
+    <script src={Routes.static_path(@conn, "/js/index.js")}>
+    </script>
   </body>
 </html>

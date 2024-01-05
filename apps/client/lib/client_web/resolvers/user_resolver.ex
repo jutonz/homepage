@@ -21,10 +21,11 @@ defmodule ClientWeb.UserResolver do
          {:ok, access, _claims} <- Auth.jwt_for_resource(user),
          {:ok, refresh, _claims} <- Auth.single_use_jwt(user, @one_day_sec * 30, "refresh"),
          do: {:ok, %{user: user, access_token: access, refresh_token: refresh}},
-         else: (
-           {:error, reason} -> {:error, reason}
-           _ -> {:error, "Something went wrong"}
-         )
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Something went wrong"}
+           )
   end
 
   def refresh_token(_parent, %{refresh_token: refresh_token}, _context) do

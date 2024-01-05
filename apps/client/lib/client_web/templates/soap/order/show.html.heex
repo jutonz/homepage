@@ -32,21 +32,21 @@
     </tr>
   </table>
 
-    <%= link(
-      "Edit order",
-      to: Routes.soap_order_path(@conn, :edit, @order.id),
-      class: "button"
-    ) %>
+  <%= link(
+    "Edit order",
+    to: Routes.soap_order_path(@conn, :edit, @order.id),
+    class: "button"
+  ) %>
 
-    <%= link(
-      "Delete order",
-      to: Routes.soap_order_path(@conn, :delete, @order.id),
-      class: "button button--danger",
-      method: :delete,
-      data: [confirm: "Are you sure", role: "soap-order-delete"]
-    ) %>
+  <%= link(
+    "Delete order",
+    to: Routes.soap_order_path(@conn, :delete, @order.id),
+    class: "button button--danger",
+    method: :delete,
+    data: [confirm: "Are you sure", role: "soap-order-delete"]
+  ) %>
 
-  <hr class="my-5">
+  <hr class="my-5" />
 
   <table class="mb-6">
     <thead>
@@ -115,5 +115,4 @@
     class: "button",
     data: [role: "order-add-ingredient"]
   ) %>
-
 </div>

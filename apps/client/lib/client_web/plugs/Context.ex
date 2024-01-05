@@ -10,6 +10,7 @@ defmodule ClientWeb.Plugs.Context do
 
   def build_current_user_context(conn) do
     user = user_from_jwt(conn) || user_from_session(conn)
+
     if user do
       %{current_user: user}
     else

@@ -18,7 +18,7 @@ defmodule ClientWeb.WaterLogKioskLive do
                 <span data-role={"usage-for-#{day_name(datum.date)}"}>
                   <%= datum.amount %>
                 </span>
-                  <div {style_for_usage(datum)} class="bg-white w-20"></div>
+                <div {style_for_usage(datum)} class="bg-white w-20"></div>
               </div>
             </td>
           <% end %>

@@ -1,7 +1,7 @@
 defmodule ClientWeb.Schema do
   use Absinthe.Schema
   import AbsintheErrorPayload.Payload
-  import_types AbsintheErrorPayload.ValidationMessageTypes
+  import_types(AbsintheErrorPayload.ValidationMessageTypes)
 
   object :user do
     field(:id, non_null(:id))
@@ -15,6 +15,7 @@ defmodule ClientWeb.Schema do
     field(:access_token, non_null(:string))
     field(:refresh_token, non_null(:string))
   end
+
   payload_object(:login_jwt_payload, :login_jwt)
 
   object :team do
@@ -44,6 +45,7 @@ defmodule ClientWeb.Schema do
     field(:ijust_occurrences, list_of(:ijust_occurrence))
     field(:ijust_context, non_null(:ijust_context))
   end
+
   payload_object(:ijust_event_payload, :ijust_event)
 
   object :ijust_occurrence do

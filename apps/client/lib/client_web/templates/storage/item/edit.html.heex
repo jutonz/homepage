@@ -3,26 +3,27 @@
   <%= render(
     "_form.html",
     changeset: @changeset,
-    submit_path: Routes.storage_context_item_path(
-      @conn,
-      :update,
-      Ecto.Changeset.get_field(@changeset, :context_id),
-      Ecto.Changeset.get_field(@changeset, :id)
-    ),
+    submit_path:
+      Routes.storage_context_item_path(
+        @conn,
+        :update,
+        Ecto.Changeset.get_field(@changeset, :context_id),
+        Ecto.Changeset.get_field(@changeset, :id)
+      ),
     action: "Update"
   ) %>
 
   <%= link(
     "Delete item",
-    to: Routes.storage_context_item_path(
-      @conn,
-      :delete, 
-      Ecto.Changeset.get_field(@changeset, :context_id),
-      Ecto.Changeset.get_field(@changeset, :id)
-    ),
+    to:
+      Routes.storage_context_item_path(
+        @conn,
+        :delete,
+        Ecto.Changeset.get_field(@changeset, :context_id),
+        Ecto.Changeset.get_field(@changeset, :id)
+      ),
     class: "mt-10 button button--danger",
     data: [confirm: "Are you sure?", role: "delete-filter-button"],
     method: :delete
   ) %>
-
 </div>

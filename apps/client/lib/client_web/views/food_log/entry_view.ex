@@ -16,6 +16,7 @@ defmodule ClientWeb.FoodLog.EntryView do
 
   def update_many(assigns_sockets) do
     entry_ids = Enum.map(assigns_sockets, fn {assigns, _sockets} -> assigns.id end)
+
     entries =
       entry_ids
       |> FoodLogs.get_entries()
