@@ -37,13 +37,14 @@ defmodule Client.IjustEvent do
 
   @spec get_for_user(User.t(), String.t()) :: {:ok, IjustEvent.t()} | {:error, String.t()}
   def get_for_user(user, event_id) do
-    query = from(
-      e in IjustEvent,
-      join: c in IjustContext,
-      on: c.id == e.ijust_context_id,
-      where: c.user_id == ^user.id,
-      where: e.id == ^event_id
-    )
+    query =
+      from(
+        e in IjustEvent,
+        join: c in IjustContext,
+        on: c.id == e.ijust_context_id,
+        where: c.user_id == ^user.id,
+        where: e.id == ^event_id
+      )
 
     case Repo.one(query) do
       %IjustEvent{} = ev -> {:ok, ev}

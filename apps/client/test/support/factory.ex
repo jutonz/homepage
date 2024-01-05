@@ -45,7 +45,7 @@ defmodule Client.Factory do
   end
 
   def ijust_context_factory(attrs) do
-    struct = %Client.IjustContext {
+    struct = %Client.IjustContext{
       name: sequence(:name, &"context-#{&1}"),
       user_id: rand_int()
     }

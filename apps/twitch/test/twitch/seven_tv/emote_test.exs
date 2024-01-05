@@ -7,7 +7,7 @@ defmodule Twitch.SevenTv.EmoteTest do
     test "converts the json to a struct" do
       json = %{
         "id" => "id",
-        "name" => "name",
+        "name" => "name"
       }
 
       result = Emote.from_json(json)
@@ -48,9 +48,9 @@ defmodule Twitch.SevenTv.EmoteTest do
       result = Emote.detect_many([emote1, emote2], chat_str)
 
       assert %{
-        "test1" => 1,
-        "test2" => 2
-      } = result
+               "test1" => 1,
+               "test2" => 2
+             } = result
     end
   end
 end

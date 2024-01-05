@@ -12,9 +12,9 @@ defmodule Client.Auth do
   end
 
   @spec check_password(
-    String.t(),
-    User.t() | String.t()
-  ) :: {:ok, String.t()} | {:error, String.t()}
+          String.t(),
+          User.t() | String.t()
+        ) :: {:ok, String.t()} | {:error, String.t()}
 
   def check_password(password, user = %User{}) do
     check_password(password, user.password_hash)

@@ -3,11 +3,12 @@
   <%= render(
     "_form.html",
     changeset: @changeset,
-    submit_path: Routes.soap_order_ingredient_path(
-      @conn,
-      :create,
-      @order_id
-    ),
+    submit_path:
+      Routes.soap_order_ingredient_path(
+        @conn,
+        :create,
+        @order_id
+      ),
     action: "Create"
   ) %>
 </div>

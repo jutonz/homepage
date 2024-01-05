@@ -38,7 +38,7 @@ defmodule Client.Influx do
   defp headers do
     [
       {"authorization", "Token #{token()}"},
-      {"content-type", "text/plain"},
+      {"content-type", "text/plain"}
     ]
   end
 end

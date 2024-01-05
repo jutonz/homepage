@@ -28,7 +28,6 @@ defmodule Client.Awair.AirData do
     field(:voc_h2_raw, :integer)
   end
 
-
   @path "/air-data/latest"
   def latest(host) do
     :get

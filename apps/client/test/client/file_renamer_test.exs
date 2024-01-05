@@ -62,7 +62,7 @@ defmodule Client.FileRenamerTest do
 
       timestamp =
         file
-        |> File.stat!([time: :posix])
+        |> File.stat!(time: :posix)
         |> Map.get(:mtime)
         |> DateTime.from_unix!()
         |> DateTime.to_iso8601()
@@ -103,7 +103,7 @@ defmodule Client.FileRenamerTest do
 
       expected_name =
         file
-        |> File.stat!([time: :posix])
+        |> File.stat!(time: :posix)
         |> Map.get(:mtime)
         |> DateTime.from_unix!()
         |> DateTime.to_iso8601()

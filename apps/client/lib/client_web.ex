@@ -117,8 +117,8 @@ defmodule ClientWeb do
       use PhoenixHTMLHelpers
 
       import Phoenix.View
-      # from live_view
       import Phoenix.Component
+      import ClientWeb.CoreComponents
 
       import ClientWeb.ErrorHelpers
       import ClientWeb.Gettext

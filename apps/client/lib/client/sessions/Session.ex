@@ -95,15 +95,20 @@ defmodule Client.Session do
     case current_user_id(conn) do
       nil ->
         jwt = auth_bearer_value(conn)
+
         case Client.Auth.resource_for_jwt(jwt) do
           {:ok, %{"id" => id}, _claims} ->
             user = %Client.User{id: id}
             {:ok, conn} = init_user_session(conn, user)
             conn
-          _ -> conn
+
+          _ ->
+            conn
         end
+
       _ ->
-        conn # session already established
+        # session already established
+        conn
     end
   end
 

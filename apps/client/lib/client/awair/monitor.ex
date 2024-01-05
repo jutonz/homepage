@@ -11,7 +11,7 @@ defmodule Client.Awair.Monitor do
   def init(server) do
     state = %{
       "name" => server[:name],
-      "host" => server[:host],
+      "host" => server[:host]
     }
 
     {:ok, state, {:continue, :check_connection}}
@@ -44,7 +44,8 @@ defmodule Client.Awair.Monitor do
     Phoenix.PubSub.broadcast!(Client.PubSub, "awair", %{data: data, name: name})
   end
 
-  @interval 30 # seconds
+  # seconds
+  @interval 30
   defp schedule_checkin do
     Process.send_after(self(), :poll, :timer.seconds(@interval))
   end

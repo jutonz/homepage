@@ -9,7 +9,8 @@ defmodule Client.Influx.LineData do
       "#{line_data.measurement},#{map_to_line(line_data.tags)}",
       map_to_line(line_data.values),
       format_timestamp(line_data.timestamp)
-    ] |> Enum.join(" ")
+    ]
+    |> Enum.join(" ")
   end
 
   # %{"one" => "1", "two" => "2"} becomes "one=1,two=2"

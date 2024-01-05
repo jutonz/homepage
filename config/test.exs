@@ -15,7 +15,7 @@ config :client, ClientWeb.Endpoint,
   http: [port: 4002],
   server: true
 
-log_level = "LOG_LEVEL" |> System.get_env("warn") |> String.to_atom()
+log_level = "LOG_LEVEL" |> System.get_env("warning") |> String.to_atom()
 config :logger, level: log_level
 
 config :client, Client.Repo,

@@ -3,7 +3,8 @@
   <%= render(
     "_form.html",
     changeset: @changeset,
-    submit_path: Routes.storage_context_path(@conn, :update, Ecto.Changeset.get_field(@changeset, :id)),
+    submit_path:
+      Routes.storage_context_path(@conn, :update, Ecto.Changeset.get_field(@changeset, :id)),
     action: "Update"
   ) %>
 </div>

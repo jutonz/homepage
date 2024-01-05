@@ -5,11 +5,12 @@
     "form.html",
     changeset: @changeset,
     action: :update,
-    submit_path: Routes.water_log_filters_path(
-      ClientWeb.Endpoint,
-      :update,
-      Ecto.Changeset.get_field(@changeset, :water_log_id),
-      @id
-    )
+    submit_path:
+      Routes.water_log_filters_path(
+        ClientWeb.Endpoint,
+        :update,
+        Ecto.Changeset.get_field(@changeset, :water_log_id),
+        @id
+      )
   ) %>
 </div>
