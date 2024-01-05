@@ -13,10 +13,7 @@ const isProd = env === "prod";
 module.exports = {
   important: true,
   content: [
-    "./../lib/client_web/templates/**/*.eex",
-    "./../lib/client_web/templates/**/*.heex",
-    "./../lib/client_web/controllers/**/*_live.ex",
-    "./../lib/client_web/live/**/*.ex",
+    "./../lib/client_web/**/*.{ex,eex,heex}",
     "./js/**/*.{jsx,tsx}",
   ],
   theme: {

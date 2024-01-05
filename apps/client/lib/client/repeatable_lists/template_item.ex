@@ -12,6 +12,6 @@ defmodule Client.RepeatableLists.TemplateItem do
     timestamps()
 
     belongs_to(:template, Template)
-    belongs_to(:section, TemplateSection)
+    belongs_to(:section, TemplateSection, source: :section_id)
   end
 end

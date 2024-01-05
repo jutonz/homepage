@@ -12,6 +12,6 @@ defmodule Client.RepeatableLists.TemplateSection do
     timestamps()
 
     belongs_to(:template, Template)
-    has_many(:items, TemplateItem)
+    has_many(:items, TemplateItem, foreign_key: :section_id)
   end
 end

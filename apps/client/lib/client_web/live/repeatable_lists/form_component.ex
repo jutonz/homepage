@@ -1,55 +1,45 @@
 defmodule ClientWeb.Live.RepeatableLists.FormComponent do
   use ClientWeb, :live_view
+  alias Client.RepeatableLists
 
   def render(assigns) do
     ~H"""
-    <%= form_for(
-      @changeset,
-      @submit_path,
-    fn form -> %>
-      <div class="flex flex-1 flex-col mb-6">
-        <div>
-          <%= label(form, :name, "Name") %>
-          <%= text_input(
-            form,
-            :name,
-            class: "mt-2",
-            autofocus: true,
-            data: [role: "list-template-name-input"]
-          ) %>
-          <div class="text-red-600 mt-1">
-            <%= error_tag(form, :name) %>
-          </div>
-        </div>
+    <.simple_form for={@form} phx-submit="submit">
+      <.input field={@form[:name]} label="Name" />
+      <.input field={@form[:description]} label="Description" />
 
-        <div>
-          <%= label(form, :description, "Description") %>
-          <%= text_input(
-            form,
-            :description,
-            class: "mt-2",
-            data: [role: "list-template-description-input"]
-          ) %>
-          <div class="text-red-600 mt-1">
-            <%= error_tag(form, :description) %>
-          </div>
-        </div>
-      </div>
-
-      <%= submit(
-        @action,
-        class: "button",
-        data: [role: "list-template-submit"]
-      ) %>
-    <% end) %>
+      <:actions>
+        <button class="button"><%= @action %></button>
+      </:actions>
+    </.simple_form>
     """
   end
 
   def mount(_params, session, socket) do
-    {:ok, assign(socket,
-      changeset: Map.fetch!(session, "changeset"),
-      submit_path: Map.fetch!(session, "submit_path"),
-      action: Map.fetch!(session, "action")
-    )}
+    changeset = RepeatableLists.new_template_changeset()
+
+    {:ok,
+     assign(socket,
+       form: to_form(changeset),
+       action: Map.fetch!(session, "action"),
+       user_id: Map.fetch!(session, "user_id")
+     )}
+  end
+
+  def handle_event("submit", %{"template" => template_params}, socket) do
+    user_id = socket.assigns[:user_id]
+
+    case RepeatableLists.create_template(user_id, template_params) do
+      {:ok, _template} ->
+        socket =
+          socket
+          |> put_flash(:info, "created template")
+          |> redirect(to: ~p"/repeatable-lists")
+
+        {:noreply, socket}
+
+      {:error, changeset} ->
+        {:noreply, assign(socket, :form, to_form(changeset))}
+    end
   end
 end

@@ -101,7 +101,7 @@ defmodule ClientWeb.Router do
       resources(
         "/templates",
         TemplateController,
-        only: ~w[new create]a
+        only: ~w[new]a
       )
     end
   end

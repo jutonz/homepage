@@ -18,8 +18,8 @@ defmodule Client.RepeatableLists.Template do
     has_many(:items, TemplateItem)
   end
 
-  @optional_fields ~w[name]a
-  @required_fields ~w[description]a
+  @optional_fields ~w[description]a
+  @required_fields ~w[name owner_id]a
 
   def changeset(template, attrs) do
     template
