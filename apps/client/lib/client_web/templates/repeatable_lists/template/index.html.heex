@@ -1,0 +1,27 @@
+<div class="m-4">
+  <div class="text-xl mb-4">Repeatable lists</div>
+
+  <%= if !Enum.any?(@lists) do %>
+    You haven't made any lists yet.
+  <% end %>
+
+  <div>
+    <%= for log <- @lists do %>
+      <div class="mt-3">
+        <%= link(
+          log.name,
+          to: Routes.food_log_path(ClientWeb.Endpoint, :show, log.id)
+        ) %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-6">
+    <%= link(
+      "New list template",
+      to: Routes.repeatable_lists_template_path(ClientWeb.Endpoint, :new),
+      class: "button mt-4",
+      data: [role: "new-template"]
+    ) %>
+  </div>
+</div>

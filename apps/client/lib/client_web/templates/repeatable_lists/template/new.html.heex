@@ -1,0 +1,13 @@
+<div class="m-4">
+  <div class="text-xl mb-5">New list template</div>
+  <%= live_render(
+    @conn,
+    ClientWeb.Live.RepeatableLists.FormComponent,
+    id: "list-template-form",
+    session: %{
+      "changeset" => Client.RepeatableLists.new_template_changeset(),
+      "submit_path" => Routes.repeatable_lists_template_path(@conn, :create),
+      "action" => "Create"
+    }
+  ) %>
+</div>

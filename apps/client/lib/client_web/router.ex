@@ -95,6 +95,15 @@ defmodule ClientWeb.Router do
         resources("/items", ItemController)
       end
     end
+
+    scope("/repeatable-lists", RepeatableLists, as: :repeatable_lists) do
+      get("/", TemplateController, :index)
+      resources(
+        "/templates",
+        TemplateController,
+        only: ~w[new create]a
+      )
+    end
   end
 
   scope "/admin", ClientWeb do
