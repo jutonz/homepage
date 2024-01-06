@@ -7,15 +7,23 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title><%= @conn.assigns[:title] || "jutonz.com" %></title>
+    <title><%= assigns[:title] || "jutonz.com" %></title>
 
-    <link rel="stylesheet" href={Routes.static_path(@conn, "/static-css/index.css")} />
+    <link
+      rel="stylesheet"
+      phx-track-static
+      href={Routes.static_path(ClientWeb.Endpoint, "/static-css/index.css")}
+    />
   </head>
 
   <body onclick="">
     <div class="container font-sans">
-      <p class="alert alert-info" role="alert"><%= Phoenix.Flash.get(@flash, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= Phoenix.Flash.get(@flash, :error) %></p>
+      <p class="alert alert-info" role="alert" data-role="flash-info">
+        <%= Phoenix.Flash.get(@flash, :info) %>
+      </p>
+      <p class="alert alert-danger" role="alert" data-role="flash-error">
+        <%= Phoenix.Flash.get(@flash, :error) %>
+      </p>
 
       <main role="main">
         <%= @inner_content %>
@@ -23,7 +31,7 @@
     </div>
 
     <%= csrf_meta_tag() %>
-    <script src={Routes.static_path(@conn, "/static-js/index.js")}>
+    <script phx-track-static src={Routes.static_path(ClientWeb.Endpoint, "/static-js/index.js")}>
     </script>
   </body>
 </html>

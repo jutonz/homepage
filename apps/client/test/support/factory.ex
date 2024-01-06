@@ -165,6 +165,13 @@ defmodule Client.Factory do
     }
   end
 
+  def repeatable_list_template_factory do
+    %Client.RepeatableLists.Template{
+      name: sequence(:name, &"template #{&1}"),
+      description: "description"
+    }
+  end
+
   def rand_string(length \\ 16) do
     length
     |> :crypto.strong_rand_bytes()
