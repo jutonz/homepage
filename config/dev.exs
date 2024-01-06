@@ -57,6 +57,8 @@ config :logger, :console, format: "[$level] $message\n"
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
 
+config :phoenix_live_view, debug_heex_annotations: true
+
 config :client, Client.Mailer, adapter: Bamboo.LocalAdapter
 
 config :client, Client.Repo,
