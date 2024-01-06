@@ -5,17 +5,10 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
   def render(assigns) do
     ~H"""
     <div class="m-4">
-      <div class="flex align-center text-xl mb-4">
-        <div class="mr-2 text-gray-400">
-          <.link href={~p"/repeatable-lists"}>
-            Repetable lists
-          </.link>
-        </div>
-        >
-        <div class="ml-2" data-role="name">
-          <%= @template.name %>
-        </div>
-      </div>
+      <ClientWeb.Components.Breadcrumbs.breadcrumbs>
+        <:crumb title="Repeatable lists" href={~p"/repeatable-lists"} />
+        <span data-role="name"><%= @template.name %></span>
+      </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
       <%= if @template.description do %>
         <div><%= @template.description %></div>

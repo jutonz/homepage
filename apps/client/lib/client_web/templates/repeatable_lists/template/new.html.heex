@@ -1,13 +1,8 @@
 <div class="m-4">
-  <div class="flex align-center text-xl mb-4">
-    <div class="mr-2 text-gray-400">
-      <%= link("Repeatable lists", to: Routes.repeatable_lists_template_path(@conn, :index)) %>
-    </div>
-    >
-    <div class="ml-2">
-      New list template
-    </div>
-  </div>
+  <ClientWeb.Components.Breadcrumbs.breadcrumbs>
+    <:crumb title="Repeatable lists" href={~p"/repeatable-lists"} />
+    <span>New list template</span>
+  </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
   <%= live_render(
     @conn,
