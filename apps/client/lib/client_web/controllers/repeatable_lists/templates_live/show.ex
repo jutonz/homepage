@@ -12,7 +12,7 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
           </.link>
         </div>
         >
-        <div class="ml-2">
+        <div class="ml-2" data-role="name">
           <%= @template.name %>
         </div>
       </div>
@@ -29,15 +29,14 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
         Delete template
       </button>
 
-      <.modal id="delete-confirm" show={false}>
-        hello
-        <.link
-          href={~p"/repeatable-lists/templates/#{@template.id}"}
-          class="button button--danger mt-10"
-          method="delete"
-        >
+      <.modal id="delete-confirm">
+        <h1 class="text-2xl mb-4">Delete list template?</h1>
+        <p class="mb-4">This will also delete any lists created from this template.</p>
+        <p class="mb-4">Are you sure?</p>
+
+        <button phx-click="delete" class="button button--danger mt-10">
           Delete template
-        </.link>
+        </button>
       </.modal>
     </div>
     """
@@ -48,7 +47,21 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
     {:ok, assign(socket, template: template), layout: {ClientWeb.LayoutView, :app}}
   end
 
-  # def handle_event("show_modal", _params, socket) do
-  #   {:noreply, assign(socket, show_delete_confirm: true)}
-  # end
+  def handle_event("delete", _params, socket) do
+    template = socket.assigns[:template]
+
+    socket =
+      case RepeatableLists.delete_template(template) do
+        {:ok, _template} ->
+          socket
+          |> put_flash(:info, "Deleted template")
+          |> redirect(to: ~p"/repeatable-lists")
+
+        {:error, _changeset} ->
+          socket
+          |> put_flash(:error, "Failed to delete template")
+      end
+
+    {:noreply, socket}
+  end
 end

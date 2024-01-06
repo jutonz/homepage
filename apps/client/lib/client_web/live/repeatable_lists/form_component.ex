@@ -30,11 +30,11 @@ defmodule ClientWeb.Live.RepeatableLists.FormComponent do
     user_id = socket.assigns[:user_id]
 
     case RepeatableLists.create_template(user_id, template_params) do
-      {:ok, _template} ->
+      {:ok, template} ->
         socket =
           socket
           |> put_flash(:info, "created template")
-          |> redirect(to: ~p"/repeatable-lists")
+          |> redirect(to: ~p"/repeatable-lists/templates/#{template.id}")
 
         {:noreply, socket}
 

@@ -11,7 +11,7 @@ defmodule ClientWeb.RepeatableListsTest do
     |> fill_in(text_field("Name"), with: "name")
     |> fill_in(text_field("Description"), with: "desc")
     |> click(button("Create"))
-    |> assert_has(role("list-template", text: "name"))
+    |> assert_has(role("name", text: "name"))
 
     [template] = RepeatableLists.list_templates(user.id)
 
@@ -19,5 +19,19 @@ defmodule ClientWeb.RepeatableListsTest do
              name: "name",
              description: "desc"
            } = template
+  end
+
+  test "can delete a template", %{session: session} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+
+    session
+    |> visit("/repeatable-lists?as=#{user.id}")
+    |> click(link(template.name))
+    |> click(button("Delete template"))
+    |> find(css("[role=dialog]"), fn modal ->
+      modal |> click(button("Delete template"))
+    end)
+    |> assert_has(role("flash-info", text: "Deleted template"))
   end
 end

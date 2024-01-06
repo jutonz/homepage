@@ -104,6 +104,7 @@ defmodule ClientWeb.Router do
         TemplateController,
         only: ~w[new delete]a
       )
+
       live("/templates/:id", TemplatesLive.Show, :show)
     end
   end

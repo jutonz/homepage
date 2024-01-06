@@ -7,7 +7,7 @@ const autoscrollChatPane = (chatScrollPane) => {
   const messages = chatScrollPane.getElementsByClassName(
     selectors.scrollPaneMessages,
   )[0];
-  new MutationObserver((mutationsList, observer) => {
+  new MutationObserver((mutationsList, _observer) => {
     for (let mutation of mutationsList) {
       if (mutation.type === "childList") {
         chatScrollPane.scrollTop = chatScrollPane.scrollHeight;
