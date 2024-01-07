@@ -420,6 +420,22 @@ defmodule ClientWeb.CoreComponents do
   end
 
   @doc """
+  List errors on the changeset
+  """
+
+  attr :field, Phoenix.HTML.FormField
+
+  def error_messages(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
+    assigns =
+      assigns
+      |> assign(:errors, Enum.map(field.errors, &translate_error(&1)))
+
+    ~H"""
+    <.error :for={msg <- @errors}><%= msg %></.error>
+    """
+  end
+
+  @doc """
   Renders a header with title.
   """
   attr :class, :string, default: nil

@@ -34,4 +34,38 @@ defmodule ClientWeb.RepeatableListsTest do
     end)
     |> assert_has(role("flash-info", text: "Deleted template"))
   end
+
+  test "can add an item to a template", %{session: session} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+
+    session
+    |> visit("/repeatable-lists/templates/#{template.id}?as=#{user.id}")
+    |> click(button("+ Add item"))
+    |> fill_in(text_field("Name"), with: "Item name")
+    |> send_keys([:enter])
+    |> assert_has(role("item-form"))
+
+    template = Repo.preload(template, :items)
+    [item] = template.items
+
+    assert %RepeatableLists.TemplateItem{
+             name: "Item name"
+           } = item
+  end
+
+  test "can edit an item in a template", %{session: session} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+    item = insert(:repeatable_list_template_item, template: template, name: "before")
+
+    session
+    |> visit("/repeatable-lists/templates/#{template.id}?as=#{user.id}")
+    |> fill_in(text_field("name"), with: "after")
+    |> send_keys([:enter])
+
+    Client.RetryHelpers.wait_until(3000, fn ->
+      assert %{name: "after"} = Client.Repo.reload(item)
+    end)
+  end
 end
