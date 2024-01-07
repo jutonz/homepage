@@ -13,8 +13,9 @@ apps/client/cover
 .hex
 /deps/
 /cover
-apps/client/assets/cypress/videos
+apps/client/assets/cypress/downloads
 apps/client/assets/cypress/screenshots
+apps/client/assets/cypress/videos
 esbuild-meta.json
 
 # Generated on crash by the VM
