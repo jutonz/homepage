@@ -2,6 +2,7 @@ defmodule Client.RepeatableLists do
   import Ecto.Query, only: [from: 2]
   alias Client.Repo
   alias Client.RepeatableLists.Template
+  alias Client.RepeatableLists.TemplateItem
 
   ##############################################################################
   # Index
@@ -22,14 +23,27 @@ defmodule Client.RepeatableLists do
   def template_changeset(template, attrs \\ %{}),
     do: Template.changeset(template, attrs)
 
+  def new_template_item_changeset(attrs \\ %{}),
+    do: TemplateItem.changeset(%TemplateItem{}, attrs)
+
+  def template_item_changeset(item, attrs \\ %{}),
+    do: TemplateItem.changeset(item, attrs)
+
   ##############################################################################
-  # Index
+  # Create
   ##############################################################################
 
   def create_template(user_id, attrs) do
     attrs
     |> Map.put("owner_id", user_id)
     |> new_template_changeset()
+    |> Repo.insert()
+  end
+
+  def create_template_item(template_id, attrs) do
+    attrs
+    |> Map.put("template_id", template_id)
+    |> new_template_item_changeset()
     |> Repo.insert()
   end
 
@@ -41,7 +55,8 @@ defmodule Client.RepeatableLists do
     query =
       from(t in Template,
         where: t.owner_id == ^user_id,
-        where: t.id == ^id
+        where: t.id == ^id,
+        preload: [:items]
       )
 
     Repo.one(query)
@@ -50,6 +65,13 @@ defmodule Client.RepeatableLists do
   ##############################################################################
   # Update
   ##############################################################################
+
+  def update_template_item(item, attrs) do
+    # TODO: prevent changing template_id?
+    item
+    |> template_item_changeset(attrs)
+    |> Repo.update()
+  end
 
   ##############################################################################
   # Delete

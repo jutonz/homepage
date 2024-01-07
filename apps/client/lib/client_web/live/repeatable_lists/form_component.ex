@@ -8,6 +8,10 @@ defmodule ClientWeb.Live.RepeatableLists.FormComponent do
       <.input field={@form[:name]} label="Name" />
       <.input field={@form[:description]} label="Description" />
 
+      <p>
+        You can add items and sections on the next page.
+      </p>
+
       <:actions>
         <button class="button"><%= @action %></button>
       </:actions>

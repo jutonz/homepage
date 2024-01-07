@@ -1,3 +1,5 @@
+@import "../css/index.css";
+
 @tailwind base;
 
 @tailwind components;
@@ -10,11 +12,6 @@
 @import "@fontsource/roboto/700.css";
 
 @import "./modal";
-
-body {
-  background-color: black;
-  color: white;
-}
 
 body * {
   visibility: initial;
@@ -41,6 +38,11 @@ button, .button {
   &--secondary {
     @apply bg-zinc-500;
     &:hover { @apply bg-zinc-700; }
+  }
+
+  &--inline {
+    @apply bg-transparent hover:bg-transparent p-0;
+    color: var(--brand-primary);
   }
 }
 
