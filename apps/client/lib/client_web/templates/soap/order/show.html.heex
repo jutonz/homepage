@@ -1,17 +1,9 @@
-<div class="m-5">
-  <div class="flex align-center text-xl mb-5">
-    <div class="mr-2 text-gray-500">
-      <%= link("Soap", to: Routes.soap_soap_path(@conn, :index)) %>
-    </div>
-    >
-    <div class="ml-2 mr-2 text-gray-500">
-      <%= link("Orders", to: Routes.soap_order_path(@conn, :index)) %>
-    </div>
-    >
-    <div class="ml-2" data-role="soap-order-name">
-      <%= @order.name %>
-    </div>
-  </div>
+<div class="m-4">
+  <ClientWeb.Components.Breadcrumbs.breadcrumbs>
+    <:crumb href={~p"/soap"} title="Soap" />
+    <:crumb href={~p"/soap/orders"} title="Orders" />
+    <div data-role="soap-order-name"><%= @order.name %></div>
+  </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
   <table class="mb-5">
     <tr data-role="order-ingredients-cost">

@@ -1,28 +1,20 @@
 <div class="m-4">
-  <div class="flex align-center text-xl">
-    <div class="mr-2 text-gray-500">
-      <%= link("Soap", to: Routes.soap_soap_path(@conn, :index)) %>
-    </div>
-    >
-    <div class="ml-2">Orders</div>
-  </div>
+  <ClientWeb.Components.Breadcrumbs.breadcrumbs>
+    <:crumb href={~p"/soap"} title="Soap" />
+    <div>Orders</div>
+  </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
   <div class="flex flex-col mb-4">
     <%= for order <- @orders do %>
       <div class="mt-5 mb-5">
-        <%= link(
-          order.name,
-          to: Routes.soap_order_path(@conn, :show, order.id),
-          data: [role: "soap-order-name"]
-        ) %>
+        <.link href={~p"/soap/orders/#{order.id}"} data-role="soap-order-name">
+          <%= order.name %>
+        </.link>
       </div>
     <% end %>
   </div>
 
-  <%= link(
-    "Create order",
-    to: Routes.soap_order_path(@conn, :new),
-    class: "mt-4 button",
-    data: [role: "create-soap-order"]
-  ) %>
+  <.link href={~p"/soap/orders/new"} class="mt-4 button" data-role="create-soap-order">
+    Create Order
+  </.link>
 </div>

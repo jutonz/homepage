@@ -33,7 +33,7 @@ fn form -> %>
   </div>
 
   <div>
-    <%= submit(@action, data: [role: "ingredient-submit"]) %>
+    <%= submit(@action, class: "button", data: [role: "ingredient-submit"]) %>
 
     <%= if Ecto.Changeset.get_field(@changeset, :id) do %>
       <%= link(

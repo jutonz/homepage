@@ -46,13 +46,14 @@ defmodule ClientWeb.Soap.OrderController do
   end
 
   def edit(conn, %{"id" => id} = _params) do
-    changeset =
+    order =
       conn
       |> Session.current_user_id()
       |> Soap.get_order(id)
-      |> Soap.order_changeset()
 
-    render(conn, "edit.html", changeset: changeset)
+    changeset = Soap.order_changeset(order)
+
+    render(conn, "edit.html", changeset: changeset, order: order)
   end
 
   def update(conn, %{"order" => order_params, "id" => id} = _params) do

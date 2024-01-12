@@ -38,13 +38,14 @@ defmodule ClientWeb.Soap.BatchController do
   end
 
   def edit(conn, %{"id" => id} = _params) do
-    changeset =
+    batch =
       conn
       |> Session.current_user_id()
       |> Soap.get_batch(id)
-      |> Soap.batch_changeset()
 
-    render(conn, "edit.html", changeset: changeset)
+    changeset = Soap.batch_changeset(batch)
+
+    render(conn, "edit.html", changeset: changeset, batch: batch)
   end
 
   def update(conn, %{"batch" => batch_params, "id" => id} = _params) do
