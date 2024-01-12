@@ -18,6 +18,7 @@ if ! test -f "$keyfile"; then
   key=$(
     op item get \
     "Secret key" \
+    --account "my.1password.com" \
     --vault="Homepage" \
     --fields="password"
   )
@@ -29,6 +30,7 @@ set -ex
 token=$(
   op item get \
   "Homepage deploy GH token" \
+  --account "my.1password.com" \
   --vault="Homepage" \
   --fields="credential"
 )
