@@ -1,9 +1,14 @@
 <div class="m-4">
-  <div class="text-xl mb-5">New batch</div>
+  <ClientWeb.Components.Breadcrumbs.breadcrumbs>
+    <:crumb href={~p"/soap"} title="Soap" />
+    <:crumb href={~p"/soap/batches"} title="Batches" />
+    <div>New batch</div>
+  </ClientWeb.Components.Breadcrumbs.breadcrumbs>
+
   <%= render(
     "_form.html",
     changeset: @changeset,
-    submit_path: Routes.soap_batch_path(@conn, :create),
+    submit_path: ~p"/soap/batches",
     action: "Create"
   ) %>
 </div>

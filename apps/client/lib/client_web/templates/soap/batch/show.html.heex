@@ -1,17 +1,9 @@
-<div class="m-5">
-  <div class="flex align-center text-xl mb-5">
-    <div class="mr-2 text-gray-500">
-      <%= link("Soap", to: Routes.soap_soap_path(@conn, :index)) %>
-    </div>
-    >
-    <div class="ml-2 mr-2 text-gray-500">
-      <%= link("Batches", to: Routes.soap_batch_path(@conn, :index)) %>
-    </div>
-    >
-    <div class="ml-2" data-role="soap-batch-name">
-      <%= @batch.name %>
-    </div>
-  </div>
+<div class="m-4">
+  <ClientWeb.Components.Breadcrumbs.breadcrumbs>
+    <:crumb href={~p"/soap"} title="Soap" />
+    <:crumb href={~p"/soap/batches"} title="Batches" />
+    <div data-role="soap-batch-name"><%= @batch.name %></div>
+  </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
   <table class="mb-5">
     <tr>
@@ -36,19 +28,19 @@
     </tr>
   </table>
 
-  <%= link(
-    "Edit batch",
-    to: Routes.soap_batch_path(@conn, :edit, @batch.id),
-    class: "button"
-  ) %>
+  <.link href={~p"/soap/batches/#{@batch.id}/edit"} class="button">
+    Edit batch
+  </.link>
 
-  <%= link(
-    "Delete batch",
-    to: Routes.soap_batch_path(@conn, :delete, @batch.id),
-    class: "button",
-    method: :delete,
-    data: [confirm: "Are you sure", role: "soap-batch-delete"]
-  ) %>
+  <.link
+    href={~p"/soap/batches/#{@batch.id}"}
+    class="button button--danger"
+    method="delete"
+    data-confirm="Are you sure?"
+    data-role="soap-batch-delete"
+  >
+    Delete batch
+  </.link>
 
   <hr class="my-5" />
 
@@ -69,11 +61,12 @@
     <%= for batch_ingredient <- @batch.batch_ingredients do %>
       <tr class="hover:bg-gray-800 cursor-pointer" data-role="batch-ingredient">
         <td class="p-2 pl-0">
-          <%= link(
-            batch_ingredient.name,
-            to: Routes.soap_batch_ingredient_path(@conn, :edit, @batch.id, batch_ingredient.id),
-            data: [role: "batch-ingredient-#{batch_ingredient.id}"]
-          ) %>
+          <.link
+            href={~p"/soap/batches/#{@batch.id}/ingredients/#{batch_ingredient.id}/edit"}
+            data-role={"batch-ingredient-#{batch_ingredient.id}"}
+          >
+            <%= batch_ingredient.name %>
+          </.link>
         </td>
         <td class="p-2"><%= batch_ingredient.ingredient_id %></td>
         <td class="p-2"><%= batch_ingredient.amount_used %> g</td>

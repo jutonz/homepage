@@ -1,20 +1,19 @@
 <div class="m-4">
-  <div class="text-xl">Soap</div>
+  <ClientWeb.Components.Breadcrumbs.breadcrumbs>
+    <div>Soap</div>
+  </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
   <div class="flex mt-6 flex-col">
     <div class="mb-6">
-      <%= link("View Orders", to: Routes.soap_order_path(@conn, :index), class: "button") %>
+      <.link href={~p"/soap/orders"} class="button">View Orders</.link>
     </div>
 
     <div class="mb-6">
-      <%= link("View Batches", to: Routes.soap_batch_path(@conn, :index), class: "button") %>
+      <.link href={~p"/soap/batches"} class="button">View Batches</.link>
     </div>
 
     <div>
-      <%= link("View Ingredients",
-        to: Routes.soap_ingredient_path(@conn, :index),
-        class: "button"
-      ) %>
+      <.link href={~p"/soap/ingredients"} class="button">View Ingredients</.link>
     </div>
   </div>
 </div>

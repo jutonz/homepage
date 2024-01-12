@@ -1,27 +1,22 @@
-<div class="m-5">
-  <div class="flex align-center text-xl">
-    <div class="mr-2 text-gray-500">
-      <%= link("Soap", to: Routes.soap_soap_path(@conn, :index)) %>
-    </div>
-    >
-    <div class="ml-2">Batches</div>
-  </div>
+<div class="m-4">
+  <ClientWeb.Components.Breadcrumbs.breadcrumbs>
+    <:crumb href={~p"/soap"} title="Soap" />
+    <div>Batches</div>
+  </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
   <div class="flex flex-col mb-4">
     <%= for batch <- @batches do %>
       <div class="mt-5 mb-5">
-        <%= link(
-          batch.name,
-          to: Routes.soap_batch_path(@conn, :show, batch.id),
-          data: [role: "soap-batch-name"]
-        ) %>
+        <.link href={~p"/soap/batches/#{batch.id}"} data-role="soap-batch-name">
+          <%= batch.name %>
+        </.link>
       </div>
     <% end %>
   </div>
 
   <%= link(
     "Create batch",
-    to: Routes.soap_batch_path(@conn, :new),
+    to: ~p"/soap/batches/new",
     class: "mt-4 button",
     data: [role: "create-soap-batch"]
   ) %>

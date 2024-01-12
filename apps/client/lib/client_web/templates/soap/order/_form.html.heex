@@ -1,50 +1,15 @@
-<%= form_for(
-  @changeset,
-  @submit_path,
-fn form -> %>
-  <div class="flex flex-1 flex-col mb-6">
-    <div>
-      <%= label(form, :name, "Name", class: "mr-4") %>
-      <%= text_input(
-        form,
-        :name,
-        class: "mt-2",
-        autofocus: true,
-        data: [role: "soap-order-name-input"]
-      ) %>
-      <div class="text-red-600 mt-1">
-        <%= error_tag(form, :name) %>
-      </div>
-    </div>
+<.simple_form :let={f} for={@changeset} action={@submit_path}>
+  <.input field={f[:name]} label="Name" data-role="soap-order-name-input" />
+  <.input
+    field={f[:shipping_cost]}
+    label="Shipping cost"
+    data-role="soap-order-shipping-cost-input"
+  />
+  <.input field={f[:tax]} label="Tax" data-role="soap-order-tax-input" />
 
-    <div>
-      <%= label(form, :shipping_cost, "Shipping cost", class: "mr-4") %>
-      <%= text_input(
-        form,
-        :shipping_cost,
-        class: "mt-2",
-        autofocus: true,
-        data: [role: "soap-order-shipping-cost-input"]
-      ) %>
-      <div class="text-red-600 mt-1">
-        <%= error_tag(form, :shipping_cost) %>
-      </div>
-    </div>
-
-    <div>
-      <%= label(form, :tax, "Tax", class: "mr-4") %>
-      <%= text_input(
-        form,
-        :tax,
-        class: "mt-2",
-        autofocus: true,
-        data: [role: "soap-order-tax-input"]
-      ) %>
-      <div class="text-red-600 mt-1">
-        <%= error_tag(form, :tax) %>
-      </div>
-    </div>
-  </div>
-
-  <%= submit(@action, data: [role: "soap-order-submit"]) %>
-<% end) %>
+  <:actions>
+    <button class="button" data-role="soap-order-submit">
+      <%= @action %>
+    </button>
+  </:actions>
+</.simple_form>
