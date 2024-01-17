@@ -45,7 +45,7 @@
     "@testing-library/cypress": "^10.0.1",
     "autoprefixer": "^10.4.16",
     "cssnano": "^6.0.3",
-    "cypress": "^13.6.2",
+    "cypress": "^13.6.3",
     "date-fns": "^3.2.0",
     "esbuild": "0.19.11",
     "postcss": "^8.4.33",
