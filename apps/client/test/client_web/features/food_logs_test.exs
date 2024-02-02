@@ -1,6 +1,6 @@
 defmodule ClientWeb.FoodLogsTest do
   use ClientWeb.FeatureCase, async: true
-  import Wallaby.Query, only: [css: 1]
+  import Wallaby.Query
   alias Client.FoodLogs
 
   test "it allows creating food logs", %{session: session} do
@@ -8,7 +8,7 @@ defmodule ClientWeb.FoodLogsTest do
     name = "name"
 
     session
-    |> visit(Routes.food_log_path(@endpoint, :index, as: user.id))
+    |> visit("/food-logs?as=#{user.id}")
     |> click(role("new-food-log"))
     |> fill_in(role("food-log-name-input"), with: name)
     |> click(role("create-food-log"))
@@ -20,11 +20,10 @@ defmodule ClientWeb.FoodLogsTest do
     log = insert(:food_log, owner_id: user.id)
 
     session
-    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
-    |> click(role("food-log-bc-to-index"))
+    |> visit("/food-logs/#{log.id}?as=#{user.id}")
+    |> click(link("Food Logs"))
 
-    index_path = Routes.food_log_path(@endpoint, :index)
-    assert current_path(session) == index_path
+    assert current_path(session) == "/food-logs"
   end
 
   test "it allows updating food logs", %{session: session} do
@@ -33,8 +32,8 @@ defmodule ClientWeb.FoodLogsTest do
     new_name = "new name!"
 
     session
-    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
-    |> click(role("edit-food-log"))
+    |> visit("/food-logs/#{log.id}?as=#{user.id}")
+    |> click(link("Edit"))
     |> fill_in(role("food-log-name-input"), with: new_name)
     |> click(role("update-food-log"))
     |> assert_has(role("food-log-title", text: new_name))
@@ -46,7 +45,7 @@ defmodule ClientWeb.FoodLogsTest do
     desc = "food!"
 
     session
-    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> visit("/food-logs/#{log.id}?as=#{user.id}")
     |> fill_in(role("entry-desc-input"), with: desc)
     |> click(role("entry-submit"))
     |> assert_has(role("food-log-entry", text: desc))
@@ -59,7 +58,7 @@ defmodule ClientWeb.FoodLogsTest do
     new_desc = "wee"
 
     session
-    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> visit("/food-logs/#{log.id}?as=#{user.id}")
     |> click(entry_selector(entry.id))
     |> fill_in(role("entry-desc-update-input"), with: new_desc)
     |> click(role("entry-update-submit"))
@@ -76,7 +75,7 @@ defmodule ClientWeb.FoodLogsTest do
     iso_time = iso_time |> to_string() |> String.replace(" ", "T")
 
     session
-    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> visit("/food-logs/#{log.id}?as=#{user.id}")
     |> click(entry_selector(entry.id))
     |> find(css("#entry_occurred_at_date"))
     |> execute_script("document.getElementById('entry_occurred_at_date').value = '#{date}'")
@@ -102,7 +101,7 @@ defmodule ClientWeb.FoodLogsTest do
     entry = insert(:food_log_entry, food_log_id: log.id, user_id: user.id)
 
     session
-    |> visit(Routes.food_log_path(@endpoint, :show, log.id, as: user.id))
+    |> visit("/food-logs/#{log.id}?as=#{user.id}")
     |> click(entry_selector(entry.id))
     |> accept_confirm(fn session ->
       click(session, role("delete-log-entry"))
