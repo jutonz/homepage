@@ -3,6 +3,7 @@ defmodule Client.FoodLogs do
   alias Client.FoodLogs.FoodLog
   alias Client.FoodLogs.Query
   alias Client.Repo
+  import Ecto.Query, only: [from: 2]
 
   def changeset(log, params \\ %{}),
     do: FoodLog.changeset(log, params)
@@ -33,6 +34,18 @@ defmodule Client.FoodLogs do
 
   def list_entries_by_day(log_id),
     do: Entry.Query.grouped_by_day(log_id)
+
+  def list_entries_between_dates(log_id, start_time, end_time) do
+    query =
+      from(e in Entry,
+        where: e.food_log_id == ^log_id,
+        where: e.occurred_at >= ^start_time,
+        where: e.occurred_at <= ^end_time,
+        order_by: [asc: e.occurred_at]
+      )
+
+    Repo.all(query)
+  end
 
   def update(log, params),
     do: log |> changeset(params) |> Repo.update()
