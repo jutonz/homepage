@@ -32,13 +32,20 @@ defmodule ClientWeb.FoodLog.EntriesView do
     entry_params = Map.merge(entry_params, req_params)
 
     case FoodLogs.create_entry(entry_params) do
-      {:ok, _entry} ->
-        assigns = [
-          entries: list_entries(socket),
-          form: %Entry{} |> FoodLogs.entry_changeset(%{}) |> to_form()
-        ]
+      {:ok, %{id: id, description: description}} ->
+        entry = %{id: id, description: description}
+        entries = socket.assigns[:entries]
 
-        {:noreply, assign(socket, assigns)}
+        {_count, entries} =
+          Map.get_and_update(entries, today(), fn day_entries ->
+            {day_entries, day_entries ++ [entry]}
+          end)
+
+        {:noreply,
+         assign(socket,
+           entries: entries,
+           form: empty_form()
+         )}
 
       {:error, changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
@@ -65,6 +72,9 @@ defmodule ClientWeb.FoodLog.EntriesView do
 
   defp maybe_add_today(entries),
     do: Map.put_new(entries, today(), [])
+
+  defp empty_form,
+    do: %Entry{} |> FoodLogs.entry_changeset(%{}) |> to_form()
 
   defp now do
     with {:ok, now} <- DateTime.now(timezone()) do
