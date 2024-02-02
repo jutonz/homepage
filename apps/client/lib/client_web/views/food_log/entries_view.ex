@@ -14,7 +14,7 @@ defmodule ClientWeb.FoodLog.EntriesView do
     assigns = [
       log: session["log"],
       current_user_id: session["current_user_id"],
-      entry_changeset: entry_cs,
+      form: to_form(entry_cs),
       entries: list_entries(session),
       today: today()
     ]
@@ -35,13 +35,13 @@ defmodule ClientWeb.FoodLog.EntriesView do
       {:ok, _entry} ->
         assigns = [
           entries: list_entries(socket),
-          entry_changeset: FoodLogs.entry_changeset(%Entry{}, %{})
+          form: %Entry{} |> FoodLogs.entry_changeset(%{}) |> to_form()
         ]
 
         {:noreply, assign(socket, assigns)}
 
       {:error, changeset} ->
-        {:noreply, assign(socket, :entry_changeset, changeset)}
+        {:noreply, assign(socket, form: to_form(changeset))}
     end
   end
 
