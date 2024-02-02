@@ -1,5 +1,4 @@
 defmodule ClientWeb.Components.FoodLogs.DayView do
-  alias ClientWeb.FoodLogController
   use ClientWeb, :live_component
   alias Client.FoodLogs
 

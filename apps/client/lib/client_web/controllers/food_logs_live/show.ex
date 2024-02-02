@@ -7,7 +7,19 @@ defmodule ClientWeb.FoodLogsLive.Show do
     <div class="m-4">
       <ClientWeb.Components.Breadcrumbs.breadcrumbs>
         <:crumb title="Food Logs" href={~p"/food-logs"} />
-        <span><%= "hey" %></span>
+        <div class="flex flex-row">
+          <span data-role="food-log-title"><%= @log.name %></span>
+          <div class="ml-5">
+            <.link href={~p"/food-logs/#{@log.id}/edit"} class="button mr-4">Edit</.link>
+            <%= link(
+              "Delete",
+              to: ~p"/food-logs/#{@log.id}",
+              method: :delete,
+              data: [confirm: "Are you sure"],
+              class: "button"
+            ) %>
+          </div>
+        </div>
       </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
       <%= for day <- @days do %>
@@ -15,7 +27,7 @@ defmodule ClientWeb.FoodLogsLive.Show do
           <.live_component
             module={ClientWeb.Components.FoodLogs.DayView}
             id={day}
-            log_id={@log_id}
+            log_id={@log.id}
             date={day}
           />
         </div>
@@ -34,9 +46,11 @@ defmodule ClientWeb.FoodLogsLive.Show do
   end
 
   def mount(params, session, socket) do
+    LiveHelpers.allow_ecto_sandbox(socket)
     %{"id" => log_id} = params
     %{"user_id" => user_id} = session
 
+    log = FoodLogs.get(log_id)
     now = now()
 
     days =
@@ -45,7 +59,7 @@ defmodule ClientWeb.FoodLogsLive.Show do
 
     socket =
       assign(socket,
-        log_id: log_id,
+        log: log,
         user_id: user_id,
         days: days,
         form: empty_form()
@@ -56,7 +70,7 @@ defmodule ClientWeb.FoodLogsLive.Show do
 
   def handle_event("add_entry", %{"entry" => entry_params}, socket) do
     req_params = %{
-      "food_log_id" => socket.assigns[:log_id],
+      "food_log_id" => socket.assigns[:log].id,
       "user_id" => socket.assigns[:user_id],
       "occurred_at" => now()
     }
@@ -95,17 +109,24 @@ defmodule ClientWeb.FoodLogsLive.Show do
     end
   end
 
-  defp today,
-    do: DateTime.to_date(now())
+  defp ids_for_entry_day(entry, socket) do
+    all_days = socket.assigns[:days]
 
-  defp id_for_entry_day(entry, socket) do
-    Enum.find(socket.assigns[:days], fn day ->
-      Timex.day(day) == Timex.day(entry.occurred_at)
-    end)
+    matching_day =
+      Enum.find(all_days, fn day ->
+        Timex.day(day) == Timex.day(entry.occurred_at)
+      end)
+
+    if matching_day do
+      [matching_day]
+    else
+      all_days
+    end
   end
 
   defp update_entry_day(entry, socket) do
-    id = id_for_entry_day(entry, socket)
-    send_update(self(), ClientWeb.Components.FoodLogs.DayView, id: id)
+    Enum.each(ids_for_entry_day(entry, socket), fn id ->
+      send_update(self(), ClientWeb.Components.FoodLogs.DayView, id: id)
+    end)
   end
 end

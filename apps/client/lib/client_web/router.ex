@@ -45,7 +45,7 @@ defmodule ClientWeb.Router do
     pipe_through(:browser_authenticated)
 
     resources("/food-logs", FoodLogController, except: ~w[show]a)
-    live("food-logs/:id", FoodLogsLive.Show, :show)
+    live("/food-logs/:id", FoodLogsLive.Show, :show)
 
     resources("/water-logs", WaterLogController, only: ~w[index new create show]a) do
       resources("/filters", WaterFilterController,
