@@ -10,7 +10,7 @@
     <%= if day == @today do %>
       <.simple_form for={@form} phx-submit="add_entry">
         <div class="flex flex-row items-center">
-          <.input field={@form[:description]} />
+          <.input field={@form[:description]} data-role="entry-desc-input" />
           <button class="button mt-2 ml-4" data-role="entry-submit">
             Add entry
           </button>
