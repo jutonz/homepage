@@ -8,22 +8,14 @@
     <% end %>
 
     <%= if day == @today do %>
-      <.form :let={f} for={@entry_changeset} phx-submit="add_entry">
+      <.simple_form for={@form} phx-submit="add_entry">
         <div class="flex flex-row items-center">
-          <div>
-            <%= text_input(
-              f,
-              :description,
-              id: "food-log-entry-input",
-              phx_hook: "FoodLogEntryInput",
-              data: [role: "entry-desc-input"]
-            ) %>
-            <%= error_tag(f, :description) %>
-          </div>
-
-          <%= submit("Add entry", data: [role: "entry-submit"], class: "button ml-4") %>
+          <.input field={@form[:description]} data-role="entry-desc-input" />
+          <button class="button mt-2 ml-4" data-role="entry-submit">
+            Add entry
+          </button>
         </div>
-      </.form>
+      </.simple_form>
     <% end %>
   <% end %>
 </div>
