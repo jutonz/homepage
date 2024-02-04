@@ -30,7 +30,7 @@ defmodule ClientWeb.Components.FoodLogs.DayView do
       |> Enum.map(fn {assigns, _socket} -> assigns[:date] end)
       |> Enum.sort(DateTime)
 
-    today = DateTime.utc_now()
+    today = now()
     first_date = hd(dates) || today
     last_date = List.last(dates) || today
 
@@ -57,5 +57,14 @@ defmodule ClientWeb.Components.FoodLogs.DayView do
 
   def mount(socket) do
     {:ok, socket}
+  end
+
+  defp timezone,
+    do: Application.get_env(:client, :default_timezone)
+
+  defp now do
+    with {:ok, now} <- DateTime.now(timezone()) do
+      now
+    end
   end
 end
