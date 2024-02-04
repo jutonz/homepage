@@ -40,7 +40,7 @@ defmodule Client.Factory do
       description: sequence(:description, &"food-item-#{&1}"),
       user_id: rand_int(),
       food_log_id: uuid(),
-      occurred_at: DateTime.utc_now()
+      occurred_at: now()
     }
   end
 
@@ -186,4 +186,13 @@ defmodule Client.Factory do
 
   def rand_int, do: System.unique_integer([:positive])
   defp uuid, do: Ecto.UUID.generate()
+
+  defp timezone,
+    do: Application.get_env(:client, :default_timezone)
+
+  defp now do
+    with {:ok, now} <- DateTime.now(timezone()) do
+      now
+    end
+  end
 end

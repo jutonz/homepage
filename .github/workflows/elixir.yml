@@ -17,8 +17,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.15.7'
-        otp-version: '26.1.2'
+        elixir-version: '1.16.1'
+        otp-version: '26.2.1'
     - name: Restore dev cache
       uses: actions/cache@v3
       id: dev-cache
@@ -125,8 +125,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.15.7'
-        otp-version: '26.1.2'
+        elixir-version: '1.16.1'
+        otp-version: '26.2.1'
     - name: Restore test cache
       uses: actions/cache@v3
       with:
@@ -193,8 +193,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.15.7'
-        otp-version: '26.1.2'
+        elixir-version: '1.16.1'
+        otp-version: '26.2.1'
     - name: Restore static asset cache
       uses: actions/cache@v3
       with:
@@ -238,8 +238,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.15.7'
-        otp-version: '26.1.2'
+        elixir-version: '1.16.1'
+        otp-version: '26.2.1'
     - name: Restore static asset cache
       uses: actions/cache@v3
       with:
