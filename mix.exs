@@ -6,7 +6,7 @@ defmodule HomepageUmbrella.Mixfile do
       apps_path: "apps",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      elixir: "~> 1.15",
+      elixir: "~> 1.16",
       test_coverage: [tool: ExCoveralls],
       aliases: aliases(),
       dialyzer: [
