@@ -1,6 +1,6 @@
 defmodule ClientWeb.Components.RepeatableLists.TemplateItem do
-  alias Client.RepeatableLists
   use ClientWeb, :live_component
+  alias Client.RepeatableLists
 
   def render(assigns) do
     assigns =

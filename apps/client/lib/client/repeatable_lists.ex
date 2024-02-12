@@ -1,8 +1,12 @@
 defmodule Client.RepeatableLists do
   import Ecto.Query, only: [from: 2]
   alias Client.Repo
-  alias Client.RepeatableLists.Template
-  alias Client.RepeatableLists.TemplateItem
+
+  alias Client.RepeatableLists.{
+    Template,
+    TemplateItem,
+    TemplateSection
+  }
 
   ##############################################################################
   # Index
@@ -29,6 +33,12 @@ defmodule Client.RepeatableLists do
   def template_item_changeset(item, attrs \\ %{}),
     do: TemplateItem.changeset(item, attrs)
 
+  def new_template_section_changeset(attrs \\ %{}),
+    do: TemplateSection.changeset(%TemplateSection{}, attrs)
+
+  def template_section_changeset(section, attrs \\ %{}),
+    do: TemplateSection.changeset(section, attrs)
+
   ##############################################################################
   # Create
   ##############################################################################
@@ -47,6 +57,14 @@ defmodule Client.RepeatableLists do
     |> Repo.insert()
   end
 
+  def create_template_section(template_id, attrs) do
+    attrs = Map.put(attrs, "template_id", template_id) |> IO.inspect()
+
+    %TemplateSection{}
+    |> template_section_changeset(attrs)
+    |> Repo.insert()
+  end
+
   ##############################################################################
   # Get
   ##############################################################################
@@ -56,7 +74,7 @@ defmodule Client.RepeatableLists do
       from(t in Template,
         where: t.owner_id == ^user_id,
         where: t.id == ^id,
-        preload: [:items]
+        preload: [:items, :sections]
       )
 
     Repo.one(query)

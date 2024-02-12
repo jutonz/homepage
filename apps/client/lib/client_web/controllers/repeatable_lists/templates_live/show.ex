@@ -14,6 +14,8 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
         <div><%= @template.description %></div>
       <% end %>
 
+      <hr class="my-3" />
+
       <div>
         <%= for item <- @template.items do %>
           <.live_component
@@ -28,9 +30,31 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
             <.input field={@new_item_changeset[:name]} label="Name" autofocus />
           </.simple_form>
         <% else %>
-          <button phx-click="add_item" class="button button--inline mt-2">+ Add item</button>
+          <button phx-click="add_item" class="button button--inline my-2 ml-2">+ Add item</button>
         <% end %>
+
+        <%= for section <- @template.sections do %>
+          <.live_component
+            module={ClientWeb.Components.RepeatableLists.TemplateSection}
+            id={"section-#{section.id}"}
+            section={section}
+          />
+        <% end %>
+
+        <button phx-click={show_modal("new-section")} class="button button--inline mt-2">
+          + Add section
+        </button>
       </div>
+
+      <.modal id="new-section">
+        <h1 class="text-2xl mb-4">New section</h1>
+        <.simple_form for={@new_section_changeset} phx-submit="save_new_section">
+          <.input field={@new_section_changeset[:name]} label="Name" autofocus />
+          <:actions>
+            <.button>Save</.button>
+          </:actions>
+        </.simple_form>
+      </.modal>
 
       <.delete_button />
     </div>
@@ -39,7 +63,15 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
 
   def mount(%{"id" => id}, %{"user_id" => user_id}, socket) do
     template = RepeatableLists.get_template(user_id, id)
-    {:ok, assign(socket, template: template), layout: {ClientWeb.LayoutView, :app}}
+    section_changeset = RepeatableLists.new_template_section_changeset()
+
+    socket =
+      assign(socket,
+        template: template,
+        new_section_changeset: to_form(section_changeset)
+      )
+
+    {:ok, socket, layout: {ClientWeb.LayoutView, :app}}
   end
 
   def handle_event("delete", _params, socket) do
@@ -71,6 +103,17 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
     {:noreply, assign(socket, new_item_changeset: to_form(new_item))}
   end
 
+  def handle_event("add_section", _params, socket) do
+    template = socket.assigns[:template]
+
+    changeset =
+      template
+      |> Ecto.build_assoc(:sections)
+      |> RepeatableLists.template_section_changeset()
+
+    {:noreply, assign(socket, new_section_changeset: to_form(changeset))}
+  end
+
   def handle_event("save_new_item", %{"template_item" => params}, socket) do
     template = socket.assigns[:template]
 
@@ -78,6 +121,18 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
       case RepeatableLists.create_template_item(template.id, params) do
         {:ok, _item} -> redirect(socket, to: ~p"/repeatable-lists/templates/#{template.id}")
         {:error, changeset} -> assign(socket, new_item_changeset: to_form(changeset))
+      end
+
+    {:noreply, socket}
+  end
+
+  def handle_event("save_new_section", %{"template_section" => params}, socket) do
+    template = socket.assigns[:template]
+
+    socket =
+      case RepeatableLists.create_template_section(template.id, params) do
+        {:ok, _section} -> redirect(socket, to: ~p"/repeatable-lists/templates/#{template.id}")
+        {:error, changeset} -> assign(socket, new_section_changeset: to_form(changeset))
       end
 
     {:noreply, socket}
