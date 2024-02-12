@@ -68,4 +68,23 @@ defmodule ClientWeb.RepeatableListsTest do
       assert %{name: "after"} = Client.Repo.reload(item)
     end)
   end
+
+  test "can add a section to a template", %{session: session} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+
+    session
+    |> visit("/repeatable-lists/templates/#{template.id}?as=#{user.id}")
+    |> click(button("+ Add section"))
+    |> fill_in(text_field("Name"), with: "Section name")
+    |> send_keys([:enter])
+    |> assert_text("Section: Section name")
+
+    template = Repo.preload(template, :sections)
+    [section] = template.sections
+
+    assert %RepeatableLists.TemplateSection{
+             name: "Section name"
+           } = section
+  end
 end
