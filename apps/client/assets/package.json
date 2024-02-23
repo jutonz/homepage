@@ -44,7 +44,7 @@
     "@tailwindcss/forms": "^0.5.7",
     "@testing-library/cypress": "^10.0.1",
     "autoprefixer": "^10.4.17",
-    "cssnano": "^6.0.3",
+    "cssnano": "^6.0.4",
     "cypress": "^13.6.6",
     "date-fns": "^3.3.1",
     "esbuild": "0.20.1",
