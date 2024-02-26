@@ -40,7 +40,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/client-preset": "^4.2.4",
-    "@parcel/watcher": "^2.4.0",
+    "@parcel/watcher": "^2.4.1",
     "@tailwindcss/forms": "^0.5.7",
     "@testing-library/cypress": "^10.0.1",
     "autoprefixer": "^10.4.17",
