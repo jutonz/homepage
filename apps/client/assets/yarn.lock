@@ -4451,10 +4451,10 @@ phoenix@1.7.11:
   resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.7.11.tgz#5595ea1bc725126bdd7db6cfb179f67bff67263f"
   integrity sha512-aeikMR/Qh6gAygY45d5p/B7srqH60h0GbCIauEAStAtRUq4hvlkzDTyDj1NJidJEV9IKFhZe7f9L+zosUJdF/g==
 
-phoenix_html@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-4.1.0.tgz#cad79b2dacb9d493c36f5f18196f8907f3f13a19"
-  integrity sha512-c6M+L3dFy8Z2AXXNI1RlY73MlHWo+qJ30ydzvt56jzMKShaRFt0OklAk5rQvQavWQcApLOAiws92JAsnMNoixA==
+phoenix_html@4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-4.1.1.tgz#0be8c4a0592350b18ff97671eb12f9c6445b5a5a"
+  integrity sha512-RpvlxDkP13MTQkfbZGFD7XrLgE28mqlwU+rSQxhNyj9U0KzPgeeh4ctn+Mz7jlpsKFAhLe47PXQsff3EXJ4mbg==
 
 phoenix_live_view@0.20.11:
   version "0.20.11"
