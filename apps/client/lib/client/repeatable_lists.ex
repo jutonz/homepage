@@ -70,14 +70,15 @@ defmodule Client.RepeatableLists do
   ##############################################################################
 
   def get_template(user_id, id) do
-    query =
-      from(t in Template,
-        where: t.owner_id == ^user_id,
-        where: t.id == ^id,
-        preload: [:items, :sections]
-      )
-
-    Repo.one(query)
+    from(t in Template,
+      where: t.owner_id == ^user_id,
+      where: t.id == ^id
+    )
+    |> Repo.one()
+    |> Repo.preload(
+      items: from(i in TemplateItem, where: is_nil(i.section_id)),
+      sections: :items
+    )
   end
 
   ##############################################################################

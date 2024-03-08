@@ -14,6 +14,8 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
         <div><%= @template.description %></div>
       <% end %>
 
+      <.delete_button />
+
       <hr class="my-3" />
 
       <div>
@@ -36,6 +38,7 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
             module={ClientWeb.Components.RepeatableLists.TemplateSection}
             id={"section-#{section.id}"}
             section={section}
+            template={@template}
           />
         <% end %>
 
@@ -46,15 +49,17 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
 
       <.modal id="new-section">
         <h1 class="text-2xl mb-4">New section</h1>
-        <.simple_form for={@new_section_changeset} phx-submit="save_new_section">
+        <.simple_form
+          for={@new_section_changeset}
+          phx-submit="save_new_section"
+          data-role="new-section-form"
+        >
           <.input field={@new_section_changeset[:name]} label="Name" autofocus />
           <:actions>
             <.button>Save</.button>
           </:actions>
         </.simple_form>
       </.modal>
-
-      <.delete_button />
     </div>
     """
   end

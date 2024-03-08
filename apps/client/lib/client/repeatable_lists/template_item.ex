@@ -14,10 +14,10 @@ defmodule Client.RepeatableLists.TemplateItem do
     timestamps()
 
     belongs_to(:template, Template, type: :binary_id)
-    belongs_to(:section, TemplateSection, source: :section_id)
+    belongs_to(:section, TemplateSection, type: :binary_id, source: :section_id)
   end
 
-  @optional_fields ~w[]a
+  @optional_fields ~w[section_id]a
   @required_fields ~w[name template_id]a
 
   def changeset(item, attrs) do
