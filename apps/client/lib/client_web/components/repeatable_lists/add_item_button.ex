@@ -36,6 +36,14 @@ defmodule ClientWeb.Components.RepeatableLists.AddItemButton do
 
   def handle_event("save_new_item", %{"template_item" => params}, socket) do
     template = socket.assigns[:template]
+    section = socket.assigns[:section]
+
+    params =
+      if section do
+        Map.put(params, "section_id", section.id)
+      else
+        params
+      end
 
     socket =
       case RepeatableLists.create_template_item(template.id, params) do
