@@ -25,13 +25,11 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
           />
         <% end %>
 
-        <%= if assigns[:new_item_changeset] do %>
-          <.simple_form for={@new_item_changeset} phx-submit="save_new_item">
-            <.input field={@new_item_changeset[:name]} label="Name" autofocus />
-          </.simple_form>
-        <% else %>
-          <button phx-click="add_item" class="button button--inline my-2 ml-2">+ Add item</button>
-        <% end %>
+        <.live_component
+          module={ClientWeb.Components.RepeatableLists.AddItemButton}
+          id="new-item-btn"
+          template={@template}
+        />
 
         <%= for section <- @template.sections do %>
           <.live_component
@@ -92,17 +90,6 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
     {:noreply, socket}
   end
 
-  def handle_event("add_item", _params, socket) do
-    template = socket.assigns[:template]
-
-    new_item =
-      template
-      |> Ecto.build_assoc(:items)
-      |> RepeatableLists.template_item_changeset()
-
-    {:noreply, assign(socket, new_item_changeset: to_form(new_item))}
-  end
-
   def handle_event("add_section", _params, socket) do
     template = socket.assigns[:template]
 
@@ -112,18 +99,6 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
       |> RepeatableLists.template_section_changeset()
 
     {:noreply, assign(socket, new_section_changeset: to_form(changeset))}
-  end
-
-  def handle_event("save_new_item", %{"template_item" => params}, socket) do
-    template = socket.assigns[:template]
-
-    socket =
-      case RepeatableLists.create_template_item(template.id, params) do
-        {:ok, _item} -> redirect(socket, to: ~p"/repeatable-lists/templates/#{template.id}")
-        {:error, changeset} -> assign(socket, new_item_changeset: to_form(changeset))
-      end
-
-    {:noreply, socket}
   end
 
   def handle_event("save_new_section", %{"template_section" => params}, socket) do
