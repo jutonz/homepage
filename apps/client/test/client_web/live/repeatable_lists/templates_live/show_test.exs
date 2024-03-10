@@ -20,6 +20,20 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.ShowTest do
     assert html =~ template.description
   end
 
+  test "renders links to associated lists", %{conn: conn} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+    list = insert(:repeatable_list, template: template)
+    {:ok, view, _html} = live(conn, template_path(template, user))
+
+    view
+    |> element("a", list.name)
+    |> render_click()
+
+    view
+    |> assert_redirected(~p"/repeatable-lists/#{list.id}")
+  end
+
   test "adds an item", %{conn: conn} do
     user = insert(:user)
     template = insert(:repeatable_list_template, owner: user)
@@ -64,6 +78,19 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.ShowTest do
     [item] = section.items
     assert item.name == "item"
     assert item.section_id == section.id
+  end
+
+  test "copies a list", %{conn: conn} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+    {:ok, view, _html} = live(conn, template_path(template, user))
+
+    {:error, {:redirect, %{to: to}}} =
+      view
+      |> element("button", "Clone")
+      |> render_click()
+
+    assert to =~ ~r"/repeatable-lists/"
   end
 
   defp template_path(template, user),

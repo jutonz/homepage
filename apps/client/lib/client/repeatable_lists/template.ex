@@ -3,6 +3,7 @@ defmodule Client.RepeatableLists.Template do
   import Ecto.Changeset
 
   alias Client.RepeatableLists.{
+    List,
     TemplateSection,
     TemplateItem
   }
@@ -17,6 +18,7 @@ defmodule Client.RepeatableLists.Template do
     belongs_to(:owner, Client.User)
     has_many(:sections, TemplateSection)
     has_many(:items, TemplateItem, foreign_key: :template_id)
+    has_many(:lists, List, foreign_key: :template_id)
   end
 
   @optional_fields ~w[description]a

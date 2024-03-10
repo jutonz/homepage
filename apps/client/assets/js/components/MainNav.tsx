@@ -125,7 +125,9 @@ function LogsSubnav() {
           <StaticLink pathname="/storage">Storage</StaticLink>
         </MenuItem>
         <MenuItem>
-          <StaticLink pathname="/repeatable-lists">Repeatable Lists</StaticLink>
+          <StaticLink pathname="/repeatable-lists/templates">
+            Repeatable Lists
+          </StaticLink>
         </MenuItem>
       </Menu>
     </>

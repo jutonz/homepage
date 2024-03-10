@@ -98,7 +98,9 @@ defmodule ClientWeb.Router do
     end
 
     scope("/repeatable-lists", RepeatableLists, as: :repeatable_lists) do
-      get("/", TemplateController, :index)
+      get("/templates", TemplateController, :index)
+
+      live("/:id", Live.Show, :show)
 
       resources(
         "/templates",

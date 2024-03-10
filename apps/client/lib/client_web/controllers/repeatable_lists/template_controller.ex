@@ -25,7 +25,7 @@ defmodule ClientWeb.RepeatableLists.TemplateController do
       nil ->
         conn
         |> put_flash(:info, "No such template")
-        |> redirect(to: ~p"/repeatable-lists")
+        |> redirect(to: ~p"/repeatable-lists/templates")
 
       template ->
         render(conn, "show.html", template: template)
