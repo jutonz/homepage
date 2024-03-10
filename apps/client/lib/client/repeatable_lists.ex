@@ -3,6 +3,9 @@ defmodule Client.RepeatableLists do
   alias Client.Repo
 
   alias Client.RepeatableLists.{
+    Item,
+    List,
+    Section,
     Template,
     TemplateItem,
     TemplateSection
@@ -26,6 +29,15 @@ defmodule Client.RepeatableLists do
 
   def template_changeset(template, attrs \\ %{}),
     do: Template.changeset(template, attrs)
+
+  def list_changeset(list, attrs \\ %{}),
+    do: List.changeset(list, attrs)
+
+  def new_item_changeset(attrs \\ %{}),
+    do: Item.changeset(%Item{}, attrs)
+
+  def new_section_changeset(attrs \\ %{}),
+    do: Section.changeset(%Section{}, attrs)
 
   def new_template_item_changeset(attrs \\ %{}),
     do: TemplateItem.changeset(%TemplateItem{}, attrs)
@@ -58,12 +70,16 @@ defmodule Client.RepeatableLists do
   end
 
   def create_template_section(template_id, attrs) do
-    attrs = Map.put(attrs, "template_id", template_id) |> IO.inspect()
+    attrs = Map.put(attrs, "template_id", template_id)
 
     %TemplateSection{}
     |> template_section_changeset(attrs)
     |> Repo.insert()
   end
+
+  defdelegate create_list_from_template(template),
+    to: Client.RepeatableLists.CreateListFromTemplate,
+    as: :perform
 
   ##############################################################################
   # Get
