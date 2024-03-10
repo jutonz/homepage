@@ -6,7 +6,7 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
     ~H"""
     <div class="m-4">
       <ClientWeb.Components.Breadcrumbs.breadcrumbs>
-        <:crumb title="Repeatable lists" href={~p"/repeatable-lists"} />
+        <:crumb title="Repeatable lists" href={~p"/repeatable-lists/templates"} />
         <span data-role="name"><%= @template.name %></span>
       </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
@@ -15,6 +15,9 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
       <% end %>
 
       <.delete_button />
+      <button type="button" phx-click="clone" class="button mt-10">
+        Clone
+      </button>
 
       <hr class="my-3" />
 
@@ -45,6 +48,21 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
         <button phx-click={show_modal("new-section")} class="button button--inline mt-2">
           + Add section
         </button>
+      </div>
+
+      <div>
+        <%= if Enum.any?(@template.lists) do %>
+          <hr class="my-3" />
+          <h3 class="text-xl mb-3">Lists</h3>
+        <% end %>
+
+        <%= for list <- @template.lists do %>
+          <div class="mb-3">
+            <.link href={~p"/repeatable-lists/#{list.id}"}>
+              <%= list.name %> (<%= list.inserted_at %>)
+            </.link>
+          </div>
+        <% end %>
       </div>
 
       <.modal id="new-section">
@@ -85,7 +103,7 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
         {:ok, _template} ->
           socket
           |> put_flash(:info, "Deleted template")
-          |> redirect(to: ~p"/repeatable-lists")
+          |> redirect(to: ~p"/repeatable-lists/templates")
 
         {:error, _changeset} ->
           socket
@@ -116,6 +134,16 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
       end
 
     {:noreply, socket}
+  end
+
+  def handle_event("clone", _params, socket) do
+    template = socket.assigns[:template]
+    {:ok, list} = RepeatableLists.create_list_from_template(template)
+
+    {
+      :noreply,
+      redirect(socket, to: ~p"/repeatable-lists/#{list.id}")
+    }
   end
 
   def delete_button(assigns) do

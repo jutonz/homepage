@@ -6,7 +6,7 @@ defmodule ClientWeb.RepeatableListsTest do
     user = insert(:user)
 
     session
-    |> visit("/repeatable-lists?as=#{user.id}")
+    |> visit("/repeatable-lists/templates?as=#{user.id}")
     |> click(link("New list template"))
     |> fill_in(text_field("Name"), with: "name")
     |> fill_in(text_field("Description"), with: "desc")
@@ -26,7 +26,7 @@ defmodule ClientWeb.RepeatableListsTest do
     template = insert(:repeatable_list_template, owner: user)
 
     session
-    |> visit("/repeatable-lists?as=#{user.id}")
+    |> visit("/repeatable-lists/templates?as=#{user.id}")
     |> click(link(template.name))
     |> click(button("Delete template"))
     |> find(css("[role=dialog]"), fn modal ->

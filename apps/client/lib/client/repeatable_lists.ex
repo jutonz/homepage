@@ -92,8 +92,24 @@ defmodule Client.RepeatableLists do
     )
     |> Repo.one()
     |> Repo.preload(
+      lists: [],
       items: from(i in TemplateItem, where: is_nil(i.section_id)),
       sections: :items
+    )
+  end
+
+  def get_list(user_id, id) do
+    from(l in List,
+      join: t in Template,
+      on: l.template_id == t.id,
+      where: t.owner_id == ^user_id,
+      where: l.id == ^id
+    )
+    |> Repo.one()
+    |> Repo.preload(
+      items: from(i in Item, where: is_nil(i.section_id)),
+      sections: :items,
+      template: from(t in Template, order_by: t.inserted_at)
     )
   end
 
