@@ -32,6 +32,15 @@ defmodule ClientWeb.RepeatableLists.Live.Show do
         id="new-item-btn"
         list={@list}
       />
+
+      <%= for section <- @list.sections do %>
+        <.live_component
+          module={ClientWeb.Components.RepeatableLists.Section}
+          id={"section-#{section.id}"}
+          section={section}
+          list={@list}
+        />
+      <% end %>
     </div>
     """
   end

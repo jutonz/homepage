@@ -69,6 +69,42 @@ defmodule ClientWeb.RepeatableLists.Live.ShowTest do
     assert Repo.reload(item).name == "wee"
   end
 
+  test "renders sections", %{conn: conn} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+    list = insert(:repeatable_list, template: template)
+    section1 = insert(:repeatable_list_section, list: list, name: "section1!")
+    section2 = insert(:repeatable_list_section, list: list, name: "section2")
+
+    {:ok, _view, html} = live(conn, list_path(list, user))
+
+    assert html =~ section1.name
+    assert html =~ section2.name
+  end
+
+  test "allows adding items to secitons", %{conn: conn} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+    list = insert(:repeatable_list, template: template)
+    section = insert(:repeatable_list_section, list: list, name: "section!")
+    {:ok, view, _html} = live(conn, list_path(list, user))
+
+    view
+    |> element("[data-section-id='#{section.id}'] button", "+ Add item")
+    |> render_click()
+
+    view
+    |> form("[data-role=new-item-form]", item: %{name: "item!"})
+    |> render_submit()
+
+    view
+    |> assert_redirected(list_path(list))
+
+    section = Repo.preload(section, :items)
+    assert [item] = section.items
+    assert item.name == "item!"
+  end
+
   defp list_path(list), do: ~p"/repeatable-lists/#{list.id}"
   defp list_path(list, user), do: ~p"/repeatable-lists/#{list.id}?as=#{user.id}"
 end
