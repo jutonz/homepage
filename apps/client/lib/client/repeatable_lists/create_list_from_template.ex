@@ -5,6 +5,7 @@ defmodule Client.RepeatableLists.CreateListFromTemplate do
 
   alias Client.RepeatableLists.{
     List,
+    Section,
     TemplateItem,
     TemplateSection
   }
@@ -22,39 +23,21 @@ defmodule Client.RepeatableLists.CreateListFromTemplate do
 
       {:ok, _result} =
         template
-        |> item_attrs(list)
-        |> Enum.reduce(Ecto.Multi.new(), fn item_cset, multi ->
-          Ecto.Multi.insert(multi, :rand.uniform(), item_cset)
-        end)
-        |> Repo.transaction()
-
-      {:ok, _result} =
-        template
         |> section_attrs(list)
         |> Enum.reduce(Ecto.Multi.new(), fn section_cset, multi ->
           Ecto.Multi.insert(multi, :rand.uniform(), section_cset)
         end)
         |> Repo.transaction()
 
-      list
-    end)
-  end
+      {:ok, _result} =
+        template
+        |> item_attrs(list)
+        |> Enum.reduce(Ecto.Multi.new(), fn item_cset, multi ->
+          Ecto.Multi.insert(multi, :rand.uniform(), item_cset)
+        end)
+        |> Repo.transaction()
 
-  defp item_attrs(template, list) do
-    from(
-      ti in TemplateItem,
-      where: ti.template_id == ^template.id,
-      select: %{
-        name: ti.name,
-        section_id: ti.section_id,
-        template_id: ti.template_id
-      }
-    )
-    |> Repo.all()
-    |> Enum.map(fn attrs ->
-      attrs
-      |> Map.put(:list_id, list.id)
-      |> RepeatableLists.new_item_changeset()
+      list
     end)
   end
 
@@ -64,7 +47,8 @@ defmodule Client.RepeatableLists.CreateListFromTemplate do
       where: ts.template_id == ^template.id,
       select: %{
         name: ts.name,
-        template_id: ts.template_id
+        template_id: ts.template_id,
+        template_section_id: ts.id
       }
     )
     |> Repo.all()
@@ -72,6 +56,27 @@ defmodule Client.RepeatableLists.CreateListFromTemplate do
       attrs
       |> Map.put(:list_id, list.id)
       |> RepeatableLists.new_section_changeset()
+    end)
+  end
+
+  defp item_attrs(template, list) do
+    from(
+      ti in TemplateItem,
+      where: ti.template_id == ^template.id,
+      left_join: ts in assoc(ti, :section),
+      left_join: s in Section,
+      on: s.template_section_id == ts.id,
+      select: %{
+        name: ti.name,
+        template_id: ti.template_id,
+        section_id: s.id
+      }
+    )
+    |> Repo.all()
+    |> Enum.map(fn attrs ->
+      attrs
+      |> Map.put(:list_id, list.id)
+      |> RepeatableLists.new_item_changeset()
     end)
   end
 end
