@@ -26,6 +26,12 @@ defmodule ClientWeb.RepeatableLists.Live.Show do
           item={item}
         />
       <% end %>
+
+      <.live_component
+        module={ClientWeb.Components.RepeatableLists.AddItemToListButton}
+        id="new-item-btn"
+        list={@list}
+      />
     </div>
     """
   end

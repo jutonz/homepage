@@ -1,4 +1,4 @@
-defmodule ClientWeb.Components.RepeatableLists.TemplateSection do
+defmodule ClientWeb.Components.RepeatableLists.Section do
   use ClientWeb, :live_component
 
   def render(assigns) do
@@ -10,7 +10,7 @@ defmodule ClientWeb.Components.RepeatableLists.TemplateSection do
 
       <%= for item <- @section.items do %>
         <.live_component
-          module={ClientWeb.Components.RepeatableLists.TemplateItem}
+          module={ClientWeb.Components.RepeatableLists.Item}
           id={"item-#{item.id}"}
           item={item}
         />
@@ -18,7 +18,7 @@ defmodule ClientWeb.Components.RepeatableLists.TemplateSection do
 
       <div class="ml-3">
         <.live_component
-          module={ClientWeb.Components.RepeatableLists.AddItemToTemplateButton}
+          module={ClientWeb.Components.RepeatableLists.AddItemButton}
           id={"new-item-btn-section-#{@section.id}"}
           template={@template}
           section={@section}

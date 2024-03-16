@@ -80,6 +80,13 @@ defmodule Client.RepeatableLists do
     |> Repo.insert()
   end
 
+  def create_item(list_id, attrs) do
+    attrs
+    |> Map.put("list_id", list_id)
+    |> new_item_changeset()
+    |> Repo.insert()
+  end
+
   defdelegate create_list_from_template(template),
     to: Client.RepeatableLists.CreateListFromTemplate,
     as: :perform
