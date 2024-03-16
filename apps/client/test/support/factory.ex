@@ -191,6 +191,12 @@ defmodule Client.Factory do
     }
   end
 
+  def repeatable_list_item_factory do
+    %Client.RepeatableLists.Item{
+      name: sequence(:name, &"item #{&1}")
+    }
+  end
+
   def rand_string(length \\ 16) do
     length
     |> :crypto.strong_rand_bytes()
