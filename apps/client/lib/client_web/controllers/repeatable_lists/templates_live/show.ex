@@ -31,7 +31,7 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
         <% end %>
 
         <.live_component
-          module={ClientWeb.Components.RepeatableLists.AddItemButton}
+          module={ClientWeb.Components.RepeatableLists.AddItemToTemplateButton}
           id="new-item-btn"
           template={@template}
         />

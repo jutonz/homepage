@@ -1,4 +1,4 @@
-defmodule ClientWeb.RepeatableLists.TemplatesLive.Live.ShowTest do
+defmodule ClientWeb.RepeatableLists.Live.ShowTest do
   use ClientWeb.ConnCase, async: true
   import Phoenix.LiveViewTest
   alias Client.Repo
@@ -32,6 +32,28 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Live.ShowTest do
     assert html =~ item.name
   end
 
+  test "allows adding items directly to the list", %{conn: conn} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+    list = insert(:repeatable_list, template: template)
+    {:ok, view, _html} = live(conn, list_path(list, user))
+
+    view
+    |> element("button", "+ Add item")
+    |> render_click()
+
+    view
+    |> form("[data-role=new-item-form]", item: %{name: "wee"})
+    |> render_submit()
+
+    view
+    |> assert_redirect(list_path(list))
+
+    list = Repo.preload(list, :items)
+    assert [item] = list.items
+    assert item.name == "wee"
+  end
+
   test "allows updating items", %{conn: conn} do
     user = insert(:user)
     template = insert(:repeatable_list_template, owner: user)
@@ -47,5 +69,6 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Live.ShowTest do
     assert Repo.reload(item).name == "wee"
   end
 
+  defp list_path(list), do: ~p"/repeatable-lists/#{list.id}"
   defp list_path(list, user), do: ~p"/repeatable-lists/#{list.id}?as=#{user.id}"
 end

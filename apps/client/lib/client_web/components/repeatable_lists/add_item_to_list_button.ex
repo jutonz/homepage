@@ -1,4 +1,4 @@
-defmodule ClientWeb.Components.RepeatableLists.AddItemButton do
+defmodule ClientWeb.Components.RepeatableLists.AddItemToListButton do
   use ClientWeb, :live_component
   alias Client.RepeatableLists
 
@@ -24,18 +24,18 @@ defmodule ClientWeb.Components.RepeatableLists.AddItemButton do
   end
 
   def handle_event("add_item", _params, socket) do
-    template = socket.assigns[:template]
+    list = socket.assigns[:list]
 
     new_item =
-      template
+      list
       |> Ecto.build_assoc(:items)
-      |> RepeatableLists.template_item_changeset()
+      |> RepeatableLists.item_changeset()
 
     {:noreply, assign(socket, new_item_changeset: to_form(new_item))}
   end
 
-  def handle_event("save_new_item", %{"template_item" => params}, socket) do
-    template = socket.assigns[:template]
+  def handle_event("save_new_item", %{"item" => params}, socket) do
+    list = socket.assigns[:list]
     section = socket.assigns[:section]
 
     params =
@@ -46,8 +46,8 @@ defmodule ClientWeb.Components.RepeatableLists.AddItemButton do
       end
 
     socket =
-      case RepeatableLists.create_template_item(template.id, params) do
-        {:ok, _item} -> redirect(socket, to: ~p"/repeatable-lists/templates/#{template.id}")
+      case RepeatableLists.create_item(list.id, params) do
+        {:ok, _item} -> redirect(socket, to: ~p"/repeatable-lists/#{list.id}")
         {:error, changeset} -> assign(socket, new_item_changeset: to_form(changeset))
       end
 
