@@ -118,7 +118,7 @@ defmodule Client.RepeatableLists do
     |> Repo.one()
     |> Repo.preload(
       items: from(i in Item, where: is_nil(i.section_id)),
-      sections: :items,
+      sections: [items: from(i in Item, order_by: i.inserted_at)],
       template: from(t in Template, order_by: t.inserted_at)
     )
   end
