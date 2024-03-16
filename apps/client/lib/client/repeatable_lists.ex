@@ -36,6 +36,9 @@ defmodule Client.RepeatableLists do
   def new_item_changeset(attrs \\ %{}),
     do: Item.changeset(%Item{}, attrs)
 
+  def item_changeset(item, attrs \\ %{}),
+    do: Item.changeset(item, attrs)
+
   def new_section_changeset(attrs \\ %{}),
     do: Section.changeset(%Section{}, attrs)
 
@@ -121,6 +124,13 @@ defmodule Client.RepeatableLists do
     # TODO: prevent changing template_id?
     item
     |> template_item_changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_item(item, attrs) do
+    # TODO: prevent changing template_id?
+    item
+    |> item_changeset(attrs)
     |> Repo.update()
   end
 

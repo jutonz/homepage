@@ -18,6 +18,14 @@ defmodule ClientWeb.RepeatableLists.Live.Show do
       <% end %>
 
       <hr class="my-3" />
+
+      <%= for item <- @list.items do %>
+        <.live_component
+          module={ClientWeb.Components.RepeatableLists.Item}
+          id={"item-#{item.id}"}
+          item={item}
+        />
+      <% end %>
     </div>
     """
   end
