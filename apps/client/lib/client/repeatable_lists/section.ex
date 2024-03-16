@@ -4,7 +4,8 @@ defmodule Client.RepeatableLists.Section do
 
   alias Client.RepeatableLists.{
     List,
-    Item
+    Item,
+    TemplateSection
   }
 
   @type t :: %__MODULE__{}
@@ -16,16 +17,18 @@ defmodule Client.RepeatableLists.Section do
     timestamps()
 
     belongs_to(:list, List, type: :binary_id)
+    belongs_to(:template_section, TemplateSection, type: :binary_id)
     has_many(:items, Item, foreign_key: :section_id)
   end
 
-  @optional_fields ~w[]a
+  @optional_fields ~w[template_section_id]a
   @required_fields ~w[name list_id]a
+  @all_fields @optional_fields ++ @required_fields
 
   @spec changeset(__MODULE__.t(), map()) :: Ecto.Changeset.t()
   def changeset(section, attrs) do
     section
-    |> cast(attrs, @optional_fields ++ @required_fields)
+    |> cast(attrs, @all_fields)
     |> validate_required(@required_fields)
   end
 end
