@@ -105,6 +105,44 @@ defmodule ClientWeb.RepeatableLists.Live.ShowTest do
     assert item.name == "item!"
   end
 
+  test "allows completing items", %{conn: conn} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+    list = insert(:repeatable_list, template: template)
+    item = insert(:repeatable_list_item, list: list)
+    {:ok, view, _html} = live(conn, list_path(list, user))
+
+    view
+    |> element("[data-item-id='#{item.id}'] [role=button]")
+    |> render_click()
+
+    assert view
+           |> element("[data-item-id='#{item.id}'] input[type=checkbox][checked]")
+           |> has_element?()
+
+    item = Repo.reload!(item)
+    assert item.completed_at
+  end
+
+  test "allows un-completing items", %{conn: conn} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+    list = insert(:repeatable_list, template: template)
+    item = insert(:repeatable_list_item, list: list, completed_at: DateTime.utc_now())
+    {:ok, view, _html} = live(conn, list_path(list, user))
+
+    view
+    |> element("[data-item-id='#{item.id}'] [role=button]")
+    |> render_click()
+
+    assert view
+           |> element("[data-item-id='#{item.id}'] input[type=checkbox]")
+           |> has_element?()
+
+    item = Repo.reload!(item)
+    refute item.completed_at
+  end
+
   defp list_path(list), do: ~p"/repeatable-lists/#{list.id}"
   defp list_path(list, user), do: ~p"/repeatable-lists/#{list.id}?as=#{user.id}"
 end
