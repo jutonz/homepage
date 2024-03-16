@@ -191,6 +191,12 @@ defmodule Client.Factory do
     }
   end
 
+  def repeatable_list_section_factory do
+    %Client.RepeatableLists.Section{
+      name: sequence(:name, &"section #{&1}")
+    }
+  end
+
   def repeatable_list_item_factory do
     %Client.RepeatableLists.Item{
       name: sequence(:name, &"item #{&1}")

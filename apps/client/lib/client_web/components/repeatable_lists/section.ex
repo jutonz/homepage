@@ -18,9 +18,9 @@ defmodule ClientWeb.Components.RepeatableLists.Section do
 
       <div class="ml-3">
         <.live_component
-          module={ClientWeb.Components.RepeatableLists.AddItemButton}
+          module={ClientWeb.Components.RepeatableLists.AddItemToListButton}
           id={"new-item-btn-section-#{@section.id}"}
-          template={@template}
+          list={@list}
           section={@section}
         />
       </div>
