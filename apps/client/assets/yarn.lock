@@ -917,10 +917,10 @@
     yaml "^2.3.1"
     yargs "^17.0.0"
 
-"@graphql-codegen/client-preset@^4.2.2", "@graphql-codegen/client-preset@^4.2.4":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/client-preset/-/client-preset-4.2.4.tgz#a20e85b07b77282bb27b2e8e014bed5d491443e7"
-  integrity sha512-k1c8v2YxJhhITGQGxViG9asLAoop9m7X9duU7Zztqjc98ooxsUzXICfvAWsH3mLAUibXAx4Ax6BPzKsTtQmBPg==
+"@graphql-codegen/client-preset@^4.2.2", "@graphql-codegen/client-preset@^4.2.5":
+  version "4.2.5"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/client-preset/-/client-preset-4.2.5.tgz#1cf2a19aaa367b81920999a3511cb1e11a632b4a"
+  integrity sha512-hAdB6HN8EDmkoBtr0bPUN/7NH6svzqbcTDMWBCRXPESXkl7y80po+IXrXUjsSrvhKG8xkNXgJNz/2mjwHzywcA==
   dependencies:
     "@babel/helper-plugin-utils" "^7.20.2"
     "@babel/template" "^7.20.7"
