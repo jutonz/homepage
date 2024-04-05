@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@0no-co/graphql.web@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@0no-co/graphql.web/-/graphql.web-1.0.1.tgz#db3da0d2cd41548b50f0583c0d2f4743c767e56b"
-  integrity sha512-6Yaxyv6rOwRkLIvFaL0NrLDgfNqC/Ng9QOPmTmlqW4mORXMEKmh5NYGkIvvt5Yw8fZesnMAqkj8cIqTj8f40cQ==
-
 "@0no-co/graphql.web@^1.0.5":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@0no-co/graphql.web/-/graphql.web-1.0.6.tgz#3def68bbaf654a301bd910ce3744506cad97ab9a"
@@ -1704,7 +1699,7 @@
   dependencies:
     "@types/node" "*"
 
-"@urql/core@>=4.1.0", "@urql/core@>=4.3.0", "@urql/core@^5.0.0":
+"@urql/core@>=4.1.0", "@urql/core@>=5.0.0", "@urql/core@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-5.0.0.tgz#690e664cf66f733077c558bf685adbdac2b25823"
   integrity sha512-kFkZxusq/VBQKEUcQFtf7AilMotLO+oGpE4WFhCiminZm8ZU2aulXSDWla50TaD0pj704FnWlXts6lRm0uHdDg==
@@ -1720,13 +1715,13 @@
     "@urql/core" ">=4.1.0"
     wonka "^6.3.2"
 
-"@urql/exchange-graphcache@^6.5.1":
-  version "6.5.1"
-  resolved "https://registry.yarnpkg.com/@urql/exchange-graphcache/-/exchange-graphcache-6.5.1.tgz#ca0cd6e3aa173fb2a4c089385ed665c2e631cdde"
-  integrity sha512-Ky77kuaTuo1H+VKZatXyNDqTMw+z03KV3Ep/6TQjktlc+0RDhEZq3rI4F/ViwqLaDUtGqPCYjmnHdoupXqdK0g==
+"@urql/exchange-graphcache@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@urql/exchange-graphcache/-/exchange-graphcache-7.0.0.tgz#3130874005d298909d64710b95365d987c08aea7"
+  integrity sha512-xKk+MVt6ZKokKcrreK09n4s04dPwzu2BF/rHWvV0Aun7BhlLU4Kzmvsq1sTMZArUxwB4aaKhI0StMbPMfxICSg==
   dependencies:
-    "@0no-co/graphql.web" "^1.0.1"
-    "@urql/core" ">=4.3.0"
+    "@0no-co/graphql.web" "^1.0.5"
+    "@urql/core" ">=5.0.0"
     wonka "^6.3.2"
 
 "@whatwg-node/events@^0.0.3":
