@@ -147,7 +147,12 @@ jobs:
           v3-static-assets-${{ github.ref }}-
     - run: mix deps.get
     - run: mix do ecto.create, ecto.migrate
-    - run: MIX_ENV=test mix phx.server &
+    - name: Start server
+      uses: JarvusInnovations/background-action@v1
+      with:
+        run: MIX_ENV=test mix phx.server &
+        tail: true
+        wait-on: http://localhost:4002/api/healthz
     - name: Cypress run
       uses: cypress-io/github-action@v5
       with:
