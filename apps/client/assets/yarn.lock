@@ -1715,10 +1715,10 @@
     "@urql/core" ">=4.1.0"
     wonka "^6.3.2"
 
-"@urql/exchange-graphcache@^7.0.1":
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/@urql/exchange-graphcache/-/exchange-graphcache-7.0.1.tgz#f9505409c1bf2960a802a3dfeb9a6294b4a0c550"
-  integrity sha512-P4Vs2cNdDibukktdBCIjtFH5pxoX33YuAEAqSbv21fjUGJDNqmytLE4a8fMgaF4Iw8ljSG13zqw9arKRzDqO/Q==
+"@urql/exchange-graphcache@^7.0.2":
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/@urql/exchange-graphcache/-/exchange-graphcache-7.0.2.tgz#5bbe126682cccc35cd857752542eca24b36fc8f4"
+  integrity sha512-6hA4ZDQbG73IVz/GtNsLD7AqPSIof8tvFiEdm10J8dpPd+Ijw9d7RsEbs57sGqpbSzJG+l6UNZ0A53EEYClYxw==
   dependencies:
     "@0no-co/graphql.web" "^1.0.5"
     "@urql/core" ">=5.0.0"
