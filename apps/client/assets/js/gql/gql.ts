@@ -47,6 +47,11 @@ const documents = {
     "\n  query GetTwitchChannel($channelName: String!) {\n    getTwitchChannel(channelName: $channelName) {\n      id\n      name\n    }\n  }\n": types.GetTwitchChannelDocument,
     "\n  query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {\n    ijustEventsSearch(ijustContextId: $ijustContextId, name: $eventName) {\n      id\n      name\n      count\n      insertedAt\n      updatedAt\n      ijustContextId\n    }\n  }\n": types.IjustEventsSearchDocument,
     "\n  mutation RefreshToken($refreshToken: String!) {\n    refreshToken(refreshToken: $refreshToken) {\n      result {\n        accessToken\n        refreshToken\n        __typename\n      }\n    }\n  }\n": types.RefreshTokenDocument,
+    "\n          query GetTeams {\n            getTeams {\n              id\n              name\n            }\n          }\n        ": types.GetTeamsDocument,
+    "\n          query GetIjustContextEventCache($contextId: ID!, $eventId: ID!) {\n            getIjustContextEvent(contextId: $contextId, eventId: $eventId) {\n              id\n              ijustOccurrences {\n                id\n                insertedAt\n                updatedAt\n                isDeleted\n              }\n            }\n          }\n        ": types.GetIjustContextEventCacheDocument,
+    "\n          query GetTwitchChannelsCache {\n            getTwitchChannels {\n              id\n            }\n          }\n        ": types.GetTwitchChannelsCacheDocument,
+    "\n          query GetTwitchChannelsCache2 {\n            getTwitchChannels {\n              name\n            }\n          }\n        ": types.GetTwitchChannelsCache2Document,
+    "\n          query GetTwitchUserCache {\n            getTwitchUser {\n              id\n            }\n          }\n        ": types.GetTwitchUserCacheDocument,
 };
 
 /**
@@ -199,6 +204,26 @@ export function graphql(source: "\n  query IjustEventsSearch($ijustContextId: ID
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation RefreshToken($refreshToken: String!) {\n    refreshToken(refreshToken: $refreshToken) {\n      result {\n        accessToken\n        refreshToken\n        __typename\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation RefreshToken($refreshToken: String!) {\n    refreshToken(refreshToken: $refreshToken) {\n      result {\n        accessToken\n        refreshToken\n        __typename\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n          query GetTeams {\n            getTeams {\n              id\n              name\n            }\n          }\n        "): (typeof documents)["\n          query GetTeams {\n            getTeams {\n              id\n              name\n            }\n          }\n        "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n          query GetIjustContextEventCache($contextId: ID!, $eventId: ID!) {\n            getIjustContextEvent(contextId: $contextId, eventId: $eventId) {\n              id\n              ijustOccurrences {\n                id\n                insertedAt\n                updatedAt\n                isDeleted\n              }\n            }\n          }\n        "): (typeof documents)["\n          query GetIjustContextEventCache($contextId: ID!, $eventId: ID!) {\n            getIjustContextEvent(contextId: $contextId, eventId: $eventId) {\n              id\n              ijustOccurrences {\n                id\n                insertedAt\n                updatedAt\n                isDeleted\n              }\n            }\n          }\n        "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n          query GetTwitchChannelsCache {\n            getTwitchChannels {\n              id\n            }\n          }\n        "): (typeof documents)["\n          query GetTwitchChannelsCache {\n            getTwitchChannels {\n              id\n            }\n          }\n        "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n          query GetTwitchChannelsCache2 {\n            getTwitchChannels {\n              name\n            }\n          }\n        "): (typeof documents)["\n          query GetTwitchChannelsCache2 {\n            getTwitchChannels {\n              name\n            }\n          }\n        "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n          query GetTwitchUserCache {\n            getTwitchUser {\n              id\n            }\n          }\n        "): (typeof documents)["\n          query GetTwitchUserCache {\n            getTwitchUser {\n              id\n            }\n          }\n        "];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

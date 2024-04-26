@@ -11,7 +11,7 @@ export const homepageCacheExchange = cacheExchange({
         if (!result.createTeam) return;
 
         const query = gql`
-          query {
+          query GetTeams {
             getTeams {
               id
               name
@@ -28,7 +28,7 @@ export const homepageCacheExchange = cacheExchange({
         if (!result.joinTeam) return;
 
         const query = gql`
-          query {
+          query GetTeams {
             getTeams {
               id
               name
@@ -45,7 +45,7 @@ export const homepageCacheExchange = cacheExchange({
         if (!result.leaveTeam) return;
 
         const query = gql`
-          query {
+          query GetTeams {
             getTeams {
               id
               name
@@ -65,7 +65,7 @@ export const homepageCacheExchange = cacheExchange({
         if (!result.deleteTeam) return;
 
         const query = gql`
-          query {
+          query GetTeams {
             getTeams {
               id
               name
@@ -83,7 +83,7 @@ export const homepageCacheExchange = cacheExchange({
       },
       ijustAddOccurrenceToEvent(result, _args, cache, _info) {
         const query = gql`
-          query ($contextId: ID!, $eventId: ID!) {
+          query GetIjustContextEventCache($contextId: ID!, $eventId: ID!) {
             getIjustContextEvent(contextId: $contextId, eventId: $eventId) {
               id
               ijustOccurrences {
@@ -111,7 +111,7 @@ export const homepageCacheExchange = cacheExchange({
       },
       ijustDeleteOccurrence(result, args, cache, _info) {
         const query = gql`
-          query ($contextId: ID!, $eventId: ID!) {
+          query GetIjustContextEventCache($contextId: ID!, $eventId: ID!) {
             getIjustContextEvent(contextId: $contextId, eventId: $eventId) {
               id
               ijustOccurrences {
@@ -142,7 +142,7 @@ export const homepageCacheExchange = cacheExchange({
       },
       twitchChannelSubscribe(result, _args, cache, _info) {
         const query = gql`
-          query {
+          query GetTwitchChannelsCache {
             getTwitchChannels {
               id
             }
@@ -156,7 +156,7 @@ export const homepageCacheExchange = cacheExchange({
       },
       twitchChannelUnsubscribe(_result, args, cache, _info) {
         const query = gql`
-          query {
+          query GetTwitchChannelsCache2 {
             getTwitchChannels {
               name
             }
@@ -172,7 +172,7 @@ export const homepageCacheExchange = cacheExchange({
       },
       twitchRemoveIntegration(_result, _args, cache, _info) {
         const query = gql`
-          query {
+          query GetTwitchUserCache {
             getTwitchUser {
               id
             }
