@@ -25,19 +25,16 @@ defmodule Client.Awair.Monitor do
     case AirData.latest(host) do
       {:ok, data} ->
         broadcast(data, state)
-        schedule_checkin()
-        {:noreply, state}
 
-      err ->
-        msg =
-          case err do
-            {:error, reason} -> reason
-            err -> err
-          end
+      {:error, reason} ->
+        warn("Awair connection failed: #{IO.inspect(reason)}")
 
-        warn("Awair connection failed: #{IO.inspect(msg)}")
-        {:stop, :connection_failed, state}
+      error ->
+        warn("Awair connection failed: #{IO.inspect(error)}")
     end
+
+    schedule_checkin()
+    {:noreply, state}
   end
 
   defp broadcast(data, %{"name" => name}) do

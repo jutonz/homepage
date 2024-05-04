@@ -1,0 +1,10 @@
+{
+  "apps/client/lib/*.ex": {
+    "alternate": "apps/client/test/{}_test.exs",
+    "type": "source"
+  },
+  "apps/client/test/*_test.exs": {
+    "alternate": "apps/client/lib/{}.ex",
+    "type": "test"
+  }
+}
