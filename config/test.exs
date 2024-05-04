@@ -28,7 +28,11 @@ config :client, Client.Repo,
   ownership_timeout: :infinity,
   pool_size: 20
 
-config :client, :awair, servers: []
+config :client, :awair,
+  servers: [],
+  req_options: [
+    plug: {Req.Test, Client.Awair.AirData}
+  ]
 
 # log: :debug # enable to print ecto logs in test
 

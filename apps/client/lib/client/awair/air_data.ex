@@ -28,23 +28,29 @@ defmodule Client.Awair.AirData do
     field(:voc_h2_raw, :integer)
   end
 
+  @req_options Application.compile_env(:client, :awair, [])[:req_options] || []
   @path "/air-data/latest"
   def latest(host) do
-    :get
-    |> Finch.build(host <> @path)
-    |> Finch.request(ClientFinch)
+    [
+      base_url: host,
+      url: @path,
+      retry: false
+    ]
+    |> Keyword.merge(@req_options)
+    |> Req.request()
     |> parse_response()
   end
 
-  defp parse_response({:ok, %{body: body}}) do
+  def from_json(json) do
     fields = __MODULE__.__schema__(:fields)
 
-    struct =
-      %__MODULE__{}
-      |> Ecto.Changeset.cast(Jason.decode!(body), fields)
-      |> Ecto.Changeset.apply_changes()
+    %__MODULE__{}
+    |> Ecto.Changeset.cast(json, fields)
+    |> Ecto.Changeset.apply_changes()
+  end
 
-    {:ok, struct}
+  defp parse_response({:ok, %{body: body}}) do
+    {:ok, from_json(body)}
   end
 
   defp parse_response({:error, %{reason: reason}}) do
