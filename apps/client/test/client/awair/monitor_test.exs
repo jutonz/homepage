@@ -16,6 +16,7 @@ defmodule Client.Awair.MonitorTest do
 
     {:ok, pid} = GenServer.start_link(Monitor, test_server())
     Req.Test.allow(AirData, self(), pid)
+    send(pid, :poll)
 
     event = %{
       data: AirData.from_json(json),
