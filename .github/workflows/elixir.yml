@@ -146,6 +146,22 @@ jobs:
         restore-keys: |
           v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-test-${{ hashFiles('.tool-versions') }}-
+    - name: Restore node_modules cache
+      uses: actions/cache@v3
+      with:
+        path: apps/client/assets/node_modules
+        key: v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        restore-keys: |
+          v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+    - name: Restore yarn cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/yarn
+          ~/.cache/Cypress
+        key: v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        restore-keys: |
+          v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore static asset cache
       uses: actions/cache@v3
       with:
@@ -166,7 +182,7 @@ jobs:
       if: always()
       with:
         name: playwright-report
-        path: apps/client-assets/playwright-report/
+        path: apps/client/assets/playwright-report/
         retention-days: 30
 
   cypress_run:
