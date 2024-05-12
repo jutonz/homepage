@@ -103,9 +103,25 @@ jobs:
   playwright:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: apps/client/assets
+    needs: ["yarn_install"]
+    env:
+      MIX_ENV: test
+      LOG_LEVEL: info
+      TWITCH_DATASTORE_DISABLED: "true"
+      POSTGRES_PASSWORD: password
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: homepage_test
+          POSTGRES_PASSWORD: password
+        ports:
+        - 5432:5432
+      redis:
+        image: circleci/redis
+        ports:
+        - 6379:6379
     steps:
     - uses: actions/checkout@v4
     - name: Read .tool-versions
@@ -115,9 +131,31 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ steps.versions.outputs.nodejs }}
-    - name: Install dependencies
-      run: npm install -g yarn && yarn
-      working-directory: apps/client/assets
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: '1.16.1'
+        otp-version: '26.2.1'
+    - name: Restore test cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          deps
+          _build/test
+        key: v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+        restore-keys: |
+          v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+          v2-test-${{ hashFiles('.tool-versions') }}-
+    - name: Restore static asset cache
+      uses: actions/cache@v3
+      with:
+        path: apps/client/priv/static
+        key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
+        restore-keys: |
+          v3-static-assets-${{ github.ref }}-${{ github.sha }}
+          v3-static-assets-${{ github.ref }}-
+    - run: mix deps.get
+    - run: mix do ecto.create, ecto.migrate
     - name: Install Playwright Browsers
       run: yarn playwright install --with-deps
       working-directory: apps/client/assets
