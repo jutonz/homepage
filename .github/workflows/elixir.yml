@@ -173,7 +173,7 @@ jobs:
     - run: mix deps.get
     - run: mix do ecto.create, ecto.migrate
     - name: Install Playwright Browsers
-      run: yarn playwright install --with-deps
+      run: yarn playwright install firefox --with-deps
       working-directory: apps/client/assets
     - name: Run Playwright tests
       run: yarn playwright test
