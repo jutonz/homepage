@@ -100,6 +100,37 @@ jobs:
       working-directory: apps/client/assets
       run: yarn bundle:css
 
+  playwright:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    # defaults:
+    #   run:
+    #     working-directory: apps/client/assets
+    steps:
+    - uses: actions/checkout@v4
+    - name: Read .tool-versions
+      uses: marocchino/tool-versions-action@v1
+      id: versions
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ steps.versions.outputs.nodejs }}
+    - name: Install dependencies
+      run: npm install -g yarn && yarn
+      working-directory: apps/client/assets
+    - name: Install Playwright Browsers
+      run: yarn playwright install --with-deps
+      working-directory: apps/client/assets
+    - name: Run Playwright tests
+      run: yarn playwright test
+      working-directory: apps/client/assets
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: apps/client-assets/playwright-report/
+        retention-days: 30
+
   cypress_run:
     name: cypress run
     needs: ["yarn_install"]
