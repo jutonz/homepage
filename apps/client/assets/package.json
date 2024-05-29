@@ -16,7 +16,7 @@
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
     "@urql/exchange-auth": "^2.1.6",
-    "@urql/exchange-graphcache": "^7.0.2",
+    "@urql/exchange-graphcache": "^7.1.0",
     "aphrodite": "^2.4.0",
     "chart.js": "^3.9.1",
     "graphql": "^16.8.1",
