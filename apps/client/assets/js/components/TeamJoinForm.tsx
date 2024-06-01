@@ -3,7 +3,7 @@ import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import { css, StyleSheet } from "aphrodite";
 import React, { useCallback } from "react";
-import { useForm, ErrorOption } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "urql";
 import * as yup from "yup";
