@@ -43,6 +43,7 @@ button, .button {
   &--inline {
     @apply bg-transparent hover:bg-transparent p-0;
     color: var(--brand-primary);
+    &:hover { filter: brightness(85%) }
   }
 }
 

@@ -1,0 +1,20 @@
+<div class="m-4">
+  <ClientWeb.Components.Breadcrumbs.breadcrumbs>
+    <:crumb title="Repeatable lists" href={~p"/repeatable-lists/templates"} />
+    <:crumb title={@template.name} href={~p"/repeatable-lists/templates/#{@template.id}"} />
+    <span>New clone</span>
+  </ClientWeb.Components.Breadcrumbs.breadcrumbs>
+
+  <.simple_form
+    :let={form}
+    for={@changeset}
+    action={~p"/repeatable-lists/templates/#{@template.id}/clones"}
+  >
+    <.input field={form[:name]} label="Name" autofocus />
+    <.input field={form[:description]} label="Description" />
+
+    <:actions>
+      <.button>Create clone</.button>
+    </:actions>
+  </.simple_form>
+</div>
