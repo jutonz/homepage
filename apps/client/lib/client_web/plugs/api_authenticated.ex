@@ -16,11 +16,6 @@ defmodule ClientWeb.Plugs.ApiAuthenticated do
         conn
         |> Plug.Conn.send_resp(401, reason)
         |> Plug.Conn.halt()
-
-      error ->
-        conn
-        |> Plug.Conn.send_resp(401, error)
-        |> Plug.Conn.halt()
     end
   end
 

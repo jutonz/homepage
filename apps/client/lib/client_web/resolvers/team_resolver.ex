@@ -6,7 +6,6 @@ defmodule ClientWeb.TeamResolver do
          user <- user |> Repo.preload(:teams) do
       {:ok, user.teams}
     else
-      {:error, reason} -> {:error, reason}
       _ -> {:error, "Could not fetch teams"}
     end
   end
@@ -17,7 +16,7 @@ defmodule ClientWeb.TeamResolver do
          do: {:ok, team},
          else:
            (
-             {:eror, reason} -> {:error, reason}
+             {:error, reason} -> {:error, reason}
              _ -> {:error, "Could not find matching team"}
            )
   end
@@ -88,14 +87,8 @@ defmodule ClientWeb.TeamResolver do
          do: {:ok, withUsers.users},
          else:
            (
-             {:error, %Ecto.Changeset{} = changeset} ->
-               {:error, changeset |> extract_errors}
-
-             {:eror, reason} ->
-               {:error, reason}
-
-             _ ->
-               {:error, "Could not retrieve users"}
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Could not retrieve users"}
            )
   end
 
@@ -107,8 +100,8 @@ defmodule ClientWeb.TeamResolver do
          do: {:ok, user},
          else:
            (
-             {:eror, reason} -> {:error, reason}
-             _ -> {:error, "Could not retrieve user"}
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Could not fetch user"}
            )
   end
 

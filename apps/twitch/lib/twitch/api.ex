@@ -12,11 +12,7 @@ defmodule Twitch.Api do
              %{"data" => [user]} = json
              {:ok, user}
            ),
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to fetch user"}
-           )
+         else: ({:error, reason} -> {:error, reason})
   end
 
   def emotes(emote_set_ids \\ []) do

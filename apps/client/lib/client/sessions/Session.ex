@@ -7,11 +7,7 @@ defmodule Client.Session do
          {:ok, _pass} <- Auth.check_password(password, user.password_hash),
          {:ok, conn} <- init_user_session(conn, user),
          do: {:ok, user, conn},
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to login"}
-           )
+         else: ({:error, reason} -> {:error, reason})
   end
 
   def exchange(conn, token) do

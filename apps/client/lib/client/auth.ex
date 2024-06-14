@@ -55,11 +55,7 @@ defmodule Client.Auth do
          {:ok, _resp} <-
            Redis.command(["setex", "single-use-token:#{claims["jti"]}", ttl_sec, true]),
          do: {:ok, token, claims},
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to generate JWT"}
-           )
+         else: ({:error, reason} -> {:error, reason})
   end
 
   def jwt_for_resource(resource, opts \\ %{}) do
@@ -82,11 +78,7 @@ defmodule Client.Auth do
          {:ok, true} <- ensure_token_unrevoked(claims["jti"]),
          {:ok, true} <- revoke_token(claims["jti"]),
          do: {:ok, resource, claims},
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to exchange single use JWT"}
-           )
+         else: ({:error, reason} -> {:error, reason})
   end
 
   defp ensure_token_unrevoked(jti) do
