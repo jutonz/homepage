@@ -35,11 +35,6 @@ defmodule ClientWeb.Plugs.FactoryPlug do
           conn
           |> send_resp(500, reason)
           |> halt()
-
-        _ ->
-          conn
-          |> send_resp(500, "An unknown error occurred :(")
-          |> halt()
       end
     else
       conn

@@ -33,7 +33,7 @@ defmodule Client.Util do
 
     decimal =
       with {decimal, _rem} <- Float.parse("0.#{decimal}") do
-        decimal |> Float.round(1) |> Float.to_string() |> String.slice(1..-1)
+        decimal |> Float.round(1) |> Float.to_string() |> String.slice(1..-1//1)
       end
 
     number <> decimal

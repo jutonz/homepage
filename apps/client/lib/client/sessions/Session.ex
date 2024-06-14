@@ -7,11 +7,7 @@ defmodule Client.Session do
          {:ok, _pass} <- Auth.check_password(password, user.password_hash),
          {:ok, conn} <- init_user_session(conn, user),
          do: {:ok, user, conn},
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to login"}
-           )
+         else: ({:error, reason} -> {:error, reason})
   end
 
   def exchange(conn, token) do
@@ -20,11 +16,10 @@ defmodule Client.Session do
          {:ok, conn} <- init_user_session(conn, user),
          {:ok, _resp} <- Auth.revoke_single_use_token(claims["jti"]),
          do: {:ok, user, conn},
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to login"}
-           )
+         else: (
+           {:error, reason} -> {:error, reason}
+           _ -> {:error, "Failed to login"}
+         )
   end
 
   def signup(email, password) do
