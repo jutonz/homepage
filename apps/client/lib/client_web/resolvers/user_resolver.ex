@@ -8,11 +8,10 @@ defmodule ClientWeb.UserResolver do
          {:ok, access, _claims} <- Auth.jwt_for_resource(user),
          {:ok, refresh, _claims} <- Auth.jwt_for_resource(user, %{typ: "refresh"}),
          do: {:ok, %{user: user, access_token: access, refresh_token: refresh}},
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Signup failed"}
-           )
+         else: (
+           {:error, reason} -> {:error, reason}
+           _ -> {:error, "Signup failed"}
+         )
   end
 
   @one_day_sec 60 * 60 * 24
@@ -59,10 +58,9 @@ defmodule ClientWeb.UserResolver do
          {:ok, new_pw} <- Map.fetch(args, :new_password),
          {:ok, user} <- User.change_password(user, current_pw, new_pw),
          do: {:ok, user},
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Failed to update password"}
-           )
+         else: (
+           {:error, reason} -> {:error, reason}
+           _ -> {:error, "Failed to update password"}
+         )
   end
 end

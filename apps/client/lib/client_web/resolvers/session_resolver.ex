@@ -7,10 +7,9 @@ defmodule ClientWeb.SessionResolver do
     with {:ok, user} <- Map.fetch(context, :current_user),
          {:ok, token, _claims} <- Client.Auth.single_use_jwt(user.id),
          do: {:ok, "#{ClientWeb.Endpoint.url()}/api/login?token=#{token}"},
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Could not generate link"}
-           )
+         else: (
+           {:error, reason} -> {:error, reason}
+           _ -> {:error, "Could not generate link"}
+         )
   end
 end
