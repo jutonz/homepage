@@ -45,11 +45,10 @@ defmodule Client.User do
          changeset <- User.changeset(user, %{password: new_pw}),
          {:ok, user} <- Repo.update(changeset),
          do: {:ok, user},
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Could not change password"}
-           )
+         else: (
+           {:error, reason} -> {:error, reason}
+           _ -> {:error, "Could not change password"}
+         )
   end
 
   def get_team(%User{} = user, team_id) do
@@ -77,11 +76,10 @@ defmodule Client.User do
          cset <- cset |> Ecto.Changeset.put_assoc(:teams, [team | user.teams]),
          {:ok, user} <- cset |> Repo.update(),
          do: {:ok, user},
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Could not join team"}
-           )
+         else: (
+           {:error, reason} -> {:error, reason}
+           _ -> {:error, "Could not join team"}
+         )
   end
 
   def leave_team(%User{} = user, %Team{} = team) do
@@ -91,11 +89,10 @@ defmodule Client.User do
          cset <- cset |> Ecto.Changeset.put_assoc(:teams, new_teams),
          {:ok, _user} <- cset |> Repo.update(),
          do: {:ok, team},
-         else:
-           (
-             {:error, reason} -> {:error, reason}
-             _ -> {:error, "Could not join team"}
-           )
+         else: (
+           {:error, reason} -> {:error, reason}
+           _ -> {:error, "Could not join team"}
+         )
   end
 
   ##

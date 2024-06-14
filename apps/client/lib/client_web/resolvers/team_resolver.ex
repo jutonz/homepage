@@ -120,7 +120,7 @@ defmodule ClientWeb.TeamResolver do
          do: {:ok, team},
          else: (
            {:error, reason} -> {:error, reason}
-          _ -> {:error, "Failed to join team"}
+           _ -> {:error, "Failed to join team"}
          )
   end
 
