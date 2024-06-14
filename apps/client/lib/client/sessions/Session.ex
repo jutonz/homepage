@@ -16,10 +16,11 @@ defmodule Client.Session do
          {:ok, conn} <- init_user_session(conn, user),
          {:ok, _resp} <- Auth.revoke_single_use_token(claims["jti"]),
          do: {:ok, user, conn},
-         else: (
-           {:error, reason} -> {:error, reason}
-           _ -> {:error, "Failed to login"}
-         )
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to login"}
+           )
   end
 
   def signup(email, password) do

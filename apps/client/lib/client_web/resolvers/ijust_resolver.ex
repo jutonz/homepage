@@ -21,10 +21,11 @@ defmodule ClientWeb.IjustResolver do
          {:ok, context_id} <- args |> Map.fetch(:id),
          {:ok, context} <- context_id |> IjustContext.get_for_user(user.id),
          do: {:ok, context},
-         else: (
-           {:error, reason} -> {:error, reason}
-           _ -> {:error, "Failed to get context"}
-         )
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to get context"}
+           )
   end
 
   def create_ijust_event(_parent, args, %{context: context}) do
@@ -40,10 +41,11 @@ defmodule ClientWeb.IjustResolver do
          {:ok, event} <- user |> IjustEvent.get_for_user(event_id),
          {:ok, event} <- event |> IjustEvent.update_changeset(args) |> Repo.update(),
          do: {:ok, event},
-         else: (
-           {:error, reason} -> {:error, reason}
-           _ -> {:error, "Failed to update event"}
-         )
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to update event"}
+           )
   end
 
   def get_recent_events(_parent, args, %{context: context}) do
@@ -64,10 +66,11 @@ defmodule ClientWeb.IjustResolver do
            ),
          event <- Client.Repo.preload(event, :ijust_context),
          do: {:ok, event},
-         else: (
-           {:error, reason} -> {:error, reason}
-           _ -> {:error, "Failed to fetch event"}
-         )
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to fetch event"}
+           )
   end
 
   def get_event_occurrences(_parent, args, %{context: context}) do
@@ -103,9 +106,10 @@ defmodule ClientWeb.IjustResolver do
          {:ok, name} <- args |> Map.fetch(:name),
          {:ok, events} <- IjustEvent.search_by_name(ijust_context.id, name),
          do: {:ok, events},
-         else: (
-           {:error, reason} -> {:error, reason}
-           _ -> {:error, "Failed to fetch events"}
-         )
+         else:
+           (
+             {:error, reason} -> {:error, reason}
+             _ -> {:error, "Failed to fetch events"}
+           )
   end
 end
