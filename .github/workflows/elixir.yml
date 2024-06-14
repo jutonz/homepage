@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  ELIXIR_VERSION: "1.16.1"
+  ERLANG_VERSION: "26.2.1"
+
 jobs:
   build_dev:
     name: mix compile and dialyzer
@@ -17,8 +21,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.16.1'
-        otp-version: '26.2.1'
+        elixir-version: ${{ env.ELIXIR_VERSION }}
+        otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore dev cache
       uses: actions/cache@v3
       id: dev-cache
@@ -125,8 +129,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.16.1'
-        otp-version: '26.2.1'
+        elixir-version: ${{ env.ELIXIR_VERSION }}
+        otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore test cache
       uses: actions/cache@v3
       with:
@@ -193,8 +197,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.16.1'
-        otp-version: '26.2.1'
+        elixir-version: ${{ env.ELIXIR_VERSION }}
+        otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore static asset cache
       uses: actions/cache@v3
       with:
@@ -238,8 +242,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.16.1'
-        otp-version: '26.2.1'
+        elixir-version: ${{ env.ELIXIR_VERSION }}
+        otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore static asset cache
       uses: actions/cache@v3
       with:
