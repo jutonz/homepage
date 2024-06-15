@@ -87,10 +87,10 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.ShowTest do
 
     {:error, {:redirect, %{to: to}}} =
       view
-      |> element("button", "Clone")
+      |> element("a", "Clone")
       |> render_click()
 
-    assert to =~ ~r"/repeatable-lists/"
+    assert to == "/repeatable-lists/templates/#{template.id}/clones/new"
   end
 
   defp template_path(template, user),
