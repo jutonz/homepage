@@ -87,4 +87,18 @@ defmodule ClientWeb.RepeatableListsTest do
              name: "Section name"
            } = section
   end
+
+  test "can clone a template to a list", %{session: session} do
+    user = insert(:user)
+    template = insert(:repeatable_list_template, owner: user)
+
+    session
+    |> visit("/repeatable-lists/templates/#{template.id}?as=#{user.id}")
+    |> click(link("Clone"))
+    |> fill_in(text_field("Name"), with: "Clone name")
+    |> fill_in(text_field("Description"), with: "Clone desc")
+    |> click(button("Create clone"))
+    |> assert_has(role("name", text: "Clone name"))
+    |> assert_has(role("desc", text: "Clone desc"))
+  end
 end

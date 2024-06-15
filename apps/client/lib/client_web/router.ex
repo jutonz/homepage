@@ -106,7 +106,9 @@ defmodule ClientWeb.Router do
         "/templates",
         TemplateController,
         only: ~w[new delete]a
-      )
+      ) do
+        resources("/clones", TemplateCloneController, only: ~w[new create]a)
+      end
 
       live("/templates/:id", TemplatesLive.Show, :show)
     end

@@ -10,15 +10,18 @@ defmodule Client.RepeatableLists.CreateListFromTemplate do
     TemplateSection
   }
 
-  def perform(template) do
+  def perform(template, list_params) do
+    list_params =
+      Map.merge(list_params, %{
+        "template_id" => template.id,
+        "name" => list_params["name"] || template.name,
+        "description" => list_params["description"] || template.description
+      })
+
     Repo.transaction(fn ->
       {:ok, list} =
         %List{}
-        |> RepeatableLists.list_changeset(%{
-          template_id: template.id,
-          name: template.name,
-          description: template.description
-        })
+        |> RepeatableLists.list_changeset(list_params)
         |> Repo.insert()
 
       {:ok, _result} =
