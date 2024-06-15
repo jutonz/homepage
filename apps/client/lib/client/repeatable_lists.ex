@@ -87,7 +87,7 @@ defmodule Client.RepeatableLists do
     |> Repo.insert()
   end
 
-  defdelegate create_list_from_template(template, params),
+  defdelegate create_list_from_template(template, params \\ %{}),
     to: Client.RepeatableLists.CreateListFromTemplate,
     as: :perform
 

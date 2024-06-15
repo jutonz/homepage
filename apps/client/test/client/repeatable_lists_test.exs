@@ -21,6 +21,25 @@ defmodule Client.RepeatableListsTest do
       assert list.description == template.description
     end
 
+    test "allows overriding template name and desc" do
+      user = insert(:user)
+
+      template =
+        insert(
+          :repeatable_list_template,
+          owner: user,
+          name: "old name",
+          description: "old desc"
+        )
+
+      params = %{"name" => "new name", "description" => "new desc"}
+      {:ok, list} = RepeatableLists.create_list_from_template(template, params)
+
+      assert list
+      assert list.name == params["name"]
+      assert list.description == params["description"]
+    end
+
     test "copies items" do
       user = insert(:user)
       template = insert(:repeatable_list_template, owner: user)

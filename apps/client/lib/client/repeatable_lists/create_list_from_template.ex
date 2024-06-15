@@ -11,7 +11,12 @@ defmodule Client.RepeatableLists.CreateListFromTemplate do
   }
 
   def perform(template, list_params) do
-    list_params = Map.put(list_params, "template_id", template.id)
+    list_params =
+      Map.merge(list_params, %{
+        "template_id" => template.id,
+        "name" => list_params["name"] || template.name,
+        "description" => list_params["description"] || template.description
+      })
 
     Repo.transaction(fn ->
       {:ok, list} =
