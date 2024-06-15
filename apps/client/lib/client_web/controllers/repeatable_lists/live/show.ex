@@ -16,7 +16,7 @@ defmodule ClientWeb.RepeatableLists.Live.Show do
       <div>Created on <%= @list.inserted_at %></div>
 
       <%= if @list.description do %>
-        <div class="mt-3"><%= @list.description %></div>
+        <div class="mt-3" data-role="desc"><%= @list.description %></div>
       <% end %>
 
       <hr class="my-3" />
