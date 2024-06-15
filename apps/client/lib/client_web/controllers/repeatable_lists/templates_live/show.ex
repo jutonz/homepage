@@ -59,7 +59,7 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
         <%= for list <- @template.lists do %>
           <div class="mb-3">
             <.link href={~p"/repeatable-lists/#{list.id}"}>
-              <%= list.name %> (<%= list.inserted_at %>)
+              <%= list.name %>
             </.link>
           </div>
         <% end %>
@@ -135,16 +135,6 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
 
     {:noreply, socket}
   end
-
-  # def handle_event("clone", _params, socket) do
-  #   template = socket.assigns[:template]
-  #   {:ok, list} = RepeatableLists.create_list_from_template(template)
-  #
-  #   {
-  #     :noreply,
-  #     redirect(socket, to: ~p"/repeatable-lists/#{list.id}")
-  #   }
-  # end
 
   def delete_button(assigns) do
     ~H"""

@@ -9,12 +9,14 @@ defmodule ClientWeb.RepeatableLists.Live.Show do
         <:crumb title="Repeatable lists" href={~p"/repeatable-lists/templates"} />
         <:crumb title={@template.name} href={~p"/repeatable-lists/templates/#{@template.id}"} />
         <span data-role="name">
-          <%= @list.name %> (<%= @list.inserted_at %>)
+          <%= @list.name %>
         </span>
       </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
+      <div>Created on <%= @list.inserted_at %></div>
+
       <%= if @list.description do %>
-        <div><%= @list.description %></div>
+        <div class="mt-3"><%= @list.description %></div>
       <% end %>
 
       <hr class="my-3" />

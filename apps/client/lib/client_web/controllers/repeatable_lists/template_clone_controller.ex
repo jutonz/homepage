@@ -1,5 +1,5 @@
 defmodule ClientWeb.RepeatableLists.TemplateCloneController do
-  use ClientWeb, :controller
+  use ClientWeb, :viewless_controller
   alias Client.RepeatableLists
   alias Client.RepeatableLists.List
   alias Client.Session
