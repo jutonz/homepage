@@ -18,7 +18,7 @@
     "@urql/exchange-auth": "^2.1.6",
     "@urql/exchange-graphcache": "^7.1.1",
     "aphrodite": "^2.4.0",
-    "chart.js": "^3.9.1",
+    "chart.js": "^4.4.3",
     "graphql": "^16.8.2",
     "history": "^5.3.0",
     "jwt-decode": "^4.0.0",
