@@ -172,7 +172,7 @@ jobs:
           v3-static-assets-${{ github.ref }}-
     - run: mix deps.get
     - run: mix do ecto.create, ecto.migrate
-    - run: MIX_ENV=test LOG_LEVEL=debug mix phx.server &
+    - run: MIX_ENV=test LOG_LEVEL=debug mix phx.server &> server.log &
     - name: Install Playwright Browsers
       run: yarn playwright install firefox --with-deps
       working-directory: apps/client/assets
@@ -184,6 +184,12 @@ jobs:
       with:
         name: playwright-report
         path: apps/client/assets/playwright-report/
+        retention-days: 30
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: server-logs
+        path: server.log
         retention-days: 30
 
   cypress_run:
