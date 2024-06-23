@@ -157,13 +157,13 @@ jobs:
       with:
         working-directory: apps/client/assets
     - name: Archive failure screenshots
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: failure-screenshots
         path: apps/client/assets/cypress/screenshots
     - name: Archive videos
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: videos
@@ -219,7 +219,7 @@ jobs:
     - run: mix do ecto.create, ecto.migrate
     - run: (mix test || true) && mix test --failed
     - name: Archive failure screenshots
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: failure-screenshots
@@ -263,7 +263,7 @@ jobs:
     - run: mix phx.digest
     - run: mix release homepage
     - name: Archive release
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: release
         path: _build/prod/rel/homepage
