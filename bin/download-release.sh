@@ -46,11 +46,12 @@ archive_url=$(curl -L \
 rm -rf tmp/deploy
 mkdir -p tmp/deploy
 
-wget \
-  -O tmp/deploy/release.zip \
-  --header "Accept: application/vnd.github+json" \
-  --header="Authorization: Bearer $token" \
-  --header "X-GitHub-Api-Version: 2022-11-28" \
+curl \
+  -L \
+  -o tmp/deploy/release.zip \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer $token" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
   $archive_url
 
 unzip -q tmp/deploy/release.zip -d tmp/deploy/
