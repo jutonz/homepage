@@ -27,14 +27,13 @@ config :client, Client.Repo,
   password: System.get_env("POSTGRES_PASSWORD"),
   ownership_timeout: :infinity,
   pool_size: 20
+# log: :debug # enable to print ecto logs in test
 
 config :client, :awair,
   servers: [],
   req_options: [
     plug: {Req.Test, Client.Awair.AirData}
   ]
-
-# log: :debug # enable to print ecto logs in test
 
 config :wallaby,
   otp_app: :client,

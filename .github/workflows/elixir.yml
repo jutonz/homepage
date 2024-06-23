@@ -172,7 +172,7 @@ jobs:
           v3-static-assets-${{ github.ref }}-
     - run: mix deps.get
     - run: mix do ecto.create, ecto.migrate
-    - run: MIX_ENV=test mix phx.server &
+    - run: MIX_ENV=test LOG_LEVEL=debug mix phx.server &
     - name: Install Playwright Browsers
       run: yarn playwright install firefox --with-deps
       working-directory: apps/client/assets
