@@ -15,7 +15,7 @@ jobs:
     name: mix compile and dialyzer
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup dev config
       run: cp config/dev.secret.example.exs config/dev.secret.exs
     - name: Set up Elixir
@@ -24,7 +24,7 @@ jobs:
         elixir-version: ${{ env.ELIXIR_VERSION }}
         otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore dev cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: dev-cache
       with:
         path: |
@@ -33,7 +33,7 @@ jobs:
         key: v1-dev-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
         restore-keys: v1-dev-
     - name: Restore PLT cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: _plts
         key: v3-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
@@ -52,23 +52,23 @@ jobs:
     env:
       MIX_ENV: prod
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Read .tool-versions
       uses: marocchino/tool-versions-action@v1
       id: versions
     - name: Setup node
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ steps.versions.outputs.nodejs }}
     - name: Restore node_modules cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: apps/client/assets/node_modules
         key: v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
           v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore yarn cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.cache/yarn
@@ -77,7 +77,7 @@ jobs:
         restore-keys: |
           v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore static asset cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: apps/client/priv/static
         key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
@@ -86,7 +86,7 @@ jobs:
           v3-static-assets-${{ github.ref }}-
     - name: yarn install
       working-directory: apps/client/assets
-      run: yarn install
+      run: yarn install --frozen-lockfile
     - name: yarn lint --check
       working-directory: apps/client/assets
       run: yarn lint --check
@@ -123,7 +123,7 @@ jobs:
         ports:
         - 6379:6379
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup dev config
       run: cp config/dev.secret.example.exs config/dev.secret.exs
     - name: Set up Elixir
@@ -132,7 +132,7 @@ jobs:
         elixir-version: ${{ env.ELIXIR_VERSION }}
         otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore test cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           deps
@@ -142,7 +142,7 @@ jobs:
           v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-test-${{ hashFiles('.tool-versions') }}-
     - name: Restore static asset cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: apps/client/priv/static
         key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
@@ -153,17 +153,17 @@ jobs:
     - run: mix do ecto.create, ecto.migrate
     - run: MIX_ENV=test mix phx.server &
     - name: Cypress run
-      uses: cypress-io/github-action@v5
+      uses: cypress-io/github-action@v6
       with:
         working-directory: apps/client/assets
     - name: Archive failure screenshots
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: failure-screenshots
         path: apps/client/assets/cypress/screenshots
     - name: Archive videos
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: videos
@@ -191,7 +191,7 @@ jobs:
         ports:
         - 6379:6379
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup dev config
       run: cp config/dev.secret.example.exs config/dev.secret.exs
     - name: Set up Elixir
@@ -200,12 +200,12 @@ jobs:
         elixir-version: ${{ env.ELIXIR_VERSION }}
         otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore static asset cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: apps/client/priv/static
         key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
     - name: Restore test cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           deps
@@ -219,7 +219,7 @@ jobs:
     - run: mix do ecto.create, ecto.migrate
     - run: (mix test || true) && mix test --failed
     - name: Archive failure screenshots
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: failure-screenshots
@@ -236,7 +236,7 @@ jobs:
       MIX_ENV: prod
       TWITCH_DATASTORE_DISABLED: "true"
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup dev config
       run: cp config/dev.secret.example.exs config/dev.secret.exs
     - name: Set up Elixir
@@ -245,12 +245,12 @@ jobs:
         elixir-version: ${{ env.ELIXIR_VERSION }}
         otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore static asset cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: apps/client/priv/static
         key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
     - name: Restore dev cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       id: dev-cache
       with:
         path: |
@@ -263,7 +263,7 @@ jobs:
     - run: mix phx.digest
     - run: mix release homepage
     - name: Archive release
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: release
         path: _build/prod/rel/homepage
