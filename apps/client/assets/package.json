@@ -5,8 +5,9 @@
     "bundle:css": "npx postcss ./static-css/index.scss -o ./../priv/static/static-css/index.css",
     "bundle:js": "node ./scripts/compile_static.mjs",
     "codegen": "graphql-codegen",
-    "lint": "npx prettier '{static-js,js,scripts}/**/*.{js,mjs,jsx,ts,tsx}' '*.js'",
-    "typecheck": "npx tsc --project ./tsconfig.json"
+    "lint": "npx prettier '{static-js,js,scripts,tests}/**/*.{js,mjs,jsx,ts,tsx}' '*.js'",
+    "typecheck": "npx tsc --project ./tsconfig.json",
+    "test:server": "cd ../../.. && MIX_ENV=test mix phx.server"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -41,8 +42,10 @@
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/client-preset": "^4.3.0",
     "@parcel/watcher": "^2.4.1",
+    "@playwright/test": "^1.44.0",
     "@tailwindcss/forms": "^0.5.7",
     "@testing-library/cypress": "^10.0.2",
+    "@types/node": "^20.12.11",
     "autoprefixer": "^10.4.19",
     "cssnano": "^7.0.3",
     "cypress": "^13.12.0",

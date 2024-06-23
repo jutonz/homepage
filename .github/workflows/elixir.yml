@@ -100,6 +100,98 @@ jobs:
       working-directory: apps/client/assets
       run: yarn bundle:css
 
+  playwright:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    needs: ["yarn_install"]
+    env:
+      MIX_ENV: test
+      LOG_LEVEL: info
+      TWITCH_DATASTORE_DISABLED: "true"
+      POSTGRES_PASSWORD: password
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: homepage_test
+          POSTGRES_PASSWORD: password
+        ports:
+        - 5432:5432
+      redis:
+        image: circleci/redis
+        ports:
+        - 6379:6379
+    steps:
+    - uses: actions/checkout@v4
+    - name: Read .tool-versions
+      uses: marocchino/tool-versions-action@v1
+      id: versions
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ steps.versions.outputs.nodejs }}
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        elixir-version: '1.16.1'
+        otp-version: '26.2.1'
+    - name: Restore test cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          deps
+          _build/test
+        key: v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+        restore-keys: |
+          v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+          v2-test-${{ hashFiles('.tool-versions') }}-
+    - name: Restore node_modules cache
+      uses: actions/cache@v3
+      with:
+        path: apps/client/assets/node_modules
+        key: v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        restore-keys: |
+          v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+    - name: Restore yarn cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/yarn
+          ~/.cache/Cypress
+        key: v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+        restore-keys: |
+          v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+    - name: Restore static asset cache
+      uses: actions/cache@v3
+      with:
+        path: apps/client/priv/static
+        key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
+        restore-keys: |
+          v3-static-assets-${{ github.ref }}-${{ github.sha }}
+          v3-static-assets-${{ github.ref }}-
+    - run: mix deps.get
+    - run: mix do ecto.create, ecto.migrate
+    - run: MIX_ENV=test LOG_LEVEL=debug mix phx.server &> server.log &
+    - name: Install Playwright Browsers
+      run: yarn playwright install firefox --with-deps
+      working-directory: apps/client/assets
+    - name: Run Playwright tests
+      run: yarn playwright test
+      working-directory: apps/client/assets
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: apps/client/assets/playwright-report/
+        retention-days: 30
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: server-logs
+        path: server.log
+        retention-days: 30
+
   cypress_run:
     name: cypress run
     needs: ["yarn_install"]
