@@ -4,7 +4,7 @@ updates:
   directory: "/apps/client/assets"
   schedule:
     interval: daily
-    time: "00:00"
+    time: "03:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
   groups:
@@ -16,6 +16,13 @@ updates:
   directory: "/"
   schedule:
     interval: daily
-    time: "00:00"
+    time: "03:00"
+    timezone: America/New_York
+  open-pull-requests-limit: 10
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
