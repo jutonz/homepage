@@ -4,7 +4,7 @@ const BASE_URL = "http://localhost:4002";
 
 test.describe("Auth", () => {
   test("allows me to sign up", async ({ page }) => {
-    await page.goto(BASE_URL + "?bg=false");
+    await page.goto(BASE_URL + "/#/login?bg=false");
     await page.getByRole("link", { name: "Or signup" }).click();
 
     const email = `wee-${Math.random()}@example.com`;

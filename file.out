@@ -1,6 +1,0 @@
-11:11:17.970 [warning] [Elixir.Client.FileRenamer] No `path:` argument configured. Exiting.
-
-BREAK: (a)bort (A)bort with dump (c)ontinue (p)roc info (i)nfo
-       (l)oaded (v)ersion (k)ill (D)b-tables (d)istribution
-[os_mon] cpu supervisor port (cpu_sup): Erlang has closed
-[os_mon] memory supervisor port (memsup): Erlang has closed
