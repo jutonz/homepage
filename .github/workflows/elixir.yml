@@ -137,7 +137,7 @@ jobs:
         elixir-version: '1.16.1'
         otp-version: '26.2.1'
     - name: Restore test cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           deps
@@ -147,14 +147,14 @@ jobs:
           v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-test-${{ hashFiles('.tool-versions') }}-
     - name: Restore node_modules cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: apps/client/assets/node_modules
         key: v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
           v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore yarn cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.cache/yarn
@@ -163,7 +163,7 @@ jobs:
         restore-keys: |
           v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore static asset cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: apps/client/priv/static
         key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
