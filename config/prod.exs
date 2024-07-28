@@ -10,7 +10,7 @@ config :client,
 
 config :client, ClientWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
-  force_ssl: [hsts: true],
+  force_ssl: [hsts: true, rewrite_on: [:x_forwarded_proto], host: nil],
   http: [port: 4080]
   # https: [
   #   port: 4443,
