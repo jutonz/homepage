@@ -11,13 +11,13 @@ config :client,
 config :client, ClientWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
   force_ssl: [hsts: true],
-  http: [port: 4080],
-  https: [
-    port: 4443,
-    cipher_suite: :strong,
-    keyfile: "/home/jutonz/srv/homepage/secrets/privkey.pem",
-    certfile: "/home/jutonz/srv/homepage/secrets/fullchain.pem"
-  ]
+  http: [port: 4080]
+  # https: [
+  #   port: 4443,
+  #   cipher_suite: :strong,
+  #   keyfile: "/home/jutonz/srv/homepage/secrets/privkey.pem",
+  #   certfile: "/home/jutonz/srv/homepage/secrets/fullchain.pem"
+  # ]
 
 # Do not print debug messages in production
 config :logger, level: :info
