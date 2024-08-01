@@ -5,6 +5,7 @@ import { BgGrid } from "./../BgGrid";
 import { useQuery } from "urql";
 
 import { graphql } from "../gql";
+import { getAccessToken, getRefreshToken } from "js/utils/auth";
 
 const GET_CURRENT_USER = graphql(`
   query GetCurrentUser {
@@ -14,6 +15,18 @@ const GET_CURRENT_USER = graphql(`
     }
   }
 `);
+
+const handleSsoRedirect = (
+  ssoRedirectUrl: string,
+  accessToken: string,
+  refreshToken: string,
+) => {
+  const url = new URL(ssoRedirectUrl);
+  url.searchParams.set("access_token", accessToken);
+  url.searchParams.set("refresh_token", refreshToken);
+  // @ts-ignore
+  window.location = url.toString();
+};
 
 export function LoginRoute() {
   const navigate = useNavigate();
@@ -27,9 +40,19 @@ export function LoginRoute() {
   if (error) return <div>An error occurred: {error.message}</div>;
 
   const isLoggedIn = !!data?.getCurrentUser;
+  const ssoRedirect = searchParams.get("sso_redirect");
 
   useEffect(() => {
-    if (isLoggedIn) {
+    const accessToken = getAccessToken();
+    const refreshToken = getRefreshToken();
+    console.log("isLoggedIn", isLoggedIn);
+    console.log("accessToken", accessToken);
+    console.log("refreshToken", refreshToken);
+    console.log("ssoRedirect", ssoRedirect);
+
+    if (isLoggedIn && accessToken && ssoRedirect && refreshToken) {
+      handleSsoRedirect(ssoRedirect, accessToken, refreshToken);
+    } else if (isLoggedIn) {
       navigate("/");
     } else if (searchParams.get("bg") !== "false") {
       const newGrid = new BgGrid();
@@ -39,12 +62,17 @@ export function LoginRoute() {
     }
   }, []);
 
-  const onLogin = () => {
+  const onLogin = ({ accessToken, refreshToken }) => {
     // TODO: Look for a `to` query param or something to redirect
     // Also maybe look into using location.state somehow?
     // TODO: Update urql cache?
-    // @ts-ignore
-    window.location = "/";
+
+    if (ssoRedirect) {
+      handleSsoRedirect(ssoRedirect, accessToken, refreshToken);
+    } else {
+      // @ts-ignore
+      window.location = "/";
+    }
   };
 
   return (
