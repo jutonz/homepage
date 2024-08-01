@@ -53,7 +53,7 @@ const schema = yup
   .required();
 
 interface Props {
-  onLogin: () => void;
+  onLogin: ({}: { accessToken: string; refreshToken: string }) => void;
 }
 
 export function LoginForm({ onLogin }: Props) {
@@ -90,7 +90,7 @@ export function LoginForm({ onLogin }: Props) {
 
     if (accessToken && refreshToken) {
       setTokens(accessToken, refreshToken);
-      onLogin();
+      onLogin({ accessToken, refreshToken });
     } else {
       setError("root.serverError", { message: "Something went wrong" });
     }

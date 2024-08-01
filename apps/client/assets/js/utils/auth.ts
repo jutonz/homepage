@@ -83,11 +83,11 @@ const REFRESH_TOKEN = "refresh";
 
 // TODO: Use cookies for this?
 
-function getAccessToken() {
+export function getAccessToken() {
   return localStorage.getItem(ACCESS_TOKEN);
 }
 
-function getRefreshToken() {
+export function getRefreshToken() {
   return localStorage.getItem(REFRESH_TOKEN);
 }
 
