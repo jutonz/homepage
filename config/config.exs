@@ -28,10 +28,6 @@ config :phoenix,
   json_library: Jason,
   template_engines: [leex: Phoenix.LiveView.Engine]
 
-secret_key_base =
-  System.get_env("SECRET_KEY_BASE") ||
-    "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
-
 config :client, ClientWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: secret_key_base,
