@@ -14,7 +14,8 @@ if config_env() == :prod do
 
   config :client, ClientWeb.Endpoint,
     url: [scheme: "https", port: 443, host: host],
-    check_origin: ["https://#{host}"]
+    check_origin: ["https://#{host}"],
+    secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
   if System.get_env("PHX_SERVER") do
     config :client, ClientWeb.Endpoint, server: true
@@ -31,6 +32,9 @@ if config_env() == :prod do
     url: System.fetch_env!("DATABASE_URL"),
     pool_size: db_pool_size,
     socket_options: maybe_ipv6
+
+  config :client, Client.Guardian,
+    secret_key: System.fetch_env!("JWT_SIGNING_KEY")
 
   config :client, :influx,
     host: System.get_env("INFLUXDB_HOST") || "http://localhost:8086",
