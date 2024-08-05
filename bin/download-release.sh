@@ -32,7 +32,9 @@ token=$(
   "Homepage deploy GH token" \
   --account "my.1password.com" \
   --vault="Homepage" \
-  --fields="credential"
+  --fields="credential" \
+  --format=json \
+  | jq -r .value
 )
 
 archive_url=$(curl -L \
