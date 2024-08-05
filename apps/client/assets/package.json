@@ -29,7 +29,7 @@
     "phoenix_live_view": "0.20.17",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.52.1",
+    "react-hook-form": "^7.52.2",
     "react-router-dom": "^6.26.0",
     "react-stdio": "^3.4.8",
     "rxjs": "^7.8.1",
