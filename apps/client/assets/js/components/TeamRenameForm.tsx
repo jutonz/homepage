@@ -40,7 +40,7 @@ export function TeamRenameForm({ team }: Props) {
   const {
     clearErrors,
     control,
-    formState: { isValid, errors, isSubmitting },
+    formState: { errors, isSubmitting },
     handleSubmit,
     reset,
     setError,
@@ -108,7 +108,7 @@ export function TeamRenameForm({ team }: Props) {
           type="submit"
           fullWidth
           className="mt-5"
-          disabled={isSubmitting || !isValid}
+          disabled={isSubmitting}
         >
           Rename team
         </Button>

@@ -47,7 +47,7 @@ export function TeamJoinForm() {
   const {
     clearErrors,
     control,
-    formState: { isValid, errors, isSubmitting },
+    formState: { errors, isSubmitting },
     handleSubmit,
     setError,
   } = useForm<FormInputs>({
@@ -112,7 +112,7 @@ export function TeamJoinForm() {
           type="submit"
           fullWidth
           className="mt-5"
-          disabled={isSubmitting || !isValid}
+          disabled={isSubmitting}
         >
           Join Team
         </Button>

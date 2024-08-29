@@ -44,6 +44,7 @@ config :wallaby,
   js_errors: true,
   chromedriver: [
     headless: true
+    # path: "/usr/local/bin/chromedriver"
   ]
 
 config :sentry, environment_name: :dev

@@ -109,7 +109,7 @@ export function TeamCreationForm() {
           type="submit"
           fullWidth
           className="mt-5"
-          disabled={isSubmitting || !isValid}
+          disabled={isSubmitting}
         >
           Create Team
         </Button>
