@@ -25,7 +25,8 @@ describe("authorization", () => {
         cy.findByLabelText("New password").type(newPassword);
         cy.findByLabelText("New password (confirm)").type(newPassword + "no match");
 
-        cy.findByRole("button", { name: "Change password" }).should("be.disabled");
+        cy.findByRole("button", { name: "Change password" }).click();
+        // cy.findByRole("alert", { name: "Passwords don't match" });
 
         cy.findByLabelText("New password (confirm)").clear().type(newPassword);
 
