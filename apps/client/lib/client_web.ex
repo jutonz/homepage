@@ -33,11 +33,10 @@ defmodule ClientWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller,
-        namespace: ClientWeb
+      use Phoenix.Controller, namespace: ClientWeb
+      use Gettext, backend: ClientWeb.Gettext
 
       import Plug.Conn
-      import ClientWeb.Gettext
       import Phoenix.LiveView.Controller, only: [live_render: 2, live_render: 3]
       alias ClientWeb.Router.Helpers, as: Routes
 
@@ -52,9 +51,9 @@ defmodule ClientWeb do
         namespace: ClientWeb,
         # this line is the only difference
         formats: ~w[html json]a
+      use Gettext, backend: ClientWeb.Gettext
 
       import Plug.Conn
-      import ClientWeb.Gettext
       import Phoenix.LiveView.Controller, only: [live_render: 2, live_render: 3]
       alias ClientWeb.Router.Helpers, as: Routes
 
@@ -109,7 +108,7 @@ defmodule ClientWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import ClientWeb.Gettext
+      use Gettext, backend: ClientWeb.Gettext
     end
   end
 
@@ -144,16 +143,16 @@ defmodule ClientWeb do
 
   defp view_helpers do
     quote do
+      use PhoenixHTMLHelpers
+      use Gettext, backend: ClientWeb.Gettext
+
       import Phoenix.HTML
       import Phoenix.HTML.Form
-      use PhoenixHTMLHelpers
-
       import Phoenix.View
       import Phoenix.Component
-      import ClientWeb.CoreComponents
 
+      import ClientWeb.CoreComponents
       import ClientWeb.ErrorHelpers
-      import ClientWeb.Gettext
 
       alias ClientWeb.Router.Helpers, as: Routes
 
