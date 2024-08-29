@@ -51,6 +51,7 @@ defmodule ClientWeb do
         namespace: ClientWeb,
         # this line is the only difference
         formats: ~w[html json]a
+
       use Gettext, backend: ClientWeb.Gettext
 
       import Plug.Conn
