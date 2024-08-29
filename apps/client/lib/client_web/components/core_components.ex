@@ -15,9 +15,9 @@ defmodule ClientWeb.CoreComponents do
   Icons are provided by [heroicons](https://heroicons.com). See `icon/1` for usage.
   """
   use Phoenix.Component
+  use Gettext, backend: ClientWeb.Gettext
 
   alias Phoenix.LiveView.JS
-  import ClientWeb.Gettext
 
   @doc """
   Renders a modal.
