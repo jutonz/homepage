@@ -31,7 +31,7 @@ export function TeamDeleteForm({ team }: Props) {
 
   const {
     clearErrors,
-    formState: { isValid, errors, isSubmitting },
+    formState: { errors, isSubmitting },
     handleSubmit,
     setError,
   } = useForm<FormInputs>({
@@ -84,7 +84,7 @@ export function TeamDeleteForm({ team }: Props) {
         className="mt-3"
         type="submit"
         fullWidth
-        disabled={isSubmitting || !isValid}
+        disabled={isSubmitting}
         onConfirm={handleSubmit(onSubmit)}
         confirmText="All existing members will be removed from the team."
         confirmButtonText="Delete team"

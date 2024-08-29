@@ -30,7 +30,7 @@ export function TeamLeaveForm({ team }: Props) {
 
   const {
     clearErrors,
-    formState: { isValid, errors, isSubmitting },
+    formState: { errors, isSubmitting },
     handleSubmit,
     setError,
   } = useForm<FormInputs>({
@@ -79,12 +79,7 @@ export function TeamLeaveForm({ team }: Props) {
 
       <p>You can always rejoin later.</p>
 
-      <Button
-        type="submit"
-        className="mt-3"
-        fullWidth
-        disabled={isSubmitting || !isValid}
-      >
+      <Button type="submit" className="mt-3" fullWidth disabled={isSubmitting}>
         Leave
       </Button>
     </form>

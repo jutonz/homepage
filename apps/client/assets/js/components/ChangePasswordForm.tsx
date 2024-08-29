@@ -43,7 +43,7 @@ export function ChangePasswordForm() {
   const {
     clearErrors,
     control,
-    formState: { isValid, errors, isSubmitting },
+    formState: { errors, isSubmitting },
     handleSubmit,
     reset,
     setError,
@@ -132,7 +132,7 @@ export function ChangePasswordForm() {
           type="submit"
           fullWidth
           className="mt-5"
-          disabled={isSubmitting || !isValid}
+          disabled={isSubmitting}
         >
           Change password
         </Button>
