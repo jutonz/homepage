@@ -252,7 +252,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: failure-screenshots
+        name: cypress-failure-screenshots
         path: apps/client/assets/cypress/screenshots
     - name: Archive videos
       uses: actions/upload-artifact@v4
@@ -314,7 +314,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: failure-screenshots
+        name: mix-test-failure-screenshots
         path: /tmp/homepage-screenshots
 
   build_release:
