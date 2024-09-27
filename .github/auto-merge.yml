@@ -1,0 +1,3 @@
+- match:
+    dependency_name: "@types/node"
+    update_type: semver:minor
