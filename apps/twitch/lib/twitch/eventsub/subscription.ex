@@ -29,10 +29,33 @@ defmodule Twitch.Eventsub.Subscription do
     route_helpers = Application.get_env(:twitch, :route_helpers)
     endpoint = Application.get_env(:twitch, :endpoint)
 
+    wait_for_endpoint(endpoint, 10)
+
     route_helpers.twitch_subscriptions_callback_url(
       endpoint,
       :callback,
       subscription.id
     )
+
+    "http://localhost:4000/api/twitch/subscriptions/123"
+  end
+
+  # hacky hacky
+  # https://github.com/phoenixframework/phoenix/blob/main/lib/phoenix/endpoint.ex#L544-L547
+  # I think this is just an issue because of how I pass in the endpoint to this
+  # twich app via config.
+  defp wait_for_endpoint(endpoint, remaining) do
+    cond do
+      remaining <= 0 ->
+        # give up
+        true
+
+      :persistent_term.get({Phoenix.Endpoint, endpoint}, nil) != nil ->
+        true
+
+      true ->
+        Process.sleep(250)
+        wait_for_endpoint(endpoint, remaining - 1)
+    end
   end
 end

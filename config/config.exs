@@ -70,10 +70,11 @@ config :twitch,
   endpoint: ClientWeb.Endpoint
 
 # config :twitch,
-# webhook_callback_url: ClientWeb.Router.Helpers.twitch_subscriptions_callback_url(
-# ClientWeb.Endpoint,
-# :callback
-# )
+#   webhook_callback_url: ClientWeb.Router.Helpers.twitch_subscriptions_callback_url(
+#     ClientWeb.Endpoint,
+#     :callback,
+#     123
+#   )
 
 ################################################################################
 # Events config
