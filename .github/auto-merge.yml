@@ -1,3 +1,6 @@
 - match:
     dependency_name: "@types/node"
     update_type: semver:minor
+- match:
+    dependency_name: "@playwright/test"
+    update_type: semver:minor
