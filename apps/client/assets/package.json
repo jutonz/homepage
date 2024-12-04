@@ -10,7 +10,7 @@
     "test:server": "cd ../../.. && MIX_ENV=test mix phx.server"
   },
   "dependencies": {
-    "@emotion/react": "^11.13.3",
+    "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.0",
     "@fontsource/roboto": "^5.1.0",
     "@hookform/resolvers": "^3.9.1",
