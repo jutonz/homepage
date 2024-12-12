@@ -5,7 +5,7 @@ defmodule ClientWeb.Components.RepeatableLists.TemplateSection do
     ~H"""
     <div data-section-id={@section.id}>
       <h2 class="text-xl">
-        Section: <%= @section.name %>
+        Section: {@section.name}
       </h2>
 
       <%= for item <- @section.items do %>

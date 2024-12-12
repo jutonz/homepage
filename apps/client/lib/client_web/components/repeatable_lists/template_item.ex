@@ -12,7 +12,7 @@ defmodule ClientWeb.Components.RepeatableLists.TemplateItem do
 
     ~H"""
     <form phx-change="save" phx-submit="save" phx-target={@myself} class="mb-0" data-role="item-form">
-      <div phx-feedback-for="name">
+      <div>
         <input
           type="text"
           name="name"

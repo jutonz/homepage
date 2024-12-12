@@ -5,38 +5,38 @@
 fn form -> %>
   <div class="flex flex-1 flex-col mb-6">
     <div>
-      <%= label(form, :ingredient_id, "Label Number", class: "mr-4") %>
-      <%= text_input(
+      {label(form, :ingredient_id, "Label Number", class: "mr-4")}
+      {text_input(
         form,
         :ingredient_id,
         class: "mt-2",
         autofocus: true,
         data: [role: "ingredient-label-number-input"]
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :ingredient_id) %>
+        {error_tag(form, :ingredient_id)}
       </div>
     </div>
 
     <div>
-      <%= label(form, :amount_used, "Amount used", class: "mr-4") %>
-      <%= text_input(
+      {label(form, :amount_used, "Amount used", class: "mr-4")}
+      {text_input(
         form,
         :amount_used,
         class: "mt-2",
         data: [role: "ingredient-amount-used-input"]
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :amount_used) %>
+        {error_tag(form, :amount_used)}
       </div>
     </div>
   </div>
 
   <div>
-    <%= submit(@action, class: "button", data: [role: "ingredient-submit"]) %>
+    {submit(@action, class: "button", data: [role: "ingredient-submit"])}
 
     <%= if Ecto.Changeset.get_field(@changeset, :id) do %>
-      <%= link(
+      {link(
         "Delete",
         to:
           Routes.soap_batch_ingredient_path(
@@ -48,7 +48,7 @@ fn form -> %>
         method: :delete,
         class: "button button--danger ml-6",
         data: [confirm: "Are you sure?", role: "ingredient-delete-button"]
-      ) %>
+      )}
     <% end %>
   </div>
 <% end) %>

@@ -9,7 +9,7 @@ defmodule ClientWeb.Components.FoodLogs.DayView do
       ~H"""
       <div>
         <div class="mt-4">
-          <%= Timex.format!(@date, "{D} {Mshort} {YYYY}") %>
+          {Timex.format!(@date, "{D} {Mshort} {YYYY}")}
         </div>
         <div>
           <%= for entry <- @entries do %>

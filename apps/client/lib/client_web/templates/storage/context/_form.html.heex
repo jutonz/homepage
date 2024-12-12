@@ -4,46 +4,46 @@
 fn form -> %>
   <div class="flex flex-1 flex-col mb-6">
     <div class="flex flex-col">
-      <%= label(form, :name, "Name") %>
-      <%= text_input(
+      {label(form, :name, "Name")}
+      {text_input(
         form,
         :name,
         class: "mt-2",
         autofocus: true,
         data: [role: "name-input"]
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :name) %>
+        {error_tag(form, :name)}
       </div>
     </div>
 
     <div class="flex flex-col mt-3">
-      <%= label(form, :team_names, "Team names (separate multiple with commas)") %>
-      <%= text_input(
+      {label(form, :team_names, "Team names (separate multiple with commas)")}
+      {text_input(
         form,
         :team_names,
         class: "mt-2",
         data: [role: "team-names-input"],
         value: comma_separated_team_names(@changeset)
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :team_names) %>
+        {error_tag(form, :team_names)}
       </div>
     </div>
 
     <div class="flex flex-col mt-3">
-      <%= label(form, :default_location, "Default location") %>
-      <%= text_input(
+      {label(form, :default_location, "Default location")}
+      {text_input(
         form,
         :default_location,
         class: "mt-2",
         data: [role: "default-location"]
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :default_location) %>
+        {error_tag(form, :default_location)}
       </div>
     </div>
   </div>
 
-  <%= submit(@action, class: "button", data: [role: "storage-context-form-submit"]) %>
+  {submit(@action, class: "button", data: [role: "storage-context-form-submit"])}
 <% end) %>

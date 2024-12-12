@@ -48,21 +48,21 @@ defmodule ClientWeb.Storage.ContextItemsLive do
     ~H"""
     <div class="flex justify-between align-center">
       <div class="text-lg mb-1 mr-5">Items</div>
-      <%= link(
+      {link(
         "New item",
         to: Routes.storage_context_item_path(ClientWeb.Endpoint, :new, @context),
         class: "button"
-      ) %>
+      )}
     </div>
 
     <form class="flex flex-1 mt-5 mb-3" data-role="search-form" phx-change="search_changed">
-      <%= text_input(
+      {text_input(
         :search,
         :query,
         phx_debounce: 500,
         placeholder: "Search",
         class: "rounded-sm flex-1"
-      ) %>
+      )}
     </form>
 
     <div>
@@ -75,19 +75,19 @@ defmodule ClientWeb.Storage.ContextItemsLive do
         >
           <div class="mb-2">
             <span class="font-bold">
-              <%= item.name %>
+              {item.name}
             </span>
             <%= if item.description do %>
-              <span class="font-thin">→</span> <%= item.description %>
+              <span class="font-thin">→</span> {item.description}
             <% end %>
           </div>
           <div class="flex justify-between">
             <div class="flex">
               <div class="">ID</div>
-              <div class="pl-1"><%= item.id %></div>
+              <div class="pl-1">{item.id}</div>
             </div>
             <div class="flex">
-              <div><%= item.location %></div>
+              <div>{item.location}</div>
             </div>
           </div>
         </div>

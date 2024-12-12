@@ -5,10 +5,10 @@
     <div>New batch</div>
   </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
-  <%= render(
+  {render(
     "_form.html",
     changeset: @changeset,
     submit_path: ~p"/soap/batches",
     action: "Create"
-  ) %>
+  )}
 </div>

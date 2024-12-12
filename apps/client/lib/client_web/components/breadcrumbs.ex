@@ -1,7 +1,7 @@
 defmodule ClientWeb.Components.Breadcrumbs do
   use ClientWeb, :html
 
-  slot :crumb, default: [] do
+  slot :crumb do
     attr :href, :string, required: true
     attr :title, :string, required: true
   end
@@ -18,7 +18,7 @@ defmodule ClientWeb.Components.Breadcrumbs do
       <% end %>
 
       <div>
-        <%= render_slot(@inner_block) %>
+        {render_slot(@inner_block)}
       </div>
     </div>
     """
@@ -30,7 +30,7 @@ defmodule ClientWeb.Components.Breadcrumbs do
   defp back_crumb(assigns) do
     ~H"""
     <div class="mr-2 text-gray-400">
-      <.link href={@href}><%= @title %></.link>
+      <.link href={@href}>{@title}</.link>
     </div>
     <span class="mr-2">></span>
     """

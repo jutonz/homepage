@@ -8,16 +8,16 @@
     <%= for batch <- @batches do %>
       <div class="mt-5 mb-5">
         <.link href={~p"/soap/batches/#{batch.id}"} data-role="soap-batch-name">
-          <%= batch.name %>
+          {batch.name}
         </.link>
       </div>
     <% end %>
   </div>
 
-  <%= link(
+  {link(
     "Create batch",
     to: ~p"/soap/batches/new",
     class: "mt-4 button",
     data: [role: "create-soap-batch"]
-  ) %>
+  )}
 </div>

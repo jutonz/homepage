@@ -5,19 +5,19 @@
     <%= for context <- @contexts do %>
       <div class="mb-3">
         <%= if Enum.any?(context.teams) do %>
-          <%= context.teams |> Enum.map(& &1.name) |> Enum.join(", ") %> >
+          {context.teams |> Enum.map(& &1.name) |> Enum.join(", ")} >
         <% end %>
-        <%= link(
+        {link(
           context.name,
           to: Routes.storage_context_path(@conn, :show, context)
-        ) %>
+        )}
       </div>
     <% end %>
   </div>
 
-  <%= link(
+  {link(
     "New Context",
     to: Routes.storage_context_path(@conn, :new),
     class: "mt-3 button"
-  ) %>
+  )}
 </div>

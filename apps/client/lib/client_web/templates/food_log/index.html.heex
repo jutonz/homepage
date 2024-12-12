@@ -10,17 +10,17 @@
   <div>
     <%= for log <- @logs do %>
       <div class="mt-3">
-        <%= link(log.name, to: ~p"/food-logs/#{log.id}") %>
+        {link(log.name, to: ~p"/food-logs/#{log.id}")}
       </div>
     <% end %>
   </div>
 
   <div class="mt-6">
-    <%= link(
+    {link(
       "New log",
       to: Routes.food_log_path(ClientWeb.Endpoint, :new),
       class: "button mt-4",
       data: [role: "new-food-log"]
-    ) %>
+    )}
   </div>
 </div>

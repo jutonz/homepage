@@ -4,60 +4,60 @@
 fn form -> %>
   <div class="flex flex-1 flex-col mb-6">
     <div>
-      <%= label(form, :name, "Name", class: "mr-4") %>
-      <%= text_input(
+      {label(form, :name, "Name", class: "mr-4")}
+      {text_input(
         form,
         :name,
         class: "mt-2",
         autofocus: true,
         data: [role: "soap-order-ingredient-name-input"]
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :name) %>
+        {error_tag(form, :name)}
       </div>
     </div>
 
     <div>
-      <%= label(form, :material_cost, "Cost", class: "mr-4") %>
-      <%= text_input(
+      {label(form, :material_cost, "Cost", class: "mr-4")}
+      {text_input(
         form,
         :material_cost,
         class: "mt-2",
         autofocus: true,
         data: [role: "soap-order-ingredient-cost-input"]
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :material_cost) %>
+        {error_tag(form, :material_cost)}
       </div>
     </div>
 
     <div>
-      <%= label(form, :quantity, "Quantity", class: "mr-4") %>
-      <%= text_input(
+      {label(form, :quantity, "Quantity", class: "mr-4")}
+      {text_input(
         form,
         :quantity,
         class: "mt-2",
         autofocus: true,
         data: [role: "soap-order-ingredient-quantity-input"]
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :quantity) %>
+        {error_tag(form, :quantity)}
       </div>
     </div>
 
     <div>
-      <%= label(form, :depleted_at, "Depleted", class: "mr-4") %>
-      <%= checkbox(
+      {label(form, :depleted_at, "Depleted", class: "mr-4")}
+      {checkbox(
         form,
         :depleted_at,
         class: "mt-2",
         data: [role: "soap-order-ingredient-depleted-input"]
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :depleted_at) %>
+        {error_tag(form, :depleted_at)}
       </div>
     </div>
   </div>
 
-  <%= submit(@action, data: [role: "soap-order-ingredient-submit"]) %>
+  {submit(@action, data: [role: "soap-order-ingredient-submit"])}
 <% end) %>

@@ -1,7 +1,7 @@
 <div class="border max-h-full min-h-full overflow-scroll grow">
   <div class="p-3 flex flex-col max-h-full overflow-scroll" id="chat" phx-update="stream">
     <p :for={{dom_id, event} <- @streams.events} id={dom_id}>
-      <%= event.display_name %>: <%= event.message %>
+      {event.display_name}: {event.message}
     </p>
   </div>
 </div>

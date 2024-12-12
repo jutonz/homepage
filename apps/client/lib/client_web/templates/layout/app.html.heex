@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title><%= assigns[:title] || "jutonz.com" %></title>
+    <title>{assigns[:title] || "jutonz.com"}</title>
 
     <link
       rel="stylesheet"
@@ -19,18 +19,18 @@
   <body onclick="">
     <div class="container font-sans">
       <p class="alert alert-info" role="alert" data-role="flash-info">
-        <%= Phoenix.Flash.get(@flash, :info) %>
+        {Phoenix.Flash.get(@flash, :info)}
       </p>
       <p class="alert alert-danger" role="alert" data-role="flash-error">
-        <%= Phoenix.Flash.get(@flash, :error) %>
+        {Phoenix.Flash.get(@flash, :error)}
       </p>
 
       <main role="main">
-        <%= @inner_content %>
+        {@inner_content}
       </main>
     </div>
 
-    <%= csrf_meta_tag() %>
+    {csrf_meta_tag()}
     <script phx-track-static src={Routes.static_path(ClientWeb.Endpoint, "/static-js/index.js")}>
     </script>
   </body>

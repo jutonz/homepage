@@ -8,16 +8,16 @@ defmodule ClientWeb.FoodLogsLive.Show do
       <ClientWeb.Components.Breadcrumbs.breadcrumbs>
         <:crumb title="Food Logs" href={~p"/food-logs"} />
         <div class="flex flex-row">
-          <span data-role="food-log-title"><%= @log.name %></span>
+          <span data-role="food-log-title">{@log.name}</span>
           <div class="ml-5">
             <.link href={~p"/food-logs/#{@log.id}/edit"} class="button mr-4">Edit</.link>
-            <%= link(
+            {link(
               "Delete",
               to: ~p"/food-logs/#{@log.id}",
               method: :delete,
               data: [confirm: "Are you sure"],
               class: "button"
-            ) %>
+            )}
           </div>
         </div>
       </ClientWeb.Components.Breadcrumbs.breadcrumbs>

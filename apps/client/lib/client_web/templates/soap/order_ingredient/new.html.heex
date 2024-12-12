@@ -1,6 +1,6 @@
 <div class="m-4">
   <div class="text-xl mb-5">New order ingredient</div>
-  <%= render(
+  {render(
     "_form.html",
     changeset: @changeset,
     submit_path:
@@ -10,5 +10,5 @@
         @order_id
       ),
     action: "Create"
-  ) %>
+  )}
 </div>

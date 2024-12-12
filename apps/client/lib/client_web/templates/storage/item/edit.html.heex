@@ -1,6 +1,6 @@
 <div class="m-4">
   <div class="text-xl mb-5">Edit item</div>
-  <%= render(
+  {render(
     "_form.html",
     changeset: @changeset,
     submit_path:
@@ -11,9 +11,9 @@
         Ecto.Changeset.get_field(@changeset, :id)
       ),
     action: "Update"
-  ) %>
+  )}
 
-  <%= link(
+  {link(
     "Delete item",
     to:
       Routes.storage_context_item_path(
@@ -25,5 +25,5 @@
     class: "mt-10 button button--danger",
     data: [confirm: "Are you sure?", role: "delete-filter-button"],
     method: :delete
-  ) %>
+  )}
 </div>

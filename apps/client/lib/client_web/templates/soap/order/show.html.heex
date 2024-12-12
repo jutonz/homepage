@@ -2,41 +2,41 @@
   <ClientWeb.Components.Breadcrumbs.breadcrumbs>
     <:crumb href={~p"/soap"} title="Soap" />
     <:crumb href={~p"/soap/orders"} title="Orders" />
-    <div data-role="soap-order-name"><%= @order.name %></div>
+    <div data-role="soap-order-name">{@order.name}</div>
   </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
   <table class="mb-5">
     <tr data-role="order-ingredients-cost">
       <td class="p-1 pl-0 pr-3">Cost of ingredients</td>
-      <td><%= material_cost_of_ingredients(@order) %></td>
+      <td>{material_cost_of_ingredients(@order)}</td>
     </tr>
     <tr data-role="order-shipping-cost">
       <td class="p-1 pl-0 pr-3">Shipping cost</td>
-      <td><%= @order.shipping_cost %></td>
+      <td>{@order.shipping_cost}</td>
     </tr>
     <tr data-role="order-tax">
       <td class="p-1 pl-0 pr-3">Tax</td>
-      <td><%= @order.tax %></td>
+      <td>{@order.tax}</td>
     </tr>
     <tr class="font-bold" data-role="order-total-cost">
       <td class="p-1 pl-0 pr-3">Total cost</td>
-      <td><%= total_cost(@order) %></td>
+      <td>{total_cost(@order)}</td>
     </tr>
   </table>
 
-  <%= link(
+  {link(
     "Edit order",
     to: Routes.soap_order_path(@conn, :edit, @order.id),
     class: "button"
-  ) %>
+  )}
 
-  <%= link(
+  {link(
     "Delete order",
     to: Routes.soap_order_path(@conn, :delete, @order.id),
     class: "button button--danger",
     method: :delete,
     data: [confirm: "Are you sure", role: "soap-order-delete"]
-  ) %>
+  )}
 
   <hr class="my-5" />
 
@@ -56,44 +56,44 @@
       <%= for ingredient <- @order.ingredients do %>
         <tr class="hover:bg-gray-800" data-ingredient-id={ingredient.id}>
           <td class="p-2 pl-0">
-            <%= link(
+            {link(
               ingredient.name,
               to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-name"]
-            ) %>
+            )}
           </td>
           <td class="p-2">
-            <%= link(
+            {link(
               ingredient.id,
               to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-label"]
-            ) %>
+            )}
           </td>
           <td class="p-2">
-            <%= link(
+            {link(
               ingredient.material_cost,
               to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-cost"]
-            ) %>
+            )}
           </td>
           <td class="p-2">
-            <%= link(
+            {link(
               "#{ingredient.quantity} g",
               to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-quantity"]
-            ) %>
+            )}
           </td>
           <td class="p-2">
-            <%= link(
+            {link(
               ClientWeb.GenericHelpers.existential_checkmark(ingredient.depleted_at),
               to: Routes.soap_order_ingredient_path(@conn, :edit, @order.id, ingredient.id),
               class: "block",
               data: [role: "ingredient-depleted"]
-            ) %>
+            )}
           </td>
           <td></td>
         </tr>
@@ -101,10 +101,10 @@
     </tbody>
   </table>
 
-  <%= link(
+  {link(
     "Add Ingredient",
     to: Routes.soap_order_ingredient_path(@conn, :new, @order.id),
     class: "button",
     data: [role: "order-add-ingredient"]
-  ) %>
+  )}
 </div>

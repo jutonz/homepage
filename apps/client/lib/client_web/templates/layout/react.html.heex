@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title><%= @conn.assigns[:title] || "jutonz.com" %></title>
+    <title>{@conn.assigns[:title] || "jutonz.com"}</title>
 
     <link rel="stylesheet" href={Routes.static_path(@conn, "/static-css/index.css")} />
     <link rel="stylesheet" href={Routes.static_path(@conn, "/css/index.css")} />
@@ -20,7 +20,7 @@
     >
     </main>
 
-    <%= csrf_meta_tag() %>
+    {csrf_meta_tag()}
     <script src={Routes.static_path(@conn, "/js/index.js")}>
     </script>
   </body>

@@ -4,60 +4,60 @@
 fn form -> %>
   <div class="flex flex-1 flex-col mb-6">
     <div class="flex flex-col">
-      <%= label(form, :name, "Name") %>
-      <%= text_input(
+      {label(form, :name, "Name")}
+      {text_input(
         form,
         :name,
         class: "mt-2",
         autofocus: true,
         data: [role: "name-input"]
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :name) %>
+        {error_tag(form, :name)}
       </div>
     </div>
 
     <div class="flex flex-col mt-3">
-      <%= label(form, :description, "Description of contents (optional)") %>
-      <%= textarea(
+      {label(form, :description, "Description of contents (optional)")}
+      {textarea(
         form,
         :description,
         class: "mt-2",
         autofocus: true,
         data: [role: "description-input"]
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :description) %>
+        {error_tag(form, :description)}
       </div>
     </div>
 
     <div class="flex flex-col mt-3">
-      <%= label(form, :location, "Location") %>
-      <%= text_input(
+      {label(form, :location, "Location")}
+      {text_input(
         form,
         :location,
         class: "mt-2",
         data: [role: "location-input"]
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :location) %>
+        {error_tag(form, :location)}
       </div>
     </div>
 
     <div class="mt-3">
-      <%= label(form, :unpacked_at, "Unpacked", class: "mr-4") %>
-      <%= checkbox(
+      {label(form, :unpacked_at, "Unpacked", class: "mr-4")}
+      {checkbox(
         form,
         :unpacked_at,
         class: "mt-2",
         data: [role: "unpacked-input"],
         value: if(Ecto.Changeset.get_field(@changeset, :unpacked_at), do: true, else: false)
-      ) %>
+      )}
       <div class="text-red-600 mt-1">
-        <%= error_tag(form, :unpacked_at) %>
+        {error_tag(form, :unpacked_at)}
       </div>
     </div>
   </div>
 
-  <%= submit(@action, class: "button") %>
+  {submit(@action, class: "button")}
 <% end) %>

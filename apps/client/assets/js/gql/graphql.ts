@@ -347,7 +347,7 @@ export type ValidationMessage = {
   /** A list of substitutions to be applied to a validation message template */
   options?: Maybe<Array<Maybe<ValidationOption>>>;
   /**
-   * A template used to generate the error message, with placeholders for option substiution.
+   * A template used to generate the error message, with placeholders for option substitution.
    *
    * Example: `Username must be at least {count} characters`
    *
@@ -359,7 +359,7 @@ export type ValidationMessage = {
 
 export type ValidationOption = {
   __typename?: 'ValidationOption';
-  /** The name of a variable to be subsituted in a validation message template */
+  /** The name of a variable to be substituted in a validation message template */
   key: Scalars['String']['output'];
   /** The value of a variable to be substituted in a validation message template */
   value: Scalars['String']['output'];
