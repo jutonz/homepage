@@ -64,7 +64,7 @@ defmodule Client.Mixfile do
       {:phoenix_html, "~> 4.1.1"},
       {:phoenix_html_helpers, "~> 1.0"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
-      {:phoenix_live_view, "~> 0.20.4"},
+      {:phoenix_live_view, "~> 1.0"},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_view, "~> 2.0"},
       {:plug_cowboy, "~> 2.3"},
