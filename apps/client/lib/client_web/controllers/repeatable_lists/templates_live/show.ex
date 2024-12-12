@@ -7,11 +7,11 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
     <div class="m-4">
       <ClientWeb.Components.Breadcrumbs.breadcrumbs>
         <:crumb title="Repeatable lists" href={~p"/repeatable-lists/templates"} />
-        <span data-role="name"><%= @template.name %></span>
+        <span data-role="name">{@template.name}</span>
       </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
       <%= if @template.description do %>
-        <div><%= @template.description %></div>
+        <div>{@template.description}</div>
       <% end %>
 
       <.delete_button />
@@ -59,7 +59,7 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
         <%= for list <- @template.lists do %>
           <div class="mb-3">
             <.link href={~p"/repeatable-lists/#{list.id}"}>
-              <%= list.name %>
+              {list.name}
             </.link>
           </div>
         <% end %>

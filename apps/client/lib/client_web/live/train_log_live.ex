@@ -21,7 +21,7 @@ defmodule ClientWeb.TrainLogLive do
     ~H"""
     <div class="m-4">
       <div class="text-xl">
-        <%= @log.location %>
+        {@log.location}
       </div>
 
       <div class="mt-3">
@@ -52,11 +52,11 @@ defmodule ClientWeb.TrainLogLive do
         <tbody>
           <%= for sighting <- @sightings do %>
             <tr data-role="train-sighting-row">
-              <td class="p-2 pl-0"><%= format_date(sighting) %></td>
-              <td class="p-2"><%= format_time(sighting) %></td>
-              <td class="p-2"><%= sighting.direction %></td>
-              <td class="p-2"><%= sighting.cars %></td>
-              <td class="p-2"><%= format_engines(sighting) %></td>
+              <td class="p-2 pl-0">{format_date(sighting)}</td>
+              <td class="p-2">{format_time(sighting)}</td>
+              <td class="p-2">{sighting.direction}</td>
+              <td class="p-2">{sighting.cars}</td>
+              <td class="p-2">{format_engines(sighting)}</td>
             </tr>
           <% end %>
         </tbody>

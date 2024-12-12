@@ -1,13 +1,13 @@
 <div class="m-4">
   <div class="text-xl mb-4">
     <span class="text-gray-300" data-role="water-log-bc-to-index">
-      <%= link("Water Logs", to: Routes.water_log_path(@conn, :index)) %>
+      {link("Water Logs", to: Routes.water_log_path(@conn, :index))}
     </span>
     <span class="text-gray-700">
       >
     </span>
     <span data-role="water-log-title">
-      <%= link(@log.name, to: Routes.water_log_path(@conn, :show, @log.id)) %>
+      {link(@log.name, to: Routes.water_log_path(@conn, :show, @log.id))}
     </span>
     <span class="text-gray-700">
       >
@@ -16,12 +16,12 @@
   </div>
 
   <div class="mt-4 mb-4">
-    <%= link(
+    {link(
       "Replace filter",
       to: Routes.water_log_filters_path(@conn, :new, @log.id),
       class: "button",
       data: [role: "create-filter-button"]
-    ) %>
+    )}
   </div>
 
   <table>
@@ -43,23 +43,23 @@
 
       <%= for {filter, i} <- Enum.with_index(@filters) do %>
         <tr data-role={"water-filter-row-#{filter.id}"}>
-          <td class="pt-1 pb-1 pr-4"><%= i + 1 %></td>
-          <td class="pt-1 pb-1 pr-4"><%= formatted_date(filter.inserted_at) %></td>
-          <td class="pt-1 pb-1 pr-4"><%= formatted_lifespan(filter.lifespan) %></td>
+          <td class="pt-1 pb-1 pr-4">{i + 1}</td>
+          <td class="pt-1 pb-1 pr-4">{formatted_date(filter.inserted_at)}</td>
+          <td class="pt-1 pb-1 pr-4">{formatted_lifespan(filter.lifespan)}</td>
           <td class="pt-1 pb-1 pr-4 pl-3">
-            <%= link(
+            {link(
               "Edit",
               to: Routes.water_log_filters_path(@conn, :edit, @log.id, filter.id),
               class: "button mr-3",
               data: [role: "edit-filter-button"]
-            ) %>
-            <%= link(
+            )}
+            {link(
               "Delete",
               to: Routes.water_log_filters_path(@conn, :delete, @log.id, filter.id),
               class: "button button--danger",
               data: [confirm: "Are you sure?", role: "delete-filter-button"],
               method: :delete
-            ) %>
+            )}
           </td>
         </tr>
       <% end %>

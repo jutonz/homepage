@@ -8,20 +8,20 @@
   <div>
     <%= for log <- @logs do %>
       <div class="mt-3" data-role="train-log-link">
-        <%= link(
+        {link(
           log.location,
           to: Routes.train_log_path(ClientWeb.Endpoint, :show, log.id)
-        ) %>
+        )}
       </div>
     <% end %>
   </div>
 
   <div class="mt-6">
-    <%= link(
+    {link(
       "New log",
       to: Routes.train_log_path(ClientWeb.Endpoint, :new),
       class: "button mt-4",
       data: [role: "new-train-log"]
-    ) %>
+    )}
   </div>
 </div>

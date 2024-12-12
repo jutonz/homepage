@@ -1,9 +1,9 @@
 <div class="m-4">
   <div class="text-xl mb-5">New storage context</div>
-  <%= render(
+  {render(
     "_form.html",
     changeset: @changeset,
     submit_path: Routes.storage_context_path(@conn, :create),
     action: "Create"
-  ) %>
+  )}
 </div>

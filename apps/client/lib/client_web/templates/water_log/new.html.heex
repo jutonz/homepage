@@ -1,10 +1,10 @@
 <div class="m-4">
   <div class="mb-2 text-xl">New Water Log</div>
 
-  <%= render(
+  {render(
     "form.html",
     changeset: @changeset,
     action: :create,
     submit_path: Routes.water_log_path(ClientWeb.Endpoint, :create)
-  ) %>
+  )}
 </div>

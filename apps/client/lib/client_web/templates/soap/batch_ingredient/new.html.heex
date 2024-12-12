@@ -1,9 +1,9 @@
 <div class="m-4">
   <div class="text-xl mb-5">New batch ingredient</div>
-  <%= render(
+  {render(
     "_form.html",
     changeset: @changeset,
     submit_path: Routes.soap_batch_ingredient_path(@conn, :create, @batch_id),
     action: "Create"
-  ) %>
+  )}
 </div>

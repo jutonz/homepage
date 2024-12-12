@@ -1,7 +1,7 @@
 <div>
   <%= for day <- ordered_days(@entries) do %>
     <div class="mt-4">
-      <%= day %>
+      {day}
     </div>
     <%= for entry <- @entries[day] do %>
       <.live_component module={ClientWeb.FoodLog.EntryView} id={entry[:id]} />

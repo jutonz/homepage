@@ -4,7 +4,7 @@
     <span>New list template</span>
   </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
-  <%= live_render(
+  {live_render(
     @conn,
     ClientWeb.Live.RepeatableLists.FormComponent,
     id: "list-template-form",
@@ -12,5 +12,5 @@
       "action" => "Create",
       "user_id" => Client.Session.current_user_id(@conn)
     }
-  ) %>
+  )}
 </div>

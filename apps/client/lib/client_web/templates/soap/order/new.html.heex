@@ -5,10 +5,10 @@
     <div>New order</div>
   </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
-  <%= render(
+  {render(
     "_form.html",
     changeset: @changeset,
     submit_path: ~p"/soap/orders",
     action: "Create"
-  ) %>
+  )}
 </div>

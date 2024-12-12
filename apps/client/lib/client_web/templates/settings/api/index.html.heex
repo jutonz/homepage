@@ -11,26 +11,26 @@
 
       <%= for token <- @api_tokens do %>
         <tr class="border-b border-solid hover:bg-gray-900 last:worder-b-0">
-          <td class="p-2"><%= token.description %></td>
-          <td class="p-2"><%= token.token %></td>
+          <td class="p-2">{token.description}</td>
+          <td class="p-2">{token.token}</td>
           <td class="p-2">
-            <%= link(
+            {link(
               "Delete",
               to: Routes.settings_api_token_path(ClientWeb.Endpoint, :delete, token.id),
               method: :delete,
               data: [confirm: "Are you sure"]
-            ) %>
+            )}
           </td>
         </tr>
       <% end %>
     </table>
 
     <div class="mt-6">
-      <%= link(
+      {link(
         "New token",
         to: Routes.settings_api_token_path(ClientWeb.Endpoint, :new),
         class: "button mt-4"
-      ) %>
+      )}
     </div>
   </div>
 </div>

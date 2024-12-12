@@ -2,29 +2,29 @@
   <ClientWeb.Components.Breadcrumbs.breadcrumbs>
     <:crumb href={~p"/soap"} title="Soap" />
     <:crumb href={~p"/soap/batches"} title="Batches" />
-    <div data-role="soap-batch-name"><%= @batch.name %></div>
+    <div data-role="soap-batch-name">{@batch.name}</div>
   </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
   <table class="mb-5">
     <tr>
       <td class="p-1 pl-0 pr-3">Created at</td>
-      <td><%= formatted_date(@batch.inserted_at) %></td>
+      <td>{formatted_date(@batch.inserted_at)}</td>
     </tr>
     <tr>
       <td class="p-1 pl-0 pr-3">Label number</td>
-      <td><%= @batch.id %></td>
+      <td>{@batch.id}</td>
     </tr>
     <tr>
       <td class="p-1 pl-0 pr-3">Cost of ingredients</td>
-      <td><%= cost_of_ingredients(@batch) %></td>
+      <td>{cost_of_ingredients(@batch)}</td>
     </tr>
     <tr>
       <td class="p-1 pl-0 pr-3">Amount produced</td>
-      <td data-role="batch-amount-produced"><%= amount_produced(@batch) %></td>
+      <td data-role="batch-amount-produced">{amount_produced(@batch)}</td>
     </tr>
     <tr>
       <td class="p-1 pl-0 pr-3">Cost of 32oz</td>
-      <td><%= cost_of_32oz(@batch) %></td>
+      <td>{cost_of_32oz(@batch)}</td>
     </tr>
   </table>
 
@@ -65,22 +65,22 @@
             href={~p"/soap/batches/#{@batch.id}/ingredients/#{batch_ingredient.id}/edit"}
             data-role={"batch-ingredient-#{batch_ingredient.id}"}
           >
-            <%= batch_ingredient.name %>
+            {batch_ingredient.name}
           </.link>
         </td>
-        <td class="p-2"><%= batch_ingredient.ingredient_id %></td>
-        <td class="p-2"><%= batch_ingredient.amount_used %> g</td>
-        <td class="p-2"><%= batch_ingredient.material_cost %></td>
-        <td class="p-2"><%= batch_ingredient.overhead_cost %></td>
-        <td class="p-2"><%= batch_ingredient.total_cost %></td>
+        <td class="p-2">{batch_ingredient.ingredient_id}</td>
+        <td class="p-2">{batch_ingredient.amount_used} g</td>
+        <td class="p-2">{batch_ingredient.material_cost}</td>
+        <td class="p-2">{batch_ingredient.overhead_cost}</td>
+        <td class="p-2">{batch_ingredient.total_cost}</td>
       </tr>
     <% end %>
   </table>
 
-  <%= link(
+  {link(
     "Add ingredient",
     to: Routes.soap_batch_ingredient_path(@conn, :new, @batch.id),
     class: "button",
     data: [role: "batch-add-ingredient"]
-  ) %>
+  )}
 </div>

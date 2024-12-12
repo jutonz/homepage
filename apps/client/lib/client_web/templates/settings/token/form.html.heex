@@ -4,15 +4,15 @@
   [class: "flex flex-col"],
 fn form -> %>
   <div class="flex flex-1 flex-col">
-    <%= label(form, :description, "Description") %>
-    <%= text_input(form, :description, class: "mt-2", autofocus: true) %>
+    {label(form, :description, "Description")}
+    {text_input(form, :description, class: "mt-2", autofocus: true)}
     <div class="text-red-600 mt-1">
-      <%= error_tag(form, :description) %>
+      {error_tag(form, :description)}
     </div>
   </div>
 
-  <%= submit(
+  {submit(
     @action |> to_string |> String.capitalize(),
     class: "w-32 mt-4"
-  ) %>
+  )}
 <% end) %>

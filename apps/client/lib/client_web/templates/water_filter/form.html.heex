@@ -4,23 +4,23 @@
   [class: "flex flex-col"],
 fn form -> %>
   <div class="flex flex-1 flex-col">
-    <%= label(form, :lifespan, "Lifespan (in liters)") %>
-    <%= text_input(
+    {label(form, :lifespan, "Lifespan (in liters)")}
+    {text_input(
       form,
       :lifespan,
       class: "mt-2",
       autofocus: true,
       data: [role: "water-filter-lifespan-input"],
       type: :number
-    ) %>
+    )}
     <div class="text-red-600 mt-1">
-      <%= error_tag(form, :lifespan) %>
+      {error_tag(form, :lifespan)}
     </div>
   </div>
 
-  <%= submit(
+  {submit(
     @action |> to_string |> String.capitalize(),
     class: "w-32 mt-4",
     data: [role: "#{to_string(@action)}-water-filter"]
-  ) %>
+  )}
 <% end) %>

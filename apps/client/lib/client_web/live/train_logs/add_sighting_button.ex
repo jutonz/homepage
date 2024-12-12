@@ -14,7 +14,7 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
 
     ~H"""
     <div id={@myself}>
-      <%= @rendered %>
+      {@rendered}
     </div>
     """
   end
@@ -24,90 +24,90 @@ defmodule ClientWeb.TrainLogs.AddSightingButton do
     <.form :let={form} for={@changeset} phx-submit="save" phx-target={@myself}>
       <div class="flex flex-1 flex-col mt-2">
         <div class="flex flex-row">
-          <%= label(form, :sighted_date, "Date") %>
+          {label(form, :sighted_date, "Date")}
           <span class="text-red-600 ml-2">
-            <%= error_tag(form, :sighted_date) %>
+            {error_tag(form, :sighted_date)}
           </span>
         </div>
-        <%= date_input(
+        {date_input(
           form,
           :sighted_date,
           class: "mt-2",
           data: [role: "train-log-sighted-date-input"]
-        ) %>
+        )}
       </div>
 
       <div class="flex flex-1 flex-col mt-2">
         <div class="flex flex-row">
-          <%= label(form, :sighted_time, "Time") %>
+          {label(form, :sighted_time, "Time")}
           <span class="text-red-600 ml-2">
-            <%= error_tag(form, :sighted_time) %>
+            {error_tag(form, :sighted_time)}
           </span>
         </div>
-        <%= time_input(
+        {time_input(
           form,
           :sighted_time,
           class: "mt-2",
           data: [role: "train-log-sighted-time-input"]
-        ) %>
+        )}
       </div>
 
       <div class="flex flex-1 flex-col">
         <div class="flex flex-row mt-2">
-          <%= label(form, :direction, "Direction") %>
+          {label(form, :direction, "Direction")}
           <span class="text-red-600 ml-2">
-            <%= error_tag(form, :direction) %>
+            {error_tag(form, :direction)}
           </span>
         </div>
         <div class="flex">
           <div>
-            <%= radio_button(form, :direction, "North", id: "north") %>
-            <%= label(form, :direction, "North", for: "north") %>
+            {radio_button(form, :direction, "North", id: "north")}
+            {label(form, :direction, "North", for: "north")}
           </div>
           <div class="ml-2">
-            <%= radio_button(form, :direction, "South", id: "south") %>
-            <%= label(form, :direction, "South", for: "south") %>
+            {radio_button(form, :direction, "South", id: "south")}
+            {label(form, :direction, "South", for: "south")}
           </div>
         </div>
       </div>
 
       <div class="flex flex-1 flex-col mt-2">
         <div class="flex flex-row">
-          <%= label(form, :cars, "Cars") %>
+          {label(form, :cars, "Cars")}
           <span class="text-red-600 ml-2">
-            <%= error_tag(form, :cars) %>
+            {error_tag(form, :cars)}
           </span>
         </div>
-        <%= text_input(
+        {text_input(
           form,
           :cars,
           class: "mt-2",
           data: [role: "train-log-cars-input"]
-        ) %>
+        )}
       </div>
 
       <div class="flex flex-1 flex-col mt-2">
         <div class="flex flex-row">
-          <%= label(form, :numbers, "Engine number (separate multiple by spaces)") %>
+          {label(form, :numbers, "Engine number (separate multiple by spaces)")}
           <span class="text-red-600 ml-2">
-            <%= error_tag(form, :numbers) %>
+            {error_tag(form, :numbers)}
           </span>
         </div>
-        <%= text_input(
+        {text_input(
           form,
           :numbers,
           class: "mt-2",
           data: [role: "train-log-numbers-input"],
           value: Enum.join(Ecto.Changeset.get_change(@changeset, :numbers, []), " ")
-        ) %>
+        )}
       </div>
 
       <div class="flex flex-row mt-4 justify-between">
-        <%= submit(
+        {submit(
           "Create",
           class: "button",
           data: [role: "create-train-sighting"]
-        ) %>
+        )}
 
         <button class="" phx-click="cancel" phx-target={@myself}>
           Cancel

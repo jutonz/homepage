@@ -1,46 +1,46 @@
 <div class="m-4 max-w-screen-sm">
   <div class="flex align-center text-xl mb-5">
     <div class="mr-2 text-gray-500">
-      <%= link("Storage", to: Routes.storage_context_path(@conn, :index)) %>
+      {link("Storage", to: Routes.storage_context_path(@conn, :index))}
     </div>
     >
     <div class="ml-2" data-role="storage-context-name">
-      <%= @context.name %>
-      <%= link(
+      {@context.name}
+      {link(
         "✎",
         to: Routes.storage_context_path(@conn, :edit, @context),
         class: "text-lg"
-      ) %>
+      )}
     </div>
   </div>
 
   <table class="mb-5">
     <tr>
       <td class="p-1 pl-0 pr-3">Teams</td>
-      <td><%= @context.teams |> Enum.map(& &1.name) |> Enum.join(", ") %></td>
+      <td>{@context.teams |> Enum.map(& &1.name) |> Enum.join(", ")}</td>
     </tr>
     <tr>
       <td class="p-1 pl-0 pr-3">Created by</td>
-      <td><%= @context.creator.email %></td>
+      <td>{@context.creator.email}</td>
     </tr>
   </table>
 
-  <%= link(
+  {link(
     "Export to CSV",
     to: Routes.storage_context_export_path(ClientWeb.Endpoint, :create, @context),
     method: "POST",
     class: "button button--secondary",
     target: "_blank"
-  ) %>
+  )}
 
   <hr class="my-5" />
 
-  <%= live_render(
+  {live_render(
     @conn,
     ClientWeb.Storage.ContextItemsLive,
     session: %{
       "context_id" => @context.id,
       "user_id" => Client.Session.current_user_id(@conn)
     }
-  ) %>
+  )}
 </div>

@@ -1,7 +1,7 @@
 <div class="m-5">
   <div class="flex align-center text-xl">
     <div class="mr-2 text-gray-500">
-      <%= link("Soap", to: Routes.soap_soap_path(@conn, :index)) %>
+      {link("Soap", to: Routes.soap_soap_path(@conn, :index))}
     </div>
     >
     <div class="ml-2">Ingredients</div>
@@ -23,23 +23,23 @@
     <tbody>
       <%= for ingredient <- @ingredients do %>
         <tr class="hover:bg-gray-800" data-role={"soap-ingredient-#{ingredient.id}"}>
-          <td class="p-2 pl-0"><%= ingredient.id %></td>
+          <td class="p-2 pl-0">{ingredient.id}</td>
           <td class="p-2">
-            <%= link(
+            {link(
               ingredient.name,
               to: Routes.soap_ingredient_path(@conn, :show, ingredient)
-            ) %>
+            )}
           </td>
-          <td class="p-2"><%= ingredient.material_cost %></td>
-          <td class="p-2"><%= ingredient.overhead_cost %></td>
-          <td class="p-2"><%= ingredient.total_cost %></td>
-          <td class="p-2"><%= ingredient.quantity %> g</td>
+          <td class="p-2">{ingredient.material_cost}</td>
+          <td class="p-2">{ingredient.overhead_cost}</td>
+          <td class="p-2">{ingredient.total_cost}</td>
+          <td class="p-2">{ingredient.quantity} g</td>
           <td>
-            <%= link(
+            {link(
               "View Order",
               to: Routes.soap_order_path(@conn, :show, ingredient.order_id),
               class: "button button--small"
-            ) %>
+            )}
           </td>
         </tr>
       <% end %>

@@ -1,20 +1,20 @@
 <div class="m-4">
   <div class="text-xl mb-4">
     <span class="text-gray-300" data-role="water-log-bc-to-index">
-      <%= link("Water Logs", to: Routes.water_log_path(@conn, :index)) %>
+      {link("Water Logs", to: Routes.water_log_path(@conn, :index))}
     </span>
     <span class="text-gray-700">
       >
     </span>
-    <span data-role="water-log-title"><%= @log.name %></span>
+    <span data-role="water-log-title">{@log.name}</span>
 
     <div class="mt-4 mb-4">
-      <%= link(
+      {link(
         "View filters",
         to: Routes.water_log_filters_path(@conn, :index, @log.id),
         class: "button",
         data: [role: "view-filters-button"]
-      ) %>
+      )}
     </div>
   </div>
 
@@ -33,8 +33,8 @@
     <tbody>
       <%= for entry <- @entries do %>
         <tr>
-          <td class="pt-1 pb-1 pr-4"><%= formatted_date(entry.inserted_at) %></td>
-          <td class="pt-1 pb-1"><%= entry.ml %></td>
+          <td class="pt-1 pb-1 pr-4">{formatted_date(entry.inserted_at)}</td>
+          <td class="pt-1 pb-1">{entry.ml}</td>
         </tr>
       <% end %>
     </tbody>

@@ -16,7 +16,7 @@ defmodule ClientWeb.WaterLogKioskLive do
             <td class="pr-3 h-64 align-bottom">
               <div class="h-full flex flex-col justify-end items-center">
                 <span data-role={"usage-for-#{day_name(datum.date)}"}>
-                  <%= datum.amount %>
+                  {datum.amount}
                 </span>
                 <div {style_for_usage(datum)} class="bg-white w-20"></div>
               </div>
@@ -26,7 +26,7 @@ defmodule ClientWeb.WaterLogKioskLive do
 
         <tr>
           <%= for datum <- @data do %>
-            <td class="pr-3 text-center"><%= day_name(datum.date) %></td>
+            <td class="pr-3 text-center">{day_name(datum.date)}</td>
           <% end %>
         </tr>
       </table>
@@ -34,21 +34,21 @@ defmodule ClientWeb.WaterLogKioskLive do
       <div class="mt-6 mx-4 text-xl flex justify-between">
         <div>
           <div>
-            Total dispensed: <%= Util.format_number(@total_l) %> L
+            Total dispensed: {Util.format_number(@total_l)} L
           </div>
           <%= if @filter_life_remaining do %>
             <div>
-              Filter life remaining: <%= Util.format_number(@filter_life_remaining) %> L
+              Filter life remaining: {Util.format_number(@filter_life_remaining)} L
             </div>
           <% end %>
         </div>
 
         <div>
           <div>
-            Dispensed now: <%= Util.format_number(@dispensed_now) %> ml
+            Dispensed now: {Util.format_number(@dispensed_now)} ml
           </div>
           <div>
-            Weight: <%= Util.format_number(@weight) %> g
+            Weight: {Util.format_number(@weight)} g
           </div>
           <button class="button" phx-click="tare">Tare</button>
         </div>

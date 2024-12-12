@@ -1,40 +1,40 @@
 <div class="p-4 flex flex-col items-stretch max-h-screen min-h-screen h-screen w-screen">
   <div class="mb-1">
-    <%= get_in(@stream, ~w[user_name]) %> is live!
+    {get_in(@stream, ~w[user_name])} is live!
   </div>
 
   <div class="mb-1">
-    Playing <%= get_in(@stream, ~w[game_name]) %> for <%= get_in(@stream, ~w[viewer_count]) %> viewers
+    Playing {get_in(@stream, ~w[game_name])} for {get_in(@stream, ~w[viewer_count])} viewers
   </div>
 
   <div class="mb-1">
-    Title: <%= get_in(@stream, ~w[title]) %>
+    Title: {get_in(@stream, ~w[title])}
   </div>
 
   <div class="mb-4">
-    Live for <%= formatted_uptime(@stream) %>
+    Live for {formatted_uptime(@stream)}
   </div>
 
   <div class="mb-3">
-    <%= link(
+    {link(
       gettext("Open stream"),
       to: "https://twitch.tv/#{@name}",
       target: "_blank",
       class: "button"
-    ) %>
+    )}
 
-    <%= link(
+    {link(
       "View updates",
       to:
         Routes.twitch_channel_channel_update_path(@conn, :index, get_in(@stream, ~w[user_login])),
       class: "button"
-    ) %>
+    )}
   </div>
 
-  <%= live_render(
+  {live_render(
     @conn,
     ClientWeb.Twitch.ChatView,
     session: %{"channel_name" => @name},
     class: "grow"
-  ) %>
+  )}
 </div>

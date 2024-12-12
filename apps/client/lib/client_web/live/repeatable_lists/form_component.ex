@@ -13,7 +13,7 @@ defmodule ClientWeb.Live.RepeatableLists.FormComponent do
       </p>
 
       <:actions>
-        <button class="button"><%= @action %></button>
+        <button class="button">{@action}</button>
       </:actions>
     </.simple_form>
     """

@@ -1,10 +1,10 @@
 <div class="m-4">
   <div class="mb-2 text-xl">Edit Log</div>
 
-  <%= render(
+  {render(
     "form.html",
     changeset: @changeset,
     action: :update,
     submit_path: Routes.food_log_path(ClientWeb.Endpoint, :update, @changeset.data.id)
-  ) %>
+  )}
 </div>

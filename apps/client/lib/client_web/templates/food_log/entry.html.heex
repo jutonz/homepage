@@ -10,37 +10,37 @@
           <div class="modal__content__body">
             <div class="flex flex-col items-start">
               <div>
-                <%= text_input(
+                {text_input(
                   f,
                   :description,
                   id: "food-log-entry-update-input-#{@entry.id}",
                   phx_hook: "FoodLogEntryUpdateInput",
                   data: [role: "entry-desc-update-input"]
-                ) %>
-                <%= error_tag(f, :description) %>
+                )}
+                {error_tag(f, :description)}
               </div>
               <div class="mt-4 flex flex-col">
-                <%= label(f, :occurred_at, class: "mb-2") %>
-                <%= date_input(
+                {label(f, :occurred_at, class: "mb-2")}
+                {date_input(
                   f,
                   :occurred_at_date,
                   data: [role: "entry-occurred-at-date-update-input"],
                   value: NaiveDateTime.to_date(@entry.occurred_at)
-                ) %>
-                <%= time_input(
+                )}
+                {time_input(
                   f,
                   :occurred_at_time,
                   data: [role: "entry-occurred-at-time-update-input"],
                   value: @entry.occurred_at |> NaiveDateTime.to_time() |> Time.to_iso8601(),
                   class: "mt-2",
                   step: 1
-                ) %>
-                <%= error_tag(f, :occurred_at) %>
+                )}
+                {error_tag(f, :occurred_at)}
               </div>
             </div>
           </div>
           <div class="modal__content__footer flex mt-2">
-            <%= submit("Save", class: "button", data: [role: "entry-update-submit"]) %>
+            {submit("Save", class: "button", data: [role: "entry-update-submit"])}
             <div
               class="button ml-2"
               data-role="delete-log-entry"
@@ -64,6 +64,6 @@
     phx-click="edit_entry"
     phx-target={@myself}
   >
-    <%= @entry.description %>
+    {@entry.description}
   </div>
 </div>

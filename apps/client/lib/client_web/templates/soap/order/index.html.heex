@@ -8,7 +8,7 @@
     <%= for order <- @orders do %>
       <div class="mt-5 mb-5">
         <.link href={~p"/soap/orders/#{order.id}"} data-role="soap-order-name">
-          <%= order.name %>
+          {order.name}
         </.link>
       </div>
     <% end %>

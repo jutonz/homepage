@@ -6,10 +6,10 @@
     <div>Edit</div>
   </ClientWeb.Components.Breadcrumbs.breadcrumbs>
 
-  <%= render(
+  {render(
     "_form.html",
     changeset: @changeset,
     submit_path: ~p"/soap/batches/#{@batch.id}",
     action: "Update"
-  ) %>
+  )}
 </div>

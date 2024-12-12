@@ -21,15 +21,15 @@ defmodule ClientWeb.WaterLogs.Usage do
   def render(assigns) do
     ~H"""
     <div>
-      Dispensed today: <%= Util.format_number(@today_ml) %> ml
+      Dispensed today: {Util.format_number(@today_ml)} ml
     </div>
     <div class="mt-3">
-      Total dispensed: <%= Util.format_number(@total_ml) %> ml
+      Total dispensed: {Util.format_number(@total_ml)} ml
     </div>
 
     <%= if @life_remaining do %>
       <div class="mt-3">
-        Filter life remaining: <%= @life_remaining %> L
+        Filter life remaining: {@life_remaining} L
       </div>
     <% end %>
     """

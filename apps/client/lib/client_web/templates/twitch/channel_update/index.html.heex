@@ -17,11 +17,11 @@
     <tbody>
       <%= for update <- @updates do %>
         <tr class="hover:bg-gray-800" data-update-id={update.id}>
-          <td class="p-2 pl-0"><%= type(update.type) %></td>
-          <td class="p-2"><%= update.title %></td>
-          <td class="p-2"><%= update.category_name %></td>
-          <td class="p-2 whitespace-nowrap"><%= format_date(update.inserted_at) %></td>
-          <td class="p-2 whitespace-nowrap"><%= format_time(update.inserted_at) %></td>
+          <td class="p-2 pl-0">{type(update.type)}</td>
+          <td class="p-2">{update.title}</td>
+          <td class="p-2">{update.category_name}</td>
+          <td class="p-2 whitespace-nowrap">{format_date(update.inserted_at)}</td>
+          <td class="p-2 whitespace-nowrap">{format_time(update.inserted_at)}</td>
         </tr>
       <% end %>
     </tbody>

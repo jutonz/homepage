@@ -1,7 +1,7 @@
 <div class="m-4">
   <div class="mb-2 text-xl">Edit Water Filter</div>
 
-  <%= render(
+  {render(
     "form.html",
     changeset: @changeset,
     action: :update,
@@ -12,5 +12,5 @@
         Ecto.Changeset.get_field(@changeset, :water_log_id),
         @id
       )
-  ) %>
+  )}
 </div>

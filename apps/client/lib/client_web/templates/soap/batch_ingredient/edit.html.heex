@@ -1,6 +1,6 @@
 <div class="m-4">
   <div class="text-xl mb-5">Edit batch ingredient</div>
-  <%= render(
+  {render(
     "_form.html",
     changeset: @changeset,
     submit_path:
@@ -11,5 +11,5 @@
         Ecto.Changeset.get_field(@changeset, :id)
       ),
     action: "Update"
-  ) %>
+  )}
 </div>

@@ -4,33 +4,33 @@
   [class: "flex flex-col"],
 fn form -> %>
   <div class="flex flex-1 flex-col">
-    <%= label(form, :name, "Name") %>
-    <%= text_input(
+    {label(form, :name, "Name")}
+    {text_input(
       form,
       :name,
       class: "mt-2",
       autofocus: true,
       data: [role: "food-log-name-input"]
-    ) %>
+    )}
     <div class="text-red-600 mt-1">
-      <%= error_tag(form, :name) %>
+      {error_tag(form, :name)}
     </div>
 
-    <%= label(form, :description, "Description") %>
-    <%= text_input(
+    {label(form, :description, "Description")}
+    {text_input(
       form,
       :description,
       class: "mt-2",
       data: [role: "food-log-desc-input"]
-    ) %>
+    )}
     <div class="text-red-600 mt-1">
-      <%= error_tag(form, :description) %>
+      {error_tag(form, :description)}
     </div>
   </div>
 
-  <%= submit(
+  {submit(
     @action |> to_string |> String.capitalize(),
     class: "button w-32 mt-4",
     data: [role: "#{to_string(@action)}-food-log"]
-  ) %>
+  )}
 <% end) %>
