@@ -1,7 +1,7 @@
 defmodule ClientWeb.Components.Breadcrumbs do
   use ClientWeb, :html
 
-  slot :crumb, default: [] do
+  slot :crumb do
     attr :href, :string, required: true
     attr :title, :string, required: true
   end
