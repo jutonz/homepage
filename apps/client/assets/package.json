@@ -48,7 +48,7 @@
     "@types/node": "^22.10.2",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.0.6",
-    "cypress": "^13.16.1",
+    "cypress": "^13.17.0",
     "date-fns": "^4.1.0",
     "esbuild": "0.24.0",
     "postcss": "^8.4.49",
