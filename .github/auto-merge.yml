@@ -4,3 +4,6 @@
 - match:
     dependency_name: "@playwright/test"
     update_type: semver:minor
+- match:
+    dependency_name: "cypress"
+    update_type: semver:minor
