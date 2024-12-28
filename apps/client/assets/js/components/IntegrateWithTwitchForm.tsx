@@ -60,7 +60,7 @@ function TwitchUserComponent({ user }: TwitchUserComponentProps) {
       <div>
         <p>Connected to account {user.display_name} :)</p>
         <div>
-          {result.error && <Alert color="error">{result.error}</Alert>}
+          {result.error && <Alert color="error">{result.error.message}</Alert>}
           <Button
             fullWidth
             disabled={result.fetching}
