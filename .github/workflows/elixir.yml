@@ -134,8 +134,8 @@ jobs:
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
-        elixir-version: '1.16.1'
-        otp-version: '26.2.1'
+        elixir-version: ${{ env.ELIXIR_VERSION }}
+        otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore test cache
       uses: actions/cache@v4
       with:
@@ -218,6 +218,13 @@ jobs:
     - uses: actions/checkout@v4
     - name: Setup dev config
       run: cp config/dev.secret.example.exs config/dev.secret.exs
+    - name: Read .tool-versions
+      uses: marocchino/tool-versions-action@v1
+      id: versions
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ steps.versions.outputs.nodejs }}
     - name: Set up Elixir
       uses: erlef/setup-beam@v1
       with:
