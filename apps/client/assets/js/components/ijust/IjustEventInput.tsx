@@ -77,7 +77,7 @@ export function IjustEventInput({ ijustContextId }: Props) {
             />
           )}
         />
-        {result.error && <Alert color="error">{result.error}</Alert>}
+        {result.error && <Alert color="error">{result.error.message}</Alert>}
       </form>
     </div>
   );
