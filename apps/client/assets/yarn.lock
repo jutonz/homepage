@@ -4268,10 +4268,10 @@ phoenix@1.7.18:
   resolved "https://registry.yarnpkg.com/phoenix/-/phoenix-1.7.18.tgz#13b58af5572f9e6ad40d4683b79bee5a0bb84d5b"
   integrity sha512-Qo+V9+knfEd+R1pzCe+XJlj3GPSxWz4PNwzFl7GgssuTVYPoh/he3mbPQJ+NEDdqulxAbBtWCNYGPB3WplS5Mg==
 
-phoenix_html@4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-4.1.1.tgz#0be8c4a0592350b18ff97671eb12f9c6445b5a5a"
-  integrity sha512-RpvlxDkP13MTQkfbZGFD7XrLgE28mqlwU+rSQxhNyj9U0KzPgeeh4ctn+Mz7jlpsKFAhLe47PXQsff3EXJ4mbg==
+phoenix_html@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-4.2.0.tgz#c8398954b479daaa198be92ca7818a4ddcd222f1"
+  integrity sha512-Nyij6LOiAxuoD6vWUpRfbgjg+Rpt0B/opFM3KjYRhL5faViXU9R30al2bQAEKu4K5E2NOZGUOd18cxABKetiJw==
 
 phoenix_live_view@1.0.1:
   version "1.0.1"
