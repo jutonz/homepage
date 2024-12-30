@@ -61,7 +61,7 @@ defmodule Client.Mixfile do
       {:nimble_csv, "~> 1.1"},
       {:phoenix, "1.7.18"},
       {:phoenix_ecto, "~> 4.0"},
-      {:phoenix_html, "~> 4.1.1"},
+      {:phoenix_html, "~> 4.2.0"},
       {:phoenix_html_helpers, "~> 1.0"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:phoenix_live_view, "~> 1.0"},
