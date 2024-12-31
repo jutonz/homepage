@@ -15,8 +15,10 @@ if ! test -f "$keyfile"; then
   key=$(
     op item get \
     "Secret key" \
+    --account="my.1password.com" \
     --vault="Homepage" \
-    --fields="password"
+    --fields=password \
+    --reveal
   )
   echo $key > "$keyfile"
 fi
