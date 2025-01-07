@@ -11,10 +11,10 @@ defmodule Twitch.Application do
       # Starts a worker by calling: Twitch.Worker.start_link(arg)
       # {Twitch.Worker, arg},
       Twitch.Repo,
+      Twitch.Api.TokenCache,
       Twitch.ChannelSubscriptionSupervisor,
       Twitch.EventParseFailureLogger,
       {Twitch.ApiCache, Application.get_env(:twitch, :api_cache_name)},
-      Twitch.Api.TokenCache,
       Twitch.Eventsub.Subscriptions.AutoSubscriber
     ]
 
