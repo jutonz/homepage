@@ -366,3 +366,31 @@ jobs:
       with:
         name: release
         path: _build/prod/rel/homepage
+
+  deploy:
+    # if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      KAMAL_REGISTRY_USERNAME: ${{ secrets.KAMAL_REGISTRY_USERNAME }}
+      KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+    concurrency:
+      group: deploy
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: SSH Auth
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+      - run: "ssh-keyscan -H jutonz.com > ~/.ssh/known_hosts"
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        env:
+          BUNDLE_GEMFILE: .kamal/Gemfile
+        with:
+          ruby-version: 3.4
+          bundler-cache: true
+      - run: bin/kamal deploy
