@@ -1,5 +1,5 @@
 # Name of your application. Used to uniquely configure containers.
-service: homepage
+service: elixirhomep
 
 # Name of the container image.
 image: jutonz/homepage
