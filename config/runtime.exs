@@ -14,6 +14,7 @@ if config_env() == :prod do
 
   config :client, ClientWeb.Endpoint,
     url: [scheme: "https", port: 443, host: host],
+    http: [port: System.fetch_env!("PORT")],
     check_origin: ["https://#{host}"],
     secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
