@@ -46,7 +46,7 @@ RUN yarn bundle:js
 FROM ${BUILDER_IMAGE} AS builder
 
 # install build dependencies
-RUN apt-get update -y && apt-get install -y build-essential git tree \
+RUN apt-get update -y && apt-get install -y build-essential git \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # prepare build dir
@@ -71,15 +71,13 @@ COPY apps/twitch/mix.exs apps/twitch/mix.exs
 COPY mix.exs mix.exs
 COPY mix.lock mix.lock
 RUN mix deps.get --only $MIX_ENV
-# RUN echo "hi1" && tree .
-# RUN mix deps.get
 RUN mkdir config
 
 # copy compile-time config files before we compile dependencies
 # to ensure any relevant config change will trigger the dependencies
 # to be re-compiled.
 COPY config/config.exs config/${MIX_ENV}.exs config/
-RUN mix clean && tree -L 3 . &&  mix deps.compile
+RUN mix deps.compile
 
 # COPY priv priv
 #
