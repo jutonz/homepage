@@ -1,13 +1,14 @@
 # Name of your application. Used to uniquely configure containers.
-service: elixirhomep
+service: homepage
 
 # Name of the container image.
 image: jutonz/homepage
 
 # Deploy to these servers.
 servers:
-  web:
-    - homepagerb.local
+  - homepagerb.local
+  # web:
+  #   - homepagerb.local
   # job:
   #   hosts:
   #     - 192.168.0.1
