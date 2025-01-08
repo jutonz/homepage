@@ -14,6 +14,7 @@ if config_env() == :prod do
 
   config :client, ClientWeb.Endpoint,
     url: [scheme: "https", port: 443, host: host],
+    http: [port: System.fetch_env!("PORT")],
     check_origin: ["https://#{host}"],
     secret_key_base: System.fetch_env!("SECRET_KEY_BASE")
 
@@ -40,6 +41,9 @@ if config_env() == :prod do
     host: System.get_env("INFLUXDB_HOST") || "http://localhost:8086",
     org: System.get_env("INFLUXDB_ORG") || "myorg",
     token: System.get_env("INFLUXDB_TOKEN")
+
+  config :redis,
+    redis_url: System.fetch_env!("REDIS_URL")
 
   config :sentry,
     dsn: System.get_env("SENTRY_DSN")

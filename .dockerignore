@@ -9,6 +9,7 @@ apps/client/assets/node_modules
 .mix
 priv/static
 _build
+key.txt
 
 *.log
 *.pid

@@ -188,6 +188,8 @@ defmodule ClientWeb.Router do
     forward("/sent_emails", Bamboo.SentEmailViewerPlug)
   end
 
+  get("/up", ClientWeb.HealthController, :check)
+
   scope "/api", ClientWeb do
     pipe_through(:api)
 
