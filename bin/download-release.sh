@@ -37,13 +37,25 @@ token=$(
   | jq -r .value
 )
 
-archive_url=$(curl -L \
-  --silent \
-  -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer $token" \
-  -H "X-GitHub-Api-Version: 2022-11-28" \
-  https://api.github.com/repos/jutonz/homepage/actions/artifacts?name=release \
-  | jq -r .artifacts[0].archive_download_url)
+if [ -z $1 ]; then
+  # No run_id given; grab latest release
+  archive_url=$(curl -L \
+    --silent \
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer $token" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    https://api.github.com/repos/jutonz/homepage/actions/artifacts?name=release \
+    | jq -r .artifacts[0].archive_download_url)
+else
+  # Deploy specific release from github action run_id
+  archive_url=$(curl -L \
+    --silent \
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer $token" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    "https://api.github.com/repos/jutonz/homepage/actions/runs/$1/artifacts?name=release" \
+    | jq -r .artifacts[0].archive_download_url)
+fi
 
 rm -rf tmp/deploy
 mkdir -p tmp/deploy
