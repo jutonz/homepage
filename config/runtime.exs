@@ -42,6 +42,9 @@ if config_env() == :prod do
     org: System.get_env("INFLUXDB_ORG") || "myorg",
     token: System.get_env("INFLUXDB_TOKEN")
 
+  config :redis,
+    redis_url: System.fetch_env!("REDIS_URL")
+
   config :sentry,
     dsn: System.get_env("SENTRY_DSN")
 
