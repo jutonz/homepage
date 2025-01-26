@@ -12,9 +12,7 @@ const isProd = env === "prod";
 
 module.exports = {
   plugins: {
-    "tailwindcss/nesting": {},
-    tailwindcss: {},
-    autoprefixer: {},
+    "@tailwindcss/postcss": {},
     ...(isProd ? { cssnano: {} } : {}),
   },
 };
