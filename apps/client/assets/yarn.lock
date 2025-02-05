@@ -4341,10 +4341,10 @@ phoenix_html@4.2.0:
   resolved "https://registry.yarnpkg.com/phoenix_html/-/phoenix_html-4.2.0.tgz#c8398954b479daaa198be92ca7818a4ddcd222f1"
   integrity sha512-Nyij6LOiAxuoD6vWUpRfbgjg+Rpt0B/opFM3KjYRhL5faViXU9R30al2bQAEKu4K5E2NOZGUOd18cxABKetiJw==
 
-phoenix_live_view@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-1.0.3.tgz#4807f6697a9296383b50b2f5410c8db2c3af4ed4"
-  integrity sha512-rn1iVD7hlXiWKaX1uHqEIcdvDn+Bq+0XBjiu9iUmTQ3Iun+rFYT5icfzFTm6ovWLSRaWxTJ32INT787SzxCZsQ==
+phoenix_live_view@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/phoenix_live_view/-/phoenix_live_view-1.0.4.tgz#81f73379645970ff6bb8ea4565d3c3f393b6e2e7"
+  integrity sha512-CRyS0DBwMYdMEBMWz87pWCrjQHrNDaEPSnCY57scb+wJwL0RmohWMNRgE6XpwP1kg6hBNRZFoIcNhJwhTKXLVg==
   dependencies:
     morphdom "2.7.4"
 
