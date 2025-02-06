@@ -50,7 +50,7 @@
     "@types/react": "^19.0.8",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.0.6",
-    "cypress": "^14.0.1",
+    "cypress": "^14.0.2",
     "date-fns": "^4.1.0",
     "esbuild": "0.24.2",
     "postcss": "^8.5.1",
