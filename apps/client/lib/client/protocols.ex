@@ -1,3 +1,3 @@
 require Protocol
 
-Protocol.derive(Jason.Encoder, Money, only: [:amount, :currency])
+Protocol.derive(JSON.Encoder, Money, only: [:amount, :currency])
