@@ -84,9 +84,12 @@ jobs:
         restore-keys: |
           v3-static-assets-${{ github.ref }}-${{ github.sha }}
           v3-static-assets-${{ github.ref }}-
+    - name: corepack enable
+      working-directory: apps/client/assets
+      run: corepack enable
     - name: yarn install
       working-directory: apps/client/assets
-      run: yarn install --frozen-lockfile
+      run: yarn install --immutable
     - name: yarn lint --check
       working-directory: apps/client/assets
       run: yarn lint --check
