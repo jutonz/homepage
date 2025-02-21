@@ -2,7 +2,7 @@ defmodule Client.Awair.AirData do
   use Ecto.Schema
 
   @derive {
-    Jason.Encoder,
+    JSON.Encoder,
     only: ~w[
       abs_humid co2 co2_est co2_est_baseline dew_point humid pm10_est pm25
       score temp voc voc_baseline voc_ethanol_raw voc_h2_raw

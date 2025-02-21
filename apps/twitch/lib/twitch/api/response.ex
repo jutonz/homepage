@@ -21,7 +21,7 @@ defmodule Twitch.Api.Response do
     do: %__MODULE__{code: code, data: nil, request: request}
 
   def from_request(%{response: %{status_code: code, body: body}, error: nil} = request),
-    do: %__MODULE__{code: code, data: Jason.decode!(body), request: request}
+    do: %__MODULE__{code: code, data: JSON.decode!(body), request: request}
 
   def from_request(%{response: %{status_code: code}, error: nil} = request),
     do: %__MODULE__{code: code, data: nil, request: request}
