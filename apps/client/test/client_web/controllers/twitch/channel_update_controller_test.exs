@@ -79,7 +79,7 @@ defmodule ClientWeb.Twitch.ChannelUpdateControllerTest do
         ]
       }
 
-      response = %{body: Jason.encode!(body), status_code: 200}
+      response = %{body: JSON.encode!(body), status_code: 200}
       {:ok, response}
     end)
   end
@@ -89,7 +89,7 @@ defmodule ClientWeb.Twitch.ChannelUpdateControllerTest do
     |> expect(:request, 1, fn %{url: "https://api.twitch.tv/helix/users"} ->
       body = %{"data" => []}
       # it does actually return status 200
-      response = %{body: Jason.encode!(body), status_code: 200}
+      response = %{body: JSON.encode!(body), status_code: 200}
       {:ok, response}
     end)
   end

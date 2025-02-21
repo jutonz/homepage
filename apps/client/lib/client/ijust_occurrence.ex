@@ -7,7 +7,7 @@ defmodule Client.IjustOccurrence do
   @type t :: %__MODULE__{}
   @moduledoc false
 
-  @derive {Jason.Encoder, only: ~w[id user_id ijust_event_id]a}
+  @derive {JSON.Encoder, only: ~w[id user_id ijust_event_id]a}
 
   schema "ijust_occurrences" do
     timestamps()

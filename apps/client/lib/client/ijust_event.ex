@@ -8,7 +8,7 @@ defmodule Client.IjustEvent do
   @dialyzer {:no_opaque, create_with_occurrence: 2, add_occurrence: 1, add_occurrence_by_id: 1}
   @moduledoc false
 
-  @derive {Jason.Encoder, only: ~w[id name count ijust_context_id]a}
+  @derive {JSON.Encoder, only: ~w[id name count ijust_context_id]a}
 
   schema "ijust_events" do
     belongs_to(:ijust_context, IjustContext)

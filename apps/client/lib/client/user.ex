@@ -6,7 +6,7 @@ defmodule Client.User do
 
   @type t :: %__MODULE__{}
 
-  @derive {Jason.Encoder, only: ~w[id email]a}
+  @derive {JSON.Encoder, only: ~w[id email]a}
 
   schema "users" do
     field(:password_hash, :string)

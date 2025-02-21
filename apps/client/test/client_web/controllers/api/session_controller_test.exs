@@ -133,7 +133,7 @@ defmodule ClientWeb.Api.SessionControllerTest do
   end
 
   defp json_response(conn),
-    do: {Jason.decode!(conn.resp_body), conn}
+    do: {JSON.decode!(conn.resp_body), conn}
 
   @spec put_auth_header(Plug.Conn.t(), Client.AuthTokens.AuthToken.t()) :: Plug.Conn.t()
   defp put_auth_header(conn, token) do

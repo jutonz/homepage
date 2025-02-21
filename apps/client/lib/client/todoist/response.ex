@@ -47,7 +47,7 @@ defmodule Client.Todoist.Response do
     attrs =
       response
       |> Map.take(@http_attributes)
-      |> Map.put(:body, Jason.decode!(body))
+      |> Map.put(:body, JSON.decode!(body))
 
     struct!(%__MODULE__{}, attrs)
   end

@@ -21,7 +21,7 @@ defmodule ClientWeb.Plugs.FactoryPlug do
           {:ok, record} ->
             conn
             |> put_resp_header("content-type", "application/json")
-            |> send_resp(201, Jason.encode!(record))
+            |> send_resp(201, JSON.encode!(record))
             |> halt()
 
           {:error, changeset} ->

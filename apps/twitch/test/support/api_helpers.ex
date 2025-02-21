@@ -18,7 +18,7 @@ defmodule Twitch.ApiTestHelpers do
           "token_type" => "bearer"
         }
 
-        response = %{body: Jason.encode!(body), status_code: 200}
+        response = %{body: JSON.encode!(body), status_code: 200}
         {:ok, response}
     end)
   end
