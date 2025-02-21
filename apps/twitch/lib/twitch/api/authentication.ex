@@ -62,7 +62,7 @@ defmodule Twitch.Api.Authentication do
   defp invalidate_expired(nil), do: nil
 
   defp invalidate_expired(%{"expires_at" => expires_at} = token) do
-    if Time.compare(Time.utc_now(), expires_at) > 0 do
+    if Time.compare(Time.utc_now(), expires_at) == :gt do
       token
     else
       nil
