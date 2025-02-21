@@ -60,5 +60,6 @@
   },
   "engines": {
     "yarn": "1.x"
-  }
+  },
+  "packageManager": "yarn@4.6.0"
 }
