@@ -23,12 +23,12 @@ apps/client/assets/blob-report/
 apps/client/assets/playwright/.cache/
 
 # yarn
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+apps/client/assets/.yarn/*
+!apps/client/assets/.yarn/patches
+!apps/client/assets/.yarn/plugins
+!apps/client/assets/.yarn/releases
+!apps/client/assets/.yarn/sdks
+!apps/client/assets/.yarn/versions
 
 # Generated on crash by the VM
 erl_crash.dump
