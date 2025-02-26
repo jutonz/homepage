@@ -18,8 +18,12 @@ ENV MIX_ENV=prod
 RUN mkdir -p /assets/apps/client/assets
 WORKDIR /assets/apps/client/assets
 
-COPY apps/client/assets/yarn.lock apps/client/assets/package.json .
-RUN yarn
+COPY \
+  apps/client/assets/yarn.lock \
+  apps/client/assets/package.json \
+  apps/client/assets/.yarnrc.yml \
+  .
+RUN corepack enable && yarn
 
 COPY apps/client/assets .
 
