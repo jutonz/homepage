@@ -10,3 +10,12 @@
 - match:
     dependency_name: "cypress"
     update_type: semver:minor
+- match:
+    dependency_name: "@fontsource/roboto"
+    update_type: semver:minor
+- match:
+    dependency_name: "prettier"
+    update_type: semver:minor
+- match:
+    dependency_name: "typescript"
+    update_type: semver:patch
