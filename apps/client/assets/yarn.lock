@@ -2663,7 +2663,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/core@npm:^5.0.0, @urql/core@npm:^5.1.0":
+"@urql/core@npm:^5.0.0":
   version: 5.1.0
   resolution: "@urql/core@npm:5.1.0"
   dependencies:
@@ -2695,16 +2695,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/exchange-graphcache@npm:^7.2.2":
-  version: 7.2.2
-  resolution: "@urql/exchange-graphcache@npm:7.2.2"
+"@urql/exchange-graphcache@npm:^7.2.3":
+  version: 7.2.3
+  resolution: "@urql/exchange-graphcache@npm:7.2.3"
   dependencies:
     "@0no-co/graphql.web": "npm:^1.0.5"
-    "@urql/core": "npm:^5.1.0"
+    "@urql/core": "npm:^5.1.1"
     wonka: "npm:^6.3.2"
   peerDependencies:
     "@urql/core": ^5.0.0
-  checksum: 10c0/05cdea0221837da6808ac516b13c9d329501322afbb0929b9a710aa80ffb58d2f3dfed4b6a88e7e695355894be4378cc2e95e5b290b0eec84375f505f36c9678
+  checksum: 10c0/d929bd856fb0cb1d191d9fcb79799a24b058a79e845342151093b6bec998d95044d4dfe07125cb4b549c22a9317005e0d1813bb21727ff143968d2556658407c
   languageName: node
   linkType: hard
 
@@ -7492,7 +7492,7 @@ __metadata:
     "@types/node": "npm:^22.13.9"
     "@types/react": "npm:^19.0.10"
     "@urql/exchange-auth": "npm:^2.2.1"
-    "@urql/exchange-graphcache": "npm:^7.2.2"
+    "@urql/exchange-graphcache": "npm:^7.2.3"
     aphrodite: "npm:^2.4.0"
     autoprefixer: "npm:^10.4.20"
     chart.js: "npm:^3.9.1"
