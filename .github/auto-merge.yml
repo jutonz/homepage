@@ -1,4 +1,7 @@
 - match:
+    dependency_name: "autoprefixer"
+    update_type: semver:minor
+- match:
     dependency_name: "@types/node"
     update_type: semver:minor
 - match:
@@ -6,6 +9,9 @@
     update_type: semver:minor
 - match:
     dependency_name: "@playwright/test"
+    update_type: semver:minor
+- match:
+    dependency_name: "@tailwindcss/postcss"
     update_type: semver:minor
 - match:
     dependency_name: "cypress"
@@ -18,4 +24,7 @@
     update_type: semver:minor
 - match:
     dependency_name: "typescript"
+    update_type: semver:patch
+- match:
+    dependency_name: "tailwindcss"
     update_type: semver:patch
