@@ -1965,6 +1965,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kurkle/color@npm:^0.3.0":
+  version: 0.3.4
+  resolution: "@kurkle/color@npm:0.3.4"
+  checksum: 10c0/0e9fd55c614b005c5f0c4c755bca19ec0293bc7513b4ea3ec1725234f9c2fa81afbc78156baf555c8b9cb0d305619253c3f5bca016067daeebb3d00ebb4ea683
+  languageName: node
+  linkType: hard
+
 "@mui/core-downloads-tracker@npm:^6.4.8":
   version: 6.4.8
   resolution: "@mui/core-downloads-tracker@npm:6.4.8"
@@ -3373,10 +3380,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chart.js@npm:^3.9.1":
-  version: 3.9.1
-  resolution: "chart.js@npm:3.9.1"
-  checksum: 10c0/a31342233403faaa53bebc1019aeb7b849d6d2cd4108c10f1dd73b36c4fcfc7c21bce8986f2f6eb00a28801fddc68a287b8c9f65e9758c50db6efef955b4e991
+"chart.js@npm:^4.4.8":
+  version: 4.4.8
+  resolution: "chart.js@npm:4.4.8"
+  dependencies:
+    "@kurkle/color": "npm:^0.3.0"
+  checksum: 10c0/4777e3fef7ccfb664c02b79f90e53fb0e46c01293bc56af5ab81aa8ffef4b1ccc675bef948b7efd071a5dd0ebd59c0e95c42ef606f728da8e3ff1741fc2d1df0
   languageName: node
   linkType: hard
 
@@ -7517,7 +7526,7 @@ __metadata:
     "@urql/exchange-graphcache": "npm:^7.2.3"
     aphrodite: "npm:^2.4.0"
     autoprefixer: "npm:^10.4.21"
-    chart.js: "npm:^3.9.1"
+    chart.js: "npm:^4.4.8"
     cssnano: "npm:^7.0.6"
     cypress: "npm:^14.2.0"
     date-fns: "npm:^4.1.0"
