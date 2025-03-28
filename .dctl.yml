@@ -1,8 +1,0 @@
-project: homepage
-org: jutonz
-custom_commands:
-  dbsetup:
-  - dctl create
-  - dctl run --rm psql /etc/initdb
-  - dctl run --rm app /bin/true
-  - dctl run --rm app /etc/seed
