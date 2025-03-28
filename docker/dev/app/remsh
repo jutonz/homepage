@@ -1,5 +1,0 @@
-#!/bin/bash
-
-set -x
-
-iex --sname debug --cookie appcookie --remsh app@`hostname`

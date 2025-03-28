@@ -1,5 +1,0 @@
-#!/bin/bash
-
-set -ex
-
-iex --sname app --cookie appcookie -S mix phx.server
