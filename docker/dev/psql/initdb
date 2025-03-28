@@ -1,7 +1,0 @@
-#!/bin/bash
-
-set -ex
-
-chown -Rf postgres:postgres /var/lib/postgresql/data
-chmod -R 700 /var/lib/postgresql/data
-rm -rf /var/lib/postgresql/data/*
