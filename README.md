@@ -1,70 +1,51 @@
-My Elixir + Phoenix homepage, as deployed via [Kubernetes](kubernetes.io).
+My Elixir + Phoenix homepage.
 
-### Getting started
+This is a monorepo of a few various services I've written over the years.
 
-#### 1. Install Docker
-The development environment uses [Docker](https://www.docker.com/what-docker). This allows entire devleopment environments to be prebuilt and uploaded to the cloud. All you have to do is download the prebuilt images to your local machine and run them. Not bad, right?
+# Architecture
 
-First, install Docker by following the instructions for [Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac), [Linux](https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository), or [Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows).
+When I created this I was very interested in React and GraphQL, so the elixir
+app uses absinthe to serve graphql to a react frontend. Nowadays I think this
+is very complicated and not worth the extra complexity, but I keep it around so
+I have a place to try out react things when I feel like doing that.
 
-You'll also need Docker Compose, which is a convenient way to manage the several Docker containers required to run the app. We're using it here instead of [Foreman](https://github.com/ddollar/foreman), which you may be familiar with if you've done this Rails thing before. Mac and Windows users get Compose automatically with the Docker desktop kits, but Linux users will have to install it separately by running the following commands:
+## Backend
 
-```bash
-# Again, this is only necessary for Linux users
-$ curl -L https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-$ sudo chmod +x /usr/local/bin/docker-compose
+The elixir side of things is umbrella app, though I think when I created this I
+misused that a bit, so recently I've been trying to put everything in the
+Client app. Maybe eventually I'll remove the umbrella stuff.
 
-# This should return 1.13.0
-$ docker-compose --version
-```
+While much of the frontend uses react, there are also several places where I
+use phoenix liveview.
 
-#### 2. Install the CLI
-There is a [Thor](http://whatisthor.com/)-based CLI which wraps most relevant Docker commands so you don't have to remember all the flags and switches. Since it runs on your local machine, you'll have to install Ruby and a gem locally to use it:
+## Frontend
 
-```bash
-$ gem install dctl_rb
-```
+A mostly vanilla react app, using urql to consume the graphql API. I've made
+some efforts to keep this up tp modern react standards, though there is a lot
+of old stuff in places I don't update or use frequently.
 
-#### 3. Pull images and setup the database
+# Setup
 
-Download the prebuilt images to your local machine:
+1. Install asdf and run `asdf install`
+1. Setup frontend
+    1. In a new terminal: `cd apps/client/assets`
+    2. `corepack enable`
+    3. `yarn`
+3. Setup backend
+    1. `mix deps.get`
+4. Start the server: `ies -S mix phx.server`
 
-```bash
-dctl pull
-```
+# Deployment
 
-To allow database content to be persisted when the database image is destroyed, it must be saved on your local machine. Run this command to setup the database directories locally (this is a one-time thing--you won't have to do this again on your current machine).
+I'm using kamal to manage deployments, so that's why there's a bit of ruby
+stuff here and there. I like its simplicity.
 
-```bash
-dctl dbsetup
-```
+# Secret management
 
-#### 4. Finally, start the app
-Almost there! Just run this command and you're up and running
+Production secrets are encrypted and stored in `secrets.txt.encrypted`.
 
-```bash
-dctl up
-```
+To access these, you need to write the secret to `key.txt`. This can be found
+stored as `Secret key` in the Homepage 1Password vault.
 
-You should be able to visit [localhost:4001](localhost:4001) and see the app.
-
-Also be sure to checkout the [dctl_rb](https://github.com/jutonz/dctl_rb) gem for more documentation and general tips for using docker in a development environment.
-
-### Secret management
-
-Secrets are stored encrypted in the repo. To decrypt them, you need the secret
-key. It's stored as `Secret access key [twitch]` in the `Homepage` 1password
-vault. Fill in the secret by running this:
-
-```bash
-  # Make sure you're in the app's root directory
-  echo -n "[secret-key]" > apps/twitch/config/master.key
-```
-
-#### Editing secrets
-
-You can edit the secret file by running `mix env.decrypt` and then opening
-`config/.env` with your editor.
-
-When you're done, run `mix env.encrypt` to regenerate `config/.env.enc` with
-your changes.
+Once you have the `key.txt`, you can decrypt secrets with
+`./bin/decrypt_secrets.sh` and re-encrypt them with `./bin/encrypt_secrets.sh`.
