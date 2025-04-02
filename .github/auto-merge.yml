@@ -29,8 +29,11 @@
     dependency_name: "prettier"
     update_type: semver:minor
 - match:
+    dependency_name: "sentry"
+    update_type: semver:minor
+- match:
     dependency_name: "tailwindcss"
-    update_type: semver:patch
+    update_type: semver:minor
 - match:
     dependency_name: "typescript"
     update_type: semver:patch
