@@ -25,7 +25,7 @@ config :client,
   file_renamer_path: nil
 
 config :phoenix,
-  json_library: Jason,
+  json_library: JSON,
   template_engines: [leex: Phoenix.LiveView.Engine]
 
 config :client, ClientWeb.Endpoint,

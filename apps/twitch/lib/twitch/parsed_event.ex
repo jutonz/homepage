@@ -1,5 +1,5 @@
 defmodule Twitch.ParsedEvent do
-  @derive Jason.Encoder
+  @derive JSON.Encoder
   defstruct emotes: [],
             id: nil,
             user_id: nil,
