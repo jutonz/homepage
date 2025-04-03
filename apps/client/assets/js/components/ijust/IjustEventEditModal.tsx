@@ -35,11 +35,6 @@ const UPDATE_EVENT = graphql(`
   }
 `);
 
-interface FormInputs {
-  cost?: number | null;
-  name: string;
-}
-
 const schema = yup
   .object({
     cost: yup
@@ -69,7 +64,7 @@ export function IjustEditEventModal({ event, visible, setVisible }: Props) {
     handleSubmit,
     reset,
     setError,
-  } = useForm<FormInputs>({
+  } = useForm({
     defaultValues: {
       cost: event.cost?.amount || ("" as any),
       name: event.name,
@@ -91,7 +86,7 @@ export function IjustEditEventModal({ event, visible, setVisible }: Props) {
   };
 
   const onSubmit = useCallback(
-    async (form: FormInputs) => {
+    async (form: any) => {
       clearErrors("root.serverError");
       const { cost, name } = form;
 

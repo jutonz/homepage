@@ -21,10 +21,6 @@ const RENAME_TEAM = graphql(`
   }
 `);
 
-interface FormInputs {
-  name: string;
-}
-
 const schema = yup
   .object({
     name: yup.string().required(),
@@ -44,7 +40,7 @@ export function TeamRenameForm({ team }: Props) {
     handleSubmit,
     reset,
     setError,
-  } = useForm<FormInputs>({
+  } = useForm({
     defaultValues: {
       name: "",
     },
@@ -62,7 +58,7 @@ export function TeamRenameForm({ team }: Props) {
   );
 
   const onSubmit = useCallback(
-    async (form: FormInputs) => {
+    async (form: any) => {
       clearErrors("root.serverError");
       const { name } = form;
 
