@@ -379,30 +379,45 @@ jobs:
         name: release
         path: _build/prod/rel/homepage
 
-  deploy:
+  build_push:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    env:
-      KAMAL_REGISTRY_USERNAME: ${{ secrets.KAMAL_REGISTRY_USERNAME }}
-      KAMAL_REGISTRY_PASSWORD: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
-      SECRET_KEY: ${{ secrets.SECRET_KEY }}
-    concurrency:
-      group: deploy
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.KAMAL_REGISTRY_USERNAME }}
+          password: ${{ secrets.KAMAL_REGISTRY_PASSWORD }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: SSH Auth
-        uses: webfactory/ssh-agent@v0.9.1
+      - name: Build and push
+        uses: docker/build-push-action@v6
         with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
-      - run: "ssh-keyscan -H jutonz.com > ~/.ssh/known_hosts"
-      - name: Install Ruby
-        uses: ruby/setup-ruby@v1
-        env:
-          BUNDLE_GEMFILE: .kamal/Gemfile
+          push: true
+          platforms: linux/amd64
+          tags: |
+            jutonz/homepage:latest
+            jutonz/homepage:${{ github.sha }}
+          cache-from: type=registry,ref=jutonz/homepage-build-cache:latest,mode=max,image-manifest=true,oci-mediatypes=true
+          cache-to: type=registry,ref=docker.io/jutonz/homepage-build-cache:latest,mode=max,image-manifest=true,oci-mediatypes=true
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: ["build_push"]
+    concurrency:
+      group: deploy
+    steps:
+      - uses: azure/setup-kubectl@v4
+      - name: Set the Kubernetes context
+        uses: azure/k8s-set-context@v4
         with:
-          ruby-version: 3.4
-          bundler-cache: true
-      - run: bin/kamal deploy
+          # https://github.com/Azure/k8s-set-context?tab=readme-ov-file#service-account-approach
+          # kb get secret github-actions-token -o yaml | pbcopy
+          method: service-account
+          k8s-url: ${{ secrets.KUBERNETES_URL }}
+          k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+      - run: kubectl set image deployment/web web=jutonz/homepage:${{ github.sha }} -nhomepage
+      - run: kubectl rollout status deployment/web -nhomepage
