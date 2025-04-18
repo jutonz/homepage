@@ -18,7 +18,7 @@ defmodule Client.Todoist.Request do
   def put_json_body(request, body) do
     request
     |> put_header("content-type", "application/json")
-    |> Map.put(:body, Jason.encode!(body))
+    |> Map.put(:body, JSON.encode!(body))
   end
 
   @spec put_auth_header(Finch.Request.t()) :: Finch.Request.t()
