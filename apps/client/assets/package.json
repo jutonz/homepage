@@ -53,7 +53,7 @@
     "cypress": "^14.4.0",
     "date-fns": "^4.1.0",
     "esbuild": "0.25.5",
-    "postcss": "^8.5.3",
+    "postcss": "^8.5.4",
     "postcss-cli": "^11.0.1",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3"
