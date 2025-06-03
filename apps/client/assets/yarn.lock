@@ -6780,12 +6780,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"phoenix_live_view@npm:1.0.13":
-  version: 1.0.13
-  resolution: "phoenix_live_view@npm:1.0.13"
+"phoenix_live_view@npm:1.0.15":
+  version: 1.0.15
+  resolution: "phoenix_live_view@npm:1.0.15"
   dependencies:
     morphdom: "npm:2.7.5"
-  checksum: 10c0/a47494a015fc86c9a26b8175a66c7d9c52e41783a603bf160f1b8fedbcdd8c248c483dc9bea1c3e32fcc7148125239420f548cdc8478588984bd74d36c382753
+  checksum: 10c0/a07d35e1a8514c30e7f0da8098bde8577ac7563b7d58f07ee64d2b51ba111d1c208801464a7010c7fefefad4504fff816b503138e4a181a6bdfe356130e615da
   languageName: node
   linkType: hard
 
@@ -7700,7 +7700,7 @@ __metadata:
     notistack: "npm:^3.0.2"
     phoenix: "npm:1.7.21"
     phoenix_html: "npm:4.2.1"
-    phoenix_live_view: "npm:1.0.13"
+    phoenix_live_view: "npm:1.0.15"
     postcss: "npm:^8.5.4"
     postcss-cli: "npm:^11.0.1"
     prettier: "npm:^3.5.3"
