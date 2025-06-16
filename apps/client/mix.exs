@@ -50,7 +50,7 @@ defmodule Client.Mixfile do
       {:events, in_umbrella: true},
       {:ex_machina, "~> 2.2", only: :test},
       {:finch, "~> 0.14"},
-      {:floki, "~> 0.37.0", only: :test},
+      {:floki, "~> 0.38.0", only: :test},
       {:gen_stage, "~> 1.2.0"},
       {:gettext, "~> 0.11"},
       {:guardian, "~> 2.0"},
