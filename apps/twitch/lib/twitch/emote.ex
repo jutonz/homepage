@@ -1,5 +1,5 @@
 defmodule Twitch.Emote do
-  @derive {Jason.Encoder, only: ~w[id code]a}
+  @derive {JSON.Encoder, only: ~w[id code]a}
 
   defstruct ~w(id code regex)a
 

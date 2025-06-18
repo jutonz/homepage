@@ -55,7 +55,6 @@ defmodule Client.Mixfile do
       {:gettext, "~> 0.11"},
       {:guardian, "~> 2.0"},
       {:hackney, "~> 1.8"},
-      {:jason, "~> 1.1"},
       {:money, "~> 1.12"},
       {:mox, "~> 1.0", only: :test},
       {:nimble_csv, "~> 1.1"},
