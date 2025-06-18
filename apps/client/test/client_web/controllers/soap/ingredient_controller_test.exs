@@ -71,7 +71,7 @@ defmodule ClientWeb.Soap.IngredientControllerTest do
 
       conn
       |> get(path, as: user.id)
-      |> html_response(200)
+      |> parsed_html_response(200)
       |> assert_contains_selector("a[href='#{Routes.soap_order_path(conn, :show, order)}']")
     end
 
@@ -98,7 +98,7 @@ defmodule ClientWeb.Soap.IngredientControllerTest do
       assert html =~ "20g"
 
       assert_contains_selector(
-        html,
+        Floki.parse_document!(html),
         "a[href='#{Routes.soap_batch_path(conn, :show, batch)}']"
       )
     end
