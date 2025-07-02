@@ -18,7 +18,7 @@
     "@mui/material": "^7.2.0",
     "@tailwindcss/postcss": "^4.1.10",
     "@urql/exchange-auth": "^2.2.1",
-    "@urql/exchange-graphcache": "^7.2.3",
+    "@urql/exchange-graphcache": "^7.2.4",
     "aphrodite": "^2.4.0",
     "chart.js": "^3.9.1",
     "graphql": "^16.11.0",
