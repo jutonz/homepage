@@ -5,6 +5,18 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
+"@0no-co/graphql.web@npm:^1.0.13":
+  version: 1.1.2
+  resolution: "@0no-co/graphql.web@npm:1.1.2"
+  peerDependencies:
+    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+  peerDependenciesMeta:
+    graphql:
+      optional: true
+  checksum: 10c0/7074de29681f0563cb9a90d702c7cda4443dce858e09f9a09adbafe32c302890cab81959ccba4ed7ac3e332423b2928a1dc95dd4a5004e6a5c156b733caa349a
+  languageName: node
+  linkType: hard
+
 "@0no-co/graphql.web@npm:^1.0.5":
   version: 1.0.6
   resolution: "@0no-co/graphql.web@npm:1.0.6"
@@ -2800,6 +2812,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@urql/core@npm:^5.1.2":
+  version: 5.2.0
+  resolution: "@urql/core@npm:5.2.0"
+  dependencies:
+    "@0no-co/graphql.web": "npm:^1.0.13"
+    wonka: "npm:^6.3.2"
+  checksum: 10c0/1893a7417c6e5e3604fc3bd27e8b63b748d1817fb906fa95beba52be103d18e015d20ca740a9be570bca2bd11e98d34f605e108a4d3428678d9a1e3368ab2275
+  languageName: node
+  linkType: hard
+
 "@urql/exchange-auth@npm:^2.2.1":
   version: 2.2.1
   resolution: "@urql/exchange-auth@npm:2.2.1"
@@ -2812,16 +2834,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/exchange-graphcache@npm:^7.2.3":
-  version: 7.2.3
-  resolution: "@urql/exchange-graphcache@npm:7.2.3"
+"@urql/exchange-graphcache@npm:^7.2.4":
+  version: 7.2.4
+  resolution: "@urql/exchange-graphcache@npm:7.2.4"
   dependencies:
-    "@0no-co/graphql.web": "npm:^1.0.5"
-    "@urql/core": "npm:^5.1.1"
+    "@0no-co/graphql.web": "npm:^1.0.13"
+    "@urql/core": "npm:^5.1.2"
     wonka: "npm:^6.3.2"
   peerDependencies:
     "@urql/core": ^5.0.0
-  checksum: 10c0/d929bd856fb0cb1d191d9fcb79799a24b058a79e845342151093b6bec998d95044d4dfe07125cb4b549c22a9317005e0d1813bb21727ff143968d2556658407c
+  checksum: 10c0/8d946b2683809eb43fd1af552cfdb95c3c70ca60bb6603dcbfe652e5de2d34a131b7b45084be9411e54e6247e9d31233b2394aab147d7fda543ae22a825225fa
   languageName: node
   linkType: hard
 
@@ -7755,7 +7777,7 @@ __metadata:
     "@types/node": "npm:^24.0.10"
     "@types/react": "npm:^19.1.8"
     "@urql/exchange-auth": "npm:^2.2.1"
-    "@urql/exchange-graphcache": "npm:^7.2.3"
+    "@urql/exchange-graphcache": "npm:^7.2.4"
     aphrodite: "npm:^2.4.0"
     autoprefixer: "npm:^10.4.21"
     chart.js: "npm:^3.9.1"
