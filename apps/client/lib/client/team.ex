@@ -4,7 +4,7 @@ defmodule Client.Team do
   import Ecto.Query, only: [from: 2]
   alias Client.{Team, Repo, User}
 
-  @derive {Jason.Encoder, only: ~w[id name]a}
+  @derive {JSON.Encoder, only: ~w[id name]a}
 
   schema "teams" do
     field(:name, :string)

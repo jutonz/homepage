@@ -94,7 +94,7 @@ defmodule Twitch.Eventsub.SubscriptionsTest do
           "total_cost" => 0
         }
 
-        response = %{body: Jason.encode!(body), status_code: 200}
+        response = %{body: JSON.encode!(body), status_code: 200}
         {:ok, response}
     end)
   end
@@ -110,7 +110,7 @@ defmodule Twitch.Eventsub.SubscriptionsTest do
           "status" => 400
         }
 
-        response = %{body: Jason.encode!(body), status_code: 400}
+        response = %{body: JSON.encode!(body), status_code: 400}
         {:error, response}
     end)
   end
