@@ -31,7 +31,7 @@ defmodule Client.Influx.AwairSubscriber do
     %Influx.LineData{
       measurement: "air_quality",
       tags: %{"server" => name},
-      values: data |> Jason.encode!() |> Jason.decode!(),
+      values: data |> JSON.encode!() |> JSON.decode!(),
       timestamp: data.timestamp
     }
   end

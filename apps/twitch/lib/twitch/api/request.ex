@@ -83,7 +83,7 @@ defmodule Twitch.Api.Request do
   end
 
   defp ensure_data_types(%{body: body} = request) when is_map(body) do
-    ensure_data_types(%{request | body: Jason.encode!(body)})
+    ensure_data_types(%{request | body: JSON.encode!(body)})
   end
 
   defp ensure_data_types(request) do
