@@ -6441,10 +6441,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"morphdom@npm:2.7.5":
-  version: 2.7.5
-  resolution: "morphdom@npm:2.7.5"
-  checksum: 10c0/3f9f5e466cf35aa3804617d4547bd5f40cc5b9366a902399d4be5f70dd6ae6a7bca82f80371261ac11466fd04e12618c2ccfd9ba3b8e2f05dcc025067460084c
+"morphdom@npm:2.7.7":
+  version: 2.7.7
+  resolution: "morphdom@npm:2.7.7"
+  checksum: 10c0/cf6c2d6d948da7d9a129a0e514fb22c520f49a0ccb89a85834a45ac5909011223b4964bc5c52194609dcc6c4925f54322330b4ab6c412d173681e8d6ec4cfc54
   languageName: node
   linkType: hard
 
@@ -6934,12 +6934,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"phoenix_live_view@npm:1.0.17":
-  version: 1.0.17
-  resolution: "phoenix_live_view@npm:1.0.17"
+"phoenix_live_view@npm:1.1.2":
+  version: 1.1.2
+  resolution: "phoenix_live_view@npm:1.1.2"
   dependencies:
-    morphdom: "npm:2.7.5"
-  checksum: 10c0/23ecc2413d6312caf916ba6f50ea2fac3366498828ffa0baca8253e646a4e4b9ab01f8f8aecfe796b5ce5b4be3aa2b769c56c5b55c31c9b1454a77a93823a65a
+    morphdom: "npm:2.7.7"
+  checksum: 10c0/19b9f1b43e405902f431b224bdd591a1bee3c7cb8a909da343fc7f53aac4fbb91293be7831f9006145d23a9d6593bb014ada433869077904277e216b2296014e
   languageName: node
   linkType: hard
 
@@ -7854,7 +7854,7 @@ __metadata:
     notistack: "npm:^3.0.2"
     phoenix: "npm:1.7.21"
     phoenix_html: "npm:4.2.1"
-    phoenix_live_view: "npm:1.0.17"
+    phoenix_live_view: "npm:1.1.2"
     postcss: "npm:^8.5.6"
     postcss-cli: "npm:^11.0.1"
     prettier: "npm:^3.6.2"
