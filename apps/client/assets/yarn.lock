@@ -7865,7 +7865,7 @@ __metadata:
     react-stdio: "npm:^3.4.8"
     rxjs: "npm:^7.8.2"
     tailwindcss: "npm:^4.1.11"
-    three: "npm:^0.178.0"
+    three: "npm:^0.179.1"
     typescript: "npm:^5.8.3"
     urql: "npm:^4.2.2"
     yup: "npm:^1.6.1"
@@ -8447,10 +8447,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three@npm:^0.178.0":
-  version: 0.178.0
-  resolution: "three@npm:0.178.0"
-  checksum: 10c0/00bffd075f2e0fac396c2be121ae0b376508c2f91b97eba19606ace34c53f51b8287047841ef22a3762f6525a83e7b9143728b17639e6d8477e1207d9e9d1866
+"three@npm:^0.179.1":
+  version: 0.179.1
+  resolution: "three@npm:0.179.1"
+  checksum: 10c0/563ba6d6a79b761b0a19b35141999edeec534cfef07e4ed2d480e2b7c30c290cb27bff0f43d81eaf60849af25b19a7950607db3ccf4aaa90a68d1394a2563f73
   languageName: node
   linkType: hard
 
