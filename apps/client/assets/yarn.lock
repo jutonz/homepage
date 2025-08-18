@@ -2857,15 +2857,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/exchange-auth@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "@urql/exchange-auth@npm:2.2.1"
+"@urql/core@npm:^6.0.0":
+  version: 6.0.1
+  resolution: "@urql/core@npm:6.0.1"
   dependencies:
-    "@urql/core": "npm:^5.1.1"
+    "@0no-co/graphql.web": "npm:^1.0.13"
+    wonka: "npm:^6.3.2"
+  checksum: 10c0/44ff0d12dcef1e47338a9ff1217759d1124fa66eec1eec21ff9622e44c179b9d66fa78f462f195bfd8b790b04609abbe5a0674cbfcb0bc6d9c6fe6223d7d7b5b
+  languageName: node
+  linkType: hard
+
+"@urql/exchange-auth@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@urql/exchange-auth@npm:3.0.0"
+  dependencies:
+    "@urql/core": "npm:^6.0.0"
     wonka: "npm:^6.3.2"
   peerDependencies:
-    "@urql/core": ^5.0.0
-  checksum: 10c0/ce849bee01cc619d972f8fe16c76f77008912e79510403a35de014cd5414e7fabc3fb7db3787691e60c52ae3e34970fbc84ad16e75535eb89523f0003a39d4d5
+    "@urql/core": ^6.0.0
+  checksum: 10c0/1e0c6a170004af62ba07041b1a97fe4f0ba8a041904ee1014f6055999e3e205f9968f64965b43ff8c748004a6e9a3be8a1e04f7fd2d5a72b36472f82f974d039
   languageName: node
   linkType: hard
 
@@ -7867,7 +7877,7 @@ __metadata:
     "@testing-library/cypress": "npm:^10.0.3"
     "@types/node": "npm:^24.3.0"
     "@types/react": "npm:^19.1.8"
-    "@urql/exchange-auth": "npm:^2.2.1"
+    "@urql/exchange-auth": "npm:^3.0.0"
     "@urql/exchange-graphcache": "npm:^7.2.4"
     aphrodite: "npm:^2.4.0"
     autoprefixer: "npm:^10.4.21"
