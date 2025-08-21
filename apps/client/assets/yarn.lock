@@ -17,18 +17,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@0no-co/graphql.web@npm:^1.0.5":
-  version: 1.0.6
-  resolution: "@0no-co/graphql.web@npm:1.0.6"
-  peerDependencies:
-    graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
-  peerDependenciesMeta:
-    graphql:
-      optional: true
-  checksum: 10c0/10103e9b30df14d351d098871a4a35d38c9a478763faa667eb1409bfb27bf06c8f8d2bb3c33dd6a4250a5d866d7d301afe0090dacc409a38831674b087cc78cd
-  languageName: node
-  linkType: hard
-
 "@alloc/quick-lru@npm:^5.2.0":
   version: 5.2.0
   resolution: "@alloc/quick-lru@npm:5.2.0"
@@ -2834,16 +2822,6 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10c0/e917cf11c78e9ca7d037d0e6e0d6d5d99443d9d7201f8f1a556f02a2bc57ae457487e9bfec89dfa848d16979b35de6e5b34840d4d0bb9e5f33849d077ac15154
-  languageName: node
-  linkType: hard
-
-"@urql/core@npm:^5.1.1":
-  version: 5.1.1
-  resolution: "@urql/core@npm:5.1.1"
-  dependencies:
-    "@0no-co/graphql.web": "npm:^1.0.5"
-    wonka: "npm:^6.3.2"
-  checksum: 10c0/2a66f58452bbf153c251dd6d127fc0bc0473b4cde47171ca360960059eb08fc019202aee16911168a800814a3b9748300bb88b87817b5d05cf92c16f5772447b
   languageName: node
   linkType: hard
 
@@ -7905,7 +7883,7 @@ __metadata:
     tailwindcss: "npm:^4.1.12"
     three: "npm:^0.179.1"
     typescript: "npm:^5.9.2"
-    urql: "npm:^4.2.2"
+    urql: "npm:^5.0.0"
     yup: "npm:^1.7.0"
   languageName: unknown
   linkType: soft
@@ -8821,16 +8799,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"urql@npm:^4.2.2":
-  version: 4.2.2
-  resolution: "urql@npm:4.2.2"
+"urql@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "urql@npm:5.0.0"
   dependencies:
-    "@urql/core": "npm:^5.1.1"
+    "@urql/core": "npm:^6.0.0"
     wonka: "npm:^6.3.2"
   peerDependencies:
-    "@urql/core": ^5.0.0
+    "@urql/core": ^6.0.0
     react: ">= 16.8.0"
-  checksum: 10c0/86b7130e60c3a55040924c6be8378a92eb4b1e277a63a16de973a6b47a66540256b56a6192785397b45269ec38bea07741e3645fa93866b55c32e1c55f62639c
+  checksum: 10c0/9e89d273aba000b9313085d40171a47c6a71bee65a2cf4d2b7b4fdac6efadf31f1188a96621e511eb59d4037b6d7509e27866dc6dfd26f8397a7fe2bd8df26a7
   languageName: node
   linkType: hard
 
