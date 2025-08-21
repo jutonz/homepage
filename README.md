@@ -28,7 +28,7 @@ of old stuff in places I don't update or use frequently.
 
 1. Install mise and the `op` cli
 2. Run `bin/setup`
-4. Start the server: `iex -S mix phx.server`
+3. Start the server: `iex -S mix phx.server`
 
 # Deployment
 
