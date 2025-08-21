@@ -26,14 +26,9 @@ of old stuff in places I don't update or use frequently.
 
 # Setup
 
-1. Install asdf and run `asdf install`
-1. Setup frontend
-    1. In a new terminal: `cd apps/client/assets`
-    2. `corepack enable`
-    3. `yarn`
-3. Setup backend
-    1. `mix deps.get`
-4. Start the server: `ies -S mix phx.server`
+1. Install mise and the `op` cli
+2. Run `bin/setup`
+4. Start the server: `iex -S mix phx.server`
 
 # Deployment
 

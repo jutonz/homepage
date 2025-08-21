@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -ex
+
+mise install
+
+op item get \
+  "Secret key" \
+  --account="my.1password.com" \
+  --vault="Homepage" \
+  --fields=password \
+  --reveal \
+| cat > key.txt
+
+mix do deps.get, ecto.create, ecto.migrate
+MIX_ENV=test mix do ecto.create, ecto.migrate
+
+cd apps/client/assets
+corepack enable
+yarn
