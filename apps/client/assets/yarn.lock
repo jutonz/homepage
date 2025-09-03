@@ -2685,15 +2685,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/cypress@npm:^10.0.3":
-  version: 10.0.3
-  resolution: "@testing-library/cypress@npm:10.0.3"
+"@testing-library/cypress@npm:^10.1.0":
+  version: 10.1.0
+  resolution: "@testing-library/cypress@npm:10.1.0"
   dependencies:
     "@babel/runtime": "npm:^7.14.6"
     "@testing-library/dom": "npm:^10.1.0"
   peerDependencies:
-    cypress: ^12.0.0 || ^13.0.0 || ^14.0.0
-  checksum: 10c0/0e0641f3adbcc21b8af155fba45437da2fcc6cb58338a154ca68d4e66e798b31f0f9fde85925f4b2d21ffb6baba35b672da5ca30a9aad4987f91ef7e8dc181e7
+    cypress: ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0
+  checksum: 10c0/9829f6fed1ff1fe852e7b84b74fc3a30ecee1071ced66c70eee3fd506ad2fca3bccae1f475a22cb8293d9cfc261c2d6551551cdc784fdcabe0ba1fd0e70c0dfb
   languageName: node
   linkType: hard
 
@@ -7836,7 +7836,7 @@ __metadata:
     "@playwright/test": "npm:^1.55.0"
     "@tailwindcss/forms": "npm:^0.5.10"
     "@tailwindcss/postcss": "npm:^4.1.12"
-    "@testing-library/cypress": "npm:^10.0.3"
+    "@testing-library/cypress": "npm:^10.1.0"
     "@types/node": "npm:^24.3.0"
     "@types/react": "npm:^19.1.8"
     "@urql/exchange-auth": "npm:^3.0.0"
