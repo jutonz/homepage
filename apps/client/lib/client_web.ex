@@ -33,25 +33,9 @@ defmodule ClientWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: ClientWeb
-      use Gettext, backend: ClientWeb.Gettext
-
-      import Plug.Conn
-      import Phoenix.LiveView.Controller, only: [live_render: 2, live_render: 3]
-      alias ClientWeb.Router.Helpers, as: Routes
-
-      unquote(verified_routes())
-    end
-  end
-
-  # Same as `controller` but for the new phoenix viewless controller format.
-  def viewless_controller do
-    quote do
       use Phoenix.Controller,
         namespace: ClientWeb,
-        # this line is the only difference
         formats: ~w[html json]a
-
       use Gettext, backend: ClientWeb.Gettext
 
       import Plug.Conn
