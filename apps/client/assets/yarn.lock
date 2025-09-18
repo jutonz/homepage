@@ -1237,10 +1237,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource/roboto@npm:^5.2.7":
-  version: 5.2.7
-  resolution: "@fontsource/roboto@npm:5.2.7"
-  checksum: 10c0/59e3e2afbe7ed5816d47abfa2c9fe18f2d3372ab85ac22694cffa7984f146240eca1613a1912e0d04a79bbf1050bf135a82c22e8c01c616754953cc4ed45c153
+"@fontsource/roboto@npm:^5.2.8":
+  version: 5.2.8
+  resolution: "@fontsource/roboto@npm:5.2.8"
+  checksum: 10c0/b215a7e08d65063e9e1714e39c023f0a1f2d33f0d48f06edf4e0d09a8945f682dd39ca7089efb83a48ceffa20d92d65392297831198e9a694b5be8a96b1a40cd
   languageName: node
   linkType: hard
 
@@ -7906,7 +7906,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
-    "@fontsource/roboto": "npm:^5.2.7"
+    "@fontsource/roboto": "npm:^5.2.8"
     "@graphql-codegen/cli": "npm:^6.0.0"
     "@graphql-codegen/client-preset": "npm:^5.0.1"
     "@hookform/resolvers": "npm:^5.2.2"
