@@ -2,6 +2,8 @@ defmodule ClientWeb.WaterFilterController do
   use ClientWeb, :controller
   alias Client.WaterLogs
 
+  plug :put_view, ClientWeb.WaterFilterView
+
   def index(conn, %{"water_log_id" => log_id} = _params) do
     log = WaterLogs.get(log_id)
     filters = WaterLogs.list_filters_by_log_id(log.id)

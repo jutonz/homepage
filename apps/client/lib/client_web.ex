@@ -33,14 +33,14 @@ defmodule ClientWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller,
-        namespace: ClientWeb,
-        formats: ~w[html json]a
+      use Phoenix.Controller, formats: ~w[html json]a
       use Gettext, backend: ClientWeb.Gettext
 
       import Plug.Conn
       import Phoenix.LiveView.Controller, only: [live_render: 2, live_render: 3]
       alias ClientWeb.Router.Helpers, as: Routes
+
+      plug :put_layout, {ClientWeb.LayoutView, :app}
 
       unquote(verified_routes())
     end

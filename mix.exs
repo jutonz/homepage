@@ -8,6 +8,7 @@ defmodule HomepageUmbrella.Mixfile do
       deps: deps(),
       elixir: "~> 1.16",
       test_coverage: [tool: ExCoveralls],
+      listeners: [Phoenix.CodeReloader],
       aliases: aliases(),
       dialyzer: [
         plt_add_apps: ~w[mix]a,

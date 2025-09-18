@@ -1,6 +1,8 @@
 defmodule ClientWeb.TwitchController do
   use ClientWeb, :controller
 
+  plug :put_view, ClientWeb.TwitchView
+
   def login(conn, _params) do
     {:ok, authorize_url} = Twitch.Auth.authorize_url()
     conn |> redirect(external: authorize_url)

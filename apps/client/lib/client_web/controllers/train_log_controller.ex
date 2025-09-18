@@ -1,7 +1,8 @@
 defmodule ClientWeb.TrainLogController do
   use ClientWeb, :controller
-
   alias Client.{Session, Trains}
+
+  plug :put_view, ClientWeb.TrainLogView
 
   def index(conn, _params) do
     user_id = Session.current_user_id(conn)
