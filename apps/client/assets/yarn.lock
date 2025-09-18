@@ -2978,16 +2978,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/core@npm:^5.1.2":
-  version: 5.2.0
-  resolution: "@urql/core@npm:5.2.0"
-  dependencies:
-    "@0no-co/graphql.web": "npm:^1.0.13"
-    wonka: "npm:^6.3.2"
-  checksum: 10c0/1893a7417c6e5e3604fc3bd27e8b63b748d1817fb906fa95beba52be103d18e015d20ca740a9be570bca2bd11e98d34f605e108a4d3428678d9a1e3368ab2275
-  languageName: node
-  linkType: hard
-
 "@urql/core@npm:^6.0.0, @urql/core@npm:^6.0.1":
   version: 6.0.1
   resolution: "@urql/core@npm:6.0.1"
@@ -3010,16 +3000,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/exchange-graphcache@npm:^7.2.4":
-  version: 7.2.4
-  resolution: "@urql/exchange-graphcache@npm:7.2.4"
+"@urql/exchange-graphcache@npm:^8.1.0":
+  version: 8.1.0
+  resolution: "@urql/exchange-graphcache@npm:8.1.0"
   dependencies:
     "@0no-co/graphql.web": "npm:^1.0.13"
-    "@urql/core": "npm:^5.1.2"
+    "@urql/core": "npm:^6.0.0"
     wonka: "npm:^6.3.2"
   peerDependencies:
-    "@urql/core": ^5.0.0
-  checksum: 10c0/8d946b2683809eb43fd1af552cfdb95c3c70ca60bb6603dcbfe652e5de2d34a131b7b45084be9411e54e6247e9d31233b2394aab147d7fda543ae22a825225fa
+    "@urql/core": ^6.0.0
+  checksum: 10c0/5e017847f8e6fb1e5959130417ab9ac3f779cc6f2b8139a5f00533421a293717bd1a22a2a650c638df6df2834154ec560d1c1e2be6cc6c1bc40bf896df13cd3f
   languageName: node
   linkType: hard
 
@@ -7930,7 +7920,7 @@ __metadata:
     "@types/node": "npm:^24.5.1"
     "@types/react": "npm:^19.1.13"
     "@urql/exchange-auth": "npm:^3.0.0"
-    "@urql/exchange-graphcache": "npm:^7.2.4"
+    "@urql/exchange-graphcache": "npm:^8.1.0"
     aphrodite: "npm:^2.4.0"
     autoprefixer: "npm:^10.4.21"
     chart.js: "npm:^4.5.0"
