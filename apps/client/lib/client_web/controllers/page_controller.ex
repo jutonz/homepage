@@ -13,6 +13,6 @@ defmodule ClientWeb.PageController do
 
     conn
     |> assign(:title, title)
-    |> render("index.html", layout: {ClientWeb.LayoutView, "react.html"})
+    |> render("index.html", layout: {ClientWeb.Layouts, :react})
   end
 end

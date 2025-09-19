@@ -40,12 +40,12 @@ defmodule ClientWeb do
       import Phoenix.LiveView.Controller, only: [live_render: 2, live_render: 3]
       alias ClientWeb.Router.Helpers, as: Routes
 
-      plug :put_layout, {ClientWeb.LayoutView, :app}
-
       unquote(verified_routes())
     end
   end
 
+  # TODO: view has been soft deprecated in favor of `html` for a while. we
+  # should migrate to that eventually.
   def view do
     quote do
       use Phoenix.View,
@@ -60,7 +60,7 @@ defmodule ClientWeb do
           view_template: 1
         ]
 
-      unquote(view_helpers())
+      unquote(html_helpers())
     end
   end
 
@@ -69,7 +69,7 @@ defmodule ClientWeb do
       use Phoenix.LiveView
       alias ClientWeb.Live.LiveHelpers
 
-      unquote(view_helpers())
+      unquote(html_helpers())
     end
   end
 
@@ -77,7 +77,7 @@ defmodule ClientWeb do
     quote do
       use Phoenix.LiveComponent
 
-      unquote(view_helpers())
+      unquote(html_helpers())
     end
   end
 
@@ -106,7 +106,7 @@ defmodule ClientWeb do
         only: [get_csrf_token: 0, view_module: 1, view_template: 1]
 
       # Include general helpers for rendering HTML
-      unquote(view_helpers())
+      unquote(html_helpers())
     end
   end
 
@@ -126,7 +126,7 @@ defmodule ClientWeb do
     apply(__MODULE__, which, [])
   end
 
-  defp view_helpers do
+  defp html_helpers do
     quote do
       use PhoenixHTMLHelpers
       use Gettext, backend: ClientWeb.Gettext

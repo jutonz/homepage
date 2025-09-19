@@ -23,6 +23,7 @@ defmodule ClientWeb.Router do
     plug(:fetch_live_flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug(:put_root_layout, {ClientWeb.Layouts, :root})
 
     if Application.compile_env!(:client, :env) == :test do
       plug(ClientWeb.Plugs.TestAuthHelper)
@@ -53,7 +54,7 @@ defmodule ClientWeb.Router do
         as: :filters
       )
 
-      live_session(:water_logs, root_layout: {ClientWeb.LayoutView, :app}) do
+      live_session(:water_logs, root_layout: {ClientWeb.Layouts, :app}) do
         live("/kiosk", WaterLogKioskLive)
       end
     end
