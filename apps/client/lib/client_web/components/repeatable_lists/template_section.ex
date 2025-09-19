@@ -3,7 +3,7 @@ defmodule ClientWeb.Components.RepeatableLists.TemplateSection do
 
   def render(assigns) do
     ~H"""
-    <div data-section-id={@section.id}>
+    <div data-role="section" data-section-id={@section.id}>
       <h2 class="text-xl">
         Section: {@section.name}
       </h2>
