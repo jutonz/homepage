@@ -92,7 +92,7 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
         new_section_changeset: to_form(section_changeset)
       )
 
-    {:ok, socket, layout: {ClientWeb.LayoutView, :app}}
+    {:ok, socket}
   end
 
   def handle_event("delete", _params, socket) do

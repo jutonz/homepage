@@ -65,7 +65,7 @@ defmodule ClientWeb.FoodLogsLive.Show do
         form: empty_form()
       )
 
-    {:ok, socket, layout: {ClientWeb.LayoutView, :app}}
+    {:ok, socket}
   end
 
   def handle_event("add_entry", %{"entry" => entry_params}, socket) do

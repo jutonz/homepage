@@ -52,6 +52,6 @@ defmodule ClientWeb.RepeatableLists.Live.Show do
     template = list.template
     socket = assign(socket, list: list, template: template)
 
-    {:ok, socket, layout: {ClientWeb.LayoutView, :app}}
+    {:ok, socket}
   end
 end

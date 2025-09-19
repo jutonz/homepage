@@ -54,7 +54,7 @@ defmodule ClientWeb.Router do
         as: :filters
       )
 
-      live_session(:water_logs, root_layout: {ClientWeb.Layouts, :app}) do
+      live_session(:water_logs, root_layout: {ClientWeb.Layouts, :root}) do
         live("/kiosk", WaterLogKioskLive)
       end
     end

@@ -78,6 +78,9 @@ defmodule ClientWeb.RepeatableListsTest do
     |> click(button("+ Add section"))
     |> fill_in(text_field("Name"), with: "Section name")
     |> send_keys([:enter])
+
+    session
+    |> find(text_field("Name"))
     |> assert_text("Section: Section name")
 
     template = Repo.preload(template, :sections)
