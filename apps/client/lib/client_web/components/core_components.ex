@@ -138,7 +138,6 @@ defmodule ClientWeb.CoreComponents do
     """
   end
 
-
   @doc """
   Renders a simple form.
 

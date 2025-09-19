@@ -12,7 +12,11 @@
       phx-track-static
       href={Routes.static_path(ClientWeb.Endpoint, "/static-css/index.css")}
     />
-    <script defer phx-track-static src={Routes.static_path(ClientWeb.Endpoint, "/static-js/index.js")}>
+    <script
+      defer
+      phx-track-static
+      src={Routes.static_path(ClientWeb.Endpoint, "/static-js/index.js")}
+    >
     </script>
   </head>
   <body>
@@ -30,4 +34,3 @@
     </div>
   </body>
 </html>
-
