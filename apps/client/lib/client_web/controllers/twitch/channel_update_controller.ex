@@ -1,10 +1,8 @@
 defmodule ClientWeb.Twitch.ChannelUpdateController do
   use ClientWeb, :controller
+  alias Twitch.{Api, Eventsub.ChannelUpdates}
 
-  alias Twitch.{
-    Api,
-    Eventsub.ChannelUpdates
-  }
+  plug :put_view, ClientWeb.Twitch.ChannelUpdateView
 
   def index(conn, params) do
     case twitch_id(params["channel_id"]) do

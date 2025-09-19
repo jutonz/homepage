@@ -1,6 +1,8 @@
 defmodule ClientWeb.Storage.ContextController do
   use ClientWeb, :controller
 
+  plug :put_view, ClientWeb.Storage.ContextView
+
   alias Client.{
     Repo,
     Session,

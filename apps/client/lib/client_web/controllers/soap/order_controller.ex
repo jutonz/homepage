@@ -3,6 +3,8 @@ defmodule ClientWeb.Soap.OrderController do
   alias Client.Session
   alias Client.Soap
 
+  plug :put_view, ClientWeb.Soap.OrderView
+
   def index(conn, _params) do
     orders = conn |> Session.current_user_id() |> Soap.list_orders()
     render(conn, "index.html", orders: orders)

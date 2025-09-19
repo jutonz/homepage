@@ -1,6 +1,8 @@
 defmodule ClientWeb.PageController do
   use ClientWeb, :controller
 
+  plug :put_view, ClientWeb.PageView
+
   def index(conn, _params) do
     title =
       if Application.fetch_env!(:client, :env) == :prod do
@@ -11,6 +13,6 @@ defmodule ClientWeb.PageController do
 
     conn
     |> assign(:title, title)
-    |> render("index.html", layout: {ClientWeb.LayoutView, "react.html"})
+    |> render("index.html", layout: {ClientWeb.Layouts, :react})
   end
 end

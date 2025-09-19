@@ -3,6 +3,8 @@ defmodule ClientWeb.Soap.IngredientController do
   alias Client.Session
   alias Client.Soap
 
+  plug :put_view, ClientWeb.Soap.IngredientView
+
   def index(conn, _params) do
     ingredients =
       conn

@@ -2,6 +2,8 @@ defmodule ClientWeb.FoodLogController do
   use ClientWeb, :controller
   alias Client.FoodLogs
 
+  plug :put_view, ClientWeb.FoodLogView
+
   def index(conn, _params) do
     logs =
       conn

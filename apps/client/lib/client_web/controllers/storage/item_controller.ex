@@ -6,6 +6,8 @@ defmodule ClientWeb.Storage.ItemController do
     Storage
   }
 
+  plug :put_view, ClientWeb.Storage.ItemView
+
   def new(conn, %{"context_id" => context_id}) do
     context =
       conn

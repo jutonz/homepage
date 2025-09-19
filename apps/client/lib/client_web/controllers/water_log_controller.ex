@@ -2,6 +2,8 @@ defmodule ClientWeb.WaterLogController do
   use ClientWeb, :controller
   alias Client.WaterLogs
 
+  plug :put_view, ClientWeb.WaterLogView
+
   def index(conn, _params) do
     logs =
       conn

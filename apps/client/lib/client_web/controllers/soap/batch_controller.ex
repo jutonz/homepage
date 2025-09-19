@@ -3,6 +3,8 @@ defmodule ClientWeb.Soap.BatchController do
   alias Client.Session
   alias Client.Soap
 
+  plug :put_view, ClientWeb.Soap.BatchView
+
   def index(conn, _params) do
     batches = conn |> Session.current_user_id() |> Soap.list_batches()
     render(conn, "index.html", batches: batches)

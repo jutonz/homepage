@@ -2,21 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-
-    <title>{assigns[:title] || "jutonz.com"}</title>
-
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title default="Home" suffix=" · Homepage">
+      {assigns[:title]}
+    </.live_title>
     <link
       rel="stylesheet"
       phx-track-static
       href={Routes.static_path(ClientWeb.Endpoint, "/static-css/index.css")}
     />
+    <script
+      defer
+      phx-track-static
+      src={Routes.static_path(ClientWeb.Endpoint, "/static-js/index.js")}
+    >
+    </script>
   </head>
-
-  <body onclick="">
+  <body>
     <div class="container font-sans">
       <p class="alert alert-info" role="alert" data-role="flash-info">
         {Phoenix.Flash.get(@flash, :info)}
@@ -29,9 +32,5 @@
         {@inner_content}
       </main>
     </div>
-
-    {csrf_meta_tag()}
-    <script phx-track-static src={Routes.static_path(ClientWeb.Endpoint, "/static-js/index.js")}>
-    </script>
   </body>
 </html>

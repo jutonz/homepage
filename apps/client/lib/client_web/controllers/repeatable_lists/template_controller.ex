@@ -3,6 +3,8 @@ defmodule ClientWeb.RepeatableLists.TemplateController do
   alias Client.RepeatableLists
   alias Client.Session
 
+  plug :put_view, ClientWeb.RepeatableLists.TemplateView
+
   def index(conn, _params) do
     lists =
       conn
