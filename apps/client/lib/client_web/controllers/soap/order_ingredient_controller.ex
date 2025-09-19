@@ -3,6 +3,8 @@ defmodule ClientWeb.Soap.OrderIngredientController do
   alias Client.Session
   alias Client.Soap
 
+  plug :put_view, ClientWeb.Soap.OrderIngredientView
+
   def new(conn, %{"order_id" => order_id}) do
     changeset = Soap.new_ingredient_changeset()
     render(conn, "new.html", changeset: changeset, order_id: order_id)

@@ -3,6 +3,8 @@ defmodule ClientWeb.Soap.BatchIngredientController do
   alias Client.Session
   alias Client.Soap
 
+  plug :put_view, ClientWeb.Soap.BatchIngredientView
+
   def new(conn, %{"batch_id" => batch_id}) do
     changeset = Soap.new_batch_ingredient_changeset(%{batch_id: batch_id})
     render(conn, "new.html", changeset: changeset, batch_id: batch_id)
