@@ -37,7 +37,7 @@
     "tailwindcss": "^4.1.13",
     "three": "^0.180.0",
     "urql": "^5.0.1",
-    "yup": "^1.7.0"
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^6.0.0",
