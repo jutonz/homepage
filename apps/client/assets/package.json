@@ -16,7 +16,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
-    "@tailwindcss/postcss": "^4.1.15",
+    "@tailwindcss/postcss": "^4.1.16",
     "@urql/exchange-auth": "^3.0.0",
     "@urql/exchange-graphcache": "^8.1.0",
     "aphrodite": "^2.4.0",
