@@ -1308,9 +1308,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/client-preset@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "@graphql-codegen/client-preset@npm:5.0.3"
+"@graphql-codegen/client-preset@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "@graphql-codegen/client-preset@npm:5.1.0"
   dependencies:
     "@babel/helper-plugin-utils": "npm:^7.20.2"
     "@babel/template": "npm:^7.20.7"
@@ -1331,7 +1331,7 @@ __metadata:
   peerDependenciesMeta:
     graphql-sock:
       optional: true
-  checksum: 10c0/61a320fec2dd2da7819ff3f1588896182953a47e19dbb77eb659087fabfe6a94aa9bdbe5733ea8c27aac7161bdd5cd0a51979b16a75e918e53d339aa0690ff39
+  checksum: 10c0/b94b2e3a4651c6438829fd6f38ecd6acae447061471029f3c8bce156ab585b9f60f9d173d560649ab3d0d10fdf1f55a82a3b7f70ce2345a0ddf38222aaf6cc69
   languageName: node
   linkType: hard
 
@@ -7993,7 +7993,7 @@ __metadata:
     "@emotion/styled": "npm:^11.14.1"
     "@fontsource/roboto": "npm:^5.2.8"
     "@graphql-codegen/cli": "npm:^6.0.1"
-    "@graphql-codegen/client-preset": "npm:^5.0.3"
+    "@graphql-codegen/client-preset": "npm:^5.1.0"
     "@hookform/resolvers": "npm:^5.2.2"
     "@mui/icons-material": "npm:^7.3.4"
     "@mui/material": "npm:^7.3.4"
