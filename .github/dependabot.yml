@@ -12,6 +12,11 @@ updates:
       patterns:
       - "@mui/material"
       - "@mui/icons-material"
+    react:
+      patterns:
+      - "@types/react"
+      - "react"
+      - "react-dom"
 - package-ecosystem: mix
   directory: "/"
   schedule:
