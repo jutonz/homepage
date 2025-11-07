@@ -34,7 +34,7 @@
     "react-router-dom": "^7.9.5",
     "react-stdio": "^3.4.8",
     "rxjs": "^7.8.2",
-    "tailwindcss": "^4.1.16",
+    "tailwindcss": "^4.1.17",
     "three": "^0.180.0",
     "urql": "^5.0.1",
     "yup": "^1.7.1"
