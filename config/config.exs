@@ -49,7 +49,7 @@ config :client, :awair,
     [name: "bedroom", host: "http://192.168.1.177"],
     [name: "garage", host: "http://192.168.1.122"],
     [name: "living_room", host: "http://192.168.1.49"],
-    [name: "office", host: "http://192.168.1.231"]
+    [name: "guest", host: "http://192.168.1.231"]
   ]
 
 config :client, :influx,
