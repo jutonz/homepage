@@ -48,7 +48,7 @@
     "@testing-library/cypress": "^10.1.0",
     "@types/node": "^24.10.2",
     "@types/react": "^19.2.7",
-    "autoprefixer": "^10.4.22",
+    "autoprefixer": "^10.4.23",
     "cssnano": "^7.1.2",
     "cypress": "^15.7.1",
     "date-fns": "^4.1.0",
