@@ -11,14 +11,7 @@ defmodule Twitch.Auth do
       }
       |> URI.encode_query()
 
-    uri =
-      %URI{
-        host: "id.twitch.tv",
-        query: query,
-        scheme: "https",
-        path: "/oauth2/authorize"
-      }
-      |> URI.to_string()
+    uri = "https://id.twitch.tv/oauth2/authorize?" <> query
 
     {:ok, uri}
   end

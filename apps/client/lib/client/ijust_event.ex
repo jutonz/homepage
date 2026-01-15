@@ -5,6 +5,7 @@ defmodule Client.IjustEvent do
   alias Client.{User, IjustContext, IjustOccurrence, IjustEvent, Repo}
 
   @type t :: %__MODULE__{}
+  @dialyzer {:no_opaque, create_with_occurrence: 2, add_occurrence: 1, add_occurrence_by_id: 1}
   @moduledoc false
 
   @derive {Jason.Encoder, only: ~w[id name count ijust_context_id]a}
