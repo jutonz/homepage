@@ -9,14 +9,12 @@ defmodule Twitch.Bttv.EmoteTest do
       "imageType" => "gif"
     }
 
-    expected = %Bttv.Emote{
-      code: "code",
-      id: "123",
-      image_type: "gif",
-      regex: ~r/code/
-    }
+    result = Bttv.Emote.from_bttv_json(json)
 
-    assert expected == Bttv.Emote.from_bttv_json(json)
+    assert result.code == "code"
+    assert result.id == "123"
+    assert result.image_type == "gif"
+    assert Regex.source(result.regex) == "code"
   end
 
   test "detect/2 is 0 if the string does not contain the emote" do
