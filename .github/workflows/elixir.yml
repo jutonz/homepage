@@ -261,7 +261,7 @@ jobs:
     - run: mix do ecto.create, ecto.migrate
     - run: MIX_ENV=test mix phx.server &
     - name: Cypress run
-      uses: cypress-io/github-action@v6
+      uses: cypress-io/github-action@v7
       with:
         working-directory: apps/client/assets
     - name: Archive failure screenshots
