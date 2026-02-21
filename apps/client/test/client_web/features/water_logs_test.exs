@@ -14,6 +14,7 @@ defmodule ClientWeb.WaterLogsFeatureTests do
     |> click(role("create-filter-button"))
     |> fill_in(role("water-filter-lifespan-input"), with: "2000")
     |> click(role("create-water-filter"))
+    |> assert_has(css("[data-role^='water-filter-row']"))
 
     assert [filter] = WaterLogs.list_filters_by_log_id(log.id)
     assert filter.water_log_id == log.id
