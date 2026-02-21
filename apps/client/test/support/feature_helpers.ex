@@ -2,8 +2,9 @@ defmodule ClientWeb.FeatureHelpers do
   use Wallaby.DSL
   import Wallaby.Query
 
-  def role(role, opts \\ []),
-    do: role |> role_selector() |> css(opts)
+  def role(role, opts \\ []) do
+    %Wallaby.Query{} = role |> role_selector() |> css(opts)
+  end
 
   defp role_selector(role),
     do: "[data-role=\"#{role}\"]"

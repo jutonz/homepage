@@ -177,7 +177,7 @@ jobs:
           v3-static-assets-${{ github.ref }}-${{ github.sha }}
           v3-static-assets-${{ github.ref }}-
     - run: mix deps.get
-    - run: mix do ecto.create, ecto.migrate
+    - run: mix do ecto.create + ecto.migrate
     - run: MIX_ENV=test LOG_LEVEL=debug mix phx.server &> server.log &
     - name: Install Playwright Browsers
       run: yarn playwright install firefox --with-deps
@@ -258,7 +258,7 @@ jobs:
       working-directory: apps/client/assets
       run: corepack enable
     - run: mix deps.get
-    - run: mix do ecto.create, ecto.migrate
+    - run: mix do ecto.create + ecto.migrate
     - run: MIX_ENV=test mix phx.server &
     - name: Cypress run
       uses: cypress-io/github-action@v7
@@ -327,7 +327,7 @@ jobs:
       run: corepack enable
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
-    - run: mix do ecto.create, ecto.migrate
+    - run: mix do ecto.create + ecto.migrate
     - run: (mix test || true) && mix test --failed
     - name: Archive failure screenshots
       uses: actions/upload-artifact@v6
