@@ -3574,16 +3574,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@urql/exchange-graphcache@npm:^8.1.0":
-  version: 8.1.0
-  resolution: "@urql/exchange-graphcache@npm:8.1.0"
+"@urql/exchange-graphcache@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "@urql/exchange-graphcache@npm:9.0.0"
   dependencies:
     "@0no-co/graphql.web": "npm:^1.0.13"
-    "@urql/core": "npm:^6.0.0"
+    "@urql/core": "npm:^6.0.1"
     wonka: "npm:^6.3.2"
   peerDependencies:
     "@urql/core": ^6.0.0
-  checksum: 10c0/5e017847f8e6fb1e5959130417ab9ac3f779cc6f2b8139a5f00533421a293717bd1a22a2a650c638df6df2834154ec560d1c1e2be6cc6c1bc40bf896df13cd3f
+  checksum: 10c0/da96261c2c3a704b36fbaab127a7eaffb178abc382cd7310cac43d83f4879dd36c772d97c80c88871a088ced779b6fa1c5f510bb85a2a32b975aeb747138c3de
   languageName: node
   linkType: hard
 
@@ -8722,7 +8722,7 @@ __metadata:
     "@types/node": "npm:^25.3.0"
     "@types/react": "npm:^19.2.9"
     "@urql/exchange-auth": "npm:^3.0.0"
-    "@urql/exchange-graphcache": "npm:^8.1.0"
+    "@urql/exchange-graphcache": "npm:^9.0.0"
     aphrodite: "npm:^2.4.0"
     autoprefixer: "npm:^10.4.23"
     chart.js: "npm:^4.5.1"
