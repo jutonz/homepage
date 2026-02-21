@@ -2,6 +2,10 @@ import { Page } from "@playwright/test";
 
 export const BASE_URL = "http://localhost:4002";
 
+export function randString(length = 6): string {
+  return btoa((Math.random() + 1).toString(36).substring(length));
+}
+
 export async function insert(factory: string, attrs?: any) {
   const response = await fetch(BASE_URL + "/factory/" + factory, {
     method: "POST",
