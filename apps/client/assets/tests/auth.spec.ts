@@ -21,8 +21,8 @@ test.describe("Auth", () => {
     await page.getByRole("link", { name: "Logout" }).click();
     await expect(page).toHaveURL(/#\/login/);
 
-    await page.getByLabel("Email").fill(user.email);
-    await page.getByLabel("Password").fill(password);
+    await page.getByRole("textbox", { name: "Email" }).fill(user.email);
+    await page.getByRole("textbox", { name: "Password" }).fill(password);
     await page.getByRole("button", { name: "Login" }).click();
 
     await expect(page.getByRole("link", { name: "Logout" })).toBeVisible();
@@ -46,8 +46,8 @@ test.describe("Auth", () => {
 
     await page.getByRole("link", { name: "Logout" }).click();
 
-    await page.getByLabel("Email").fill(user.email);
-    await page.getByLabel("Password").fill(newPassword);
+    await page.getByRole("textbox", { name: "Email" }).fill(user.email);
+    await page.getByRole("textbox", { name: "Password" }).fill(newPassword);
     await page.getByRole("button", { name: "Login" }).click();
 
     await expect(page.getByRole("link", { name: "Logout" })).toBeVisible();
