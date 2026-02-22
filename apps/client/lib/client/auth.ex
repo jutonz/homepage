@@ -101,6 +101,6 @@ defmodule Client.Auth do
   entire encoded token in redis).
   """
   def revoke_single_use_token(jti) do
-    Client.Redis.command(["del", "single-use-token:#{jti}"])
+    Client.Redis.command(["DEL", "single-use-token:#{jti}"])
   end
 end
