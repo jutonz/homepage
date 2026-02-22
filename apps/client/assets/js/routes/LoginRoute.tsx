@@ -55,10 +55,14 @@ export function LoginRoute() {
     } else if (isLoggedIn) {
       navigate("/");
     } else if (searchParams.get("bg") !== "false") {
-      const newGrid = new BgGrid();
-      newGrid.init();
-      newGrid.start();
-      setBgGrid(newGrid);
+      try {
+        const newGrid = new BgGrid();
+        newGrid.init();
+        newGrid.start();
+        setBgGrid(newGrid);
+      } catch (e) {
+        console.warn("BgGrid initialization failed:", e);
+      }
     }
   }, []);
 
