@@ -8,6 +8,8 @@ defmodule ClientWeb.React.AuthTest do
       session
       |> visit("/")
       |> click(link("Or signup"))
+      |> wait_for_hash_path("#/signup")
+      |> assert_has(css("h1", text: "Signup"))
       |> fill_in(fillable_field("email"), with: params[:email])
       |> fill_in(fillable_field("password"), with: params[:password])
       |> click(button("Signup"))
