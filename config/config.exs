@@ -101,7 +101,7 @@ redis_url =
   %URI{redis_uri | userinfo: userinfo_without_user}
   |> URI.to_string()
 
-config :redis, redis_url: redis_url
+config :client, redis_url: redis_url
 
 ################################################################################
 # Twitch config

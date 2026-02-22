@@ -24,7 +24,7 @@ defmodule Client.Mixfile do
   def application do
     [
       mod: {Client.Application, []},
-      extra_applications: [:bamboo, :logger, :runtime_tools, :redix, :os_mon]
+      extra_applications: [:bamboo, :logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -71,7 +71,7 @@ defmodule Client.Mixfile do
       {:plug_cowboy, "~> 2.3"},
       {:plug_static_index_html, "~> 1.0"},
       {:postgrex, "~> 0.14"},
-      {:redis, in_umbrella: true},
+      {:redix, "~> 1.0"},
       {:req, "~> 0.5.0"},
       {:sentry, "~> 11.0"},
       {:timex, "~> 3.7"},
