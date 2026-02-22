@@ -24,6 +24,6 @@ defmodule ClientWeb.React.TeamsTest do
         end
       end)
 
-    assert hash_path(session) == "#/teams/#{team.id}"
+    wait_for_hash_path(session, "#/teams/#{team.id}")
   end
 end
