@@ -21,7 +21,6 @@ defmodule HomepageUmbrella.Mixfile do
           applications: [
             client: :permanent,
             events: :permanent,
-            redis: :permanent,
             twitch: :permanent
           ]
         ]

@@ -53,7 +53,7 @@ defmodule Client.Auth do
              token_ttl: {ttl_sec, :seconds}
            ),
          {:ok, _resp} <-
-           Redis.command(["setex", "single-use-token:#{claims["jti"]}", ttl_sec, true]),
+           Client.Redis.command(["setex", "single-use-token:#{claims["jti"]}", ttl_sec, true]),
          do: {:ok, token, claims},
          else: ({:error, reason} -> {:error, reason})
   end
@@ -82,13 +82,13 @@ defmodule Client.Auth do
   end
 
   defp ensure_token_unrevoked(jti) do
-    with {:ok, "true"} <- Redis.command(["GET", "single-use-token:#{jti}"]),
+    with {:ok, "true"} <- Client.Redis.command(["GET", "single-use-token:#{jti}"]),
          do: {:ok, true},
          else: (_ -> {:error, false})
   end
 
   def revoke_token(jti) do
-    with {:ok, 1} <- Redis.command(["DEL", "single-use-token:#{jti}"]),
+    with {:ok, 1} <- Client.Redis.command(["DEL", "single-use-token:#{jti}"]),
          do: {:ok, true},
          else: (_ -> {:error, "token was already used"})
   end
@@ -101,6 +101,6 @@ defmodule Client.Auth do
   entire encoded token in redis).
   """
   def revoke_single_use_token(jti) do
-    Redis.command(["del", "single-use-token:#{jti}"])
+    Client.Redis.command(["del", "single-use-token:#{jti}"])
   end
 end

@@ -6,8 +6,11 @@ defmodule Client.Application do
   # See https://hexdocs.pm/elixir/Application.html for more information on OTP
   # Applications
   def start(_type, _args) do
+    redis_url = Application.get_env(:client, :redis_url)
+
     children = [
       Client.Repo,
+      {Redix, {redis_url, [name: :redix]}},
       {Phoenix.PubSub, name: Client.PubSub},
       ClientWeb.Endpoint,
       Client.TwitchServer,
