@@ -15,7 +15,6 @@
     "strictNullChecks": true,
     "lib": ["dom", "esnext"],
     "noEmit": true,
-    "types": ["cypress", "@testing-library/cypress"],
     "baseUrl": ".",
     "paths": {
       "@types": ["js/utils/types.ts"],
