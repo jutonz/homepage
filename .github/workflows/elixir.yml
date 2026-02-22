@@ -120,7 +120,7 @@ jobs:
         ports:
         - 5432:5432
       redis:
-        image: circleci/redis
+        image: redis:alpine
         ports:
         - 6379:6379
     steps:
@@ -174,10 +174,39 @@ jobs:
           v3-static-assets-${{ github.ref }}-
     - run: mix deps.get
     - run: mix do ecto.create + ecto.migrate
-    - run: MIX_ENV=test LOG_LEVEL=debug mix phx.server &> server.log &
+    - name: Start test server
+      run: MIX_ENV=test LOG_LEVEL=debug mix phx.server &> server.log &
+    - name: Get Playwright version
+      id: playwright-version
+      run: echo "version=$(node -e "console.log(require('./node_modules/@playwright/test/package.json').version)")" >> $GITHUB_OUTPUT
+      working-directory: apps/client/assets
+    - name: Restore Playwright browser cache
+      uses: actions/cache@v5
+      id: playwright-cache
+      with:
+        path: ~/.cache/ms-playwright
+        key: v1-playwright-firefox-${{ steps.playwright-version.outputs.version }}
     - name: Install Playwright Browsers
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
       run: yarn playwright install firefox --with-deps
       working-directory: apps/client/assets
+    - name: Install Playwright system deps only
+      if: steps.playwright-cache.outputs.cache-hit == 'true'
+      run: yarn playwright install-deps firefox
+      working-directory: apps/client/assets
+    - name: Wait for server
+      run: |
+        echo "Waiting for server to be ready..."
+        for i in $(seq 1 30); do
+          if curl -sf http://localhost:4002 > /dev/null 2>&1; then
+            echo "Server is ready!"
+            exit 0
+          fi
+          sleep 2
+        done
+        echo "Server failed to start"
+        cat server.log
+        exit 1
     - name: Run Playwright tests
       run: yarn playwright test
       working-directory: apps/client/assets
@@ -212,7 +241,7 @@ jobs:
         ports:
         - 5432:5432
       redis:
-        image: circleci/redis
+        image: redis:alpine
         ports:
         - 6379:6379
     steps:
@@ -239,9 +268,6 @@ jobs:
         restore-keys: |
           v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-test-${{ hashFiles('.tool-versions') }}-
-    - name: corepack enable
-      working-directory: apps/client/assets
-      run: corepack enable
     - run: mix deps.get
     - run: mix compile --warnings-as-errors
     - run: mix do ecto.create + ecto.migrate
