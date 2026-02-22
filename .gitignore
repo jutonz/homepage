@@ -13,9 +13,6 @@ apps/client/cover
 .hex
 /deps/
 /cover
-apps/client/assets/cypress/downloads
-apps/client/assets/cypress/screenshots
-apps/client/assets/cypress/videos
 esbuild-meta.json
 apps/client/assets/test-results/
 apps/client/assets/playwright-report/

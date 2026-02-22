@@ -70,9 +70,7 @@ jobs:
     - name: Restore yarn cache
       uses: actions/cache@v5
       with:
-        path: |
-          ~/.cache/yarn
-          ~/.cache/Cypress
+        path: ~/.cache/yarn
         key: v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
           v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
@@ -162,9 +160,7 @@ jobs:
     - name: Restore yarn cache
       uses: actions/cache@v5
       with:
-        path: |
-          ~/.cache/yarn
-          ~/.cache/Cypress
+        path: ~/.cache/yarn
         key: v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
           v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
@@ -197,85 +193,6 @@ jobs:
         name: server-logs
         path: server.log
         retention-days: 30
-
-  cypress_run:
-    name: cypress run
-    needs: ["yarn_install"]
-    runs-on: ubuntu-latest
-    env:
-      MIX_ENV: test
-      LOG_LEVEL: info
-      TWITCH_DATASTORE_DISABLED: "true"
-      POSTGRES_PASSWORD: password
-    services:
-      postgres:
-        image: postgres:18-alpine
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: homepage_test
-          POSTGRES_PASSWORD: password
-        ports:
-        - 5432:5432
-      redis:
-        image: circleci/redis
-        ports:
-        - 6379:6379
-    steps:
-    - uses: actions/checkout@v6
-    - name: Setup dev config
-      run: cp config/dev.secret.example.exs config/dev.secret.exs
-    - name: Read .tool-versions
-      uses: marocchino/tool-versions-action@v1
-      id: versions
-    - name: Setup node
-      uses: actions/setup-node@v6
-      with:
-        node-version: ${{ steps.versions.outputs.nodejs }}
-    - name: Set up Elixir
-      uses: erlef/setup-beam@v1
-      with:
-        elixir-version: ${{ env.ELIXIR_VERSION }}
-        otp-version: ${{ env.ERLANG_VERSION }}
-    - name: Restore test cache
-      uses: actions/cache@v5
-      with:
-        path: |
-          deps
-          _build/test
-        key: v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
-        restore-keys: |
-          v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
-          v2-test-${{ hashFiles('.tool-versions') }}-
-    - name: Restore static asset cache
-      uses: actions/cache@v5
-      with:
-        path: apps/client/priv/static
-        key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
-        restore-keys: |
-          v3-static-assets-${{ github.ref }}-${{ github.sha }}
-          v3-static-assets-${{ github.ref }}-
-    - name: corepack enable
-      working-directory: apps/client/assets
-      run: corepack enable
-    - run: mix deps.get
-    - run: mix do ecto.create + ecto.migrate
-    - run: MIX_ENV=test mix phx.server &
-    - name: Cypress run
-      uses: cypress-io/github-action@v7
-      with:
-        working-directory: apps/client/assets
-    - name: Archive failure screenshots
-      uses: actions/upload-artifact@v6
-      if: always()
-      with:
-        name: cypress-failure-screenshots
-        path: apps/client/assets/cypress/screenshots
-    - name: Archive videos
-      uses: actions/upload-artifact@v6
-      if: always()
-      with:
-        name: videos
-        path: apps/client/assets/cypress/videos
 
   mix_test:
     name: mix test
