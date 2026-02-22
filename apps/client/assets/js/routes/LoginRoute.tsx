@@ -45,10 +45,6 @@ export function LoginRoute() {
   useEffect(() => {
     const accessToken = getAccessToken();
     const refreshToken = getRefreshToken();
-    console.log("isLoggedIn", isLoggedIn);
-    console.log("accessToken", accessToken);
-    console.log("refreshToken", refreshToken);
-    console.log("ssoRedirect", ssoRedirect);
 
     if (isLoggedIn && accessToken && ssoRedirect && refreshToken) {
       handleSsoRedirect(ssoRedirect, accessToken, refreshToken);
