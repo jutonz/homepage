@@ -14,10 +14,9 @@ defmodule Client.Awair.Monitor do
       "host" => server[:host]
     }
 
-    {:ok, state, {:continue, :check_connection}}
+    Process.send_after(self(), :poll, 0)
+    {:ok, state}
   end
-
-  def handle_continue(:check_connection, state), do: poll(state)
 
   def handle_info(:poll, state), do: poll(state)
 
