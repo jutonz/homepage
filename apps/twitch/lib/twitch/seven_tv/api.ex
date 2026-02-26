@@ -13,6 +13,6 @@ defmodule Twitch.SevenTv.Api do
   end
 
   def parse_response(response = %HTTPoison.Response{}) do
-    response.body |> Jason.decode!()
+    response.body |> JSON.decode!()
   end
 end

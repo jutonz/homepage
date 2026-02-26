@@ -145,7 +145,7 @@ defmodule ClientWeb.Router do
       Plug.Parsers,
       parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
       pass: ["*/*"],
-      json_decoder: Jason
+      json_decoder: JSON
     )
 
     plug(ClientWeb.Plugs.Context)

@@ -55,7 +55,6 @@ defmodule Client.Mixfile do
       {:gettext, "~> 0.11"},
       {:guardian, "~> 2.0"},
       {:hackney, "~> 1.8"},
-      {:jason, "~> 1.1"},
       {:lazy_html, ">= 0.0.0", only: :test},
       {:money, "~> 1.12"},
       {:mox, "~> 1.0", only: :test},
