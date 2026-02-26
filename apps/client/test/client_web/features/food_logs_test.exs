@@ -103,10 +103,12 @@ defmodule ClientWeb.FoodLogsTest do
     session
     |> visit("/food-logs/#{log.id}?as=#{user.id}")
     |> click(entry_selector(entry.id))
+    |> assert_has(role("delete-log-entry"))
     |> accept_confirm(fn session ->
       click(session, role("delete-log-entry"))
     end)
 
+    assert_has(session, css("body"))
     refute_has(session, entry_selector(entry.id))
     refute FoodLogs.get_entry(entry.id)
   end
