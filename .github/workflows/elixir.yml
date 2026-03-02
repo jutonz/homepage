@@ -210,13 +210,13 @@ jobs:
     - name: Run Playwright tests
       run: yarn playwright test
       working-directory: apps/client/assets
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       if: always()
       with:
         name: playwright-report
         path: apps/client/assets/playwright-report/
         retention-days: 30
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       if: always()
       with:
         name: server-logs
@@ -273,7 +273,7 @@ jobs:
     - run: mix do ecto.create + ecto.migrate
     - run: (mix test || true) && mix test --failed
     - name: Archive failure screenshots
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       if: always()
       with:
         name: mix-test-failure-screenshots
