@@ -11,7 +11,7 @@ import { FormBox } from "./../components/FormBox";
 import { ControlledTextField } from "./inputs/ControlledTextField";
 import { graphql } from "./../gql";
 import { useMutation } from "urql";
-import { setTokens } from "js/utils/auth";
+import { setTokens } from "../utils/auth";
 
 const styles = StyleSheet.create({
   container: {

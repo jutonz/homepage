@@ -6,7 +6,7 @@
     "noUnusedParameters": false,
     "module": "esnext",
     "target": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "sourceMap": false,
     "jsx": "react",
     "allowJs": true,
@@ -15,10 +15,9 @@
     "strictNullChecks": true,
     "lib": ["dom", "esnext"],
     "noEmit": true,
-    "baseUrl": ".",
     "paths": {
-      "@types": ["js/utils/types.ts"],
-      "@gql-types": ["js/gql/graphql.ts"]
+      "@types": ["./js/utils/types.ts"],
+      "@gql-types": ["./js/gql/graphql.ts"]
     }
   },
   "include": ["./js/index.jsx"],
