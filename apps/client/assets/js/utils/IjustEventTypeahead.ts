@@ -52,8 +52,8 @@ export class IjustEventTypeahead {
       switchMap(this.queryRemote),
     );
 
-    subj.subscribe((results: Array<any>) => {
-      this.callback(results);
+    subj.subscribe((results) => {
+      this.callback(results as Array<IjustEvent>);
     });
 
     return subj;
