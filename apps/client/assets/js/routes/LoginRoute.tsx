@@ -5,7 +5,7 @@ import { BgGrid } from "./../BgGrid";
 import { useQuery } from "urql";
 
 import { graphql } from "../gql";
-import { getAccessToken, getRefreshToken } from "js/utils/auth";
+import { getAccessToken, getRefreshToken } from "../utils/auth";
 
 const GET_CURRENT_USER = graphql(`
   query GetCurrentUser {

@@ -8,7 +8,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useClient, useQuery } from "urql";
 
 import { graphql } from "../gql";
-import { clearTokens } from "js/utils/auth";
+import { clearTokens } from "../utils/auth";
 
 const GET_CURRENT_USER = graphql(`
   query GetCurrentUser {

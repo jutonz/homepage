@@ -61,6 +61,10 @@ export const homepageAuthExchange = authExchange(async (utils) => {
 
     async refreshAuth() {
       const refreshToken = getRefreshToken();
+      if (!refreshToken) {
+        clearTokens();
+        return;
+      }
       const response = await utils.mutate(REFRESH_TOKEN_MUTATION, {
         refreshToken,
       });

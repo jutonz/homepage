@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import { FormBox } from "./../components/FormBox";
 import { graphql } from "../gql";
 import { ControlledTextField } from "./inputs/ControlledTextField";
-import { setTokens } from "js/utils/auth";
+import { setTokens } from "../utils/auth";
 
 const SIGNUP_MUTATION = graphql(`
   mutation Signup($email: String!, $password: String!) {
