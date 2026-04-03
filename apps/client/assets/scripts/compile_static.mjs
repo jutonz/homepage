@@ -33,7 +33,7 @@ const esbuildOpts = {
   minify: isProd,
   metafile: isProd,
   outdir: "./../priv/static/",
-  target: ["chrome90", "firefox90", "safari14"],
+  target: ["chrome146", "firefox149", "safari26"],
   logLevel: "debug",
 };
 
