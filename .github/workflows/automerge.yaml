@@ -1,0 +1,46 @@
+name: Dependabot auto-merge
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]' && github.repository == 'jutonz/homepage'
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@d7267f607e9d3fb96fc2fbe83e0af444713e90b7
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Auto-merge allowed dependencies
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEP_NAMES: ${{ steps.metadata.outputs.dependency-names }}
+          UPDATE_TYPE: ${{ steps.metadata.outputs.update-type }}
+        run: |
+          # dependency|allowed-types (pipe-delimited)
+          POLICIES="
+          caniuse-lite|semver-patch
+          "
+
+          UPDATE_TYPE="${UPDATE_TYPE#version-update:}"
+          matched=false
+          while IFS='|' read -r dep allowed; do
+            dep="$(echo "$dep" | xargs)"
+            [ -z "$dep" ] && continue
+            if echo "$DEP_NAMES" | grep -q "$dep" && \
+               echo "$allowed" | grep -q "$UPDATE_TYPE"; then
+              echo "Auto-merging: $dep ($UPDATE_TYPE)"
+              gh pr merge --auto --squash "$PR_URL"
+              matched=true
+              break
+            fi
+          done <<< "$POLICIES"
+
+          if [ "$matched" = false ]; then
+            echo "No matching policy, skipping auto-merge"
+          fi
