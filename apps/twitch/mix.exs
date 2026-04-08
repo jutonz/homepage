@@ -30,7 +30,7 @@ defmodule Twitch.MixProject do
   defp deps do
     [
       {:ecto_sql, "~> 3.0"},
-      {:events, in_umbrella: true},
+      {:event_bus, "~> 1.5"},
       {:ex_machina, "~> 2.2", only: :test},
       {:exenv, "~> 0.3"},
       {:exirc, "~> 2.0"},
