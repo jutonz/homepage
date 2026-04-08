@@ -86,8 +86,8 @@ export function TwitchChannel({ channel }: Props) {
           anchorEl={menuAnchor}
           open={menuOpen}
           onClose={() => setMenuAnchor(undefined)}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
+          slotProps={{
+            list: { "aria-labelledby": "basic-button" },
           }}
         >
           <MenuItem onClick={() => setChatMode(ChatMode.Live)}>

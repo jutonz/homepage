@@ -105,8 +105,8 @@ function LogsSubnav() {
         anchorEl={menuAnchor}
         open={menuOpen}
         onClose={() => setMenuAnchor(undefined)}
-        MenuListProps={{
-          "aria-labelledby": "logs-menu",
+        slotProps={{
+          list: { "aria-labelledby": "logs-menu" },
         }}
       >
         <MenuItem>
