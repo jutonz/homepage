@@ -1,6 +1,6 @@
 ARG ELIXIR_VERSION=1.19.5
-ARG OTP_VERSION=28.3
-ARG DEBIAN_VERSION=bullseye-20260112
+ARG OTP_VERSION=28.4
+ARG DEBIAN_VERSION=bullseye-20260406
 ARG NODE_VERSION=24.13.0
 
 # search here: https://hub.docker.com/r/hexpm/elixir/tags
