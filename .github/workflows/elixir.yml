@@ -312,7 +312,7 @@ jobs:
     steps:
       - uses: azure/setup-kubectl@v5
       - name: Set the Kubernetes context
-        uses: azure/k8s-set-context@v4
+        uses: azure/k8s-set-context@v5
         with:
           # https://github.com/Azure/k8s-set-context?tab=readme-ov-file#service-account-approach
           # kb get secret github-actions-token -o yaml | pbcopy
