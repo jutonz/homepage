@@ -51,7 +51,6 @@ ENV MIX_ENV="prod"
 ENV ERL_AFLAGS="+JMsingle true"
 
 COPY apps/client/mix.exs apps/client/mix.exs
-COPY apps/events/mix.exs apps/events/mix.exs
 COPY apps/twitch/mix.exs apps/twitch/mix.exs
 COPY mix.exs mix.exs
 COPY mix.lock mix.lock
