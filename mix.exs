@@ -20,7 +20,6 @@ defmodule HomepageUmbrella.Mixfile do
           version: "0.1.0",
           applications: [
             client: :permanent,
-            events: :permanent,
             twitch: :permanent
           ]
         ]

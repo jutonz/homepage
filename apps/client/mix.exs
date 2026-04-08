@@ -47,7 +47,6 @@ defmodule Client.Mixfile do
       {:comeonin, "~> 5.1"},
       {:cors_plug, "~> 3.0"},
       {:ecto_sql, "~> 3.0"},
-      {:events, in_umbrella: true},
       {:ex_machina, "~> 2.2", only: :test},
       {:finch, "~> 0.14"},
       {:floki, "~> 0.38.0", only: :test},
