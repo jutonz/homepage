@@ -25,6 +25,7 @@ jobs:
           # dependency|allowed-types (pipe-delimited)
           POLICIES="
           caniuse-lite|semver-patch
+          prettier|semver-minor semver-patch
           "
 
           UPDATE_TYPE="${UPDATE_TYPE#version-update:}"
