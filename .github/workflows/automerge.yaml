@@ -26,6 +26,7 @@ jobs:
           POLICIES="
           @types/node|semver-minor semver-patch
           caniuse-lite|semver-patch
+          cssnano|semver-minor semver-patch
           prettier|semver-minor semver-patch
           "
 
