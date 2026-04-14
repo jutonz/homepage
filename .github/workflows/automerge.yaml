@@ -24,10 +24,14 @@ jobs:
         run: |
           # dependency|allowed-types (pipe-delimited)
           POLICIES="
+          @graphql-codegen/client-preset|semver-minor semver-patch
+          @graphql-codegen/cli|semver-minor semver-patch
           @types/node|semver-minor semver-patch
           autoprefixer|semver-minor semver-patch
           caniuse-lite|semver-patch
+          cssnano|semver-minor semver-patch
           prettier|semver-minor semver-patch
+          react-router-dom|semver-minor semver-patch
           "
 
           UPDATE_TYPE="${UPDATE_TYPE#version-update:}"
