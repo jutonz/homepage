@@ -32,6 +32,7 @@ jobs:
           cssnano|semver-minor semver-patch
           prettier|semver-minor semver-patch
           react-router-dom|semver-minor semver-patch
+          urql|semver-minor semver-patch
           "
 
           UPDATE_TYPE="${UPDATE_TYPE#version-update:}"
