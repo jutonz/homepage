@@ -30,6 +30,7 @@ jobs:
           autoprefixer|semver-minor semver-patch
           caniuse-lite|semver-patch
           cssnano|semver-minor semver-patch
+          postcss|semver-minor semver-patch
           prettier|semver-minor semver-patch
           react-router-dom|semver-minor semver-patch
           urql|semver-minor semver-patch
