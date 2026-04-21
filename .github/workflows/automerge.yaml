@@ -32,7 +32,9 @@ jobs:
           cssnano|semver-minor semver-patch
           postcss|semver-minor semver-patch
           prettier|semver-minor semver-patch
+          react-hook-form|semver-minor semver-patch
           react-router-dom|semver-minor semver-patch
+          tailwindcss|semver-minor semver-patch
           three|semver-minor semver-patch
           typescript|semver-minor semver-patch
           urql|semver-minor semver-patch
