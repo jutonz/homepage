@@ -6654,7 +6654,7 @@ __metadata:
     react-router-dom: "npm:^7.14.1"
     react-stdio: "npm:^3.4.8"
     rxjs: "npm:^7.8.2"
-    tailwindcss: "npm:^4.2.3"
+    tailwindcss: "npm:^4.2.4"
     three: "npm:^0.184.0"
     typescript: "npm:^6.0.3"
     urql: "npm:^5.0.2"
@@ -7097,17 +7097,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:4.2.4":
+"tailwindcss@npm:4.2.4, tailwindcss@npm:^4.2.4":
   version: 4.2.4
   resolution: "tailwindcss@npm:4.2.4"
   checksum: 10c0/1069304b6bf2855daa029ac4af382abb95ed26ae4d05bc09ea01a56e6af3de8b6fb1b4d508d8bbb39abf30a69766e6f2f75835e112ac6fc39ed94ae5d4901048
-  languageName: node
-  linkType: hard
-
-"tailwindcss@npm:^4.2.3":
-  version: 4.2.3
-  resolution: "tailwindcss@npm:4.2.3"
-  checksum: 10c0/a7b67c3bb66650cf5da2dd484607562a2fe710fc496734fb4bee34d2a30f8be2fc714865c92e354468c490e76f6c7668648ecdc5a5cd9d6f3456f1f7a61f0030
   languageName: node
   linkType: hard
 
