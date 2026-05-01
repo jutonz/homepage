@@ -12,7 +12,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Alert from "@mui/material/Alert";
 
 import { graphql } from "../../gql";
-import type { IjustEvent } from "@gql-types";
+import type { UpdateIjustEventMutation } from "@gql-types";
 import { ControlledTextField } from "./../inputs/ControlledTextField";
 
 const UPDATE_EVENT = graphql(`
@@ -48,8 +48,12 @@ const schema = yup
   })
   .required();
 
+type IjustEventInput = NonNullable<
+  NonNullable<UpdateIjustEventMutation["updateIjustEvent"]>["result"]
+>;
+
 interface Props {
-  event: IjustEvent;
+  event: IjustEventInput;
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }

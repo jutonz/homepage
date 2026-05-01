@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "urql";
 
 import { graphql } from "../gql";
-import type { Team } from "@gql-types";
+import type { GetTeamQuery } from "@gql-types";
 
 const LEAVE_TEAM = graphql(`
   mutation LeaveTeam($id: ID!) {
@@ -22,7 +22,7 @@ interface FormInputs {
 }
 
 interface Props {
-  team: Team;
+  team: NonNullable<GetTeamQuery["getTeam"]>;
 }
 
 export function TeamLeaveForm({ team }: Props) {

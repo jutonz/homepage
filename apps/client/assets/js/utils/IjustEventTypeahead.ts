@@ -2,8 +2,12 @@ import { Subject } from "rxjs";
 import { filter, debounceTime, switchMap } from "rxjs/operators";
 
 import { urqlClient } from "./../index";
-import { IjustEvent, IjustEventsSearchQuery } from "@gql-types";
+import { IjustEventsSearchQuery } from "@gql-types";
 import { graphql } from "../gql";
+
+type IjustEventResult = NonNullable<
+  NonNullable<IjustEventsSearchQuery["ijustEventsSearch"]>[number]
+>;
 
 const SEARCH_EVENTS = graphql(`
   query IjustEventsSearch($ijustContextId: ID!, $eventName: String!) {
@@ -19,13 +23,13 @@ const SEARCH_EVENTS = graphql(`
 `);
 
 export class IjustEventTypeahead {
-  callback: (results: Array<IjustEvent>) => void;
+  callback: (results: Array<IjustEventResult>) => void;
   ijustContextId: string;
   subject: any;
   latestSearch: string | undefined;
 
   constructor(
-    callback: (results: Array<IjustEvent>) => void,
+    callback: (results: Array<IjustEventResult>) => void,
     ijustContextId: string,
   ) {
     this.callback = callback;
@@ -53,7 +57,7 @@ export class IjustEventTypeahead {
     );
 
     subj.subscribe((results) => {
-      this.callback(results as Array<IjustEvent>);
+      this.callback(results as Array<IjustEventResult>);
     });
 
     return subj;

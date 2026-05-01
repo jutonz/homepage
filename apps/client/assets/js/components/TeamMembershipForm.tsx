@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { QueryLoader } from "./../utils/QueryLoader";
 import { FormBox } from "./FormBox";
 import { graphql } from "../gql";
-import type { Team } from "@gql-types";
+import type { GetTeamsQuery } from "@gql-types";
 
 const GET_TEAMS_QUERY = graphql(`
   query GetTeams {
@@ -26,20 +26,21 @@ const style = StyleSheet.create({
   },
 });
 
-function renderTeams(teams: Team[]) {
-  if (teams.length === 0) {
+function renderTeams(teams: GetTeamsQuery["getTeams"]) {
+  if (!teams || teams.length === 0) {
     return <div>You don't belong to any teams.</div>;
   }
 
   return (
     <div>
-      {teams.map(({ id, name }) => {
-        return (
-          <div key={id}>
-            <Link to={`/teams/${id}`}>{name}</Link>
-          </div>
-        );
-      })}
+      {teams.map(
+        (team) =>
+          team && (
+            <div key={team.id}>
+              <Link to={`/teams/${team.id}`}>{team.name}</Link>
+            </div>
+          ),
+      )}
     </div>
   );
 }
