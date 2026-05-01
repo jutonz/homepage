@@ -9,7 +9,7 @@ import * as yup from "yup";
 
 import { FormBox } from "./FormBox";
 import { graphql } from "../gql";
-import type { Team } from "@gql-types";
+import type { GetTeamQuery } from "@gql-types";
 import { ControlledTextField } from "./inputs/ControlledTextField";
 
 const RENAME_TEAM = graphql(`
@@ -29,7 +29,7 @@ const schema = yup
   .required();
 
 interface Props {
-  team: Team;
+  team: NonNullable<GetTeamQuery["getTeam"]>;
 }
 
 export function TeamRenameForm({ team }: Props) {

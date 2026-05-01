@@ -11,8 +11,11 @@ import { Constants } from "./../../utils/Constants";
 import { QueryLoader } from "./../../utils/QueryLoader";
 import { graphql } from "../../gql";
 import { IjustEditEventModal } from "./../../components/ijust/IjustEventEditModal";
-import type { IjustEvent, IjustContext } from "@gql-types";
+import type { GetEventQuery } from "@gql-types";
 import { formatMoney } from "../../utils/money";
+
+type IjustEventData = NonNullable<GetEventQuery["getIjustContextEvent"]>;
+type IjustContextData = IjustEventData["ijustContext"];
 
 const QUERY = graphql(`
   query GetEvent($contextId: ID!, $eventId: ID!) {
@@ -47,7 +50,8 @@ export function IjustContextEventRoute() {
           variables={{ contextId, eventId }}
           component={({ data }) => {
             const event = data.getIjustContextEvent;
-            const context = data.getIjustContextEvent.ijustContext;
+            if (!event) return null;
+            const context = event.ijustContext;
             return <IjustEventComponent event={event} context={context} />;
           }}
         />
@@ -57,8 +61,8 @@ export function IjustContextEventRoute() {
 }
 
 interface IjustEventComponentProps {
-  event: IjustEvent;
-  context: IjustContext;
+  event: IjustEventData;
+  context: IjustContextData;
 }
 
 function IjustEventComponent({ event, context }: IjustEventComponentProps) {
@@ -86,7 +90,7 @@ function IjustEventComponent({ event, context }: IjustEventComponentProps) {
 }
 
 interface EventInfoProps {
-  event: IjustEvent;
+  event: IjustEventData;
 }
 function EventInfo({ event }: EventInfoProps) {
   return (

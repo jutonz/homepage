@@ -11,8 +11,6 @@ export type IjustContext = {
   id: string;
   name: string;
   userId: string;
-  insertedAt: string;
-  updatedAt: string;
 };
 
 export type IjustOccurrence = {

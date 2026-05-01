@@ -2,7 +2,9 @@ import { css, StyleSheet } from "aphrodite";
 import * as React from "react";
 import { useParams } from "react-router-dom";
 
-import type { IjustContext, GetIjustContextQuery } from "@gql-types";
+import type { GetIjustContextQuery } from "@gql-types";
+
+type IjustContextData = NonNullable<GetIjustContextQuery["getIjustContext"]>;
 import { IjustContextComponent } from "../components/ijust/IjustContextComponent";
 import { MainNav } from "../components/MainNav";
 import { QueryLoader } from "./../utils/QueryLoader";
@@ -35,6 +37,7 @@ export const IjustContextRoute = () => {
         query={QUERY}
         variables={{ id }}
         component={({ data }) => {
+          if (!data.getIjustContext) return null;
           return renderContext(data.getIjustContext);
         }}
       />
@@ -42,7 +45,7 @@ export const IjustContextRoute = () => {
   );
 };
 
-const renderContext = (context: IjustContext) => (
+const renderContext = (context: IjustContextData) => (
   <div>
     <div className={css(style.routeContainer)}>
       <IjustContextComponent context={context} />

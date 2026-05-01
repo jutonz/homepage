@@ -7,7 +7,7 @@ import { useMutation } from "urql";
 
 import { ConfirmButton } from "./ConfirmButton";
 import { graphql } from "../gql";
-import type { Team } from "@gql-types";
+import type { GetTeamQuery } from "@gql-types";
 
 const DELETE_TEAM = graphql(`
   mutation DeleteTeam($id: ID!) {
@@ -23,7 +23,7 @@ interface FormInputs {
 }
 
 interface Props {
-  team: Team;
+  team: NonNullable<GetTeamQuery["getTeam"]>;
 }
 
 export function TeamDeleteForm({ team }: Props) {

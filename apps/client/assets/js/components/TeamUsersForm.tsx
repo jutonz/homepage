@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 
 import { QueryLoader } from "./../utils/QueryLoader";
-import type { Team, User, GetTeamUsersQuery } from "@gql-types";
+import type { GetTeamQuery, GetTeamUsersQuery } from "@gql-types";
 import { graphql } from "../gql";
 
 const GET_TEAM_USERS = graphql(`
@@ -15,7 +15,7 @@ const GET_TEAM_USERS = graphql(`
 `);
 
 interface Props {
-  team: Team;
+  team: NonNullable<GetTeamQuery["getTeam"]>;
 }
 
 export function TeamUsersForm({ team }: Props) {
@@ -33,13 +33,16 @@ export function TeamUsersForm({ team }: Props) {
           } else {
             return (
               <div>
-                {users.map((user: User) => (
-                  <div key={user.id}>
-                    <Link to={`/teams/${team.id}/users/${user.id}`}>
-                      {user.email}
-                    </Link>
-                  </div>
-                ))}
+                {users.map(
+                  (user) =>
+                    user && (
+                      <div key={user.id}>
+                        <Link to={`/teams/${team.id}/users/${user.id}`}>
+                          {user.email}
+                        </Link>
+                      </div>
+                    ),
+                )}
               </div>
             );
           }
