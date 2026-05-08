@@ -27,18 +27,28 @@ jobs:
           @graphql-codegen/client-preset|semver-minor semver-patch
           @graphql-codegen/cli|semver-minor semver-patch
           @types/node|semver-minor semver-patch
+          absinthe|semver-minor semver-patch
           autoprefixer|semver-minor semver-patch
           caniuse-lite|semver-patch
           cssnano|semver-minor semver-patch
+          dialyxir|semver-minor semver-patch
+          finch|semver-minor semver-patch
+          floki|semver-minor semver-patch
           graphql|semver-minor semver-patch
+          phoenix_html|semver-minor semver-patch
+          phoenix_live_reload|semver-minor semver-patch
           postcss|semver-minor semver-patch
+          postgrex|semver-minor semver-patch
           prettier|semver-minor semver-patch
           react-hook-form|semver-minor semver-patch
           react-router-dom|semver-minor semver-patch
+          redix|semver-minor semver-patch
+          req|semver-minor semver-patch
           tailwindcss|semver-minor semver-patch
           three|semver-minor semver-patch
           typescript|semver-minor semver-patch
           urql|semver-minor semver-patch
+          wallaby|semver-minor semver-patch
           "
 
           UPDATE_TYPE="${UPDATE_TYPE#version-update:}"
