@@ -3695,9 +3695,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssnano-preset-default@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "cssnano-preset-default@npm:8.0.0"
+"cssnano-preset-default@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "cssnano-preset-default@npm:8.0.1"
   dependencies:
     browserslist: "npm:^4.28.2"
     cssnano-utils: "npm:^6.0.0"
@@ -3713,7 +3713,7 @@ __metadata:
     postcss-minify-font-values: "npm:^8.0.0"
     postcss-minify-gradients: "npm:^8.0.0"
     postcss-minify-params: "npm:^8.0.0"
-    postcss-minify-selectors: "npm:^8.0.0"
+    postcss-minify-selectors: "npm:^8.0.1"
     postcss-normalize-charset: "npm:^8.0.0"
     postcss-normalize-display-values: "npm:^8.0.0"
     postcss-normalize-positions: "npm:^8.0.0"
@@ -3730,7 +3730,7 @@ __metadata:
     postcss-unique-selectors: "npm:^8.0.0"
   peerDependencies:
     postcss: ^8.5.14
-  checksum: 10c0/02599d960b86769108ba908f0f2aa2927ecf16db1c903dfe86a30e8a6aea742668b7e9425f22fecaf117695e4c86b6efd72f41fcfa3cca79ac3b80e56c7fad1d
+  checksum: 10c0/a51376bcd9da7bb8cc52d2256a4d7649583a7b4a488d3dd7804a146c85a68ee22be4a05dfe5ca28219fe126a919c6dff35a3b59cb35b1b803731cb5dd69cd067
   languageName: node
   linkType: hard
 
@@ -3743,15 +3743,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cssnano@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "cssnano@npm:8.0.0"
+"cssnano@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "cssnano@npm:8.0.1"
   dependencies:
-    cssnano-preset-default: "npm:^8.0.0"
+    cssnano-preset-default: "npm:^8.0.1"
     lilconfig: "npm:^3.1.3"
   peerDependencies:
     postcss: ^8.5.14
-  checksum: 10c0/a14f81ff7d8189cdffbae76a4bca8f28276c235b9944bb3b88ea2788880813f7c09389dfcaac66e1fba2bdecb17211d6e9f4ee5c4aec00c84f3199f56a51515b
+  checksum: 10c0/fdc1f5dcb897052628b1f6a2bdcfa1d5e223841e491b9537b6db732f42b6212bd66036414f7f1321e28a3293e70c3b7c202c1512640477458570ab4164ab57e1
   languageName: node
   linkType: hard
 
@@ -5917,9 +5917,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-minify-selectors@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "postcss-minify-selectors@npm:8.0.0"
+"postcss-minify-selectors@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "postcss-minify-selectors@npm:8.0.1"
   dependencies:
     browserslist: "npm:^4.28.1"
     caniuse-api: "npm:^3.0.0"
@@ -5927,7 +5927,7 @@ __metadata:
     postcss-selector-parser: "npm:^7.1.1"
   peerDependencies:
     postcss: ^8.5.14
-  checksum: 10c0/100712daa011d4b4473e17db1040935f7130bdc506905544c5ac5e10857c253bbad364cecf3dc2a5d46c3e80be0ffed1657c10fad0573559da5fe11513367781
+  checksum: 10c0/41e1f2595962616f2a329bb56cce3d28555dc7a1437737dd9c72d563fd4e381b66000197507ff7f78dc0f6a0c53003efcae147508e553f86da7f39bd6148f2d5
   languageName: node
   linkType: hard
 
@@ -6476,7 +6476,7 @@ __metadata:
     autoprefixer: "npm:^10.5.0"
     caniuse-lite: "npm:^1.0.30001792"
     chart.js: "npm:^4.5.1"
-    cssnano: "npm:^8.0.0"
+    cssnano: "npm:^8.0.1"
     date-fns: "npm:^4.1.0"
     esbuild: "npm:0.28.0"
     graphql: "npm:^16.14.0"
