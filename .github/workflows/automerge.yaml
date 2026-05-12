@@ -32,9 +32,12 @@ jobs:
           caniuse-lite|semver-patch
           cssnano|semver-minor semver-patch
           dialyxir|semver-minor semver-patch
+          ecto_sql|semver-minor semver-patch
           finch|semver-minor semver-patch
           floki|semver-minor semver-patch
           graphql|semver-minor semver-patch
+          httpoison|semver-minor semver-patch
+          phoenix_ecto|semver-minor semver-patch
           phoenix_html|semver-minor semver-patch
           phoenix_live_reload|semver-minor semver-patch
           postcss|semver-minor semver-patch
@@ -44,6 +47,7 @@ jobs:
           react-router-dom|semver-minor semver-patch
           redix|semver-minor semver-patch
           req|semver-minor semver-patch
+          sentry|semver-minor semver-patch
           tailwindcss|semver-minor semver-patch
           three|semver-minor semver-patch
           typescript|semver-minor semver-patch
