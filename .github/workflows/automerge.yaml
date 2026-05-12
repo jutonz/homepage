@@ -26,6 +26,7 @@ jobs:
           POLICIES="
           @graphql-codegen/client-preset|semver-minor semver-patch
           @graphql-codegen/cli|semver-minor semver-patch
+          @playwright/test|semver-minor semver-patch
           @types/node|semver-minor semver-patch
           absinthe|semver-minor semver-patch
           autoprefixer|semver-minor semver-patch
