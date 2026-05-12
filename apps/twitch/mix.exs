@@ -38,7 +38,7 @@ defmodule Twitch.MixProject do
       {:httpoison, "~> 2.2"},
       {:mox, "~> 1.0", only: :test},
       {:postgrex, "~> 0.14"},
-      {:sentry, "~> 11.0"},
+      {:sentry, "~> 13.0"},
       {:websockex, "~> 0.4.1"}
     ]
   end
