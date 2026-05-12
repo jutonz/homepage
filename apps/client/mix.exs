@@ -71,7 +71,7 @@ defmodule Client.Mixfile do
       {:postgrex, "~> 0.14"},
       {:redix, "~> 1.0"},
       {:req, "~> 0.5.0"},
-      {:sentry, "~> 11.0"},
+      {:sentry, "~> 13.0"},
       {:timex, "~> 3.7"},
       {:twitch, in_umbrella: true},
       {:wallaby, "~> 0.30.0", only: :test},
