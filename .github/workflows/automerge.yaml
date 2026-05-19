@@ -32,6 +32,7 @@ jobs:
           autoprefixer|semver-minor semver-patch
           caniuse-lite|semver-patch
           cssnano|semver-minor semver-patch
+          date-fns|semver-minor semver-patch
           dialyxir|semver-minor semver-patch
           ecto_sql|semver-minor semver-patch
           finch|semver-minor semver-patch
