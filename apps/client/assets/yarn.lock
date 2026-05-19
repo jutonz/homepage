@@ -3792,10 +3792,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "date-fns@npm:4.2.0"
-  checksum: 10c0/28983b184899b2ab7576382aa4f9f1c6bab5a56e9efb83fe9c34e9a3b1b05447259a23e179e5754c8386dfa705abef2c891318f7f5056cc100744c116081e11f
+"date-fns@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "date-fns@npm:4.2.1"
+  checksum: 10c0/1694c57a180a76c1001401fde85925cebb3b89594d37625063be0a571eddde278a87d3c76ecad5759c3dbeabcc34a5c5757eb6b3487d89a9a61ef48571791166
   languageName: node
   linkType: hard
 
@@ -6497,7 +6497,7 @@ __metadata:
     caniuse-lite: "npm:^1.0.30001793"
     chart.js: "npm:^4.5.1"
     cssnano: "npm:^8.0.1"
-    date-fns: "npm:^4.2.0"
+    date-fns: "npm:^4.2.1"
     esbuild: "npm:0.28.0"
     graphql: "npm:^16.14.0"
     history: "npm:^5.3.0"
