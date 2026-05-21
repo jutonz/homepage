@@ -28,6 +28,7 @@ jobs:
           @graphql-codegen/cli|semver-minor semver-patch
           @playwright/test|semver-minor semver-patch
           @types/node|semver-minor semver-patch
+          @types/react|semver-minor semver-patch
           absinthe|semver-minor semver-patch
           autoprefixer|semver-minor semver-patch
           caniuse-lite|semver-patch
@@ -39,6 +40,7 @@ jobs:
           floki|semver-minor semver-patch
           graphql|semver-minor semver-patch
           httpoison|semver-minor semver-patch
+          money|semver-minor semver-patch
           phoenix_ecto|semver-minor semver-patch
           phoenix_html|semver-minor semver-patch
           phoenix_live_reload|semver-minor semver-patch
