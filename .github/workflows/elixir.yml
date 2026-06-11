@@ -19,6 +19,7 @@ jobs:
     - name: Setup dev config
       run: cp config/dev.secret.example.exs config/dev.secret.exs
     - name: Set up Elixir
+      id: beam
       uses: erlef/setup-beam@v1
       with:
         elixir-version: ${{ env.ELIXIR_VERSION }}
@@ -30,16 +31,15 @@ jobs:
         path: |
           deps
           _build/dev
-        key: v1-dev-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
-        restore-keys: v1-dev-
+        key: v1-dev-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
+        restore-keys: v1-dev-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-
     - name: Restore PLT cache
       uses: actions/cache@v5
       with:
         path: _plts
-        key: v3-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+        key: v3-plts-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
         restore-keys: |
-          v3-plts-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
-          v3-plts-${{ hashFiles('.tool-versions') }}-
+          v3-plts-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-
     - run: mix deps.get
       if: steps.dev-cache.outputs.cache-hit != 'true'
     - run: mix compile --warnings-as-errors
