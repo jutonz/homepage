@@ -69,6 +69,7 @@ defmodule ClientWeb.RepeatableLists.TemplatesLive.Show do
         <h1 class="text-2xl mb-4">New section</h1>
         <.simple_form
           for={@new_section_changeset}
+          id="new-section-form"
           phx-submit="save_new_section"
           data-role="new-section-form"
         >
