@@ -5,7 +5,10 @@ defmodule ClientWeb.WaterFilterView do
   def formatted_lifespan(lifespan), do: "#{lifespan} L"
 
   @format "%d %b %Y %H:%M"
-  def formatted_date(date),
+  def formatted_date(%NaiveDateTime{} = date),
+    do: date |> DateTime.from_naive!("Etc/UTC") |> formatted_date()
+
+  def formatted_date(%DateTime{} = date),
     do: date |> DateTime.shift_zone!(timezone()) |> Calendar.strftime(@format)
 
   defp timezone,
