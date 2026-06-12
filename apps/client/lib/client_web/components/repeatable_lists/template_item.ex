@@ -11,7 +11,14 @@ defmodule ClientWeb.Components.RepeatableLists.TemplateItem do
       |> assign_new(:form, fn asgn -> to_form(asgn.changeset) end)
 
     ~H"""
-    <form phx-change="save" phx-submit="save" phx-target={@myself} class="mb-0" data-role="item-form">
+    <form
+      id={"template-item-form-#{@form.data.id}"}
+      phx-change="save"
+      phx-submit="save"
+      phx-target={@myself}
+      class="mb-0"
+      data-role="item-form"
+    >
       <div>
         <input
           type="text"

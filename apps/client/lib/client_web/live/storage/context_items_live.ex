@@ -55,7 +55,12 @@ defmodule ClientWeb.Storage.ContextItemsLive do
       )}
     </div>
 
-    <form class="flex flex-1 mt-5 mb-3" data-role="search-form" phx-change="search_changed">
+    <form
+      id="storage-context-items-search-form"
+      class="flex flex-1 mt-5 mb-3"
+      data-role="search-form"
+      phx-change="search_changed"
+    >
       {text_input(
         :search,
         :query,

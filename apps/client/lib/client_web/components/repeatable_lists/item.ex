@@ -22,6 +22,7 @@ defmodule ClientWeb.Components.RepeatableLists.Item do
         <input type="checkbox" checked={@checked} />
       </div>
       <form
+        id={"item-form-#{@form.data.id}"}
         phx-change="save"
         phx-submit="save"
         phx-target={@myself}
