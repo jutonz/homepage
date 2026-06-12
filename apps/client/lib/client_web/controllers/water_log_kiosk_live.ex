@@ -3,6 +3,7 @@ defmodule ClientWeb.WaterLogKioskLive do
   use Phoenix.LiveView
 
   alias Client.{
+    DateTimeHelpers,
     Util,
     WaterLogs
   }
@@ -151,12 +152,12 @@ defmodule ClientWeb.WaterLogKioskLive do
   end
 
   defp data(log_id) do
-    beginning_of_day = timezone() |> DateTime.now!() |> Timex.beginning_of_day()
+    beginning_of_day = timezone() |> DateTime.now!() |> DateTimeHelpers.beginning_of_day()
 
     WaterLogs.get_amount_dispensed_by_day(
       log_id,
-      beginning_of_day |> Timex.shift(days: -7),
-      beginning_of_day |> Timex.end_of_day()
+      beginning_of_day |> DateTime.shift(day: -7),
+      beginning_of_day |> DateTimeHelpers.end_of_day()
     )
   end
 
@@ -165,10 +166,10 @@ defmodule ClientWeb.WaterLogKioskLive do
   end
 
   defp day_name(datetime) do
-    if Timex.day(datetime) == Timex.day(Timex.now(timezone())) do
+    if Date.day_of_year(datetime) == Date.day_of_year(DateTime.now!(timezone())) do
       "Today"
     else
-      Timex.Format.DateTime.Formatters.Strftime.format!(datetime, "%a")
+      Calendar.strftime(datetime, "%a")
     end
   end
 

@@ -10,7 +10,7 @@ defmodule Client.WaterLogs.AmountQueryTest do
       _old_entry =
         insert(:water_log_entry,
           water_log_id: log.id,
-          inserted_at: Timex.shift(now, minutes: -30),
+          inserted_at: DateTime.shift(now, minute: -30),
           ml: 1
         )
 
@@ -18,8 +18,8 @@ defmodule Client.WaterLogs.AmountQueryTest do
 
       usage =
         WaterLogs.get_amount_dispensed(log.id,
-          start_at: Timex.shift(now, minutes: -40),
-          end_at: Timex.shift(now, minutes: -20)
+          start_at: DateTime.shift(now, minute: -40),
+          end_at: DateTime.shift(now, minute: -20)
         )
 
       assert usage == 1
@@ -32,12 +32,12 @@ defmodule Client.WaterLogs.AmountQueryTest do
       insert(:water_log_entry,
         water_log_id: log.id,
         ml: 1,
-        inserted_at: Timex.shift(now, minutes: -10)
+        inserted_at: DateTime.shift(now, minute: -10)
       )
 
       usage =
         WaterLogs.get_amount_dispensed(log.id,
-          start_at: Timex.shift(now, minutes: -20)
+          start_at: DateTime.shift(now, minute: -20)
         )
 
       assert usage == 1
@@ -53,7 +53,7 @@ defmodule Client.WaterLogs.AmountQueryTest do
 
       usage =
         WaterLogs.get_amount_dispensed(my_log.id,
-          start_at: Timex.shift(now, minutes: -10)
+          start_at: DateTime.shift(now, minute: -10)
         )
 
       assert usage == 1

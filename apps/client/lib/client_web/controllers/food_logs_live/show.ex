@@ -114,7 +114,7 @@ defmodule ClientWeb.FoodLogsLive.Show do
 
     matching_day =
       Enum.find(all_days, fn day ->
-        Timex.day(day) == Timex.day(entry.occurred_at)
+        Date.day_of_year(day) == Date.day_of_year(entry.occurred_at)
       end)
 
     if matching_day do

@@ -1,5 +1,6 @@
 defmodule Client.WaterLogs.DispensedAmountTest do
   use Client.DataCase, async: true
+  alias Client.DateTimeHelpers
   alias Client.WaterLogs.DispensedAmount
 
   describe "by_day/3" do
@@ -9,8 +10,8 @@ defmodule Client.WaterLogs.DispensedAmountTest do
 
       beginning_of_yesterday =
         end_of_today
-        |> Timex.shift(hours: -30)
-        |> Timex.beginning_of_day()
+        |> DateTime.shift(hour: -30)
+        |> DateTimeHelpers.beginning_of_day()
 
       _first_yesterday_entry =
         insert(:water_log_entry,
@@ -23,14 +24,16 @@ defmodule Client.WaterLogs.DispensedAmountTest do
         insert(:water_log_entry,
           water_log_id: log.id,
           inserted_at:
-            beginning_of_yesterday |> Timex.end_of_day() |> DateTime.shift_zone!("Etc/UTC"),
+            beginning_of_yesterday
+            |> DateTimeHelpers.end_of_day()
+            |> DateTime.shift_zone!("Etc/UTC"),
           ml: 1
         )
 
       _today_entry =
         insert(:water_log_entry,
           water_log_id: log.id,
-          inserted_at: Timex.shift(end_of_today, hours: -3),
+          inserted_at: DateTime.shift(end_of_today, hour: -3),
           ml: 1
         )
 
@@ -55,7 +58,7 @@ defmodule Client.WaterLogs.DispensedAmountTest do
       my_log = insert(:water_log)
       not_my_log = insert(:water_log)
       end_of_today = end_of_today()
-      beginning_of_today = end_of_today |> Timex.beginning_of_day()
+      beginning_of_today = end_of_today |> DateTimeHelpers.beginning_of_day()
 
       _my_entry =
         insert(:water_log_entry,
@@ -93,6 +96,6 @@ defmodule Client.WaterLogs.DispensedAmountTest do
   end
 
   defp end_of_today do
-    timezone() |> DateTime.now!() |> Timex.end_of_day()
+    timezone() |> DateTime.now!() |> DateTimeHelpers.end_of_day()
   end
 end
