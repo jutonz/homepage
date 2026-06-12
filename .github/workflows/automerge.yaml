@@ -37,6 +37,7 @@ jobs:
           date-fns|semver-minor semver-patch
           dialyxir|semver-minor semver-patch
           ecto_sql|semver-minor semver-patch
+          esbuild|semver-patch
           finch|semver-minor semver-patch
           floki|semver-minor semver-patch
           graphql|semver-minor semver-patch

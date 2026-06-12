@@ -44,6 +44,7 @@ defmodule ClientWeb.SoapBatchesFeatureTests do
       click(session, role("soap-batch-delete"))
     end)
 
+    assert_has(session, role("create-soap-batch"))
     refute_has(session, role("soap-batch-name", text: batch.name))
     assert current_path(session) == Routes.soap_batch_path(@endpoint, :index)
   end

@@ -60,6 +60,7 @@ defmodule ClientWeb.FoodLogsTest do
     session
     |> visit("/food-logs/#{log.id}?as=#{user.id}")
     |> click(entry_selector(entry.id))
+    |> assert_has(role("entry-desc-update-input"))
     |> fill_in(role("entry-desc-update-input"), with: new_desc)
     |> click(role("entry-update-submit"))
     |> assert_has(role("food-log-entry", text: new_desc))
