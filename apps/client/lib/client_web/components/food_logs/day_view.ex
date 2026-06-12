@@ -1,5 +1,6 @@
 defmodule ClientWeb.Components.FoodLogs.DayView do
   use ClientWeb, :live_component
+  alias Client.DateTimeHelpers
   alias Client.FoodLogs
 
   def render(assigns) do
@@ -9,7 +10,7 @@ defmodule ClientWeb.Components.FoodLogs.DayView do
       ~H"""
       <div>
         <div class="mt-4">
-          {Timex.format!(@date, "{D} {Mshort} {YYYY}")}
+          {Calendar.strftime(@date, "%-d %b %Y")}
         </div>
         <div>
           <%= for entry <- @entries do %>
@@ -37,16 +38,16 @@ defmodule ClientWeb.Components.FoodLogs.DayView do
     entries =
       FoodLogs.list_entries_between_dates(
         log_id,
-        Timex.beginning_of_day(first_date),
-        Timex.end_of_day(last_date)
+        DateTimeHelpers.beginning_of_day(first_date),
+        DateTimeHelpers.end_of_day(last_date)
       )
 
     Enum.map(assigns_sockets, fn {assigns, socket} ->
-      day = Timex.day(assigns[:date] || socket.assigns[:date])
+      day = Date.day_of_year(assigns[:date] || socket.assigns[:date])
 
       day_entries =
         Enum.filter(entries, fn entry ->
-          Timex.day(entry.occurred_at) == day
+          Date.day_of_year(entry.occurred_at) == day
         end)
 
       socket

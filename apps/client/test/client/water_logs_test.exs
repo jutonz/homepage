@@ -35,7 +35,7 @@ defmodule Client.WaterLogsTest do
   describe "get_current_filter/1" do
     test "returns the latest filter" do
       log = insert(:water_log)
-      yesterday = Timex.now() |> Timex.shift(days: -1)
+      yesterday = DateTime.utc_now() |> DateTime.shift(day: -1)
       _old_log = insert(:water_log_filter, water_log_id: log.id, inserted_at: yesterday)
       new_log = insert(:water_log_filter, water_log_id: log.id)
 

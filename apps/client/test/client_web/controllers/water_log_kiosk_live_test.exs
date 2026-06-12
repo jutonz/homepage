@@ -53,7 +53,7 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
 
   test "shows filter life if applicable", %{conn: conn} do
     user = insert(:user)
-    yesterday = Timex.now() |> Timex.shift(days: -1)
+    yesterday = DateTime.utc_now() |> DateTime.shift(day: -1)
     log = insert(:water_log, user_id: user.id, inserted_at: yesterday)
     insert(:water_log_filter, water_log_id: log.id, lifespan: 2000, inserted_at: yesterday)
     path = Routes.water_log_live_path(conn, @controller, log.id, as: user.id)
@@ -61,7 +61,7 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
     insert(:water_log_entry,
       water_log_id: log.id,
       ml: 1000,
-      inserted_at: Timex.shift(yesterday, hours: 1)
+      inserted_at: DateTime.shift(yesterday, hour: 1)
     )
 
     {:ok, _view, html} = live(conn, path)
