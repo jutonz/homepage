@@ -25,7 +25,7 @@ defmodule Client.Application do
     # supported options
     opts = [strategy: :one_for_one, name: Client.Supervisor]
 
-    {:ok, _} = Logger.add_backend(Sentry.LoggerBackend)
+    :logger.add_handler(:sentry_handler, Sentry.LoggerHandler, %{})
 
     Supervisor.start_link(children, opts)
   end
