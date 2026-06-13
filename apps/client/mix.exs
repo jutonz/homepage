@@ -78,7 +78,7 @@ defmodule Client.Mixfile do
       # Live dashboard
       {:phoenix_live_dashboard, "~> 0.8.0"},
       {:ecto_psql_extras, "~> 0.2"},
-      {:telemetry_poller, "~> 0.4"},
+      {:telemetry_poller, "~> 1.0"},
       {:telemetry_metrics, "~> 1.0"}
     ]
   end
