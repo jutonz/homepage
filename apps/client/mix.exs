@@ -51,7 +51,7 @@ defmodule Client.Mixfile do
       {:finch, "~> 0.14"},
       {:floki, "~> 0.38.0", only: :test},
       {:gen_stage, "~> 1.3.0"},
-      {:gettext, "~> 0.11"},
+      {:gettext, "~> 1.0"},
       {:guardian, "~> 2.0"},
       {:hackney, "~> 1.8"},
       {:lazy_html, ">= 0.0.0", only: :test},
