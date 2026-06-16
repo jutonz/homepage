@@ -47,7 +47,7 @@ defmodule ClientWeb.SoapOrdersFeatureTests do
       click(session, role("soap-order-delete"))
     end)
 
-    refute_has(session, role("soap-order-name", text: order.name))
+    assert_has(session, role("soap-order-name", text: order.name, count: 0))
     assert current_path(session) == Routes.soap_order_path(@endpoint, :index)
   end
 

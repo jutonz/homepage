@@ -116,6 +116,6 @@ defmodule ClientWeb.SoapBatchesFeatureTests do
       click(session, role("ingredient-delete-button"))
     end)
 
-    refute_has(session, role("batch-ingredient-#{batch_ingredient.id}"))
+    assert_has(session, role("batch-ingredient-#{batch_ingredient.id}", count: 0))
   end
 end
