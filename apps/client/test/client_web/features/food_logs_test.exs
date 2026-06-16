@@ -109,11 +109,10 @@ defmodule ClientWeb.FoodLogsTest do
       click(session, role("delete-log-entry"))
     end)
 
-    assert_has(session, css("body"))
-    refute_has(session, entry_selector(entry.id))
+    assert_has(session, entry_selector(entry.id, count: 0))
     refute FoodLogs.get_entry(entry.id)
   end
 
-  defp entry_selector(entry_id),
-    do: css(~s([data-role="food-log-entry"][data-entry-id="#{entry_id}"]))
+  defp entry_selector(entry_id, opts \\ []),
+    do: css(~s([data-role="food-log-entry"][data-entry-id="#{entry_id}"]), opts)
 end
