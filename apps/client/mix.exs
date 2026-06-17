@@ -73,7 +73,7 @@ defmodule Client.Mixfile do
       {:req, "~> 0.6.1"},
       {:sentry, "~> 13.0"},
       {:twitch, in_umbrella: true},
-      {:tzdata, "~> 1.1"},
+      {:tz, "~> 0.28"},
       {:wallaby, "~> 0.30.0", only: :test},
       # Live dashboard
       {:phoenix_live_dashboard, "~> 0.8.0"},

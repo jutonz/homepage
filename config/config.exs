@@ -8,7 +8,7 @@ secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
     "9Z4EOxi6xe+P7ci7gSQn/Lqt4QIXinGJu+CW4YI0lQYaBzFfJsvLvMDm2B38ETM+"
 
-config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+config :elixir, :time_zone_database, Tz.TimeZoneDatabase
 
 ################################################################################
 # Client config
