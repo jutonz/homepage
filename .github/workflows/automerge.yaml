@@ -57,6 +57,7 @@ jobs:
           tailwindcss|semver-minor semver-patch
           three|semver-minor semver-patch
           typescript|semver-minor semver-patch
+          tz|semver-minor semver-patch
           urql|semver-minor semver-patch
           wallaby|semver-minor semver-patch
           "
