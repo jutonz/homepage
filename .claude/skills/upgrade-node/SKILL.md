@@ -1,6 +1,6 @@
 ---
 name: upgrade-node
-description: Upgrade this project's Node.js (to latest LTS) and/or Yarn (to latest 4.x stable), landing each as its own small PR.
+description: Upgrade this project's Node.js (to latest LTS) and/or Yarn (to latest 4.x stable), committing the change to the current branch.
 ---
 
 # Upgrade Node.js / Yarn
@@ -16,17 +16,17 @@ mechanical, but two things trip people up:
   This repo uses modern Yarn (the 4.x "berry" line) via the `packageManager`
   field. Pin from the `@yarnpkg/cli-dist` `latest` dist-tag instead.
 
-Node and Yarn are independent — bumping one doesn't require the other. Land
-each as its **own small PR**, mirroring the prior examples in this repo:
+Node and Yarn are independent — bumping one doesn't require the other. For
+reference, the prior upgrades in this repo show the exact diff shape:
 
 - Yarn 4.15.0 → 4.16.0: [#4249](https://github.com/jutonz/homepage/pull/4249) (one line)
 - Node 24.15.0 → 24.16.0: [#4250](https://github.com/jutonz/homepage/pull/4250) (two files)
 
-`gh pr diff 4249` / `gh pr diff 4250` to see the exact shape before starting.
+`gh pr diff 4249` / `gh pr diff 4250` to see them.
 
-If the user asks for only one of the two, just do that one. If they ask for
-both, do both as two separate PRs (they don't depend on each other, so don't
-stack them).
+Make the change on whatever branch is currently checked out — commit there,
+each upgrade as its own commit. If the user asks for only one of the two,
+just do that one.
 
 ## Node upgrade
 
@@ -96,14 +96,13 @@ stage end-to-end (slower):
 docker build -t homepage:node-upgrade-test . && docker rmi homepage:node-upgrade-test
 ```
 
-### Step 4 — Open the PR
+### Step 4 — Commit
+
+Commit on the current branch:
 
 ```bash
-git checkout -b chore/upgrade-node-X.Y.Z main
 git add .tool-versions Dockerfile
 git commit -m "upgrade node to X.Y.Z"
-git push -u origin HEAD
-gh pr create --base main --title "upgrade node to X.Y.Z" --body "..."
 ```
 
 ## Yarn upgrade
@@ -158,19 +157,18 @@ Most patch/minor bumps leave `yarn.lock` untouched, but don't assume it —
 `git status` after the install tells you the truth. If `yarn.lock` did change,
 commit it alongside `package.json`.
 
-### Step 4 — Open the PR
+### Step 4 — Commit
+
+Commit on the current branch. Include `yarn.lock` only if Step 3 actually
+changed it:
 
 ```bash
-git checkout -b chore/upgrade-yarn-X.Y.Z main
 git add apps/client/assets/package.json apps/client/assets/yarn.lock
 git commit -m "upgrade yarn to X.Y.Z"
-git push -u origin HEAD
-gh pr create --base main --title "upgrade yarn to X.Y.Z" --body "..."
 ```
 
-## Why separate PRs
+## Keep each upgrade its own commit
 
-Each upgrade is independent and tiny, so a one-line/two-line diff is trivial
-to review and to revert or bisect later if some subtle build behavior changes.
-Bundling them hides which bump caused a regression. Match the prior examples
-unless the user explicitly asks for a combined PR.
+Node and Yarn are independent and each diff is tiny, so a separate commit per
+upgrade keeps history easy to read and to revert or bisect later if some
+subtle build behavior changes. Don't fold both into one commit.
