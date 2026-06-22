@@ -7,6 +7,10 @@ updates:
     time: "03:00"
     timezone: America/New_York
   open-pull-requests-limit: 10
+  ignore:
+  # @types/node is pinned to match the Node runtime major (see upgrade-node
+  # skill). Dependabot would otherwise bump it ahead of the installed Node.
+  - dependency-name: "@types/node"
   groups:
     mui_material:
       patterns:
