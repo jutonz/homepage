@@ -15,6 +15,11 @@ mechanical, but two things trip people up:
   returns *classic* Yarn 1.x (1.22.x), which is a different, frozen product.
   This repo uses modern Yarn (the 4.x "berry" line) via the `packageManager`
   field. Pin from the `@yarnpkg/cli-dist` `latest` dist-tag instead.
+- **`@types/node` tracks the Node *major*, not the "latest" tag.** Its major
+  version mirrors the Node major (Node 24 → `@types/node` 24.x), so when you
+  bump Node you must also resync `@types/node` to the newest release *in that
+  major* — otherwise `npm` hands you a higher major (e.g. 25.x) that describes
+  a runtime you aren't on. This is part of the Node upgrade, in the same PR.
 
 Node and Yarn are independent — bumping one doesn't require the other. For
 reference, the prior upgrades in this repo show the exact diff shape:
@@ -54,7 +59,7 @@ mise ls-remote node | grep '^24\.'   # substitute the major you picked
 If the current pin already equals the latest LTS, say so and stop — there's
 nothing to upgrade. (Don't jump to a non-LTS major just to produce a diff.)
 
-### Step 2 — Edit the two files
+### Step 2 — Edit the two runtime files
 
 These are the only files that pin the Node runtime. CI reads the version from
 `.tool-versions` (via the `steps.versions.outputs.nodejs` mise step in
@@ -65,7 +70,7 @@ These are the only files that pin the Node runtime. CI reads the version from
 | `.tool-versions` | `nodejs X.Y.Z` |
 | `Dockerfile` | `ARG NODE_VERSION=X.Y.Z` (near the top) |
 
-### Step 3 — Install and verify
+### Step 3 — Install the new Node
 
 ```bash
 mise install                      # fetch the new node locally
@@ -79,30 +84,70 @@ without it leaves `yarn` either missing or still pointing at the old runtime's
 shim — so the verify commands below would silently run on the wrong Node, or
 fail outright with "command not found."
 
+> The freshly-installed Node may not be on `PATH` in the current shell yet
+> (the old shim can still win). Prefix the verify commands with `mise exec --`
+> — e.g. `mise exec -- node --version`, `mise exec -- yarn typecheck` — so they
+> actually run under the new runtime. Confirm `mise exec -- node --version`
+> prints the new version before trusting any later check.
+
+### Step 4 — Resync `@types/node` to the new major
+
+`@types/node`'s major must match the Node major you just installed. Find the
+newest release *in that major* (substitute `24` for whatever major you're on):
+
+```bash
+cd apps/client/assets
+mise exec -- yarn npm info "@types/node" --json \
+  | python3 -c "import json,sys; vs=[v for v in json.load(sys.stdin)['versions'] if v.startswith('24.')]; print(vs[-1])"
+```
+
+Set that as the `@types/node` caret range in `apps/client/assets/package.json`
+(e.g. `"@types/node": "^24.13.2"`). If it already points at the right major,
+there's nothing to change here. The `yarn install` in Step 5 picks up the new
+range and `yarn typecheck` proves it didn't break the build.
+
+### Step 5 — Verify
+
 The frontend toolchain runs on Node, so the meaningful check is that the
-assets still build and lint under the new version. From `apps/client/assets/`:
+assets still install, lint, typecheck, and build under the new version. From
+`apps/client/assets/` (a plain `yarn install` so the lockfile absorbs the
+`@types/node` change, then re-run `--immutable` to prove CI will pass):
 
 ```bash
-yarn install --immutable
-yarn lint --check
-yarn typecheck
-yarn bundle:js && yarn bundle:css
+cd apps/client/assets
+mise exec -- yarn install              # absorb the @types/node bump into yarn.lock
+mise exec -- yarn install --immutable  # must now pass clean (this is what CI runs)
+mise exec -- yarn lint --check
+mise exec -- yarn typecheck
+mise exec -- yarn bundle:js && mise exec -- yarn bundle:css
 ```
 
-If you want full confidence, the Docker build exercises the `node_builder`
-stage end-to-end (slower):
+`bundle:js`/`bundle:css` may run esbuild in watch mode and not exit on their
+own — that's fine; once you see `build finished`, the build succeeded. Kill the
+watcher (it exits non-zero from the signal, which is *not* a build failure).
+
+Then **always** run the Docker build, which exercises the `node_builder` stage
+end-to-end against `node:X.Y.Z` and is the real proof the pin is valid (slower,
+but don't skip it):
 
 ```bash
-docker build -t homepage:node-upgrade-test . && docker rmi homepage:node-upgrade-test
+docker build -t testin . && docker rmi testin
 ```
 
-### Step 4 — Commit
+Confirm the log shows it pulling `node:X.Y.Z` (grep the output for `node:24` or
+your major) and that the build exits 0 before calling the upgrade verified.
 
-Commit on the current branch:
+### Step 6 — Commit
+
+Commit on the current branch. The runtime bump and the `@types/node` resync are
+each their own commit (the `@types/node` change carries `yarn.lock` with it):
 
 ```bash
 git add .tool-versions Dockerfile
 git commit -m "upgrade node to X.Y.Z"
+
+git add apps/client/assets/package.json apps/client/assets/yarn.lock
+git commit -m "match @types/node to installed node <major>.x"
 ```
 
 ## Yarn upgrade
