@@ -25,7 +25,7 @@ jobs:
         elixir-version: ${{ env.ELIXIR_VERSION }}
         otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore dev cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       id: dev-cache
       with:
         path: |
@@ -34,7 +34,7 @@ jobs:
         key: v1-dev-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
         restore-keys: v1-dev-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-
     - name: Restore PLT cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: _plts
         key: v3-plts-${{ steps.beam.outputs.otp-version }}-${{ steps.beam.outputs.elixir-version }}-${{ hashFiles('mix.lock') }}
@@ -61,21 +61,21 @@ jobs:
       with:
         node-version: ${{ steps.versions.outputs.nodejs }}
     - name: Restore node_modules cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: apps/client/assets/node_modules
         key: v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
           v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore yarn cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: ~/.cache/yarn
         key: v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
           v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore static asset cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: apps/client/priv/static
         key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
@@ -138,7 +138,7 @@ jobs:
         elixir-version: ${{ env.ELIXIR_VERSION }}
         otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore test cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: |
           deps
@@ -148,7 +148,7 @@ jobs:
           v2-test-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           v2-test-${{ hashFiles('.tool-versions') }}-
     - name: Restore node_modules cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: apps/client/assets/node_modules
         key: v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
@@ -158,14 +158,14 @@ jobs:
       working-directory: apps/client/assets
       run: corepack enable
     - name: Restore yarn cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: ~/.cache/yarn
         key: v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
           v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore static asset cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: apps/client/priv/static
         key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
@@ -181,7 +181,7 @@ jobs:
       run: echo "version=$(node -e "console.log(require('./node_modules/@playwright/test/package.json').version)")" >> $GITHUB_OUTPUT
       working-directory: apps/client/assets
     - name: Restore Playwright browser cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       id: playwright-cache
       with:
         path: ~/.cache/ms-playwright
@@ -254,12 +254,12 @@ jobs:
         elixir-version: ${{ env.ELIXIR_VERSION }}
         otp-version: ${{ env.ERLANG_VERSION }}
     - name: Restore static asset cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: apps/client/priv/static
         key: v3-static-assets-${{ github.ref }}-${{ github.sha }}
     - name: Restore test cache
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: |
           deps
