@@ -42,6 +42,7 @@ config :wallaby,
   screenshot_dir: "/tmp/homepage-screenshots",
   driver: Wallaby.Chrome,
   js_errors: true,
+  js_logger: false,
   chromedriver: [
     headless: true
     # path: "/usr/local/bin/chromedriver"
