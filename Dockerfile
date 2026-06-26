@@ -1,7 +1,7 @@
 ARG ELIXIR_VERSION=1.20.1
 ARG OTP_VERSION=29.0.2
 ARG DEBIAN_VERSION=bullseye-20260610
-ARG NODE_VERSION=24.17.0
+ARG NODE_VERSION=24.18.0
 
 # search here: https://hub.docker.com/r/hexpm/elixir/tags
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
