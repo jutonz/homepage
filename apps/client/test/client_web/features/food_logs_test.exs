@@ -46,6 +46,7 @@ defmodule ClientWeb.FoodLogsTest do
 
     session
     |> visit("/food-logs/#{log.id}?as=#{user.id}")
+    |> wait_for_live_connected()
     |> fill_in(role("entry-desc-input"), with: desc)
     |> click(role("entry-submit"))
     |> assert_has(role("food-log-entry", text: desc))
@@ -59,6 +60,7 @@ defmodule ClientWeb.FoodLogsTest do
 
     session
     |> visit("/food-logs/#{log.id}?as=#{user.id}")
+    |> wait_for_live_connected()
     |> click(entry_selector(entry.id))
     |> assert_has(role("entry-desc-update-input"))
     |> fill_in(role("entry-desc-update-input"), with: new_desc)
@@ -77,6 +79,7 @@ defmodule ClientWeb.FoodLogsTest do
 
     session
     |> visit("/food-logs/#{log.id}?as=#{user.id}")
+    |> wait_for_live_connected()
     |> click(entry_selector(entry.id))
     |> find(css("#entry_occurred_at_date"))
     |> execute_script("document.getElementById('entry_occurred_at_date').value = '#{date}'")
@@ -103,6 +106,7 @@ defmodule ClientWeb.FoodLogsTest do
 
     session
     |> visit("/food-logs/#{log.id}?as=#{user.id}")
+    |> wait_for_live_connected()
     |> click(entry_selector(entry.id))
     |> assert_has(role("delete-log-entry"))
     |> accept_confirm(fn session ->
