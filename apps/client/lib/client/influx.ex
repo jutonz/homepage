@@ -16,18 +16,24 @@ defmodule Client.Influx do
   def handle_response({:ok, %{status: 204} = resp}), do: {:ok, resp}
 
   def handle_response({:ok, %{status: status, body: body} = resp}) do
-    Logger.warning("[#{__MODULE__}] Failed to write to InfluxDB (#{status}): #{IO.inspect(body)}")
+    warn("Failed to write to InfluxDB (#{status}): #{inspect(body)}")
     {:error, resp}
   end
 
   def handle_response({:error, %{status: status, body: body} = resp}) do
-    Logger.warning("[#{__MODULE__}] Failed to write to InfluxDB (#{status}): #{IO.inspect(body)}")
+    warn("Failed to write to InfluxDB (#{status}): #{inspect(body)}")
     {:error, resp}
   end
 
   def handle_response({:error, err}) do
-    Logger.warning("[#{__MODULE__}] Failed to write to InfluxDB (unknown)")
+    warn("Failed to write to InfluxDB (unknown)")
     {:error, err}
+  end
+
+  defp warn(message) do
+    if config()[:log_errors] do
+      Logger.warning("[#{__MODULE__}] #{message}")
+    end
   end
 
   defp config, do: Application.get_env(:client, :influx)
