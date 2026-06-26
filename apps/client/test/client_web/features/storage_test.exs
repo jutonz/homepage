@@ -17,6 +17,7 @@ defmodule ClientWeb.StorageFeatureTests do
     |> assert_has(role("storage-context-name", text: name))
     |> assert_has(css("tr", text: team1.name))
     |> assert_has(css("tr", text: team2.name))
+    |> assert_has(role("search-form"))
   end
 
   test "can update a context", %{session: session} do
@@ -36,6 +37,7 @@ defmodule ClientWeb.StorageFeatureTests do
     |> assert_has(role("storage-context-name", text: "new name"))
     |> assert_has(css("tr", text: team.name))
     |> assert_has(css("tr", text: other_team.name))
+    |> assert_has(role("search-form"))
   end
 
   test "can insert an item", %{session: session} do
@@ -51,5 +53,6 @@ defmodule ClientWeb.StorageFeatureTests do
     |> fill_in(role("description-input"), with: "Name")
     |> fill_in(role("location-input"), with: "Other Location")
     |> click(button("Create"))
+    |> assert_has(css("[data-item-id]", text: "Name"))
   end
 end
