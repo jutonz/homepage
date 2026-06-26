@@ -128,27 +128,32 @@ defmodule ClientWeb.WaterLogKioskLive do
   end
 
   def handle_info(:saved, socket) do
-    send(self(), :refresh_usage)
-    assigns = %{dispensed_now: 0, previous_dispensed_today: nil}
+    assigns =
+      socket
+      |> refreshed_assigns()
+      |> Map.merge(%{dispensed_now: 0, previous_dispensed_today: nil})
+
     {:noreply, assign(socket, assigns)}
   end
 
   def handle_info(:refresh_usage, socket) do
+    schedule_refresh()
+    {:noreply, assign(socket, refreshed_assigns(socket))}
+  end
+
+  def handle_info({:weight, g}, socket) do
+    {:noreply, assign(socket, :weight, g)}
+  end
+
+  defp refreshed_assigns(socket) do
     log = WaterLogs.get(socket.assigns[:log_id])
 
-    assigns = %{
+    %{
       log: log,
       data: data(log.id),
       total_l: total_amount_dispensed(log),
       filter_life_remaining: filter_life_remaining(log.id)
     }
-
-    schedule_refresh()
-    {:noreply, assign(socket, assigns)}
-  end
-
-  def handle_info({:weight, g}, socket) do
-    {:noreply, assign(socket, :weight, g)}
   end
 
   defp data(log_id) do
