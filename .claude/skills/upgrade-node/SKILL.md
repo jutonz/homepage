@@ -86,9 +86,19 @@ fail outright with "command not found."
 
 > The freshly-installed Node may not be on `PATH` in the current shell yet
 > (the old shim can still win). Prefix the verify commands with `mise exec --`
-> — e.g. `mise exec -- node --version`, `mise exec -- yarn typecheck` — so they
-> actually run under the new runtime. Confirm `mise exec -- node --version`
-> prints the new version before trusting any later check.
+> — e.g. `mise exec -- node --version` — so they actually run under the new
+> runtime. Confirm `mise exec -- node --version` prints the new version before
+> trusting any later check.
+>
+> **Run Yarn as `mise exec -- corepack yarn …`, not `mise exec -- yarn …`.**
+> `corepack enable` writes the `yarn` shim into whichever Node is on `PATH` at
+> the time — which is still the *old* install, since the new one isn't on
+> `PATH` yet. So `mise exec -- yarn` resolves to a shim built for the old
+> runtime (or fails outright with `"yarn" couldn't exec process: No such file
+> or directory`). Going through Corepack directly — `mise exec -- corepack
+> yarn install`, `mise exec -- corepack yarn typecheck` — always resolves the
+> `packageManager`-pinned Yarn under the new Node. Use this `corepack yarn`
+> form for every Yarn command in Steps 4 and 5 below.
 
 ### Step 4 — Resync `@types/node` to the new major
 
@@ -97,7 +107,7 @@ newest release *in that major* (substitute `24` for whatever major you're on):
 
 ```bash
 cd apps/client/assets
-mise exec -- yarn npm info "@types/node" --json \
+mise exec -- corepack yarn npm info "@types/node" --json \
   | python3 -c "import json,sys; vs=[v for v in json.load(sys.stdin)['versions'] if v.startswith('24.')]; print(vs[-1])"
 ```
 
@@ -115,16 +125,23 @@ assets still install, lint, typecheck, and build under the new version. From
 
 ```bash
 cd apps/client/assets
-mise exec -- yarn install              # absorb the @types/node bump into yarn.lock
-mise exec -- yarn install --immutable  # must now pass clean (this is what CI runs)
-mise exec -- yarn lint --check
-mise exec -- yarn typecheck
-mise exec -- yarn bundle:js && mise exec -- yarn bundle:css
+mise exec -- corepack yarn install              # absorb the @types/node bump into yarn.lock
+mise exec -- corepack yarn install --immutable  # must now pass clean (this is what CI runs)
+mise exec -- corepack yarn lint --check
+mise exec -- corepack yarn typecheck
+mise exec -- corepack yarn bundle:css
+MIX_ENV=prod mise exec -- corepack yarn bundle:js   # one-shot build; see below
 ```
 
-`bundle:js`/`bundle:css` may run esbuild in watch mode and not exit on their
-own — that's fine; once you see `build finished`, the build succeeded. Kill the
-watcher (it exits non-zero from the signal, which is *not* a build failure).
+**Build `bundle:js` with `MIX_ENV=prod`, otherwise it never exits and prints
+nothing.** `bundle:js` (`scripts/compile_static.mjs`) branches on `MIX_ENV`:
+the default (non-prod) path calls esbuild's `context().watch()`, which builds
+once and then *stays running with zero output* — there's no "build finished"
+line to wait for, so a foreground run just hangs and a backgrounded run leaves
+an empty log. Setting `MIX_ENV=prod` takes the `build()` path instead, which
+compiles once, prints the output bundle sizes plus `⚡ Done`, and exits 0 — a
+real pass/fail signal. (`bundle:css` is plain `postcss` and exits on its own;
+it prints nothing on success, which is fine.)
 
 Then **always** run the Docker build, which exercises the `node_builder` stage
 end-to-end against `node:X.Y.Z` and is the real proof the pin is valid (slower,
