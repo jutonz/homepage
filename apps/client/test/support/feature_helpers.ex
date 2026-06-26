@@ -20,6 +20,10 @@ defmodule ClientWeb.FeatureHelpers do
     session
   end
 
+  def wait_for_live_connected(session) do
+    assert_has(session, css(".phx-connected"))
+  end
+
   def hash_path(session) do
     execute_script_sync(session, "return window.location.hash")
   end
