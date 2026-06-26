@@ -55,7 +55,8 @@ config :client, :awair,
 config :client, :influx,
   host: System.get_env("INFLUXDB_HOST") || "http://localhost:8086",
   org: System.get_env("INFLUXDB_ORG") || "myorg",
-  token: System.get_env("INFLUXDB_TOKEN")
+  token: System.get_env("INFLUXDB_TOKEN"),
+  log_errors: true
 
 config :logger, :console, format: "$time $metadata[$level] $message\n", metadata: [:request_id]
 config :absinthe, log: false

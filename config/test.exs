@@ -35,6 +35,8 @@ config :client, :awair,
     plug: {Req.Test, Client.Awair.AirData}
   ]
 
+config :client, :influx, log_errors: false
+
 config :wallaby,
   otp_app: :client,
   max_wait_time: 10_000,
