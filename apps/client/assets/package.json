@@ -49,7 +49,7 @@
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.17",
     "autoprefixer": "^10.5.2",
-    "caniuse-lite": "^1.0.30001800",
+    "caniuse-lite": "^1.0.30001802",
     "cssnano": "^8.0.2",
     "date-fns": "^4.4.0",
     "esbuild": "0.28.1",
