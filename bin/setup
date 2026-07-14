@@ -11,9 +11,10 @@ op item get \
   --fields=password \
   --reveal \
 | cat > key.txt
+touch config/dev.secret.exs
 
-mix do deps.get, ecto.create, ecto.migrate
-MIX_ENV=test mix do ecto.create, ecto.migrate
+mix do deps.get + ecto.create + ecto.migrate
+MIX_ENV=test mix do ecto.create + ecto.migrate
 
 cd apps/client/assets
 corepack enable
