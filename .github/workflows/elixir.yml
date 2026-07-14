@@ -57,7 +57,7 @@ jobs:
       uses: marocchino/tool-versions-action@v2
       id: versions
     - name: Setup node
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@v7
       with:
         node-version: ${{ steps.versions.outputs.nodejs }}
     - name: Restore node_modules cache
@@ -129,7 +129,7 @@ jobs:
       uses: marocchino/tool-versions-action@v2
       id: versions
     - name: Setup node
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@v7
       with:
         node-version: ${{ steps.versions.outputs.nodejs }}
     - name: Set up Elixir
