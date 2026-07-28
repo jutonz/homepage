@@ -5652,10 +5652,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"morphdom@npm:2.7.8":
+"morphdom@github:SteffenDE/morphdom#sd-keyed-root":
   version: 2.7.8
-  resolution: "morphdom@npm:2.7.8"
-  checksum: 10c0/e1a1c370a05936308916b56cb95df05f7104fc292b1e8a575c0fa2ee792a773c2556ca5216ebf2f1b0de7e54e6693599a0adacb72be6a483ebbf3be36cfd9b8b
+  resolution: "morphdom@https://github.com/SteffenDE/morphdom.git#commit=92f9125ed8c1a52861719544c83314cd062d65aa"
+  checksum: 10c0/8ecc22cfdd7f3fdb6daaedaf1577e9ef0e2019b18a3fb7c7c33091a9696047f46323fcd78b8e52e964ec7870e38084ed9c1057f8b6e72c10856ceaae56b29115
   languageName: node
   linkType: hard
 
@@ -5970,12 +5970,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"phoenix_live_view@npm:1.2.7":
-  version: 1.2.7
-  resolution: "phoenix_live_view@npm:1.2.7"
+"phoenix_live_view@npm:1.2.8":
+  version: 1.2.8
+  resolution: "phoenix_live_view@npm:1.2.8"
   dependencies:
-    morphdom: "npm:2.7.8"
-  checksum: 10c0/87ed0d592c96bf81427de10ba7ae3719abb56bede28fcd82df880813a4c9e861e16673834a8e45df14aab0e49f07435eff4823cc1e4068c3175cf088a581d4cd
+    morphdom: "github:SteffenDE/morphdom#sd-keyed-root"
+  checksum: 10c0/4b9761fa81233f686757ab5b695d00b53e18b7692c1a2c449a546d69cfdfca6986f281974189da36964e5a8512fcbbfa6a7dc2103eb269fee7f946ee62d74002
   languageName: node
   linkType: hard
 
@@ -6797,7 +6797,7 @@ __metadata:
     notistack: "npm:^3.0.2"
     phoenix: "npm:1.8.9"
     phoenix_html: "npm:4.3.0"
-    phoenix_live_view: "npm:1.2.7"
+    phoenix_live_view: "npm:1.2.8"
     postcss: "npm:^8.5.23"
     postcss-cli: "npm:^11.0.1"
     prettier: "npm:^3.9.6"
