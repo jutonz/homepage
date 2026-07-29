@@ -70,7 +70,7 @@ defmodule Client.Mixfile do
       {:plug_static_index_html, "~> 1.0"},
       {:postgrex, "~> 0.14"},
       {:redix, "~> 1.0"},
-      {:req, "~> 0.6.1"},
+      {:req, "~> 0.7.1"},
       {:sentry, "~> 13.0"},
       {:twitch, in_umbrella: true},
       {:tz, "~> 0.28"},
