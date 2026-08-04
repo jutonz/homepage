@@ -6422,7 +6422,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.5.16":
+"postcss@npm:^8.5.16, postcss@npm:^8.5.25":
   version: 8.5.25
   resolution: "postcss@npm:8.5.25"
   dependencies:
@@ -6778,6 +6778,7 @@ __metadata:
     phoenix: "npm:1.8.9"
     phoenix_html: "npm:4.3.0"
     phoenix_live_view: "npm:1.2.8"
+    postcss: "npm:^8.5.25"
     postcss-cli: "npm:^11.0.1"
     prettier: "npm:^3.9.6"
     react: "npm:^19.2.8"
