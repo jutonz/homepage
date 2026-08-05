@@ -40,6 +40,7 @@ jobs:
           finch|semver-minor semver-patch
           floki|semver-minor semver-patch
           graphql|semver-minor semver-patch
+          guardian|semver-minor semver-patch
           httpoison|semver-minor semver-patch
           money|semver-minor semver-patch
           phoenix_ecto|semver-minor semver-patch
