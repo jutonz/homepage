@@ -3675,6 +3675,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"caniuse-lite@npm:^1.0.30001807":
+  version: 1.0.30001807
+  resolution: "caniuse-lite@npm:1.0.30001807"
+  checksum: 10c0/1b338af06427772624dd323d2da51007f2e8574c043fa9790e0e6bff153f188dd74e1ee1b6ddaf5f3be19ec7cb6115bee434c02e36424dee406ae60aeeb97993
+  languageName: node
+  linkType: hard
+
 "caniuse-lite@npm:^1.0.30001809":
   version: 1.0.30001809
   resolution: "caniuse-lite@npm:1.0.30001809"
@@ -6830,7 +6837,7 @@ __metadata:
     "@urql/exchange-graphcache": "npm:^9.0.1"
     aphrodite: "npm:^2.4.0"
     autoprefixer: "npm:^10.5.4"
-    caniuse-lite: "npm:^1.0.30001806"
+    caniuse-lite: "npm:^1.0.30001807"
     chart.js: "npm:^4.5.1"
     cssnano: "npm:^8.0.4"
     date-fns: "npm:^4.4.0"
