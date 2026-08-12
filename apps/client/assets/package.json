@@ -52,7 +52,7 @@
     "caniuse-lite": "^1.0.30001809",
     "cssnano": "^8.0.4",
     "date-fns": "^4.4.0",
-    "esbuild": "0.28.1",
+    "esbuild": "0.28.2",
     "postcss": "^8.5.26",
     "postcss-cli": "^11.0.1",
     "prettier": "^3.9.6",
