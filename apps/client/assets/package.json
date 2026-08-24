@@ -27,7 +27,7 @@
     "notistack": "^3.0.2",
     "phoenix": "1.8.11",
     "phoenix_html": "4.3.0",
-    "phoenix_live_view": "1.2.9",
+    "phoenix_live_view": "1.2.10",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.85.0",
