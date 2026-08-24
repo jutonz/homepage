@@ -35,7 +35,7 @@ defmodule Twitch.MixProject do
       {:exenv, "~> 0.3"},
       {:exirc, "~> 2.0"},
       {:gen_stage, "~> 1.3.0"},
-      {:httpoison, "~> 2.2"},
+      {:httpoison, "~> 3.0"},
       {:mox, "~> 1.0", only: :test},
       {:postgrex, "~> 0.14"},
       {:sentry, "~> 13.0"},

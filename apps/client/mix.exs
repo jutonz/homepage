@@ -53,7 +53,7 @@ defmodule Client.Mixfile do
       {:gen_stage, "~> 1.3.0"},
       {:gettext, "~> 1.0"},
       {:guardian, "~> 2.0"},
-      {:hackney, "~> 1.8"},
+      {:hackney, "~> 4.7"},
       {:lazy_html, ">= 0.0.0", only: :test},
       {:money, "~> 1.12"},
       {:mox, "~> 1.0", only: :test},
