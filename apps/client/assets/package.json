@@ -30,7 +30,7 @@
     "phoenix_live_view": "1.2.10",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-hook-form": "^7.85.0",
+    "react-hook-form": "^7.86.0",
     "react-router-dom": "^7.18.2",
     "react-stdio": "^3.4.8",
     "rxjs": "^7.8.2",
