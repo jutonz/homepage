@@ -3188,6 +3188,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@urql/core@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "@urql/core@npm:6.0.3"
+  dependencies:
+    "@0no-co/graphql.web": "npm:^1.0.13"
+    wonka: "npm:^6.3.2"
+  checksum: 10c0/1fc423d967644f60cfd41090b85708ca7c3d19da30a8e44188b1e0955787ce9fac88ab3c0caea03231041de8ad905251a90bfa49a729e34fa895d3c9117f94bb
+  languageName: node
+  linkType: hard
+
 "@urql/exchange-auth@npm:^3.0.0":
   version: 3.0.0
   resolution: "@urql/exchange-auth@npm:3.0.0"
@@ -6819,7 +6829,7 @@ __metadata:
     tailwindcss: "npm:^4.3.3"
     three: "npm:^0.185.1"
     typescript: "npm:^7.0.2"
-    urql: "npm:^5.0.3"
+    urql: "npm:^5.0.4"
     yup: "npm:^1.7.1"
   languageName: unknown
   linkType: soft
@@ -7622,16 +7632,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"urql@npm:^5.0.3":
-  version: 5.0.3
-  resolution: "urql@npm:5.0.3"
+"urql@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "urql@npm:5.0.4"
   dependencies:
-    "@urql/core": "npm:^6.0.2"
+    "@urql/core": "npm:^6.0.3"
     wonka: "npm:^6.3.2"
   peerDependencies:
     "@urql/core": ^6.0.0
     react: ">= 16.8.0"
-  checksum: 10c0/a9928d52d7e734df123b767a236caaadb25240d0c7b5d789a2885ed108a0d55f2a1222329ffd6c95a5632913b4fd8263979a821f35e423c2acd2035b89efd850
+  checksum: 10c0/352cc48c6c66a8340a964adb9ec5787a7783416d5e48313001d2df16a69dbc8ce3e2cea5c51d0e5a0705e016c4bfb3352748856ad721335bfbc79530d2b73927
   languageName: node
   linkType: hard
 
