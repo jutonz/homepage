@@ -1,5 +1,5 @@
 ---
-name: jt-upgrade-phoenix
+name: upgrade-phoenix
 description: Use when on a dependabot branch that bumps phoenix, phoenix_html, or phoenix_live_view — any package published as both a hex package and an npm package, where dependabot has moved only one half and the two are now out of step.
 allowed-tools: Read, Edit, Write, Bash, Grep, Glob, WebFetch, WebSearch
 ---
