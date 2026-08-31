@@ -5989,10 +5989,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"phoenix_live_view@npm:1.2.10":
-  version: 1.2.10
-  resolution: "phoenix_live_view@npm:1.2.10"
-  checksum: 10c0/8115e3533b66215ec8675e8811bd1428f33c3927a579be8e654820e2572ebe1f86fc552ac38a84d4167d83cdc5875e227056b10c717abbd04af5107b88554038
+"phoenix_live_view@npm:1.2.11":
+  version: 1.2.11
+  resolution: "phoenix_live_view@npm:1.2.11"
+  checksum: 10c0/95a767b43df4e84214835a54e946e3d03b43c1facfa3f5b91a0f66cba9ebbcfa6fdf560c1247ada89615db6366fa78b69907d97064fc8e969b14913de0ccb771
   languageName: node
   linkType: hard
 
@@ -6797,7 +6797,7 @@ __metadata:
     notistack: "npm:^3.0.2"
     phoenix: "npm:1.8.12"
     phoenix_html: "npm:4.3.0"
-    phoenix_live_view: "npm:1.2.10"
+    phoenix_live_view: "npm:1.2.11"
     postcss: "npm:^8.5.26"
     postcss-cli: "npm:^11.0.1"
     prettier: "npm:^3.9.6"
