@@ -49,8 +49,6 @@ defmodule ClientWeb.Live.AssignScopeTest do
     end
   end
 
-  # The dashboard is guarded by basic auth rather than by a user, so it has no
-  # scope to build and is deliberately left out.
   defp live_routes do
     ClientWeb.Router.__routes__()
     |> Enum.filter(& &1.metadata[:phoenix_live_view])

@@ -10,8 +10,6 @@ defmodule Client.SessionTest do
       assert Session.current_user_id(conn) == user.id
     end
 
-    # Nested LiveViews are handed a user id rather than a scope, since only
-    # serializable values survive the trip through live_render/3.
     test "reads the id out of a LiveView session map" do
       assert Session.current_user_id(%{"user_id" => 42}) == 42
     end

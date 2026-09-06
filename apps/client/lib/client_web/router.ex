@@ -132,8 +132,6 @@ defmodule ClientWeb.Router do
     pipe_through(:browser)
     pipe_through(:admin)
 
-    # Deliberately outside a live_session: the dashboard is guarded by basic
-    # auth, not by a user, so there is no scope to build for it.
     live_dashboard(
       "/dashboard",
       ecto_repos: [Client.Repo, Twitch.Repo],

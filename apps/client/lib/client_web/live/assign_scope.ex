@@ -16,16 +16,17 @@ defmodule ClientWeb.Live.AssignScope do
   import Phoenix.LiveView, only: [connected?: 1, get_connect_info: 2, redirect: 2]
 
   alias Client.{Scope, Session}
+  alias ClientWeb.Live.LiveHelpers
 
   def on_mount(:default, _params, session, socket) do
+    LiveHelpers.allow_ecto_sandbox(socket)
+
     case Scope.for_user_id(Session.current_user_id(session)) do
       %Scope{} = scope -> {:cont, assign(socket, :scope, scope)}
       nil -> {:halt, redirect(socket, to: login_path(socket))}
     end
   end
 
-  # Mirrors the return path the browser plug preserves, so a session going
-  # stale mid-reconnect doesn't cost the user their place.
   defp login_path(socket) do
     with true <- connected?(socket),
          %URI{path: path} when is_binary(path) <- get_connect_info(socket, :uri) do

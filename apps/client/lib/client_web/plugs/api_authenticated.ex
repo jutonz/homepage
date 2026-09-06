@@ -53,7 +53,6 @@ defmodule ClientWeb.Plugs.ApiAuthenticated do
     end
   end
 
-  # A token outliving its user names nobody, so it authenticates nobody.
   @spec scope_for_token(ApiToken.t()) :: {:ok, Scope.t()} | {:error, String.t()}
   defp scope_for_token(%ApiToken{user_id: user_id}) do
     case Scope.for_user_id(user_id) do
