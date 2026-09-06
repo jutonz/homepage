@@ -35,13 +35,15 @@ defmodule Client.Factory do
     }
   end
 
-  def food_log_entry_factory do
-    %Client.FoodLogs.Entry{
+  def food_log_entry_factory(attrs) do
+    struct = %Client.FoodLogs.Entry{
       description: sequence(:description, &"food-item-#{&1}"),
       user_id: rand_int(),
-      food_log_id: uuid(),
+      food_log_id: Map.get_lazy(attrs, :food_log_id, fn -> insert(:food_log).id end),
       occurred_at: now()
     }
+
+    merge_attributes(struct, attrs)
   end
 
   def ijust_context_factory(attrs) do

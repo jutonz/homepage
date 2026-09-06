@@ -7,6 +7,11 @@ defmodule Client.FoodLogsTest do
     FoodLogs.FoodLog
   }
 
+  setup do
+    scope = build(:scope)
+    %{scope: scope, log: insert(:food_log, owner_id: scope.user.id)}
+  end
+
   describe "new_changeset/1" do
     test "returns an empty changeset" do
       cs = FoodLogs.new_changeset()
@@ -17,103 +22,252 @@ defmodule Client.FoodLogsTest do
     end
   end
 
-  describe "create/1" do
-    test "it creates a food log" do
-      params = params_for(:food_log)
+  describe "create/2" do
+    test "creates a log owned by the scope", %{scope: scope} do
+      params = %{"name" => "breakfast"}
 
-      assert {:ok, log} = FoodLogs.create(params)
-      assert log.id
-      assert log.name == params[:name]
-      assert log.owner_id == params[:owner_id]
+      assert {:ok, log} = FoodLogs.create(scope, params)
+      assert log.name == "breakfast"
+      assert log.owner_id == scope.user.id
+    end
+
+    test "takes the owner from the scope, not the params", %{scope: scope} do
+      other = insert(:user)
+      params = %{"name" => "breakfast", "owner_id" => other.id}
+
+      assert {:ok, log} = FoodLogs.create(scope, params)
+      assert log.owner_id == scope.user.id
+    end
+
+    test "returns the changeset when invalid", %{scope: scope} do
+      assert {:error, %Ecto.Changeset{}} = FoodLogs.create(scope, %{})
     end
   end
 
-  describe "create_entry/1" do
-    test "it creates an entry" do
-      params = params_for(:food_log_entry)
+  describe "list/1" do
+    test "returns the scope's logs", %{scope: scope, log: log} do
+      _other_log = insert(:food_log)
 
-      assert {:ok, _entry} = FoodLogs.create_entry(params)
+      assert Enum.map(FoodLogs.list(scope), & &1.id) == [log.id]
     end
   end
 
-  describe "get/1" do
-    test "returns a food log if it exists" do
-      log_id = insert(:food_log).id
+  describe "get/2" do
+    test "returns the scope's log", %{scope: scope, log: log} do
+      log_id = log.id
 
-      assert %FoodLog{id: ^log_id} = FoodLogs.get(log_id)
+      assert %FoodLog{id: ^log_id} = FoodLogs.get(scope, log_id)
     end
 
-    test "returns nil if the food log doesn't exist" do
-      assert nil == FoodLogs.get(Ecto.UUID.generate())
-    end
-  end
+    test "is nil for another user's log", %{scope: scope} do
+      other_log = insert(:food_log)
 
-  describe "get_entry/1" do
-    test "returns an entry if it exists" do
-      entry_id = insert(:food_log_entry).id
-
-      assert %Entry{id: ^entry_id} = FoodLogs.get_entry(entry_id)
+      assert FoodLogs.get(scope, other_log.id) == nil
     end
 
-    test "returns nil if the food log doesn't exist" do
-      assert nil == FoodLogs.get(Ecto.UUID.generate())
+    test "is nil when the log doesn't exist", %{scope: scope} do
+      assert FoodLogs.get(scope, Ecto.UUID.generate()) == nil
     end
   end
 
-  describe "get_entries/1" do
-    test "returns entries with the given ids" do
-      [one, two, three] = insert_list(3, :food_log_entry)
+  describe "get!/2" do
+    test "returns the scope's log", %{scope: scope, log: log} do
+      log_id = log.id
 
-      entries = FoodLogs.get_entries([one.id, two.id])
-      ids = Enum.map(entries, & &1.id)
+      assert %FoodLog{id: ^log_id} = FoodLogs.get!(scope, log_id)
+    end
+
+    test "raises for another user's log", %{scope: scope} do
+      other_log = insert(:food_log)
+
+      assert_raise Ecto.NoResultsError, fn -> FoodLogs.get!(scope, other_log.id) end
+    end
+  end
+
+  describe "update/3" do
+    test "updates the scope's log", %{scope: scope, log: log} do
+      assert {:ok, updated} = FoodLogs.update(scope, log.id, %{"name" => "new name"})
+      assert updated.name == "new name"
+    end
+
+    test "raises for another user's log", %{scope: scope} do
+      other_log = insert(:food_log)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        FoodLogs.update(scope, other_log.id, %{"name" => "mine now"})
+      end
+
+      assert Repo.get(FoodLog, other_log.id).name == other_log.name
+    end
+  end
+
+  describe "delete/2" do
+    test "deletes the scope's log", %{scope: scope, log: log} do
+      assert {:ok, _log} = FoodLogs.delete(scope, log.id)
+      refute Repo.get(FoodLog, log.id)
+    end
+
+    test "raises for another user's log", %{scope: scope} do
+      other_log = insert(:food_log)
+
+      assert_raise Ecto.NoResultsError, fn -> FoodLogs.delete(scope, other_log.id) end
+      assert Repo.get(FoodLog, other_log.id)
+    end
+  end
+
+  describe "create_entry/3" do
+    test "creates an entry on the scope's log", %{scope: scope, log: log} do
+      params = %{"description" => "toast", "occurred_at" => now()}
+
+      assert {:ok, entry} = FoodLogs.create_entry(scope, log.id, params)
+      assert entry.description == "toast"
+      assert entry.food_log_id == log.id
+    end
+
+    test "records the scope's user as who logged it", %{scope: scope, log: log} do
+      params = %{"description" => "toast", "occurred_at" => now(), "user_id" => -1}
+
+      assert {:ok, entry} = FoodLogs.create_entry(scope, log.id, params)
+      assert entry.user_id == scope.user.id
+    end
+
+    test "raises for another user's log", %{scope: scope} do
+      other_log = insert(:food_log)
+      params = %{"description" => "toast", "occurred_at" => now()}
+
+      assert_raise Ecto.NoResultsError, fn ->
+        FoodLogs.create_entry(scope, other_log.id, params)
+      end
+    end
+  end
+
+  describe "get_entry/2" do
+    test "returns an entry in the scope's log", %{scope: scope, log: log} do
+      entry_id = insert(:food_log_entry, food_log_id: log.id).id
+
+      assert %Entry{id: ^entry_id} = FoodLogs.get_entry(scope, entry_id)
+    end
+
+    test "is nil for an entry in another user's log", %{scope: scope} do
+      entry = insert(:food_log_entry, food_log_id: insert(:food_log).id)
+
+      assert FoodLogs.get_entry(scope, entry.id) == nil
+    end
+
+    test "ignores the user id the entry was logged with", %{scope: scope} do
+      entry =
+        insert(:food_log_entry,
+          food_log_id: insert(:food_log).id,
+          user_id: scope.user.id
+        )
+
+      assert FoodLogs.get_entry(scope, entry.id) == nil
+    end
+
+    test "is nil when the entry doesn't exist", %{scope: scope} do
+      assert FoodLogs.get_entry(scope, Ecto.UUID.generate()) == nil
+    end
+  end
+
+  describe "get_entries/2" do
+    test "returns the asked-for entries in the scope's logs", %{scope: scope, log: log} do
+      [one, two] = insert_pair(:food_log_entry, food_log_id: log.id)
+      three = insert(:food_log_entry, food_log_id: log.id)
+
+      ids = scope |> FoodLogs.get_entries([one.id, two.id]) |> Enum.map(& &1.id)
 
       assert one.id in ids
       assert two.id in ids
       refute three.id in ids
     end
-  end
 
-  describe "list_by_owner_id/1" do
-    test "returns logs by the owner" do
-      my_id = rand_int()
-      my_log = insert(:food_log, owner_id: my_id)
-      _other_log = insert(:food_log)
+    test "skips entries in another user's log", %{scope: scope, log: log} do
+      mine = insert(:food_log_entry, food_log_id: log.id)
+      theirs = insert(:food_log_entry, food_log_id: insert(:food_log).id)
 
-      actual =
-        my_id
-        |> FoodLogs.list_by_owner_id()
-        |> Enum.map(& &1.id)
+      ids = scope |> FoodLogs.get_entries([mine.id, theirs.id]) |> Enum.map(& &1.id)
 
-      assert actual == [my_log.id]
+      assert ids == [mine.id]
     end
   end
 
-  describe "update_entry/2" do
-    test "updates the entry" do
-      entry = insert(:food_log_entry)
-      new_desc = "wee"
+  describe "list_entries_between_dates/4" do
+    test "returns the log's entries within the range", %{scope: scope, log: log} do
+      inside = insert(:food_log_entry, food_log_id: log.id, occurred_at: ~N[2025-03-14 12:00:00])
+      _before = insert(:food_log_entry, food_log_id: log.id, occurred_at: ~N[2025-03-13 12:00:00])
+      _after = insert(:food_log_entry, food_log_id: log.id, occurred_at: ~N[2025-03-15 12:00:00])
 
-      {:ok, updated_entry} = FoodLogs.update_entry(entry, %{description: new_desc})
+      entries =
+        FoodLogs.list_entries_between_dates(
+          scope,
+          log.id,
+          ~N[2025-03-14 00:00:00],
+          ~N[2025-03-14 23:59:59]
+        )
 
-      assert updated_entry.description == new_desc
+      assert Enum.map(entries, & &1.id) == [inside.id]
+    end
+
+    test "is empty for another user's log", %{scope: scope} do
+      other_log = insert(:food_log)
+      insert(:food_log_entry, food_log_id: other_log.id, occurred_at: ~N[2025-03-14 12:00:00])
+
+      entries =
+        FoodLogs.list_entries_between_dates(
+          scope,
+          other_log.id,
+          ~N[2025-03-14 00:00:00],
+          ~N[2025-03-14 23:59:59]
+        )
+
+      assert entries == []
     end
   end
 
-  describe "delete/1" do
-    test "deletes the log by its id" do
-      log = insert(:food_log)
+  describe "update_entry/3" do
+    test "updates an entry in the scope's log", %{scope: scope, log: log} do
+      entry = insert(:food_log_entry, food_log_id: log.id)
 
-      assert {:ok, log} = FoodLogs.delete(log.id)
-      refute Client.Repo.get(FoodLog, log.id)
+      assert {:ok, updated} = FoodLogs.update_entry(scope, entry.id, %{"description" => "wee"})
+      assert updated.description == "wee"
+    end
+
+    test "raises for an entry in another user's log", %{scope: scope} do
+      entry = insert(:food_log_entry, food_log_id: insert(:food_log).id)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        FoodLogs.update_entry(scope, entry.id, %{"description" => "wee"})
+      end
+
+      assert Repo.get(Entry, entry.id).description == entry.description
+    end
+
+    test "does not let an update move the entry to another log", %{scope: scope, log: log} do
+      entry = insert(:food_log_entry, food_log_id: log.id)
+      other_log = insert(:food_log)
+
+      assert {:ok, updated} =
+               FoodLogs.update_entry(scope, entry.id, %{"food_log_id" => other_log.id})
+
+      assert updated.food_log_id == log.id
     end
   end
 
-  describe "delete_entry/1" do
-    test "deletes the entry by its id" do
-      entry = insert(:food_log_entry)
+  describe "delete_entry/2" do
+    test "deletes an entry in the scope's log", %{scope: scope, log: log} do
+      entry = insert(:food_log_entry, food_log_id: log.id)
 
-      assert {:ok, entry} = FoodLogs.delete_entry(entry.id)
-      refute Client.Repo.get(FoodLogs.Entry, entry.id)
+      assert {:ok, _entry} = FoodLogs.delete_entry(scope, entry.id)
+      refute Repo.get(Entry, entry.id)
+    end
+
+    test "raises for an entry in another user's log", %{scope: scope} do
+      entry = insert(:food_log_entry, food_log_id: insert(:food_log).id)
+
+      assert_raise Ecto.NoResultsError, fn -> FoodLogs.delete_entry(scope, entry.id) end
+      assert Repo.get(Entry, entry.id)
     end
   end
+
+  defp now, do: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
 end

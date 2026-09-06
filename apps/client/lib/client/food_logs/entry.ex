@@ -13,10 +13,7 @@ defmodule Client.FoodLogs.Entry do
 
   def changeset(entry, params \\ %{}) do
     entry
-    |> cast(params, optional_attrs() ++ required_attrs())
-    |> validate_required(required_attrs())
+    |> cast(params, ~w[description occurred_at]a)
+    |> validate_required(~w[description food_log_id user_id occurred_at]a)
   end
-
-  defp optional_attrs, do: []
-  defp required_attrs, do: ~w[description food_log_id user_id occurred_at]a
 end

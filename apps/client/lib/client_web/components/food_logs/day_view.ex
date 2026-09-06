@@ -14,7 +14,7 @@ defmodule ClientWeb.Components.FoodLogs.DayView do
         </div>
         <div>
           <%= for entry <- @entries do %>
-            <.live_component module={ClientWeb.FoodLog.EntryView} id={entry.id} />
+            <.live_component module={ClientWeb.FoodLog.EntryView} id={entry.id} scope={@scope} />
           <% end %>
         </div>
       </div>
@@ -25,6 +25,7 @@ defmodule ClientWeb.Components.FoodLogs.DayView do
   def update_many(assigns_sockets) do
     {assigns, socket} = hd(assigns_sockets)
     log_id = assigns[:log_id] || socket.assigns[:log_id]
+    scope = assigns[:scope] || socket.assigns[:scope]
 
     dates =
       assigns_sockets
@@ -37,6 +38,7 @@ defmodule ClientWeb.Components.FoodLogs.DayView do
 
     entries =
       FoodLogs.list_entries_between_dates(
+        scope,
         log_id,
         DateTimeHelpers.beginning_of_day(first_date),
         DateTimeHelpers.end_of_day(last_date)
@@ -52,7 +54,7 @@ defmodule ClientWeb.Components.FoodLogs.DayView do
 
       socket
       |> assign(assigns)
-      |> assign(entries: day_entries)
+      |> assign(scope: scope, entries: day_entries)
     end)
   end
 

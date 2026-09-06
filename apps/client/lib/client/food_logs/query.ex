@@ -1,7 +1,8 @@
 defmodule Client.FoodLogs.Query do
   import Ecto.Query, only: [from: 2]
 
-  def by_owner_id(query, owner_id) do
-    from(log in query, where: log.owner_id == ^owner_id)
-  end
+  alias Client.Scope
+
+  def owned_by(query, %Scope{user: user}),
+    do: from(log in query, where: log.owner_id == ^user.id)
 end
