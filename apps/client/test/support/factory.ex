@@ -203,15 +203,6 @@ defmodule Client.Factory do
     }
   end
 
-  @doc """
-  A `Client.Scope` for the given user, or for a freshly inserted one.
-
-      build(:scope)
-      build(:scope, user: user)
-
-  Build-only: a scope is not an Ecto struct, so `insert(:scope)` will not work.
-  The user it names is inserted either way.
-  """
   def scope_factory(attrs) do
     user = Map.get(attrs, :user) || insert(:user)
     Client.Scope.for_user(user)
