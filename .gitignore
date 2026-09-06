@@ -54,3 +54,6 @@ _plts/
 *.db
 .beads-credential-key
 .beads/proxieddb/
+
+# Local interaction log -- churns on every bd command, machine-specific
+.beads/interactions.jsonl
