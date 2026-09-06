@@ -15,21 +15,21 @@ defmodule ClientWeb.FoodLog.EntryView do
   end
 
   def update_many(assigns_sockets) do
+    {assigns, socket} = hd(assigns_sockets)
+    scope = assigns[:scope] || socket.assigns[:scope]
     entry_ids = Enum.map(assigns_sockets, fn {assigns, _sockets} -> assigns.id end)
 
     entries =
-      entry_ids
-      |> FoodLogs.get_entries()
+      scope
+      |> FoodLogs.get_entries(entry_ids)
       |> Enum.map(&{&1.id, &1})
       |> Map.new()
 
     Enum.map(assigns_sockets, fn {assigns, socket} ->
-      assign(socket, :entry, entries[assigns.id])
+      socket
+      |> assign(:scope, scope)
+      |> assign(:entry, entries[assigns.id])
     end)
-  end
-
-  def update(assigns, socket) do
-    {:ok, assign(socket, assigns)}
   end
 
   def handle_event("edit_entry", _value, socket) do
@@ -42,31 +42,21 @@ defmodule ClientWeb.FoodLog.EntryView do
 
   def handle_event("update_entry", %{"entry" => entry_params}, socket) do
     entry = socket.assigns[:entry]
+    entry_params = combine_date_and_time(entry_params)
 
-    req_params = %{
-      "food_log_id" => entry.food_log_id,
-      "user_id" => entry.user_id
-    }
-
-    entry_params =
-      entry_params
-      |> Map.merge(req_params)
-      |> combine_date_and_time()
-
-    case FoodLogs.update_entry(entry, entry_params) do
+    case FoodLogs.update_entry(socket.assigns.scope, entry.id, entry_params) do
       {:ok, entry} ->
         send(self(), {:entry_updated, entry})
         assigns = [changeset: nil, entry: entry]
         {:noreply, assign(socket, assigns)}
 
       {:error, changeset} ->
-        raise changeset
         {:noreply, assign(socket, :changeset, changeset)}
     end
   end
 
   def handle_event("delete_entry", _value, socket) do
-    {:ok, entry} = FoodLogs.delete_entry(socket.assigns[:entry].id)
+    {:ok, entry} = FoodLogs.delete_entry(socket.assigns.scope, socket.assigns.entry.id)
     send(self(), {:entry_deleted, entry})
     {:noreply, assign(socket, :changeset, nil)}
   end

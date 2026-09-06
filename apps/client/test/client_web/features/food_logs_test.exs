@@ -89,7 +89,7 @@ defmodule ClientWeb.FoodLogsTest do
     |> click(role("entry-update-submit"))
     |> take_screenshot()
 
-    updated_entry = FoodLogs.get_entry(entry.id)
+    updated_entry = FoodLogs.get_entry(build(:scope, user: user), entry.id)
 
     updated_occurred_at =
       updated_entry.occurred_at
@@ -114,7 +114,7 @@ defmodule ClientWeb.FoodLogsTest do
     end)
 
     assert_has(session, entry_selector(entry.id, count: 0))
-    refute FoodLogs.get_entry(entry.id)
+    refute FoodLogs.get_entry(build(:scope, user: user), entry.id)
   end
 
   defp entry_selector(entry_id, opts \\ []),

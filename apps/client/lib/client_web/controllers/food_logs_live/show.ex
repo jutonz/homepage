@@ -1,6 +1,7 @@
 defmodule ClientWeb.FoodLogsLive.Show do
   use ClientWeb, :live_view
   alias Client.FoodLogs
+  alias Client.FoodLogs.FoodLog
 
   def render(assigns) do
     ~H"""
@@ -27,6 +28,7 @@ defmodule ClientWeb.FoodLogsLive.Show do
           <.live_component
             module={ClientWeb.Components.FoodLogs.DayView}
             id={day}
+            scope={@scope}
             log_id={@log.id}
             date={day}
           />
@@ -45,39 +47,23 @@ defmodule ClientWeb.FoodLogsLive.Show do
     """
   end
 
-  def mount(params, session, socket) do
-    LiveHelpers.allow_ecto_sandbox(socket)
-    %{"id" => log_id} = params
-    %{"user_id" => user_id} = session
+  def mount(%{"id" => log_id}, _session, socket) do
+    scope = socket.assigns.scope
 
-    log = FoodLogs.get(log_id)
-    now = now()
-
-    days =
-      0..30
-      |> Enum.map(&DateTime.add(now, &1 * -1, :day))
-
-    socket =
-      assign(socket,
-        log: log,
-        user_id: user_id,
-        days: days,
-        form: empty_form()
-      )
-
-    {:ok, socket}
+    if connected?(socket) do
+      case FoodLogs.get(scope, log_id) do
+        %FoodLog{} = log -> {:ok, assign_log(socket, log)}
+        nil -> {:ok, redirect(socket, to: ~p"/food-logs")}
+      end
+    else
+      {:ok, assign_log(socket, FoodLogs.get!(scope, log_id))}
+    end
   end
 
   def handle_event("add_entry", %{"entry" => entry_params}, socket) do
-    req_params = %{
-      "food_log_id" => socket.assigns[:log].id,
-      "user_id" => socket.assigns[:user_id],
-      "occurred_at" => now()
-    }
+    entry_params = Map.put(entry_params, "occurred_at", now())
 
-    entry_params = Map.merge(entry_params, req_params)
-
-    case FoodLogs.create_entry(entry_params) do
+    case FoodLogs.create_entry(socket.assigns.scope, socket.assigns.log.id, entry_params) do
       {:ok, entry} ->
         update_entry_day(entry, socket)
         {:noreply, assign(socket, form: empty_form())}
@@ -95,6 +81,14 @@ defmodule ClientWeb.FoodLogsLive.Show do
   def handle_info({:entry_updated, entry}, socket) do
     update_entry_day(entry, socket)
     {:noreply, socket}
+  end
+
+  defp assign_log(socket, log),
+    do: assign(socket, log: log, days: days(), form: empty_form())
+
+  defp days do
+    now = now()
+    Enum.map(0..30, &DateTime.add(now, &1 * -1, :day))
   end
 
   defp empty_form,

@@ -5,10 +5,7 @@ defmodule ClientWeb.FoodLogController do
   plug :put_view, ClientWeb.FoodLogView
 
   def index(conn, _params) do
-    logs =
-      conn
-      |> Client.Session.current_user_id()
-      |> FoodLogs.list_by_owner_id()
+    logs = FoodLogs.list(conn.assigns.scope)
 
     conn
     |> assign(:title, "Food Logs")
@@ -21,12 +18,7 @@ defmodule ClientWeb.FoodLogController do
   end
 
   def create(conn, %{"food_log" => log_params}) do
-    insert_result =
-      log_params
-      |> Map.put("owner_id", Client.Session.current_user_id(conn))
-      |> FoodLogs.create()
-
-    case insert_result do
+    case FoodLogs.create(conn.assigns.scope, log_params) do
       {:ok, log} ->
         conn
         |> put_flash(:success, "Created!")
@@ -40,18 +32,24 @@ defmodule ClientWeb.FoodLogController do
   end
 
   def edit(conn, %{"id" => id}) do
-    cs = id |> FoodLogs.get() |> FoodLogs.changeset()
+    cs = conn.assigns.scope |> FoodLogs.get!(id) |> FoodLogs.changeset()
     render(conn, "edit.html", changeset: cs)
   end
 
   def update(conn, %{"id" => id, "food_log" => log_params}) do
-    with {:ok, log} <- id |> FoodLogs.get() |> FoodLogs.update(log_params) do
-      redirect(conn, to: ~p"/food-logs/#{log.id}")
+    case FoodLogs.update(conn.assigns.scope, id, log_params) do
+      {:ok, log} ->
+        redirect(conn, to: ~p"/food-logs/#{log.id}")
+
+      {:error, changeset} ->
+        conn
+        |> put_flash(:danger, "Unable to update log")
+        |> render("edit.html", changeset: changeset)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    case FoodLogs.delete(id) do
+    case FoodLogs.delete(conn.assigns.scope, id) do
       {:ok, _log} ->
         redirect(conn, to: ~p"/food-logs")
 

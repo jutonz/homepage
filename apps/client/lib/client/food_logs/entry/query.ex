@@ -1,54 +1,34 @@
 defmodule Client.FoodLogs.Entry.Query do
   import Ecto.Query, only: [from: 2]
 
-  def by_ids(query, ids),
-    do: from(entry in query, where: entry.id in ^ids)
+  alias Client.FoodLogs.FoodLog
+  alias Client.Scope
 
-  def by_log(query, log_id),
-    do: from(entry in query, where: entry.food_log_id == ^log_id)
+  @doc """
+  Entries whose parent log the scope owns.
 
-  @by_day_fragment """
-  SELECT
-    sequential_dates.date,
-    food_log_entries.description,
-    food_log_entries.id
-  FROM
-    (
-      SELECT
-        '~s'::date - sequential_dates.date
-      AS date
-      FROM
-        generate_series(0, ~B)
-      AS sequential_dates(date)
-    ) sequential_dates
-  LEFT JOIN
-    food_log_entries
-  ON
-    food_log_entries.occurred_at::date = sequential_dates.date
-  WHERE
-    food_log_entries.food_log_id = '~s'
-  ORDER BY
-    food_log_entries.occurred_at
+  Ownership travels through the log. The user id on the entry records who
+  logged the food and says nothing about who may read it.
   """
-  def grouped_by_day(food_log_id) do
-    {:ok, now} = DateTime.now(timezone())
-    yesterday = now |> DateTime.add(60 * 60 * 24, :second)
-    start_date = yesterday |> DateTime.to_date() |> to_string()
-    num_days = 31
-
-    {:ok, result} =
-      @by_day_fragment
-      |> :io_lib.format([start_date, num_days, food_log_id])
-      |> to_string()
-      |> Client.Repo.query()
-
-    Enum.group_by(
-      result.rows,
-      fn [date, _description, _id] -> date end,
-      fn [_date, description, id] -> %{description: description, id: Ecto.UUID.cast!(id)} end
+  def owned_by(query, %Scope{user: user}) do
+    from(entry in query,
+      join: log in FoodLog,
+      on: log.id == entry.food_log_id,
+      where: log.owner_id == ^user.id
     )
   end
 
-  defp timezone,
-    do: Application.get_env(:client, :default_timezone)
+  def by_ids(query, ids),
+    do: from(entry in query, where: entry.id in ^ids)
+
+  def in_log(query, log_id),
+    do: from(entry in query, where: entry.food_log_id == ^log_id)
+
+  def occurred_between(query, start_time, end_time) do
+    from(entry in query,
+      where: entry.occurred_at >= ^start_time,
+      where: entry.occurred_at <= ^end_time,
+      order_by: [asc: entry.occurred_at]
+    )
+  end
 end

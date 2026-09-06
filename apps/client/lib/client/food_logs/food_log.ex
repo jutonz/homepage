@@ -13,7 +13,7 @@ defmodule Client.FoodLogs.FoodLog do
 
   def changeset(%FoodLog{} = log, attrs \\ %{}) do
     log
-    |> Ecto.Changeset.cast(attrs, ~w[name description owner_id]a)
+    |> Ecto.Changeset.cast(attrs, ~w[name description]a)
     |> Ecto.Changeset.validate_required(~w[name owner_id]a)
     |> Ecto.Changeset.unique_constraint(:name, name: :food_logs_owner_id_name_index)
   end
