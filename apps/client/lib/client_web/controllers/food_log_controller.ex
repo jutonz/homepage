@@ -37,8 +37,14 @@ defmodule ClientWeb.FoodLogController do
   end
 
   def update(conn, %{"id" => id, "food_log" => log_params}) do
-    with {:ok, log} <- FoodLogs.update(conn.assigns.scope, id, log_params) do
-      redirect(conn, to: ~p"/food-logs/#{log.id}")
+    case FoodLogs.update(conn.assigns.scope, id, log_params) do
+      {:ok, log} ->
+        redirect(conn, to: ~p"/food-logs/#{log.id}")
+
+      {:error, changeset} ->
+        conn
+        |> put_flash(:danger, "Unable to update log")
+        |> render("edit.html", changeset: changeset)
     end
   end
 

@@ -71,6 +71,35 @@ defmodule ClientWeb.FoodLogsLive.ShowTest do
     assert entry.user_id == user.id
   end
 
+  test "keeps a past day's entries when that day is told to refresh", %{
+    conn: conn,
+    user: user,
+    log: log
+  } do
+    three_days_ago = NaiveDateTime.add(NaiveDateTime.utc_now(), -3, :day)
+    entry = insert(:food_log_entry, food_log_id: log.id, occurred_at: three_days_ago)
+
+    {:ok, live, html} = live(conn, ~p"/food-logs/#{log.id}?as=#{user.id}")
+    assert html =~ entry.description
+
+    send(live.pid, {:entry_updated, entry})
+    await_day_refresh(live)
+
+    assert render(live) =~ entry.description
+  end
+
+  test "gives each entry its own dom id", %{conn: conn, user: user, log: log} do
+    one = insert(:food_log_entry, food_log_id: log.id)
+    two = insert(:food_log_entry, food_log_id: log.id)
+
+    {:ok, _live, html} = live(conn, ~p"/food-logs/#{log.id}?as=#{user.id}")
+
+    assert html =~ ~s(id="entry-#{one.id}")
+    assert html =~ ~s(id="entry-#{two.id}")
+  end
+
+  defp await_day_refresh(live), do: render(live)
+
   defp long_ago, do: ~N[2000-01-01 00:00:00]
 
   defp soon, do: NaiveDateTime.add(NaiveDateTime.utc_now(), 60 * 60 * 24)

@@ -36,10 +36,13 @@ defmodule Client.Factory do
   end
 
   def food_log_entry_factory(attrs) do
+    {food_log_id, attrs} =
+      Map.pop_lazy(attrs, :food_log_id, fn -> insert(:food_log).id end)
+
     struct = %Client.FoodLogs.Entry{
       description: sequence(:description, &"food-item-#{&1}"),
       user_id: rand_int(),
-      food_log_id: Map.get_lazy(attrs, :food_log_id, fn -> insert(:food_log).id end),
+      food_log_id: food_log_id,
       occurred_at: now()
     }
 

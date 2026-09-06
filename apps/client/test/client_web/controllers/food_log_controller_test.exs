@@ -67,6 +67,19 @@ defmodule ClientWeb.FoodLogControllerTest do
 
       assert Repo.get(FoodLog, other_log.id).name == other_log.name
     end
+
+    test "re-renders the form when the name is already taken", %{
+      conn: conn,
+      user: user,
+      log: log
+    } do
+      taken = insert(:food_log, owner_id: user.id)
+
+      conn = put(conn, ~p"/food-logs/#{log.id}?as=#{user.id}", food_log: %{"name" => taken.name})
+
+      assert html_response(conn, 200) =~ "Edit Log"
+      assert Repo.get(FoodLog, log.id).name == log.name
+    end
   end
 
   describe "delete/2" do

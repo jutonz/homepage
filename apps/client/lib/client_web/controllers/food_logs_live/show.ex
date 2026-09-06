@@ -48,9 +48,15 @@ defmodule ClientWeb.FoodLogsLive.Show do
   end
 
   def mount(%{"id" => log_id}, _session, socket) do
-    case FoodLogs.get(socket.assigns.scope, log_id) do
-      %FoodLog{} = log -> {:ok, assign(socket, log: log, days: days(), form: empty_form())}
-      nil -> not_found(socket)
+    scope = socket.assigns.scope
+
+    if connected?(socket) do
+      case FoodLogs.get(scope, log_id) do
+        %FoodLog{} = log -> {:ok, assign_log(socket, log)}
+        nil -> {:ok, redirect(socket, to: ~p"/food-logs")}
+      end
+    else
+      {:ok, assign_log(socket, FoodLogs.get!(scope, log_id))}
     end
   end
 
@@ -77,13 +83,8 @@ defmodule ClientWeb.FoodLogsLive.Show do
     {:noreply, socket}
   end
 
-  defp not_found(socket) do
-    if connected?(socket) do
-      {:ok, redirect(socket, to: ~p"/food-logs")}
-    else
-      raise Ecto.NoResultsError, queryable: FoodLog
-    end
-  end
+  defp assign_log(socket, log),
+    do: assign(socket, log: log, days: days(), form: empty_form())
 
   defp days do
     now = now()

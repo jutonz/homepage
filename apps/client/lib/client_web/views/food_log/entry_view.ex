@@ -32,10 +32,6 @@ defmodule ClientWeb.FoodLog.EntryView do
     end)
   end
 
-  def update(assigns, socket) do
-    {:ok, assign(socket, assigns)}
-  end
-
   def handle_event("edit_entry", _value, socket) do
     changeset = FoodLogs.entry_changeset(socket.assigns[:entry])
     {:noreply, assign(socket, :changeset, changeset)}
