@@ -118,3 +118,80 @@ Used by `/wayfinder`. The **map** is an epic, and **tickets** are its children.
 - **Claim**: `bd update <id> --claim`, the session's first write.
 - **Resolve**: `bd comment <id> "<answer>"`, then `bd close <id> --reason="..."`, then
   append a context pointer to the map's Decisions-so-far.
+
+## Workflow formulas
+
+Formulas are workflow templates in `.beads/formulas/*.formula.json`. They are git-tracked;
+the instances they create are not. `bd formula list` / `bd formula show <name>` inspect them.
+
+### `bead-to-pr`
+
+The repeatable playbook for taking one bead from open to merged, in nine sequential steps:
+`read` → `claim` → `branch` → `implement` → `verify` → `commit` → `review` → `pr` → `close`.
+
+```
+bd mol wisp bead-to-pr --var bead=homepage-4fm
+```
+
+Driven by the `/bead-to-pr` skill in `.claude/skills/`, which pours or resumes the wisp and
+walks its steps. That skill is user-invoked, so nothing discovers it on its own — type it.
+
+`bead` is the only variable, and it is required.
+
+**The branch comes from the ticket, not from an argument.** The `branch` step reads
+`metadata.branch` off the bead and checks that branch out if it is set; if it is empty, it
+constructs `jt/<slug>`, writes it back with `--set-metadata branch=...`, *then* checks out.
+Recording before checking out is what makes a resumed or handed-off run land on the same
+branch instead of cutting a second one. Formula variables have no defaults — every `{{var}}`
+must be supplied at pour time — so an optional `branch` argument was not an option.
+
+**A ticket lands as one commit**, so nothing is committed until the gates are green:
+`implement` deliberately does not commit, `verify` runs the gates, and `commit` stages the
+whole change at once. `review` then runs the `mattpocock-skills:code-review` skill against
+the merge-base before anything is pushed, and its fixes are amended into that single commit.
+
+**`verify` checks acceptance criteria, not just tests.** After the gates pass it re-reads
+`acceptance_criteria` off the bead, walks each one against the diff, and ticks the boxes with
+`bd update <id> --acceptance "..."`. That flag *replaces* the whole field, so every criterion
+has to be passed back — ticking one by sending only that line silently drops the rest. An
+unmet criterion stops the run before the commit step.
+
+**`pr` closes the loop on both metadata fields.** It records the PR URL and moves the bead to
+`in_review` in a single `bd update <id> --set-metadata pr=<url> -s in_review`, reading the URL
+back from `gh pr view --json url -q .url` rather than retyping it.
+
+**It is vapor, not liquid.** `bd mol wisp` creates *ephemeral* issues — local-only, absent
+from `bd ready`, `bd list`, and `.beads/issues.jsonl`, never synced by `bd dolt push`. Use
+`bd mol wisp`, never `bd mol pour`, or the nine checklist steps become permanent tracker noise.
+
+- **Progress**: `bd mol show <root>`, `bd mol progress <root>`, `bd mol current <root>`.
+- **Advance**: `bd close <step-id>` as each step completes.
+- **Finish**: `bd mol squash <root> --summary "..."` to leave one persistent digest bead,
+  or `bd mol burn <root> --force` to discard the run entirely (it prompts without `--force`).
+
+The final step carries a **human gate**, so `close` stays blocked until you run
+`bd gate resolve <gate-id>` (find it with `bd gate list`). That enforces the rule that a bead
+is closed only after its PR merges — `in_review` is where it sits until then.
+
+A `gh:pr` gate would auto-resolve on merge, but `--await-id` needs the PR number, which does
+not exist when the wisp is poured. `bd gate discover` only backfills `gh:run` gates, not
+`gh:pr`. Hence the human gate.
+
+**Authoring gotchas** (learned the hard way):
+
+- The name key is `formula`, not `name` — `{"formula": "bead-to-pr", ...}`. Using `name`
+  fails with the confusing `formula: name is required`.
+- Validate with `bd cook <path> --var k=v` before pouring; it resolves and type-checks
+  without writing to the database.
+- Variable `default` values are declared but **not honored** — `bd cook --mode=runtime`
+  still errors `Missing: <var>`. Every `{{var}}` in the file must be supplied at pour time,
+  so anything optional has to be resolved by a step at runtime rather than interpolated.
+- A step description that spans multiple lines inside a quoted shell argument renders badly
+  (`bd show` eats the leading `-` of continuation lines). Keep such examples on one logical
+  line, e.g. `--acceptance "$(printf -- '- [x] one\n- [x] two\n')"`.
+- Avoid `<angle-bracket>` placeholders in step descriptions. They survive in storage but the
+  `bd show` renderer strips them, so `pr=<full-url>` displays as `pr=`. Use bare tokens like
+  `PR_URL` instead.
+- Wisps are garbage-collected only when you run `bd mol wisp gc` — nothing expires on a
+  timer. But `gc` deletes wisps untouched for `--age` (default 1h) regardless of a pending
+  gate, so a run parked waiting on review is deletable. Squash before a long wait.

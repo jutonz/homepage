@@ -1,0 +1,106 @@
+{
+  "formula": "bead-to-pr",
+  "type": "workflow",
+  "phase": "vapor",
+  "description": "Repeatable playbook for taking one bead from open to merged. Pour with: bd mol wisp bead-to-pr --var bead=<id>",
+  "epic_title": "Ticket to PR: {{bead}}",
+  "variables": {
+    "bead": {
+      "description": "The bead being implemented, e.g. homepage-4fm",
+      "required": true
+    }
+  },
+  "steps": [
+    {
+      "id": "read",
+      "title": "Read {{bead}}",
+      "type": "task",
+      "priority": 1,
+      "description": "bd show {{bead}} and bd comments {{bead}}. Understand the acceptance criteria before touching code. If the ticket is underspecified, stop and ask rather than guessing."
+    },
+    {
+      "id": "claim",
+      "title": "Move {{bead}} to in_progress",
+      "type": "task",
+      "priority": 1,
+      "depends_on": [
+        "read"
+      ],
+      "description": "bd update {{bead}} --claim\n\nAtomically sets the assignee to you and the status to in_progress. Do this before cutting the branch, so the ticket is never being worked on while still reading as open."
+    },
+    {
+      "id": "branch",
+      "title": "Check out the branch for {{bead}}",
+      "type": "task",
+      "priority": 1,
+      "depends_on": [
+        "claim"
+      ],
+      "description": "The ticket is the source of truth for its branch. Read it first:\n\nBRANCH=$(bd show {{bead}} --json | jq -r '.[0].metadata.branch // empty')\n\nIf BRANCH is set, this ticket already has a branch -- check that one out, do not cut a new one:\n  git fetch origin\n  git checkout \"$BRANCH\" || git checkout -b \"$BRANCH\" origin/main\n\nIf BRANCH is empty, construct one: jt/ plus a short kebab-case slug of the\nticket title, e.g. jt/scope-food-log. Record it on the ticket BEFORE checking\nout, so a resumed or handed-off run finds the same branch:\n  bd update {{bead}} --set-metadata branch=\"$BRANCH\"\n  git checkout main && git pull\n  git checkout -b \"$BRANCH\"\n\nSee docs/agents/issue-tracker.md for the metadata conventions."
+    },
+    {
+      "id": "implement",
+      "title": "Implement {{bead}}",
+      "type": "task",
+      "priority": 1,
+      "depends_on": [
+        "branch"
+      ],
+      "description": "Write the code. Do NOT commit yet -- the whole ticket lands as a single commit at the commit step, after the quality gates pass.\n\nNo explanatory comments in the diff; reasoning goes in the commit message."
+    },
+    {
+      "id": "verify",
+      "title": "Verify {{bead}}: quality gates and acceptance criteria",
+      "type": "task",
+      "priority": 1,
+      "depends_on": [
+        "implement"
+      ],
+      "description": "mix test\ncd apps/client/assets && yarn typecheck && yarn lint --check\n\nRun the gates that the change actually touches, and paste real output. Do not claim green without having seen it. Fix and re-run until clean -- nothing gets committed on a red gate.\n\nThen confirm every acceptance criterion on the ticket is actually implemented:\n\n  bd show {{bead}} --json | jq -r '.[0].acceptance_criteria'\n\nWalk each criterion against the diff and name what satisfies it. Tick the ones that are done by rewriting the field with the boxes checked:\n\n  bd update {{bead}} --acceptance \"$(printf -- '- [x] first criterion\\n- [x] second criterion\\n')\"\n\n--acceptance REPLACES the whole field, so pass every criterion back, not just the ones you just ticked, or the rest are silently lost.\n\nIf a criterion is not met, stop here -- the ticket is not ready to commit. If the ticket has no acceptance criteria at all, say so rather than quietly skipping this check."
+    },
+    {
+      "id": "commit",
+      "title": "Commit {{bead}} as one commit",
+      "type": "task",
+      "priority": 1,
+      "depends_on": [
+        "verify"
+      ],
+      "description": "git add -A\ngit commit\n\nOne commit for the whole ticket. The subject is a short imperative line; the body carries the reasoning that deliberately did not go into code comments.\n\nIf review later requires changes, amend or add fixups and squash before merge so the branch still lands as a single commit."
+    },
+    {
+      "id": "review",
+      "title": "Code-review {{bead}} before opening the PR",
+      "type": "task",
+      "priority": 1,
+      "depends_on": [
+        "commit"
+      ],
+      "description": "Run the mattpocock-skills:code-review skill against the merge-base with main. It reviews on two axes in parallel: Standards (does this follow the repo's documented standards?) and Spec (does this match what {{bead}} actually asked for?).\n\nAct on what it finds before pushing. Amend the commit rather than stacking a fixup -- this branch lands as one commit. Re-run the verify step if the fixes are non-trivial."
+    },
+    {
+      "id": "pr",
+      "title": "Open the PR for {{bead}} and send it to review",
+      "type": "task",
+      "priority": 1,
+      "depends_on": [
+        "review"
+      ],
+      "description": "git push -u origin \"$BRANCH\"\ngh pr create --fill\n\nThen record the PR on the ticket and move it to in_review, in one update:\n  bd update {{bead}} --set-metadata pr=PR_URL -s in_review\n\nPR_URL is the full URL, e.g. https://github.com/jutonz/homepage/pull/4441.\nRead it back from gh rather than retyping it:\n  PR_URL=$(gh pr view --json url -q .url)\n\nNever store the bare number -- pr=4441 is stored as an integer, which breaks\n--metadata-field matching and reads badly in JSON.\n\nThe ticket now sits in in_review until the PR merges. Pushing is authorised by\nhaving poured this wisp; the repo is otherwise on the conservative profile."
+    },
+    {
+      "id": "close",
+      "title": "Close {{bead}} after merge",
+      "type": "task",
+      "priority": 1,
+      "depends_on": [
+        "pr"
+      ],
+      "gate": {
+        "type": "human",
+        "reason": "Waiting for the PR on {{bead}} to be reviewed and merged"
+      },
+      "description": "Only once the PR is actually merged:\n\nbd close {{bead}} --reason=\"...\"\nbd close WISP_ROOT or bd mol squash WISP_ROOT --summary \"...\"\n\nIf review asks for changes instead, bd update {{bead}} -s in_progress and go back to the implement step. The branch metadata still points at the right branch, so the branch step is a no-op on resume."
+    }
+  ]
+}
