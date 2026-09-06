@@ -26,7 +26,7 @@ defmodule ClientWeb.Endpoint do
   socket(
     "/live",
     Phoenix.LiveView.Socket,
-    websocket: [connect_info: [:user_agent, session: @session_opts]]
+    websocket: [connect_info: [:user_agent, :uri, session: @session_opts]]
   )
 
   plug(

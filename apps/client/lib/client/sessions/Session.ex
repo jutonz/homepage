@@ -81,8 +81,21 @@ defmodule Client.Session do
     {:ok, conn}
   end
 
-  def current_user_id(conn),
+  @doc """
+  The id of the user a session names, or nil.
+
+  Takes a conn, or the session map a LiveView is mounted with — nested
+  LiveViews are handed a user id rather than a scope, since only serializable
+  values survive the trip through `live_render/3`.
+  """
+  def current_user_id(%Plug.Conn{} = conn),
     do: get_session(conn, :user_id)
+
+  def current_user_id(%{"user_id" => user_id}),
+    do: user_id
+
+  def current_user_id(session) when is_map(session),
+    do: nil
 
   def init_session_from_jwt(conn, _blueprint) do
     conn = Plug.Conn.fetch_session(conn)

@@ -1,5 +1,6 @@
 defmodule ClientWeb.Plugs.ApiAuthenticatedTest do
   use ClientWeb.ConnCase, async: true
+  alias Client.Scope
   alias ClientWeb.Plugs.ApiAuthenticated
 
   test "sets current_user_id", %{conn: conn} do
@@ -16,6 +17,25 @@ defmodule ClientWeb.Plugs.ApiAuthenticatedTest do
     conn = conn |> authorize(api_token) |> ApiAuthenticated.call(%{})
 
     assert conn.assigns[:api_token] == api_token
+  end
+
+  test "sets a scope for the token's user", %{conn: conn} do
+    api_token = insert(:api_token)
+
+    conn = conn |> authorize(api_token) |> ApiAuthenticated.call(%{})
+
+    assert %Scope{user: user} = conn.assigns[:scope]
+    assert user.id == api_token.user_id
+  end
+
+  test "rejects a token whose user no longer exists", %{conn: conn} do
+    api_token = insert(:api_token)
+    Client.Repo.get!(Client.User, api_token.user_id) |> Client.Repo.delete!()
+
+    conn = conn |> authorize(api_token) |> ApiAuthenticated.call(%{})
+
+    assert conn.status == 401
+    assert conn.resp_body == "The authorization header contains an invalid token"
   end
 
   test "says if no auth header is present", %{conn: conn} do
