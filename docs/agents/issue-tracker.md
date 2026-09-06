@@ -55,6 +55,33 @@ inline flags instead.
 Do not run `bd dolt push`, `git commit`, or `git push` as part of these skills unless the
 user explicitly asks. This repo runs the conservative agent profile.
 
+## Branch and PR metadata
+
+A ticket in flight records where it is being built and, once a PR exists, where to review
+it. Both live in the bead's metadata map as **strings**.
+
+| Key      | Value                                                               |
+| -------- | ------------------------------------------------------------------- |
+| `branch` | The git branch name, e.g. `jt/scope-food-log`                        |
+| `pr`     | The full PR URL, e.g. `https://github.com/jutonz/homepage/pull/4440` |
+
+- **Set the branch** when you claim the ticket and cut the branch:
+  `bd update <id> --set-metadata branch=jt/scope-food-log`
+- **Set the PR** when you open it, alongside the move to `in_review`:
+  `bd update <id> --set-metadata pr=https://github.com/jutonz/homepage/pull/4440 -s in_review`
+- **Read**: `bd show <id>` prints a `METADATA` block; `bd show <id> --json` exposes `metadata`.
+- **Find**: `bd list --metadata-field branch=jt/scope-food-log` for an exact match,
+  `bd list --has-metadata-key pr` for every ticket with a PR open.
+- **Clear**: `bd update <id> --unset-metadata pr`.
+
+Always store the PR as the full URL, never the bare number — `--set-metadata pr=4440` is
+stored as the *integer* `4440`, which breaks `--metadata-field` matching and reads badly in
+JSON. A URL is unambiguously a string.
+
+`bd query` does not understand metadata fields; only the `bd list` flags above filter on
+them. Metadata is part of the bead, so it exports to `.beads/issues.jsonl` and travels with
+`bd dolt push`.
+
 ## Pull requests as a triage surface
 
 **PRs as a request surface: no.** _(Set to `yes` if this repo treats GitHub PRs as feature
