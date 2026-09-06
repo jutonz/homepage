@@ -23,8 +23,31 @@ Run `bd prime` once per session for the full workflow context.
   `bd update <id> --add-label x --remove-label y` also works.
 - **Claim**: `bd update <id> --claim` (atomically sets assignee to you and status to
   `in_progress`). Assign to someone else with `bd assign <id> <name>`.
+- **Send for review**: `bd update <id> -s in_review` once a PR is open and waiting on a
+  human. See "The `in_review` status" below.
 - **Close**: `bd close <id> --reason="..."`. Close several at once: `bd close <id1> <id2>`.
   `bd close <id> --suggest-next` shows what the close unblocked.
+
+## The `in_review` status
+
+`in_review` is a custom status (category `wip`) on top of beads' built-in set. It means
+**a PR is open and pending human review**. Confirm the vocabulary with `bd statuses`.
+
+- **Move into it**: `bd update <id> -s in_review`, immediately after opening the PR.
+- **Move out of it**: `bd close <id> --reason="..."` when the PR merges — `closed` is beads'
+  only terminal state, so it is what "resolved" means here. If review asks for changes,
+  move back with `bd update <id> -s in_progress`.
+- **Find them**: `bd list --status in_review`.
+
+The status lives in the beads database, not in `.beads/config.yaml`, so it travels with
+`bd dolt push` / `bd dolt pull` rather than with a git-tracked file. It was registered with:
+
+```
+bd config set status.custom "in_review:wip"
+```
+
+Appending another custom status later means rewriting that whole comma-separated value —
+`bd config set status.custom "in_review:wip,other:wip"` — since the key is replaced, not merged.
 
 **Never run `bd edit`** — it opens `$EDITOR` and blocks the agent. Use `bd update` with
 inline flags instead.
