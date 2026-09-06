@@ -203,6 +203,11 @@ defmodule Client.Factory do
     }
   end
 
+  def scope_factory(attrs) do
+    user = Map.get(attrs, :user) || insert(:user)
+    Client.Scope.for_user(user)
+  end
+
   def rand_string(length \\ 16) do
     length
     |> :crypto.strong_rand_bytes()

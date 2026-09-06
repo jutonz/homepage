@@ -46,7 +46,13 @@ defmodule ClientWeb.Router do
     pipe_through(:browser_authenticated)
 
     resources("/food-logs", FoodLogController, except: ~w[show]a)
-    live("/food-logs/:id", FoodLogsLive.Show, :show)
+
+    live_session(:food_logs,
+      on_mount: ClientWeb.Live.AssignScope,
+      root_layout: {ClientWeb.Layouts, :root}
+    ) do
+      live("/food-logs/:id", FoodLogsLive.Show, :show)
+    end
 
     resources("/water-logs", WaterLogController, only: ~w[index new create show]a) do
       resources("/filters", WaterFilterController,
@@ -54,7 +60,10 @@ defmodule ClientWeb.Router do
         as: :filters
       )
 
-      live_session(:water_logs, root_layout: {ClientWeb.Layouts, :root}) do
+      live_session(:water_logs,
+        on_mount: ClientWeb.Live.AssignScope,
+        root_layout: {ClientWeb.Layouts, :root}
+      ) do
         live("/kiosk", WaterLogKioskLive)
       end
     end
@@ -101,8 +110,6 @@ defmodule ClientWeb.Router do
     scope("/repeatable-lists", RepeatableLists, as: :repeatable_lists) do
       get("/templates", TemplateController, :index)
 
-      live("/:id", Live.Show, :show)
-
       resources(
         "/templates",
         TemplateController,
@@ -111,7 +118,13 @@ defmodule ClientWeb.Router do
         resources("/clones", TemplateCloneController, only: ~w[new create]a)
       end
 
-      live("/templates/:id", TemplatesLive.Show, :show)
+      live_session(:repeatable_lists,
+        on_mount: ClientWeb.Live.AssignScope,
+        root_layout: {ClientWeb.Layouts, :root}
+      ) do
+        live("/:id", Live.Show, :show)
+        live("/templates/:id", TemplatesLive.Show, :show)
+      end
     end
   end
 
