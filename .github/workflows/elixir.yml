@@ -82,6 +82,13 @@ jobs:
         restore-keys: |
           v3-static-assets-${{ github.ref }}-${{ github.sha }}
           v3-static-assets-${{ github.ref }}-
+    - name: Restore corepack cache
+      uses: actions/cache@v6
+      with:
+        path: ~/.cache/node/corepack
+        key: v1-corepack-${{ hashFiles('apps/client/assets/package.json') }}
+        restore-keys: |
+          v1-corepack-
     - name: corepack enable
       working-directory: apps/client/assets
       run: corepack enable
@@ -154,6 +161,13 @@ jobs:
         key: v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
           v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
+    - name: Restore corepack cache
+      uses: actions/cache@v6
+      with:
+        path: ~/.cache/node/corepack
+        key: v1-corepack-${{ hashFiles('apps/client/assets/package.json') }}
+        restore-keys: |
+          v1-corepack-
     - name: corepack enable
       working-directory: apps/client/assets
       run: corepack enable
