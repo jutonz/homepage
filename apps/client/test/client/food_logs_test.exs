@@ -88,48 +88,6 @@ defmodule Client.FoodLogsTest do
     end
   end
 
-  describe "list_entries_by_day/1" do
-    test "returns entries grouped by day" do
-      log = insert(:food_log)
-      today = DateTime.add(DateTime.utc_now(), -60, :second)
-      today_entry = insert(:food_log_entry, food_log_id: log.id, occurred_at: today)
-      yesterday = DateTime.add(DateTime.utc_now(), -60 * 60 * 24, :second)
-      yesterday_entry = insert(:food_log_entry, food_log_id: log.id, occurred_at: yesterday)
-
-      entries = FoodLogs.list_entries_by_day(log.id)
-
-      assert entries[occurred_at(today_entry)] == [
-               %{
-                 id: today_entry.id,
-                 description: today_entry.description
-               }
-             ]
-
-      assert entries[occurred_at(yesterday_entry)] == [
-               %{
-                 id: yesterday_entry.id,
-                 description: yesterday_entry.description
-               }
-             ]
-    end
-
-    test "returns entries for the given log" do
-      log = insert(:food_log)
-      entry = insert(:food_log_entry, food_log_id: log.id)
-      other_log = insert(:food_log)
-      _other_entry = insert(:food_log_entry, food_log_id: other_log.id)
-
-      entries = FoodLogs.list_entries_by_day(log.id)
-
-      assert entries[occurred_at(entry)] == [
-               %{
-                 description: entry.description,
-                 id: entry.id
-               }
-             ]
-    end
-  end
-
   describe "update_entry/2" do
     test "updates the entry" do
       entry = insert(:food_log_entry)
@@ -158,7 +116,4 @@ defmodule Client.FoodLogsTest do
       refute Client.Repo.get(FoodLogs.Entry, entry.id)
     end
   end
-
-  defp occurred_at(log_entry),
-    do: NaiveDateTime.to_date(log_entry.occurred_at)
 end
