@@ -48,3 +48,9 @@ config/dev.secret.exs
 
 # Ignore dialyzer PLT files
 _plts/
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/
