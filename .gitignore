@@ -35,7 +35,7 @@ erl_crash.dump
 .vim
 .viminfo
 yarn-error.log
-./.claude/settings.local.json
+.claude/settings.local.json
 
 docker/ci/keys
 
