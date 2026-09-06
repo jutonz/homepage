@@ -48,7 +48,7 @@ defmodule ClientWeb.FoodLog.EntryView do
     entry = socket.assigns[:entry]
     entry_params = combine_date_and_time(entry_params)
 
-    case FoodLogs.update_entry(socket.assigns[:scope], entry.id, entry_params) do
+    case FoodLogs.update_entry(socket.assigns.scope, entry.id, entry_params) do
       {:ok, entry} ->
         send(self(), {:entry_updated, entry})
         assigns = [changeset: nil, entry: entry]
@@ -60,7 +60,7 @@ defmodule ClientWeb.FoodLog.EntryView do
   end
 
   def handle_event("delete_entry", _value, socket) do
-    {:ok, entry} = FoodLogs.delete_entry(socket.assigns[:scope], socket.assigns[:entry].id)
+    {:ok, entry} = FoodLogs.delete_entry(socket.assigns.scope, socket.assigns.entry.id)
     send(self(), {:entry_deleted, entry})
     {:noreply, assign(socket, :changeset, nil)}
   end

@@ -74,7 +74,7 @@ defmodule Client.FoodLogs do
     |> Repo.all()
   end
 
-  def list_entries_between_dates(%Scope{} = scope, log_id, start_time, end_time) do
+  def list_entries_occurred_between(%Scope{} = scope, log_id, start_time, end_time) do
     Entry
     |> Entry.Query.owned_by(scope)
     |> Entry.Query.in_log(log_id)

@@ -191,14 +191,14 @@ defmodule Client.FoodLogsTest do
     end
   end
 
-  describe "list_entries_between_dates/4" do
+  describe "list_entries_occurred_between/4" do
     test "returns the log's entries within the range", %{scope: scope, log: log} do
       inside = insert(:food_log_entry, food_log_id: log.id, occurred_at: ~N[2025-03-14 12:00:00])
       _before = insert(:food_log_entry, food_log_id: log.id, occurred_at: ~N[2025-03-13 12:00:00])
       _after = insert(:food_log_entry, food_log_id: log.id, occurred_at: ~N[2025-03-15 12:00:00])
 
       entries =
-        FoodLogs.list_entries_between_dates(
+        FoodLogs.list_entries_occurred_between(
           scope,
           log.id,
           ~N[2025-03-14 00:00:00],
@@ -213,7 +213,7 @@ defmodule Client.FoodLogsTest do
       insert(:food_log_entry, food_log_id: other_log.id, occurred_at: ~N[2025-03-14 12:00:00])
 
       entries =
-        FoodLogs.list_entries_between_dates(
+        FoodLogs.list_entries_occurred_between(
           scope,
           other_log.id,
           ~N[2025-03-14 00:00:00],

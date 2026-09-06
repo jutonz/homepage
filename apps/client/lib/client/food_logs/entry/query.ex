@@ -12,7 +12,7 @@ defmodule Client.FoodLogs.Entry.Query do
   """
   def owned_by(query, %Scope{user: user}) do
     from(entry in query,
-      join: log in ^FoodLog,
+      join: log in FoodLog,
       on: log.id == entry.food_log_id,
       where: log.owner_id == ^user.id
     )

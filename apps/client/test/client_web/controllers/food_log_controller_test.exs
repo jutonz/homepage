@@ -21,7 +21,7 @@ defmodule ClientWeb.FoodLogControllerTest do
   end
 
   describe "create/2" do
-    test "takes the owner from the session", %{conn: conn, user: user} do
+    test "takes the owner from the scope, not the params", %{conn: conn, user: user} do
       other = insert(:user)
       params = %{"name" => "supper", "owner_id" => other.id}
 

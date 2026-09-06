@@ -59,12 +59,17 @@ defmodule ClientWeb.FoodLogsLive.ShowTest do
 
     assert render(live) =~ "toast"
 
-    assert [entry] = FoodLogs.list_entries_between_dates(scope(user), log.id, long_ago(), soon())
+    assert [entry] =
+             FoodLogs.list_entries_occurred_between(
+               build(:scope, user: user),
+               log.id,
+               long_ago(),
+               soon()
+             )
+
     assert entry.description == "toast"
     assert entry.user_id == user.id
   end
-
-  defp scope(user), do: Client.Scope.for_user(user)
 
   defp long_ago, do: ~N[2000-01-01 00:00:00]
 
