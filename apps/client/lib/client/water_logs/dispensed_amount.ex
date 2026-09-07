@@ -9,7 +9,9 @@ defmodule Client.WaterLogs.DispensedAmount do
             amount: nil,
             percentage: nil
 
-  @spec by_day(String.t(), DateTime.t(), DateTime.t()) :: list(__MODULE__.t())
+  alias Client.Scope
+
+  @spec by_day(Scope.t(), String.t(), DateTime.t(), DateTime.t()) :: list(__MODULE__.t())
   @by_day_fragment """
   SELECT
     series.date::date,
@@ -22,12 +24,17 @@ defmodule Client.WaterLogs.DispensedAmount do
     ((entry.inserted_at AT TIME ZONE 'Z') AT TIME ZONE $1)::date = (series.date)::date
     AND
     entry.water_log_id = $4
+    AND
+    EXISTS (
+      SELECT 1 FROM water_logs log
+      WHERE log.id = entry.water_log_id AND log.user_id = $5
+    )
   GROUP BY
     series.date
   ORDER BY
     series.date
   """
-  def by_day(log_id, start_at, end_at) do
+  def by_day(%Scope{} = scope, log_id, start_at, end_at) do
     zone = start_at.time_zone
     start_at = DateTime.to_date(start_at)
     end_at = DateTime.to_date(end_at)
@@ -36,7 +43,7 @@ defmodule Client.WaterLogs.DispensedAmount do
     response =
       Client.Repo.query!(
         @by_day_fragment,
-        [zone, start_at, end_at, uuid]
+        [zone, start_at, end_at, uuid, scope.user.id]
       )
 
     amounts =

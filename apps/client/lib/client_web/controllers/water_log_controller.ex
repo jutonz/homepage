@@ -5,10 +5,7 @@ defmodule ClientWeb.WaterLogController do
   plug :put_view, ClientWeb.WaterLogView
 
   def index(conn, _params) do
-    logs =
-      conn
-      |> Client.Session.current_user_id()
-      |> WaterLogs.list_by_user_id()
+    logs = WaterLogs.list(conn.assigns.scope)
 
     conn
     |> assign(:title, "Water Logs")
@@ -21,20 +18,13 @@ defmodule ClientWeb.WaterLogController do
   end
 
   def create(conn, %{"water_log" => log_params}) do
-    insert_result =
-      log_params
-      |> Map.put("user_id", Client.Session.current_user_id(conn))
-      |> WaterLogs.create()
-
-    case insert_result do
+    case WaterLogs.create(conn.assigns.scope, log_params) do
       {:ok, log} ->
         conn
         |> put_flash(:success, "Created!")
         |> redirect(to: Routes.water_log_path(ClientWeb.Endpoint, :show, log.id))
 
       {:error, changeset} ->
-        IO.inspect(changeset)
-
         conn
         |> put_flash(:danger, "Unable to create log")
         |> render("new.html", changeset: changeset)
@@ -42,8 +32,9 @@ defmodule ClientWeb.WaterLogController do
   end
 
   def show(conn, %{"id" => id}) do
-    log = WaterLogs.get(id)
-    entries = WaterLogs.list_entries_by_log_id(log.id)
+    scope = conn.assigns.scope
+    log = WaterLogs.get!(scope, id)
+    entries = WaterLogs.list_entries(scope, log.id)
 
     conn
     |> assign(:title, log.name)

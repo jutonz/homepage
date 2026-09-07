@@ -4,13 +4,13 @@ defmodule Client.WaterLogs.AmountQuery do
   water filter.
   """
 
-  import Ecto.Query, only: [from: 2]
   alias Client.Repo
+  alias Client.Scope
   alias Client.WaterLogs.Entry
 
   @type opts :: [start_at: DateTime.t(), end_at: DateTime.t() | nil]
-  @spec get_amount_dispensed(String.t(), opts()) :: non_neg_integer()
-  def get_amount_dispensed(log_id, opts) do
+  @spec get_amount_dispensed(Scope.t(), String.t(), opts()) :: non_neg_integer()
+  def get_amount_dispensed(%Scope{} = scope, log_id, opts) do
     now =
       :client
       |> Application.fetch_env!(:default_timezone)
@@ -26,20 +26,18 @@ defmodule Client.WaterLogs.AmountQuery do
       |> Keyword.get(:end_at, now)
       |> DateTime.shift_zone!("Etc/UTC")
 
-    get_amount_dispensed(log_id, start_at, end_at)
+    get_amount_dispensed(scope, log_id, start_at, end_at)
   end
 
-  @spec get_amount_dispensed(String.t(), DateTime.t(), DateTime.t()) ::
+  @spec get_amount_dispensed(Scope.t(), String.t(), DateTime.t(), DateTime.t()) ::
           non_neg_integer()
-  defp get_amount_dispensed(log_id, start_at, end_at) do
+  defp get_amount_dispensed(%Scope{} = scope, log_id, start_at, end_at) do
     query =
-      from(
-        entry in Entry,
-        where: entry.water_log_id == ^log_id,
-        where: entry.inserted_at >= ^start_at,
-        where: entry.inserted_at <= ^end_at,
-        select: sum(entry.ml)
-      )
+      Entry
+      |> Entry.Query.owned_by(scope)
+      |> Entry.Query.in_log(log_id)
+      |> Entry.Query.dispensed_between(start_at, end_at)
+      |> Entry.Query.total_ml()
 
     case Repo.one(query) do
       nil -> 0

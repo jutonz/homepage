@@ -4,10 +4,8 @@ defmodule ClientWeb.Api.WaterLogEntryController do
 
   action_fallback(ClientWeb.Api.FallbackController)
 
-  def create(conn, params) do
-    entry_params = Map.put(params, "user_id", conn.assigns[:current_user_id])
-
-    with {:ok, entry} <- WaterLogs.create_entry(entry_params) do
+  def create(conn, %{"water_log_id" => log_id} = params) do
+    with {:ok, entry} <- WaterLogs.create_entry(conn.assigns.scope, log_id, params) do
       json = %{
         id: entry.id,
         user_id: entry.user_id,

@@ -6,11 +6,11 @@ defmodule ClientWeb.WaterLogs.Usage do
     WaterLogs
   }
 
-  def update(%{log: log} = assigns, socket) do
+  def update(%{log: log, scope: scope} = assigns, socket) do
     new_assigns = %{
-      total_ml: total_amount_dispensed(log),
-      today_ml: amount_dispensed_today(log),
-      life_remaining: life_remaining(log)
+      total_ml: total_amount_dispensed(scope, log),
+      today_ml: amount_dispensed_today(scope, log),
+      life_remaining: life_remaining(scope, log)
     }
 
     assigns = Map.merge(assigns, new_assigns)
@@ -35,14 +35,14 @@ defmodule ClientWeb.WaterLogs.Usage do
     """
   end
 
-  defp amount_dispensed_today(log) do
+  defp amount_dispensed_today(scope, log) do
     beginning_of_today = now() |> beginning_of_day()
-    WaterLogs.get_amount_dispensed(log.id, start_at: beginning_of_today)
+    WaterLogs.get_amount_dispensed(scope, log.id, start_at: beginning_of_today)
   end
 
-  defp total_amount_dispensed(log) do
+  defp total_amount_dispensed(scope, log) do
     start_at = DateTime.from_naive!(log.inserted_at, "Etc/UTC")
-    WaterLogs.get_amount_dispensed(log.id, start_at: start_at)
+    WaterLogs.get_amount_dispensed(scope, log.id, start_at: start_at)
   end
 
   defp beginning_of_day(datetime) do
@@ -55,13 +55,13 @@ defmodule ClientWeb.WaterLogs.Usage do
     |> DateTime.now!()
   end
 
-  defp life_remaining(log) do
-    current_filter = WaterLogs.get_current_filter(log.id)
+  defp life_remaining(scope, log) do
+    current_filter = WaterLogs.get_current_filter(scope, log.id)
 
     if current_filter && current_filter.lifespan do
       lifespan = current_filter.lifespan
       inserted_at = DateTime.from_naive!(current_filter.inserted_at, "Etc/UTC")
-      usage_ml = WaterLogs.get_amount_dispensed(log.id, start_at: inserted_at)
+      usage_ml = WaterLogs.get_amount_dispensed(scope, log.id, start_at: inserted_at)
       usage_l = floor(usage_ml / 1000)
       lifespan - usage_l
     else
