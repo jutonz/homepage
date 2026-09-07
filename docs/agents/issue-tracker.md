@@ -1,86 +1,114 @@
-# Issue tracker: beads (`bd`)
+# Issue tracker: Linear (`linear`)
 
-Issues and specs for this repo live in the local beads database under `.beads/`, managed
-with the `bd` CLI. Issue IDs look like `homepage-40m`. This repo's `CLAUDE.md` mandates
-`bd` for all task tracking — do not use GitHub Issues, TodoWrite, or markdown TODO lists.
+Issues for this repo live in Linear, in team **`HOMEP`** of the `jt-project42` workspace, and
+are managed with the [`linear` CLI](https://github.com/schpet/linear-cli). Issue IDs look like
+`HOMEP-24`. Workspace, team, and sort order are configured in `.linear.toml` at the repo root.
 
-Run `bd prime` once per session for the full workflow context.
+This repo's `CLAUDE.md` mandates `linear` for durable task tracking — do not use GitHub Issues
+or markdown TODO lists. TodoWrite is fine as a single turn's execution checklist, but it is not
+project state.
+
+Most commands take an issue id as an optional argument. **Omit it and the CLI infers the issue
+from the current git branch**, which is why the branch naming below matters.
 
 ## Conventions
 
-- **Create an issue**: `bd create --title "..." --description "..." --type=task|bug|feature|epic --priority=2`
-  Priority is `0`-`4` (0 = critical, 2 = medium, 4 = backlog), never `high`/`low`.
-  Add `--labels a,b`, `--parent <id>` for a hierarchical child, `--acceptance "..."`,
-  `--design "..."`, `--notes "..."`. Use `bd q "title"` for quick capture (prints only the ID).
-- **Read an issue**: `bd show <id>` for details and dependencies; `bd comments <id>` for
-  the comment thread. Add `--json` to either when parsing.
-- **List issues**: `bd list --status open --json`. Filter with `--label`, `--label-any`,
-  `--exclude-label`, `--assignee`, `--sort`. Use the comma-separated form for multiple
-  statuses (`--status open,in_progress`) — repeating `-s` silently overwrites.
-- **Find work**: `bd ready` (unblocked and open), `bd blocked`, `bd search <query>`.
-- **Comment**: `bd comment <id> "..."` (or `--stdin` / `--file notes.txt` for long bodies).
-- **Apply / remove labels**: `bd label add <id> <label>` / `bd label remove <id> <label>`.
-  `bd update <id> --add-label x --remove-label y` also works.
-- **Claim**: `bd update <id> --claim` (atomically sets assignee to you and status to
-  `in_progress`). Assign to someone else with `bd assign <id> <name>`.
-- **Send for review**: `bd update <id> -s in_review` once a PR is open and waiting on a
-  human. See "The `in_review` status" below.
-- **Close**: `bd close <id> --reason="..."`. Close several at once: `bd close <id1> <id2>`.
-  `bd close <id> --suggest-next` shows what the close unblocked.
+- **Create an issue**: `linear issue create -t "..." -d "..." -p 2`
+  Priority is `1`-`4` descending (`1` = urgent, `4` = low); omit for no priority.
+  Add `-l <label>` (repeatable), `--parent HOMEP-12`
+  for a sub-issue, `-s "Backlog"` to place it in a state, `--start` to claim it immediately.
+  Prefer `--description-file <path>` over `-d` for anything with markdown structure.
+  Pass `--no-interactive` in scripts and agent runs so it never blocks on a prompt.
+- **Read an issue**: `linear issue view <id>` (includes comments by default; `--no-comments` to
+  drop them). Add `-j/--json` when parsing. `linear issue url <id>` and
+  `linear issue title <id>` print just those fields.
+- **List and find work**: `linear issue list` is *your* issues, and defaults to the `unstarted`
+  state — it is a personal inbox, not a team view. For anything broader use
+  `linear issue query`, which defaults to all states and all assignees:
+  ```bash
+  linear issue query --team HOMEP -s backlog -s unstarted   # open work
+  linear issue query --team HOMEP -s started                # in flight (incl. In Review)
+  linear issue query --team HOMEP --search "food log" -j    # full-text, as JSON
+  linear issue query --team HOMEP -U                        # unassigned only
+  ```
+  `-s/--state` takes state *types* (`triage`, `backlog`, `unstarted`, `started`, `completed`,
+  `canceled`), not state names. `In Progress` and `In Review` are both type `started`, so
+  filtering to exactly one of them means matching on the name in the output or via `linear api`.
+- **Comment**: `linear issue comment add <id> "..."`; `linear issue comment list <id>` to read.
+- **Labels**: `linear issue update <id> --add-label x --remove-label y`. Plain `-l/--label`
+  **replaces the entire label set** — use the incremental flags unless you mean to reset.
+- **Claim and start**: `linear issue start <id>` moves the issue to a started state and creates
+  and checks out its branch. It does **not** set an assignee — run
+  `linear issue update <id> -a self` as well to actually claim it. See "Branch and PR linking".
+- **Send for review**: `linear issue update <id> -s "In Review"` once the PR is open.
+- **Close**: `linear issue update <id> -s "Done"` — but only after the PR merges. See below.
+- **Dependencies**: `linear issue relation add HOMEP-24 blocked-by HOMEP-12`. Relation types
+  are `blocked-by`, `blocks`, `related`, and `duplicate`. Inspect with
+  `linear issue relation list <id>`.
 
-## The `in_review` status
+## Workflow states
 
-`in_review` is a custom status (category `wip`) on top of beads' built-in set. It means
-**a PR is open and pending human review**. Confirm the vocabulary with `bd statuses`.
+Team `HOMEP` uses six states. Two of them share the `started` type, which matters when filtering:
 
-- **Move into it**: `bd update <id> -s in_review`, immediately after opening the PR.
-- **Move out of it**: `bd close <id> --reason="..."` when the PR merges — `closed` is beads'
-  only terminal state, so it is what "resolved" means here. If review asks for changes,
-  move back with `bd update <id> -s in_progress`.
-- **Find them**: `bd list --status in_review`.
+| State         | Type        | Means                                        |
+| ------------- | ----------- | -------------------------------------------- |
+| `Backlog`     | `backlog`   | Filed, not scheduled                         |
+| `Todo`        | `unstarted` | Scheduled, not begun                         |
+| `In Progress` | `started`   | Being worked                                 |
+| `In Review`   | `started`   | **PR is open and pending human review**      |
+| `Done`        | `completed` | Shipped — the PR merged                      |
+| `Canceled`    | `canceled`  | Will not be done                             |
 
-The status lives in the beads database, not in `.beads/config.yaml`, so it travels with
-`bd dolt push` / `bd dolt pull` rather than with a git-tracked file. It was registered with:
+**An issue reaches `Done` only after its PR merges.** While the PR is open it sits in
+`In Review`; if review asks for changes, move it back to `In Progress`. Nothing goes straight
+from `In Progress` to `Done`.
 
+Confirm the current vocabulary with:
+
+```bash
+linear api '{ workflowStates(first: 50, filter: { team: { key: { eq: "HOMEP" } } }) { nodes { name type } } }'
 ```
-bd config set status.custom "in_review:wip"
+
+## Branch and PR linking
+
+The link between an issue and its work lives in the branch name, so there is nothing to record
+by hand.
+
+- **Start the work**: `linear issue start <id>` cuts a branch named for the issue and checks it
+  out. `-b/--branch` overrides the name, `-f/--from-ref` sets what it branches from. Keep the
+  issue identifier in the branch name; that substring is what every inference below depends on.
+- **Which issue is this branch?**: `linear issue id` prints the identifier for the current
+  branch. This is why `view`, `update`, `pr`, and friends can be called with no argument.
+- **Commit message trailer**: `linear issue describe` prints the title plus a `Fixes` trailer
+  linking the issue; `-r/--references` emits `References` instead, for a commit that touches the
+  issue without closing it.
+- **Open the PR**: `linear issue pr` creates the GitHub PR with the issue's details and prefixes
+  the identifier onto the title. `--draft`, `--base`, and `-T/--template` are available.
+- **Link the PR back**: `linear issue link <id> <pr-url>`. This workspace has **no GitHub
+  integration installed**, so Linear does not discover PRs on its own — the branch name and the
+  commit trailer link the other direction only. Without this step the issue shows no PR at all,
+  and nothing moves it to `Done` when the PR merges.
+- **Attach anything else**: `linear issue link <id> <url>` for a URL,
+  `linear issue attach <id> <filepath>` for a file.
+
+## Hierarchy
+
+Sub-issues give parent/child hierarchy: `linear issue create --parent HOMEP-12 ...`, where
+the parent is given as its `TEAM-NUMBER` code. `linear issue view <parent>` renders the tree.
+`linear issue query` has no parent filter, so to list children programmatically drop to the API:
+
+```bash
+linear api '{ issues(filter: { parent: { number: { eq: 12 } } }) { nodes { identifier title } } }'
 ```
 
-Appending another custom status later means rewriting that whole comma-separated value —
-`bd config set status.custom "in_review:wip,other:wip"` — since the key is replaced, not merged.
+### Wayfinding operations
 
-**Never run `bd edit`** — it opens `$EDITOR` and blocks the agent. Use `bd update` with
-inline flags instead.
-
-Do not run `bd dolt push`, `git commit`, or `git push` as part of these skills unless the
-user explicitly asks. This repo runs the conservative agent profile.
-
-## Branch and PR metadata
-
-A ticket in flight records where it is being built and, once a PR exists, where to review
-it. Both live in the bead's metadata map as **strings**.
-
-| Key      | Value                                                               |
-| -------- | ------------------------------------------------------------------- |
-| `branch` | The git branch name, e.g. `jt/scope-food-log`                        |
-| `pr`     | The full PR URL, e.g. `https://github.com/jutonz/homepage/pull/4440` |
-
-- **Set the branch** when you claim the ticket and cut the branch:
-  `bd update <id> --set-metadata branch=jt/scope-food-log`
-- **Set the PR** when you open it, alongside the move to `in_review`:
-  `bd update <id> --set-metadata pr=https://github.com/jutonz/homepage/pull/4440 -s in_review`
-- **Read**: `bd show <id>` prints a `METADATA` block; `bd show <id> --json` exposes `metadata`.
-- **Find**: `bd list --metadata-field branch=jt/scope-food-log` for an exact match,
-  `bd list --has-metadata-key pr` for every ticket with a PR open.
-- **Clear**: `bd update <id> --unset-metadata pr`.
-
-Always store the PR as the full URL, never the bare number — `--set-metadata pr=4440` is
-stored as the *integer* `4440`, which breaks `--metadata-field` matching and reads badly in
-JSON. A URL is unambiguously a string.
-
-`bd query` does not understand metadata fields; only the `bd list` flags above filter on
-them. Metadata is part of the bead, so it exports to `.beads/issues.jsonl` and travels with
-`bd dolt push`.
+Used by `/wayfinder`. The **map** is a parent issue labelled `wayfinder:map` holding the Notes /
+Decisions-so-far / Fog body; **tickets** are its sub-issues, labelled `wayfinder:research`,
+`wayfinder:prototype`, `wayfinder:grilling`, or `wayfinder:task`. Labels are not inherited by
+sub-issues in Linear, so apply each child's label explicitly. Block with
+`linear issue relation add <blocked> blocked-by <blocker>`. Resolve a ticket by commenting the
+answer, moving it to `Done`, then appending a context pointer to the map's description.
 
 ## Pull requests as a triage surface
 
@@ -88,110 +116,25 @@ them. Metadata is part of the bead, so it exports to `.beads/issues.jsonl` and t
 requests; `/triage` reads this flag.)_
 
 When set to `yes`, use `gh pr list/view/diff/comment` against `jutonz/homepage` to read the
-request, then mirror it into a `bd` issue and triage it there. Beads is the system of record
-either way — labels and states live on the bead, not the PR.
+request, then mirror it into a Linear issue and triage it there. Linear is the system of record
+either way — labels and states live on the issue, not the PR.
 
 ## When a skill says "publish to the issue tracker"
 
-Run `bd create` and report the returned ID.
+Run `linear issue create --no-interactive` and report the returned identifier.
 
 ## When a skill says "fetch the relevant ticket"
 
-Run `bd show <id>`, plus `bd comments <id>` when the discussion matters.
+Run `linear issue view <id>`, which includes the comment thread.
 
-## Wayfinding operations
+## The open-to-merged playbook
 
-Used by `/wayfinder`. The **map** is an epic, and **tickets** are its children.
-
-- **Map**: `bd create --type=epic --labels wayfinder:map --title "..." --description "..."`,
-  holding the Notes / Decisions-so-far / Fog body. Update the body with
-  `bd update <map> --description "..."` or append with `bd note <map> "..."`.
-- **Child ticket**: `bd create --parent <map> --labels wayfinder:<type> --title "..."`,
-  where `<type>` is `research`, `prototype`, `grilling`, or `task`. Children inherit the
-  parent's labels unless `--no-inherit-labels` is passed, so strip `wayfinder:map` from
-  children. List them with `bd children <map>`.
-- **Blocking**: `bd dep add <blocked> <blocker>` (equivalently `bd dep <blocker> --blocks
-  <blocked>`). Inspect with `bd dep tree <id>` or `bd show <id>`; `bd dep cycles` catches
-  loops. A ticket is unblocked once every blocker is closed.
-- **Frontier query**: `bd ready --json` already excludes blocked issues; narrow to the map's
-  children and drop any with an assignee. First in map order wins.
-- **Claim**: `bd update <id> --claim`, the session's first write.
-- **Resolve**: `bd comment <id> "<answer>"`, then `bd close <id> --reason="..."`, then
-  append a context pointer to the map's Decisions-so-far.
-
-## Workflow formulas
-
-Formulas are workflow templates in `.beads/formulas/*.formula.json`. They are git-tracked;
-the instances they create are not. `bd formula list` / `bd formula show <name>` inspect them.
-
-### `bead-to-pr`
-
-The repeatable playbook for taking one bead from open to merged, in nine sequential steps:
+`/ticket-to-pr` (in `.claude/skills/`) walks one issue from open to merged in nine steps:
 `read` → `claim` → `branch` → `implement` → `verify` → `commit` → `review` → `pr` → `close`.
+It is user-invoked and will not trigger on its own — type it.
 
-```
-bd mol wisp bead-to-pr --var bead=homepage-4fm
-```
+## Git policy
 
-Driven by the `/bead-to-pr` skill in `.claude/skills/`, which pours or resumes the wisp and
-walks its steps. That skill is user-invoked, so nothing discovers it on its own — type it.
-
-`bead` is the only variable, and it is required.
-
-**The branch comes from the ticket, not from an argument.** The `branch` step reads
-`metadata.branch` off the bead and checks that branch out if it is set; if it is empty, it
-constructs `jt/<slug>`, writes it back with `--set-metadata branch=...`, *then* checks out.
-Recording before checking out is what makes a resumed or handed-off run land on the same
-branch instead of cutting a second one. Formula variables have no defaults — every `{{var}}`
-must be supplied at pour time — so an optional `branch` argument was not an option.
-
-**A ticket lands as one commit**, so nothing is committed until the gates are green:
-`implement` deliberately does not commit, `verify` runs the gates, and `commit` stages the
-whole change at once. `review` then runs the `mattpocock-skills:code-review` skill against
-the merge-base before anything is pushed, and its fixes are amended into that single commit.
-
-**`verify` checks acceptance criteria, not just tests.** After the gates pass it re-reads
-`acceptance_criteria` off the bead, walks each one against the diff, and ticks the boxes with
-`bd update <id> --acceptance "..."`. That flag *replaces* the whole field, so every criterion
-has to be passed back — ticking one by sending only that line silently drops the rest. An
-unmet criterion stops the run before the commit step.
-
-**`pr` closes the loop on both metadata fields.** It records the PR URL and moves the bead to
-`in_review` in a single `bd update <id> --set-metadata pr=<url> -s in_review`, reading the URL
-back from `gh pr view --json url -q .url` rather than retyping it.
-
-**It is vapor, not liquid.** `bd mol wisp` creates *ephemeral* issues — local-only, absent
-from `bd ready`, `bd list`, and `.beads/issues.jsonl`, never synced by `bd dolt push`. Use
-`bd mol wisp`, never `bd mol pour`, or the nine checklist steps become permanent tracker noise.
-
-- **Progress**: `bd mol show <root>`, `bd mol progress <root>`, `bd mol current <root>`.
-- **Advance**: `bd close <step-id>` as each step completes.
-- **Finish**: `bd mol squash <root> --summary "..."` to leave one persistent digest bead,
-  or `bd mol burn <root> --force` to discard the run entirely (it prompts without `--force`).
-
-The final step carries a **human gate**, so `close` stays blocked until you run
-`bd gate resolve <gate-id>` (find it with `bd gate list`). That enforces the rule that a bead
-is closed only after its PR merges — `in_review` is where it sits until then.
-
-A `gh:pr` gate would auto-resolve on merge, but `--await-id` needs the PR number, which does
-not exist when the wisp is poured. `bd gate discover` only backfills `gh:run` gates, not
-`gh:pr`. Hence the human gate.
-
-**Authoring gotchas** (learned the hard way):
-
-- The name key is `formula`, not `name` — `{"formula": "bead-to-pr", ...}`. Using `name`
-  fails with the confusing `formula: name is required`.
-- Validate with `bd cook <path> --var k=v` before pouring; it resolves and type-checks
-  without writing to the database.
-- Variable `default` values are declared but **not honored** — `bd cook --mode=runtime`
-  still errors `Missing: <var>`. Every `{{var}}` in the file must be supplied at pour time,
-  so anything optional has to be resolved by a step at runtime rather than interpolated.
-- A step description that spans multiple lines inside a quoted shell argument renders badly
-  (`bd show` eats the leading `-` of continuation lines). Keep such examples on one logical
-  line, e.g. `--acceptance "$(printf -- '- [x] one\n- [x] two\n')"`.
-- Avoid `<angle-bracket>` placeholders in step descriptions. They survive in storage but the
-  `bd show` renderer strips them, so `pr=<full-url>` displays as `pr=`. Use bare tokens like
-  `PR_URL` instead.
-- Wisps are garbage-collected only when you run `bd mol wisp gc` — nothing expires on a
-  timer. But `gc` deletes wisps untouched for `--age` (default 1h) regardless of a pending
-  gate, so a run parked waiting on review is deletable. Squash before a long wait.
+Do not run `git commit`, `git push`, or open a PR as part of these skills unless the user
+explicitly asks. Report what changed and what you would run next, then wait. See "Session
+Completion" in `CLAUDE.md`.

@@ -54,6 +54,5 @@ If your output contradicts an existing ADR, surface it explicitly rather than si
 
 This is a **single-context** repo: one `CONTEXT.md` and one `docs/adr/` at the root.
 
-Beads has a built-in `decision` issue type, but ADRs for these skills are the markdown files
-under `docs/adr/`. A `decision` bead may track the *work* of writing an ADR; it does not
-replace the file.
+ADRs for these skills are the markdown files under `docs/adr/`. A Linear issue may track the
+*work* of writing an ADR; it does not replace the file.
