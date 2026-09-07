@@ -1,0 +1,52 @@
+#!/bin/bash
+
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+worktree=$(git rev-parse --show-toplevel)
+
+main=$(git worktree list --porcelain | awk '/^worktree /{print substr($0, 10); exit}')
+
+if [ "$main" = "$worktree" ]; then
+  echo "bin/setup-worktree is for linked worktrees; run bin/setup in the main checkout." >&2
+  exit 1
+fi
+
+link_from_main() {
+  local path="$1"
+  local target="$worktree/$path"
+  local source="$main/$path"
+
+  if [ -L "$target" ] && [ ! -e "$target" ]; then
+    rm "$target"
+  fi
+
+  if [ -e "$target" ]; then
+    return
+  fi
+
+  if [ ! -e "$source" ]; then
+    echo "skipped $path (absent from $main)"
+    return
+  fi
+
+  mkdir -p "$(dirname "$target")"
+  ln -s "$source" "$target"
+  echo "linked $path"
+}
+
+link_from_main key.txt
+link_from_main config/dev.secret.exs
+
+[ -e config/dev.secret.exs ] || touch config/dev.secret.exs
+
+mise install
+
+mix deps.get
+MIX_ENV=test mix do ecto.create + ecto.migrate
+
+cd apps/client/assets
+corepack enable
+yarn install
+yarn bundle:css
+MIX_ENV=prod yarn bundle:js
