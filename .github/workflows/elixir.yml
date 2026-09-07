@@ -67,13 +67,6 @@ jobs:
         key: v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
         restore-keys: |
           v3-node-modules-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-    - name: Restore yarn cache
-      uses: actions/cache@v6
-      with:
-        path: ~/.cache/yarn
-        key: v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-        restore-keys: |
-          v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore static asset cache
       uses: actions/cache@v6
       with:
@@ -171,13 +164,6 @@ jobs:
     - name: corepack enable
       working-directory: apps/client/assets
       run: corepack enable
-    - name: Restore yarn cache
-      uses: actions/cache@v6
-      with:
-        path: ~/.cache/yarn
-        key: v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
-        restore-keys: |
-          v3-yarn-${{ hashFiles('.tool-versions') }}-${{ hashFiles('apps/client/assets/yarn.lock') }}
     - name: Restore static asset cache
       uses: actions/cache@v6
       with:
