@@ -1,7 +1,6 @@
 defmodule ClientWeb.UserSocket do
   use Phoenix.Socket
-  alias Client.ApiTokens
-  alias Client.Scope
+  alias Client.ApiTokens.Authentication
 
   ## Channels
   # channel "room:*", ClientWeb.RoomChannel
@@ -24,17 +23,18 @@ defmodule ClientWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(%{"token" => token} = _params, socket) do
-    with api_token when not is_nil(api_token) <- ApiTokens.get_by_token(token),
-         %Scope{} = scope <- Scope.for_user_id(api_token.user_id) do
-      assigns = %{
-        api_token: api_token.token,
-        user_id: api_token.user_id,
-        scope: scope
-      }
+    case Authentication.authenticate(token) do
+      {:ok, api_token, scope} ->
+        assigns = %{
+          api_token: api_token.token,
+          user_id: api_token.user_id,
+          scope: scope
+        }
 
-      {:ok, assign(socket, assigns)}
-    else
-      _ -> :error
+        {:ok, assign(socket, assigns)}
+
+      :error ->
+        :error
     end
   end
 

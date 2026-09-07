@@ -4,9 +4,7 @@ defmodule ClientWeb.Plugs.ApiAuthenticated do
   the token's user.
   """
 
-  alias Client.ApiTokens
-  alias Client.ApiTokens.ApiToken
-  alias Client.Scope
+  alias Client.ApiTokens.Authentication
 
   @invalid_token "The authorization header contains an invalid token"
 
@@ -15,17 +13,14 @@ defmodule ClientWeb.Plugs.ApiAuthenticated do
   def call(conn, _opts) do
     with {:ok, header} <- auth_header(conn),
          {:ok, token} <- token_from_auth_header(header),
-         {:ok, api_token} <- get_api_token(token),
-         {:ok, scope} <- scope_for_token(api_token) do
+         {:ok, api_token, scope} <- Authentication.authenticate(token) do
       conn
       |> Plug.Conn.assign(:current_user_id, api_token.user_id)
       |> Plug.Conn.assign(:api_token, api_token)
       |> Plug.Conn.assign(:scope, scope)
     else
-      {:error, reason} ->
-        conn
-        |> Plug.Conn.send_resp(401, reason)
-        |> Plug.Conn.halt()
+      :error -> unauthorized(conn, @invalid_token)
+      {:error, reason} -> unauthorized(conn, reason)
     end
   end
 
@@ -45,19 +40,9 @@ defmodule ClientWeb.Plugs.ApiAuthenticated do
     end
   end
 
-  @spec get_api_token(String.t()) :: {:ok, ApiToken.t()} | {:error, String.t()}
-  defp get_api_token(token) do
-    case ApiTokens.get_by_token(token) do
-      nil -> {:error, @invalid_token}
-      token -> {:ok, token}
-    end
-  end
-
-  @spec scope_for_token(ApiToken.t()) :: {:ok, Scope.t()} | {:error, String.t()}
-  defp scope_for_token(%ApiToken{user_id: user_id}) do
-    case Scope.for_user_id(user_id) do
-      %Scope{} = scope -> {:ok, scope}
-      nil -> {:error, @invalid_token}
-    end
+  defp unauthorized(conn, reason) do
+    conn
+    |> Plug.Conn.send_resp(401, reason)
+    |> Plug.Conn.halt()
   end
 end
