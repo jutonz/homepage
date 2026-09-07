@@ -1,10 +1,10 @@
 ---
-name: ticket-to-pr
+name: linear-to-pr
 description: Take a Linear issue from open to merged — branch, implement, verify, commit, review, open the PR.
 disable-model-invocation: true
 ---
 
-# Ticket to PR
+# Linear to PR
 
 The repeatable playbook for taking one Linear issue from open to merged. Work the steps in
 order, one at a time. Conventions this relies on: `docs/agents/issue-tracker.md`.
