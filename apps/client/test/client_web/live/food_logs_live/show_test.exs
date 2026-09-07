@@ -88,6 +88,35 @@ defmodule ClientWeb.FoodLogsLive.ShowTest do
     assert render(live) =~ entry.description
   end
 
+  test "groups an evening entry under its local day, not the UTC one", %{
+    conn: conn,
+    user: user,
+    log: log
+  } do
+    local_day = Date.add(today(), -3)
+    entry = insert(:food_log_entry, food_log_id: log.id, occurred_at: evening_of(local_day))
+
+    {:ok, _live, html} = live(conn, ~p"/food-logs/#{log.id}?as=#{user.id}")
+
+    assert html =~ entry.description
+    assert html =~ heading(local_day)
+    refute html =~ heading(Date.add(local_day, 1))
+  end
+
+  test "shows an entry logged this evening, whose UTC date is already tomorrow", %{
+    conn: conn,
+    user: user,
+    log: log
+  } do
+    today = today()
+    entry = insert(:food_log_entry, food_log_id: log.id, occurred_at: evening_of(today))
+
+    {:ok, _live, html} = live(conn, ~p"/food-logs/#{log.id}?as=#{user.id}")
+
+    assert html =~ entry.description
+    assert html =~ heading(today)
+  end
+
   test "gives each entry its own dom id", %{conn: conn, user: user, log: log} do
     one = insert(:food_log_entry, food_log_id: log.id)
     two = insert(:food_log_entry, food_log_id: log.id)
@@ -96,6 +125,20 @@ defmodule ClientWeb.FoodLogsLive.ShowTest do
 
     assert html =~ ~s(id="entry-#{one.id}")
     assert html =~ ~s(id="entry-#{two.id}")
+  end
+
+  defp timezone, do: Application.fetch_env!(:client, :default_timezone)
+
+  defp today, do: timezone() |> DateTime.now!() |> DateTime.to_date()
+
+  defp heading(date), do: Calendar.strftime(date, "%-d %b %Y")
+
+  defp evening_of(date) do
+    date
+    |> DateTime.new!(~T[21:00:00], timezone())
+    |> DateTime.shift_zone!("Etc/UTC")
+    |> DateTime.to_naive()
+    |> NaiveDateTime.truncate(:second)
   end
 
   defp await_day_refresh(live), do: render(live)
