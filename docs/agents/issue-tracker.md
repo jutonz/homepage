@@ -127,14 +127,26 @@ Run `linear issue create --no-interactive` and report the returned identifier.
 
 Run `linear issue view <id>`, which includes the comment thread.
 
-## The open-to-merged playbook
+## The open-to-merged playbooks
 
-`/linear-to-pr` (in `.claude/skills/`) walks one issue from open to merged in nine steps:
-`read` → `claim` → `branch` → `implement` → `verify` → `commit` → `review` → `pr` → `close`.
-It is user-invoked and will not trigger on its own — type it.
+Two user skills in `~/.claude/skills/` cover this:
+
+`/linear-to-branch` takes one issue from open to a reviewed, pushed branch in seven steps:
+`read` → `claim and branch` → `implement` → `verify` → `commit` → `review` → `push`. It stops
+before any PR is opened and leaves the issue in its started state.
+
+`/linear-to-pr` continues from there to merged. It reads `linear-to-branch` for steps 1–7 rather
+than repeating them, then adds `pr` (step 8) and `close` (step 9).
+
+Both are user-invoked and will not trigger on their own — type them.
 
 ## Git policy
 
 Do not run `git commit`, `git push`, or open a PR as part of these skills unless the user
 explicitly asks. Report what changed and what you would run next, then wait. See "Session
 Completion" in `CLAUDE.md`.
+
+The two playbooks above are the exception: invoking one **is** the ask. `/linear-to-branch`
+commits (step 5) and pushes (step 7); `/linear-to-pr` adds opening the PR (step 8). That covers
+those steps only — do not run them ahead of their turn, and do not push what the verify step has
+not cleared.
