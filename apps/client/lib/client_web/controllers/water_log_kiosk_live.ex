@@ -8,6 +8,9 @@ defmodule ClientWeb.WaterLogKioskLive do
     WaterLogs
   }
 
+  alias Client.WaterLogs.WaterLog
+  alias ClientWeb.Router.Helpers, as: Routes
+
   def render(assigns) do
     ~H"""
     <div class="m-4 flex flex-col justify-center w-full h-screen">
@@ -59,26 +62,36 @@ defmodule ClientWeb.WaterLogKioskLive do
   end
 
   def mount(%{"water_log_id" => log_id} = _params, _opts, socket) do
+    scope = socket.assigns.scope
+
     if connected?(socket) do
-      topic = "water_log_internal:#{log_id}"
-      Logger.info("liveview subscribed to #{topic}")
-      :ok = Phoenix.PubSub.subscribe(Client.PubSub, topic, link: true)
-      schedule_refresh()
+      case WaterLogs.get(scope, log_id) do
+        %WaterLog{} = log ->
+          topic = "water_log_internal:#{log.id}"
+          Logger.info("liveview subscribed to #{topic}")
+          :ok = Phoenix.PubSub.subscribe(Client.PubSub, topic, link: true)
+          schedule_refresh()
+
+          {:ok, assign(socket, initial_assigns(scope, log))}
+
+        nil ->
+          {:ok, redirect(socket, to: Routes.water_log_path(ClientWeb.Endpoint, :index))}
+      end
+    else
+      {:ok, assign(socket, initial_assigns(scope, WaterLogs.get!(scope, log_id)))}
     end
+  end
 
-    log = WaterLogs.get(log_id)
-
-    assigns = %{
+  defp initial_assigns(scope, log) do
+    %{
       log: log,
-      log_id: log_id,
-      data: data(log_id),
-      total_l: total_amount_dispensed(log),
-      filter_life_remaining: filter_life_remaining(log_id),
+      log_id: log.id,
+      data: data(scope, log.id),
+      total_l: total_amount_dispensed(scope, log),
+      filter_life_remaining: filter_life_remaining(scope, log.id),
       dispensed_now: 0,
       weight: 0
     }
-
-    {:ok, assign(socket, assigns)}
   end
 
   def handle_event("tare", _value, socket) do
@@ -146,20 +159,22 @@ defmodule ClientWeb.WaterLogKioskLive do
   end
 
   defp refreshed_assigns(socket) do
-    log = WaterLogs.get(socket.assigns[:log_id])
+    scope = socket.assigns.scope
+    log = WaterLogs.get!(scope, socket.assigns[:log_id])
 
     %{
       log: log,
-      data: data(log.id),
-      total_l: total_amount_dispensed(log),
-      filter_life_remaining: filter_life_remaining(log.id)
+      data: data(scope, log.id),
+      total_l: total_amount_dispensed(scope, log),
+      filter_life_remaining: filter_life_remaining(scope, log.id)
     }
   end
 
-  defp data(log_id) do
+  defp data(scope, log_id) do
     beginning_of_day = timezone() |> DateTime.now!() |> DateTimeHelpers.beginning_of_day()
 
     WaterLogs.get_amount_dispensed_by_day(
+      scope,
       log_id,
       beginning_of_day |> DateTime.shift(day: -7),
       beginning_of_day |> DateTimeHelpers.end_of_day()
@@ -182,22 +197,22 @@ defmodule ClientWeb.WaterLogKioskLive do
     [style: "height: #{datum.percentage}%"]
   end
 
-  defp filter_life_remaining(log_id) do
-    current_filter = WaterLogs.get_current_filter(log_id)
+  defp filter_life_remaining(scope, log_id) do
+    current_filter = WaterLogs.get_current_filter(scope, log_id)
 
     if current_filter && current_filter.lifespan do
       lifespan_ml = current_filter.lifespan * 1000
       inserted_at = DateTime.from_naive!(current_filter.inserted_at, "Etc/UTC")
-      usage_ml = WaterLogs.get_amount_dispensed(log_id, start_at: inserted_at)
+      usage_ml = WaterLogs.get_amount_dispensed(scope, log_id, start_at: inserted_at)
       (lifespan_ml - usage_ml) / 1000
     else
       nil
     end
   end
 
-  defp total_amount_dispensed(log) do
+  defp total_amount_dispensed(scope, log) do
     start_at = DateTime.from_naive!(log.inserted_at, "Etc/UTC")
-    WaterLogs.get_amount_dispensed(log.id, start_at: start_at) / 1000
+    WaterLogs.get_amount_dispensed(scope, log.id, start_at: start_at) / 1000
   end
 
   # one hour

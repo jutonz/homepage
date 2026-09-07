@@ -13,7 +13,7 @@ defmodule Client.WaterLogs.Entry do
 
   def changeset(%Entry{} = entry, attrs \\ %{}) do
     entry
-    |> Ecto.Changeset.cast(attrs, ~w[ml user_id water_log_id]a)
+    |> Ecto.Changeset.cast(attrs, ~w[ml]a)
     |> Ecto.Changeset.validate_required(~w[ml user_id water_log_id]a)
   end
 end

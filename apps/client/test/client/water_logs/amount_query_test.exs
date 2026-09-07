@@ -2,9 +2,13 @@ defmodule Client.WaterLogs.AmountQueryTest do
   use Client.DataCase, async: true
   alias Client.WaterLogs
 
-  describe "get_amount_dispensed/2" do
-    test "sums amounts between start and end date" do
-      log = insert(:water_log)
+  setup do
+    scope = build(:scope)
+    %{scope: scope, log: insert(:water_log, user_id: scope.user.id)}
+  end
+
+  describe "get_amount_dispensed/3" do
+    test "sums amounts between start and end date", %{scope: scope, log: log} do
       now = now()
 
       _old_entry =
@@ -17,7 +21,7 @@ defmodule Client.WaterLogs.AmountQueryTest do
       _new_entry = insert(:water_log_entry, water_log_id: log.id, ml: 1)
 
       usage =
-        WaterLogs.get_amount_dispensed(log.id,
+        WaterLogs.get_amount_dispensed(scope, log.id,
           start_at: DateTime.shift(now, minute: -40),
           end_at: DateTime.shift(now, minute: -20)
         )
@@ -25,8 +29,7 @@ defmodule Client.WaterLogs.AmountQueryTest do
       assert usage == 1
     end
 
-    test "end_at defaults to now" do
-      log = insert(:water_log)
+    test "end_at defaults to now", %{scope: scope, log: log} do
       now = now()
 
       insert(:water_log_entry,
@@ -36,27 +39,35 @@ defmodule Client.WaterLogs.AmountQueryTest do
       )
 
       usage =
-        WaterLogs.get_amount_dispensed(log.id,
-          start_at: DateTime.shift(now, minute: -20)
-        )
+        WaterLogs.get_amount_dispensed(scope, log.id, start_at: DateTime.shift(now, minute: -20))
 
       assert usage == 1
     end
 
-    test "excludes entries from other logs" do
-      my_log = insert(:water_log)
+    test "excludes entries from other logs", %{scope: scope, log: log} do
       now = now()
-      insert(:water_log_entry, water_log_id: my_log.id, ml: 1)
+      insert(:water_log_entry, water_log_id: log.id, ml: 1)
 
+      other_log = insert(:water_log, user_id: scope.user.id)
+      insert(:water_log_entry, water_log_id: other_log.id, ml: 1)
+
+      usage =
+        WaterLogs.get_amount_dispensed(scope, log.id, start_at: DateTime.shift(now, minute: -10))
+
+      assert usage == 1
+    end
+
+    test "is zero for another user's log", %{scope: scope} do
+      now = now()
       other_log = insert(:water_log)
       insert(:water_log_entry, water_log_id: other_log.id, ml: 1)
 
       usage =
-        WaterLogs.get_amount_dispensed(my_log.id,
+        WaterLogs.get_amount_dispensed(scope, other_log.id,
           start_at: DateTime.shift(now, minute: -10)
         )
 
-      assert usage == 1
+      assert usage == 0
     end
   end
 

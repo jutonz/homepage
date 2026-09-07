@@ -3,9 +3,13 @@ defmodule Client.WaterLogs.DispensedAmountTest do
   alias Client.DateTimeHelpers
   alias Client.WaterLogs.DispensedAmount
 
-  describe "by_day/3" do
-    test "returns usage grouped by day" do
-      log = insert(:water_log)
+  setup do
+    scope = build(:scope)
+    %{scope: scope, log: insert(:water_log, user_id: scope.user.id)}
+  end
+
+  describe "by_day/4" do
+    test "returns usage grouped by day", %{scope: scope, log: log} do
       end_of_today = end_of_today()
 
       beginning_of_yesterday =
@@ -39,6 +43,7 @@ defmodule Client.WaterLogs.DispensedAmountTest do
 
       dispensed_amount =
         DispensedAmount.by_day(
+          scope,
           log.id,
           beginning_of_yesterday,
           end_of_today
@@ -54,9 +59,8 @@ defmodule Client.WaterLogs.DispensedAmountTest do
              ] == dispensed_amount
     end
 
-    test "sums entries for only the specified log" do
-      my_log = insert(:water_log)
-      not_my_log = insert(:water_log)
+    test "sums entries for only the specified log", %{scope: scope, log: my_log} do
+      not_my_log = insert(:water_log, user_id: scope.user.id)
       end_of_today = end_of_today()
       beginning_of_today = end_of_today |> DateTimeHelpers.beginning_of_day()
 
@@ -76,6 +80,7 @@ defmodule Client.WaterLogs.DispensedAmountTest do
 
       dispensed_amount =
         DispensedAmount.by_day(
+          scope,
           my_log.id,
           beginning_of_today,
           end_of_today
@@ -88,6 +93,28 @@ defmodule Client.WaterLogs.DispensedAmountTest do
                  date: DateTime.to_date(beginning_of_today)
                }
              ] == dispensed_amount
+    end
+
+    test "excludes entries on another user's log", %{scope: scope} do
+      not_my_log = insert(:water_log)
+      end_of_today = end_of_today()
+      beginning_of_today = end_of_today |> DateTimeHelpers.beginning_of_day()
+
+      insert(:water_log_entry,
+        water_log_id: not_my_log.id,
+        inserted_at: beginning_of_today |> DateTime.shift_zone!("Etc/UTC"),
+        ml: 1
+      )
+
+      dispensed_amount =
+        DispensedAmount.by_day(
+          scope,
+          not_my_log.id,
+          beginning_of_today,
+          end_of_today
+        )
+
+      assert [%DispensedAmount{amount: 0}] = dispensed_amount
     end
   end
 

@@ -1,12 +1,13 @@
 defmodule ClientWeb.WaterLogsFeatureTests do
   use ClientWeb.FeatureCase, async: true
+  alias Client.Scope
   alias Client.WaterLogs
 
   test "allows adding a filter", %{session: session} do
     user = insert(:user)
     log = insert(:water_log, user_id: user.id)
 
-    assert [] = WaterLogs.list_filters_by_log_id(log.id)
+    assert [] = list_filters(user, log.id)
 
     session
     |> visit(Routes.water_log_path(@endpoint, :show, log.id, as: user.id))
@@ -16,7 +17,7 @@ defmodule ClientWeb.WaterLogsFeatureTests do
     |> click(role("create-water-filter"))
     |> assert_has(css("[data-role^='water-filter-row']"))
 
-    assert [filter] = WaterLogs.list_filters_by_log_id(log.id)
+    assert [filter] = list_filters(user, log.id)
     assert filter.water_log_id == log.id
     assert filter.lifespan == 2000
 
@@ -36,7 +37,7 @@ defmodule ClientWeb.WaterLogsFeatureTests do
     |> click(role("update-water-filter"))
     |> assert_has(role("water-filter-row-#{filter.id}", text: "2000"))
 
-    assert [filter] = WaterLogs.list_filters_by_log_id(log.id)
+    assert [filter] = list_filters(user, log.id)
     assert filter.water_log_id == log.id
     assert filter.lifespan == 2000
   end
@@ -54,6 +55,9 @@ defmodule ClientWeb.WaterLogsFeatureTests do
 
     assert_has(session, role("filter-empty-state"))
 
-    assert [] = WaterLogs.list_filters_by_log_id(log.id)
+    assert [] = list_filters(user, log.id)
   end
+
+  defp list_filters(user, log_id),
+    do: user |> Scope.for_user() |> WaterLogs.list_filters(log_id)
 end

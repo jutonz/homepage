@@ -1,14 +1,13 @@
 defmodule ClientWeb.WaterLogChannel do
   alias Client.WaterLogs
+  alias Client.WaterLogs.WaterLog
   require Logger
   use Phoenix.Channel
 
   def join("water_log:" <> water_log_id, _msg, socket) do
-    user_id = socket.assigns[:user_id]
-
-    case WaterLogs.get_by_user_id(user_id, water_log_id) do
+    case WaterLogs.get(socket.assigns.scope, water_log_id) do
+      %WaterLog{} = log -> {:ok, assign(socket, :water_log_id, log.id)}
       nil -> {:error, %{"reason" => "no such water log"}}
-      _log -> {:ok, assign(socket, :water_log_id, water_log_id)}
     end
   end
 
@@ -19,15 +18,9 @@ defmodule ClientWeb.WaterLogChannel do
   end
 
   def handle_in("commit", %{"ml" => ml}, %{assigns: assigns} = socket) do
-    entry_params = %{
-      ml: ml,
-      user_id: assigns[:user_id],
-      water_log_id: assigns[:water_log_id]
-    }
-
     publish_event(assigns[:water_log_id], {:saving, %{"ml" => ml}})
 
-    case WaterLogs.create_entry(entry_params) |> IO.inspect() do
+    case WaterLogs.create_entry(assigns.scope, assigns[:water_log_id], %{ml: ml}) do
       {:ok, _entry} ->
         publish_event(assigns[:water_log_id], :saved)
 

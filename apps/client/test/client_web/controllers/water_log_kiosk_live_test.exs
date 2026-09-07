@@ -80,6 +80,26 @@ defmodule ClientWeb.WaterLogKioskLiveTest do
     assert render(view) =~ "Weight: 100 g"
   end
 
+  test "is not found for another user's log", %{conn: conn} do
+    user = insert(:user)
+    other_log = insert(:water_log)
+    path = Routes.water_log_live_path(conn, @controller, other_log.id, as: user.id)
+
+    assert_error_sent(404, fn -> live(conn, path) end)
+  end
+
+  test "does not count another user's entries", %{conn: conn} do
+    user = insert(:user)
+    log = insert(:water_log, user_id: user.id)
+    other_log = insert(:water_log)
+    insert(:water_log_entry, water_log_id: other_log.id, ml: 5000)
+    path = Routes.water_log_live_path(conn, @controller, log.id, as: user.id)
+
+    {:ok, _view, html} = live(conn, path)
+
+    assert html =~ "Total dispensed: 0.0 L"
+  end
+
   defp publish_event(log_id, event) do
     Phoenix.PubSub.broadcast!(
       Client.PubSub,

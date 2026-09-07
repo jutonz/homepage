@@ -12,7 +12,7 @@ defmodule Client.WaterLogs.WaterLog do
 
   def changeset(%WaterLog{} = log, attrs \\ %{}) do
     log
-    |> Ecto.Changeset.cast(attrs, ~w[name user_id]a)
+    |> Ecto.Changeset.cast(attrs, ~w[name]a)
     |> Ecto.Changeset.validate_required(~w[name user_id]a)
     |> Ecto.Changeset.unique_constraint(:name, name: :water_logs_user_id_name_index)
   end

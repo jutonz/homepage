@@ -12,7 +12,7 @@ defmodule Client.WaterLogs.Filter do
 
   def changeset(%Filter{} = filter, attrs \\ %{}) do
     filter
-    |> Ecto.Changeset.cast(attrs, ~w[water_log_id lifespan]a)
+    |> Ecto.Changeset.cast(attrs, ~w[lifespan]a)
     |> Ecto.Changeset.validate_required(~w[water_log_id]a)
     |> Ecto.Changeset.validate_number(:lifespan, greater_than: 0)
   end
