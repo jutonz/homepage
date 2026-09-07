@@ -29,4 +29,26 @@ defmodule Client.DateTimeHelpersTest do
       assert {result.hour, result.minute, result.second} == {23, 59, 59}
     end
   end
+
+  describe "to_date/2" do
+    test "reads a naive timestamp as UTC and answers in the given zone" do
+      assert DateTimeHelpers.to_date(~N[2026-09-07 02:30:00], "America/New_York") ==
+               ~D[2026-09-06]
+    end
+
+    test "answers the same date when the zone does not shift it across midnight" do
+      assert DateTimeHelpers.to_date(~N[2026-09-07 16:30:00], "America/New_York") ==
+               ~D[2026-09-07]
+    end
+
+    test "shifts a zoned datetime before reading its date" do
+      assert DateTimeHelpers.to_date(~U[2026-01-01 03:00:00Z], "America/New_York") ==
+               ~D[2025-12-31]
+    end
+
+    test "leaves a datetime already in the zone alone" do
+      {:ok, dt} = DateTime.new(~D[2026-09-06], ~T[21:00:00], "America/New_York")
+      assert DateTimeHelpers.to_date(dt, "America/New_York") == ~D[2026-09-06]
+    end
+  end
 end

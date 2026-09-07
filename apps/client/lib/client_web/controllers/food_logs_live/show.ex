@@ -1,5 +1,6 @@
 defmodule ClientWeb.FoodLogsLive.Show do
   use ClientWeb, :live_view
+  alias Client.DateTimeHelpers
   alias Client.FoodLogs
   alias Client.FoodLogs.FoodLog
 
@@ -105,11 +106,10 @@ defmodule ClientWeb.FoodLogsLive.Show do
 
   defp ids_for_entry_day(entry, socket) do
     all_days = socket.assigns[:days]
+    entry_date = DateTimeHelpers.to_date(entry.occurred_at, timezone())
 
     matching_day =
-      Enum.find(all_days, fn day ->
-        Date.day_of_year(day) == Date.day_of_year(entry.occurred_at)
-      end)
+      Enum.find(all_days, fn day -> DateTime.to_date(day) == entry_date end)
 
     if matching_day do
       [matching_day]

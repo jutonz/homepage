@@ -41,11 +41,12 @@ defmodule ClientWeb.Components.FoodLogs.DayView do
       )
 
     Enum.map(assigns_sockets, fn {assigns, socket} ->
-      day = Date.day_of_year(assigns[:date] || socket.assigns[:date])
+      date = assigns[:date] || socket.assigns[:date]
+      day = DateTime.to_date(date)
 
       day_entries =
         Enum.filter(entries, fn entry ->
-          Date.day_of_year(entry.occurred_at) == day
+          DateTimeHelpers.to_date(entry.occurred_at, date.time_zone) == day
         end)
 
       socket
