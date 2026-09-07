@@ -129,7 +129,7 @@ Run `linear issue view <id>`, which includes the comment thread.
 
 ## The open-to-merged playbook
 
-`/ticket-to-pr` (in `.claude/skills/`) walks one issue from open to merged in nine steps:
+`/linear-to-pr` (in `.claude/skills/`) walks one issue from open to merged in nine steps:
 `read` → `claim` → `branch` → `implement` → `verify` → `commit` → `review` → `pr` → `close`.
 It is user-invoked and will not trigger on its own — type it.
 
