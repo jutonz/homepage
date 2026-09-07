@@ -10,6 +10,7 @@ This is an Elixir/Phoenix umbrella monorepo with a React + GraphQL frontend. The
 
 ```bash
 bin/setup           # Initial setup (requires mise and op CLI)
+bin/setup-worktree  # Prepare a linked git worktree (run instead of bin/setup)
 iex -S mix phx.server  # Start the server (localhost:4000)
 ```
 
