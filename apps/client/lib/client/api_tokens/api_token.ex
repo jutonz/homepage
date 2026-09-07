@@ -19,7 +19,7 @@ defmodule Client.ApiTokens.ApiToken do
 
   def changeset(%ApiToken{} = token, attrs \\ %{}) do
     token
-    |> Ecto.Changeset.cast(attrs, ~w[token description user_id]a)
+    |> Ecto.Changeset.cast(attrs, ~w[description]a)
     |> maybe_gen_token()
     |> Ecto.Changeset.validate_required(~w[token user_id]a)
     |> Ecto.Changeset.unique_constraint(:token, name: :api_tokens_user_id_token_index)

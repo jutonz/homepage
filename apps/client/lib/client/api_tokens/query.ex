@@ -1,8 +1,10 @@
 defmodule Client.ApiTokens.Query do
   import Ecto.Query, only: [from: 2]
 
-  def by_user_id(query, user_id) do
-    from(token in query, where: token.user_id == ^user_id)
+  alias Client.Scope
+
+  def owned_by(query, %Scope{user: user}) do
+    from(token in query, where: token.user_id == ^user.id)
   end
 
   def by_description(query, description) do

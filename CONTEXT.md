@@ -29,3 +29,11 @@ A place where identity is established and a scope is built — an authenticated
 browser request, an API-token request, a socket connection, a routed LiveView
 mount. Code past an entry point receives a scope rather than establishing one.
 _Avoid_: boundary, gateway
+
+**API token**:
+A credential a user issues to call the API as themselves. A token is owned like
+any other record, and only its owner may list or destroy it. Resolving one to
+the user it stands for is a different act, done at an entry point before any
+scope exists, and is kept in a module of its own so that "takes no scope" is
+visibly a property of where the code lives.
+_Avoid_: API key, access token

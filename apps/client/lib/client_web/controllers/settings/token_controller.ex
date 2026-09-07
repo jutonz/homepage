@@ -8,12 +8,7 @@ defmodule ClientWeb.Settings.TokenController do
   end
 
   def create(conn, %{"api_token" => token_params}) do
-    insert_result =
-      token_params
-      |> Map.put("user_id", Client.Session.current_user_id(conn))
-      |> ApiTokens.create()
-
-    case insert_result do
+    case ApiTokens.create(conn.assigns.scope, token_params) do
       {:ok, _token} ->
         conn
         |> put_flash(:success, "Created!")
@@ -27,7 +22,7 @@ defmodule ClientWeb.Settings.TokenController do
   end
 
   def delete(conn, %{"id" => id}) do
-    case ApiTokens.delete(id) do
+    case ApiTokens.delete(conn.assigns.scope, id) do
       {:ok, _token} ->
         redirect(conn, to: Routes.settings_api_path(ClientWeb.Endpoint, :show))
 
