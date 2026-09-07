@@ -16,9 +16,16 @@ Edit the right-hand column to match whatever vocabulary you actually use.
 
 ## Notes for this repo
 
-Issues live in beads (see `docs/agents/issue-tracker.md`). The beads database has no labels
-defined yet, so `bd label add <id> <label>` creates each of these on first use — there are no
-pre-existing names to collide with.
+Issues live in Linear (see `docs/agents/issue-tracker.md`). Team `HOMEP` has **no labels defined
+yet**, so there are no pre-existing names to collide with. Linear will not create a label on
+first use — create it once, then apply it:
 
-Beads also writes labels of its own via `bd set-state` (operational state dimensions). Keep the
-five triage labels above distinct from those state labels; don't reuse a state label for triage.
+```bash
+linear label create --team HOMEP        # then apply:
+linear issue update <id> --add-label needs-triage
+```
+
+Check what already exists with `linear label list --team HOMEP`.
+
+Use `--add-label` / `--remove-label` to change labels incrementally. Bare `-l/--label` replaces
+the issue's entire label set, which will silently drop triage labels applied earlier.

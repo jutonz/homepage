@@ -99,67 +99,44 @@ Both test setups rely on the same `?as=<user_id>` bypass (only active in `MIX_EN
 Production secrets are in `secrets.txt.encrypted`. Decrypt with `./bin/decrypt_secrets.sh` (requires `key.txt` from 1Password "Homepage" vault). Re-encrypt with `./bin/encrypt_secrets.sh`.
 
 
-<!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:970c3bf2 -->
-## Beads Issue Tracker
+## Issue Tracker
 
-This project uses **bd (beads)** for issue tracking. Run `bd prime` to see full workflow context and commands.
+This project uses **Linear** for issue tracking, driven by the [`linear` CLI](https://github.com/schpet/linear-cli).
+Issues live in team `HOMEP`; workspace and team are configured in `.linear.toml`.
 
 ### Quick Reference
 
 ```bash
-bd ready              # Find available work
-bd show <id>          # View issue details
-bd update <id> --claim  # Claim work
-bd close <id>         # Complete work
+linear issue list                       # Your unstarted issues
+linear issue view <id>                  # View issue details
+linear issue start <id>                 # Claim it and cut a branch
+linear issue id                         # Which issue is this branch for?
+linear issue pr                         # Open a PR for the current branch's issue
+linear issue update <id> -s "In Review" # PR is open, awaiting review
 ```
 
 ### Rules
 
-- Use `bd` for ALL task tracking — do NOT use TodoWrite, TaskCreate, or markdown TODO lists
-- Run `bd prime` for detailed command reference and session close protocol
-- Use `bd remember` for persistent knowledge — do NOT use MEMORY.md files
-
-**Architecture in one line:** issues live in a local Dolt DB; sync uses `refs/dolt/data` on your git remote; `.beads/issues.jsonl` is a passive export. See https://github.com/gastownhall/beads/blob/main/docs/SYNC_CONCEPTS.md for details and anti-patterns.
-
-## Agent Context Profiles
-
-The managed Beads block is task-tracking guidance, not permission to override repository, user, or orchestrator instructions.
-
-- **Conservative (default)**: Use `bd` for task tracking. Do not run git commits, git pushes, or Dolt remote sync unless explicitly asked. At handoff, report changed files, validation, and suggested next commands.
-- **Minimal**: Keep tool instruction files as pointers to `bd prime`; use the same conservative git policy unless active instructions say otherwise.
-- **Team-maintainer**: Only when the repository explicitly opts in, agents may close beads, run quality gates, commit, and push as part of session close. A current "do not commit" or "do not push" instruction still wins.
+- Use `linear` for ALL durable task tracking — do NOT use GitHub Issues or markdown TODO
+  lists. TodoWrite is fine for a single turn's execution checklist, but it is not project state.
+- An issue reaches `Done` only after its PR merges. While the PR is open it sits in `In Review`.
+- Full conventions live in `docs/agents/issue-tracker.md`.
 
 ## Session Completion
 
-This protocol applies when ending a Beads implementation workflow. It is subordinate to explicit user, repository, and orchestrator instructions.
+Subordinate to explicit user, repository, and orchestrator instructions.
 
-1. **File issues for remaining work** - Create beads for anything that needs follow-up
-2. **Run quality gates** (if code changed) - Tests, linters, builds
-3. **Update issue status** - Close finished work, update in-progress items
-4. **Handle git/sync by active profile**:
-   ```bash
-   # Conservative/minimal/default: report status and proposed commands; wait for approval.
-   git status
-
-   # Team-maintainer opt-in only, unless current instructions forbid it:
-   git pull --rebase
-   bd dolt push
-   git push
-   git status
-   ```
-5. **Hand off** - Summarize changes, validation, issue status, and any blocked sync/commit/push step
-
-**Critical rules:**
-- Explicit user or orchestrator instructions override this Beads block.
-- Do not commit or push without clear authority from the active profile or the current user request.
-- If a required sync or push is blocked, stop and report the exact command and error.
-<!-- END BEADS INTEGRATION -->
+1. **File issues for remaining work** — `linear issue create` for anything needing follow-up
+2. **Run quality gates** (if code changed) — tests, linters, builds
+3. **Update issue status** — move work to `In Review` once its PR is open; leave `Done` for merge
+4. **Report, do not push** — run `git status`, then summarize changed files, validation results,
+   and the commands you would run next. Do not commit, push, or open a PR without being asked.
 
 ## Agent skills
 
 ### Issue tracker
 
-Issues live in the local beads (`bd`) database and are managed with the `bd` CLI. See `docs/agents/issue-tracker.md`.
+Issues live in Linear (team `HOMEP`) and are managed with the `linear` CLI. See `docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
