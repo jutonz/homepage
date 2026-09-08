@@ -46,6 +46,7 @@ jobs:
           money|semver-minor semver-patch
           phoenix_ecto|semver-minor semver-patch
           phoenix_html|semver-minor semver-patch
+          phoenix_live_dashboard|semver-minor semver-patch
           phoenix_live_reload|semver-minor semver-patch
           plug_cowboy|semver-minor semver-patch
           postcss|semver-minor semver-patch
