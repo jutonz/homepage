@@ -44,6 +44,7 @@ jobs:
           guardian|semver-minor semver-patch
           httpoison|semver-minor semver-patch
           money|semver-minor semver-patch
+          mox|semver-minor semver-patch
           phoenix_ecto|semver-minor semver-patch
           phoenix_html|semver-minor semver-patch
           phoenix_live_reload|semver-minor semver-patch
