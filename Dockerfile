@@ -1,6 +1,6 @@
 ARG ELIXIR_VERSION=1.20.3
 ARG OTP_VERSION=29.0.5
-ARG DEBIAN_VERSION=bullseye-20260803
+ARG DEBIAN_VERSION=trixie-20260824
 ARG NODE_VERSION=24.20.0
 
 # search here: https://hub.docker.com/r/hexpm/elixir/tags
@@ -89,7 +89,7 @@ RUN mix release
 FROM ${RUNNER_IMAGE}
 
 RUN apt-get update -y && \
-  apt-get install -y libstdc++6 openssl libncurses5 locales ca-certificates ccrypt \
+  apt-get install -y libstdc++6 openssl libncurses6 locales ca-certificates ccrypt \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # Set the locale
