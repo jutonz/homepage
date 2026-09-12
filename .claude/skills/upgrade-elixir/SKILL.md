@@ -41,22 +41,31 @@ Pick the latest stable `X.Y.Z-otp-N` Elixir (skip `-rc`s unless the user
 asked) and the latest matching `N.x.y` Erlang. **The OTP majors must match.**
 If Elixir's latest is `-otp-29`, Erlang must be `29.x.y`.
 
-For the Debian base in the Dockerfile, find the newest dated `bullseye-*`
-tag on Docker Hub:
+For the Debian base in the Dockerfile, reuse the codename it already pins and
+find the newest dated tag for it on Docker Hub:
 
 ```bash
-curl -s "https://hub.docker.com/v2/repositories/library/debian/tags/?page_size=20&ordering=last_updated&name=bullseye" \
+CODENAME=$(sed -n 's/^ARG DEBIAN_VERSION=\([a-z][a-z]*\)-.*/\1/p' Dockerfile)
+curl -s "https://hub.docker.com/v2/repositories/library/debian/tags/?page_size=20&ordering=last_updated&name=${CODENAME}" \
   | python3 -c "import json,sys; [print(t['name'],'-',t['last_updated']) for t in json.load(sys.stdin)['results']]"
 ```
 
-Pick the most recent `bullseye-YYYYMMDD` (not `-slim`, not the rolling
-`bullseye` tag — we want a pinned date).
+Pick the most recent `<codename>-YYYYMMDD` (not `-slim`, not the rolling
+`<codename>` tag — we want a pinned date).
+
+**First check that release is still supported — see
+https://www.debian.org/releases/.** An end-of-life release keeps publishing
+dated tags, but `deb.debian.org` prunes the binaries its apt index still
+references, so every `apt-get install` fails with a 404 on a cold cache. A
+newer date does not fix that. Migrate to a supported release instead, and
+re-check the runner package names: they change across releases, as
+`libncurses5` did to `libncurses6`.
 
 **Verify the three-way combination exists on Docker Hub before editing
 anything.** The `hexpm/elixir` image needs an exact tag matching all three:
 
 ```bash
-TAG="1.20.1-erlang-29.0.2-debian-bullseye-20260610"   # substitute your versions
+TAG="<elixir>-erlang-<otp>-debian-<codename>-<YYYYMMDD>"   # substitute your versions
 curl -sf "https://hub.docker.com/v2/repositories/hexpm/elixir/tags/${TAG}/" \
   | python3 -c "import json,sys; print('FOUND:', json.load(sys.stdin)['name'])" \
   || echo "NOT FOUND — pick a different Debian date and retry"
