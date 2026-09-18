@@ -55,10 +55,8 @@ npx playwright test --grep "test name"      # Run tests matching a pattern
 
 ### Umbrella Structure
 
-- **`apps/client`** — Main Phoenix app. Contains the web layer, business logic, Ecto repos, GraphQL schema, and LiveView pages.
-- **`apps/events`** — Event handling/broadcasting logic.
-- **`apps/redis`** — Redis connection wrapper.
-- **`apps/twitch`** — Twitch integration (API + webhooks). Has its own Ecto repo (`Twitch.Repo`).
+- **`apps/client`** — Main Phoenix app. Contains the web layer, business logic, Ecto repos, GraphQL schema, and LiveView pages. `Client.Redis` wraps Redix here.
+- **`apps/twitch`** — Twitch integration (API + webhooks). Has its own Ecto repo (`Twitch.Repo`). Also holds `Events`, a thin wrapper over `event_bus`.
 
 ### Backend (Phoenix/Elixir)
 
