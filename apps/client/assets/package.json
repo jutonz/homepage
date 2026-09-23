@@ -40,7 +40,7 @@
     "yup": "^1.7.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^7.4.1",
+    "@graphql-codegen/cli": "^7.4.2",
     "@graphql-codegen/client-preset": "^6.2.0",
     "@parcel/watcher": "^2.6.0",
     "@playwright/test": "^1.63.0",
