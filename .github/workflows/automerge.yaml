@@ -42,6 +42,7 @@ jobs:
           floki|semver-minor semver-patch
           graphql|semver-minor semver-patch
           guardian|semver-minor semver-patch
+          hackney|semver-minor semver-patch
           httpoison|semver-minor semver-patch
           money|semver-minor semver-patch
           mox|semver-minor semver-patch
