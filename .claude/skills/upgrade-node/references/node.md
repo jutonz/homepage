@@ -49,9 +49,8 @@ Then build the image, which exercises the `node_builder` stage against
 docker build -t testin . && docker rmi testin
 ```
 
-Run the Docker build every time. It is slow and it is the only check that
-proves the tag exists upstream. Confirm the log pulls `node:X.Y.Z` and that the
-build exits 0.
+Run the Docker build every time. It is the only check that proves the tag
+exists upstream. Confirm the log pulls `node:X.Y.Z` and that the build exits 0.
 
 ## Stage
 
