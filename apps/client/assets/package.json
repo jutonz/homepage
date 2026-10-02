@@ -50,7 +50,7 @@
     "@types/react": "^19.3.0",
     "autoprefixer": "^10.6.1",
     "caniuse-lite": "^1.0.30001813",
-    "cssnano": "^9.1.0",
+    "cssnano": "^9.1.1",
     "date-fns": "^4.4.0",
     "esbuild": "0.28.2",
     "postcss": "^8.5.28",
