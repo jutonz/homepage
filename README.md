@@ -30,7 +30,7 @@ of old stuff in places I don't update or use frequently.
 2. Run `bin/setup`
 3. Start the server: `iex -S mix phx.server`
 
-In a linked `git worktree`, run `bin/setup-worktree` instead of `bin/setup`.
+In a linked `git worktree`, run `bin/worktree-setup` instead of `bin/setup`.
 
 # Deployment
 
