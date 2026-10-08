@@ -44,6 +44,7 @@ jobs:
       if: steps.dev-cache.outputs.cache-hit != 'true'
     - run: mix compile --warnings-as-errors
     - run: mix format --check-formatted
+    - run: mix deps.unlock --check-unused
     - run: mix dialyzer
 
   yarn_install:
