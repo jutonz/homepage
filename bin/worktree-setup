@@ -8,7 +8,7 @@ worktree=$(git rev-parse --show-toplevel)
 main=$(git worktree list --porcelain | awk '/^worktree /{print substr($0, 10); exit}')
 
 if [ "$main" = "$worktree" ]; then
-  echo "bin/setup-worktree is for linked worktrees; run bin/setup in the main checkout." >&2
+  echo "bin/worktree-setup is for linked worktrees; run bin/setup in the main checkout." >&2
   exit 1
 fi
 
