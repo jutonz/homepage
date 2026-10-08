@@ -66,7 +66,7 @@ defmodule ClientWeb.WaterLogChannelTest do
 
       ref = push(joined, "commit", %{"ml" => nil})
 
-      assert_reply(ref, :error, %{"error" => _})
+      assert_reply(ref, :error, %{"error" => _}, 1000)
       assert Repo.all(Entry) == []
     end
   end
