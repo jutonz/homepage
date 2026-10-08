@@ -10,10 +10,11 @@ whether or not Node moved.
 
 ## Set the range
 
-Set the caret range in `apps/client/assets/package.json`:
+Pass the `LATEST` column. The script writes it as a caret range in
+`apps/client/assets/package.json`.
 
-```json
-"@types/node": "^24.19.0"
+```bash
+.claude/skills/upgrade-node/scripts/bump_node_dep.sh @types/node X.Y.Z
 ```
 
 ## Verify

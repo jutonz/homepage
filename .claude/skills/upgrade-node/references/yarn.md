@@ -10,17 +10,15 @@ This repo manages Yarn through Corepack. There is no bundled release in
 ## Set the version
 
 ```bash
-cd apps/client/assets
-yarn set version X.Y.Z --only-if-needed
+.claude/skills/upgrade-node/scripts/bump_node_dep.sh yarn X.Y.Z
 ```
 
-That rewrites `"packageManager": "yarn@X.Y.Z"` and makes Corepack confirm the
-release exists. Editing the line by hand gives an identical diff.
-
-Confirm the diff holds that one line alone. When `yarn set version` also writes
-`.yarn/releases/` or a `yarnPath` entry, delete both: this project relies on
+The script runs `yarn set version`, which rewrites the `packageManager` line and
+makes Corepack confirm the release exists. It then deletes any `.yarn/releases/`
+or `yarnPath` that `yarn set version` writes, because this project relies on
 Corepack to fetch Yarn, matching
-[#4249](https://github.com/jutonz/homepage/pull/4249).
+[#4249](https://github.com/jutonz/homepage/pull/4249). Confirm the diff holds
+the `packageManager` line alone.
 
 ## Verify
 

@@ -12,14 +12,14 @@ mise ls-remote node | grep '^24\.'   # substitute the major you picked
 
 ## Edit the two runtime files
 
-These are the only files that pin the runtime. CI reads the version from
+```bash
+.claude/skills/upgrade-node/scripts/bump_node_dep.sh node X.Y.Z
+```
+
+The script sets `.tool-versions` and the `ARG NODE_VERSION` line in
+`Dockerfile`, the only two files that pin the runtime. CI reads the version from
 `.tool-versions` through the `steps.versions.outputs.nodejs` mise step in
 `.github/workflows/elixir.yml`, so CI needs no separate edit.
-
-| File | Line |
-|---|---|
-| `.tool-versions` | `nodejs X.Y.Z` |
-| `Dockerfile` | `ARG NODE_VERSION=X.Y.Z`, near the top |
 
 `check-versions.sh` compares these two and reports a `MISMATCH` when they
 disagree, so re-run it after the edit.
