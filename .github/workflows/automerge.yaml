@@ -32,6 +32,7 @@ jobs:
           absinthe|semver-minor semver-patch
           autoprefixer|semver-minor semver-patch
           caniuse-lite|semver-patch
+          chart.js|semver-minor semver-patch
           cssnano|semver-minor semver-patch
           date-fns|semver-minor semver-patch
           dialyxir|semver-minor semver-patch
