@@ -5474,10 +5474,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"phoenix@npm:1.8.15":
-  version: 1.8.15
-  resolution: "phoenix@npm:1.8.15"
-  checksum: 10c0/7673807a425ac6610f4b68826badc34d623ec60a963ec1cf2bcc60e1af1d52a8a8ede0ae2291987761662a3164307573419e21fd46c7b4729bec46a9c86b9012
+"phoenix@npm:1.8.16":
+  version: 1.8.16
+  resolution: "phoenix@npm:1.8.16"
+  checksum: 10c0/d825eb8018fe300ac91d69c0382d3be454e2bb0310c4a7848173a350f5bff122dda12f21f7b32e8ea936812eeef84bf53784e6d6739e6d3ed9994b24f7769506
   languageName: node
   linkType: hard
 
@@ -5981,7 +5981,7 @@ __metadata:
     history: "npm:^5.3.0"
     jwt-decode: "npm:^4.0.0"
     notistack: "npm:^3.0.2"
-    phoenix: "npm:1.8.15"
+    phoenix: "npm:1.8.16"
     phoenix_html: "npm:4.3.0"
     phoenix_live_view: "npm:1.2.12"
     postcss: "npm:^8.5.31"
