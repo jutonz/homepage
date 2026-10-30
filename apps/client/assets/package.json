@@ -48,7 +48,7 @@
     "@types/caniuse-lite": "^1",
     "@types/node": "^24.19.1",
     "@types/react": "^19.3.0",
-    "autoprefixer": "^10.6.1",
+    "autoprefixer": "^10.6.2",
     "caniuse-lite": "^1.0.30001819",
     "cssnano": "^9.9.0",
     "date-fns": "^4.4.0",
