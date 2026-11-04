@@ -31,6 +31,7 @@ jobs:
           @types/react|semver-minor semver-patch
           absinthe|semver-minor semver-patch
           autoprefixer|semver-minor semver-patch
+          bamboo|semver-minor semver-patch
           caniuse-lite|semver-patch
           chart.js|semver-minor semver-patch
           cssnano|semver-minor semver-patch
