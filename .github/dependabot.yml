@@ -10,6 +10,10 @@ updates:
   ignore:
   - dependency-name: "@types/node"
   groups:
+    graphql_codegen:
+      patterns:
+      - "@graphql-codegen/cli"
+      - "@graphql-codegen/client-preset"
     mui_material:
       patterns:
       - "@mui/material"
