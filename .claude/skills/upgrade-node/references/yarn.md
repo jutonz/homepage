@@ -3,7 +3,8 @@
 Run this only when `check-versions.sh` reports yarn `BEHIND`. The target is the
 `LATEST` column of that table.
 
-This repo manages Yarn through Corepack. There is no bundled release in
+This repo manages Yarn through Corepack. Corepack comes from npm, not from
+Node, and `node.md` installs it. There is no bundled release in
 `.yarn/releases` and no `yarnPath`, so the whole change is one
 `packageManager` line in `apps/client/assets/package.json`.
 

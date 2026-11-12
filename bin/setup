@@ -3,6 +3,8 @@
 set -ex
 
 mise install
+# mise install does not put the pinned Node on PATH. Without this line, npm and yarn use the caller's Node.
+eval "$(mise env --shell bash)"
 
 op item get \
   "Secret key" \
@@ -17,5 +19,5 @@ mix do deps.get + ecto.create + ecto.migrate
 MIX_ENV=test mix do ecto.create + ecto.migrate
 
 cd apps/client/assets
-corepack enable
+npm install --global corepack
 yarn

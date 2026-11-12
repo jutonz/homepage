@@ -41,12 +41,14 @@ link_from_main config/dev.secret.exs
 [ -e config/dev.secret.exs ] || touch config/dev.secret.exs
 
 mise install
+# mise install does not put the pinned Node on PATH. Without this line, npm and yarn use the caller's Node.
+eval "$(mise env --shell bash)"
 
 mix deps.get
 MIX_ENV=test mix do ecto.create + ecto.migrate
 
 cd apps/client/assets
-corepack enable
+npm install --global corepack
 yarn install
 yarn bundle:css
 MIX_ENV=prod yarn bundle:js

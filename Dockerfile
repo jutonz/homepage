@@ -1,7 +1,7 @@
 ARG ELIXIR_VERSION=1.20.4
 ARG OTP_VERSION=29.1
 ARG DEBIAN_VERSION=trixie-20260824
-ARG NODE_VERSION=24.21.0
+ARG NODE_VERSION=26.13.1
 
 # search here: https://hub.docker.com/r/hexpm/elixir/tags
 ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
@@ -23,7 +23,8 @@ COPY \
   apps/client/assets/package.json \
   apps/client/assets/.yarnrc.yml \
   .
-RUN corepack enable && yarn
+# Node 25 and later do not bundle Corepack.
+RUN npm install --global corepack && yarn
 
 COPY apps/client/assets .
 
