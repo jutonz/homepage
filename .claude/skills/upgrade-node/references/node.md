@@ -7,7 +7,7 @@ Confirm mise can install the target, since mise is what consumes
 `.tool-versions`:
 
 ```bash
-mise ls-remote node | grep '^24\.'   # substitute the major you picked
+mise ls-remote node X.Y.Z   # substitute the LATEST version
 ```
 
 ## Edit the two runtime files
@@ -29,12 +29,14 @@ disagree, so re-run it after the edit.
 ```bash
 mise install
 mise exec -- node --version   # must print the new version
-corepack enable
+mise exec -- npm install --global corepack
+mise exec -- corepack --version   # must print a version
 ```
 
-Each Node install ships its own Corepack, and Corepack resolves the
-`packageManager`-pinned Yarn. Run `corepack enable` after every Node install so
-the Yarn shim belongs to the new runtime.
+Node 25 and later do not bundle Corepack. Each Node install needs its own
+Corepack from npm, and that package links the `yarn` shim for the new runtime.
+Corepack then resolves the `packageManager`-pinned Yarn. Run the npm install
+after every Node install.
 
 ## Verify
 

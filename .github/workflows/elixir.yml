@@ -83,9 +83,8 @@ jobs:
         key: v1-corepack-${{ hashFiles('apps/client/assets/package.json') }}
         restore-keys: |
           v1-corepack-
-    - name: corepack enable
-      working-directory: apps/client/assets
-      run: corepack enable
+    - name: Install corepack
+      run: npm install --global corepack
     - name: yarn install
       working-directory: apps/client/assets
       run: yarn install --immutable
@@ -162,9 +161,8 @@ jobs:
         key: v1-corepack-${{ hashFiles('apps/client/assets/package.json') }}
         restore-keys: |
           v1-corepack-
-    - name: corepack enable
-      working-directory: apps/client/assets
-      run: corepack enable
+    - name: Install corepack
+      run: npm install --global corepack
     - name: Restore static asset cache
       uses: actions/cache@v6
       with:
