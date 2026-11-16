@@ -1422,9 +1422,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hookform/resolvers@npm:^7.0.5":
-  version: 7.0.5
-  resolution: "@hookform/resolvers@npm:7.0.5"
+"@hookform/resolvers@npm:^7.0.6":
+  version: 7.0.6
+  resolution: "@hookform/resolvers@npm:7.0.6"
   dependencies:
     "@standard-schema/utils": "npm:^0.3.0"
   peerDependencies:
@@ -1499,7 +1499,7 @@ __metadata:
       optional: true
     zod:
       optional: true
-  checksum: 10c0/5821a5a8a1ffabbbc6359c9d7d9c9927f91034bd6ac991b6ce0f6fa239fc050bed461619ac7929c41f1ad0b7607fabf45304950a24bf6172b049b4ed0129668e
+  checksum: 10c0/9fafcfa47e7889da6504f34a1e296d8bcbbff6647268bde57ab02648da8937c5efb6857a582137b253aa2fbe4fafaa27768c1fe6d87c3925f1b84308ead3d769
   languageName: node
   linkType: hard
 
@@ -5602,7 +5602,7 @@ __metadata:
     "@fontsource/roboto": "npm:^5.3.0"
     "@graphql-codegen/cli": "npm:^8.0.0"
     "@graphql-codegen/client-preset": "npm:^7.0.0"
-    "@hookform/resolvers": "npm:^7.0.5"
+    "@hookform/resolvers": "npm:^7.0.6"
     "@mui/icons-material": "npm:^9.5.0"
     "@mui/material": "npm:^9.5.0"
     "@parcel/watcher": "npm:^2.6.0"
