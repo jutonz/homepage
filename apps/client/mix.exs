@@ -58,7 +58,7 @@ defmodule Client.Mixfile do
       {:money, "~> 1.12"},
       {:mox, "~> 1.0", only: :test},
       {:nimble_csv, "~> 1.1"},
-      {:phoenix, "1.8.16"},
+      {:phoenix, "1.8.17"},
       {:phoenix_ecto, "~> 4.0"},
       {:phoenix_html, "~> 4.4.0"},
       {:phoenix_html_helpers, "~> 1.0"},
